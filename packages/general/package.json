@@ -1,0 +1,16 @@
+{
+  "name": "@svagatron/general",
+  "type": "module",
+  "scripts": {
+    "prettify": "svag-prettier prettify",
+    "types": "tsc --noEmit",
+    "lint": "eslint --color --cache --cache-location ./node_modules/.cache/.eslintcache .",
+    "lint-fix": "pnpm lint --fix",
+    "test": "cross-env NODE_OPTIONS=--experimental-vm-modules TS_JEST_DISABLE_VER_CHECKER=true jest --color --runInBand"
+  },
+  "dependencies": {
+    "@svagatron/backend": "workspace:*",
+    "@svagatron/webapp": "workspace:*"
+  },
+  "devDependencies": {}
+}

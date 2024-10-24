@@ -1,0 +1,5599 @@
+@mixin text {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+@mixin textXs {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 1.1;
+}
+
+@mixin textS {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 1.2;
+}
+
+@mixin textM {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+@mixin textL {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+@mixin text20 {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+@mixin text20Xs {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 1.1;
+}
+
+@mixin text20S {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 1.2;
+}
+
+@mixin text20M {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+@mixin text20L {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+@mixin text30 {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+@mixin text30Xs {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 1.1;
+}
+
+@mixin text30S {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 1.2;
+}
+
+@mixin text30M {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+@mixin text30L {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+@mixin text40 {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+@mixin text40Xs {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 1.1;
+}
+
+@mixin text40S {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 1.2;
+}
+
+@mixin text40M {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+@mixin text40L {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+@mixin text50 {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 1.4;
+}
+
+@mixin text50Xs {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 1.1;
+}
+
+@mixin text50S {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 1.2;
+}
+
+@mixin text50M {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 1.4;
+}
+
+@mixin text50L {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 1.6;
+}
+
+@mixin text60 {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 24px;
+  line-height: 1.4;
+}
+
+@mixin text60Xs {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 24px;
+  line-height: 1.1;
+}
+
+@mixin text60S {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 24px;
+  line-height: 1.2;
+}
+
+@mixin text60M {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 24px;
+  line-height: 1.4;
+}
+
+@mixin text60L {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 24px;
+  line-height: 1.6;
+}
+
+@mixin text70 {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 28px;
+  line-height: 1.4;
+}
+
+@mixin text70Xs {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 28px;
+  line-height: 1.1;
+}
+
+@mixin text70S {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 28px;
+  line-height: 1.2;
+}
+
+@mixin text70M {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 28px;
+  line-height: 1.4;
+}
+
+@mixin text70L {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 28px;
+  line-height: 1.6;
+}
+
+@mixin text80 {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 32px;
+  line-height: 1.4;
+}
+
+@mixin text80Xs {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 32px;
+  line-height: 1.1;
+}
+
+@mixin text80S {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 32px;
+  line-height: 1.2;
+}
+
+@mixin text80M {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 32px;
+  line-height: 1.4;
+}
+
+@mixin text80L {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 32px;
+  line-height: 1.6;
+}
+
+@mixin text90 {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 40px;
+  line-height: 1.4;
+}
+
+@mixin text90Xs {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 40px;
+  line-height: 1.1;
+}
+
+@mixin text90S {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 40px;
+  line-height: 1.2;
+}
+
+@mixin text90M {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 40px;
+  line-height: 1.4;
+}
+
+@mixin text90L {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 40px;
+  line-height: 1.6;
+}
+
+@mixin text100 {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 48px;
+  line-height: 1.4;
+}
+
+@mixin text100Xs {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 48px;
+  line-height: 1.1;
+}
+
+@mixin text100S {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 48px;
+  line-height: 1.2;
+}
+
+@mixin text100M {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 48px;
+  line-height: 1.4;
+}
+
+@mixin text100L {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 48px;
+  line-height: 1.6;
+}
+
+@mixin textRegular {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+@mixin textRegularXs {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 1.1;
+}
+
+@mixin textRegularS {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 1.2;
+}
+
+@mixin textRegularM {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+@mixin textRegularL {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+@mixin textRegular20 {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+@mixin textRegular20Xs {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 1.1;
+}
+
+@mixin textRegular20S {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 1.2;
+}
+
+@mixin textRegular20M {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+@mixin textRegular20L {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+@mixin textRegular30 {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+@mixin textRegular30Xs {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 1.1;
+}
+
+@mixin textRegular30S {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 1.2;
+}
+
+@mixin textRegular30M {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+@mixin textRegular30L {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+@mixin textRegular40 {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+@mixin textRegular40Xs {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 1.1;
+}
+
+@mixin textRegular40S {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 1.2;
+}
+
+@mixin textRegular40M {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+@mixin textRegular40L {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+@mixin textRegular50 {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 1.4;
+}
+
+@mixin textRegular50Xs {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 1.1;
+}
+
+@mixin textRegular50S {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 1.2;
+}
+
+@mixin textRegular50M {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 1.4;
+}
+
+@mixin textRegular50L {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 1.6;
+}
+
+@mixin textRegular60 {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 24px;
+  line-height: 1.4;
+}
+
+@mixin textRegular60Xs {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 24px;
+  line-height: 1.1;
+}
+
+@mixin textRegular60S {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 24px;
+  line-height: 1.2;
+}
+
+@mixin textRegular60M {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 24px;
+  line-height: 1.4;
+}
+
+@mixin textRegular60L {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 24px;
+  line-height: 1.6;
+}
+
+@mixin textRegular70 {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 28px;
+  line-height: 1.4;
+}
+
+@mixin textRegular70Xs {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 28px;
+  line-height: 1.1;
+}
+
+@mixin textRegular70S {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 28px;
+  line-height: 1.2;
+}
+
+@mixin textRegular70M {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 28px;
+  line-height: 1.4;
+}
+
+@mixin textRegular70L {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 28px;
+  line-height: 1.6;
+}
+
+@mixin textRegular80 {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 32px;
+  line-height: 1.4;
+}
+
+@mixin textRegular80Xs {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 32px;
+  line-height: 1.1;
+}
+
+@mixin textRegular80S {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 32px;
+  line-height: 1.2;
+}
+
+@mixin textRegular80M {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 32px;
+  line-height: 1.4;
+}
+
+@mixin textRegular80L {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 32px;
+  line-height: 1.6;
+}
+
+@mixin textRegular90 {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 40px;
+  line-height: 1.4;
+}
+
+@mixin textRegular90Xs {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 40px;
+  line-height: 1.1;
+}
+
+@mixin textRegular90S {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 40px;
+  line-height: 1.2;
+}
+
+@mixin textRegular90M {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 40px;
+  line-height: 1.4;
+}
+
+@mixin textRegular90L {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 40px;
+  line-height: 1.6;
+}
+
+@mixin textRegular100 {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 48px;
+  line-height: 1.4;
+}
+
+@mixin textRegular100Xs {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 48px;
+  line-height: 1.1;
+}
+
+@mixin textRegular100S {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 48px;
+  line-height: 1.2;
+}
+
+@mixin textRegular100M {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 48px;
+  line-height: 1.4;
+}
+
+@mixin textRegular100L {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 48px;
+  line-height: 1.6;
+}
+
+@mixin textMedium {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+@mixin textMediumXs {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.1;
+}
+
+@mixin textMediumS {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.2;
+}
+
+@mixin textMediumM {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+@mixin textMediumL {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+@mixin textMedium20 {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+@mixin textMedium20Xs {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1.1;
+}
+
+@mixin textMedium20S {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1.2;
+}
+
+@mixin textMedium20M {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+@mixin textMedium20L {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+@mixin textMedium30 {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+@mixin textMedium30Xs {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.1;
+}
+
+@mixin textMedium30S {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.2;
+}
+
+@mixin textMedium30M {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+@mixin textMedium30L {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+@mixin textMedium40 {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+@mixin textMedium40Xs {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.1;
+}
+
+@mixin textMedium40S {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.2;
+}
+
+@mixin textMedium40M {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+@mixin textMedium40L {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+@mixin textMedium50 {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 1.4;
+}
+
+@mixin textMedium50Xs {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 1.1;
+}
+
+@mixin textMedium50S {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 1.2;
+}
+
+@mixin textMedium50M {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 1.4;
+}
+
+@mixin textMedium50L {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 1.6;
+}
+
+@mixin textMedium60 {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 1.4;
+}
+
+@mixin textMedium60Xs {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 1.1;
+}
+
+@mixin textMedium60S {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 1.2;
+}
+
+@mixin textMedium60M {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 1.4;
+}
+
+@mixin textMedium60L {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 1.6;
+}
+
+@mixin textMedium70 {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 28px;
+  line-height: 1.4;
+}
+
+@mixin textMedium70Xs {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 28px;
+  line-height: 1.1;
+}
+
+@mixin textMedium70S {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 28px;
+  line-height: 1.2;
+}
+
+@mixin textMedium70M {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 28px;
+  line-height: 1.4;
+}
+
+@mixin textMedium70L {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 28px;
+  line-height: 1.6;
+}
+
+@mixin textMedium80 {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 32px;
+  line-height: 1.4;
+}
+
+@mixin textMedium80Xs {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 32px;
+  line-height: 1.1;
+}
+
+@mixin textMedium80S {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 32px;
+  line-height: 1.2;
+}
+
+@mixin textMedium80M {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 32px;
+  line-height: 1.4;
+}
+
+@mixin textMedium80L {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 32px;
+  line-height: 1.6;
+}
+
+@mixin textMedium90 {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 40px;
+  line-height: 1.4;
+}
+
+@mixin textMedium90Xs {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 40px;
+  line-height: 1.1;
+}
+
+@mixin textMedium90S {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 40px;
+  line-height: 1.2;
+}
+
+@mixin textMedium90M {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 40px;
+  line-height: 1.4;
+}
+
+@mixin textMedium90L {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 40px;
+  line-height: 1.6;
+}
+
+@mixin textMedium100 {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 48px;
+  line-height: 1.4;
+}
+
+@mixin textMedium100Xs {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 48px;
+  line-height: 1.1;
+}
+
+@mixin textMedium100S {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 48px;
+  line-height: 1.2;
+}
+
+@mixin textMedium100M {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 48px;
+  line-height: 1.4;
+}
+
+@mixin textMedium100L {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 48px;
+  line-height: 1.6;
+}
+
+@mixin textBold {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+@mixin textBoldXs {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 1.1;
+}
+
+@mixin textBoldS {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 1.2;
+}
+
+@mixin textBoldM {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+@mixin textBoldL {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+@mixin textBold20 {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+@mixin textBold20Xs {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 1.1;
+}
+
+@mixin textBold20S {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 1.2;
+}
+
+@mixin textBold20M {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+@mixin textBold20L {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+@mixin textBold30 {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+@mixin textBold30Xs {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 1.1;
+}
+
+@mixin textBold30S {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 1.2;
+}
+
+@mixin textBold30M {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+@mixin textBold30L {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+@mixin textBold40 {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+@mixin textBold40Xs {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 1.1;
+}
+
+@mixin textBold40S {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 1.2;
+}
+
+@mixin textBold40M {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+@mixin textBold40L {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+@mixin textBold50 {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 1.4;
+}
+
+@mixin textBold50Xs {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 1.1;
+}
+
+@mixin textBold50S {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 1.2;
+}
+
+@mixin textBold50M {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 1.4;
+}
+
+@mixin textBold50L {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 1.6;
+}
+
+@mixin textBold60 {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 1.4;
+}
+
+@mixin textBold60Xs {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 1.1;
+}
+
+@mixin textBold60S {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 1.2;
+}
+
+@mixin textBold60M {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 1.4;
+}
+
+@mixin textBold60L {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 1.6;
+}
+
+@mixin textBold70 {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 28px;
+  line-height: 1.4;
+}
+
+@mixin textBold70Xs {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 28px;
+  line-height: 1.1;
+}
+
+@mixin textBold70S {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 28px;
+  line-height: 1.2;
+}
+
+@mixin textBold70M {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 28px;
+  line-height: 1.4;
+}
+
+@mixin textBold70L {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 28px;
+  line-height: 1.6;
+}
+
+@mixin textBold80 {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 32px;
+  line-height: 1.4;
+}
+
+@mixin textBold80Xs {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 32px;
+  line-height: 1.1;
+}
+
+@mixin textBold80S {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 32px;
+  line-height: 1.2;
+}
+
+@mixin textBold80M {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 32px;
+  line-height: 1.4;
+}
+
+@mixin textBold80L {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 32px;
+  line-height: 1.6;
+}
+
+@mixin textBold90 {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 40px;
+  line-height: 1.4;
+}
+
+@mixin textBold90Xs {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 40px;
+  line-height: 1.1;
+}
+
+@mixin textBold90S {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 40px;
+  line-height: 1.2;
+}
+
+@mixin textBold90M {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 40px;
+  line-height: 1.4;
+}
+
+@mixin textBold90L {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 40px;
+  line-height: 1.6;
+}
+
+@mixin textBold100 {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 48px;
+  line-height: 1.4;
+}
+
+@mixin textBold100Xs {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 48px;
+  line-height: 1.1;
+}
+
+@mixin textBold100S {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 48px;
+  line-height: 1.2;
+}
+
+@mixin textBold100M {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 48px;
+  line-height: 1.4;
+}
+
+@mixin textBold100L {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 48px;
+  line-height: 1.6;
+}
+
+@mixin textDisplay {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+@mixin textDisplayXs {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 1.1;
+}
+
+@mixin textDisplayS {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 1.2;
+}
+
+@mixin textDisplayM {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+@mixin textDisplayL {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+@mixin textDisplay20 {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+@mixin textDisplay20Xs {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 1.1;
+}
+
+@mixin textDisplay20S {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 1.2;
+}
+
+@mixin textDisplay20M {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+@mixin textDisplay20L {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+@mixin textDisplay30 {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+@mixin textDisplay30Xs {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 1.1;
+}
+
+@mixin textDisplay30S {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 1.2;
+}
+
+@mixin textDisplay30M {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+@mixin textDisplay30L {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+@mixin textDisplay40 {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+@mixin textDisplay40Xs {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 1.1;
+}
+
+@mixin textDisplay40S {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 1.2;
+}
+
+@mixin textDisplay40M {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+@mixin textDisplay40L {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+@mixin textDisplay50 {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 1.4;
+}
+
+@mixin textDisplay50Xs {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 1.1;
+}
+
+@mixin textDisplay50S {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 1.2;
+}
+
+@mixin textDisplay50M {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 1.4;
+}
+
+@mixin textDisplay50L {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 1.6;
+}
+
+@mixin textDisplay60 {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 24px;
+  line-height: 1.4;
+}
+
+@mixin textDisplay60Xs {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 24px;
+  line-height: 1.1;
+}
+
+@mixin textDisplay60S {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 24px;
+  line-height: 1.2;
+}
+
+@mixin textDisplay60M {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 24px;
+  line-height: 1.4;
+}
+
+@mixin textDisplay60L {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 24px;
+  line-height: 1.6;
+}
+
+@mixin textDisplay70 {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 28px;
+  line-height: 1.4;
+}
+
+@mixin textDisplay70Xs {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 28px;
+  line-height: 1.1;
+}
+
+@mixin textDisplay70S {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 28px;
+  line-height: 1.2;
+}
+
+@mixin textDisplay70M {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 28px;
+  line-height: 1.4;
+}
+
+@mixin textDisplay70L {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 28px;
+  line-height: 1.6;
+}
+
+@mixin textDisplay80 {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 32px;
+  line-height: 1.4;
+}
+
+@mixin textDisplay80Xs {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 32px;
+  line-height: 1.1;
+}
+
+@mixin textDisplay80S {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 32px;
+  line-height: 1.2;
+}
+
+@mixin textDisplay80M {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 32px;
+  line-height: 1.4;
+}
+
+@mixin textDisplay80L {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 32px;
+  line-height: 1.6;
+}
+
+@mixin textDisplay90 {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 40px;
+  line-height: 1.4;
+}
+
+@mixin textDisplay90Xs {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 40px;
+  line-height: 1.1;
+}
+
+@mixin textDisplay90S {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 40px;
+  line-height: 1.2;
+}
+
+@mixin textDisplay90M {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 40px;
+  line-height: 1.4;
+}
+
+@mixin textDisplay90L {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 40px;
+  line-height: 1.6;
+}
+
+@mixin textDisplay100 {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 48px;
+  line-height: 1.4;
+}
+
+@mixin textDisplay100Xs {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 48px;
+  line-height: 1.1;
+}
+
+@mixin textDisplay100S {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 48px;
+  line-height: 1.2;
+}
+
+@mixin textDisplay100M {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 48px;
+  line-height: 1.4;
+}
+
+@mixin textDisplay100L {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 48px;
+  line-height: 1.6;
+}
+
+@mixin textDisplayRegular {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+@mixin textDisplayRegularXs {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 1.1;
+}
+
+@mixin textDisplayRegularS {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 1.2;
+}
+
+@mixin textDisplayRegularM {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+@mixin textDisplayRegularL {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+@mixin textDisplayRegular20 {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+@mixin textDisplayRegular20Xs {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 1.1;
+}
+
+@mixin textDisplayRegular20S {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 1.2;
+}
+
+@mixin textDisplayRegular20M {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+@mixin textDisplayRegular20L {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+@mixin textDisplayRegular30 {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+@mixin textDisplayRegular30Xs {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 1.1;
+}
+
+@mixin textDisplayRegular30S {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 1.2;
+}
+
+@mixin textDisplayRegular30M {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+@mixin textDisplayRegular30L {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+@mixin textDisplayRegular40 {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+@mixin textDisplayRegular40Xs {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 1.1;
+}
+
+@mixin textDisplayRegular40S {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 1.2;
+}
+
+@mixin textDisplayRegular40M {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+@mixin textDisplayRegular40L {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+@mixin textDisplayRegular50 {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 1.4;
+}
+
+@mixin textDisplayRegular50Xs {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 1.1;
+}
+
+@mixin textDisplayRegular50S {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 1.2;
+}
+
+@mixin textDisplayRegular50M {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 1.4;
+}
+
+@mixin textDisplayRegular50L {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 1.6;
+}
+
+@mixin textDisplayRegular60 {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 24px;
+  line-height: 1.4;
+}
+
+@mixin textDisplayRegular60Xs {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 24px;
+  line-height: 1.1;
+}
+
+@mixin textDisplayRegular60S {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 24px;
+  line-height: 1.2;
+}
+
+@mixin textDisplayRegular60M {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 24px;
+  line-height: 1.4;
+}
+
+@mixin textDisplayRegular60L {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 24px;
+  line-height: 1.6;
+}
+
+@mixin textDisplayRegular70 {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 28px;
+  line-height: 1.4;
+}
+
+@mixin textDisplayRegular70Xs {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 28px;
+  line-height: 1.1;
+}
+
+@mixin textDisplayRegular70S {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 28px;
+  line-height: 1.2;
+}
+
+@mixin textDisplayRegular70M {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 28px;
+  line-height: 1.4;
+}
+
+@mixin textDisplayRegular70L {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 28px;
+  line-height: 1.6;
+}
+
+@mixin textDisplayRegular80 {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 32px;
+  line-height: 1.4;
+}
+
+@mixin textDisplayRegular80Xs {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 32px;
+  line-height: 1.1;
+}
+
+@mixin textDisplayRegular80S {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 32px;
+  line-height: 1.2;
+}
+
+@mixin textDisplayRegular80M {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 32px;
+  line-height: 1.4;
+}
+
+@mixin textDisplayRegular80L {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 32px;
+  line-height: 1.6;
+}
+
+@mixin textDisplayRegular90 {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 40px;
+  line-height: 1.4;
+}
+
+@mixin textDisplayRegular90Xs {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 40px;
+  line-height: 1.1;
+}
+
+@mixin textDisplayRegular90S {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 40px;
+  line-height: 1.2;
+}
+
+@mixin textDisplayRegular90M {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 40px;
+  line-height: 1.4;
+}
+
+@mixin textDisplayRegular90L {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 40px;
+  line-height: 1.6;
+}
+
+@mixin textDisplayRegular100 {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 48px;
+  line-height: 1.4;
+}
+
+@mixin textDisplayRegular100Xs {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 48px;
+  line-height: 1.1;
+}
+
+@mixin textDisplayRegular100S {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 48px;
+  line-height: 1.2;
+}
+
+@mixin textDisplayRegular100M {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 48px;
+  line-height: 1.4;
+}
+
+@mixin textDisplayRegular100L {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 48px;
+  line-height: 1.6;
+}
+
+@mixin textDisplayMedium {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+@mixin textDisplayMediumXs {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.1;
+}
+
+@mixin textDisplayMediumS {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.2;
+}
+
+@mixin textDisplayMediumM {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+@mixin textDisplayMediumL {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+@mixin textDisplayMedium20 {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+@mixin textDisplayMedium20Xs {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1.1;
+}
+
+@mixin textDisplayMedium20S {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1.2;
+}
+
+@mixin textDisplayMedium20M {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+@mixin textDisplayMedium20L {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+@mixin textDisplayMedium30 {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+@mixin textDisplayMedium30Xs {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.1;
+}
+
+@mixin textDisplayMedium30S {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.2;
+}
+
+@mixin textDisplayMedium30M {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+@mixin textDisplayMedium30L {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+@mixin textDisplayMedium40 {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+@mixin textDisplayMedium40Xs {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.1;
+}
+
+@mixin textDisplayMedium40S {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.2;
+}
+
+@mixin textDisplayMedium40M {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+@mixin textDisplayMedium40L {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+@mixin textDisplayMedium50 {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 1.4;
+}
+
+@mixin textDisplayMedium50Xs {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 1.1;
+}
+
+@mixin textDisplayMedium50S {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 1.2;
+}
+
+@mixin textDisplayMedium50M {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 1.4;
+}
+
+@mixin textDisplayMedium50L {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 1.6;
+}
+
+@mixin textDisplayMedium60 {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 1.4;
+}
+
+@mixin textDisplayMedium60Xs {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 1.1;
+}
+
+@mixin textDisplayMedium60S {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 1.2;
+}
+
+@mixin textDisplayMedium60M {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 1.4;
+}
+
+@mixin textDisplayMedium60L {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 1.6;
+}
+
+@mixin textDisplayMedium70 {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 28px;
+  line-height: 1.4;
+}
+
+@mixin textDisplayMedium70Xs {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 28px;
+  line-height: 1.1;
+}
+
+@mixin textDisplayMedium70S {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 28px;
+  line-height: 1.2;
+}
+
+@mixin textDisplayMedium70M {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 28px;
+  line-height: 1.4;
+}
+
+@mixin textDisplayMedium70L {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 28px;
+  line-height: 1.6;
+}
+
+@mixin textDisplayMedium80 {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 32px;
+  line-height: 1.4;
+}
+
+@mixin textDisplayMedium80Xs {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 32px;
+  line-height: 1.1;
+}
+
+@mixin textDisplayMedium80S {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 32px;
+  line-height: 1.2;
+}
+
+@mixin textDisplayMedium80M {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 32px;
+  line-height: 1.4;
+}
+
+@mixin textDisplayMedium80L {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 32px;
+  line-height: 1.6;
+}
+
+@mixin textDisplayMedium90 {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 40px;
+  line-height: 1.4;
+}
+
+@mixin textDisplayMedium90Xs {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 40px;
+  line-height: 1.1;
+}
+
+@mixin textDisplayMedium90S {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 40px;
+  line-height: 1.2;
+}
+
+@mixin textDisplayMedium90M {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 40px;
+  line-height: 1.4;
+}
+
+@mixin textDisplayMedium90L {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 40px;
+  line-height: 1.6;
+}
+
+@mixin textDisplayMedium100 {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 48px;
+  line-height: 1.4;
+}
+
+@mixin textDisplayMedium100Xs {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 48px;
+  line-height: 1.1;
+}
+
+@mixin textDisplayMedium100S {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 48px;
+  line-height: 1.2;
+}
+
+@mixin textDisplayMedium100M {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 48px;
+  line-height: 1.4;
+}
+
+@mixin textDisplayMedium100L {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 48px;
+  line-height: 1.6;
+}
+
+@mixin textDisplayBold {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+@mixin textDisplayBoldXs {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 1.1;
+}
+
+@mixin textDisplayBoldS {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 1.2;
+}
+
+@mixin textDisplayBoldM {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+@mixin textDisplayBoldL {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+@mixin textDisplayBold20 {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+@mixin textDisplayBold20Xs {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 1.1;
+}
+
+@mixin textDisplayBold20S {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 1.2;
+}
+
+@mixin textDisplayBold20M {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+@mixin textDisplayBold20L {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+@mixin textDisplayBold30 {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+@mixin textDisplayBold30Xs {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 1.1;
+}
+
+@mixin textDisplayBold30S {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 1.2;
+}
+
+@mixin textDisplayBold30M {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+@mixin textDisplayBold30L {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+@mixin textDisplayBold40 {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+@mixin textDisplayBold40Xs {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 1.1;
+}
+
+@mixin textDisplayBold40S {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 1.2;
+}
+
+@mixin textDisplayBold40M {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+@mixin textDisplayBold40L {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+@mixin textDisplayBold50 {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 1.4;
+}
+
+@mixin textDisplayBold50Xs {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 1.1;
+}
+
+@mixin textDisplayBold50S {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 1.2;
+}
+
+@mixin textDisplayBold50M {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 1.4;
+}
+
+@mixin textDisplayBold50L {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 1.6;
+}
+
+@mixin textDisplayBold60 {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 1.4;
+}
+
+@mixin textDisplayBold60Xs {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 1.1;
+}
+
+@mixin textDisplayBold60S {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 1.2;
+}
+
+@mixin textDisplayBold60M {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 1.4;
+}
+
+@mixin textDisplayBold60L {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 1.6;
+}
+
+@mixin textDisplayBold70 {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 28px;
+  line-height: 1.4;
+}
+
+@mixin textDisplayBold70Xs {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 28px;
+  line-height: 1.1;
+}
+
+@mixin textDisplayBold70S {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 28px;
+  line-height: 1.2;
+}
+
+@mixin textDisplayBold70M {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 28px;
+  line-height: 1.4;
+}
+
+@mixin textDisplayBold70L {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 28px;
+  line-height: 1.6;
+}
+
+@mixin textDisplayBold80 {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 32px;
+  line-height: 1.4;
+}
+
+@mixin textDisplayBold80Xs {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 32px;
+  line-height: 1.1;
+}
+
+@mixin textDisplayBold80S {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 32px;
+  line-height: 1.2;
+}
+
+@mixin textDisplayBold80M {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 32px;
+  line-height: 1.4;
+}
+
+@mixin textDisplayBold80L {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 32px;
+  line-height: 1.6;
+}
+
+@mixin textDisplayBold90 {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 40px;
+  line-height: 1.4;
+}
+
+@mixin textDisplayBold90Xs {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 40px;
+  line-height: 1.1;
+}
+
+@mixin textDisplayBold90S {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 40px;
+  line-height: 1.2;
+}
+
+@mixin textDisplayBold90M {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 40px;
+  line-height: 1.4;
+}
+
+@mixin textDisplayBold90L {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 40px;
+  line-height: 1.6;
+}
+
+@mixin textDisplayBold100 {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 48px;
+  line-height: 1.4;
+}
+
+@mixin textDisplayBold100Xs {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 48px;
+  line-height: 1.1;
+}
+
+@mixin textDisplayBold100S {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 48px;
+  line-height: 1.2;
+}
+
+@mixin textDisplayBold100M {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 48px;
+  line-height: 1.4;
+}
+
+@mixin textDisplayBold100L {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 48px;
+  line-height: 1.6;
+}
+
+@mixin textCommon {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+@mixin textCommonXs {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 1.1;
+}
+
+@mixin textCommonS {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 1.2;
+}
+
+@mixin textCommonM {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+@mixin textCommonL {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+@mixin textCommon20 {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+@mixin textCommon20Xs {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 1.1;
+}
+
+@mixin textCommon20S {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 1.2;
+}
+
+@mixin textCommon20M {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+@mixin textCommon20L {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+@mixin textCommon30 {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+@mixin textCommon30Xs {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 1.1;
+}
+
+@mixin textCommon30S {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 1.2;
+}
+
+@mixin textCommon30M {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+@mixin textCommon30L {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+@mixin textCommon40 {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+@mixin textCommon40Xs {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 1.1;
+}
+
+@mixin textCommon40S {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 1.2;
+}
+
+@mixin textCommon40M {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+@mixin textCommon40L {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+@mixin textCommon50 {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 1.4;
+}
+
+@mixin textCommon50Xs {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 1.1;
+}
+
+@mixin textCommon50S {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 1.2;
+}
+
+@mixin textCommon50M {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 1.4;
+}
+
+@mixin textCommon50L {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 1.6;
+}
+
+@mixin textCommon60 {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 24px;
+  line-height: 1.4;
+}
+
+@mixin textCommon60Xs {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 24px;
+  line-height: 1.1;
+}
+
+@mixin textCommon60S {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 24px;
+  line-height: 1.2;
+}
+
+@mixin textCommon60M {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 24px;
+  line-height: 1.4;
+}
+
+@mixin textCommon60L {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 24px;
+  line-height: 1.6;
+}
+
+@mixin textCommon70 {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 28px;
+  line-height: 1.4;
+}
+
+@mixin textCommon70Xs {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 28px;
+  line-height: 1.1;
+}
+
+@mixin textCommon70S {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 28px;
+  line-height: 1.2;
+}
+
+@mixin textCommon70M {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 28px;
+  line-height: 1.4;
+}
+
+@mixin textCommon70L {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 28px;
+  line-height: 1.6;
+}
+
+@mixin textCommon80 {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 32px;
+  line-height: 1.4;
+}
+
+@mixin textCommon80Xs {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 32px;
+  line-height: 1.1;
+}
+
+@mixin textCommon80S {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 32px;
+  line-height: 1.2;
+}
+
+@mixin textCommon80M {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 32px;
+  line-height: 1.4;
+}
+
+@mixin textCommon80L {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 32px;
+  line-height: 1.6;
+}
+
+@mixin textCommon90 {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 40px;
+  line-height: 1.4;
+}
+
+@mixin textCommon90Xs {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 40px;
+  line-height: 1.1;
+}
+
+@mixin textCommon90S {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 40px;
+  line-height: 1.2;
+}
+
+@mixin textCommon90M {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 40px;
+  line-height: 1.4;
+}
+
+@mixin textCommon90L {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 40px;
+  line-height: 1.6;
+}
+
+@mixin textCommon100 {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 48px;
+  line-height: 1.4;
+}
+
+@mixin textCommon100Xs {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 48px;
+  line-height: 1.1;
+}
+
+@mixin textCommon100S {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 48px;
+  line-height: 1.2;
+}
+
+@mixin textCommon100M {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 48px;
+  line-height: 1.4;
+}
+
+@mixin textCommon100L {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 48px;
+  line-height: 1.6;
+}
+
+@mixin textCommonRegular {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+@mixin textCommonRegularXs {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 1.1;
+}
+
+@mixin textCommonRegularS {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 1.2;
+}
+
+@mixin textCommonRegularM {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+@mixin textCommonRegularL {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+@mixin textCommonRegular20 {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+@mixin textCommonRegular20Xs {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 1.1;
+}
+
+@mixin textCommonRegular20S {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 1.2;
+}
+
+@mixin textCommonRegular20M {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+@mixin textCommonRegular20L {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+@mixin textCommonRegular30 {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+@mixin textCommonRegular30Xs {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 1.1;
+}
+
+@mixin textCommonRegular30S {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 1.2;
+}
+
+@mixin textCommonRegular30M {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+@mixin textCommonRegular30L {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+@mixin textCommonRegular40 {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+@mixin textCommonRegular40Xs {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 1.1;
+}
+
+@mixin textCommonRegular40S {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 1.2;
+}
+
+@mixin textCommonRegular40M {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+@mixin textCommonRegular40L {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+@mixin textCommonRegular50 {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 1.4;
+}
+
+@mixin textCommonRegular50Xs {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 1.1;
+}
+
+@mixin textCommonRegular50S {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 1.2;
+}
+
+@mixin textCommonRegular50M {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 1.4;
+}
+
+@mixin textCommonRegular50L {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 1.6;
+}
+
+@mixin textCommonRegular60 {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 24px;
+  line-height: 1.4;
+}
+
+@mixin textCommonRegular60Xs {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 24px;
+  line-height: 1.1;
+}
+
+@mixin textCommonRegular60S {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 24px;
+  line-height: 1.2;
+}
+
+@mixin textCommonRegular60M {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 24px;
+  line-height: 1.4;
+}
+
+@mixin textCommonRegular60L {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 24px;
+  line-height: 1.6;
+}
+
+@mixin textCommonRegular70 {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 28px;
+  line-height: 1.4;
+}
+
+@mixin textCommonRegular70Xs {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 28px;
+  line-height: 1.1;
+}
+
+@mixin textCommonRegular70S {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 28px;
+  line-height: 1.2;
+}
+
+@mixin textCommonRegular70M {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 28px;
+  line-height: 1.4;
+}
+
+@mixin textCommonRegular70L {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 28px;
+  line-height: 1.6;
+}
+
+@mixin textCommonRegular80 {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 32px;
+  line-height: 1.4;
+}
+
+@mixin textCommonRegular80Xs {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 32px;
+  line-height: 1.1;
+}
+
+@mixin textCommonRegular80S {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 32px;
+  line-height: 1.2;
+}
+
+@mixin textCommonRegular80M {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 32px;
+  line-height: 1.4;
+}
+
+@mixin textCommonRegular80L {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 32px;
+  line-height: 1.6;
+}
+
+@mixin textCommonRegular90 {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 40px;
+  line-height: 1.4;
+}
+
+@mixin textCommonRegular90Xs {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 40px;
+  line-height: 1.1;
+}
+
+@mixin textCommonRegular90S {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 40px;
+  line-height: 1.2;
+}
+
+@mixin textCommonRegular90M {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 40px;
+  line-height: 1.4;
+}
+
+@mixin textCommonRegular90L {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 40px;
+  line-height: 1.6;
+}
+
+@mixin textCommonRegular100 {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 48px;
+  line-height: 1.4;
+}
+
+@mixin textCommonRegular100Xs {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 48px;
+  line-height: 1.1;
+}
+
+@mixin textCommonRegular100S {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 48px;
+  line-height: 1.2;
+}
+
+@mixin textCommonRegular100M {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 48px;
+  line-height: 1.4;
+}
+
+@mixin textCommonRegular100L {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 48px;
+  line-height: 1.6;
+}
+
+@mixin textCommonMedium {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+@mixin textCommonMediumXs {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.1;
+}
+
+@mixin textCommonMediumS {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.2;
+}
+
+@mixin textCommonMediumM {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+@mixin textCommonMediumL {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+@mixin textCommonMedium20 {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+@mixin textCommonMedium20Xs {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1.1;
+}
+
+@mixin textCommonMedium20S {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1.2;
+}
+
+@mixin textCommonMedium20M {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+@mixin textCommonMedium20L {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+@mixin textCommonMedium30 {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+@mixin textCommonMedium30Xs {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.1;
+}
+
+@mixin textCommonMedium30S {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.2;
+}
+
+@mixin textCommonMedium30M {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+@mixin textCommonMedium30L {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+@mixin textCommonMedium40 {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+@mixin textCommonMedium40Xs {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.1;
+}
+
+@mixin textCommonMedium40S {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.2;
+}
+
+@mixin textCommonMedium40M {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+@mixin textCommonMedium40L {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+@mixin textCommonMedium50 {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 1.4;
+}
+
+@mixin textCommonMedium50Xs {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 1.1;
+}
+
+@mixin textCommonMedium50S {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 1.2;
+}
+
+@mixin textCommonMedium50M {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 1.4;
+}
+
+@mixin textCommonMedium50L {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 1.6;
+}
+
+@mixin textCommonMedium60 {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 1.4;
+}
+
+@mixin textCommonMedium60Xs {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 1.1;
+}
+
+@mixin textCommonMedium60S {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 1.2;
+}
+
+@mixin textCommonMedium60M {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 1.4;
+}
+
+@mixin textCommonMedium60L {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 1.6;
+}
+
+@mixin textCommonMedium70 {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 28px;
+  line-height: 1.4;
+}
+
+@mixin textCommonMedium70Xs {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 28px;
+  line-height: 1.1;
+}
+
+@mixin textCommonMedium70S {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 28px;
+  line-height: 1.2;
+}
+
+@mixin textCommonMedium70M {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 28px;
+  line-height: 1.4;
+}
+
+@mixin textCommonMedium70L {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 28px;
+  line-height: 1.6;
+}
+
+@mixin textCommonMedium80 {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 32px;
+  line-height: 1.4;
+}
+
+@mixin textCommonMedium80Xs {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 32px;
+  line-height: 1.1;
+}
+
+@mixin textCommonMedium80S {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 32px;
+  line-height: 1.2;
+}
+
+@mixin textCommonMedium80M {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 32px;
+  line-height: 1.4;
+}
+
+@mixin textCommonMedium80L {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 32px;
+  line-height: 1.6;
+}
+
+@mixin textCommonMedium90 {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 40px;
+  line-height: 1.4;
+}
+
+@mixin textCommonMedium90Xs {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 40px;
+  line-height: 1.1;
+}
+
+@mixin textCommonMedium90S {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 40px;
+  line-height: 1.2;
+}
+
+@mixin textCommonMedium90M {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 40px;
+  line-height: 1.4;
+}
+
+@mixin textCommonMedium90L {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 40px;
+  line-height: 1.6;
+}
+
+@mixin textCommonMedium100 {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 48px;
+  line-height: 1.4;
+}
+
+@mixin textCommonMedium100Xs {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 48px;
+  line-height: 1.1;
+}
+
+@mixin textCommonMedium100S {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 48px;
+  line-height: 1.2;
+}
+
+@mixin textCommonMedium100M {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 48px;
+  line-height: 1.4;
+}
+
+@mixin textCommonMedium100L {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 48px;
+  line-height: 1.6;
+}
+
+@mixin textCommonBold {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+@mixin textCommonBoldXs {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 1.1;
+}
+
+@mixin textCommonBoldS {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 1.2;
+}
+
+@mixin textCommonBoldM {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+@mixin textCommonBoldL {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+@mixin textCommonBold20 {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+@mixin textCommonBold20Xs {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 1.1;
+}
+
+@mixin textCommonBold20S {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 1.2;
+}
+
+@mixin textCommonBold20M {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+@mixin textCommonBold20L {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+@mixin textCommonBold30 {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+@mixin textCommonBold30Xs {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 1.1;
+}
+
+@mixin textCommonBold30S {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 1.2;
+}
+
+@mixin textCommonBold30M {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+@mixin textCommonBold30L {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+@mixin textCommonBold40 {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+@mixin textCommonBold40Xs {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 1.1;
+}
+
+@mixin textCommonBold40S {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 1.2;
+}
+
+@mixin textCommonBold40M {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+@mixin textCommonBold40L {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+@mixin textCommonBold50 {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 1.4;
+}
+
+@mixin textCommonBold50Xs {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 1.1;
+}
+
+@mixin textCommonBold50S {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 1.2;
+}
+
+@mixin textCommonBold50M {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 1.4;
+}
+
+@mixin textCommonBold50L {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 1.6;
+}
+
+@mixin textCommonBold60 {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 1.4;
+}
+
+@mixin textCommonBold60Xs {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 1.1;
+}
+
+@mixin textCommonBold60S {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 1.2;
+}
+
+@mixin textCommonBold60M {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 1.4;
+}
+
+@mixin textCommonBold60L {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 1.6;
+}
+
+@mixin textCommonBold70 {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 28px;
+  line-height: 1.4;
+}
+
+@mixin textCommonBold70Xs {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 28px;
+  line-height: 1.1;
+}
+
+@mixin textCommonBold70S {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 28px;
+  line-height: 1.2;
+}
+
+@mixin textCommonBold70M {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 28px;
+  line-height: 1.4;
+}
+
+@mixin textCommonBold70L {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 28px;
+  line-height: 1.6;
+}
+
+@mixin textCommonBold80 {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 32px;
+  line-height: 1.4;
+}
+
+@mixin textCommonBold80Xs {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 32px;
+  line-height: 1.1;
+}
+
+@mixin textCommonBold80S {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 32px;
+  line-height: 1.2;
+}
+
+@mixin textCommonBold80M {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 32px;
+  line-height: 1.4;
+}
+
+@mixin textCommonBold80L {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 32px;
+  line-height: 1.6;
+}
+
+@mixin textCommonBold90 {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 40px;
+  line-height: 1.4;
+}
+
+@mixin textCommonBold90Xs {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 40px;
+  line-height: 1.1;
+}
+
+@mixin textCommonBold90S {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 40px;
+  line-height: 1.2;
+}
+
+@mixin textCommonBold90M {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 40px;
+  line-height: 1.4;
+}
+
+@mixin textCommonBold90L {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 40px;
+  line-height: 1.6;
+}
+
+@mixin textCommonBold100 {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 48px;
+  line-height: 1.4;
+}
+
+@mixin textCommonBold100Xs {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 48px;
+  line-height: 1.1;
+}
+
+@mixin textCommonBold100S {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 48px;
+  line-height: 1.2;
+}
+
+@mixin textCommonBold100M {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 48px;
+  line-height: 1.4;
+}
+
+@mixin textCommonBold100L {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 48px;
+  line-height: 1.6;
+}
+
+@mixin textAlternate {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+@mixin textAlternateXs {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 1.1;
+}
+
+@mixin textAlternateS {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 1.2;
+}
+
+@mixin textAlternateM {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+@mixin textAlternateL {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+@mixin textAlternate20 {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+@mixin textAlternate20Xs {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 1.1;
+}
+
+@mixin textAlternate20S {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 1.2;
+}
+
+@mixin textAlternate20M {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+@mixin textAlternate20L {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+@mixin textAlternate30 {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+@mixin textAlternate30Xs {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 1.1;
+}
+
+@mixin textAlternate30S {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 1.2;
+}
+
+@mixin textAlternate30M {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+@mixin textAlternate30L {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+@mixin textAlternate40 {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+@mixin textAlternate40Xs {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 1.1;
+}
+
+@mixin textAlternate40S {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 1.2;
+}
+
+@mixin textAlternate40M {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+@mixin textAlternate40L {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+@mixin textAlternate50 {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 1.4;
+}
+
+@mixin textAlternate50Xs {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 1.1;
+}
+
+@mixin textAlternate50S {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 1.2;
+}
+
+@mixin textAlternate50M {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 1.4;
+}
+
+@mixin textAlternate50L {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 1.6;
+}
+
+@mixin textAlternate60 {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 24px;
+  line-height: 1.4;
+}
+
+@mixin textAlternate60Xs {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 24px;
+  line-height: 1.1;
+}
+
+@mixin textAlternate60S {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 24px;
+  line-height: 1.2;
+}
+
+@mixin textAlternate60M {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 24px;
+  line-height: 1.4;
+}
+
+@mixin textAlternate60L {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 24px;
+  line-height: 1.6;
+}
+
+@mixin textAlternate70 {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 28px;
+  line-height: 1.4;
+}
+
+@mixin textAlternate70Xs {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 28px;
+  line-height: 1.1;
+}
+
+@mixin textAlternate70S {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 28px;
+  line-height: 1.2;
+}
+
+@mixin textAlternate70M {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 28px;
+  line-height: 1.4;
+}
+
+@mixin textAlternate70L {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 28px;
+  line-height: 1.6;
+}
+
+@mixin textAlternate80 {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 32px;
+  line-height: 1.4;
+}
+
+@mixin textAlternate80Xs {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 32px;
+  line-height: 1.1;
+}
+
+@mixin textAlternate80S {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 32px;
+  line-height: 1.2;
+}
+
+@mixin textAlternate80M {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 32px;
+  line-height: 1.4;
+}
+
+@mixin textAlternate80L {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 32px;
+  line-height: 1.6;
+}
+
+@mixin textAlternate90 {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 40px;
+  line-height: 1.4;
+}
+
+@mixin textAlternate90Xs {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 40px;
+  line-height: 1.1;
+}
+
+@mixin textAlternate90S {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 40px;
+  line-height: 1.2;
+}
+
+@mixin textAlternate90M {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 40px;
+  line-height: 1.4;
+}
+
+@mixin textAlternate90L {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 40px;
+  line-height: 1.6;
+}
+
+@mixin textAlternate100 {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 48px;
+  line-height: 1.4;
+}
+
+@mixin textAlternate100Xs {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 48px;
+  line-height: 1.1;
+}
+
+@mixin textAlternate100S {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 48px;
+  line-height: 1.2;
+}
+
+@mixin textAlternate100M {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 48px;
+  line-height: 1.4;
+}
+
+@mixin textAlternate100L {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 48px;
+  line-height: 1.6;
+}
+
+@mixin textAlternateRegular {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+@mixin textAlternateRegularXs {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 1.1;
+}
+
+@mixin textAlternateRegularS {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 1.2;
+}
+
+@mixin textAlternateRegularM {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+@mixin textAlternateRegularL {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+@mixin textAlternateRegular20 {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+@mixin textAlternateRegular20Xs {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 1.1;
+}
+
+@mixin textAlternateRegular20S {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 1.2;
+}
+
+@mixin textAlternateRegular20M {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+@mixin textAlternateRegular20L {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+@mixin textAlternateRegular30 {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+@mixin textAlternateRegular30Xs {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 1.1;
+}
+
+@mixin textAlternateRegular30S {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 1.2;
+}
+
+@mixin textAlternateRegular30M {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+@mixin textAlternateRegular30L {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+@mixin textAlternateRegular40 {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+@mixin textAlternateRegular40Xs {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 1.1;
+}
+
+@mixin textAlternateRegular40S {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 1.2;
+}
+
+@mixin textAlternateRegular40M {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+@mixin textAlternateRegular40L {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+@mixin textAlternateRegular50 {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 1.4;
+}
+
+@mixin textAlternateRegular50Xs {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 1.1;
+}
+
+@mixin textAlternateRegular50S {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 1.2;
+}
+
+@mixin textAlternateRegular50M {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 1.4;
+}
+
+@mixin textAlternateRegular50L {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 1.6;
+}
+
+@mixin textAlternateRegular60 {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 24px;
+  line-height: 1.4;
+}
+
+@mixin textAlternateRegular60Xs {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 24px;
+  line-height: 1.1;
+}
+
+@mixin textAlternateRegular60S {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 24px;
+  line-height: 1.2;
+}
+
+@mixin textAlternateRegular60M {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 24px;
+  line-height: 1.4;
+}
+
+@mixin textAlternateRegular60L {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 24px;
+  line-height: 1.6;
+}
+
+@mixin textAlternateRegular70 {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 28px;
+  line-height: 1.4;
+}
+
+@mixin textAlternateRegular70Xs {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 28px;
+  line-height: 1.1;
+}
+
+@mixin textAlternateRegular70S {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 28px;
+  line-height: 1.2;
+}
+
+@mixin textAlternateRegular70M {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 28px;
+  line-height: 1.4;
+}
+
+@mixin textAlternateRegular70L {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 28px;
+  line-height: 1.6;
+}
+
+@mixin textAlternateRegular80 {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 32px;
+  line-height: 1.4;
+}
+
+@mixin textAlternateRegular80Xs {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 32px;
+  line-height: 1.1;
+}
+
+@mixin textAlternateRegular80S {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 32px;
+  line-height: 1.2;
+}
+
+@mixin textAlternateRegular80M {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 32px;
+  line-height: 1.4;
+}
+
+@mixin textAlternateRegular80L {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 32px;
+  line-height: 1.6;
+}
+
+@mixin textAlternateRegular90 {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 40px;
+  line-height: 1.4;
+}
+
+@mixin textAlternateRegular90Xs {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 40px;
+  line-height: 1.1;
+}
+
+@mixin textAlternateRegular90S {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 40px;
+  line-height: 1.2;
+}
+
+@mixin textAlternateRegular90M {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 40px;
+  line-height: 1.4;
+}
+
+@mixin textAlternateRegular90L {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 40px;
+  line-height: 1.6;
+}
+
+@mixin textAlternateRegular100 {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 48px;
+  line-height: 1.4;
+}
+
+@mixin textAlternateRegular100Xs {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 48px;
+  line-height: 1.1;
+}
+
+@mixin textAlternateRegular100S {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 48px;
+  line-height: 1.2;
+}
+
+@mixin textAlternateRegular100M {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 48px;
+  line-height: 1.4;
+}
+
+@mixin textAlternateRegular100L {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 48px;
+  line-height: 1.6;
+}
+
+@mixin textAlternateMedium {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+@mixin textAlternateMediumXs {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.1;
+}
+
+@mixin textAlternateMediumS {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.2;
+}
+
+@mixin textAlternateMediumM {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+@mixin textAlternateMediumL {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+@mixin textAlternateMedium20 {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+@mixin textAlternateMedium20Xs {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1.1;
+}
+
+@mixin textAlternateMedium20S {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1.2;
+}
+
+@mixin textAlternateMedium20M {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+@mixin textAlternateMedium20L {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+@mixin textAlternateMedium30 {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+@mixin textAlternateMedium30Xs {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.1;
+}
+
+@mixin textAlternateMedium30S {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.2;
+}
+
+@mixin textAlternateMedium30M {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+@mixin textAlternateMedium30L {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+@mixin textAlternateMedium40 {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+@mixin textAlternateMedium40Xs {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.1;
+}
+
+@mixin textAlternateMedium40S {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.2;
+}
+
+@mixin textAlternateMedium40M {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+@mixin textAlternateMedium40L {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+@mixin textAlternateMedium50 {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 1.4;
+}
+
+@mixin textAlternateMedium50Xs {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 1.1;
+}
+
+@mixin textAlternateMedium50S {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 1.2;
+}
+
+@mixin textAlternateMedium50M {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 1.4;
+}
+
+@mixin textAlternateMedium50L {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 1.6;
+}
+
+@mixin textAlternateMedium60 {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 1.4;
+}
+
+@mixin textAlternateMedium60Xs {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 1.1;
+}
+
+@mixin textAlternateMedium60S {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 1.2;
+}
+
+@mixin textAlternateMedium60M {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 1.4;
+}
+
+@mixin textAlternateMedium60L {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 1.6;
+}
+
+@mixin textAlternateMedium70 {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 28px;
+  line-height: 1.4;
+}
+
+@mixin textAlternateMedium70Xs {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 28px;
+  line-height: 1.1;
+}
+
+@mixin textAlternateMedium70S {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 28px;
+  line-height: 1.2;
+}
+
+@mixin textAlternateMedium70M {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 28px;
+  line-height: 1.4;
+}
+
+@mixin textAlternateMedium70L {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 28px;
+  line-height: 1.6;
+}
+
+@mixin textAlternateMedium80 {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 32px;
+  line-height: 1.4;
+}
+
+@mixin textAlternateMedium80Xs {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 32px;
+  line-height: 1.1;
+}
+
+@mixin textAlternateMedium80S {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 32px;
+  line-height: 1.2;
+}
+
+@mixin textAlternateMedium80M {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 32px;
+  line-height: 1.4;
+}
+
+@mixin textAlternateMedium80L {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 32px;
+  line-height: 1.6;
+}
+
+@mixin textAlternateMedium90 {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 40px;
+  line-height: 1.4;
+}
+
+@mixin textAlternateMedium90Xs {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 40px;
+  line-height: 1.1;
+}
+
+@mixin textAlternateMedium90S {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 40px;
+  line-height: 1.2;
+}
+
+@mixin textAlternateMedium90M {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 40px;
+  line-height: 1.4;
+}
+
+@mixin textAlternateMedium90L {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 40px;
+  line-height: 1.6;
+}
+
+@mixin textAlternateMedium100 {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 48px;
+  line-height: 1.4;
+}
+
+@mixin textAlternateMedium100Xs {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 48px;
+  line-height: 1.1;
+}
+
+@mixin textAlternateMedium100S {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 48px;
+  line-height: 1.2;
+}
+
+@mixin textAlternateMedium100M {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 48px;
+  line-height: 1.4;
+}
+
+@mixin textAlternateMedium100L {
+  font-family: 'Arial';
+  font-weight: 500;
+  font-size: 48px;
+  line-height: 1.6;
+}
+
+@mixin textAlternateBold {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+@mixin textAlternateBoldXs {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 1.1;
+}
+
+@mixin textAlternateBoldS {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 1.2;
+}
+
+@mixin textAlternateBoldM {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+@mixin textAlternateBoldL {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+@mixin textAlternateBold20 {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+@mixin textAlternateBold20Xs {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 1.1;
+}
+
+@mixin textAlternateBold20S {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 1.2;
+}
+
+@mixin textAlternateBold20M {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+@mixin textAlternateBold20L {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+@mixin textAlternateBold30 {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+@mixin textAlternateBold30Xs {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 1.1;
+}
+
+@mixin textAlternateBold30S {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 1.2;
+}
+
+@mixin textAlternateBold30M {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+@mixin textAlternateBold30L {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+@mixin textAlternateBold40 {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+@mixin textAlternateBold40Xs {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 1.1;
+}
+
+@mixin textAlternateBold40S {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 1.2;
+}
+
+@mixin textAlternateBold40M {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+@mixin textAlternateBold40L {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+@mixin textAlternateBold50 {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 1.4;
+}
+
+@mixin textAlternateBold50Xs {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 1.1;
+}
+
+@mixin textAlternateBold50S {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 1.2;
+}
+
+@mixin textAlternateBold50M {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 1.4;
+}
+
+@mixin textAlternateBold50L {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 1.6;
+}
+
+@mixin textAlternateBold60 {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 1.4;
+}
+
+@mixin textAlternateBold60Xs {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 1.1;
+}
+
+@mixin textAlternateBold60S {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 1.2;
+}
+
+@mixin textAlternateBold60M {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 1.4;
+}
+
+@mixin textAlternateBold60L {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 1.6;
+}
+
+@mixin textAlternateBold70 {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 28px;
+  line-height: 1.4;
+}
+
+@mixin textAlternateBold70Xs {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 28px;
+  line-height: 1.1;
+}
+
+@mixin textAlternateBold70S {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 28px;
+  line-height: 1.2;
+}
+
+@mixin textAlternateBold70M {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 28px;
+  line-height: 1.4;
+}
+
+@mixin textAlternateBold70L {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 28px;
+  line-height: 1.6;
+}
+
+@mixin textAlternateBold80 {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 32px;
+  line-height: 1.4;
+}
+
+@mixin textAlternateBold80Xs {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 32px;
+  line-height: 1.1;
+}
+
+@mixin textAlternateBold80S {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 32px;
+  line-height: 1.2;
+}
+
+@mixin textAlternateBold80M {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 32px;
+  line-height: 1.4;
+}
+
+@mixin textAlternateBold80L {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 32px;
+  line-height: 1.6;
+}
+
+@mixin textAlternateBold90 {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 40px;
+  line-height: 1.4;
+}
+
+@mixin textAlternateBold90Xs {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 40px;
+  line-height: 1.1;
+}
+
+@mixin textAlternateBold90S {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 40px;
+  line-height: 1.2;
+}
+
+@mixin textAlternateBold90M {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 40px;
+  line-height: 1.4;
+}
+
+@mixin textAlternateBold90L {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 40px;
+  line-height: 1.6;
+}
+
+@mixin textAlternateBold100 {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 48px;
+  line-height: 1.4;
+}
+
+@mixin textAlternateBold100Xs {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 48px;
+  line-height: 1.1;
+}
+
+@mixin textAlternateBold100S {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 48px;
+  line-height: 1.2;
+}
+
+@mixin textAlternateBold100M {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 48px;
+  line-height: 1.4;
+}
+
+@mixin textAlternateBold100L {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 48px;
+  line-height: 1.6;
+}

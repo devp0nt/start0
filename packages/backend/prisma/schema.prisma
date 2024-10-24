@@ -1,0 +1,129 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch", "postgresqlExtensions"]
+}
+
+generator json {
+  provider = "prisma-json-types-generator"
+}
+
+datasource db {
+  provider   = "postgresql"
+  url        = env("DATABASE_URL")
+  extensions = [uuidOssp(map: "uuid-ossp")]
+}
+
+// Admin
+
+enum AdminPermission {
+  manageAdmins
+  viewUsers
+  manageUsers
+}
+
+model Admin {
+  dangerServerOnlyProperty Boolean @default(true)
+
+  id              String            @id @default(uuid())
+  sn              Int               @unique @default(autoincrement())
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  authTokenSource String            @unique @default(uuid())
+  permissions     AdminPermission[] @default([])
+
+  bannedAt  DateTime?
+  banReason String?
+
+  email      String      @unique
+  password   String
+  name       String?
+  actionLogs ActionLog[]
+}
+
+// User
+
+enum UserPermission {
+  useBetaFeatures
+}
+
+model User {
+  dangerServerOnlyProperty Boolean @default(true)
+
+  id              String           @id @default(uuid())
+  sn              Int              @unique @default(autoincrement())
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  authTokenSource String           @unique @default(uuid())
+  permissions     UserPermission[] @default([])
+
+  bannedAt  DateTime?
+  banReason String?
+
+  email    String  @unique
+  password String
+  name     String?
+
+  projects   Project[]
+  actionLogs ActionLog[]
+}
+
+// Project
+
+model Project {
+  dangerServerOnlyProperty Boolean @default(true)
+
+  id        String   @id @default(uuid())
+  sn        Int      @unique @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  name String
+
+  userId     String
+  user       User        @relation(fields: [userId], references: [id])
+  actionLogs ActionLog[]
+}
+
+// ActionLog
+
+enum ActionLogActorType {
+  admin
+  user
+  system
+}
+
+model ActionLog {
+  dangerServerOnlyProperty Boolean @default(true)
+
+  id         String             @id @default(uuid())
+  sn         Int                @unique @default(autoincrement())
+  createdAt  DateTime           @default(now())
+  updatedAt  DateTime           @updatedAt
+  action     String
+  descripton String?
+  data       Json
+  actorType  ActionLogActorType
+  ip         String?
+  country    String?
+  adminId    String?
+  admin      Admin?             @relation(fields: [adminId], references: [id])
+  userId     String?
+  user       User?              @relation(fields: [userId], references: [id])
+  projectId  String?
+  project    Project?           @relation(fields: [projectId], references: [id])
+}
+
+// Other
+
+model FrequencyLog {
+  dangerServerOnlyProperty Boolean @default(true)
+
+  id            String   @id @default(uuid())
+  createdAt     DateTime @default(now())
+  procedureName String
+  ip            String?
+  userId        String?
+  adminId       String?
+  phone         String?
+  email         String?
+}

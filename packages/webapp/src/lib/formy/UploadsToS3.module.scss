@@ -1,0 +1,40 @@
+.fileInput {
+  display: none;
+}
+
+.uploads {
+  margin-bottom: 5px;
+
+  .upload {
+    .uploadLink {
+      color: #007bff;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+.uploads {
+  .upload {
+    & + .upload {
+      margin-top: 3px;
+    }
+
+    .delete {
+      padding: 5px;
+      margin-bottom: -5px;
+      margin-top: -5px;
+      vertical-align: -2px;
+      line-height: 0;
+      background: none;
+      border: none;
+      cursor: pointer;
+
+      .deleteIcon {
+        color: #dc3545;
+      }
+    }
+  }
+}

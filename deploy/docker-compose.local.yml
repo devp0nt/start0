@@ -1,0 +1,73 @@
+version: '3.8'
+
+services:
+  worker-migrator:
+    build:
+      context: ..
+      dockerfile: ./deploy/Dockerfile
+      target: worker-migrator
+      args:
+        SENTRY_AUTH_TOKEN: ${SENTRY_AUTH_TOKEN}
+        SOURCE_VERSION: ${SOURCE_VERSION}
+    image: svagatron-worker-migrator-image
+    container_name: svagatron-worker-migrator-container
+    env_file:
+      - ../packages/webapp/.env
+      - ../packages/backend/.env
+      - ./.env.docker
+
+  app:
+    build:
+      context: ..
+      dockerfile: ./deploy/Dockerfile
+      target: app
+      args:
+        SENTRY_AUTH_TOKEN: ${SENTRY_AUTH_TOKEN}
+        SOURCE_VERSION: ${SOURCE_VERSION}
+    image: svagatron-web-image
+    container_name: svagatron-app-container
+    env_file:
+      - ../packages/webapp/.env
+      - ../packages/backend/.env
+      - ./.env.docker
+    ports:
+      - '${PORT}:${PORT}'
+    depends_on:
+      worker-migrator:
+        condition: service_completed_successfully
+
+  worker-general:
+    build:
+      context: ..
+      dockerfile: ./deploy/Dockerfile
+      target: worker-general # Use the 'worker-general' stage from Dockerfile
+      args:
+        SENTRY_AUTH_TOKEN: ${SENTRY_AUTH_TOKEN}
+        SOURCE_VERSION: ${SOURCE_VERSION}
+    image: svagatron-worker-general-image
+    container_name: svagatron-worker-general-container
+    env_file:
+      - ../packages/webapp/.env
+      - ../packages/backend/.env
+      - ./.env.docker
+    depends_on:
+      worker-migrator:
+        condition: service_completed_successfully
+
+  worker-special:
+    build:
+      context: ..
+      dockerfile: ./deploy/Dockerfile
+      target: worker-special # Use the 'worker-special' stage from Dockerfile
+      args:
+        SENTRY_AUTH_TOKEN: ${SENTRY_AUTH_TOKEN}
+        SOURCE_VERSION: ${SOURCE_VERSION}
+    image: svagatron-worker-special-image
+    container_name: svagatron-worker-special-container
+    env_file:
+      - ../packages/webapp/.env
+      - ../packages/backend/.env
+      - ./.env.docker
+    depends_on:
+      worker-migrator:
+        condition: service_completed_successfully

@@ -1,0 +1,10 @@
+{
+  "eslint.workingDirectories": [
+    "packages/backend",
+    "packages/webapp",
+    "packages/general"
+  ],
+  "typescript.preferences.importModuleSpecifier": "non-relative",
+  "typescript.preferences.importModuleSpecifierEnding": "js",
+  "javascript.preferences.importModuleSpecifierEnding": "js",
+}

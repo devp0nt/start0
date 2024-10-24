@@ -1,0 +1,51 @@
+{
+  "name": "@svagatron/backend",
+  "version": "0.1.0",
+  "homepage": "https://github.com/svagcrew/backend",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/svagcrew/backend.git"
+  },
+  "bugs": {
+    "url": "https://github.com/svagcrew/backend/issues"
+  },
+  "author": {
+    "name": "Sergei Dmitriev",
+    "url": "https://sergei.svag.group"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "./dist/**/*"
+  ],
+  "type": "module",
+  "scripts": {
+    "prettify": "svag-prettier prettify",
+    "seed": "cross-env NODE_ENV=development tsx ./src/seed.ts",
+    "dev": "cross-env NODE_ENV=development tsx watch ${filePath} ./src/dev.ts",
+    "watch": "tsc --project tsconfig.build.json || true && (concurrently 'tsc --project tsconfig.build.json --watch --preserveWatchOutput' 'tsc-alias --project tsconfig.build.json --watch')",
+    "types": "tsc --noEmit",
+    "build": "rimraf ./dist && tsc --project tsconfig.build.json && tsc-alias --project tsconfig.build.json",
+    "start-app": "cross-env NODE_ENV=production node ./dist/backend/src/app.js",
+    "start-worker-general": "cross-env NODE_ENV=production node ./dist/backend/src/worker.general.js",
+    "lint": "eslint --color --cache --cache-location ./node_modules/.cache/.eslintcache .",
+    "lint-fix": "pnpm lint --fix",
+    "test": "cross-env NODE_OPTIONS=--experimental-vm-modules TS_JEST_DISABLE_VER_CHECKER=true jest --color --runInBand",
+    "pgc": "prisma generate",
+    "pmd": "prisma migrate dev",
+    "pmt": "dotenv -e ./.env.test prisma migrate dev",
+    "pmp": "dotenv -e ./.env.production prisma migrate deploy",
+    "prb": "dotenv -e ./.env.production prisma migrate resolve --rolled-back",
+    "sentry-release": "dotenv -- bash -c 'sentry-cli releases new ${SOURCE_VERSION} --finalize --project backend --auth-token ${SENTRY_AUTH_TOKEN}'",
+    "sentry-sourcemaps": "dotenv -- bash -c 'sentry-cli releases files ${SOURCE_VERSION} upload-sourcemaps ./dist --project backend'",
+    "sentry": "pnpm sentry-release && pnpm sentry-sourcemaps",
+    "lt": "dotenv -e ./.env -- bash -c 'lt --port ${PORT} --subdomain svagatron'",
+    "prepare": "pnpm pgc"
+  },
+  "dependencies": {
+    "@svagatron/webapp": "workspace:*",
+    "@svagatron/general": "workspace:*"
+  },
+  "devDependencies": {}
+}
