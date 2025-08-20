@@ -1,0 +1,15 @@
+{
+  "name": "@shmoject/site",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "cross-env NODE_ENV=production react-router build",
+    "dev": "bunx --bun vite",
+    "start": "cross-env NODE_ENV=production bun ./build/server/index.js",
+    "types": "react-router typegen && tsc"
+  },
+  "dependencies": {
+    "@react-router/node": "catalog:",
+    "isbot": "catalog:"
+  }
+}
