@@ -14,6 +14,7 @@ export const startApiProcess = async () => {
     honoApp,
     trpcRouter: TrpcRouter.self,
   });
+
   Bun.serve({
     fetch: honoApp.fetch,
     port: 3000,

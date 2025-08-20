@@ -4,11 +4,13 @@ import { TrpcRouter } from "@shmoject/backend/router/index.trpc";
 import { initTRPC } from "@trpc/server";
 
 export namespace TrpcBackend {
-  const t = initTRPC.create();
+  export type Context = HonoBackend.ContextVariables;
+
+  const t = initTRPC.context<Context>().create();
 
   const procedure = t.procedure;
 
-  export const baseProcedure = procedure;
+  export const baseProcedure = () => procedure;
 
   export const createRouter = t.router;
 
@@ -19,6 +21,12 @@ export namespace TrpcBackend {
     honoApp: HonoBackend.App;
     trpcRouter: TrpcRouter.Type;
   }) => {
-    honoApp.use("/trpc/*", trpcServer({ router: trpcRouter }));
+    honoApp.use(
+      "/trpc/*",
+      trpcServer({
+        router: trpcRouter,
+        createContext: (_opts, c: HonoBackend.Context) => c.var as Context,
+      })
+    );
   };
 }
