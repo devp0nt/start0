@@ -3,19 +3,23 @@
     "**/*",
     "**/.server/**/*",
     "**/.client/**/*",
-    ".react-router/types/**/*"
+    ".react-router/types/**/*",
+    "../../modules/**/*",
+    "../backend/src/**/*"
   ],
   "compilerOptions": {
+    "baseUrl": "../../",
+    "rootDirs": [".", "./.react-router/types"],
     "lib": ["DOM", "DOM.Iterable", "ES2022"],
     "types": ["node", "vite/client"],
     "target": "ES2022",
     "module": "ES2022",
     "moduleResolution": "bundler",
     "jsx": "react-jsx",
-    "rootDirs": [".", "./.react-router/types"],
-    "baseUrl": ".",
     "paths": {
-      "@shmoject/site/*": ["./app/*"]
+      "@shmoject/site/*": ["./apps/site/app/*"],
+      "@shmoject/backend/*": ["./apps/backend/src/*"],
+      "@shmoject/modules/*": ["./modules/*"]
     },
     "esModuleInterop": true,
     "verbatimModuleSyntax": true,

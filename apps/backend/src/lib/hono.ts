@@ -1,7 +1,7 @@
 import { OpenAPIHono } from "@hono/zod-openapi";
 import { CtxBackend } from "@shmoject/backend/lib/ctx";
 import { CtxForBackendRequest } from "@shmoject/backend/lib/request";
-import { Context as HonoContext } from "hono";
+import type { Context as HonoContext } from "hono";
 
 export namespace HonoBackend {
   export type ContextVariables = CtxForBackendRequest.Ctx;
