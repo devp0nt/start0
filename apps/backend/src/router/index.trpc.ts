@@ -8,7 +8,7 @@ import { pingTrpcRoute } from "./ping/route.trpc.js";
 
 // @endindex
 
-export namespace TrpcRouter {
+export namespace TrpcBackendRouter {
   export const self = TrpcBackend.createRouter({
     // @index('./**/route.trpc.ts', f => `${f.path.split('/').slice(0, -1).pop()}: ${f.path.split('/').slice(0, -1).pop()}TrpcRoute,`)
     ping: pingTrpcRoute,

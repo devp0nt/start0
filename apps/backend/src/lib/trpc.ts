@@ -1,6 +1,6 @@
 import { trpcServer } from "@hono/trpc-server";
 import { HonoBackend } from "@shmoject/backend/lib/hono";
-import { TrpcRouter } from "@shmoject/backend/router/index.trpc";
+import { TrpcBackendRouter } from "@shmoject/backend/router/index.trpc";
 import { initTRPC } from "@trpc/server";
 
 export namespace TrpcBackend {
@@ -19,7 +19,7 @@ export namespace TrpcBackend {
     trpcRouter,
   }: {
     honoApp: HonoBackend.App;
-    trpcRouter: TrpcRouter.Type;
+    trpcRouter: TrpcBackendRouter.Type;
   }) => {
     honoApp.use(
       "/trpc/*",
