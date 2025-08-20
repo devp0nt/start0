@@ -1,0 +1,18 @@
+{
+  // "include": ["./src/**/*", "../../modules/**/*"],
+  "compilerOptions": {
+    // "baseUrl": "../../",
+    // "rootDirs": ["../../modules", "./src"],
+    "jsx": "react-jsx",
+    "moduleResolution": "Bundler",
+    "module": "ESNext",
+    "target": "ES2022",
+    "skipLibCheck": true,
+    "strictNullChecks": true
+    // "paths": {
+    //   "@shmoject/site/*": ["./apps/site/src/*"],
+    //   "@shmoject/backend/*": ["./apps/backend/src/*"],
+    //   "@shmoject/modules/*": ["./modules/*"]
+    // }
+  }
+}

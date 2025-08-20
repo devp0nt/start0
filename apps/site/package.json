@@ -1,0 +1,11 @@
+{
+  "name": "@shmoject/site",
+  "type": "module",
+  "dependencies": {},
+  "scripts": {
+    "dev": "vite dev",
+    "build": "rimraf dist && vite build",
+    "types": "tsc --noEmit",
+    "start": "bun run .output/server/index.mjs"
+  }
+}

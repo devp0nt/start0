@@ -1,5 +1,6 @@
 {
   "name": "@shmoject/backend",
+  "private": true,
   "type": "module",
   "dependencies": {},
   "scripts": {

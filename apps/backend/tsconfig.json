@@ -7,13 +7,14 @@
     "jsx": "react-jsx",
     "jsxImportSource": "hono/jsx",
     "esModuleInterop": true,
+    "skipLibCheck": true,
+    "strictNullChecks": true,
     "module": "ESNext",
-    "moduleResolution": "bundler",
-    "declaration": true,
-    "declarationMap": true,
+    "moduleResolution": "Bundler",
     "outDir": "./dist",
     "paths": {
       "@shmoject/backend/*": ["./apps/backend/src/*"],
+      "@shmoject/site/*": ["./apps/site/src/*"],
       "@shmoject/modules/*": ["./modules/*"]
     }
   }
