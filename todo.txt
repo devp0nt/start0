@@ -1,0 +1,17 @@
+file structure
+apps/backend
+apps/spa
+apps/ssr
+apps/mobile
+apps/desktop
+modules/prisma
+modules/logger
+modules/shmitem
+modules/lib/error
+modules/lib/route
+logtape
+vite
+remix
+fastify
+bun
+biomejs

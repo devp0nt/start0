@@ -1,4 +1,0 @@
-packages:
-  - 'packages/webapp'
-  - 'packages/backend'
-  - 'packages/general'
