@@ -1,8 +1,8 @@
 import { createRoute } from "@hono/zod-openapi";
-import { Hono0 } from "@shmoject/backend/lib/hono";
+import { HonoBackend } from "@shmoject/backend/lib/hono";
 import { HelloRouteModel } from "./model";
 
-export default Hono0.withApp(({ honoApp }) => {
+export default HonoBackend.withApp(({ honoApp }) => {
   honoApp.openapi(
     createRoute({
       method: "get",

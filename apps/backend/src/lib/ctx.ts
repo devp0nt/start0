@@ -1,4 +1,4 @@
-export namespace BackendCtx {
+export namespace CtxBackend {
   export const create = async () => {
     return {
       prisma: { x: 1 },
@@ -8,7 +8,7 @@ export namespace BackendCtx {
 
   export type Type = Awaited<ReturnType<typeof create>>;
 
-  export const destroy = async ({ backendCtx }: { backendCtx: Ctx }) => {
-    console.log("Context destroyed", Object.keys(backendCtx));
+  export const destroy = async ({ ctxBackend }: { ctxBackend: Type }) => {
+    console.log("Context destroyed", Object.keys(ctxBackend));
   };
 }

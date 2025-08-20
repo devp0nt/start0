@@ -1,13 +1,19 @@
-import { BackendCtx } from "@shmoject/backend/lib/ctx";
-import { Hono0 } from "@shmoject/backend/lib/hono";
-import { applyHonoRoutes } from "@shmoject/backend/router/rest";
+import { CtxBackend } from "@shmoject/backend/lib/ctx";
+import { HonoBackend } from "@shmoject/backend/lib/hono";
+import { TrpcBackend } from "@shmoject/backend/lib/trpc";
+import { HonoRouter } from "@shmoject/backend/router/index.hono";
+import { TrpcRouter } from "@shmoject/backend/router/index.trpc";
 
 export const startApiProcess = async () => {
-  const backendCtx = await BackendCtx.create();
-  const { honoApp } = Hono0.createApp({
-    backendCtx,
+  const ctxBackend = await CtxBackend.create();
+  const { honoApp } = HonoBackend.createApp({
+    ctxBackend,
   });
-  applyHonoRoutes({ honoApp });
+  HonoRouter.applyToHonoApp({ honoApp });
+  TrpcBackend.applyToHonoApp({
+    honoApp,
+    trpcRouter: TrpcRouter.self,
+  });
   Bun.serve({
     fetch: honoApp.fetch,
     port: 3000,

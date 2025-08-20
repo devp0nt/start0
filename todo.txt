@@ -9,6 +9,7 @@ plop
 biomejs
 
 refine-antd
+watch-gen boilerplate
 
 hono define route with my schema
 

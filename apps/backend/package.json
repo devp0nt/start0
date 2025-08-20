@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "bun run --hot src/processes/dev.ts",
     "build": "rimraf dist && bun build src/processes/* --outdir dist --target bun",
+    "types": "tsc --noEmit",
     "start:api": "bun run dist/app.js",
     "start:worker": "bun run dist/app.js"
   }
