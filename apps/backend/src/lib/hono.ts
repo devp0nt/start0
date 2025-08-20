@@ -1,9 +1,10 @@
 import { OpenAPIHono } from "@hono/zod-openapi";
 import { CtxBackend } from "@shmoject/backend/lib/ctx";
+import { CtxForBackendRequest } from "@shmoject/backend/lib/request";
 import { Context as HonoContext } from "hono";
 
 export namespace HonoBackend {
-  export type ContextVariables = CtxBackend.CtxForRequest;
+  export type ContextVariables = CtxForBackendRequest.Ctx;
   export type Context = HonoContext<{
     Variables: ContextVariables;
   }>;
@@ -14,10 +15,10 @@ export namespace HonoBackend {
     }>();
 
     honoApp.use(async (c, next) => {
-      const ctxForRequestBackend = await CtxBackend.createForRequest({
+      const ctxForBackendRequest = await CtxForBackendRequest.create({
         ctxBackend,
       });
-      for (const [key, value] of Object.entries(ctxForRequestBackend)) {
+      for (const [key, value] of Object.entries(ctxForBackendRequest)) {
         c.set(key as keyof ContextVariables, value as never);
       }
       await next();
