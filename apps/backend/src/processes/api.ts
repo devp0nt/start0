@@ -17,7 +17,7 @@ export const startApiProcess = async () => {
 
   Bun.serve({
     fetch: honoApp.fetch,
-    port: 3000,
+    port: process.env.PORT,
   });
   console.log(`Hono is running at http://localhost:3000`);
 };
