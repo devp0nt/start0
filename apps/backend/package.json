@@ -1,0 +1,18 @@
+{
+  "name": "@shmoject/backend",
+  "version": "1.0.50",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "bun run --watch src/processes/dev.ts",
+    "build": "rimraf dist && bun build src/processes/* --outdir dist --target bun",
+    "start:api": "bun run dist/api.js",
+    "start:worker": "bun run dist/worker.js"
+  },
+  "dependencies": {
+    "elysia": "latest"
+  },
+  "devDependencies": {
+    "bun-types": "latest"
+  },
+  "module": "src/index.js"
+}

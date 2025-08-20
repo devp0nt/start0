@@ -1,19 +1,10 @@
-file structure
-apps/backend
-apps/spa
-apps/ssr
-apps/mobile
-apps/desktop
-modules/prisma
-modules/logger
-modules/shmitem
-modules/lib/error
-modules/lib/route
+elsya
+trpc
+tanstack-start
 logtape
-vite
-remix
-fastify
-bun
+better-auth
+just
+plop
 biomejs
 
 remove old

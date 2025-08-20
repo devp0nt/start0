@@ -1,0 +1,11 @@
+{
+  "name": "shmoject",
+  "devDependencies": {
+    "@types/bun": "latest",
+    "rimraf": "^6.0.1",
+    "typescript": "^5.0.0"
+  },
+  "workspaces": [
+    "apps/*"
+  ]
+}
