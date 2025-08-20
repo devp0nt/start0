@@ -11,6 +11,9 @@ export const IdeasPage = ({ ideas }: { ideas: Idea[] }) => {
             <Link to={`/ideas/${idea.id}`}>{idea.title}</Link>
           </li>
         ))}
+        <li>
+          <Link to={`/ideas/234234`}>Non-existing idea</Link>
+        </li>
       </ul>
     </div>
   );

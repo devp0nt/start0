@@ -1,6 +1,6 @@
 import { getIdea } from "@shmoject/site/lib/ideas";
 import type { Route } from "./+types/idea";
-import { IdeaPage } from "@shmoject/site/pages/idea";
+import { IdeaPage } from "@shmoject/site/pages/IdeaPage";
 
 export function meta({}: Route.MetaArgs) {
   return [{ title: "Idea" }, { name: "description", content: "Idea" }];

@@ -1,4 +1,4 @@
-import { IdeasPage } from "@shmoject/site/pages/ideas";
+import { IdeasPage } from "@shmoject/site/pages/IdeasPage";
 import type { Route } from "./+types/ideas";
 import { getIdeas } from "@shmoject/site/lib/ideas";
 

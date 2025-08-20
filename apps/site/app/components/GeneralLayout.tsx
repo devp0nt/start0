@@ -59,7 +59,7 @@ const logoStyles = {
   color: "#3b82f6",
 };
 
-export default function Layout() {
+export const GeneralLayout = ({ children }: { children?: React.ReactNode }) => {
   const navigation = useNavigation();
   const isNavigating = Boolean(navigation.location);
 
@@ -100,8 +100,16 @@ export default function Layout() {
         </nav>
       </aside>
       <main style={{ ...mainContentStyles, opacity: isNavigating ? 0.5 : 1 }}>
-        <Outlet />
+        {children}
       </main>
     </div>
+  );
+};
+
+export default function Layout() {
+  return (
+    <GeneralLayout>
+      <Outlet />
+    </GeneralLayout>
   );
 }

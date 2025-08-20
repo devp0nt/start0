@@ -1,4 +1,4 @@
-import { HomePage } from "@shmoject/site/pages/home";
+import { HomePage } from "@shmoject/site/pages/HomePage";
 import type { Route } from "./+types/home";
 
 export function meta({}: Route.MetaArgs) {
