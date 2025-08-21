@@ -18,3 +18,20 @@ export const constKeys = <T extends string>(obj: Record<T, unknown>) => {
   const keys = Object.keys(obj) as T[]
   return keys as [T, ...T[]]
 }
+
+export type CheckEnumEq<T extends string, U extends string> = [T] extends [U]
+  ? [U] extends [T]
+    ? true
+    : false
+  : false
+export const checkEnumEq = <
+  T extends string,
+  U extends string,
+  // biome-ignore lint/correctness/noUnusedVariables: <we use it only for type checking>
+  M extends CheckEnumEq<T, U>,
+>() => {}
+
+export const getConstKeys = <T extends string>(obj: Record<T, unknown>) => {
+  const keys = Object.keys(obj) as T[]
+  return keys as [T, ...T[]]
+}

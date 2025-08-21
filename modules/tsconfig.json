@@ -12,7 +12,7 @@
     "outDir": "./dist",
     "verbatimModuleSyntax": true,
     "paths": {
-      "@shmoject/modules/*": ["./*"],
+      "@shmoject/modules/*": ["./modules/*"],
       "@shmoject/backend/*": ["./apps/backend/src/*"],
       "@shmoject/site/*": ["./apps/site/app/*"]
     }

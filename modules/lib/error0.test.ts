@@ -1,6 +1,8 @@
 import { describe, expect, it } from "bun:test"
 import { Error0 } from "./error0"
 
+// TODO: test expected
+
 const fixStack = (stack: string | undefined) => {
   if (!stack) {
     return stack
@@ -26,9 +28,10 @@ describe("error0", () => {
         "cause": undefined,
         "clientMessage": undefined,
         "code": undefined,
-        "expected": undefined,
+        "expected": false,
         "httpStatus": undefined,
         "message": "test",
+        "meta": {},
         "tag": undefined,
       }
     `)
@@ -59,9 +62,10 @@ describe("error0", () => {
         "cause": [Error: original message],
         "clientMessage": undefined,
         "code": undefined,
-        "expected": undefined,
+        "expected": false,
         "httpStatus": undefined,
         "message": "my message",
+        "meta": {},
         "tag": undefined,
       }
     `)
@@ -75,9 +79,10 @@ describe("error0", () => {
         "cause": "strange thing",
         "clientMessage": undefined,
         "code": undefined,
-        "expected": undefined,
+        "expected": false,
         "httpStatus": undefined,
         "message": "my message",
+        "meta": {},
         "tag": undefined,
       }
     `)
@@ -99,9 +104,12 @@ describe("error0", () => {
         "cause": [Error0: first],
         "clientMessage": "human message 1",
         "code": "code2",
-        "expected": undefined,
+        "expected": false,
         "httpStatus": undefined,
         "message": "second",
+        "meta": {
+          "other": undefined,
+        },
         "tag": "tag2",
       }
     `)
@@ -114,9 +122,10 @@ describe("error0", () => {
         "cause": undefined,
         "clientMessage": undefined,
         "code": undefined,
-        "expected": undefined,
+        "expected": false,
         "httpStatus": undefined,
         "message": "Unknown error",
+        "meta": {},
         "tag": undefined,
       }
     `)
@@ -128,9 +137,12 @@ describe("error0", () => {
         "cause": [Error0: test],
         "clientMessage": undefined,
         "code": undefined,
-        "expected": undefined,
+        "expected": false,
         "httpStatus": undefined,
         "message": "test",
+        "meta": {
+          "other": undefined,
+        },
         "tag": undefined,
       }
     `)
@@ -151,9 +163,10 @@ describe("error0", () => {
         "cause": [Error: default error],
         "clientMessage": undefined,
         "code": undefined,
-        "expected": undefined,
+        "expected": false,
         "httpStatus": undefined,
         "message": "default error",
+        "meta": {},
         "tag": undefined,
       }
     `)
@@ -174,9 +187,12 @@ describe("error0", () => {
         "cause": [Error0: error0 error],
         "clientMessage": undefined,
         "code": undefined,
-        "expected": undefined,
+        "expected": false,
         "httpStatus": undefined,
         "message": "error0 error",
+        "meta": {
+          "other": undefined,
+        },
         "tag": undefined,
       }
     `)

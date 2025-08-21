@@ -3,9 +3,16 @@ error
 processes → bin
 modules tsconfig
 
+enum
+
 env
 prisma
+
 route0
+entity
+
+refactor lib0
+
 
 just
 better-auth

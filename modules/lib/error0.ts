@@ -1,5 +1,7 @@
+import { Meta0 } from "@shmoject/modules/lib/meta0"
 import { HttpStatusCode } from "axios"
 
+// get causes
 // trpc
 // unknown error
 // unknown input
@@ -14,6 +16,7 @@ export interface Error0InputGeneral {
   expected?: boolean | ExpectedFn
   clientMessage?: string
   cause?: Error0Cause
+  meta?: Meta0.ValueType | Meta0
 }
 
 export interface Error0Input extends Error0InputGeneral {
@@ -29,6 +32,7 @@ interface Error0GeneralProps {
   clientMessage: Error0Input["clientMessage"]
   cause: Error0Input["cause"]
   stack: Error["stack"]
+  meta: Meta0.ValueType
 }
 
 type HttpStatusCodeString = keyof typeof HttpStatusCode
@@ -55,6 +59,7 @@ export class Error0 extends Error {
   public readonly expected?: Error0GeneralProps["expected"]
   public readonly clientMessage?: Error0GeneralProps["clientMessage"]
   public readonly cause?: Error0GeneralProps["cause"]
+  public readonly meta?: Meta0.ValueType | Meta0
 
   public readonly propsOriginal: Error0GeneralProps
   public readonly propsFloated: Error0GeneralProps
@@ -117,6 +122,7 @@ export class Error0 extends Error {
     this.clientMessage = this.propsFloated.clientMessage
     this.cause = this.propsFloated.cause
     this.stack = this.propsFloated.stack
+    this.meta = this.propsFloated.meta
   }
 
   // settings
@@ -177,6 +183,7 @@ export class Error0 extends Error {
       clientMessage: error0Input.clientMessage,
       cause: error0Input.cause,
       stack: undefined,
+      meta: error0Input.meta ? Meta0.toMeta0(error0Input.meta).value : {},
     }
     result.expected = Error0.normalizeExpected(result, error0Input)
     result.stack = Error0.removeConstructorStackPart(stack)
@@ -282,7 +289,7 @@ export class Error0 extends Error {
         "httpStatus",
         maxLevel,
       ),
-      expected: Error0.getClosestPropValue(error0Props, "expected", maxLevel),
+      expected: Error0._isExpected(error0Props, maxLevel),
       clientMessage: Error0.getClosestPropValue(
         error0Props,
         "clientMessage",
@@ -290,6 +297,7 @@ export class Error0 extends Error {
       ),
       cause,
       stack,
+      meta: Error0.getMergedMetaValue(error0Props, maxLevel),
     }
     return propsFloated
   }
@@ -307,14 +315,27 @@ export class Error0 extends Error {
   }
 
   private static _isExpected(
-    error: unknown,
+    error0OrProps: unknown,
     maxLevel: number,
     hasExpectedTrue: boolean = false,
   ): boolean {
-    const error0 = Error0._toError0(error, maxLevel, false)
+    const expectedProvided =
+      typeof error0OrProps === "object" &&
+      error0OrProps !== null &&
+      "expected" in error0OrProps &&
+      typeof error0OrProps.expected === "boolean"
+        ? error0OrProps.expected
+        : undefined
+    const causeProvided =
+      typeof error0OrProps === "object" &&
+      error0OrProps !== null &&
+      "cause" in error0OrProps &&
+      error0OrProps.cause !== null
+        ? error0OrProps.cause
+        : undefined
 
-    if (typeof error0.expected === "boolean") {
-      if (error0.expected === false) {
+    if (typeof expectedProvided === "boolean") {
+      if (expectedProvided === false) {
         return false
       } else {
         hasExpectedTrue = true
@@ -322,11 +343,11 @@ export class Error0 extends Error {
     }
 
     if (
-      typeof error0.cause === "object" &&
-      error0.cause !== null &&
+      typeof causeProvided === "object" &&
+      causeProvided !== null &&
       maxLevel > 0
     ) {
-      return Error0._isExpected(error0.cause, maxLevel - 1, hasExpectedTrue)
+      return Error0._isExpected(causeProvided, maxLevel - 1, hasExpectedTrue)
     }
 
     return hasExpectedTrue
@@ -408,6 +429,28 @@ export class Error0 extends Error {
     return undefined
   }
 
+  private static getMergedMetaValue(
+    error0OrProps: unknown,
+    maxLevel: number,
+  ): Meta0.ValueType {
+    const metas = Error0.getFilledPropValues(
+      error0OrProps,
+      "meta",
+      maxLevel,
+      (props) =>
+        typeof props === "object" && props !== null && "meta" in props
+          ? props.meta
+          : undefined,
+    )
+    if (metas.length === 0) {
+      return {}
+    } else if (metas.length === 1) {
+      return metas[0]
+    } else {
+      return Meta0.mergeValues(metas[0], ...metas.slice(1))
+    }
+  }
+
   // private static getAllPropValues<
   //   TPropKey extends keyof Error0InputGeneral,
   //   TArrayPropKey extends keyof PropsArrays,
@@ -459,58 +502,50 @@ export class Error0 extends Error {
   //   return values
   // }
 
-  // private static getFilledPropValues<
-  //   TPropKey extends keyof Error0InputGeneral,
-  //   TArrayPropKey extends keyof PropsArrays,
-  //   TPropValueNormalized,
-  // >(
-  //   error0OrProps: unknown,
-  //   propKey: TPropKey,
-  //   arrayPropKey: TArrayPropKey,
-  //   maxLevel: number,
-  //   getter: (props: unknown) => TPropValueNormalized = (props) =>
-  //     (typeof props === "object" && props !== null && propKey in props
-  //       ? props[propKey as keyof typeof props]
-  //       : undefined) as TPropValueNormalized,
-  // ): NonNullable<TPropValueNormalized>[] {
-  //   const values: NonNullable<TPropValueNormalized>[] = []
-  //   const error0Props =
-  //     error0OrProps instanceof Error0
-  //       ? error0OrProps.propsOriginal
-  //       : error0OrProps
-  //   const propValue = getter(error0Props)
-  //   if (isFilled(propValue)) {
-  //     values.push(propValue)
-  //   }
-  //   if (
-  //     typeof error0Props !== "object" ||
-  //     error0Props === null ||
-  //     !("cause" in error0Props) ||
-  //     !error0Props.cause
-  //   ) {
-  //     return values
-  //   }
-  //   if (maxLevel > 0) {
-  //     if (error0Props.cause instanceof Error0) {
-  //       values.push(
-  //         ...(error0Props.cause.propsArraysFilled[
-  //           arrayPropKey
-  //         ] as NonNullable<TPropValueNormalized>[]),
-  //       )
-  //     } else {
-  //       values.push(
-  //         ...Error0.getFilledPropValues(
-  //           error0Props.cause,
-  //           propKey,
-  //           arrayPropKey,
-  //           maxLevel - 1,
-  //           getter,
-  //         ),
-  //       )
-  //     }
-  //   }
-  //   return values
-  // }
+  private static getFilledPropValues<
+    TPropKey extends keyof Error0InputGeneral,
+    TPropValueNormalized,
+  >(
+    error0OrProps: unknown,
+    propKey: TPropKey,
+    maxLevel: number,
+    getter: (props: unknown) => TPropValueNormalized = (props) =>
+      (typeof props === "object" && props !== null && propKey in props
+        ? props[propKey as keyof typeof props]
+        : undefined) as TPropValueNormalized,
+  ): NonNullable<TPropValueNormalized>[] {
+    const values: NonNullable<TPropValueNormalized>[] = []
+    const error0Props: unknown =
+      error0OrProps instanceof Error0
+        ? error0OrProps.propsOriginal
+        : error0OrProps
+    if (typeof error0Props !== "object" || error0Props === null) {
+      return values
+    }
+    const propValue = getter(error0Props)
+    if (isFilled(propValue)) {
+      values.push(propValue)
+    }
+    if (
+      typeof error0Props !== "object" ||
+      error0Props === null ||
+      !("cause" in error0Props) ||
+      !error0Props.cause
+    ) {
+      return values
+    }
+    if (maxLevel > 0) {
+      values.push(
+        ...Error0.getFilledPropValues(
+          error0Props.cause,
+          propKey,
+          maxLevel - 1,
+          getter,
+        ),
+      )
+    }
+    return values
+  }
 
   // transformations
 
@@ -536,11 +571,7 @@ export class Error0 extends Error {
     return false
   }
 
-  private static _toError0(
-    error: unknown,
-    maxLevel: number,
-    causeSelfOnTransform: boolean,
-  ): Error0 {
+  private static _toError0(error: unknown, maxLevel: number): Error0 {
     if (error instanceof Error0) {
       return error
     }
@@ -571,12 +602,8 @@ export class Error0 extends Error {
           "tag" in error && typeof error.tag === "string"
             ? error.tag
             : undefined,
-        cause: causeSelfOnTransform
-          ? error
-          : "cause" in error
-            ? error.cause
-            : undefined,
-        maxLevel: causeSelfOnTransform ? maxLevel - 1 : maxLevel,
+        cause: "cause" in error ? error.cause : undefined,
+        maxLevel,
       })
     }
 
@@ -586,7 +613,7 @@ export class Error0 extends Error {
   }
 
   static toError0(error: unknown): Error0 {
-    return Error0._toError0(error, Error0.defaultMaxLevel, true)
+    return Error0._toError0(error, Error0.defaultMaxLevel)
   }
 
   toJSON() {
@@ -598,6 +625,7 @@ export class Error0 extends Error {
       expected: this.expected,
       clientMessage: this.clientMessage,
       cause: this.cause,
+      meta: this.meta,
     }
   }
   static toJSON(error: unknown) {
