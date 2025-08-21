@@ -1,6 +1,6 @@
-import { getQueryClientCache, trpc, useTRPC } from "@shmoject/site/lib/trpc"
+import { getQueryClient, trpc } from "@shmoject/site/lib/trpc"
 import { HomePage } from "@shmoject/site/pages/HomePage"
-import { useQuery } from "@tanstack/react-query"
+import { dehydrate } from "@tanstack/react-query"
 import { useLoaderData } from "react-router"
 import type { Route } from "./+types/home"
 
@@ -12,10 +12,12 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export async function loader(loaderArgs: Route.LoaderArgs) {
-  const queryClient = getQueryClientCache()
+  const queryClient = getQueryClient()
   const data = await queryClient.fetchQuery(trpc.ping.queryOptions())
+  const dehydratedState = dehydrate(queryClient)
   return {
     data,
+    dehydratedState,
   }
 }
 
@@ -24,8 +26,6 @@ export function HydrateFallback() {
 }
 
 export default function HomeRoute() {
-  const { data: datax } = useLoaderData<typeof loader>()
-  const trpc = useTRPC()
-  const { data } = useQuery(trpc.ping.queryOptions())
-  return <HomePage data={{ data, datax }} />
+  const { data: dataFromLoader } = useLoaderData<typeof loader>()
+  return <HomePage dataFromLoader={dataFromLoader} />
 }

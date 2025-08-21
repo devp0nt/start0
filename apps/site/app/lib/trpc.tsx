@@ -1,7 +1,7 @@
 import type { BackendTrpcRouter } from "@shmoject/backend/router/index.trpc"
 import {
+  type DehydratedState,
   defaultShouldDehydrateQuery,
-  dehydrate,
   HydrationBoundary,
   QueryClient,
   QueryClientProvider,
@@ -12,7 +12,9 @@ import {
   createTRPCOptionsProxy,
   type TRPCQueryOptions,
 } from "@trpc/tanstack-react-query"
+import merge from "deepmerge"
 import { cache, useState } from "react"
+import { useMatches } from "react-router"
 import superjson from "superjson"
 
 const makeQueryClient = () => {
@@ -35,38 +37,43 @@ const makeQueryClient = () => {
 }
 
 let browserQueryClient: QueryClient | undefined
-
-const getQueryClient = () => {
-  if (typeof window === "undefined") {
-    // Server: always make a new query client
-    return makeQueryClient()
-  }
-  // Browser: make a new query client if we don't already have one
-  // This is very important, so we don't re-make a new client if React
-  // suspends during the initial render. This may not be needed if we
-  // have a suspense boundary BELOW the creation of the query client
-  if (!browserQueryClient) browserQueryClient = makeQueryClient()
+export const getQueryClient = cache(() => {
+  if (typeof window === "undefined") return makeQueryClient()
+  browserQueryClient ??= makeQueryClient()
   return browserQueryClient
-}
-
-export const getQueryClientCache = cache(makeQueryClient)
+})
 
 const trpcContext = createTRPCContext<BackendTrpcRouter.TrpcRouter>()
 const { TRPCProvider } = trpcContext
 export const useTRPC = trpcContext.useTRPC
 
-export function HydrateClient(props: { children: React.ReactNode }) {
-  const queryClient = getQueryClient()
+const useDehydratedState = (): DehydratedState | undefined => {
+  const matches = useMatches()
+  const dehydratedState = matches
+    .map(
+      (match) =>
+        (match.loaderData as { dehydratedState?: DehydratedState } | undefined)
+          ?.dehydratedState,
+    )
+    .filter(Boolean) as DehydratedState[]
+  return dehydratedState.length
+    ? dehydratedState.reduce(
+        (accumulator, currentValue) => merge(accumulator, currentValue),
+        { mutations: [], queries: [] } as DehydratedState,
+      )
+    : undefined
+}
+
+const HydrateClient = ({ children }: { children: React.ReactNode }) => {
+  const dehydratedState = useDehydratedState()
   return (
-    <HydrationBoundary state={dehydrate(queryClient)}>
-      {props.children}
-    </HydrationBoundary>
+    <HydrationBoundary state={dehydratedState}>{children}</HydrationBoundary>
   )
 }
 
-export function prefetch<T extends ReturnType<TRPCQueryOptions<any>>>(
+export const prefetch = <T extends ReturnType<TRPCQueryOptions<any>>>(
   queryOptions: T,
-) {
+) => {
   const queryClient = getQueryClient()
   if (queryOptions.queryKey[1]?.type === "infinite") {
     void queryClient.prefetchInfiniteQuery(queryOptions as never)
@@ -115,7 +122,7 @@ export const TRPCReactProvider = ({
   return (
     <QueryClientProvider client={queryClient}>
       <TRPCProvider trpcClient={trpcClient} queryClient={queryClient}>
-        {children}
+        <HydrateClient>{children}</HydrateClient>
       </TRPCProvider>
     </QueryClientProvider>
   )
