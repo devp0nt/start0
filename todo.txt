@@ -1,6 +1,3 @@
-trpc-front
-https://dev.to/ayoubphy/step-by-step-guide-setting-up-trpc-better-auth-prisma-and-react-router-v7-4ho
-
 logger
 error
 biomejs
@@ -10,6 +7,7 @@ prisma
 
 just
 better-auth
+https://dev.to/ayoubphy/step-by-step-guide-setting-up-trpc-better-auth-prisma-and-react-router-v7-4ho
 plop
 
 full hono route
