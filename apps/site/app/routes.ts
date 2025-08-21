@@ -3,7 +3,7 @@ import {
   layout,
   type RouteConfig,
   route,
-} from "@react-router/dev/routes";
+} from "@react-router/dev/routes"
 
 export default [
   layout("components/GeneralLayout.tsx", [
@@ -11,8 +11,8 @@ export default [
     route("ideas", "routes/ideas.tsx"),
     route("ideas/:id", "routes/idea.tsx"),
   ]),
-] satisfies RouteConfig;
+] satisfies RouteConfig
 
 export const siteRoutes = {
   x: 1,
-};
+}

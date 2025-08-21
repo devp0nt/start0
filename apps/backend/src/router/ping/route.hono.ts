@@ -1,4 +1,4 @@
-import { HonoApp } from "@shmoject/backend/lib/hono";
+import { HonoApp } from "@shmoject/backend/lib/hono"
 
 export const pingHonoRoute = HonoApp.defineRoute({
   method: "get",
@@ -7,6 +7,6 @@ export const pingHonoRoute = HonoApp.defineRoute({
   honoApp.openapi(createRouteResult, (c) => {
     return c.json({
       message: "pong",
-    });
-  });
-});
+    })
+  })
+})

@@ -3,37 +3,37 @@ import {
   OpenAPIHono,
   type RouteConfig,
   type z,
-} from "@hono/zod-openapi";
-import type { BackendCtx } from "@shmoject/backend/lib/ctx";
-import { HonoRouteModel } from "@shmoject/backend/lib/hono.model";
-import { BackendReqCtx } from "@shmoject/backend/lib/req";
-import type { Context as HonoContext } from "hono";
+} from "@hono/zod-openapi"
+import type { BackendCtx } from "@shmoject/backend/lib/ctx"
+import { HonoRouteModel } from "@shmoject/backend/lib/hono.model"
+import { BackendReqCtx } from "@shmoject/backend/lib/req"
+import type { Context as HonoContext } from "hono"
 
 export namespace HonoApp {
-  export type ContextVariables = BackendReqCtx.Ctx;
+  export type ContextVariables = BackendReqCtx.Ctx
   export type Context = HonoContext<{
-    Variables: ContextVariables;
-  }>;
+    Variables: ContextVariables
+  }>
 
   export const create = ({ backendCtx }: { backendCtx: BackendCtx.Ctx }) => {
     const honoApp = new OpenAPIHono<{
-      Variables: ContextVariables;
-    }>();
+      Variables: ContextVariables
+    }>()
 
     honoApp.use(async (c, next) => {
       const backendCtxForRequest = await BackendReqCtx.create({
         backendCtx,
-      });
+      })
       for (const [key, value] of Object.entries(backendCtxForRequest)) {
-        c.set(key as keyof ContextVariables, value as never);
+        c.set(key as keyof ContextVariables, value as never)
       }
-      await next();
-    });
+      await next()
+    })
 
-    return { honoApp };
-  };
+    return { honoApp }
+  }
 
-  export type AppType = ReturnType<typeof create>["honoApp"];
+  export type AppType = ReturnType<typeof create>["honoApp"]
 
   export const defineRoute = <
     TMethod extends RouteConfig["method"],
@@ -44,16 +44,16 @@ export namespace HonoApp {
       | HonoRouteModel.ResponseContentType
       | undefined = undefined,
   >(props0: {
-    method: TMethod;
-    path: TPath;
+    method: TMethod
+    path: TPath
     model?: {
-      query?: TZQuery;
-      response?: TZResponse;
-      responseContentType?: TResponseContentType;
-    };
+      query?: TZQuery
+      response?: TZResponse
+      responseContentType?: TResponseContentType
+    }
   }) => {
-    const model = HonoRouteModel.defineModel(props0.model || {});
-    const { method, path } = props0;
+    const model = HonoRouteModel.defineModel(props0.model || {})
+    const { method, path } = props0
 
     const createRoutePropsHere = {
       method,
@@ -73,15 +73,15 @@ export namespace HonoApp {
           },
         }),
       },
-    };
+    }
 
-    const createRouteResult = createRoute(createRoutePropsHere);
+    const createRouteResult = createRoute(createRoutePropsHere)
 
     return (
       fn1: (props1: {
-        honoApp: AppType;
-        createRouteProps: typeof createRoutePropsHere;
-        createRouteResult: typeof createRouteResult;
+        honoApp: AppType
+        createRouteProps: typeof createRoutePropsHere
+        createRouteResult: typeof createRouteResult
       }) => void,
     ) => {
       return {
@@ -90,12 +90,12 @@ export namespace HonoApp {
             honoApp: props.honoApp,
             createRouteProps: createRoutePropsHere,
             createRouteResult,
-          });
+          })
         },
         method,
         path,
         model,
-      };
-    };
-  };
+      }
+    }
+  }
 }

@@ -1,7 +1,7 @@
-const pauseDuration = 200;
+const pauseDuration = 200
 
 export const getIdeas = async () => {
-  await new Promise((resolve) => setTimeout(resolve, pauseDuration));
+  await new Promise((resolve) => setTimeout(resolve, pauseDuration))
   return [
     {
       id: 1,
@@ -13,17 +13,17 @@ export const getIdeas = async () => {
       title: "Idea 2",
       description: "Description 2",
     },
-  ];
-};
+  ]
+}
 
 export const getIdea = async (id: number) => {
-  await new Promise((resolve) => setTimeout(resolve, pauseDuration));
-  const ideas = await getIdeas();
-  const idea = ideas.find((idea) => idea.id === id);
+  await new Promise((resolve) => setTimeout(resolve, pauseDuration))
+  const ideas = await getIdeas()
+  const idea = ideas.find((idea) => idea.id === id)
   if (!idea) {
-    throw new Error(`Idea ${id} not found`);
+    throw new Error(`Idea ${id} not found`)
   }
-  return idea;
-};
+  return idea
+}
 
-export type Idea = Awaited<ReturnType<typeof getIdea>>;
+export type Idea = Awaited<ReturnType<typeof getIdea>>

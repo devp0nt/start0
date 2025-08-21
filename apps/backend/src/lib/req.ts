@@ -1,10 +1,10 @@
-import type { BackendCtx } from "@shmoject/backend/lib/ctx";
+import type { BackendCtx } from "@shmoject/backend/lib/ctx"
 
 export namespace BackendReqCtx {
   export const create = async ({
     backendCtx,
   }: {
-    backendCtx: BackendCtx.Ctx;
+    backendCtx: BackendCtx.Ctx
   }) => {
     return {
       backendCtx,
@@ -12,8 +12,8 @@ export namespace BackendReqCtx {
       logger: {
         y: 1,
       },
-    };
-  };
+    }
+  }
 
-  export type Ctx = Awaited<ReturnType<typeof create>>;
+  export type Ctx = Awaited<ReturnType<typeof create>>
 }

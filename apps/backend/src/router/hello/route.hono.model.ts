@@ -1,5 +1,5 @@
-import { HonoRouteModel } from "@shmoject/backend/lib/hono.model";
-import z from "zod";
+import { HonoRouteModel } from "@shmoject/backend/lib/hono.model"
+import z from "zod"
 
 export const helloHonoRouteModel = HonoRouteModel.defineModel({
   query: z.object({
@@ -8,4 +8,4 @@ export const helloHonoRouteModel = HonoRouteModel.defineModel({
   response: z.object({
     message: z.string(),
   }),
-});
+})

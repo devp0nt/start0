@@ -1,5 +1,5 @@
-import type { Idea } from "@shmoject/site/lib/ideas";
-import { Link } from "react-router";
+import type { Idea } from "@shmoject/site/lib/ideas"
+import { Link } from "react-router"
 
 export const IdeasPage = ({ ideas }: { ideas: Idea[] }) => {
   return (
@@ -16,5 +16,5 @@ export const IdeasPage = ({ ideas }: { ideas: Idea[] }) => {
         </li>
       </ul>
     </div>
-  );
-};
+  )
+}
