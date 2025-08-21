@@ -1,6 +1,5 @@
 {
-  "include": ["./src/**/*", "../../modules/**/*", "../site/app/**/*"],
-  "exclude": ["../site/app/root.tsx", "../site/app/routes/**/*"],
+  "include": ["./src/**/*", "../../modules/**/*", "../site/app/routes.ts"],
   "compilerOptions": {
     "baseUrl": "../../",
     "strict": true,

@@ -1,8 +1,8 @@
 import { HonoApp } from "@shmoject/backend/lib/hono";
-import { helloRouteModel } from "./model";
+import { helloHonoRouteModel } from "./route.hono.model";
 
 export const helloHonoRoute = HonoApp.defineRoute({
-  model: helloRouteModel,
+  model: helloHonoRouteModel,
   method: "get",
   path: "/hello",
 })(({ honoApp, createRouteResult }) => {

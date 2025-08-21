@@ -12,6 +12,12 @@ just
 better-auth
 plop
 
+full hono route
+
+@ index files watcher
+cron/scheduler
+kafka/rabbitmq/pgboss
+
 sentry
 swagger
 

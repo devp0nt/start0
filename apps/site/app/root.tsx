@@ -7,9 +7,12 @@ import {
   ScrollRestoration,
 } from "react-router";
 import { GeneralLayout } from "@shmoject/site/components/GeneralLayout";
-
 import type { Route } from "./+types/root";
-import { TRPCProvider } from "@shmoject/site/lib/trpc.provider";
+import { TRPCReactProvider } from "@shmoject/site/lib/trpc";
+
+// const TRPCReactProvider = ({ children }: { children: React.ReactNode }) => {
+//   return <>{children}</>;
+// };
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -43,10 +46,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
+  // return <Outlet />;
   return (
-    <TRPCProvider>
+    <TRPCReactProvider>
       <Outlet />
-    </TRPCProvider>
+    </TRPCReactProvider>
   );
 }
 
