@@ -1,3 +1,4 @@
 export default {
-  "*.{js,ts,tsx}": "biome check --write --unsafe",
+  "*.{js,mjs,ts,tsx,json,jsonc,md,mdx,yaml,yml}":
+    "biome check --write --unsafe",
 }
