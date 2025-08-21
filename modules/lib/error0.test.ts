@@ -46,10 +46,29 @@ describe("error0", () => {
       expected: true,
       clientMessage: "human message 1",
       cause: new Error("original message"),
+      meta: {
+        durationMs: 1,
+        userId: "user1",
+      },
     }
     const error1 = new Error0(input)
     const error2 = new Error0(input.message, input)
     expect(error1.toJSON()).toMatchObject(error2.toJSON())
+    expect(error1.toJSON()).toMatchInlineSnapshot(`
+      {
+        "cause": [Error: original message],
+        "clientMessage": "human message 1",
+        "code": "code1",
+        "expected": true,
+        "httpStatus": 400,
+        "message": "my message",
+        "meta": {
+          "durationMs": 1,
+          "userId": "user1",
+        },
+        "tag": "tag1",
+      }
+    `)
   })
 
   it("cause error default", () => {
@@ -92,11 +111,22 @@ describe("error0", () => {
     const error01 = new Error0("first", {
       tag: "tag1",
       clientMessage: "human message 1",
+      meta: {
+        durationMs: 1,
+        userId: "user1",
+      },
     })
     const error02 = new Error0("second", {
       tag: "tag2",
       code: "code2",
       cause: error01,
+      meta: {
+        durationMs: 1,
+        ideaId: "idea1",
+        other: {
+          x: 1,
+        },
+      },
     })
     expect(error01).toBeInstanceOf(Error0)
     expect(error02.toJSON()).toMatchInlineSnapshot(`
@@ -108,7 +138,12 @@ describe("error0", () => {
         "httpStatus": undefined,
         "message": "second",
         "meta": {
-          "other": undefined,
+          "durationMs": 1,
+          "ideaId": "idea1",
+          "other": {
+            "x": 1,
+          },
+          "userId": "user1",
         },
         "tag": "tag2",
       }
@@ -238,5 +273,41 @@ describe("error0", () => {
       Error: default error
           at <anonymous> (...)"
     `)
+  })
+
+  it("expected", () => {
+    const error0 = new Error0({
+      expected: true,
+    })
+    expect(error0.expected).toBe(true)
+
+    const error1 = new Error0({
+      expected: false,
+    })
+    expect(error1.expected).toBe(false)
+
+    const error3 = new Error0({
+      expected: true,
+      cause: error0,
+    })
+    expect(error3.expected).toBe(true)
+
+    const error4 = new Error0({
+      expected: false,
+      cause: error0,
+    })
+    expect(error4.expected).toBe(false)
+
+    const error5 = new Error0({
+      expected: true,
+      cause: error1,
+    })
+    expect(error5.expected).toBe(false)
+
+    const error6 = new Error0({
+      expected: false,
+      cause: error1,
+    })
+    expect(error6.expected).toBe(false)
   })
 })

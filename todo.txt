@@ -13,6 +13,9 @@ entity
 
 refactor lib0
 
+biome rules
+biome hotkeys
+
 
 just
 better-auth

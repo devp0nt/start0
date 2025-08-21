@@ -24,7 +24,7 @@ export const startApiProcess = async () => {
     fetch: honoApp.fetch,
     port: process.env.PORT,
   })
-  console.log(`Hono is running at http://localhost:${process.env.PORT}`)
+  console.info(`Hono is running at http://localhost:${process.env.PORT}`)
 }
 
 if (import.meta.main) {

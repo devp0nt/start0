@@ -1,12 +1,8 @@
 import { Meta0 } from "@shmoject/modules/lib/meta0"
 import { HttpStatusCode } from "axios"
 
-// get causes
-// trpc
-// unknown error
-// unknown input
-// meta0
-// axios
+// TODO: trpc
+// TODO: axios
 
 export interface Error0InputGeneral {
   message?: string
@@ -39,16 +35,6 @@ type HttpStatusCodeString = keyof typeof HttpStatusCode
 type Error0Cause = Error | Error0 | unknown
 type ExpectedFn = (error: Error0GeneralProps) => boolean | undefined
 
-// type PropsArrays = {
-//   messages: Error0GeneralProps["message"][]
-//   tags: Error0GeneralProps["tag"][]
-//   codes: Error0GeneralProps["code"][]
-//   httpStatuses: Error0GeneralProps["httpStatus"][]
-//   expecteds: Error0GeneralProps["expected"][]
-//   clientMessages: Error0GeneralProps["clientMessage"][]
-//   causes: Error0GeneralProps["cause"][]
-// }
-
 const isFilled = <T>(value: T): value is NonNullable<T> =>
   value !== null && value !== undefined && value !== ""
 
@@ -62,9 +48,6 @@ export class Error0 extends Error {
   public readonly meta?: Meta0.ValueType | Meta0
 
   public readonly propsOriginal: Error0GeneralProps
-  public readonly propsFloated: Error0GeneralProps
-  // public readonly propsArraysAll: PropsArrays
-  // public readonly propsArraysFilled: PropsArrays
 
   constructor(
     ...args:
@@ -106,23 +89,16 @@ export class Error0 extends Error {
     // Original props
     this.propsOriginal = Error0.getGeneralProps(safeInput, this.stack)
 
-    // Additional props
-    this.propsFloated = Error0.getPropsFloated(this.propsOriginal, maxLevel)
-    // this.propsArraysAll = Error0.getPropsArraysAll(this.propsOriginal, maxLevel)
-    // this.propsArraysFilled = Error0.getPropsArraysFilled(
-    //   this.propsOriginal,
-    //   maxLevel,
-    // )
-
     // Self props
-    this.tag = this.propsFloated.tag
-    this.code = this.propsFloated.code
-    this.httpStatus = this.propsFloated.httpStatus
-    this.expected = this.propsFloated.expected
-    this.clientMessage = this.propsFloated.clientMessage
-    this.cause = this.propsFloated.cause
-    this.stack = this.propsFloated.stack
-    this.meta = this.propsFloated.meta
+    const propsFloated = Error0.getPropsFloated(this.propsOriginal, maxLevel)
+    this.tag = propsFloated.tag
+    this.code = propsFloated.code
+    this.httpStatus = propsFloated.httpStatus
+    this.expected = propsFloated.expected
+    this.clientMessage = propsFloated.clientMessage
+    this.cause = propsFloated.cause
+    this.stack = propsFloated.stack
+    this.meta = propsFloated.meta
   }
 
   // settings
@@ -160,6 +136,10 @@ export class Error0 extends Error {
       typeof error0Input.maxLevel === "number"
         ? error0Input.maxLevel
         : Error0.defaultMaxLevel
+    result.meta =
+      typeof error0Input.meta === "object" && error0Input.meta !== null
+        ? error0Input.meta
+        : undefined
     return result
   }
 
@@ -414,7 +394,7 @@ export class Error0 extends Error {
     }
     if (maxLevel > 0) {
       if (error0Props.cause instanceof Error0) {
-        return error0Props.cause.propsFloated[propKey] as
+        return error0Props.cause[propKey] as
           | NonNullable<TPropValueNormalized>
           | undefined
       } else {
@@ -450,57 +430,6 @@ export class Error0 extends Error {
       return Meta0.mergeValues(metas[0], ...metas.slice(1))
     }
   }
-
-  // private static getAllPropValues<
-  //   TPropKey extends keyof Error0InputGeneral,
-  //   TArrayPropKey extends keyof PropsArrays,
-  //   TPropValueNormalized,
-  // >(
-  //   error0OrProps: unknown,
-  //   propKey: TPropKey,
-  //   arrayPropKey: TArrayPropKey,
-  //   maxLevel: number,
-  //   getter: (props: unknown) => TPropValueNormalized = (props) =>
-  //     (typeof props === "object" && props !== null && propKey in props
-  //       ? props[propKey as keyof typeof props]
-  //       : undefined) as TPropValueNormalized,
-  // ): TPropValueNormalized[] {
-  //   const values: TPropValueNormalized[] = []
-  //   const error0Props =
-  //     error0OrProps instanceof Error0
-  //       ? error0OrProps.propsOriginal
-  //       : error0OrProps
-  //   const propValue = getter(error0Props)
-  //   values.push(propValue)
-  //   if (
-  //     typeof error0Props !== "object" ||
-  //     error0Props === null ||
-  //     !("cause" in error0Props) ||
-  //     !error0Props.cause
-  //   ) {
-  //     return values
-  //   }
-  //   if (maxLevel > 0) {
-  //     if (error0Props.cause instanceof Error0) {
-  //       values.push(
-  //         ...(error0Props.cause.propsArraysAll[
-  //           arrayPropKey
-  //         ] as TPropValueNormalized[]),
-  //       )
-  //     } else {
-  //       values.push(
-  //         ...Error0.getAllPropValues(
-  //           error0Props.cause,
-  //           propKey,
-  //           arrayPropKey,
-  //           maxLevel - 1,
-  //           getter,
-  //         ),
-  //       )
-  //     }
-  //   }
-  //   return values
-  // }
 
   private static getFilledPropValues<
     TPropKey extends keyof Error0InputGeneral,
@@ -603,6 +532,7 @@ export class Error0 extends Error {
             ? error.tag
             : undefined,
         cause: "cause" in error ? error.cause : undefined,
+        meta: "meta" in error ? error.meta : undefined,
         maxLevel,
       })
     }

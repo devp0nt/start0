@@ -24,6 +24,12 @@
         "noUnusedFunctionParameters": "off"
       },
       "suspicious": {
+        "noConsole": {
+          "level": "error",
+          "options": {
+            "allow": ["info", "error"]
+          }
+        },
         "noExplicitAny": "off"
       }
     }

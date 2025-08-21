@@ -1,7 +1,7 @@
 import { checkEnumEq } from "@shmoject/modules/lib/lodash0"
 import cloneDeep from "lodash/cloneDeep"
 
-// TODO: if some keys not in place, then move them to other
+// TODO: assign flat — if some keys not in place, then move them to other
 
 export class Meta0 {
   value: Meta0.ValueType
@@ -20,7 +20,7 @@ export class Meta0 {
   static keys = [...Meta0.generalKeys, ...Meta0.idsKeys]
 
   constructor(input: Partial<Meta0.ValueType>) {
-    this.value = cloneDeep(input)
+    this.value = cloneDeep(Meta0.safeParseValue(input))
   }
 
   static create(input: Partial<Meta0.ValueType>) {
@@ -62,8 +62,8 @@ export class Meta0 {
   ) {
     return cloneDeep(
       Meta0.mergeValuesDirty(
-        Meta0.toMeta0Value(first),
-        ...Meta0.toMeta0Values(nexts),
+        Meta0.toMeta0ValueSafe(first),
+        ...Meta0.toMeta0ValuesSafe(nexts),
       ),
     )
   }
@@ -74,8 +74,8 @@ export class Meta0 {
   ) {
     return new Meta0(
       Meta0.mergeValuesDirty(
-        Meta0.toMeta0Value(first),
-        ...Meta0.toMeta0Values(nexts),
+        Meta0.toMeta0ValueSafe(first),
+        ...Meta0.toMeta0ValuesSafe(nexts),
       ),
     )
   }
@@ -92,9 +92,7 @@ export class Meta0 {
     const prev = lastTwo[0]
     const next = lastTwo[1]
     const { other: nextOther, ...nextRest } = next
-    Object.assign(first, {
-      ...nextRest,
-    })
+    Object.assign(prev, nextRest)
     if (nextOther) {
       if (!prev.other) {
         prev.other = {}
@@ -109,19 +107,26 @@ export class Meta0 {
   }
 
   static assign(
-    prev: Meta0 | Partial<Meta0.ValueType>,
-    next: Meta0 | Partial<Meta0.ValueType>,
+    first: Meta0.Meta0OrValueType,
+    ...nexts: Meta0.Meta0OrValueType[]
   ): void {
-    const nextValue = next instanceof Meta0 ? next.value : next
-    if (prev instanceof Meta0) {
-      Meta0.assignValues(prev.value, nextValue)
-    } else {
-      Meta0.assignValues(prev, nextValue)
-    }
+    const values = [
+      Meta0.toMeta0ValueRaw(first),
+      ...nexts.map(Meta0.toMeta0ValueSafe),
+    ]
+    Meta0.assignValues(values[0], ...values.slice(1))
   }
 
-  assign(next: Meta0 | Partial<Meta0.ValueType>): void {
-    Meta0.assign(this, next)
+  assign(...nexts: Meta0.Meta0OrValueType[]): void {
+    Meta0.assign(this, ...nexts)
+  }
+
+  assignFlat(...nexts: Meta0.ValueTypeFlat[]): void {
+    Meta0.assign(this, ...nexts)
+  }
+
+  assignDirty(...nexts: { [key: string]: unknown }[]): void {
+    Meta0.assign(this, ...nexts)
   }
 
   static toMeta0(input: Meta0.Meta0OrValueType): Meta0 {
@@ -131,19 +136,91 @@ export class Meta0 {
     return new Meta0(input)
   }
 
-  static toMeta0Value(input: Meta0.Meta0OrValueType): Meta0.ValueType {
+  static toMeta0ValueRaw(input: Meta0.Meta0OrValueType): Meta0.ValueType {
     if (input instanceof Meta0) {
       return input.value
     }
     return input
   }
 
-  static toMeta0Values(input: Meta0.Meta0OrValueType[]): Meta0.ValueType[] {
-    return input.map(Meta0.toMeta0Value)
+  static toMeta0ValuesRaw(input: Meta0.Meta0OrValueType[]): Meta0.ValueType[] {
+    return input.map(Meta0.toMeta0ValueRaw)
+  }
+
+  static toMeta0ValueSafe(input: Meta0.Meta0OrValueType): Meta0.ValueType {
+    return Meta0.safeParseValue(Meta0.toMeta0ValueRaw(input))
+  }
+
+  static toMeta0ValuesSafe(input: Meta0.Meta0OrValueType[]): Meta0.ValueType[] {
+    return input.map(Meta0.toMeta0ValueSafe)
+  }
+
+  private static isPrimitive(value: unknown): value is Meta0.Primitive {
+    return (
+      typeof value === "number" ||
+      typeof value === "string" ||
+      typeof value === "boolean" ||
+      value === undefined ||
+      value === null
+    )
+  }
+
+  private static safeParseValue(input: unknown): Meta0.ValueType {
+    if (typeof input !== "object" || input === null) {
+      return {}
+    }
+    const { other, ...rest } = input as Record<string, unknown>
+    const safeRest = Object.fromEntries(
+      Object.entries(rest).map(([key, value]) =>
+        Meta0.isPrimitive(value) ? [key, value] : [key, "__INVALID__"],
+      ),
+    )
+    if (typeof other !== "object" || other === null) {
+      return Meta0.respectValueKeys({
+        ...safeRest,
+      })
+    }
+    const safeOther = Object.fromEntries(
+      Object.entries(other).map(([key, value]) =>
+        Meta0.isPrimitive(value) ? [key, value] : [key, "__INVALID__"],
+      ),
+    )
+    return Meta0.respectValueKeys({
+      ...safeRest,
+      other: safeOther,
+    })
+  }
+
+  private static respectValueKeys<T>(
+    meta0Value: Meta0.ValueType,
+    allowedKeys: T[] = Meta0.keys as T[],
+  ): Meta0.ValueType {
+    const result: Meta0.ValueType = {}
+    for (const [key, value] of Object.entries(meta0Value)) {
+      if (allowedKeys.includes(key as T)) {
+        if (key === "other") {
+          if (typeof value === "object" && value !== null) {
+            result.other = {
+              ...result.other,
+              ...value,
+            }
+          }
+        } else {
+          ;(result as any)[key] = value
+        }
+      } else {
+        ;(result.other as any) = {
+          ...result.other,
+          [key]: value,
+        }
+      }
+    }
+    return result
   }
 }
 
 export namespace Meta0 {
+  export type Primitive = number | string | boolean | undefined | null
   export type ValueType = {
     durationMs?: number
     tag?: string
@@ -154,8 +231,12 @@ export namespace Meta0 {
     message?: string
     userId?: string
     ideaId?: string
-    other?: Record<string, number | string | boolean | undefined | null>
+    other?: Record<string, Primitive>
+  }
+  export type ValueTypeFlat = Omit<ValueType, "other"> & {
+    [key: string]: Primitive
   }
   export type Meta0OrValueType = Meta0 | Partial<ValueType>
-  checkEnumEq<keyof ValueType, (typeof Meta0.keys)[number], true>()
+  export type ValueKey = (typeof Meta0.keys)[number]
+  checkEnumEq<keyof ValueType, ValueKey, true>()
 }
