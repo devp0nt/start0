@@ -1,7 +1,6 @@
 logger
 error
 processes → bin
-types lint on commit
 
 env
 prisma
@@ -13,10 +12,17 @@ plop
 
 full hono route
 
+html title dynamic
+
 
 @ index files watcher
 cron/scheduler
 kafka/rabbitmq/pgboss
+
+test unit
+test integration trpc
+test integration hono
+test e2e
 
 sentry
 swagger
