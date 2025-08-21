@@ -1,6 +1,7 @@
 logger
 error
-biomejs
+processes → bin
+types lint on commit
 
 env
 prisma
@@ -11,6 +12,7 @@ https://dev.to/ayoubphy/step-by-step-guide-setting-up-trpc-better-auth-prisma-an
 plop
 
 full hono route
+
 
 @ index files watcher
 cron/scheduler

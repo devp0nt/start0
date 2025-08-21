@@ -2,9 +2,10 @@ import {
   createRoute,
   OpenAPIHono,
   type RouteConfig,
-  z,
+  type z,
 } from "@hono/zod-openapi";
 import type { BackendCtx } from "@shmoject/backend/lib/ctx";
+import { HonoRouteModel } from "@shmoject/backend/lib/hono.model";
 import { BackendReqCtx } from "@shmoject/backend/lib/req";
 import type { Context as HonoContext } from "hono";
 
@@ -34,52 +35,14 @@ export namespace HonoApp {
 
   export type AppType = ReturnType<typeof create>["honoApp"];
 
-  export const withApp = <T extends (props: { honoApp: AppType }) => any>(
-    fn: T,
-  ) => {
-    return fn;
-  };
-
-  export type ResponseContentType =
-    | "application/json"
-    | "text/html"
-    | "text/plain"
-    | "application/xml";
-
-  export type RouteModel<
-    TZQuery extends z.ZodObject | z.ZodAny | undefined = undefined,
-    TZResponse extends z.ZodObject | z.ZodAny | undefined = undefined,
-    TResponseContentType extends ResponseContentType | undefined = undefined,
-  > = {
-    query: TZQuery extends z.ZodObject ? TZQuery : undefined;
-    response: TZResponse extends z.ZodObject ? TZResponse : z.ZodAny;
-    responseContentType: TResponseContentType extends ResponseContentType
-      ? TResponseContentType
-      : "application/json";
-  };
-
-  export const defineRouteModel = <
-    TZQuery extends z.ZodObject | z.ZodAny | undefined = undefined,
-    TZResponse extends z.ZodObject | z.ZodAny | undefined = undefined,
-    TResponseContentType extends ResponseContentType | undefined = undefined,
-  >(props: {
-    query?: TZQuery;
-    response?: TZResponse;
-    responseContentType?: TResponseContentType;
-  }) => {
-    return {
-      query: props.query,
-      response: props.response || z.any(),
-      responseContentType: props.responseContentType || "application/json",
-    } as RouteModel<TZQuery, TZResponse, TResponseContentType>;
-  };
-
   export const defineRoute = <
     TMethod extends RouteConfig["method"],
     TPath extends RouteConfig["path"],
     TZQuery extends z.ZodObject | z.ZodAny | undefined = undefined,
     TZResponse extends z.ZodObject | z.ZodAny | undefined = undefined,
-    TResponseContentType extends ResponseContentType | undefined = undefined,
+    TResponseContentType extends
+      | HonoRouteModel.ResponseContentType
+      | undefined = undefined,
   >(props0: {
     method: TMethod;
     path: TPath;
@@ -89,7 +52,7 @@ export namespace HonoApp {
       responseContentType?: TResponseContentType;
     };
   }) => {
-    const model = defineRouteModel(props0.model || {});
+    const model = HonoRouteModel.defineModel(props0.model || {});
     const { method, path } = props0;
 
     const createRoutePropsHere = {

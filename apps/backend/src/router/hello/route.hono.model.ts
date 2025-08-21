@@ -1,7 +1,7 @@
-import { HonoApp } from "@shmoject/backend/lib/hono";
+import { HonoRouteModel } from "@shmoject/backend/lib/hono.model";
 import z from "zod";
 
-export const helloHonoRouteModel = HonoApp.defineRouteModel({
+export const helloHonoRouteModel = HonoRouteModel.defineModel({
   query: z.object({
     name: z.string().optional().default("world"),
   }),
