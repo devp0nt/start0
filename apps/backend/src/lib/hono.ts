@@ -1,10 +1,10 @@
 import {
   createRoute,
   OpenAPIHono,
-  z,
   type RouteConfig,
+  z,
 } from "@hono/zod-openapi";
-import { BackendCtx } from "@shmoject/backend/lib/ctx";
+import type { BackendCtx } from "@shmoject/backend/lib/ctx";
 import { BackendReqCtx } from "@shmoject/backend/lib/req";
 import type { Context as HonoContext } from "hono";
 
@@ -35,7 +35,7 @@ export namespace HonoApp {
   export type AppType = ReturnType<typeof create>["honoApp"];
 
   export const withApp = <T extends (props: { honoApp: AppType }) => any>(
-    fn: T
+    fn: T,
   ) => {
     return fn;
   };
@@ -119,7 +119,7 @@ export namespace HonoApp {
         honoApp: AppType;
         createRouteProps: typeof createRoutePropsHere;
         createRouteResult: typeof createRouteResult;
-      }) => any
+      }) => void,
     ) => {
       return {
         apply: (props: { honoApp: AppType }) => {

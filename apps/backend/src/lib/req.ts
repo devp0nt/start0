@@ -1,4 +1,4 @@
-import { BackendCtx } from "@shmoject/backend/lib/ctx";
+import type { BackendCtx } from "@shmoject/backend/lib/ctx";
 
 export namespace BackendReqCtx {
   export const create = async ({

@@ -21,7 +21,8 @@
     "si": "bun --filter '@shmoject/site'",
     "types": "bun run --filter '*' types",
     "build": "bun run --filter '*' build",
-    "dev": "bun run --filter '*' dev"
+    "dev": "bun run --filter '*' dev",
+    "lint": "biome check --write"
   },
   "workspaces": {
     "packages": [

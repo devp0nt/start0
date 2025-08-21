@@ -1,3 +1,5 @@
+import { GeneralLayout } from "@shmoject/site/components/GeneralLayout";
+import { TRPCReactProvider } from "@shmoject/site/lib/trpc";
 import {
   isRouteErrorResponse,
   Links,
@@ -6,9 +8,7 @@ import {
   Scripts,
   ScrollRestoration,
 } from "react-router";
-import { GeneralLayout } from "@shmoject/site/components/GeneralLayout";
 import type { Route } from "./+types/root";
-import { TRPCReactProvider } from "@shmoject/site/lib/trpc";
 
 // const TRPCReactProvider = ({ children }: { children: React.ReactNode }) => {
 //   return <>{children}</>;

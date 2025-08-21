@@ -3,7 +3,7 @@ import { helloHonoRoute } from "./hello/route.hono.js";
 import { pingHonoRoute } from "./ping/route.hono.js";
 // @endindex
 
-import { HonoApp } from "@shmoject/backend/lib/hono";
+import type { HonoApp } from "@shmoject/backend/lib/hono";
 
 export namespace BackendHonoRouter {
   export const apply = ({ honoApp }: { honoApp: HonoApp.AppType }) => {

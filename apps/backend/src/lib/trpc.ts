@@ -1,6 +1,6 @@
 import { trpcServer } from "@hono/trpc-server";
 import type { HonoApp } from "@shmoject/backend/lib/hono";
-import { BackendTrpcRouter } from "@shmoject/backend/router/index.trpc";
+import type { BackendTrpcRouter } from "@shmoject/backend/router/index.trpc";
 import { initTRPC } from "@trpc/server";
 import superjson from "superjson";
 import z from "zod";
@@ -44,7 +44,7 @@ export namespace BackendTrpc {
       trpcServer({
         router: trpcRouter,
         createContext: (_opts, c: HonoApp.Context) => c.var as Context,
-      })
+      }),
     );
   };
 }

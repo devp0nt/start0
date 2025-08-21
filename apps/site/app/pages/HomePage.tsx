@@ -1,4 +1,4 @@
-export const HomePage = ({ data = {} }: { data?: Record<string, any> }) => {
+export const HomePage = ({ data = {} }: { data?: Record<string, never> }) => {
   return (
     <div>
       <h1>Home Page</h1>

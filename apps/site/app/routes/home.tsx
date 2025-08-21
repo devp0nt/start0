@@ -1,9 +1,8 @@
+import { getQueryClientCache, trpc, useTRPC } from "@shmoject/site/lib/trpc";
 import { HomePage } from "@shmoject/site/pages/HomePage";
-import type { Route } from "./+types/home";
-import { useTRPC } from "@shmoject/site/lib/trpc";
 import { useQuery } from "@tanstack/react-query";
-import { getQueryClientCache, trpc } from "@shmoject/site/lib/trpc";
 import { useLoaderData } from "react-router";
+import type { Route } from "./+types/home";
 
 export function meta({}: Route.MetaArgs) {
   return [

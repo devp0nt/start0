@@ -1,12 +1,9 @@
 import type { BackendTrpcRouter } from "@shmoject/backend/router/index.trpc";
 import {
   defaultShouldDehydrateQuery,
-  QueryClient,
-} from "@tanstack/react-query";
-import superjson from "superjson";
-import {
   dehydrate,
   HydrationBoundary,
+  QueryClient,
   QueryClientProvider,
 } from "@tanstack/react-query";
 import { createTRPCClient, httpBatchLink, loggerLink } from "@trpc/client";
@@ -16,6 +13,7 @@ import {
   type TRPCQueryOptions,
 } from "@trpc/tanstack-react-query";
 import { cache, useState } from "react";
+import superjson from "superjson";
 
 const makeQueryClient = () => {
   return new QueryClient({
@@ -36,7 +34,7 @@ const makeQueryClient = () => {
   });
 };
 
-let browserQueryClient: QueryClient | undefined = undefined;
+let browserQueryClient: QueryClient | undefined;
 
 const getQueryClient = () => {
   if (typeof window === "undefined") {
@@ -67,11 +65,11 @@ export function HydrateClient(props: { children: React.ReactNode }) {
 }
 
 export function prefetch<T extends ReturnType<TRPCQueryOptions<any>>>(
-  queryOptions: T
+  queryOptions: T,
 ) {
   const queryClient = getQueryClient();
   if (queryOptions.queryKey[1]?.type === "infinite") {
-    void queryClient.prefetchInfiniteQuery(queryOptions as any);
+    void queryClient.prefetchInfiniteQuery(queryOptions as never);
   } else {
     void queryClient.prefetchQuery(queryOptions);
   }
@@ -111,16 +109,14 @@ export const TRPCReactProvider = ({
   const [trpcClient] = useState(() =>
     createTRPCClient<BackendTrpcRouter.TrpcRouter>({
       links,
-    })
+    }),
   );
 
   return (
-    <>
-      <QueryClientProvider client={queryClient}>
-        <TRPCProvider trpcClient={trpcClient} queryClient={queryClient}>
-          {children}
-        </TRPCProvider>
-      </QueryClientProvider>
-    </>
+    <QueryClientProvider client={queryClient}>
+      <TRPCProvider trpcClient={trpcClient} queryClient={queryClient}>
+        {children}
+      </TRPCProvider>
+    </QueryClientProvider>
   );
 };

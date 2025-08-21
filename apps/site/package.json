@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "cross-env NODE_ENV=production react-router build",
+    "build": "cross-env NODE_ENV=production react-router build --verbose",
     "dev": "bunx --bun vite",
     "start": "cross-env NODE_ENV=production bun ./build/server/index.js",
     "types": "react-router typegen && tsc"
