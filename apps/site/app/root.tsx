@@ -9,6 +9,7 @@ import {
 import { GeneralLayout } from "@shmoject/site/components/GeneralLayout";
 
 import type { Route } from "./+types/root";
+import { TRPCProvider } from "@shmoject/site/lib/trpc.provider";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -42,7 +43,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  return <Outlet />;
+  return (
+    <TRPCProvider>
+      <Outlet />
+    </TRPCProvider>
+  );
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
