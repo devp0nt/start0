@@ -1,6 +1,7 @@
 logger
 error
 processes → bin
+modules tsconfig
 
 env
 prisma

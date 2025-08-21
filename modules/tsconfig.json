@@ -1,8 +1,7 @@
 {
-  "include": ["./src/**/*", "../../modules/**/*", "../site/app/routes.ts"],
-  "exclude": ["../../modules/**/*.test.ts"],
+  "include": ["./**/*", "../apps/site/app/routes.ts"],
   "compilerOptions": {
-    "baseUrl": "../../",
+    "baseUrl": "../",
     "strict": true,
     "jsx": "react-jsx",
     "esModuleInterop": true,
@@ -13,9 +12,9 @@
     "outDir": "./dist",
     "verbatimModuleSyntax": true,
     "paths": {
+      "@shmoject/modules/*": ["./*"],
       "@shmoject/backend/*": ["./apps/backend/src/*"],
-      "@shmoject/site/*": ["./apps/site/app/*"],
-      "@shmoject/modules/*": ["./modules/*"]
+      "@shmoject/site/*": ["./apps/site/app/*"]
     }
   }
 }

@@ -21,15 +21,19 @@
   "scripts": {
     "be": "bun --filter '@shmoject/backend'",
     "si": "bun --filter '@shmoject/site'",
+    "mo": "bun --filter '@shmoject/modules'",
     "types": "bun run --filter '*' types",
     "build": "bun run --filter '*' build",
     "dev": "bun run --filter '*' dev",
+    "test": "bun run --filter '*' test",
     "lint": "biome check --write",
+    "prune": "rm -rf .react-router node_modules .vite .turbo dist build",
     "prepare": "husky"
   },
   "workspaces": {
     "packages": [
-      "apps/*"
+      "apps/*",
+      "modules"
     ],
     "catalog": {
       "isbot": "^5.1.27",
@@ -45,6 +49,7 @@
     "@trpc/client": "^11.5.0",
     "@trpc/server": "^11.5.0",
     "@trpc/tanstack-react-query": "^11.5.0",
+    "axios": "^1.11.0",
     "client-only": "^0.0.1",
     "cross-env": "^10.0.0",
     "deepmerge": "^4.3.1",

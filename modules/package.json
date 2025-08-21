@@ -1,0 +1,10 @@
+{
+  "name": "@shmoject/modules",
+  "private": true,
+  "type": "module",
+  "dependencies": {},
+  "scripts": {
+    "test": "bun test",
+    "types": "tsc --noEmit"
+  }
+}
