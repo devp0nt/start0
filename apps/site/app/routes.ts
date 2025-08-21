@@ -12,3 +12,7 @@ export default [
     route("ideas/:id", "routes/idea.tsx"),
   ]),
 ] satisfies RouteConfig;
+
+export const siteRoutes = {
+  x: 1,
+};

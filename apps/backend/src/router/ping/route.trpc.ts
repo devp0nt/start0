@@ -1,6 +1,6 @@
-import { TrpcBackend } from "@shmoject/backend/lib/trpc";
+import { BackendTrpc } from "@shmoject/backend/lib/trpc";
 
-export const pingTrpcRoute = TrpcBackend.baseProcedure().query(
+export const pingTrpcRoute = BackendTrpc.baseProcedure().query(
   async ({ ctx }) => {
     return {
       message: "pong",

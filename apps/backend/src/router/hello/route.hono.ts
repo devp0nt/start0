@@ -1,31 +1,15 @@
-import { createRoute } from "@hono/zod-openapi";
-import { HonoBackend } from "@shmoject/backend/lib/hono";
-import { HelloRouteModel } from "./model";
+import { HonoApp } from "@shmoject/backend/lib/hono";
+import { helloRouteModel } from "./model";
 
-export default HonoBackend.withApp(({ honoApp }) => {
-  honoApp.openapi(
-    createRoute({
-      method: "get",
-      path: "/hello",
-      request: {
-        query: HelloRouteModel.zQuery,
-      },
-      responses: {
-        200: {
-          content: {
-            "application/json": {
-              schema: HelloRouteModel.zResponse,
-            },
-          },
-          description: "Say hello",
-        },
-      },
-    }),
-    (c) => {
-      const query = c.req.valid("query");
-      return c.json({
-        message: `Hello, ${query.name}`,
-      });
-    }
-  );
+export const helloHonoRoute = HonoApp.defineRoute({
+  model: helloRouteModel,
+  method: "get",
+  path: "/hello",
+})(({ honoApp, createRouteResult }) => {
+  honoApp.openapi(createRouteResult, (c) => {
+    const query = c.req.valid("query");
+    return c.json({
+      message: `Hello, ${query.name}`,
+    });
+  });
 });

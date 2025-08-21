@@ -1,16 +1,11 @@
+import { HonoApp } from "@shmoject/backend/lib/hono";
 import z from "zod";
 
-export namespace HelloRouteModel {
-  export const zQuery = z.object({
+export const helloRouteModel = HonoApp.defineRouteModel({
+  query: z.object({
     name: z.string().optional().default("world"),
-  });
-
-  export const zResponse = z.object({
+  }),
+  response: z.object({
     message: z.string(),
-  });
-
-  export const zModel = {
-    query: zQuery,
-    response: zResponse,
-  };
-}
+  }),
+});

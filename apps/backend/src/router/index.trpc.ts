@@ -1,4 +1,4 @@
-import { TrpcBackend } from "@shmoject/backend/lib/trpc";
+import { BackendTrpc } from "@shmoject/backend/lib/trpc";
 import type { inferRouterInputs, inferRouterOutputs } from "@trpc/server";
 
 // @index('./**/route.trpc.ts', f => `import { ${f.path.split('/').slice(0, -1).pop()}TrpcRoute } from '${f.path}.js'`)
@@ -8,8 +8,8 @@ import { pingTrpcRoute } from "./ping/route.trpc.js";
 
 // @endindex
 
-export namespace TrpcBackendRouter {
-  export const self = TrpcBackend.createRouter({
+export namespace BackendTrpcRouter {
+  export const self = BackendTrpc.createRouter({
     // @index('./**/route.trpc.ts', f => `${f.path.split('/').slice(0, -1).pop()}: ${f.path.split('/').slice(0, -1).pop()}TrpcRoute,`)
     ping: pingTrpcRoute,
     // @endindex

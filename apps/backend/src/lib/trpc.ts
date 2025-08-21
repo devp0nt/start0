@@ -1,10 +1,10 @@
 import { trpcServer } from "@hono/trpc-server";
-import { HonoBackend } from "@shmoject/backend/lib/hono";
-import { TrpcBackendRouter } from "@shmoject/backend/router/index.trpc";
+import { HonoApp } from "@shmoject/backend/lib/hono";
+import { BackendTrpcRouter } from "@shmoject/backend/router/index.trpc";
 import { initTRPC } from "@trpc/server";
 
-export namespace TrpcBackend {
-  export type Context = HonoBackend.ContextVariables;
+export namespace BackendTrpc {
+  export type Context = HonoApp.ContextVariables;
 
   const t = initTRPC.context<Context>().create();
 
@@ -18,14 +18,14 @@ export namespace TrpcBackend {
     honoApp,
     trpcRouter,
   }: {
-    honoApp: HonoBackend.App;
-    trpcRouter: TrpcBackendRouter.Type;
+    honoApp: HonoApp.AppType;
+    trpcRouter: BackendTrpcRouter.Type;
   }) => {
     honoApp.use(
       "/trpc/*",
       trpcServer({
         router: trpcRouter,
-        createContext: (_opts, c: HonoBackend.Context) => c.var as Context,
+        createContext: (_opts, c: HonoApp.Context) => c.var as Context,
       })
     );
   };
