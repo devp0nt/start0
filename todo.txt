@@ -4,6 +4,7 @@ processes → bin
 
 env
 prisma
+route0
 
 just
 better-auth
@@ -32,5 +33,7 @@ watch-gen boilerplate
 ограничение импортов
 
 hono define route with my schema
+
+devops
 
 remove old
