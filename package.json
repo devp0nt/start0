@@ -2,6 +2,7 @@
   "name": "shmoject",
   "private": true,
   "devDependencies": {
+    "@biomejs/biome": "2.2.0",
     "@react-router/dev": "^7.7.1",
     "@types/bun": "latest",
     "@types/lodash": "^4.17.20",
