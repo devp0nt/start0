@@ -107,6 +107,88 @@ describe("error0", () => {
     `)
   })
 
+  it("unknown error", () => {
+    const error0 = new Error0({})
+    expect(error0.toJSON()).toMatchInlineSnapshot(`
+      {
+        "cause": undefined,
+        "clientMessage": undefined,
+        "code": undefined,
+        "expected": undefined,
+        "httpStatus": undefined,
+        "message": "Unknown error",
+        "tag": undefined,
+      }
+    `)
+    const error1 = new Error0("test")
+    expect(error1.message).toBe("test")
+    const error2 = new Error0({ cause: error1 })
+    expect(error2.toJSON()).toMatchInlineSnapshot(`
+      {
+        "cause": [Error0: test],
+        "clientMessage": undefined,
+        "code": undefined,
+        "expected": undefined,
+        "httpStatus": undefined,
+        "message": "test",
+        "tag": undefined,
+      }
+    `)
+    expect(fixStack(error2.stack)).toMatchInlineSnapshot(`
+      "Error0: test
+          at <anonymous> (...)
+
+      Error0: test
+          at <anonymous> (...)"
+    `)
+  })
+
+  it("input error default", () => {
+    const errorDefault = new Error("default error")
+    const error0 = new Error0(errorDefault)
+    expect(error0.toJSON()).toMatchInlineSnapshot(`
+      {
+        "cause": [Error: default error],
+        "clientMessage": undefined,
+        "code": undefined,
+        "expected": undefined,
+        "httpStatus": undefined,
+        "message": "default error",
+        "tag": undefined,
+      }
+    `)
+    expect(fixStack(error0.stack)).toMatchInlineSnapshot(`
+      "Error0: default error
+          at <anonymous> (...)
+
+      Error: default error
+          at <anonymous> (...)"
+    `)
+  })
+
+  it("input error0 itself", () => {
+    const error = new Error0("error0 error")
+    const error0 = new Error0(error)
+    expect(error0.toJSON()).toMatchInlineSnapshot(`
+      {
+        "cause": [Error0: error0 error],
+        "clientMessage": undefined,
+        "code": undefined,
+        "expected": undefined,
+        "httpStatus": undefined,
+        "message": "error0 error",
+        "tag": undefined,
+      }
+    `)
+    expect(fixStack(error0.stack)).toMatchInlineSnapshot(`
+      "Error0: error0 error
+          at <anonymous> (...)
+
+      Error0: error0 error
+          at <anonymous> (...)"
+    `)
+  })
+
   it("keep stack trace", () => {
     const errorDefault = new Error("default error")
     const error01 = new Error0("first", {

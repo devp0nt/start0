@@ -1,7 +1,9 @@
 import { HttpStatusCode } from "axios"
 
-// safe params
 // trpc
+// unknown error
+// unknown input
+// meta0
 // axios
 
 export interface Error0InputGeneral {
@@ -59,31 +61,47 @@ export class Error0 extends Error {
   // public readonly propsArraysAll: PropsArrays
   // public readonly propsArraysFilled: PropsArrays
 
-  constructor(...args: [string] | [Error0Input] | [string, Error0Input]) {
-    let input: Partial<Error0Input> = {}
-    if (typeof args[0] === "object" && args[0] !== null) {
-      input = args[0]
-    }
-    if (typeof args[1] === "object" && args[1] !== null) {
-      input = {
-        ...input,
-        ...args[1],
-      }
-    }
-    if (typeof args[0] === "string") {
+  constructor(
+    ...args:
+      | [string]
+      | [Error0Input]
+      | [string, Error0Input]
+      | [Error]
+      | [Error, Error0Input]
+      | [unknown]
+      | [unknown, Error0Input]
+  ) {
+    const input: Partial<Error0Input> = {}
+    if (args[0] instanceof Error) {
+      input.cause = args[0]
+    } else if (typeof args[0] === "object" && args[0] !== null) {
+      Object.assign(input, args[0])
+    } else if (typeof args[0] === "string") {
       input.message = args[0]
     }
-    input = Error0.safeParseInput(input)
+    if (typeof args[1] === "object" && args[1] !== null) {
+      Object.assign(input, args[1])
+    }
+    const safeInput = Error0.safeParseInput(input)
+    const maxLevel = safeInput.maxLevel ?? Error0.defaultMaxLevel
 
-    super(input.message || "Unknown error")
+    const providedMessage = safeInput.message
+    const closestMessageRaw = Error0.getClosestPropValue<"message", unknown>(
+      { message: safeInput.message, cause: safeInput.cause },
+      "message",
+      maxLevel,
+    )
+    const closestMessage =
+      typeof closestMessageRaw === "string" ? closestMessageRaw : undefined
+    const message = providedMessage || closestMessage || "Unknown error"
+    super(message)
     Object.setPrototypeOf(this, Error0.prototype)
     this.name = "Error0"
 
     // Original props
-    this.propsOriginal = Error0.getGeneralProps(input, this.stack)
+    this.propsOriginal = Error0.getGeneralProps(safeInput, this.stack)
 
     // Additional props
-    const maxLevel = input.maxLevel ?? Error0.defaultMaxLevel
     this.propsFloated = Error0.getPropsFloated(this.propsOriginal, maxLevel)
     // this.propsArraysAll = Error0.getPropsArraysAll(this.propsOriginal, maxLevel)
     // this.propsArraysFilled = Error0.getPropsArraysFilled(
