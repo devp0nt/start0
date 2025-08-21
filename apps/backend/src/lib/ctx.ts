@@ -6,9 +6,9 @@ export namespace BackendCtx {
     };
   };
 
-  export type CtxType = Awaited<ReturnType<typeof create>>;
+  export type Ctx = Awaited<ReturnType<typeof create>>;
 
-  export const destroy = async ({ backendCtx }: { backendCtx: CtxType }) => {
+  export const destroy = async ({ backendCtx }: { backendCtx: Ctx }) => {
     console.log("Context destroyed", Object.keys(backendCtx));
   };
 }

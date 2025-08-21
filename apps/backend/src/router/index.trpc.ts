@@ -9,7 +9,7 @@ import { pingTrpcRoute } from "./ping/route.trpc.js";
 // @endindex
 
 export namespace BackendTrpcRouter {
-  export const self = BackendTrpc.createRouter({
+  export const trpcRouter = BackendTrpc.createRouter({
     // @index('./**/route.trpc.ts', f => `${f.path.split('/').slice(0, -1).pop()}: ${f.path.split('/').slice(0, -1).pop()}TrpcRoute,`)
     ping: pingTrpcRoute,
     // @endindex
@@ -18,7 +18,7 @@ export namespace BackendTrpcRouter {
     // @endindex
   });
 
-  export type Type = typeof self;
-  export type Input = inferRouterInputs<Type>;
-  export type Output = inferRouterOutputs<Type>;
+  export type TrpcRouter = typeof trpcRouter;
+  export type Input = inferRouterInputs<TrpcRouter>;
+  export type Output = inferRouterOutputs<TrpcRouter>;
 }

@@ -10,10 +10,10 @@ export const startApiProcess = async () => {
   const { honoApp } = HonoApp.create({
     backendCtx,
   });
-  BackendHonoRouter.applyToHonoApp({ honoApp });
+  BackendHonoRouter.apply({ honoApp });
   BackendTrpc.applyToHonoApp({
     honoApp,
-    trpcRouter: BackendTrpcRouter.self,
+    trpcRouter: BackendTrpcRouter.trpcRouter,
   });
 
   serve({

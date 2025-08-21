@@ -5,26 +5,22 @@ import {
   type RouteConfig,
 } from "@hono/zod-openapi";
 import { BackendCtx } from "@shmoject/backend/lib/ctx";
-import { ReqCtx } from "@shmoject/backend/lib/req";
+import { BackendReqCtx } from "@shmoject/backend/lib/req";
 import type { Context as HonoContext } from "hono";
 
 export namespace HonoApp {
-  export type ContextVariables = ReqCtx.CtxType;
+  export type ContextVariables = BackendReqCtx.Ctx;
   export type Context = HonoContext<{
     Variables: ContextVariables;
   }>;
 
-  export const create = ({
-    backendCtx,
-  }: {
-    backendCtx: BackendCtx.CtxType;
-  }) => {
+  export const create = ({ backendCtx }: { backendCtx: BackendCtx.Ctx }) => {
     const honoApp = new OpenAPIHono<{
       Variables: ContextVariables;
     }>();
 
     honoApp.use(async (c, next) => {
-      const backendCtxForRequest = await ReqCtx.create({
+      const backendCtxForRequest = await BackendReqCtx.create({
         backendCtx,
       });
       for (const [key, value] of Object.entries(backendCtxForRequest)) {

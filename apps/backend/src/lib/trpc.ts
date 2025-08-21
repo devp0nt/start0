@@ -19,7 +19,7 @@ export namespace BackendTrpc {
     trpcRouter,
   }: {
     honoApp: HonoApp.AppType;
-    trpcRouter: BackendTrpcRouter.Type;
+    trpcRouter: BackendTrpcRouter.TrpcRouter;
   }) => {
     honoApp.use(
       "/trpc/*",
