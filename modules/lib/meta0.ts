@@ -1,4 +1,6 @@
+import { deepMap } from "@shmoject/modules/lib/deepMap"
 import { checkEnumEq } from "@shmoject/modules/lib/lodash0"
+import { isArray, isPlainObject } from "lodash"
 import cloneDeep from "lodash/cloneDeep"
 import omit from "lodash/omit.js"
 import pick from "lodash/pick.js"
@@ -27,6 +29,11 @@ export class Meta0 {
     "reqDurationMs",
   ] as const
   private static axiosKeys = ["axiosData", "axiosStatus"] as const
+  private static zodKeys = [
+    "zodTreeifyedError",
+    "zodPrettifiedError",
+    "zodFlattenedError",
+  ] as const
   private static errorKeys = [
     "message",
     "code",
@@ -43,10 +50,15 @@ export class Meta0 {
     ...Meta0.otherKeys,
     ...Meta0.trpcKeys,
     ...Meta0.axiosKeys,
+    ...Meta0.zodKeys,
     ...Meta0.honoKeys,
     ...Meta0.errorKeys,
     ...Meta0.idsKeys,
   ]
+  private static skipValidationKeys = [
+    "zodTreeifyedError",
+    "zodFlattenedError",
+  ] satisfies Meta0.ValueKey[]
 
   constructor(input: Partial<Meta0.ValueType>) {
     this.value = cloneDeep(Meta0.safeParseValue(input))
@@ -208,7 +220,7 @@ export class Meta0 {
     return Object.keys(this.value).length === 0
   }
 
-  private static isPrimitive(value: unknown): value is Meta0.Primitive {
+  private static isPrimitive(value: unknown) {
     return (
       typeof value === "number" ||
       typeof value === "string" ||
@@ -218,15 +230,28 @@ export class Meta0 {
     )
   }
 
+  private static replaceNotPrimitives(value: any): Record<string, unknown> {
+    return deepMap(value, ({ path, key, value }) => {
+      if (isPlainObject(value) || isArray(value)) {
+        return value
+      }
+      if (Meta0.isPrimitive(value)) {
+        return value
+      }
+      return "__INVALID__"
+    })
+  }
+
   private static safeParseValue(input: unknown): Meta0.ValueType {
     if (typeof input !== "object" || input === null) {
       return {}
     }
     const { other, ...rest } = input as Record<string, unknown>
     const safeRest = Object.fromEntries(
-      Object.entries(rest).map(([key, value]) =>
-        Meta0.isPrimitive(value) ? [key, value] : [key, "__INVALID__"],
-      ),
+      Object.entries(rest).map(([key, value]) => [
+        key,
+        Meta0.replaceNotPrimitives(value),
+      ]),
     )
     if (typeof other !== "object" || other === null) {
       return Meta0.respectValueKeys({
@@ -234,9 +259,10 @@ export class Meta0 {
       })
     }
     const safeOther = Object.fromEntries(
-      Object.entries(other).map(([key, value]) =>
-        Meta0.isPrimitive(value) ? [key, value] : [key, "__INVALID__"],
-      ),
+      Object.entries(other).map(([key, value]) => [
+        key,
+        Meta0.replaceNotPrimitives(value),
+      ]),
     )
     return Meta0.respectValueKeys({
       ...safeRest,
@@ -273,7 +299,6 @@ export class Meta0 {
 }
 
 export namespace Meta0 {
-  export type Primitive = number | string | boolean | undefined | null
   export type ValueType = {
     tag?: string
     code?: string
@@ -283,7 +308,7 @@ export namespace Meta0 {
     message?: string
     userId?: string
     ideaId?: string
-    other?: Record<string, Primitive>
+    other?: Record<string, unknown>
     stack?: string
     ip?: string
     userAgent?: string
@@ -294,10 +319,13 @@ export namespace Meta0 {
     trpcReqType?: string
     axiosData?: string
     axiosStatus?: number
+    zodTreeifyedError?: Record<string, unknown>
+    zodPrettifiedError?: string
+    zodFlattenedError?: Record<string, unknown>
   }
   export type ValueTypeNullish = ValueType | undefined | null
   export type ValueTypeFlat = Omit<ValueType, "other"> & {
-    [key: string]: Primitive
+    [key: string]: unknown
   }
   export type ValueTypeFlatNullish = ValueTypeFlat | undefined | null
   export type Meta0OrValueType = Meta0 | Partial<ValueType>
