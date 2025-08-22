@@ -4,6 +4,7 @@ import { HttpStatusCode } from "axios"
 import { get, pick } from "lodash"
 
 // TODO: anyMessage
+// TODO: optional erro stack on root.tsx
 // TODO: trpc
 // TODO: zod
 // TODO: private more main then static
