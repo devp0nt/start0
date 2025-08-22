@@ -1,6 +1,8 @@
 import { Meta0 } from "@shmoject/modules/lib/meta0"
 import { HttpStatusCode } from "axios"
 
+// TODO: not name but isError0: true or something
+// TODO: add props to meta
 // TODO: trpc
 // TODO: axios
 
@@ -12,7 +14,7 @@ export interface Error0InputGeneral {
   expected?: boolean | ExpectedFn
   clientMessage?: string
   cause?: Error0Cause
-  meta?: Meta0.ValueType | Meta0
+  meta?: Meta0.ValueType | Meta0 | Meta0.ValueTypeFlat
 }
 
 export interface Error0Input extends Error0InputGeneral {
@@ -45,7 +47,7 @@ export class Error0 extends Error {
   public readonly expected?: Error0GeneralProps["expected"]
   public readonly clientMessage?: Error0GeneralProps["clientMessage"]
   public readonly cause?: Error0GeneralProps["cause"]
-  public readonly meta?: Meta0.ValueType | Meta0
+  public readonly meta?: Meta0.ValueType
 
   public readonly propsOriginal: Error0GeneralProps
 

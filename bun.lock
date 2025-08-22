@@ -6,6 +6,8 @@
       "dependencies": {
         "@hono/trpc-server": "^0.4.0",
         "@hono/zod-openapi": "^1.1.0",
+        "@logtape/logtape": "^1.0.4",
+        "@logtape/pretty": "^1.0.4",
         "@react-router/node": "catalog:",
         "@react-router/serve": "^7.7.1",
         "@tanstack/react-query": "^5.85.5",
@@ -25,6 +27,7 @@
         "react-router-hono-server": "^2.2.1",
         "server-only": "^0.0.1",
         "superjson": "^2.2.2",
+        "yaml": "^2.8.1",
         "zod": "^4.0.17",
       },
       "devDependencies": {
@@ -227,6 +230,10 @@
     "@jridgewell/sourcemap-codec": ["@jridgewell/sourcemap-codec@1.5.5", "", {}, "sha512-cYQ9310grqxueWbl+WuIUIaiUaDcj7WOq5fVhEljNVgRfOUhY9fy2zTvfoqWsnebh8Sl70VScFbICvJnLKB0Og=="],
 
     "@jridgewell/trace-mapping": ["@jridgewell/trace-mapping@0.3.30", "", { "dependencies": { "@jridgewell/resolve-uri": "^3.1.0", "@jridgewell/sourcemap-codec": "^1.4.14" } }, "sha512-GQ7Nw5G2lTu/BtHTKfXhKHok2WGetd4XYcVKGx00SjAk8GMwgJM3zr6zORiPGuOE+/vkc90KtTosSSvaCjKb2Q=="],
+
+    "@logtape/logtape": ["@logtape/logtape@1.0.4", "", {}, "sha512-YvNVrXIxVpnY528zoiEjX8PqTfr0UCtKXyssvaWL8AE+OByFTCooKuKMdPlm6g65YUI9fPXrHn4UnogSskABnA=="],
+
+    "@logtape/pretty": ["@logtape/pretty@1.0.4", "", { "peerDependencies": { "@logtape/logtape": "1.0.4" } }, "sha512-jdQ2rErYNalDdtVBropN2I9Fyc4hLxKgYVq5t75KIprXekueuFeOxqeROgYOdOhSpBi4knfr2XvlXBmjaVNPrA=="],
 
     "@mjackson/node-fetch-server": ["@mjackson/node-fetch-server@0.2.0", "", {}, "sha512-EMlH1e30yzmTpGLQjlFmaDAjyOeZhng1/XCd7DExR8PNAnG/G1tyruZxEoUe11ClnwGhGrtsdnyyUx1frSzjng=="],
 

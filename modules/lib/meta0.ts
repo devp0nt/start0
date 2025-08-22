@@ -1,8 +1,6 @@
 import { checkEnumEq } from "@shmoject/modules/lib/lodash0"
 import cloneDeep from "lodash/cloneDeep"
 
-// TODO: assign flat — if some keys not in place, then move them to other
-
 export class Meta0 {
   value: Meta0.ValueType
 
