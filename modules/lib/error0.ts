@@ -2,17 +2,18 @@ import { Meta0 } from "@shmoject/modules/lib/meta0"
 import { TRPCClientError } from "@trpc/client"
 import { type AxiosError, HttpStatusCode, isAxiosError } from "axios"
 import { get, pick } from "lodash"
-import { ZodError } from "zod"
+import z, { ZodError } from "zod"
 
-// TODO: causes
+// TODO: zod
+// TODO: axios
+// TODO: not use self stack if toError0
+// TODO: overrides first
 
 // TODO: createLoader with error0
 // TODO: anyMessage
 // TODO: optional erro stack on root.tsx
-// TODO: trpc
-// TODO: zod
+
 // TODO: private more main then static
-// TODO: axios
 
 // TODO: restart frontend server on code change
 
@@ -28,6 +29,8 @@ export interface Error0Input {
   cause?: Error0Cause
   stack?: string
   meta?: Meta0.Meta0OrValueTypeNullish
+  zodError?: ZodError
+  axiosError?: AxiosError
 }
 
 interface Error0GeneralProps {
@@ -169,6 +172,13 @@ export class Error0 extends Error {
         : typeof error0Input.meta === "object" && error0Input.meta !== null
           ? error0Input.meta
           : undefined
+    result.zodError =
+      error0Input.zodError instanceof ZodError
+        ? error0Input.zodError
+        : undefined
+    result.axiosError = isAxiosError(error0Input.axiosError)
+      ? error0Input.axiosError
+      : undefined
     return result
   }
 
@@ -199,6 +209,8 @@ export class Error0 extends Error {
       cause: error0Input.cause || this.defaultCause,
       stack: undefined,
       meta,
+      zodError: error0Input.zodError,
+      axiosError: error0Input.axiosError,
     }
     result.expected = this.normalizeSelfExpected(
       result,
@@ -226,42 +238,46 @@ export class Error0 extends Error {
       cause,
       stack,
       meta: this.getMergedMetaValue(causesProps),
-      zodError: this.getClosestByGetter(causesProps, (causeProps) =>
-        causeProps.cause instanceof ZodError ? causeProps.cause : undefined,
-      ),
-      axiosError: this.getClosestByGetter(causesProps, (causeProps) =>
-        isAxiosError(causeProps.cause) ? causeProps.cause : undefined,
-      ),
-    }
-    if (propsFloated.zodError) {
-      this.modifyError0GeneralPropsByZodError(
-        propsFloated,
-        propsFloated.zodError,
-      )
-    }
-    if (propsFloated.axiosError) {
-      this.modifyError0GeneralPropsByAxiosError(
-        propsFloated,
-        propsFloated.axiosError,
-      )
+      zodError: this.getClosestPropValue(causesProps, "zodError"),
+      axiosError: this.getClosestPropValue(causesProps, "axiosError"),
     }
     return propsFloated
   }
 
   // sepcial
 
-  private static modifyError0GeneralPropsByZodError(
-    error0Props: Error0GeneralProps,
+  private static getExtraError0PropsByZodError(
     zodError: ZodError,
-  ): void {
-    error0Props.message = "ZOD ERROR"
+  ): Partial<Error0GeneralProps> {
+    return {
+      message: z.prettifyError(zodError),
+    }
   }
 
-  private static modifyError0GeneralPropsByAxiosError(
-    error0Props: Error0GeneralProps,
+  private static getExtraError0PropsByAxiosError(
     axiosError: AxiosError,
+  ): Partial<Error0GeneralProps> {
+    return {
+      message: "Axios Error",
+      meta: {
+        axiosData: (() => {
+          try {
+            return JSON.stringify(axiosError.response?.data)
+          } catch {
+            return undefined
+          }
+        })(),
+        axiosStatus: axiosError.response?.status,
+      },
+    }
+  }
+
+  private static assignError0Props(
+    error0Props: Error0GeneralProps,
+    extraError0Props: Partial<Error0GeneralProps>,
   ): void {
-    error0Props.message = "AXIOS ERROR"
+    const metaValue = Meta0.mergeValues(error0Props.meta, extraError0Props.meta)
+    Object.assign(error0Props, extraError0Props, { meta: metaValue })
   }
 
   // expected
@@ -305,6 +321,8 @@ export class Error0 extends Error {
         clientMessage: undefined,
         cause: undefined,
         stack: undefined,
+        zodError: undefined,
+        axiosError: undefined,
         meta: {},
       }
     }
@@ -343,6 +361,18 @@ export class Error0 extends Error {
           : typeof override?.httpStatus === "string"
             ? HttpStatusCode[override.httpStatus]
             : override?.httpStatus,
+      zodError:
+        "zodError" in error && error.zodError instanceof ZodError
+          ? error.zodError
+          : error instanceof ZodError
+            ? error
+            : override?.zodError,
+      axiosError:
+        "axiosError" in error && isAxiosError(error.axiosError)
+          ? error.axiosError
+          : isAxiosError(error)
+            ? error
+            : override?.axiosError,
     }
     result.expected = this.normalizeSelfExpected(
       result,
@@ -352,6 +382,18 @@ export class Error0 extends Error {
         ? (error.expected as ExpectedFn)
         : override?.expected || undefined,
     )
+    if (result.zodError) {
+      this.assignError0Props(
+        result,
+        this.getExtraError0PropsByZodError(result.zodError),
+      )
+    }
+    if (result.axiosError) {
+      this.assignError0Props(
+        result,
+        this.getExtraError0PropsByAxiosError(result.axiosError),
+      )
+    }
     return result
   }
 
@@ -359,6 +401,9 @@ export class Error0 extends Error {
     error: unknown,
     maxLevel: number,
   ): Error0GeneralProps[] {
+    if (!error) {
+      return []
+    }
     const causeProps = this.getPropsFromUnknown(error)
     const causesProps: Error0GeneralProps[] = [causeProps]
     if (!causeProps.cause) {
@@ -398,18 +443,18 @@ export class Error0 extends Error {
     return undefined
   }
 
-  private static getClosestByGetter<TResult>(
-    causesProps: Error0GeneralProps[],
-    getter: (props: Error0GeneralProps) => TResult,
-  ): NonNullable<TResult> | undefined {
-    for (const causeProps of causesProps) {
-      const result = getter(causeProps)
-      if (isFilled(result)) {
-        return result
-      }
-    }
-    return undefined
-  }
+  // private static getClosestByGetter<TResult>(
+  //   causesProps: Error0GeneralProps[],
+  //   getter: (props: Error0GeneralProps) => TResult,
+  // ): NonNullable<TResult> | undefined {
+  //   for (const causeProps of causesProps) {
+  //     const result = getter(causeProps)
+  //     if (isFilled(result)) {
+  //       return result
+  //     }
+  //   }
+  //   return undefined
+  // }
 
   private static getFilledPropValues<TPropKey extends keyof Error0Input>(
     causesProps: Error0GeneralProps[],
@@ -524,24 +569,19 @@ export class Error0 extends Error {
       return new Error0(error)
     }
 
-    if (error instanceof Error) {
-      // TODO:ASAP zod
-      // TODO:ASAP axios
-      // if
-    }
-
     if (typeof error === "object" && error !== null) {
       const input = this.getPropsFromUnknown(
         error,
         inputOverride,
       ) satisfies Error0Input
-      if (this.isLikelyError0(error)) {
-        return new Error0(input)
-      } else {
-        return new Error0(
-          pick(input, ["message", "code", "httpStatus", "stack"]),
-        )
-      }
+      // if (this.isLikelyError0(error)) {
+      //   return new Error0(input)
+      // } else {
+      //   return new Error0(
+      //     pick(input, ["message", "code", "httpStatus", "stack"]),
+      //   )
+      // }
+      return new Error0(input)
     }
 
     return new Error0({

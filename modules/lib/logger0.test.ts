@@ -34,7 +34,7 @@ describe("logger0", () => {
         "level": "info",
         "message": "Hello, world!",
         "meta": {},
-        "tag": "test.nested",
+        "tag": "test:nested",
       }
     `)
   })
@@ -49,7 +49,7 @@ describe("logger0", () => {
         "meta": {
           "expected": false,
         },
-        "tag": "test.nested",
+        "tag": "test:nested",
       }
     `)
   })
@@ -74,7 +74,7 @@ describe("logger0", () => {
           "expected": true,
           "userId": "user1",
         },
-        "tag": "test.nested.tag1",
+        "tag": "test:nested:tag1",
       }
     `)
   })
@@ -92,7 +92,7 @@ describe("logger0", () => {
         "meta": {
           "userId": "user1",
         },
-        "tag": "test.nested",
+        "tag": "test:nested",
       }
     `)
   })
@@ -111,7 +111,7 @@ describe("logger0", () => {
         "meta": {
           "userId": "user1",
         },
-        "tag": "test.nested",
+        "tag": "test:nested",
       }
     `)
   })
@@ -129,7 +129,7 @@ describe("logger0", () => {
         "meta": {
           "userId": "user1",
         },
-        "tag": "test.nested",
+        "tag": "test:nested",
       }
     `)
     logger0.meta.assign({
@@ -144,7 +144,7 @@ describe("logger0", () => {
           "ideaId": "idea1",
           "userId": "user1",
         },
-        "tag": "test.nested",
+        "tag": "test:nested",
       }
     `)
   })
@@ -158,7 +158,7 @@ describe("logger0", () => {
         "level": "info",
         "message": "xxx",
         "meta": {},
-        "tag": "test.nested.child",
+        "tag": "test:nested:child",
       }
     `)
   })

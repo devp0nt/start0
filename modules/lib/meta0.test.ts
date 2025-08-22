@@ -19,11 +19,11 @@ describe("meta0", () => {
     })
     expect(meta0.value).toMatchInlineSnapshot(`
       {
-        "reqDurationMs": 1,
         "ideaId": "idea1",
         "other": {
           "x": 1,
         },
+        "reqDurationMs": 1,
         "userId": "user1",
       }
     `)
@@ -53,11 +53,11 @@ describe("meta0", () => {
     )
     expect(result).toMatchInlineSnapshot(`
       {
-        "reqDurationMs": 3,
         "ideaId": "idea3",
         "other": {
           "x": 1,
         },
+        "reqDurationMs": 3,
         "userId": "user1",
       }
     `)
@@ -77,11 +77,11 @@ describe("meta0", () => {
     })
     expect(meta0.value).toMatchInlineSnapshot(`
       {
-        "reqDurationMs": 2,
         "ideaId": "idea2",
         "other": {
           "x": 4,
         },
+        "reqDurationMs": 2,
         "userId": "user1",
       }
     `)
@@ -99,11 +99,11 @@ describe("meta0", () => {
     })
     expect(meta0.value).toMatchInlineSnapshot(`
       {
-        "reqDurationMs": 2,
         "ideaId": "idea2",
         "other": {
           "x": 4,
         },
+        "reqDurationMs": 2,
         "userId": "user1",
       }
     `)

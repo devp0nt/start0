@@ -1,4 +1,6 @@
 import { describe, expect, it } from "bun:test"
+import axios, { type AxiosError, isAxiosError } from "axios"
+import z, { ZodError } from "zod"
 import { Error0, ErrorExpected0 } from "./error0"
 
 // TODO: test expected
@@ -397,6 +399,67 @@ describe("error0", () => {
           at <anonymous> (...)"
       ,
         "tag": undefined,
+      }
+    `)
+  })
+
+  it("cause zod error", () => {
+    const zodError = z.object({ x: z.number() }).safeParse("test").error
+    if (!zodError) {
+      throw new Error("zodError is undefined")
+    }
+    expect(zodError).toBeInstanceOf(ZodError)
+    const error0 = new Error0(zodError)
+    expect(error0.zodError).toBe(zodError)
+    expect(error0.message).toBe("Unknown error")
+  })
+
+  it("from zod error", () => {
+    const zodError = z.object({ x: z.number() }).safeParse("test").error
+    if (!zodError) {
+      throw new Error("zodError is undefined")
+    }
+    expect(zodError).toBeInstanceOf(ZodError)
+    const error0 = Error0.from(zodError)
+    expect(error0.zodError).toBe(zodError)
+    expect(error0.message).toBe(
+      "✖ Invalid input: expected object, received string",
+    )
+    expect(error0.meta).toMatchInlineSnapshot(`{}`)
+  })
+
+  it("from axios error", async () => {
+    function makeFakeAxiosError(): AxiosError {
+      return {
+        isAxiosError: true,
+        name: "AxiosError",
+        message: "Request failed with status code 400",
+        config: {}, // can be empty for test
+        toJSON: () => ({}),
+        response: {
+          status: 400,
+          statusText: "Bad Request",
+          headers: {},
+          config: {},
+          data: {
+            error: "Invalid input",
+            details: ["Field X is required"],
+          },
+        },
+      } as AxiosError
+    }
+    const axiosError = makeFakeAxiosError()
+    if (!axiosError) {
+      throw new Error("axiosError is undefined")
+    }
+    expect(isAxiosError(axiosError)).toBe(true)
+    const error0 = Error0.from(axiosError)
+    expect(error0.axiosError).toBe(axiosError)
+    expect(error0.message).toBe("Axios Error")
+    expect(error0.meta).toMatchInlineSnapshot(`
+      {
+        "axiosData": "{"error":"Invalid input","details":["Field X is required"]}",
+        "axiosStatus": 400,
       }
     `)
   })
