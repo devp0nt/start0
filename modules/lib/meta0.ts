@@ -88,8 +88,8 @@ export class Meta0 {
   ) {
     return cloneDeep(
       Meta0.mergeValuesDirty(
-        Meta0.toMeta0ValueSafe(first),
-        ...Meta0.toMeta0ValuesSafe(nexts),
+        Meta0.toValueSafe(first),
+        ...Meta0.toValuesSafe(nexts),
       ),
     )
   }
@@ -100,8 +100,8 @@ export class Meta0 {
   ) {
     return new Meta0(
       Meta0.mergeValuesDirty(
-        Meta0.toMeta0ValueSafe(first),
-        ...Meta0.toMeta0ValuesSafe(nexts),
+        Meta0.toValueSafe(first),
+        ...Meta0.toValuesSafe(nexts),
       ),
     )
   }
@@ -136,10 +136,7 @@ export class Meta0 {
     first: Meta0.Meta0OrValueType,
     ...nexts: Meta0.Meta0OrValueTypeNullish[]
   ): void {
-    const values = [
-      Meta0.toMeta0ValueRaw(first),
-      ...nexts.map(Meta0.toMeta0ValueSafe),
-    ]
+    const values = [Meta0.toValueRaw(first), ...nexts.map(Meta0.toValueSafe)]
     Meta0.assignValues(values[0], ...values.slice(1))
   }
 
@@ -176,31 +173,27 @@ export class Meta0 {
     return new Meta0(input || {})
   }
 
-  static toMeta0ValueRaw(
-    input: Meta0.Meta0OrValueTypeNullish,
-  ): Meta0.ValueType {
+  static toValueRaw(input: Meta0.Meta0OrValueTypeNullish): Meta0.ValueType {
     if (input instanceof Meta0) {
       return input.value
     }
     return input || {}
   }
 
-  static toMeta0ValuesRaw(
+  static toValuesRaw(
     input: Meta0.Meta0OrValueTypeNullish[],
   ): Meta0.ValueType[] {
-    return input.map(Meta0.toMeta0ValueRaw)
+    return input.map(Meta0.toValueRaw)
   }
 
-  static toMeta0ValueSafe(
-    input: Meta0.Meta0OrValueTypeNullish,
-  ): Meta0.ValueType {
-    return Meta0.safeParseValue(Meta0.toMeta0ValueRaw(input))
+  static toValueSafe(input: Meta0.Meta0OrValueTypeNullish): Meta0.ValueType {
+    return Meta0.safeParseValue(Meta0.toValueRaw(input))
   }
 
-  static toMeta0ValuesSafe(
+  static toValuesSafe(
     input: Meta0.Meta0OrValueTypeNullish[],
   ): Meta0.ValueType[] {
-    return input.map(Meta0.toMeta0ValueSafe)
+    return input.map(Meta0.toValueSafe)
   }
 
   static isEmpty(input: Meta0.Meta0OrValueTypeNullish): boolean {

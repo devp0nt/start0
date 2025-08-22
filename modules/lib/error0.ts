@@ -1,7 +1,8 @@
 import { Meta0 } from "@shmoject/modules/lib/meta0"
 import { TRPCClientError } from "@trpc/client"
-import { HttpStatusCode } from "axios"
+import { type AxiosError, HttpStatusCode, isAxiosError } from "axios"
 import { get, pick } from "lodash"
+import { ZodError } from "zod"
 
 // TODO: causes
 
@@ -39,6 +40,8 @@ interface Error0GeneralProps {
   cause: Error0Input["cause"]
   stack: Error["stack"]
   meta: Meta0.ValueType
+  zodError?: ZodError
+  axiosError?: AxiosError
 }
 
 type HttpStatusCodeString = keyof typeof HttpStatusCode
@@ -58,6 +61,8 @@ export class Error0 extends Error {
   public readonly clientMessage?: Error0GeneralProps["clientMessage"]
   public readonly cause?: Error0GeneralProps["cause"]
   public readonly meta?: Meta0.ValueType
+  public readonly zodError?: Error0GeneralProps["zodError"]
+  public readonly axiosError?: Error0GeneralProps["axiosError"]
 
   static defaultMessage = "Unknown error"
   static defaultTag?: Error0GeneralProps["tag"]
@@ -98,7 +103,9 @@ export class Error0 extends Error {
     this.propsOriginal = (
       this.constructor as typeof Error0
     ).getSelfGeneralProps(safeInput, safeInput.stack || this.stack)
-    const causesProps = (this.constructor as typeof Error0).getCausesProps(
+    const causesProps = (
+      this.constructor as typeof Error0
+    ).getCausesPropsFromError0Props(
       this.propsOriginal,
       (this.constructor as typeof Error0).defaultMaxLevel,
     )
@@ -113,6 +120,8 @@ export class Error0 extends Error {
     this.cause = propsFloated.cause
     this.stack = propsFloated.stack
     this.meta = propsFloated.meta
+    this.zodError = propsFloated.zodError
+    this.axiosError = propsFloated.axiosError
   }
 
   // settings
@@ -217,8 +226,42 @@ export class Error0 extends Error {
       cause,
       stack,
       meta: this.getMergedMetaValue(causesProps),
+      zodError: this.getClosestByGetter(causesProps, (causeProps) =>
+        causeProps.cause instanceof ZodError ? causeProps.cause : undefined,
+      ),
+      axiosError: this.getClosestByGetter(causesProps, (causeProps) =>
+        isAxiosError(causeProps.cause) ? causeProps.cause : undefined,
+      ),
+    }
+    if (propsFloated.zodError) {
+      this.modifyError0GeneralPropsByZodError(
+        propsFloated,
+        propsFloated.zodError,
+      )
+    }
+    if (propsFloated.axiosError) {
+      this.modifyError0GeneralPropsByAxiosError(
+        propsFloated,
+        propsFloated.axiosError,
+      )
     }
     return propsFloated
+  }
+
+  // sepcial
+
+  private static modifyError0GeneralPropsByZodError(
+    error0Props: Error0GeneralProps,
+    zodError: ZodError,
+  ): void {
+    error0Props.message = "ZOD ERROR"
+  }
+
+  private static modifyError0GeneralPropsByAxiosError(
+    error0Props: Error0GeneralProps,
+    axiosError: AxiosError,
+  ): void {
+    error0Props.message = "AXIOS ERROR"
   }
 
   // expected
@@ -290,8 +333,8 @@ export class Error0 extends Error {
       cause: "cause" in error ? error.cause : override?.cause || undefined,
       meta:
         "meta" in error && typeof error.meta === "object" && error.meta !== null
-          ? Meta0.toMeta0ValueSafe(error.meta)
-          : Meta0.toMeta0ValueSafe(override?.meta) || {},
+          ? Meta0.toValueSafe(error.meta)
+          : Meta0.toValueSafe(override?.meta) || {},
       httpStatus:
         "httpStatus" in error &&
         typeof error.httpStatus === "number" &&
@@ -312,28 +355,34 @@ export class Error0 extends Error {
     return result
   }
 
-  private static getCausesProps(
-    error0OrProps: unknown,
+  private static getCausesPropsFromUnknown(
+    error: unknown,
     maxLevel: number,
   ): Error0GeneralProps[] {
-    const error0Props =
-      error0OrProps instanceof Error0
-        ? error0OrProps.propsOriginal
-        : error0OrProps
-    const causesProps: Error0GeneralProps[] = []
-    causesProps.push(this.getPropsFromUnknown(error0OrProps))
-    if (
-      typeof error0Props !== "object" ||
-      error0Props === null ||
-      !("cause" in error0Props) ||
-      !error0Props.cause
-    ) {
+    const causeProps = this.getPropsFromUnknown(error)
+    const causesProps: Error0GeneralProps[] = [causeProps]
+    if (!causeProps.cause) {
       return causesProps
     }
     if (maxLevel > 0) {
-      causesProps.push(...this.getCausesProps(error0Props.cause, maxLevel - 1))
+      causesProps.push(
+        ...this.getCausesPropsFromUnknown(
+          this.getPropsFromUnknown(causeProps.cause),
+          maxLevel - 1,
+        ),
+      )
     }
     return causesProps
+  }
+
+  private static getCausesPropsFromError0Props(
+    error0Props: Error0GeneralProps,
+    maxLevel: number,
+  ): Error0GeneralProps[] {
+    return [
+      error0Props,
+      ...this.getCausesPropsFromUnknown(error0Props.cause, maxLevel - 1),
+    ]
   }
 
   private static getClosestPropValue<TPropKey extends keyof Error0GeneralProps>(
@@ -344,6 +393,19 @@ export class Error0 extends Error {
       const propValue = causeProps[propKey]
       if (isFilled(propValue)) {
         return propValue as NonNullable<Error0GeneralProps[TPropKey]>
+      }
+    }
+    return undefined
+  }
+
+  private static getClosestByGetter<TResult>(
+    causesProps: Error0GeneralProps[],
+    getter: (props: Error0GeneralProps) => TResult,
+  ): NonNullable<TResult> | undefined {
+    for (const causeProps of causesProps) {
+      const result = getter(causeProps)
+      if (isFilled(result)) {
+        return result
       }
     }
     return undefined
@@ -460,6 +522,12 @@ export class Error0 extends Error {
 
     if (typeof error === "string") {
       return new Error0(error)
+    }
+
+    if (error instanceof Error) {
+      // TODO:ASAP zod
+      // TODO:ASAP axios
+      // if
     }
 
     if (typeof error === "object" && error !== null) {
