@@ -220,12 +220,10 @@ describe("error0", () => {
         "code": undefined,
         "expected": false,
         "httpStatus": undefined,
-        "message": "test",
-        "meta": {
-          "other": undefined,
-        },
+        "message": "Unknown error",
+        "meta": {},
         "stack": 
-      "Error0: test
+      "Error0: Unknown error
           at <anonymous> (...)
 
       Error0: test
@@ -235,7 +233,7 @@ describe("error0", () => {
       }
     `)
     expect(fixStack(error2.stack)).toMatchInlineSnapshot(`
-      "Error0: test
+      "Error0: Unknown error
           at <anonymous> (...)
 
       Error0: test
@@ -254,10 +252,10 @@ describe("error0", () => {
         "code": undefined,
         "expected": false,
         "httpStatus": undefined,
-        "message": "default error",
+        "message": "Unknown error",
         "meta": {},
         "stack": 
-      "Error0: default error
+      "Error0: Unknown error
           at <anonymous> (...)
 
       Error: default error
@@ -267,7 +265,7 @@ describe("error0", () => {
       }
     `)
     expect(fixStack(error0.stack)).toMatchInlineSnapshot(`
-      "Error0: default error
+      "Error0: Unknown error
           at <anonymous> (...)
 
       Error: default error
@@ -286,12 +284,10 @@ describe("error0", () => {
         "code": undefined,
         "expected": false,
         "httpStatus": undefined,
-        "message": "error0 error",
-        "meta": {
-          "other": undefined,
-        },
+        "message": "Unknown error",
+        "meta": {},
         "stack": 
-      "Error0: error0 error
+      "Error0: Unknown error
           at <anonymous> (...)
 
       Error0: error0 error
@@ -301,7 +297,7 @@ describe("error0", () => {
       }
     `)
     expect(fixStack(error0.stack)).toMatchInlineSnapshot(`
-      "Error0: error0 error
+      "Error0: Unknown error
           at <anonymous> (...)
 
       Error0: error0 error

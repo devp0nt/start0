@@ -3,6 +3,8 @@ import { TRPCClientError } from "@trpc/client"
 import { HttpStatusCode } from "axios"
 import { get, pick } from "lodash"
 
+// TODO: causes
+
 // TODO: createLoader with error0
 // TODO: anyMessage
 // TODO: optional erro stack on root.tsx
@@ -89,8 +91,7 @@ export class Error0 extends Error {
     }
     const safeInput = Error0.safeParseInput(input)
 
-    const message = Error0.normalizeMessage(safeInput)
-    super(message)
+    super(safeInput.message || Error0.defaultMessage)
     Object.setPrototypeOf(this, (this.constructor as typeof Error0).prototype)
     this.name = "Error0"
 
@@ -98,9 +99,12 @@ export class Error0 extends Error {
       safeInput,
       safeInput.stack || this.stack,
     )
-    const propsFloated = (this.constructor as typeof Error0).getPropsFloated(
+    const causesProps = (this.constructor as typeof Error0).getCausesProps(
       this.propsOriginal,
       (this.constructor as typeof Error0).defaultMaxLevel,
+    )
+    const propsFloated = (this.constructor as typeof Error0).getPropsFloated(
+      causesProps,
     )
     this.tag = propsFloated.tag
     this.code = propsFloated.code
@@ -118,24 +122,24 @@ export class Error0 extends Error {
 
   // props
 
-  private static normalizeMessage(error0Input: Error0Input) {
-    if (
-      typeof error0Input.message === "string" &&
-      error0Input.message.length > 0
-    ) {
-      return error0Input.message
-    }
-    const closestMessageRaw = Error0.getClosestPropValue<"message", unknown>(
-      { message: error0Input.message, cause: error0Input.cause },
-      "message",
-      Error0.defaultMaxLevel,
-    )
-    const closestMessage =
-      typeof closestMessageRaw === "string" && closestMessageRaw.length > 0
-        ? closestMessageRaw
-        : undefined
-    return closestMessage || Error0.defaultMessage
-  }
+  // private static normalizeMessage(error0Input: Error0Input) {
+  //   if (
+  //     typeof error0Input.message === "string" &&
+  //     error0Input.message.length > 0
+  //   ) {
+  //     return error0Input.message
+  //   }
+  //   const closestMessageRaw = Error0.getClosestPropValue<"message", unknown>(
+  //     { message: error0Input.message, cause: error0Input.cause },
+  //     "message",
+  //     Error0.defaultMaxLevel,
+  //   )
+  //   const closestMessage =
+  //     typeof closestMessageRaw === "string" && closestMessageRaw.length > 0
+  //       ? closestMessageRaw
+  //       : undefined
+  //   return closestMessage || Error0.defaultMessage
+  // }
 
   private static safeParseInput(
     error0Input: Record<string, unknown>,
@@ -207,7 +211,7 @@ export class Error0 extends Error {
       stack: undefined,
       meta,
     }
-    result.expected = this.normalizeExpected(
+    result.expected = this.normalizeSelfExpected(
       result,
       typeof error0Input.expected === "boolean" ||
         typeof error0Input.expected === "function"
@@ -219,39 +223,27 @@ export class Error0 extends Error {
   }
 
   private static getPropsFloated(
-    error0Props: Error0GeneralProps,
-    maxLevel: number,
+    causesProps: Error0GeneralProps[],
   ): Error0GeneralProps {
-    const cause = this.getClosestPropValue(error0Props, "cause", maxLevel)
-    const causeStack =
-      typeof cause === "object" &&
-      cause !== null &&
-      "stack" in cause &&
-      typeof cause.stack === "string"
-        ? cause.stack
-        : undefined
-    const stack = this.mergeStack(causeStack, error0Props.stack)
+    const cause = this.getClosestPropValue(causesProps, "cause")
+    const stack = this.mergeStack(causesProps[1]?.stack, causesProps[0]?.stack)
     const propsFloated: Error0GeneralProps = {
-      message: this.getClosestPropValue(error0Props, "message", maxLevel),
-      tag: this.getClosestPropValue(error0Props, "tag", maxLevel),
-      code: this.getClosestPropValue(error0Props, "code", maxLevel),
-      httpStatus: this.getClosestPropValue(error0Props, "httpStatus", maxLevel),
-      expected: this._isExpected(error0Props, maxLevel),
-      clientMessage: this.getClosestPropValue(
-        error0Props,
-        "clientMessage",
-        maxLevel,
-      ),
+      message: this.getClosestPropValue(causesProps, "message"),
+      tag: this.getClosestPropValue(causesProps, "tag"),
+      code: this.getClosestPropValue(causesProps, "code"),
+      httpStatus: this.getClosestPropValue(causesProps, "httpStatus"),
+      expected: this.isExpected(causesProps),
+      clientMessage: this.getClosestPropValue(causesProps, "clientMessage"),
       cause,
       stack,
-      meta: this.getMergedMetaValue(error0Props, maxLevel),
+      meta: this.getMergedMetaValue(causesProps),
     }
     return propsFloated
   }
 
   // expected
 
-  private static normalizeExpected(
+  private static normalizeSelfExpected(
     error0Props: Error0GeneralProps,
     expectedProvided: Error0Input["expected"],
   ): boolean | undefined {
@@ -261,46 +253,147 @@ export class Error0 extends Error {
     return expectedProvided
   }
 
-  private static _isExpected(
-    error0OrProps: unknown,
-    maxLevel: number,
-    hasExpectedTrue: boolean = false,
-  ): boolean {
-    const expectedProvided =
-      typeof error0OrProps === "object" &&
-      error0OrProps !== null &&
-      "expected" in error0OrProps &&
-      typeof error0OrProps.expected === "boolean"
-        ? error0OrProps.expected
-        : undefined
-    const causeProvided =
-      typeof error0OrProps === "object" &&
-      error0OrProps !== null &&
-      "cause" in error0OrProps &&
-      error0OrProps.cause !== null
-        ? error0OrProps.cause
-        : undefined
-
-    if (typeof expectedProvided === "boolean") {
-      if (expectedProvided === false) {
+  private static isExpected(causesProps: Error0GeneralProps[]): boolean {
+    let hasExpectedTrue = false
+    for (const causeProps of causesProps) {
+      if (causeProps.expected === false) {
         return false
-      } else {
+      }
+      if (causeProps.expected === true) {
         hasExpectedTrue = true
       }
     }
-
-    if (
-      typeof causeProvided === "object" &&
-      causeProvided !== null &&
-      maxLevel > 0
-    ) {
-      return this._isExpected(causeProvided, maxLevel - 1, hasExpectedTrue)
-    }
-
     return hasExpectedTrue
   }
-  static isExpected(error: unknown): boolean {
-    return this._isExpected(error, this.defaultMaxLevel, false)
+
+  // getters
+
+  private static getPropsFromUnknown(
+    error: unknown,
+    override?: Error0Input,
+  ): Error0GeneralProps {
+    if (typeof error !== "object" || error === null) {
+      return {
+        message: undefined,
+        tag: undefined,
+        code: undefined,
+        httpStatus: undefined,
+        expected: undefined,
+        clientMessage: undefined,
+        cause: undefined,
+        stack: undefined,
+        meta: {},
+      }
+    }
+    const result: Error0GeneralProps = {
+      message:
+        "message" in error && typeof error.message === "string"
+          ? error.message
+          : override?.message || undefined,
+      code:
+        "code" in error && typeof error.code === "string"
+          ? error.code
+          : override?.code || undefined,
+      clientMessage:
+        "clientMessage" in error && typeof error.clientMessage === "string"
+          ? error.clientMessage
+          : override?.clientMessage || undefined,
+      expected: undefined,
+      stack:
+        "stack" in error && typeof error.stack === "string"
+          ? error.stack
+          : undefined,
+      tag:
+        "tag" in error && typeof error.tag === "string"
+          ? error.tag
+          : override?.tag || undefined,
+      cause: "cause" in error ? error.cause : override?.cause || undefined,
+      meta:
+        "meta" in error && typeof error.meta === "object" && error.meta !== null
+          ? Meta0.toMeta0ValueSafe(error.meta)
+          : Meta0.toMeta0ValueSafe(override?.meta) || {},
+      httpStatus:
+        "httpStatus" in error &&
+        typeof error.httpStatus === "number" &&
+        error.httpStatus in HttpStatusCode
+          ? error.httpStatus
+          : typeof override?.httpStatus === "string"
+            ? HttpStatusCode[override.httpStatus]
+            : override?.httpStatus,
+    }
+    result.expected = this.normalizeSelfExpected(
+      result,
+      "expected" in error &&
+        (typeof error.expected === "boolean" ||
+          typeof error.expected === "function")
+        ? (error.expected as ExpectedFn)
+        : override?.expected || undefined,
+    )
+    return result
+  }
+
+  private static getCausesProps(
+    error0OrProps: unknown,
+    maxLevel: number,
+  ): Error0GeneralProps[] {
+    const error0Props =
+      error0OrProps instanceof Error0
+        ? error0OrProps.propsOriginal
+        : error0OrProps
+    const causesProps: Error0GeneralProps[] = []
+    causesProps.push(this.getPropsFromUnknown(error0OrProps))
+    if (
+      typeof error0Props !== "object" ||
+      error0Props === null ||
+      !("cause" in error0Props) ||
+      !error0Props.cause
+    ) {
+      return causesProps
+    }
+    if (maxLevel > 0) {
+      causesProps.push(...this.getCausesProps(error0Props.cause, maxLevel - 1))
+    }
+    return causesProps
+  }
+
+  private static getClosestPropValue<TPropKey extends keyof Error0GeneralProps>(
+    causesProps: Error0GeneralProps[],
+    propKey: TPropKey,
+  ): NonNullable<Error0GeneralProps[TPropKey]> | undefined {
+    for (const causeProps of causesProps) {
+      const propValue = causeProps[propKey]
+      if (isFilled(propValue)) {
+        return propValue as NonNullable<Error0GeneralProps[TPropKey]>
+      }
+    }
+    return undefined
+  }
+
+  private static getFilledPropValues<TPropKey extends keyof Error0Input>(
+    causesProps: Error0GeneralProps[],
+    propKey: TPropKey,
+  ): NonNullable<Error0GeneralProps[TPropKey]>[] {
+    const values: NonNullable<Error0GeneralProps[TPropKey]>[] = []
+    for (const causeProps of causesProps) {
+      const propValue = causeProps[propKey]
+      if (isFilled(propValue)) {
+        values.push(propValue as NonNullable<Error0GeneralProps[TPropKey]>)
+      }
+    }
+    return values
+  }
+
+  private static getMergedMetaValue(
+    causesProps: Error0GeneralProps[],
+  ): Meta0.ValueType {
+    const metas = this.getFilledPropValues(causesProps, "meta")
+    if (metas.length === 0) {
+      return {}
+    } else if (metas.length === 1) {
+      return metas[0]
+    } else {
+      return Meta0.mergeValues(metas[0], ...metas.slice(1))
+    }
   }
 
   // stack
@@ -333,120 +426,6 @@ export class Error0 extends Error {
     nextStack: Error0GeneralProps["stack"],
   ): Error0GeneralProps["stack"] {
     return [nextStack, prevStack].filter(Boolean).join("\n\n") || undefined
-  }
-
-  // getters
-
-  private static getClosestPropValue<
-    TPropKey extends keyof Error0GeneralProps,
-    TPropValueNormalized,
-  >(
-    error0OrProps: unknown,
-    propKey: TPropKey,
-    maxLevel: number,
-    getter: (props: unknown) => TPropValueNormalized = (props) =>
-      (typeof props === "object" && props !== null && propKey in props
-        ? props[propKey as keyof typeof props]
-        : undefined) as TPropValueNormalized,
-  ): NonNullable<TPropValueNormalized> | undefined {
-    const error0Props =
-      error0OrProps instanceof Error0
-        ? error0OrProps.propsOriginal
-        : error0OrProps
-    const propValue = getter(error0Props)
-    if (isFilled(propValue)) {
-      return propValue
-    }
-    if (
-      typeof error0Props !== "object" ||
-      error0Props === null ||
-      !("cause" in error0Props) ||
-      !error0Props.cause
-    ) {
-      return undefined
-    }
-    if (maxLevel > 0) {
-      if (error0Props.cause instanceof Error0) {
-        return error0Props.cause[propKey] as
-          | NonNullable<TPropValueNormalized>
-          | undefined
-      } else {
-        return this.getClosestPropValue(
-          error0Props.cause,
-          propKey,
-          maxLevel - 1,
-          getter,
-        )
-      }
-    }
-    return undefined
-  }
-
-  private static getMergedMetaValue(
-    error0OrProps: unknown,
-    maxLevel: number,
-  ): Meta0.ValueType {
-    const metas = this.getFilledPropValues(
-      error0OrProps,
-      "meta",
-      maxLevel,
-      (props) =>
-        typeof props === "object" && props !== null && "meta" in props
-          ? props.meta
-          : undefined,
-    )
-    if (metas.length === 0) {
-      return {}
-    } else if (metas.length === 1) {
-      return metas[0]
-    } else {
-      return Meta0.mergeValues(metas[0], ...metas.slice(1))
-    }
-  }
-
-  private static getFilledPropValues<
-    TPropKey extends keyof Error0Input,
-    TPropValueNormalized,
-  >(
-    error0OrProps: unknown,
-    propKey: TPropKey,
-    maxLevel: number,
-    getter: (props: unknown) => TPropValueNormalized = (props) =>
-      (typeof props === "object" && props !== null && propKey in props
-        ? props[propKey as keyof typeof props]
-        : undefined) as TPropValueNormalized,
-  ): NonNullable<TPropValueNormalized>[] {
-    const values: NonNullable<TPropValueNormalized>[] = []
-    const error0Props: unknown =
-      error0OrProps instanceof Error0
-        ? error0OrProps.propsOriginal
-        : error0OrProps
-    if (typeof error0Props !== "object" || error0Props === null) {
-      return values
-    }
-    const propValue = getter(error0Props)
-    if (isFilled(propValue)) {
-      values.push(propValue)
-    }
-    if (
-      typeof error0Props !== "object" ||
-      error0Props === null ||
-      !("cause" in error0Props) ||
-      !error0Props.cause
-    ) {
-      return values
-    }
-    if (maxLevel > 0) {
-      values.push(
-        ...this.getFilledPropValues(
-          error0Props.cause,
-          propKey,
-          maxLevel - 1,
-          getter,
-        ),
-      )
-    }
-    return values
   }
 
   // transformations
@@ -504,44 +483,11 @@ export class Error0 extends Error {
     }
 
     if (typeof error === "object" && error !== null) {
-      const input = {
-        message:
-          "message" in error && typeof error.message === "string"
-            ? error.message
-            : inputOverride?.message || undefined,
-        code:
-          "code" in error && typeof error.code === "string"
-            ? error.code
-            : inputOverride?.code || undefined,
-        clientMessage:
-          "clientMessage" in error && typeof error.clientMessage === "string"
-            ? error.clientMessage
-            : inputOverride?.clientMessage || undefined,
-        expected:
-          "expected" in error && typeof error.expected === "boolean"
-            ? error.expected
-            : inputOverride?.expected || undefined,
-        tag:
-          "tag" in error && typeof error.tag === "string"
-            ? error.tag
-            : inputOverride?.tag || undefined,
-        cause:
-          "cause" in error ? error.cause : inputOverride?.cause || undefined,
-        meta:
-          "meta" in error &&
-          typeof error.meta === "object" &&
-          error.meta !== null
-            ? error.meta
-            : inputOverride?.meta || undefined,
-        httpStatus:
-          "httpStatus" in error &&
-          typeof error.httpStatus === "number" &&
-          error.httpStatus in HttpStatusCode
-            ? error.httpStatus
-            : inputOverride?.httpStatus || undefined,
-      } satisfies Error0Input
-
-      if (this.isLikelyError0(input)) {
+      const input = this.getPropsFromUnknown(
+        error,
+        inputOverride,
+      ) satisfies Error0Input
+      if (this.isLikelyError0(error)) {
         return new Error0(input)
       } else {
         return new Error0(
@@ -604,17 +550,6 @@ export class Error0 extends Error {
 export namespace Error0 {
   export type JSON = ReturnType<Error0["toJSON"]>
 }
-
-// export class ErrorExpected0 extends Error0 {
-//   static self = ErrorExpected0
-//   self = ErrorExpected0
-//   static defaultExpected = true
-
-//   constructor(...args: unknown[]) {
-//     super("...")
-//     Object.setPrototypeOf(this, new.target.prototype) // ✅ correct subclass
-//   }
-// }
 
 export const ErrorExpected0 = Error0.extendClass({
   defaultExpected: true,

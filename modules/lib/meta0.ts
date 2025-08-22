@@ -78,7 +78,7 @@ export class Meta0 {
     return Meta0.mergeValuesDirty(...allExceptLastTwo, {
       ...prev,
       ...next,
-      other,
+      ...(other && Object.keys(other).length > 0 ? { other } : {}),
     })
   }
 
@@ -119,7 +119,7 @@ export class Meta0 {
     const next = lastTwo[1]
     const { other: nextOther, ...nextRest } = next
     Object.assign(prev, nextRest)
-    if (nextOther) {
+    if (nextOther && Object.keys(nextOther).length > 0) {
       if (!prev.other) {
         prev.other = {}
       }
@@ -244,7 +244,7 @@ export class Meta0 {
     )
     return Meta0.respectValueKeys({
       ...safeRest,
-      other: safeOther,
+      ...(Object.keys(safeOther).length > 0 ? { other: safeOther } : {}),
     })
   }
 
