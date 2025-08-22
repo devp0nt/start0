@@ -12,9 +12,6 @@ import type { ExtractEnum } from "@shmoject/modules/lib/lodash0"
 import { Meta0 } from "@shmoject/modules/lib/meta0"
 import yaml from "yaml"
 
-// TODO: own call
-// TODO: provide default meta
-
 const ansiColorFormatter = getAnsiColorFormatter({
   category: (category) => category.join("."),
 })
@@ -223,6 +220,7 @@ export namespace Logger0 {
   x.info("Hello, world!", { other: { z: 1, x: 3 } })
   const y = x.getChild("zxc.wefwef.aaa.wefgwegewg")
   y.info("Hello, world!")
+  y.defaultMeta.assign({ tag: "tag2" })
   logger.error(new Error0("test0", { tag: "tag1", meta: { other: { z: 1 } } }))
   logger.error(new Error("test1"))
 })()
