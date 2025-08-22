@@ -32,6 +32,7 @@ interface Error0GeneralProps {
   httpStatus: number | undefined
   expected: boolean | undefined
   clientMessage: Error0Input["clientMessage"]
+  anyMessage: string | undefined
   cause: Error0Input["cause"]
   stack: Error["stack"]
   meta: Meta0.ValueType
@@ -54,6 +55,7 @@ export class Error0 extends Error {
   public readonly httpStatus?: Error0GeneralProps["httpStatus"]
   public readonly expected?: Error0GeneralProps["expected"]
   public readonly clientMessage?: Error0GeneralProps["clientMessage"]
+  public readonly anyMessage?: Error0GeneralProps["anyMessage"]
   public readonly cause?: Error0GeneralProps["cause"]
   public readonly meta?: Meta0.ValueType
   public readonly zodError?: Error0GeneralProps["zodError"]
@@ -91,13 +93,18 @@ export class Error0 extends Error {
     }
     const safeInput = Error0.safeParseInput(input)
 
-    super(safeInput.message || Error0.defaultMessage)
+    const message = safeInput.message || Error0.defaultMessage
+    super(message)
     Object.setPrototypeOf(this, (this.constructor as typeof Error0).prototype)
     this.name = "Error0"
 
     this.propsOriginal = (
       this.constructor as typeof Error0
-    ).getSelfGeneralProps(safeInput, safeInput.stack || this.stack)
+    ).getSelfGeneralProps({
+      error0Input: safeInput,
+      message,
+      stack: safeInput.stack || this.stack,
+    })
     const causesProps = (
       this.constructor as typeof Error0
     ).getCausesPropsFromError0Props(
@@ -174,16 +181,22 @@ export class Error0 extends Error {
     return result
   }
 
-  private static getSelfGeneralProps(
-    error0Input: Error0Input,
-    stack: Error0GeneralProps["stack"],
-  ): Error0GeneralProps {
+  private static getSelfGeneralProps({
+    error0Input,
+    message,
+    stack,
+  }: {
+    error0Input: Error0Input
+    message: string
+    stack: Error0GeneralProps["stack"]
+  }): Error0GeneralProps {
     // const meta = Meta0.merge(error0Input.meta0, error0Input.meta).value
     const meta = Meta0.merge(
       this.defaultMeta,
       error0Input.meta,
       error0Input.meta,
     ).value
+    const clientMessage = error0Input.clientMessage || this.defaultClientMessage
     const result: Error0GeneralProps = {
       message: error0Input.message || this.defaultMessage,
       tag: error0Input.tag || meta.tag || this.defaultTag,
@@ -197,7 +210,8 @@ export class Error0 extends Error {
             ? HttpStatusCode[error0Input.httpStatus]
             : meta.httpStatus || this.defaultHttpStatus,
       expected: undefined,
-      clientMessage: error0Input.clientMessage || this.defaultClientMessage,
+      clientMessage,
+      anyMessage: clientMessage || message,
       cause: error0Input.cause || this.defaultCause,
       stack: undefined,
       meta,
@@ -229,6 +243,7 @@ export class Error0 extends Error {
       clientMessage: this.getClosestPropValue(causesProps, "clientMessage"),
       cause,
       stack,
+      anyMessage: causesProps[0].anyMessage,
       meta: this.getMergedMetaValue(causesProps),
       zodError: this.getClosestPropValue(causesProps, "zodError"),
       axiosError: this.getClosestPropValue(causesProps, "axiosError"),
@@ -311,6 +326,7 @@ export class Error0 extends Error {
         httpStatus: undefined,
         expected: undefined,
         clientMessage: undefined,
+        anyMessage: this.defaultMessage,
         cause: undefined,
         stack: undefined,
         zodError: undefined,
@@ -318,19 +334,22 @@ export class Error0 extends Error {
         meta: {},
       }
     }
+    const message =
+      "message" in error && typeof error.message === "string"
+        ? error.message
+        : undefined
+    const clientMessage =
+      "clientMessage" in error && typeof error.clientMessage === "string"
+        ? error.clientMessage
+        : defaults?.clientMessage || undefined
     const result: Error0GeneralProps = {
-      message:
-        "message" in error && typeof error.message === "string"
-          ? error.message
-          : undefined,
+      message,
       code:
         "code" in error && typeof error.code === "string"
           ? error.code
           : defaults?.code || undefined,
-      clientMessage:
-        "clientMessage" in error && typeof error.clientMessage === "string"
-          ? error.clientMessage
-          : defaults?.clientMessage || undefined,
+      clientMessage,
+      anyMessage: clientMessage || message || this.defaultMessage,
       expected: undefined,
       stack:
         "stack" in error && typeof error.stack === "string"
@@ -615,6 +634,7 @@ export class Error0 extends Error {
       httpStatus: this.httpStatus,
       expected: this.expected,
       clientMessage: this.clientMessage,
+      anyMessage: this.anyMessage,
       cause: this.cause,
       meta: this.meta,
       stack: this.stack,

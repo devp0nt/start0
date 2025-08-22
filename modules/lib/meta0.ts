@@ -3,9 +3,10 @@ import cloneDeep from "lodash/cloneDeep"
 import omit from "lodash/omit.js"
 import pick from "lodash/pick.js"
 
-// TODO: use zod to define types
 // TODO: sensetive keys
+// TODO: refactor
 
+// TODO: use zod to define types
 // TODO: private more main then static
 // TODO: infer somehow correct meta in meta[] in props
 
