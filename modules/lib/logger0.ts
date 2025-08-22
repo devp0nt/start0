@@ -1,22 +1,23 @@
 import {
-  configure,
+  configureSync,
   getAnsiColorFormatter,
   getConsoleSink,
   getLogger,
   type Logger,
   type LogLevel,
   type LogRecord,
+  type Sink,
 } from "@logtape/logtape"
 import { Error0, type Error0Input } from "@shmoject/modules/lib/error0"
 import type { ExtractEnum } from "@shmoject/modules/lib/lodash0"
 import { Meta0 } from "@shmoject/modules/lib/meta0"
 import yaml from "yaml"
 
-const ansiColorFormatter = getAnsiColorFormatter({
-  category: (category) => category.join("."),
-})
+// TODO: DEBUG
 
 export class Logger0 {
+  static rootCategory = "shmoject"
+
   error: Logger0.LogBadFn
   fatal: Logger0.LogBadFn
   info: Logger0.LogOkFn
@@ -25,14 +26,14 @@ export class Logger0 {
   debug: Logger0.LogOkFn
 
   original: Logger
-  defaultMeta: Meta0
+  meta: Meta0
 
   private constructor({
     loggerOriginal,
-    defaultMetaValue,
+    meta,
   }: {
     loggerOriginal: Logger
-    defaultMetaValue?: Meta0.Meta0OrValueTypeNullish
+    meta?: Meta0.Meta0OrValueTypeNullish
   }) {
     this.original = loggerOriginal
     this.error = Logger0.createLogBadFn({ logger0: this, level: "error" })
@@ -50,28 +51,38 @@ export class Logger0 {
       logger0: this,
       level: "debug",
     })
-    this.defaultMeta = Meta0.toMeta0(defaultMetaValue)
+    this.meta = Meta0.toMeta0(meta)
   }
 
-  static create = async ({
+  static create = ({
     formatter,
     category,
-    defaultMetaValue,
+    meta,
+    sinks,
+    removeDefaultSinks,
+    skipInit,
   }: {
     formatter?: Logger0.Formater
-    category: string
-    defaultMetaValue?: Meta0.Meta0OrValueTypeNullish
+    category?: string
+    meta?: Meta0.Meta0OrValueTypeNullish
+    sinks?: Record<string, Sink>
+    removeDefaultSinks?: boolean
+    skipInit?: boolean
   }) => {
-    await Logger0.init({ formatter })
-    const loggerOriginal = getLogger(["shmoject", category])
-    return new Logger0({ loggerOriginal, defaultMetaValue })
+    if (!skipInit) {
+      Logger0.init({ formatter, sinks, removeDefaultSinks })
+    }
+    const loggerOriginal = getLogger(
+      [Logger0.rootCategory, category].filter(Boolean) as string[],
+    )
+    return new Logger0({ loggerOriginal, meta })
   }
 
   getChild = (category: string) => {
     const loggerOriginal = this.original.getChild(category)
     return new Logger0({
       loggerOriginal,
-      defaultMetaValue: this.defaultMeta.clone(),
+      meta: this.meta.clone(),
     })
   }
 
@@ -90,14 +101,19 @@ export class Logger0 {
           ? Meta0.toMeta0(args[1])
           : Meta0.toMeta0({})
       const message = error0.message
-      const meta = Meta0.merge(logger0.defaultMeta, error0.meta, extraMeta, {
-        tag: error0.tag,
-        code: error0.code,
-        httpStatus: error0.httpStatus,
-        expected: error0.expected,
-        clientMessage: error0.clientMessage,
-        stack: error0.stack,
-      })
+      const meta = Meta0.merge(
+        logger0.meta,
+        error0.meta,
+        {
+          tag: error0.tag,
+          code: error0.code,
+          httpStatus: error0.httpStatus,
+          expected: error0.expected,
+          clientMessage: error0.clientMessage,
+          stack: error0.stack,
+        },
+        extraMeta,
+      )
       logger0.original[level](message, meta.value)
     }
     return logBadFn
@@ -115,7 +131,7 @@ export class Logger0 {
         typeof args[0] !== "string"
           ? Meta0.toMeta0(args[0] as never)
           : Meta0.toMeta0(args[1] as never)
-      const meta = Meta0.merge(logger0.defaultMeta, extraMeta)
+      const meta = Meta0.merge(logger0.meta, extraMeta)
       const message =
         (typeof args[0] === "string" ? args[0] : meta.value.message) ||
         "Unknown message"
@@ -141,8 +157,12 @@ export class Logger0 {
     return [...categories, properties.tag].filter(Boolean) as readonly string[]
   }
 
+  static ansiColorFormatter = getAnsiColorFormatter({
+    category: (category) => category.join("."),
+  })
+
   static prettyFormatter = (record: LogRecord): string => {
-    const line = ansiColorFormatter({
+    const line = Logger0.ansiColorFormatter({
       ...record,
       category: Logger0.extendCategoriesWithPropertiesTag(
         record.category,
@@ -157,22 +177,27 @@ export class Logger0 {
   }
 
   static jsonFormatter = (record: LogRecord): string => {
+    const meta = Meta0.toMeta0(record.properties)
     return JSON.stringify({
       timestamp: new Date(record.timestamp).toISOString(),
       level: record.level,
-      message: record.message.join(", "),
+      message: meta.value.message || record.message.join(", "),
       tag: Logger0.categoriesAndPropertiesTagToTag(
         record.category,
         record.properties,
       ),
-      meta: Meta0.toMeta0ValueSafe(record.properties),
+      meta: meta.omitValue(["tag", "message"]),
     })
   }
 
-  static init = async ({
+  static init = ({
     formatter = "json",
+    sinks = {},
+    removeDefaultSinks = false,
   }: {
     formatter?: Logger0.Formater
+    sinks?: Record<string, Sink>
+    removeDefaultSinks?: boolean
   } = {}) => {
     const formatterHere =
       formatter === "pretty"
@@ -180,14 +205,26 @@ export class Logger0 {
         : formatter === "json"
           ? Logger0.jsonFormatter
           : formatter
-    await configure({
-      sinks: { console: getConsoleSink({ formatter: formatterHere }) },
+    sinks = removeDefaultSinks
+      ? sinks
+      : {
+          console: getConsoleSink({ formatter: formatterHere }),
+          ...sinks,
+        }
+    const sinksKeys = Object.keys(sinks)
+    configureSync({
+      reset: true,
+      sinks,
       loggers: [
-        { category: "shmoject", lowestLevel: "debug", sinks: ["console"] },
+        {
+          category: Logger0.rootCategory,
+          lowestLevel: "debug",
+          sinks: sinksKeys,
+        },
         {
           category: ["logtape", "meta"],
           lowestLevel: "warning",
-          sinks: ["console"],
+          sinks: sinksKeys,
         },
       ],
     })
@@ -199,10 +236,10 @@ export namespace Logger0 {
   export type Formater = FormaterPreset | ((record: LogRecord) => string)
 
   export type LogOkFn = {
-    (message: string, meta?: Meta0.ValueType): void
     (message: string, meta?: Meta0): void
-    (meta: Meta0.ValueType): void
+    (message: string, meta?: Meta0.ValueType): void
     (meta: Meta0): void
+    (meta: Meta0.ValueType): void
   }
 
   export type LogBadFn = {

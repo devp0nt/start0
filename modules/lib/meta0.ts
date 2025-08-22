@@ -1,5 +1,7 @@
 import { checkEnumEq } from "@shmoject/modules/lib/lodash0"
 import cloneDeep from "lodash/cloneDeep"
+import omit from "lodash/omit.js"
+import pick from "lodash/pick.js"
 
 // TODO: sensetive keys
 // TODO: private more main then static
@@ -136,6 +138,14 @@ export class Meta0 {
 
   clone() {
     return new Meta0(this.value)
+  }
+
+  omitValue(keys: Meta0.ValueKey[]): Meta0.ValueType {
+    return cloneDeep(omit(this.value, keys))
+  }
+
+  pickValue(keys: Meta0.ValueKey[]): Meta0.ValueType {
+    return cloneDeep(pick(this.value, keys))
   }
 
   static toMeta0(input: Meta0.ValueTypeNullish): Meta0

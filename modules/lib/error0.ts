@@ -143,10 +143,11 @@ export class Error0 extends Error {
     error0Input: Error0Input,
     stack: Error0GeneralProps["stack"],
   ): Error0GeneralProps {
+    const meta = Meta0.merge(error0Input.meta0, error0Input.meta).value
     const result: Error0GeneralProps = {
       message: error0Input.message,
-      tag: error0Input.tag,
-      code: error0Input.code,
+      tag: error0Input.tag || meta.tag,
+      code: error0Input.code || meta.code,
       httpStatus:
         typeof error0Input.httpStatus === "number"
           ? error0Input.httpStatus
@@ -154,14 +155,20 @@ export class Error0 extends Error {
               typeof error0Input.httpStatus === "string" &&
               error0Input.httpStatus in HttpStatusCode
             ? HttpStatusCode[error0Input.httpStatus]
-            : undefined,
+            : meta.httpStatus,
       expected: undefined,
       clientMessage: error0Input.clientMessage,
       cause: error0Input.cause,
       stack: undefined,
-      meta: Meta0.merge(error0Input.meta0, error0Input.meta).value,
+      meta,
     }
-    result.expected = Error0.normalizeExpected(result, error0Input)
+    result.expected = Error0.normalizeExpected(
+      result,
+      typeof error0Input.expected === "boolean" ||
+        typeof error0Input.expected === "function"
+        ? error0Input.expected
+        : meta.expected,
+    )
     result.stack = Error0.removeConstructorStackPart(stack)
     return result
   }
@@ -205,12 +212,12 @@ export class Error0 extends Error {
 
   private static normalizeExpected(
     error0Props: Error0GeneralProps,
-    error0Input: Error0Input,
+    expectedProvided: Error0Input["expected"],
   ): boolean | undefined {
-    if (typeof error0Input.expected === "function") {
-      return error0Input.expected(error0Props)
+    if (typeof expectedProvided === "function") {
+      return expectedProvided(error0Props)
     }
-    return error0Input.expected
+    return expectedProvided
   }
 
   private static _isExpected(
