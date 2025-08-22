@@ -2,12 +2,11 @@ import { Meta0 } from "@shmoject/modules/lib/meta0"
 import { HttpStatusCode } from "axios"
 import { pick } from "lodash"
 
-// TODO: Preset Class
-// TODO: private more main then static
-// TODO: not name but isError0: true or something
-// TODO: When to error 0, than keep original stack strace
 // TODO: trpc
+// TODO: zod
+// TODO: private more main then static
 // TODO: axios
+
 export interface Error0Input {
   message?: string
   tag?: string

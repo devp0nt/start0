@@ -33,7 +33,7 @@
         "noConsole": {
           "level": "error",
           "options": {
-            "allow": ["info", "error"]
+            "allow": []
           }
         },
         "noExplicitAny": "off"

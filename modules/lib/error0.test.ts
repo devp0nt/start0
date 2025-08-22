@@ -384,6 +384,8 @@ describe("error0", () => {
     const error7 = new ErrorExpected0("expected error")
     expect(ErrorExpected0.defaultExpected).toBe(true)
     expect(error7.expected).toBe(true)
+    expect(error7).toBeInstanceOf(ErrorExpected0)
+    expect(error7).toBeInstanceOf(Error0)
     expect(toJSON(error7)).toMatchInlineSnapshot(`
       {
         "__I_AM_ERROR_0": true,

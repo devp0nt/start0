@@ -7,14 +7,16 @@ import { serve } from "bun"
 import { cors } from "hono/cors"
 
 export const startApiProcess = async () => {
-  const backendCtx = await BackendCtx.create()
+  const ctx = await BackendCtx.create({
+    service: "api",
+  })
   const { honoApp } = HonoApp.create({
-    backendCtx,
+    backendCtx: ctx,
   })
 
+  honoApp.use(cors())
   HonoApp.applyLogging({ honoApp })
   HonoApp.applyErrorHandling({ honoApp })
-  honoApp.use(cors())
 
   BackendHonoRouter.apply({ honoApp })
   BackendTrpc.applyToHonoApp({
@@ -26,7 +28,7 @@ export const startApiProcess = async () => {
     fetch: honoApp.fetch,
     port: process.env.PORT,
   })
-  console.info(`Hono is running at http://localhost:${process.env.PORT}`)
+  ctx.logger.info(`Hono is running at http://localhost:${process.env.PORT}`)
 }
 
 if (import.meta.main) {

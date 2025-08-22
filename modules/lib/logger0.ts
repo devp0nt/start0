@@ -1,5 +1,6 @@
 import {
   configureSync,
+  type Filter,
   getAnsiColorFormatter,
   getConsoleSink,
   getLogger,
@@ -11,9 +12,9 @@ import {
 import { Error0, type Error0Input } from "@shmoject/modules/lib/error0"
 import type { ExtractEnum } from "@shmoject/modules/lib/lodash0"
 import { Meta0 } from "@shmoject/modules/lib/meta0"
+import debug from "debug"
 import yaml from "yaml"
 
-// TODO: DEBUG
 // TODO: hidden pretty meta keys
 
 // TODO: disallow change meta on root logger
@@ -66,18 +67,31 @@ export class Logger0 {
     category,
     meta,
     sinks,
+    filters,
     removeDefaultSinks,
+    removeDefaultFilters,
+    debugConfig,
     skipInit,
   }: {
-    formatter?: Logger0.Formater
+    formatter?: Logger0.FormatterProp
     category?: string
     meta?: Meta0.Meta0OrValueTypeNullish
     sinks?: Record<string, Sink>
+    filters?: Record<string, Filter>
+    removeDefaultFilters?: boolean
+    debugConfig?: string
     removeDefaultSinks?: boolean
     skipInit?: boolean
   }) => {
     if (!skipInit) {
-      Logger0.init({ formatter, sinks, removeDefaultSinks })
+      Logger0.init({
+        formatter,
+        sinks,
+        removeDefaultSinks,
+        filters,
+        removeDefaultFilters,
+        debugConfig,
+      })
     }
     const loggerOriginal = getLogger(
       [Logger0.rootCategory, category].filter(Boolean) as string[],
@@ -153,7 +167,7 @@ export class Logger0 {
     return Logger0.extendCategoriesWithPropertiesTag(
       categories,
       properties,
-    ).join(".")
+    ).join(":")
   }
 
   private static extendCategoriesWithPropertiesTag(
@@ -164,7 +178,7 @@ export class Logger0 {
   }
 
   static ansiColorFormatter = getAnsiColorFormatter({
-    category: (category) => category.join("."),
+    category: (category) => category.join(":"),
   })
 
   static prettyFormatter = (record: LogRecord): string => {
@@ -196,15 +210,30 @@ export class Logger0 {
     })
   }
 
+  static filterByDebug: Filter = (record) => {
+    const tag = Logger0.categoriesAndPropertiesTagToTag(
+      record.category,
+      record.properties,
+    )
+    return debug.enabled(tag)
+  }
+
   static init = ({
     formatter = "json",
+    debugConfig = `${Logger0.rootCategory}:*`,
     sinks = {},
+    filters = {},
     removeDefaultSinks = false,
+    removeDefaultFilters = false,
   }: {
-    formatter?: Logger0.Formater
+    formatter?: Logger0.FormatterProp
+    filters?: Record<string, Filter>
     sinks?: Record<string, Sink>
+    debugConfig?: string
     removeDefaultSinks?: boolean
+    removeDefaultFilters?: boolean
   } = {}) => {
+    debug.enable(debugConfig)
     const formatterHere =
       formatter === "pretty"
         ? Logger0.prettyFormatter
@@ -217,20 +246,30 @@ export class Logger0 {
           console: getConsoleSink({ formatter: formatterHere }),
           ...sinks,
         }
+    filters = removeDefaultFilters
+      ? filters
+      : {
+          ...filters,
+          filterByDebug: Logger0.filterByDebug,
+        }
+    const filtersKeys = Object.keys(filters)
     const sinksKeys = Object.keys(sinks)
     configureSync({
       reset: true,
       sinks,
+      filters,
       loggers: [
         {
           category: Logger0.rootCategory,
           lowestLevel: "debug",
           sinks: sinksKeys,
+          filters: filtersKeys,
         },
         {
           category: ["logtape", "meta"],
           lowestLevel: "warning",
           sinks: sinksKeys,
+          filters: filtersKeys,
         },
       ],
     })
@@ -238,8 +277,8 @@ export class Logger0 {
 }
 
 export namespace Logger0 {
-  export type FormaterPreset = "pretty" | "json"
-  export type Formater = FormaterPreset | ((record: LogRecord) => string)
+  export type FormatterPreset = "pretty" | "json"
+  export type FormatterProp = FormatterPreset | ((record: LogRecord) => string)
 
   export type LogOkFn = {
     (message: string, meta?: Meta0): void
