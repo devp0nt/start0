@@ -210,18 +210,3 @@ export namespace Logger0 {
     (error0: Error0, meta?: Meta0.Meta0OrValueType): void
   }
 }
-// Logger0.init({ formatter: "pretty" }).then(() => {
-;(async () => {
-  const logger = await Logger0.create({ category: "test", formatter: "pretty" })
-  logger.info("Hello, world!")
-  logger.info("Hello, world!", { userId: "1" })
-  const x = logger.getChild("x")
-  x.defaultMeta.assign({ tag: "tag2" })
-  x.info("Hello, world!")
-  x.info("Hello, world!", { other: { z: 1, x: 3 } })
-  x.error(new Error0("test0", { tag: "tagError", meta: { other: { z: 1 } } }))
-  // const y = x.getChild("zxc.wefwef.aaa.wefgwegewg")
-  // y.info("Hello, world!")
-  // x.error(new Error0("test0", { tag: "tag1", meta: { other: { z: 1 } } }))
-  // x.error(new Error("test1"))
-})()
