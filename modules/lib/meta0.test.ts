@@ -10,7 +10,7 @@ describe("meta0", () => {
 
   it("full", () => {
     const meta0 = new Meta0({
-      durationMs: 1,
+      reqDurationMs: 1,
       userId: "user1",
       ideaId: "idea1",
       other: {
@@ -19,7 +19,7 @@ describe("meta0", () => {
     })
     expect(meta0.value).toMatchInlineSnapshot(`
       {
-        "durationMs": 1,
+        "reqDurationMs": 1,
         "ideaId": "idea1",
         "other": {
           "x": 1,
@@ -32,11 +32,11 @@ describe("meta0", () => {
   it("mergeValues", () => {
     const result = Meta0.mergeValues(
       {
-        durationMs: 1,
+        reqDurationMs: 1,
         userId: "user1",
       },
       {
-        durationMs: 2,
+        reqDurationMs: 2,
         ideaId: "idea2",
         other: {
           x: 4,
@@ -44,7 +44,7 @@ describe("meta0", () => {
       },
       {},
       {
-        durationMs: 3,
+        reqDurationMs: 3,
         ideaId: "idea3",
         other: {
           x: 1,
@@ -53,7 +53,7 @@ describe("meta0", () => {
     )
     expect(result).toMatchInlineSnapshot(`
       {
-        "durationMs": 3,
+        "reqDurationMs": 3,
         "ideaId": "idea3",
         "other": {
           "x": 1,
@@ -65,11 +65,11 @@ describe("meta0", () => {
 
   it("#assign", () => {
     const meta0 = new Meta0({
-      durationMs: 1,
+      reqDurationMs: 1,
       userId: "user1",
     })
     meta0.assign({
-      durationMs: 2,
+      reqDurationMs: 2,
       ideaId: "idea2",
       other: {
         x: 4,
@@ -77,7 +77,7 @@ describe("meta0", () => {
     })
     expect(meta0.value).toMatchInlineSnapshot(`
       {
-        "durationMs": 2,
+        "reqDurationMs": 2,
         "ideaId": "idea2",
         "other": {
           "x": 4,
@@ -89,17 +89,17 @@ describe("meta0", () => {
 
   it("#assignFlat", () => {
     const meta0 = new Meta0({
-      durationMs: 1,
+      reqDurationMs: 1,
       userId: "user1",
     })
     meta0.assignFlat({
-      durationMs: 2,
+      reqDurationMs: 2,
       ideaId: "idea2",
       x: 4,
     })
     expect(meta0.value).toMatchInlineSnapshot(`
       {
-        "durationMs": 2,
+        "reqDurationMs": 2,
         "ideaId": "idea2",
         "other": {
           "x": 4,

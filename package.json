@@ -27,7 +27,7 @@
     "dev": "bun run --filter '*' dev",
     "test": "bun run --filter '*' test",
     "lint": "biome check --write",
-    "prune": "rm -rf .react-router node_modules .vite .turbo dist build",
+    "prune": "rm -rf .react-router node_modules .vite .turbo dist build && bun install",
     "prepare": "husky"
   },
   "workspaces": {

@@ -6,9 +6,9 @@ import superjson from "superjson"
 import z from "zod"
 
 export namespace BackendTrpc {
-  export type Context = HonoApp.ContextVariables
+  export type TrpcCtx = HonoApp.ReqCtx
 
-  const t = initTRPC.context<Context>().create({
+  const t = initTRPC.context<TrpcCtx>().create({
     transformer: superjson,
     errorFormatter: ({ shape, error }) => ({
       ...shape,
@@ -43,7 +43,7 @@ export namespace BackendTrpc {
       "/trpc/*",
       trpcServer({
         router: trpcRouter,
-        createContext: (_opts, c: HonoApp.Context) => c.var as Context,
+        createContext: (_opts, c: HonoApp.HonoCtx) => c.var as TrpcCtx,
       }),
     )
   }

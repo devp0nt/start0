@@ -47,7 +47,7 @@ describe("error0", () => {
       clientMessage: "human message 1",
       cause: new Error("original message"),
       meta: {
-        durationMs: 1,
+        reqDurationMs: 1,
         userId: "user1",
       },
     }
@@ -63,7 +63,7 @@ describe("error0", () => {
         "httpStatus": 400,
         "message": "my message",
         "meta": {
-          "durationMs": 1,
+          "reqDurationMs": 1,
           "userId": "user1",
         },
         "tag": "tag1",
@@ -112,7 +112,7 @@ describe("error0", () => {
       tag: "tag1",
       clientMessage: "human message 1",
       meta: {
-        durationMs: 1,
+        reqDurationMs: 1,
         userId: "user1",
       },
     })
@@ -121,7 +121,7 @@ describe("error0", () => {
       code: "code2",
       cause: error01,
       meta: {
-        durationMs: 1,
+        reqDurationMs: 1,
         ideaId: "idea1",
         other: {
           x: 1,
@@ -138,7 +138,7 @@ describe("error0", () => {
         "httpStatus": undefined,
         "message": "second",
         "meta": {
-          "durationMs": 1,
+          "reqDurationMs": 1,
           "ideaId": "idea1",
           "other": {
             "x": 1,

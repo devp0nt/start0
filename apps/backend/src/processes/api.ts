@@ -12,6 +12,8 @@ export const startApiProcess = async () => {
     backendCtx,
   })
 
+  HonoApp.applyLogging({ honoApp })
+  HonoApp.applyErrorHandling({ honoApp })
   honoApp.use(cors())
 
   BackendHonoRouter.apply({ honoApp })

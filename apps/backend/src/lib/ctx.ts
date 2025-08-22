@@ -1,8 +1,13 @@
+import { Logger0 } from "@shmoject/modules/lib/logger0"
+
 export namespace BackendCtx {
   export const create = async () => {
     return {
       prisma: { x: 1 },
-      logger: { y: 2 },
+      logger: Logger0.create({
+        category: "backend",
+        formatter: process.env.NODE_ENV === "production" ? "json" : "pretty",
+      }),
     }
   }
 

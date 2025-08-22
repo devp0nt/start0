@@ -1,4 +1,4 @@
-import { getQueryClient, trpc } from "@shmoject/site/lib/trpc"
+import { getQueryClient } from "@shmoject/site/lib/trpc"
 import { HomePage } from "@shmoject/site/pages/HomePage"
 import { dehydrate } from "@tanstack/react-query"
 import { useLoaderData } from "react-router"
@@ -13,7 +13,8 @@ export function meta({}: Route.MetaArgs) {
 
 export async function loader(loaderArgs: Route.LoaderArgs) {
   const queryClient = getQueryClient()
-  const data = await queryClient.fetchQuery(trpc.ping.queryOptions())
+  // const data = await queryClient.fetchQuery(trpc.ping.queryOptions())
+  const data = { x: 1 }
   const dehydratedState = dehydrate(queryClient)
   return {
     data,

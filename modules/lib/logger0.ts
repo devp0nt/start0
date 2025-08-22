@@ -14,6 +14,8 @@ import { Meta0 } from "@shmoject/modules/lib/meta0"
 import yaml from "yaml"
 
 // TODO: DEBUG
+// TODO: hidden pretty meta keys
+// TODO: disallow change meta on root logger
 
 export class Logger0 {
   static rootCategory = "shmoject"
@@ -26,7 +28,11 @@ export class Logger0 {
   debug: Logger0.LogOkFn
 
   original: Logger
+
   meta: Meta0
+  replaceMeta(meta0?: Meta0.Meta0OrValueTypeNullish) {
+    this.meta = Meta0.toMeta0(meta0)
+  }
 
   private constructor({
     loggerOriginal,
@@ -245,5 +251,6 @@ export namespace Logger0 {
   export type LogBadFn = {
     (error0Input: Error0Input, meta?: Meta0.Meta0OrValueType): void
     (error0: Error0, meta?: Meta0.Meta0OrValueType): void
+    (error0: unknown, meta?: Meta0.Meta0OrValueType): void
   }
 }

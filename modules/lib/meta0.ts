@@ -3,6 +3,7 @@ import cloneDeep from "lodash/cloneDeep"
 import omit from "lodash/omit.js"
 import pick from "lodash/pick.js"
 
+// TODO: use zod to define types
 // TODO: sensetive keys
 // TODO: private more main then static
 
@@ -11,7 +12,14 @@ import pick from "lodash/pick.js"
 export class Meta0 {
   value: Meta0.ValueType
 
-  private static otherKeys = ["durationMs", "other", "tag"] as const
+  private static otherKeys = ["other", "tag"] as const
+  private static honoKeys = [
+    "ip",
+    "userAgent",
+    "reqMethod",
+    "reqPath",
+    "reqDurationMs",
+  ] as const
   private static errorKeys = [
     "message",
     "code",
@@ -24,14 +32,19 @@ export class Meta0 {
     "other",
   ] as const
   private static idsKeys = ["userId", "ideaId"] as const
-  static keys = [...Meta0.otherKeys, ...Meta0.errorKeys, ...Meta0.idsKeys]
+  static keys = [
+    ...Meta0.otherKeys,
+    ...Meta0.honoKeys,
+    ...Meta0.errorKeys,
+    ...Meta0.idsKeys,
+  ]
 
   constructor(input: Partial<Meta0.ValueType>) {
     this.value = cloneDeep(Meta0.safeParseValue(input))
   }
 
-  static create(input: Partial<Meta0.ValueType>) {
-    return new Meta0(input)
+  static create(input: Partial<Meta0.ValueType> = {}) {
+    return new Meta0(input || {})
   }
 
   private static mergeValuesDirty(
@@ -260,7 +273,6 @@ export class Meta0 {
 export namespace Meta0 {
   export type Primitive = number | string | boolean | undefined | null
   export type ValueType = {
-    durationMs?: number
     tag?: string
     code?: string
     httpStatus?: number
@@ -271,6 +283,11 @@ export namespace Meta0 {
     ideaId?: string
     other?: Record<string, Primitive>
     stack?: string
+    ip?: string
+    userAgent?: string
+    reqMethod?: string
+    reqPath?: string
+    reqDurationMs?: number
   }
   export type ValueTypeNullish = ValueType | undefined | null
   export type ValueTypeFlat = Omit<ValueType, "other"> & {
