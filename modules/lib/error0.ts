@@ -1,5 +1,6 @@
 import { Meta0 } from "@shmoject/modules/lib/meta0"
 import { HttpStatusCode } from "axios"
+import { pick } from "lodash"
 
 // TODO: Preset Class
 // TODO: private more main then static
@@ -15,6 +16,7 @@ export interface Error0Input {
   expected?: boolean | ExpectedFn
   clientMessage?: string
   cause?: Error0Cause
+  stack?: string
   meta?: Meta0.Meta0OrValueTypeNullish
 }
 
@@ -38,6 +40,8 @@ const isFilled = <T>(value: T): value is NonNullable<T> =>
   value !== null && value !== undefined && value !== ""
 
 export class Error0 extends Error {
+  public readonly __I_AM_ERROR_0: true = true
+
   public readonly tag?: Error0GeneralProps["tag"]
   public readonly code?: Error0GeneralProps["code"]
   public readonly httpStatus?: Error0GeneralProps["httpStatus"]
@@ -46,6 +50,7 @@ export class Error0 extends Error {
   public readonly cause?: Error0GeneralProps["cause"]
   public readonly meta?: Meta0.ValueType
 
+  static defaultMessage?: Error0GeneralProps["message"]
   static defaultTag?: Error0GeneralProps["tag"]
   static defaultCode?: Error0GeneralProps["code"]
   static defaultHttpStatus?: Error0GeneralProps["httpStatus"]
@@ -90,12 +95,11 @@ export class Error0 extends Error {
     super(message)
     Object.setPrototypeOf(this, (this.constructor as typeof Error0).prototype)
     this.name = "Error0"
-    // this.
 
     // Original props
     this.propsOriginal = (this.constructor as typeof Error0).getGeneralProps(
       safeInput,
-      this.stack,
+      safeInput.stack || this.stack,
     )
 
     // Self props
@@ -144,6 +148,8 @@ export class Error0 extends Error {
         ? error0Input.clientMessage
         : undefined
     result.cause = error0Input.cause
+    result.stack =
+      typeof error0Input.stack === "string" ? error0Input.stack : undefined
     // result.meta0 =
     //   error0Input.meta0 instanceof Meta0 ? error0Input.meta0 : undefined
     // result.meta =
@@ -164,11 +170,15 @@ export class Error0 extends Error {
     stack: Error0GeneralProps["stack"],
   ): Error0GeneralProps {
     // const meta = Meta0.merge(error0Input.meta0, error0Input.meta).value
-    const meta = Meta0.merge(error0Input.meta, error0Input.meta).value
+    const meta = Meta0.merge(
+      Error0.defaultMeta,
+      error0Input.meta,
+      error0Input.meta,
+    ).value
     const result: Error0GeneralProps = {
-      message: error0Input.message,
-      tag: error0Input.tag || meta.tag,
-      code: error0Input.code || meta.code,
+      message: error0Input.message || Error0.defaultMessage,
+      tag: error0Input.tag || meta.tag || Error0.defaultTag,
+      code: error0Input.code || meta.code || Error0.defaultCode,
       httpStatus:
         typeof error0Input.httpStatus === "number"
           ? error0Input.httpStatus
@@ -176,10 +186,10 @@ export class Error0 extends Error {
               typeof error0Input.httpStatus === "string" &&
               error0Input.httpStatus in HttpStatusCode
             ? HttpStatusCode[error0Input.httpStatus]
-            : meta.httpStatus,
+            : meta.httpStatus || Error0.defaultHttpStatus,
       expected: undefined,
-      clientMessage: error0Input.clientMessage,
-      cause: error0Input.cause,
+      clientMessage: error0Input.clientMessage || Error0.defaultClientMessage,
+      cause: error0Input.cause || Error0.defaultCause,
       stack: undefined,
       meta,
     }
@@ -438,20 +448,20 @@ export class Error0 extends Error {
       return true
     }
 
-    if (error instanceof Error) {
-      return error.name === "Error0"
-    }
-
     if (typeof error === "object" && error !== null) {
-      if ("name" in error) {
-        return error.name === "Error0"
+      if ("name" in error && error.name === "Error0") {
+        return true
+      }
+
+      if ("__I_AM_ERROR_0" in error && error.__I_AM_ERROR_0 === true) {
+        return true
       }
     }
 
     return false
   }
 
-  private static _toError0(error: unknown, maxLevel: number): Error0 {
+  private static _toError0(error: unknown): Error0 {
     if (error instanceof Error0) {
       return error
     }
@@ -461,7 +471,7 @@ export class Error0 extends Error {
     }
 
     if (typeof error === "object" && error !== null) {
-      return new Error0({
+      const input = {
         message:
           "message" in error && typeof error.message === "string"
             ? error.message
@@ -483,9 +493,25 @@ export class Error0 extends Error {
             ? error.tag
             : undefined,
         cause: "cause" in error ? error.cause : undefined,
-        meta: "meta" in error ? error.meta : undefined,
-        maxLevel,
-      })
+        meta:
+          "meta" in error &&
+          typeof error.meta === "object" &&
+          error.meta !== null
+            ? error.meta
+            : undefined,
+        httpStatus:
+          "httpStatus" in error &&
+          typeof error.httpStatus === "number" &&
+          error.httpStatus in HttpStatusCode
+            ? error.httpStatus
+            : undefined,
+      } satisfies Error0Input
+
+      if (Error0.isLikelyError0(input)) {
+        return new Error0(input)
+      } else {
+        return new Error0(pick(input, ["message", "code", "httpStatus"]))
+      }
     }
 
     return new Error0({
@@ -494,10 +520,11 @@ export class Error0 extends Error {
   }
 
   static from(error: unknown): Error0 {
-    return Error0._toError0(error, Error0.defaultMaxLevel)
+    return Error0._toError0(error)
   }
 
   static extendClass(props: {
+    defaultMessage?: Error0GeneralProps["message"]
     defaultTag?: Error0GeneralProps["tag"]
     defaultCode?: Error0GeneralProps["code"]
     defaultHttpStatus?: Error0GeneralProps["httpStatus"]
@@ -507,6 +534,7 @@ export class Error0 extends Error {
     defaultMeta?: Meta0.ValueType
   }) {
     return class ExtendedError0 extends Error0 {
+      static defaultMessage = props.defaultMessage
       static defaultTag = props.defaultTag
       static defaultCode = props.defaultCode
       static defaultHttpStatus = props.defaultHttpStatus
@@ -528,6 +556,7 @@ export class Error0 extends Error {
       cause: this.cause,
       meta: this.meta,
       stack: this.stack,
+      __I_AM_ERROR_0: this.__I_AM_ERROR_0,
     }
   }
   static toJSON(error: unknown) {

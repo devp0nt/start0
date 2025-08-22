@@ -31,6 +31,7 @@ describe("error0", () => {
     expect(error0).toMatchInlineSnapshot(`[Error0: test]`)
     expect(toJSON(error0)).toMatchInlineSnapshot(`
       {
+        "__I_AM_ERROR_0": true,
         "cause": undefined,
         "clientMessage": undefined,
         "code": undefined,
@@ -66,6 +67,7 @@ describe("error0", () => {
     expect(toJSON(error1)).toMatchObject(toJSON(error2))
     expect(toJSON(error1)).toMatchInlineSnapshot(`
       {
+        "__I_AM_ERROR_0": true,
         "cause": [Error: original message],
         "clientMessage": "human message 1",
         "code": "code1",
@@ -95,6 +97,7 @@ describe("error0", () => {
     expect(error0).toMatchInlineSnapshot(`[Error0: my message]`)
     expect(toJSON(error0)).toMatchInlineSnapshot(`
       {
+        "__I_AM_ERROR_0": true,
         "cause": [Error: original message],
         "clientMessage": undefined,
         "code": undefined,
@@ -119,6 +122,7 @@ describe("error0", () => {
     expect(error0).toMatchInlineSnapshot(`[Error0: my message]`)
     expect(toJSON(error0)).toMatchInlineSnapshot(`
       {
+        "__I_AM_ERROR_0": true,
         "cause": "strange thing",
         "clientMessage": undefined,
         "code": undefined,
@@ -159,6 +163,7 @@ describe("error0", () => {
     expect(error01).toBeInstanceOf(Error0)
     expect(toJSON(error02)).toMatchInlineSnapshot(`
       {
+        "__I_AM_ERROR_0": true,
         "cause": [Error0: first],
         "clientMessage": "human message 1",
         "code": "code2",
@@ -189,6 +194,7 @@ describe("error0", () => {
     const error0 = new Error0({})
     expect(toJSON(error0)).toMatchInlineSnapshot(`
       {
+        "__I_AM_ERROR_0": true,
         "cause": undefined,
         "clientMessage": undefined,
         "code": undefined,
@@ -208,6 +214,7 @@ describe("error0", () => {
     const error2 = new Error0({ cause: error1 })
     expect(toJSON(error2)).toMatchInlineSnapshot(`
       {
+        "__I_AM_ERROR_0": true,
         "cause": [Error0: test],
         "clientMessage": undefined,
         "code": undefined,
@@ -241,6 +248,7 @@ describe("error0", () => {
     const error0 = new Error0(errorDefault)
     expect(toJSON(error0)).toMatchInlineSnapshot(`
       {
+        "__I_AM_ERROR_0": true,
         "cause": [Error: default error],
         "clientMessage": undefined,
         "code": undefined,
@@ -272,6 +280,7 @@ describe("error0", () => {
     const error0 = new Error0(error)
     expect(toJSON(error0)).toMatchInlineSnapshot(`
       {
+        "__I_AM_ERROR_0": true,
         "cause": [Error0: error0 error],
         "clientMessage": undefined,
         "code": undefined,
@@ -377,6 +386,7 @@ describe("error0", () => {
     expect(error7.expected).toBe(true)
     expect(toJSON(error7)).toMatchInlineSnapshot(`
       {
+        "__I_AM_ERROR_0": true,
         "cause": undefined,
         "clientMessage": undefined,
         "code": undefined,
