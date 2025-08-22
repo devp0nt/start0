@@ -7,7 +7,6 @@ import { HttpStatusCode } from "axios"
 // TODO: When to error 0, than keep original stack strace
 // TODO: trpc
 // TODO: axios
-
 export interface Error0Input {
   message?: string
   tag?: string
@@ -39,9 +38,6 @@ const isFilled = <T>(value: T): value is NonNullable<T> =>
   value !== null && value !== undefined && value !== ""
 
 export class Error0 extends Error {
-  static self = Error0
-  self = Error0
-
   public readonly tag?: Error0GeneralProps["tag"]
   public readonly code?: Error0GeneralProps["code"]
   public readonly httpStatus?: Error0GeneralProps["httpStatus"]
@@ -50,7 +46,13 @@ export class Error0 extends Error {
   public readonly cause?: Error0GeneralProps["cause"]
   public readonly meta?: Meta0.ValueType
 
-  public readonly defaultExpected: boolean | undefined = undefined
+  static defaultTag?: Error0GeneralProps["tag"]
+  static defaultCode?: Error0GeneralProps["code"]
+  static defaultHttpStatus?: Error0GeneralProps["httpStatus"]
+  static defaultExpected?: Error0GeneralProps["expected"]
+  static defaultClientMessage?: Error0GeneralProps["clientMessage"]
+  static defaultCause?: Error0GeneralProps["cause"]
+  static defaultMeta?: Meta0.ValueType
 
   public readonly propsOriginal: Error0GeneralProps
 
@@ -86,15 +88,21 @@ export class Error0 extends Error {
       typeof closestMessageRaw === "string" ? closestMessageRaw : undefined
     const message = providedMessage || closestMessage || "Unknown error"
     super(message)
-    Object.setPrototypeOf(this, Error0.prototype)
+    Object.setPrototypeOf(this, (this.constructor as typeof Error0).prototype)
     this.name = "Error0"
     // this.
 
     // Original props
-    this.propsOriginal = Error0.getGeneralProps(safeInput, this.stack)
+    this.propsOriginal = (this.constructor as typeof Error0).getGeneralProps(
+      safeInput,
+      this.stack,
+    )
 
     // Self props
-    const propsFloated = Error0.getPropsFloated(this.propsOriginal, maxLevel)
+    const propsFloated = (this.constructor as typeof Error0).getPropsFloated(
+      this.propsOriginal,
+      maxLevel,
+    )
     this.tag = propsFloated.tag
     this.code = propsFloated.code
     this.httpStatus = propsFloated.httpStatus
@@ -180,7 +188,7 @@ export class Error0 extends Error {
       typeof error0Input.expected === "boolean" ||
         typeof error0Input.expected === "function"
         ? error0Input.expected
-        : meta.expected,
+        : meta.expected || Error0.defaultExpected,
     )
     result.stack = Error0.removeConstructorStackPart(stack)
     return result
@@ -294,6 +302,7 @@ export class Error0 extends Error {
     }
     removeLineContains("at new Error0")
     removeLineContains("at _toError0")
+    removeLineContains("at new ExtendedError0")
     return lines.join("\n")
   }
 
@@ -488,6 +497,26 @@ export class Error0 extends Error {
     return Error0._toError0(error, Error0.defaultMaxLevel)
   }
 
+  static extendClass(props: {
+    defaultTag?: Error0GeneralProps["tag"]
+    defaultCode?: Error0GeneralProps["code"]
+    defaultHttpStatus?: Error0GeneralProps["httpStatus"]
+    defaultExpected?: Error0GeneralProps["expected"]
+    defaultClientMessage?: Error0GeneralProps["clientMessage"]
+    defaultCause?: Error0GeneralProps["cause"]
+    defaultMeta?: Meta0.ValueType
+  }) {
+    return class ExtendedError0 extends Error0 {
+      static defaultTag = props.defaultTag
+      static defaultCode = props.defaultCode
+      static defaultHttpStatus = props.defaultHttpStatus
+      static defaultExpected = props.defaultExpected
+      static defaultClientMessage = props.defaultClientMessage
+      static defaultCause = props.defaultCause
+      static defaultMeta = props.defaultMeta
+    }
+  }
+
   toJSON() {
     return {
       message: this.message,
@@ -506,3 +535,18 @@ export class Error0 extends Error {
     return error0.toJSON()
   }
 }
+
+// export class ErrorExpected0 extends Error0 {
+//   static self = ErrorExpected0
+//   self = ErrorExpected0
+//   static defaultExpected = true
+
+//   constructor(...args: unknown[]) {
+//     super("...")
+//     Object.setPrototypeOf(this, new.target.prototype) // ✅ correct subclass
+//   }
+// }
+
+export const ErrorExpected0 = Error0.extendClass({
+  defaultExpected: true,
+})

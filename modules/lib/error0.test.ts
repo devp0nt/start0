@@ -1,5 +1,5 @@
 import { describe, expect, it } from "bun:test"
-import { Error0 } from "./error0"
+import { Error0, ErrorExpected0 } from "./error0"
 
 // TODO: test expected
 
@@ -369,5 +369,27 @@ describe("error0", () => {
       cause: error1,
     })
     expect(error6.expected).toBe(false)
+  })
+
+  it("expected preset", () => {
+    const error7 = new ErrorExpected0("expected error")
+    expect(ErrorExpected0.defaultExpected).toBe(true)
+    expect(error7.expected).toBe(true)
+    expect(toJSON(error7)).toMatchInlineSnapshot(`
+      {
+        "cause": undefined,
+        "clientMessage": undefined,
+        "code": undefined,
+        "expected": true,
+        "httpStatus": undefined,
+        "message": "expected error",
+        "meta": {},
+        "stack": 
+      "Error0: expected error
+          at <anonymous> (...)"
+      ,
+        "tag": undefined,
+      }
+    `)
   })
 })
