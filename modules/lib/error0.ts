@@ -81,13 +81,12 @@ export class Error0 extends Error {
       Object.assign(input, args[1])
     }
     const safeInput = Error0.safeParseInput(input)
-    const maxLevel = Error0.defaultMaxLevel
 
     const providedMessage = safeInput.message
     const closestMessageRaw = Error0.getClosestPropValue<"message", unknown>(
       { message: safeInput.message, cause: safeInput.cause },
       "message",
-      maxLevel,
+      Error0.defaultMaxLevel,
     )
     const closestMessage =
       typeof closestMessageRaw === "string" ? closestMessageRaw : undefined
@@ -105,7 +104,7 @@ export class Error0 extends Error {
     // Self props
     const propsFloated = (this.constructor as typeof Error0).getPropsFloated(
       this.propsOriginal,
-      maxLevel,
+      (this.constructor as typeof Error0).defaultMaxLevel,
     )
     this.tag = propsFloated.tag
     this.code = propsFloated.code
@@ -171,14 +170,14 @@ export class Error0 extends Error {
   ): Error0GeneralProps {
     // const meta = Meta0.merge(error0Input.meta0, error0Input.meta).value
     const meta = Meta0.merge(
-      Error0.defaultMeta,
+      this.defaultMeta,
       error0Input.meta,
       error0Input.meta,
     ).value
     const result: Error0GeneralProps = {
-      message: error0Input.message || Error0.defaultMessage,
-      tag: error0Input.tag || meta.tag || Error0.defaultTag,
-      code: error0Input.code || meta.code || Error0.defaultCode,
+      message: error0Input.message || this.defaultMessage,
+      tag: error0Input.tag || meta.tag || this.defaultTag,
+      code: error0Input.code || meta.code || this.defaultCode,
       httpStatus:
         typeof error0Input.httpStatus === "number"
           ? error0Input.httpStatus
@@ -186,21 +185,21 @@ export class Error0 extends Error {
               typeof error0Input.httpStatus === "string" &&
               error0Input.httpStatus in HttpStatusCode
             ? HttpStatusCode[error0Input.httpStatus]
-            : meta.httpStatus || Error0.defaultHttpStatus,
+            : meta.httpStatus || this.defaultHttpStatus,
       expected: undefined,
-      clientMessage: error0Input.clientMessage || Error0.defaultClientMessage,
-      cause: error0Input.cause || Error0.defaultCause,
+      clientMessage: error0Input.clientMessage || this.defaultClientMessage,
+      cause: error0Input.cause || this.defaultCause,
       stack: undefined,
       meta,
     }
-    result.expected = Error0.normalizeExpected(
+    result.expected = this.normalizeExpected(
       result,
       typeof error0Input.expected === "boolean" ||
         typeof error0Input.expected === "function"
         ? error0Input.expected
-        : meta.expected || Error0.defaultExpected,
+        : meta.expected || this.defaultExpected,
     )
-    result.stack = Error0.removeConstructorStackPart(stack)
+    result.stack = this.removeConstructorStackPart(stack)
     return result
   }
 
@@ -208,7 +207,7 @@ export class Error0 extends Error {
     error0Props: Error0GeneralProps,
     maxLevel: number,
   ): Error0GeneralProps {
-    const cause = Error0.getClosestPropValue(error0Props, "cause", maxLevel)
+    const cause = this.getClosestPropValue(error0Props, "cause", maxLevel)
     const causeStack =
       typeof cause === "object" &&
       cause !== null &&
@@ -216,25 +215,21 @@ export class Error0 extends Error {
       typeof cause.stack === "string"
         ? cause.stack
         : undefined
-    const stack = Error0.mergeStack(causeStack, error0Props.stack)
+    const stack = this.mergeStack(causeStack, error0Props.stack)
     const propsFloated: Error0GeneralProps = {
-      message: Error0.getClosestPropValue(error0Props, "message", maxLevel),
-      tag: Error0.getClosestPropValue(error0Props, "tag", maxLevel),
-      code: Error0.getClosestPropValue(error0Props, "code", maxLevel),
-      httpStatus: Error0.getClosestPropValue(
-        error0Props,
-        "httpStatus",
-        maxLevel,
-      ),
-      expected: Error0._isExpected(error0Props, maxLevel),
-      clientMessage: Error0.getClosestPropValue(
+      message: this.getClosestPropValue(error0Props, "message", maxLevel),
+      tag: this.getClosestPropValue(error0Props, "tag", maxLevel),
+      code: this.getClosestPropValue(error0Props, "code", maxLevel),
+      httpStatus: this.getClosestPropValue(error0Props, "httpStatus", maxLevel),
+      expected: this._isExpected(error0Props, maxLevel),
+      clientMessage: this.getClosestPropValue(
         error0Props,
         "clientMessage",
         maxLevel,
       ),
       cause,
       stack,
-      meta: Error0.getMergedMetaValue(error0Props, maxLevel),
+      meta: this.getMergedMetaValue(error0Props, maxLevel),
     }
     return propsFloated
   }
@@ -284,13 +279,13 @@ export class Error0 extends Error {
       causeProvided !== null &&
       maxLevel > 0
     ) {
-      return Error0._isExpected(causeProvided, maxLevel - 1, hasExpectedTrue)
+      return this._isExpected(causeProvided, maxLevel - 1, hasExpectedTrue)
     }
 
     return hasExpectedTrue
   }
   static isExpected(error: unknown): boolean {
-    return Error0._isExpected(error, Error0.defaultMaxLevel, false)
+    return this._isExpected(error, this.defaultMaxLevel, false)
   }
 
   // stack
@@ -359,7 +354,7 @@ export class Error0 extends Error {
           | NonNullable<TPropValueNormalized>
           | undefined
       } else {
-        return Error0.getClosestPropValue(
+        return this.getClosestPropValue(
           error0Props.cause,
           propKey,
           maxLevel - 1,
@@ -374,7 +369,7 @@ export class Error0 extends Error {
     error0OrProps: unknown,
     maxLevel: number,
   ): Meta0.ValueType {
-    const metas = Error0.getFilledPropValues(
+    const metas = this.getFilledPropValues(
       error0OrProps,
       "meta",
       maxLevel,
@@ -426,7 +421,7 @@ export class Error0 extends Error {
     }
     if (maxLevel > 0) {
       values.push(
-        ...Error0.getFilledPropValues(
+        ...this.getFilledPropValues(
           error0Props.cause,
           propKey,
           maxLevel - 1,
@@ -507,10 +502,12 @@ export class Error0 extends Error {
             : undefined,
       } satisfies Error0Input
 
-      if (Error0.isLikelyError0(input)) {
+      if (this.isLikelyError0(input)) {
         return new Error0(input)
       } else {
-        return new Error0(pick(input, ["message", "code", "httpStatus"]))
+        return new Error0(
+          pick(input, ["message", "code", "httpStatus", "stack"]),
+        )
       }
     }
 
@@ -520,7 +517,7 @@ export class Error0 extends Error {
   }
 
   static from(error: unknown): Error0 {
-    return Error0._toError0(error)
+    return this._toError0(error)
   }
 
   static extendClass(props: {
@@ -560,7 +557,7 @@ export class Error0 extends Error {
     }
   }
   static toJSON(error: unknown) {
-    const error0 = Error0.from(error)
+    const error0 = this.from(error)
     return error0.toJSON()
   }
 }

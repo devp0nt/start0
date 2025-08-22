@@ -26,6 +26,9 @@
         "noEmptyPattern": "off",
         "noUnusedFunctionParameters": "off"
       },
+      "complexity": {
+        "noThisInStatic": "off"
+      },
       "suspicious": {
         "noConsole": {
           "level": "error",
