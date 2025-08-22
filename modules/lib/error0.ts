@@ -1,23 +1,15 @@
 import { Meta0 } from "@shmoject/modules/lib/meta0"
 import { TRPCClientError } from "@trpc/client"
 import { type AxiosError, HttpStatusCode, isAxiosError } from "axios"
-import { get, pick } from "lodash"
+import { get } from "lodash"
 import z, { ZodError } from "zod"
 
-// TODO: zod
-// TODO: axios
+// TODO: anyMessage = message || clientMessage
+// TODO: zod errors tree, should be possible in meta, so it is not primitives only
+
 // TODO: not use self stack if toError0
-// TODO: overrides first
-
-// TODO: createLoader with error0
-// TODO: anyMessage
-// TODO: optional erro stack on root.tsx
-
-// TODO: private more main then static
-
-// TODO: restart frontend server on code change
-
 // TODO: fix default message in extended error0, should be used in constuctor of Error0
+// TODO: remove defaults prop from getPropsFromUnknown
 
 export interface Error0Input {
   message?: string
@@ -309,7 +301,7 @@ export class Error0 extends Error {
 
   private static getPropsFromUnknown(
     error: unknown,
-    override?: Error0Input,
+    defaults?: Error0Input,
   ): Error0GeneralProps {
     if (typeof error !== "object" || error === null) {
       return {
@@ -330,15 +322,15 @@ export class Error0 extends Error {
       message:
         "message" in error && typeof error.message === "string"
           ? error.message
-          : override?.message || undefined,
+          : undefined,
       code:
         "code" in error && typeof error.code === "string"
           ? error.code
-          : override?.code || undefined,
+          : defaults?.code || undefined,
       clientMessage:
         "clientMessage" in error && typeof error.clientMessage === "string"
           ? error.clientMessage
-          : override?.clientMessage || undefined,
+          : defaults?.clientMessage || undefined,
       expected: undefined,
       stack:
         "stack" in error && typeof error.stack === "string"
@@ -347,32 +339,32 @@ export class Error0 extends Error {
       tag:
         "tag" in error && typeof error.tag === "string"
           ? error.tag
-          : override?.tag || undefined,
-      cause: "cause" in error ? error.cause : override?.cause || undefined,
+          : defaults?.tag || undefined,
+      cause: "cause" in error ? error.cause : defaults?.cause || undefined,
       meta:
         "meta" in error && typeof error.meta === "object" && error.meta !== null
           ? Meta0.toValueSafe(error.meta)
-          : Meta0.toValueSafe(override?.meta) || {},
+          : Meta0.toValueSafe(defaults?.meta) || {},
       httpStatus:
         "httpStatus" in error &&
         typeof error.httpStatus === "number" &&
         error.httpStatus in HttpStatusCode
           ? error.httpStatus
-          : typeof override?.httpStatus === "string"
-            ? HttpStatusCode[override.httpStatus]
-            : override?.httpStatus,
+          : typeof defaults?.httpStatus === "string"
+            ? HttpStatusCode[defaults.httpStatus]
+            : defaults?.httpStatus,
       zodError:
         "zodError" in error && error.zodError instanceof ZodError
           ? error.zodError
           : error instanceof ZodError
             ? error
-            : override?.zodError,
+            : defaults?.zodError,
       axiosError:
         "axiosError" in error && isAxiosError(error.axiosError)
           ? error.axiosError
           : isAxiosError(error)
             ? error
-            : override?.axiosError,
+            : defaults?.axiosError,
     }
     result.expected = this.normalizeSelfExpected(
       result,
@@ -380,7 +372,7 @@ export class Error0 extends Error {
         (typeof error.expected === "boolean" ||
           typeof error.expected === "function")
         ? (error.expected as ExpectedFn)
-        : override?.expected || undefined,
+        : defaults?.expected || undefined,
     )
     if (result.zodError) {
       this.assignError0Props(

@@ -5,8 +5,8 @@ import pick from "lodash/pick.js"
 
 // TODO: use zod to define types
 // TODO: sensetive keys
-// TODO: private more main then static
 
+// TODO: private more main then static
 // TODO: infer somehow correct meta in meta[] in props
 
 export class Meta0 {

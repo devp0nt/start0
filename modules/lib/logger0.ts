@@ -16,7 +16,6 @@ import debug from "debug"
 import yaml from "yaml"
 
 // TODO: hidden pretty meta keys
-
 // TODO: disallow change meta on root logger
 
 export class Logger0 {

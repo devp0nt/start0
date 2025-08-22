@@ -12,6 +12,7 @@ enum Class
 
 genreator route files, search fiels and get exports by names
 
+TODO: restart frontend server on code change
 refactor lib0
 
 biome rules
