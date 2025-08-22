@@ -1,3 +1,4 @@
+import { ErrorPage } from "@shmoject/site/components/Error"
 import { createLoader, type LoaderArgs0 } from "@shmoject/site/lib/reactRouter"
 import { trpc } from "@shmoject/site/lib/trpc"
 import { HomePage } from "@shmoject/site/pages/HomePage"
@@ -21,5 +22,9 @@ export function HydrateFallback() {
 }
 
 export default function HomeRoute({ loaderData }: Route.ComponentProps) {
-  return <HomePage dataFromLoader={loaderData} />
+  if (loaderData.error0) {
+    return <ErrorPage error={loaderData.error0} />
+  } else {
+    return <HomePage dataFromLoader={loaderData} />
+  }
 }

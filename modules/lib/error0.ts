@@ -3,12 +3,15 @@ import { TRPCClientError } from "@trpc/client"
 import { HttpStatusCode } from "axios"
 import { get, pick } from "lodash"
 
+// TODO: createLoader with error0
 // TODO: anyMessage
 // TODO: optional erro stack on root.tsx
 // TODO: trpc
 // TODO: zod
 // TODO: private more main then static
 // TODO: axios
+
+// TODO: restart frontend server on code change
 
 // TODO: fix default message in extended error0, should be used in constuctor of Error0
 
@@ -86,26 +89,15 @@ export class Error0 extends Error {
     }
     const safeInput = Error0.safeParseInput(input)
 
-    const providedMessage = safeInput.message
-    const closestMessageRaw = Error0.getClosestPropValue<"message", unknown>(
-      { message: safeInput.message, cause: safeInput.cause },
-      "message",
-      Error0.defaultMaxLevel,
-    )
-    const closestMessage =
-      typeof closestMessageRaw === "string" ? closestMessageRaw : undefined
-    const message = providedMessage || closestMessage || Error0.defaultMessage
+    const message = Error0.normalizeMessage(safeInput)
     super(message)
     Object.setPrototypeOf(this, (this.constructor as typeof Error0).prototype)
     this.name = "Error0"
 
-    // Original props
     this.propsOriginal = (this.constructor as typeof Error0).getGeneralProps(
       safeInput,
       safeInput.stack || this.stack,
     )
-
-    // Self props
     const propsFloated = (this.constructor as typeof Error0).getPropsFloated(
       this.propsOriginal,
       (this.constructor as typeof Error0).defaultMaxLevel,
@@ -125,6 +117,25 @@ export class Error0 extends Error {
   static defaultMaxLevel = 10
 
   // props
+
+  private static normalizeMessage(error0Input: Error0Input) {
+    if (
+      typeof error0Input.message === "string" &&
+      error0Input.message.length > 0
+    ) {
+      return error0Input.message
+    }
+    const closestMessageRaw = Error0.getClosestPropValue<"message", unknown>(
+      { message: error0Input.message, cause: error0Input.cause },
+      "message",
+      Error0.defaultMaxLevel,
+    )
+    const closestMessage =
+      typeof closestMessageRaw === "string" && closestMessageRaw.length > 0
+        ? closestMessageRaw
+        : undefined
+    return closestMessage || Error0.defaultMessage
+  }
 
   private static safeParseInput(
     error0Input: Record<string, unknown>,
@@ -470,18 +481,23 @@ export class Error0 extends Error {
       return error
     }
 
-    if (
-      typeof error === "object" &&
-      error !== null &&
-      "message" in error &&
-      typeof error.message === "string" &&
-      error.message.includes("__I_AM_ERROR_0")
-    ) {
-      try {
-        const error0Json = JSON.parse(error.message)
-        return this._toError0(error0Json)
-      } catch {}
+    if (error instanceof TRPCClientError) {
+      const error0Json = get(error, "data.error0")
+      return this._toError0(error0Json)
     }
+
+    // if (
+    //   typeof error === "object" &&
+    //   error !== null &&
+    //   "message" in error &&
+    //   typeof error.message === "string" &&
+    //   error.message.includes("__I_AM_ERROR_0")
+    // ) {
+    //   try {
+    //     const error0Json = JSON.parse(error.message)
+    //     return this._toError0(error0Json)
+    //   } catch {}
+    // }
 
     if (typeof error === "string") {
       return new Error0(error)
@@ -583,6 +599,10 @@ export class Error0 extends Error {
     const error0 = this.from(error, inputOverride)
     return error0.toJSON()
   }
+}
+
+export namespace Error0 {
+  export type JSON = ReturnType<Error0["toJSON"]>
 }
 
 // export class ErrorExpected0 extends Error0 {

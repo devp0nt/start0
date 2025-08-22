@@ -1,4 +1,5 @@
 import { Error0 } from "@shmoject/modules/lib/error0"
+import { ErrorComponent } from "@shmoject/site/components/Error"
 import { GeneralLayout } from "@shmoject/site/components/GeneralLayout"
 import { TRPCReactProvider } from "@shmoject/site/lib/trpc"
 import { TRPCClientError } from "@trpc/client"
@@ -56,20 +57,9 @@ export default function App() {
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
-  const error0 = Error0.from(error)
-
   return (
     <GeneralLayout>
-      <main className="pt-16 p-4 container mx-auto">
-        <h1>{error0.message || "Unknown error"}</h1>
-        <p>{error0.clientMessage || error0.message || "Sorry"}</p>
-        <p>{error0.code || "—"}</p>
-        {/* {error0.stack && (
-          <pre className="w-full p-4 overflow-x-auto">
-            <code>{error0.stack}</code>
-          </pre>
-        )} */}
-      </main>
+      <ErrorComponent error={error} />
     </GeneralLayout>
   )
 }

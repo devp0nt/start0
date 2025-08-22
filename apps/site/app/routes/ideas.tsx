@@ -1,3 +1,4 @@
+import { ErrorPage } from "@shmoject/site/components/Error"
 import { createLoader, type LoaderArgs0 } from "@shmoject/site/lib/reactRouter"
 import { trpc } from "@shmoject/site/lib/trpc"
 import { IdeasPage } from "@shmoject/site/pages/IdeasPage"
@@ -17,8 +18,10 @@ export function HydrateFallback() {
   return <div>Loading...</div>
 }
 
-export default function IdeasRoute({
-  loaderData: { ideas },
-}: Route.ComponentProps) {
-  return <IdeasPage ideas={ideas} />
+export default function IdeasRoute({ loaderData }: Route.ComponentProps) {
+  if (loaderData.error0) {
+    return <ErrorPage error={loaderData.error0} />
+  } else {
+    return <IdeasPage ideas={loaderData.data.ideas} />
+  }
 }
