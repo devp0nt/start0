@@ -6,7 +6,6 @@ import omit from "lodash/omit.js"
 import pick from "lodash/pick.js"
 
 // TODO: refactor
-
 // TODO: use zod to define types
 // TODO: private more main then static
 // TODO: infer somehow correct meta in meta[] in props
