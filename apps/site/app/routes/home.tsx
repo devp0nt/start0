@@ -1,7 +1,6 @@
-import { createLoader } from "@shmoject/site/lib/reactRouter"
+import { createLoader, type LoaderArgs0 } from "@shmoject/site/lib/reactRouter"
 import { trpc } from "@shmoject/site/lib/trpc"
 import { HomePage } from "@shmoject/site/pages/HomePage"
-import { useLoaderData } from "react-router"
 import type { Route } from "./+types/home"
 
 export function meta({}: Route.MetaArgs) {
@@ -11,16 +10,16 @@ export function meta({}: Route.MetaArgs) {
   ]
 }
 
-export const loader = createLoader(async ({ qc }) => {
-  return await qc.fetchQuery(trpc.ping.queryOptions())
-})
+export const loader = createLoader(
+  async ({ qc, params }: LoaderArgs0<Route.LoaderArgs>) => {
+    return await qc.fetchQuery(trpc.ping.queryOptions())
+  },
+)
 
 export function HydrateFallback() {
   return <div>Loading...</div>
 }
 
-export default function HomeRoute() {
-  const { dehydratedState: _dehydratedState, ...dataFromLoader } =
-    useLoaderData<typeof loader>()
-  return <HomePage dataFromLoader={dataFromLoader} />
+export default function HomeRoute({ loaderData }: Route.ComponentProps) {
+  return <HomePage dataFromLoader={loaderData} />
 }

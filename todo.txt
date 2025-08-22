@@ -1,4 +1,4 @@
-move rpute itslef to modules
+move react route pages itslef to modules
 
 logger client
 processes → ?bin
