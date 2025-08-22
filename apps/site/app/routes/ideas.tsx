@@ -1,4 +1,5 @@
-import { getIdeas } from "@shmoject/site/lib/ideas"
+import { createLoader } from "@shmoject/site/lib/reactRouter"
+import { trpc } from "@shmoject/site/lib/trpc"
 import { IdeasPage } from "@shmoject/site/pages/IdeasPage"
 import type { Route } from "./+types/ideas"
 
@@ -6,11 +7,9 @@ export function meta({}: Route.MetaArgs) {
   return [{ title: "Ideas" }, { name: "description", content: "All ideas" }]
 }
 
-export async function clientLoader({ params }: Route.ClientLoaderArgs) {
-  return {
-    ideas: await getIdeas(),
-  }
-}
+export const loader = createLoader(async ({ qc }) => {
+  return await qc.fetchQuery(trpc.getIdeas.queryOptions())
+})
 
 export function HydrateFallback() {
   return <div>Loading...</div>

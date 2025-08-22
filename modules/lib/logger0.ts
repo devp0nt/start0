@@ -15,6 +15,7 @@ import yaml from "yaml"
 
 // TODO: DEBUG
 // TODO: hidden pretty meta keys
+
 // TODO: disallow change meta on root logger
 
 export class Logger0 {
@@ -100,8 +101,7 @@ export class Logger0 {
     level: ExtractEnum<LogLevel, "error" | "fatal">
   }) => {
     const logBadFn: Logger0.LogBadFn = (...args: unknown[]) => {
-      const error0 =
-        args[0] instanceof Error0 ? args[0] : Error0.toError0(args[0])
+      const error0 = args[0] instanceof Error0 ? args[0] : Error0.from(args[0])
       const extraMeta =
         typeof args[1] === "object" && args[1] !== null
           ? Meta0.toMeta0(args[1])

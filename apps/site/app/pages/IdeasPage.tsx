@@ -1,7 +1,7 @@
-import type { Idea } from "@shmoject/site/lib/ideas"
+import type { IdeaSh } from "@shmoject/modules/ideas/utils.sh"
 import { Link } from "react-router"
 
-export const IdeasPage = ({ ideas }: { ideas: Idea[] }) => {
+export const IdeasPage = ({ ideas }: { ideas: IdeaSh.Client[] }) => {
   return (
     <div>
       <h1>Ideas</h1>

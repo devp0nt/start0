@@ -20,6 +20,11 @@ export class Meta0 {
     "reqPath",
     "reqDurationMs",
   ] as const
+  private static trpcKeys = [
+    "trpcReqPath",
+    "trpcReqType",
+    "reqDurationMs",
+  ] as const
   private static errorKeys = [
     "message",
     "code",
@@ -34,6 +39,7 @@ export class Meta0 {
   private static idsKeys = ["userId", "ideaId"] as const
   static keys = [
     ...Meta0.otherKeys,
+    ...Meta0.trpcKeys,
     ...Meta0.honoKeys,
     ...Meta0.errorKeys,
     ...Meta0.idsKeys,
@@ -288,6 +294,8 @@ export namespace Meta0 {
     reqMethod?: string
     reqPath?: string
     reqDurationMs?: number
+    trpcReqPath?: string
+    trpcReqType?: string
   }
   export type ValueTypeNullish = ValueType | undefined | null
   export type ValueTypeFlat = Omit<ValueType, "other"> & {

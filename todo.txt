@@ -1,6 +1,4 @@
-logger server
-logger to request
-meta to request
+move rpute itslef to modules
 
 logger client
 processes → ?bin
@@ -26,6 +24,9 @@ https://dev.to/ayoubphy/step-by-step-guide-setting-up-trpc-better-auth-prisma-an
 plop
 
 full hono route
+
+form
+zod numer as text in form with coerce
 
 html title dynamic
 

@@ -18,12 +18,18 @@ const fixStack = (stack: string | undefined) => {
   return fixedLines.join("\n")
 }
 
+const toJSON = (error: Error0) => {
+  const result = error.toJSON()
+  result.stack = fixStack(error.stack)
+  return result
+}
+
 describe("error0", () => {
   it("simple", () => {
     const error0 = new Error0("test")
     expect(error0).toBeInstanceOf(Error0)
     expect(error0).toMatchInlineSnapshot(`[Error0: test]`)
-    expect(error0.toJSON()).toMatchInlineSnapshot(`
+    expect(toJSON(error0)).toMatchInlineSnapshot(`
       {
         "cause": undefined,
         "clientMessage": undefined,
@@ -32,6 +38,10 @@ describe("error0", () => {
         "httpStatus": undefined,
         "message": "test",
         "meta": {},
+        "stack": 
+      "Error0: test
+          at <anonymous> (...)"
+      ,
         "tag": undefined,
       }
     `)
@@ -53,8 +63,8 @@ describe("error0", () => {
     }
     const error1 = new Error0(input)
     const error2 = new Error0(input.message, input)
-    expect(error1.toJSON()).toMatchObject(error2.toJSON())
-    expect(error1.toJSON()).toMatchInlineSnapshot(`
+    expect(toJSON(error1)).toMatchObject(toJSON(error2))
+    expect(toJSON(error1)).toMatchInlineSnapshot(`
       {
         "cause": [Error: original message],
         "clientMessage": "human message 1",
@@ -66,6 +76,13 @@ describe("error0", () => {
           "reqDurationMs": 1,
           "userId": "user1",
         },
+        "stack": 
+      "Error0: my message
+          at <anonymous> (...)
+
+      Error: original message
+          at <anonymous> (...)"
+      ,
         "tag": "tag1",
       }
     `)
@@ -76,7 +93,7 @@ describe("error0", () => {
     const error0 = new Error0("my message", { cause: errorDefault })
     expect(error0).toBeInstanceOf(Error0)
     expect(error0).toMatchInlineSnapshot(`[Error0: my message]`)
-    expect(error0.toJSON()).toMatchInlineSnapshot(`
+    expect(toJSON(error0)).toMatchInlineSnapshot(`
       {
         "cause": [Error: original message],
         "clientMessage": undefined,
@@ -85,6 +102,13 @@ describe("error0", () => {
         "httpStatus": undefined,
         "message": "my message",
         "meta": {},
+        "stack": 
+      "Error0: my message
+          at <anonymous> (...)
+
+      Error: original message
+          at <anonymous> (...)"
+      ,
         "tag": undefined,
       }
     `)
@@ -93,7 +117,7 @@ describe("error0", () => {
   it("cause strange thing", () => {
     const error0 = new Error0("my message", { cause: "strange thing" })
     expect(error0).toMatchInlineSnapshot(`[Error0: my message]`)
-    expect(error0.toJSON()).toMatchInlineSnapshot(`
+    expect(toJSON(error0)).toMatchInlineSnapshot(`
       {
         "cause": "strange thing",
         "clientMessage": undefined,
@@ -102,6 +126,10 @@ describe("error0", () => {
         "httpStatus": undefined,
         "message": "my message",
         "meta": {},
+        "stack": 
+      "Error0: my message
+          at <anonymous> (...)"
+      ,
         "tag": undefined,
       }
     `)
@@ -129,7 +157,7 @@ describe("error0", () => {
       },
     })
     expect(error01).toBeInstanceOf(Error0)
-    expect(error02.toJSON()).toMatchInlineSnapshot(`
+    expect(toJSON(error02)).toMatchInlineSnapshot(`
       {
         "cause": [Error0: first],
         "clientMessage": "human message 1",
@@ -138,13 +166,20 @@ describe("error0", () => {
         "httpStatus": undefined,
         "message": "second",
         "meta": {
-          "reqDurationMs": 1,
           "ideaId": "idea1",
           "other": {
             "x": 1,
           },
+          "reqDurationMs": 1,
           "userId": "user1",
         },
+        "stack": 
+      "Error0: second
+          at <anonymous> (...)
+
+      Error0: first
+          at <anonymous> (...)"
+      ,
         "tag": "tag2",
       }
     `)
@@ -152,7 +187,7 @@ describe("error0", () => {
 
   it("unknown error", () => {
     const error0 = new Error0({})
-    expect(error0.toJSON()).toMatchInlineSnapshot(`
+    expect(toJSON(error0)).toMatchInlineSnapshot(`
       {
         "cause": undefined,
         "clientMessage": undefined,
@@ -161,13 +196,17 @@ describe("error0", () => {
         "httpStatus": undefined,
         "message": "Unknown error",
         "meta": {},
+        "stack": 
+      "Error0: Unknown error
+          at <anonymous> (...)"
+      ,
         "tag": undefined,
       }
     `)
     const error1 = new Error0("test")
     expect(error1.message).toBe("test")
     const error2 = new Error0({ cause: error1 })
-    expect(error2.toJSON()).toMatchInlineSnapshot(`
+    expect(toJSON(error2)).toMatchInlineSnapshot(`
       {
         "cause": [Error0: test],
         "clientMessage": undefined,
@@ -178,6 +217,13 @@ describe("error0", () => {
         "meta": {
           "other": undefined,
         },
+        "stack": 
+      "Error0: test
+          at <anonymous> (...)
+
+      Error0: test
+          at <anonymous> (...)"
+      ,
         "tag": undefined,
       }
     `)
@@ -193,7 +239,7 @@ describe("error0", () => {
   it("input error default", () => {
     const errorDefault = new Error("default error")
     const error0 = new Error0(errorDefault)
-    expect(error0.toJSON()).toMatchInlineSnapshot(`
+    expect(toJSON(error0)).toMatchInlineSnapshot(`
       {
         "cause": [Error: default error],
         "clientMessage": undefined,
@@ -202,6 +248,13 @@ describe("error0", () => {
         "httpStatus": undefined,
         "message": "default error",
         "meta": {},
+        "stack": 
+      "Error0: default error
+          at <anonymous> (...)
+
+      Error: default error
+          at <anonymous> (...)"
+      ,
         "tag": undefined,
       }
     `)
@@ -217,7 +270,7 @@ describe("error0", () => {
   it("input error0 itself", () => {
     const error = new Error0("error0 error")
     const error0 = new Error0(error)
-    expect(error0.toJSON()).toMatchInlineSnapshot(`
+    expect(toJSON(error0)).toMatchInlineSnapshot(`
       {
         "cause": [Error0: error0 error],
         "clientMessage": undefined,
@@ -228,6 +281,13 @@ describe("error0", () => {
         "meta": {
           "other": undefined,
         },
+        "stack": 
+      "Error0: error0 error
+          at <anonymous> (...)
+
+      Error0: error0 error
+          at <anonymous> (...)"
+      ,
         "tag": undefined,
       }
     `)

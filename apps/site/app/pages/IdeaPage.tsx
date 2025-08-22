@@ -1,6 +1,6 @@
-import type { Idea } from "@shmoject/site/lib/ideas"
+import type { IdeaSh } from "@shmoject/modules/ideas/utils.sh"
 
-export const IdeaPage = ({ idea }: { idea: Idea }) => {
+export const IdeaPage = ({ idea }: { idea: IdeaSh.Client }) => {
   return (
     <div>
       <h1>{idea.title}</h1>

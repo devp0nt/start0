@@ -1,6 +1,7 @@
 import { Meta0 } from "@shmoject/modules/lib/meta0"
 import { HttpStatusCode } from "axios"
 
+// TODO: Preset Class
 // TODO: private more main then static
 // TODO: not name but isError0: true or something
 // TODO: When to error 0, than keep original stack strace
@@ -15,8 +16,7 @@ export interface Error0Input {
   expected?: boolean | ExpectedFn
   clientMessage?: string
   cause?: Error0Cause
-  meta?: Meta0.ValueType
-  meta0?: Meta0
+  meta?: Meta0.Meta0OrValueTypeNullish
 }
 
 interface Error0GeneralProps {
@@ -39,6 +39,9 @@ const isFilled = <T>(value: T): value is NonNullable<T> =>
   value !== null && value !== undefined && value !== ""
 
 export class Error0 extends Error {
+  static self = Error0
+  self = Error0
+
   public readonly tag?: Error0GeneralProps["tag"]
   public readonly code?: Error0GeneralProps["code"]
   public readonly httpStatus?: Error0GeneralProps["httpStatus"]
@@ -46,6 +49,8 @@ export class Error0 extends Error {
   public readonly clientMessage?: Error0GeneralProps["clientMessage"]
   public readonly cause?: Error0GeneralProps["cause"]
   public readonly meta?: Meta0.ValueType
+
+  public readonly defaultExpected: boolean | undefined = undefined
 
   public readonly propsOriginal: Error0GeneralProps
 
@@ -83,6 +88,7 @@ export class Error0 extends Error {
     super(message)
     Object.setPrototypeOf(this, Error0.prototype)
     this.name = "Error0"
+    // this.
 
     // Original props
     this.propsOriginal = Error0.getGeneralProps(safeInput, this.stack)
@@ -130,12 +136,18 @@ export class Error0 extends Error {
         ? error0Input.clientMessage
         : undefined
     result.cause = error0Input.cause
-    result.meta0 =
-      error0Input.meta0 instanceof Meta0 ? error0Input.meta0 : undefined
+    // result.meta0 =
+    //   error0Input.meta0 instanceof Meta0 ? error0Input.meta0 : undefined
+    // result.meta =
+    //   typeof error0Input.meta === "object" && error0Input.meta !== null
+    //     ? error0Input.meta
+    //     : undefined
     result.meta =
-      typeof error0Input.meta === "object" && error0Input.meta !== null
+      error0Input.meta instanceof Meta0
         ? error0Input.meta
-        : undefined
+        : typeof error0Input.meta === "object" && error0Input.meta !== null
+          ? error0Input.meta
+          : undefined
     return result
   }
 
@@ -143,7 +155,8 @@ export class Error0 extends Error {
     error0Input: Error0Input,
     stack: Error0GeneralProps["stack"],
   ): Error0GeneralProps {
-    const meta = Meta0.merge(error0Input.meta0, error0Input.meta).value
+    // const meta = Meta0.merge(error0Input.meta0, error0Input.meta).value
+    const meta = Meta0.merge(error0Input.meta, error0Input.meta).value
     const result: Error0GeneralProps = {
       message: error0Input.message,
       tag: error0Input.tag || meta.tag,
@@ -471,7 +484,7 @@ export class Error0 extends Error {
     })
   }
 
-  static toError0(error: unknown): Error0 {
+  static from(error: unknown): Error0 {
     return Error0._toError0(error, Error0.defaultMaxLevel)
   }
 
@@ -485,10 +498,11 @@ export class Error0 extends Error {
       clientMessage: this.clientMessage,
       cause: this.cause,
       meta: this.meta,
+      stack: this.stack,
     }
   }
   static toJSON(error: unknown) {
-    const error0 = Error0.toError0(error)
+    const error0 = Error0.from(error)
     return error0.toJSON()
   }
 }

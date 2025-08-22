@@ -42,7 +42,7 @@ export namespace HonoApp {
     backendCtx: BackendCtx.Ctx
     honoCtx: HonoContext
   }) => {
-    const logger = backendCtx.logger.getChild("req")
+    const logger = backendCtx.logger.getChild("hono")
     const meta = Meta0.create()
     logger.replaceMeta(meta)
 
@@ -67,19 +67,23 @@ export namespace HonoApp {
 
   export const applyLogging = ({ honoApp }: { honoApp: AppType }) => {
     honoApp.use(async (c, next) => {
-      const logger = c.var.logger
+      if (c.req.path.startsWith("/trpc")) {
+        await next()
+        return
+      }
       const reqStartedAt = performance.now()
-      logger.info({
+      const l = c.var.logger.getChild("req")
+      l.info({
         message: "Hono request started",
       })
       try {
         await next()
-        logger.info({
+        l.info({
           message: "Hono request finished with success",
           reqDurationMs: performance.now() - reqStartedAt,
         })
       } catch (error) {
-        logger.error(error, {
+        l.error(error, {
           message: "Hono request finished with error",
           reqDurationMs: performance.now() - reqStartedAt,
         })
