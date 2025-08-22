@@ -1,11 +1,15 @@
 import { Meta0 } from "@shmoject/modules/lib/meta0"
+import { TRPCClientError } from "@trpc/client"
 import { HttpStatusCode } from "axios"
-import { pick } from "lodash"
+import { get, pick } from "lodash"
 
+// TODO: anyMessage
 // TODO: trpc
 // TODO: zod
 // TODO: private more main then static
 // TODO: axios
+
+// TODO: fix default message in extended error0, should be used in constuctor of Error0
 
 export interface Error0Input {
   message?: string
@@ -49,7 +53,7 @@ export class Error0 extends Error {
   public readonly cause?: Error0GeneralProps["cause"]
   public readonly meta?: Meta0.ValueType
 
-  static defaultMessage?: Error0GeneralProps["message"]
+  static defaultMessage = "Unknown error"
   static defaultTag?: Error0GeneralProps["tag"]
   static defaultCode?: Error0GeneralProps["code"]
   static defaultHttpStatus?: Error0GeneralProps["httpStatus"]
@@ -89,7 +93,7 @@ export class Error0 extends Error {
     )
     const closestMessage =
       typeof closestMessageRaw === "string" ? closestMessageRaw : undefined
-    const message = providedMessage || closestMessage || "Unknown error"
+    const message = providedMessage || closestMessage || Error0.defaultMessage
     super(message)
     Object.setPrototypeOf(this, (this.constructor as typeof Error0).prototype)
     this.name = "Error0"
@@ -306,6 +310,8 @@ export class Error0 extends Error {
     }
     removeLineContains("at new Error0")
     removeLineContains("at _toError0")
+    removeLineContains("at Error0.from")
+    removeLineContains("at Error0._toError0")
     removeLineContains("at new ExtendedError0")
     return lines.join("\n")
   }
@@ -455,9 +461,25 @@ export class Error0 extends Error {
     return false
   }
 
-  private static _toError0(error: unknown): Error0 {
+  private static _toError0(
+    error: unknown,
+    inputOverride?: Error0Input,
+  ): Error0 {
     if (error instanceof Error0) {
       return error
+    }
+
+    if (
+      typeof error === "object" &&
+      error !== null &&
+      "message" in error &&
+      typeof error.message === "string" &&
+      error.message.includes("__I_AM_ERROR_0")
+    ) {
+      try {
+        const error0Json = JSON.parse(error.message)
+        return this._toError0(error0Json)
+      } catch {}
     }
 
     if (typeof error === "string") {
@@ -469,36 +491,37 @@ export class Error0 extends Error {
         message:
           "message" in error && typeof error.message === "string"
             ? error.message
-            : "Unknown error",
+            : inputOverride?.message || undefined,
         code:
           "code" in error && typeof error.code === "string"
             ? error.code
-            : undefined,
+            : inputOverride?.code || undefined,
         clientMessage:
           "clientMessage" in error && typeof error.clientMessage === "string"
             ? error.clientMessage
-            : undefined,
+            : inputOverride?.clientMessage || undefined,
         expected:
           "expected" in error && typeof error.expected === "boolean"
             ? error.expected
-            : undefined,
+            : inputOverride?.expected || undefined,
         tag:
           "tag" in error && typeof error.tag === "string"
             ? error.tag
-            : undefined,
-        cause: "cause" in error ? error.cause : undefined,
+            : inputOverride?.tag || undefined,
+        cause:
+          "cause" in error ? error.cause : inputOverride?.cause || undefined,
         meta:
           "meta" in error &&
           typeof error.meta === "object" &&
           error.meta !== null
             ? error.meta
-            : undefined,
+            : inputOverride?.meta || undefined,
         httpStatus:
           "httpStatus" in error &&
           typeof error.httpStatus === "number" &&
           error.httpStatus in HttpStatusCode
             ? error.httpStatus
-            : undefined,
+            : inputOverride?.httpStatus || undefined,
       } satisfies Error0Input
 
       if (this.isLikelyError0(input)) {
@@ -511,12 +534,12 @@ export class Error0 extends Error {
     }
 
     return new Error0({
-      message: "Unknown error",
+      message: this.defaultMessage,
     })
   }
 
-  static from(error: unknown): Error0 {
-    return this._toError0(error)
+  static from(error: unknown, inputOverride?: Error0Input): Error0 {
+    return this._toError0(error, inputOverride)
   }
 
   static extendClass(props: {
@@ -530,7 +553,7 @@ export class Error0 extends Error {
     defaultMeta?: Meta0.ValueType
   }) {
     return class ExtendedError0 extends Error0 {
-      static defaultMessage = props.defaultMessage
+      static defaultMessage = props.defaultMessage || Error0.defaultMessage
       static defaultTag = props.defaultTag
       static defaultCode = props.defaultCode
       static defaultHttpStatus = props.defaultHttpStatus
@@ -555,8 +578,8 @@ export class Error0 extends Error {
       __I_AM_ERROR_0: this.__I_AM_ERROR_0,
     }
   }
-  static toJSON(error: unknown) {
-    const error0 = this.from(error)
+  static toJSON(error: unknown, inputOverride?: Error0Input) {
+    const error0 = this.from(error, inputOverride)
     return error0.toJSON()
   }
 }

@@ -12,7 +12,9 @@ export const getIdeaTrpcRoute = BackendTrpc.baseProcedure()
   .query(async ({ ctx, input }) => {
     const idea = IdeaBe.ideas.find((idea) => idea.id === input.ideaId)
     if (!idea) {
-      throw new Error0(`Idea ${input.ideaId} not found`)
+      throw new Error0(`Idea ${input.ideaId} not found`, {
+        code: "IDEA_NOT_FOUND",
+      })
     }
     return { idea }
   })

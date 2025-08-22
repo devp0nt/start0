@@ -11,11 +11,21 @@ export namespace BackendTrpc {
   const t = initTRPC.context<TrpcCtx>().create({
     transformer: superjson,
     errorFormatter: ({ shape, error }) => {
+      // TODO: use correct code from TRPC, or force error0 code
+      const error0 = Error0.from(error.cause || error)
+      const httpStatus = error0.httpStatus || shape.data.httpStatus
+      const error0Fixed = Error0.from(error0, {
+        httpStatus,
+      })
+      const error0FixedJson = error0Fixed.toJSON()
       return {
         ...shape,
+        message: JSON.stringify(error0FixedJson),
         data: {
           ...shape.data,
-          error0: Error0.toJSON(error.cause || error),
+          httpStatus,
+          originalMessage: shape.message,
+          error0: error0FixedJson,
         },
       }
     },

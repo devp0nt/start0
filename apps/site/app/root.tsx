@@ -1,5 +1,7 @@
+import { Error0 } from "@shmoject/modules/lib/error0"
 import { GeneralLayout } from "@shmoject/site/components/GeneralLayout"
 import { TRPCReactProvider } from "@shmoject/site/lib/trpc"
+import { TRPCClientError } from "@trpc/client"
 import {
   isRouteErrorResponse,
   Links,
@@ -54,31 +56,19 @@ export default function App() {
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
-  let message = "Oops!"
-  let details = "An unexpected error occurred."
-  let stack: string | undefined
-
-  if (isRouteErrorResponse(error)) {
-    message = error.status === 404 ? "404" : "Error"
-    details =
-      error.status === 404
-        ? "The requested page could not be found."
-        : error.statusText || details
-  } else if (import.meta.env.DEV && error && error instanceof Error) {
-    details = error.message
-    stack = error.stack
-  }
+  const error0 = Error0.from(error)
 
   return (
     <GeneralLayout>
       <main className="pt-16 p-4 container mx-auto">
-        <h1>{message}</h1>
-        <p>{details}</p>
-        {stack && (
+        <h1>{error0.message || "Unknown error"}</h1>
+        <p>{error0.clientMessage || error0.message || "Sorry"}</p>
+        <p>{error0.code || "—"}</p>
+        {/* {error0.stack && (
           <pre className="w-full p-4 overflow-x-auto">
-            <code>{stack}</code>
+            <code>{error0.stack}</code>
           </pre>
-        )}
+        )} */}
       </main>
     </GeneralLayout>
   )
