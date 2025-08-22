@@ -14,7 +14,7 @@ export interface Error0InputGeneral {
   expected?: boolean | ExpectedFn
   clientMessage?: string
   cause?: Error0Cause
-  meta?: Meta0.ValueType | Meta0 | Meta0.ValueTypeFlat
+  meta?: Meta0.ValueType | Meta0
 }
 
 export interface Error0Input extends Error0InputGeneral {

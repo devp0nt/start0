@@ -66,6 +66,9 @@ Logger0.init({ formatter: "json" }).then(() => {
   y.info("Hello, world!")
   logger.error(
     "zxc",
-    new Error0("test", { tag: "123", meta: { x: 1 } }).toJSON().meta,
+    new Error0("test", {
+      tag: "123",
+      meta: { userId: "1", other: { x: 1 } },
+    }).toJSON().meta,
   )
 })
