@@ -2,22 +2,27 @@ import { checkEnumEq } from "@shmoject/modules/lib/lodash0"
 import cloneDeep from "lodash/cloneDeep"
 
 // TODO: sensetive keys
+// TODO: private more main then static
+
+// TODO: infer somehow correct meta in meta[] in props
 
 export class Meta0 {
   value: Meta0.ValueType
 
-  private static generalKeys = [
-    "durationMs",
-    "tag",
+  private static otherKeys = ["durationMs", "other", "tag"] as const
+  private static errorKeys = [
+    "message",
     "code",
+    "tag",
     "httpStatus",
     "expected",
     "clientMessage",
+    "stack",
     "message",
     "other",
   ] as const
   private static idsKeys = ["userId", "ideaId"] as const
-  static keys = [...Meta0.generalKeys, ...Meta0.idsKeys]
+  static keys = [...Meta0.otherKeys, ...Meta0.errorKeys, ...Meta0.idsKeys]
 
   constructor(input: Partial<Meta0.ValueType>) {
     this.value = cloneDeep(Meta0.safeParseValue(input))
@@ -57,8 +62,8 @@ export class Meta0 {
   }
 
   static mergeValues(
-    first: Meta0.Meta0OrValueType,
-    ...nexts: Meta0.Meta0OrValueType[]
+    first: Meta0.Meta0OrValueTypeNullish,
+    ...nexts: Meta0.Meta0OrValueTypeNullish[]
   ) {
     return cloneDeep(
       Meta0.mergeValuesDirty(
@@ -69,8 +74,8 @@ export class Meta0 {
   }
 
   static merge(
-    first: Meta0.Meta0OrValueType,
-    ...nexts: Meta0.Meta0OrValueType[]
+    first: Meta0.Meta0OrValueTypeNullish,
+    ...nexts: Meta0.Meta0OrValueTypeNullish[]
   ) {
     return new Meta0(
       Meta0.mergeValuesDirty(
@@ -108,7 +113,7 @@ export class Meta0 {
 
   static assign(
     first: Meta0.Meta0OrValueType,
-    ...nexts: Meta0.Meta0OrValueType[]
+    ...nexts: Meta0.Meta0OrValueTypeNullish[]
   ): void {
     const values = [
       Meta0.toMeta0ValueRaw(first),
@@ -117,7 +122,7 @@ export class Meta0 {
     Meta0.assignValues(values[0], ...values.slice(1))
   }
 
-  assign(...nexts: Meta0.Meta0OrValueType[]): void {
+  assign(...nexts: Meta0.Meta0OrValueTypeNullish[]): void {
     Meta0.assign(this, ...nexts)
   }
 
@@ -129,30 +134,53 @@ export class Meta0 {
     Meta0.assign(this, ...nexts)
   }
 
-  static toMeta0(input: Meta0.Meta0OrValueType): Meta0 {
+  clone() {
+    return new Meta0(this.value)
+  }
+
+  static toMeta0(input: Meta0.ValueTypeNullish): Meta0
+  static toMeta0(input: Meta0.Meta0OrValueTypeNullish): Meta0
+  static toMeta0(input: any) {
     if (input instanceof Meta0) {
       return input
     }
-    return new Meta0(input)
+    return new Meta0(input || {})
   }
 
-  static toMeta0ValueRaw(input: Meta0.Meta0OrValueType): Meta0.ValueType {
+  static toMeta0ValueRaw(
+    input: Meta0.Meta0OrValueTypeNullish,
+  ): Meta0.ValueType {
     if (input instanceof Meta0) {
       return input.value
     }
-    return input
+    return input || {}
   }
 
-  static toMeta0ValuesRaw(input: Meta0.Meta0OrValueType[]): Meta0.ValueType[] {
+  static toMeta0ValuesRaw(
+    input: Meta0.Meta0OrValueTypeNullish[],
+  ): Meta0.ValueType[] {
     return input.map(Meta0.toMeta0ValueRaw)
   }
 
-  static toMeta0ValueSafe(input: Meta0.Meta0OrValueType): Meta0.ValueType {
+  static toMeta0ValueSafe(
+    input: Meta0.Meta0OrValueTypeNullish,
+  ): Meta0.ValueType {
     return Meta0.safeParseValue(Meta0.toMeta0ValueRaw(input))
   }
 
-  static toMeta0ValuesSafe(input: Meta0.Meta0OrValueType[]): Meta0.ValueType[] {
+  static toMeta0ValuesSafe(
+    input: Meta0.Meta0OrValueTypeNullish[],
+  ): Meta0.ValueType[] {
     return input.map(Meta0.toMeta0ValueSafe)
+  }
+
+  static isEmpty(input: Meta0.Meta0OrValueTypeNullish): boolean {
+    const meta0 = Meta0.toMeta0(input)
+    return meta0.isEmpty()
+  }
+
+  isEmpty(): boolean {
+    return Object.keys(this.value).length === 0
   }
 
   private static isPrimitive(value: unknown): value is Meta0.Primitive {
@@ -232,11 +260,15 @@ export namespace Meta0 {
     userId?: string
     ideaId?: string
     other?: Record<string, Primitive>
+    stack?: string
   }
+  export type ValueTypeNullish = ValueType | undefined | null
   export type ValueTypeFlat = Omit<ValueType, "other"> & {
     [key: string]: Primitive
   }
+  export type ValueTypeFlatNullish = ValueTypeFlat | undefined | null
   export type Meta0OrValueType = Meta0 | Partial<ValueType>
+  export type Meta0OrValueTypeNullish = Meta0OrValueType | undefined | null
   export type ValueKey = (typeof Meta0.keys)[number]
   checkEnumEq<keyof ValueType, ValueKey, true>()
 }

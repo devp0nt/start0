@@ -35,3 +35,5 @@ export const getConstKeys = <T extends string>(obj: Record<T, unknown>) => {
   const keys = Object.keys(obj) as T[]
   return keys as [T, ...T[]]
 }
+
+export type ExtractEnum<T extends string, U extends T> = U

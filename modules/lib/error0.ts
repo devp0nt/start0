@@ -1,12 +1,13 @@
 import { Meta0 } from "@shmoject/modules/lib/meta0"
 import { HttpStatusCode } from "axios"
 
+// TODO: private more main then static
 // TODO: not name but isError0: true or something
-// TODO: add props to meta
+// TODO: When to error 0, than keep original stack strace
 // TODO: trpc
 // TODO: axios
 
-export interface Error0InputGeneral {
+export interface Error0Input {
   message?: string
   tag?: string
   code?: string
@@ -14,11 +15,8 @@ export interface Error0InputGeneral {
   expected?: boolean | ExpectedFn
   clientMessage?: string
   cause?: Error0Cause
-  meta?: Meta0.ValueType | Meta0
-}
-
-export interface Error0Input extends Error0InputGeneral {
-  maxLevel?: number
+  meta?: Meta0.ValueType
+  meta0?: Meta0
 }
 
 interface Error0GeneralProps {
@@ -51,16 +49,14 @@ export class Error0 extends Error {
 
   public readonly propsOriginal: Error0GeneralProps
 
-  constructor(
-    ...args:
-      | [string]
-      | [Error0Input]
-      | [string, Error0Input]
-      | [Error]
-      | [Error, Error0Input]
-      | [unknown]
-      | [unknown, Error0Input]
-  ) {
+  constructor(message: string)
+  constructor(input: Error0Input)
+  constructor(message: string, input: Error0Input)
+  constructor(error: Error)
+  constructor(error: Error, input: Error0Input)
+  constructor(value: unknown)
+  constructor(value: unknown, input: Error0Input)
+  constructor(...args: unknown[]) {
     const input: Partial<Error0Input> = {}
     if (args[0] instanceof Error) {
       input.cause = args[0]
@@ -73,7 +69,7 @@ export class Error0 extends Error {
       Object.assign(input, args[1])
     }
     const safeInput = Error0.safeParseInput(input)
-    const maxLevel = safeInput.maxLevel ?? Error0.defaultMaxLevel
+    const maxLevel = Error0.defaultMaxLevel
 
     const providedMessage = safeInput.message
     const closestMessageRaw = Error0.getClosestPropValue<"message", unknown>(
@@ -134,10 +130,8 @@ export class Error0 extends Error {
         ? error0Input.clientMessage
         : undefined
     result.cause = error0Input.cause
-    result.maxLevel =
-      typeof error0Input.maxLevel === "number"
-        ? error0Input.maxLevel
-        : Error0.defaultMaxLevel
+    result.meta0 =
+      error0Input.meta0 instanceof Meta0 ? error0Input.meta0 : undefined
     result.meta =
       typeof error0Input.meta === "object" && error0Input.meta !== null
         ? error0Input.meta
@@ -165,89 +159,12 @@ export class Error0 extends Error {
       clientMessage: error0Input.clientMessage,
       cause: error0Input.cause,
       stack: undefined,
-      meta: error0Input.meta ? Meta0.toMeta0(error0Input.meta).value : {},
+      meta: Meta0.merge(error0Input.meta0, error0Input.meta).value,
     }
     result.expected = Error0.normalizeExpected(result, error0Input)
     result.stack = Error0.removeConstructorStackPart(stack)
     return result
   }
-
-  // private static getPropsArraysAll(
-  //   error0Props: Error0GeneralProps,
-  //   maxLevel: number,
-  // ): PropsArrays {
-  //   const propsArrays: PropsArrays = {
-  //     messages: Error0.getAllPropValues(
-  //       error0Props,
-  //       "message",
-  //       "messages",
-  //       maxLevel,
-  //     ),
-  //     tags: Error0.getAllPropValues(error0Props, "tag", "tags", maxLevel),
-  //     codes: Error0.getAllPropValues(error0Props, "code", "codes", maxLevel),
-  //     httpStatuses: Error0.getAllPropValues(
-  //       error0Props,
-  //       "httpStatus",
-  //       "httpStatuses",
-  //       maxLevel,
-  //     ),
-  //     expecteds: Error0.getAllPropValues(
-  //       error0Props,
-  //       "expected",
-  //       "expecteds",
-  //       maxLevel,
-  //     ),
-  //     clientMessages: Error0.getAllPropValues(
-  //       error0Props,
-  //       "clientMessage",
-  //       "clientMessages",
-  //       maxLevel,
-  //     ),
-  //     causes: Error0.getAllPropValues(error0Props, "cause", "causes", maxLevel),
-  //   }
-  //   return propsArrays
-  // }
-
-  // private static getPropsArraysFilled(
-  //   error0Props: Error0GeneralProps,
-  //   maxLevel: number,
-  // ): PropsArrays {
-  //   const propsArrays: PropsArrays = {
-  //     messages: Error0.getFilledPropValues(
-  //       error0Props,
-  //       "message",
-  //       "messages",
-  //       maxLevel,
-  //     ),
-  //     tags: Error0.getFilledPropValues(error0Props, "tag", "tags", maxLevel),
-  //     codes: Error0.getFilledPropValues(error0Props, "code", "codes", maxLevel),
-  //     httpStatuses: Error0.getFilledPropValues(
-  //       error0Props,
-  //       "httpStatus",
-  //       "httpStatuses",
-  //       maxLevel,
-  //     ),
-  //     expecteds: Error0.getFilledPropValues(
-  //       error0Props,
-  //       "expected",
-  //       "expecteds",
-  //       maxLevel,
-  //     ),
-  //     clientMessages: Error0.getFilledPropValues(
-  //       error0Props,
-  //       "clientMessage",
-  //       "clientMessages",
-  //       maxLevel,
-  //     ),
-  //     causes: Error0.getFilledPropValues(
-  //       error0Props,
-  //       "cause",
-  //       "causes",
-  //       maxLevel,
-  //     ),
-  //   }
-  //   return propsArrays
-  // }
 
   private static getPropsFloated(
     error0Props: Error0GeneralProps,
@@ -347,13 +264,16 @@ export class Error0 extends Error {
       return stack
     }
     const lines = stack.split("\n")
-    const constructorLineIndex = lines.findIndex((line) =>
-      line.includes("at new Error0"),
-    )
-    if (constructorLineIndex === -1) {
-      return stack
+    const removeLineContains = (search: string) => {
+      const lineIndex = lines.findIndex((line) => line.includes(search))
+      if (lineIndex === -1) {
+        return lineIndex
+      }
+      lines.splice(lineIndex, 1)
+      return lineIndex
     }
-    lines.splice(constructorLineIndex, 1)
+    removeLineContains("at new Error0")
+    removeLineContains("at _toError0")
     return lines.join("\n")
   }
 
@@ -367,7 +287,7 @@ export class Error0 extends Error {
   // getters
 
   private static getClosestPropValue<
-    TPropKey extends keyof Error0InputGeneral,
+    TPropKey extends keyof Error0GeneralProps,
     TPropValueNormalized,
   >(
     error0OrProps: unknown,
@@ -434,7 +354,7 @@ export class Error0 extends Error {
   }
 
   private static getFilledPropValues<
-    TPropKey extends keyof Error0InputGeneral,
+    TPropKey extends keyof Error0Input,
     TPropValueNormalized,
   >(
     error0OrProps: unknown,
@@ -508,7 +428,7 @@ export class Error0 extends Error {
     }
 
     if (typeof error === "string") {
-      return new Error0(error, { maxLevel })
+      return new Error0(error)
     }
 
     if (typeof error === "object" && error !== null) {
