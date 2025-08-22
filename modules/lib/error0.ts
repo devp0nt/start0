@@ -95,17 +95,16 @@ export class Error0 extends Error {
     Object.setPrototypeOf(this, (this.constructor as typeof Error0).prototype)
     this.name = "Error0"
 
-    this.propsOriginal = (this.constructor as typeof Error0).getGeneralProps(
-      safeInput,
-      safeInput.stack || this.stack,
-    )
+    this.propsOriginal = (
+      this.constructor as typeof Error0
+    ).getSelfGeneralProps(safeInput, safeInput.stack || this.stack)
     const causesProps = (this.constructor as typeof Error0).getCausesProps(
       this.propsOriginal,
       (this.constructor as typeof Error0).defaultMaxLevel,
     )
-    const propsFloated = (this.constructor as typeof Error0).getPropsFloated(
-      causesProps,
-    )
+    const propsFloated = (
+      this.constructor as typeof Error0
+    ).getSelfPropsFloated(causesProps)
     this.tag = propsFloated.tag
     this.code = propsFloated.code
     this.httpStatus = propsFloated.httpStatus
@@ -121,25 +120,6 @@ export class Error0 extends Error {
   static defaultMaxLevel = 10
 
   // props
-
-  // private static normalizeMessage(error0Input: Error0Input) {
-  //   if (
-  //     typeof error0Input.message === "string" &&
-  //     error0Input.message.length > 0
-  //   ) {
-  //     return error0Input.message
-  //   }
-  //   const closestMessageRaw = Error0.getClosestPropValue<"message", unknown>(
-  //     { message: error0Input.message, cause: error0Input.cause },
-  //     "message",
-  //     Error0.defaultMaxLevel,
-  //   )
-  //   const closestMessage =
-  //     typeof closestMessageRaw === "string" && closestMessageRaw.length > 0
-  //       ? closestMessageRaw
-  //       : undefined
-  //   return closestMessage || Error0.defaultMessage
-  // }
 
   private static safeParseInput(
     error0Input: Record<string, unknown>,
@@ -183,7 +163,7 @@ export class Error0 extends Error {
     return result
   }
 
-  private static getGeneralProps(
+  private static getSelfGeneralProps(
     error0Input: Error0Input,
     stack: Error0GeneralProps["stack"],
   ): Error0GeneralProps {
@@ -222,7 +202,7 @@ export class Error0 extends Error {
     return result
   }
 
-  private static getPropsFloated(
+  private static getSelfPropsFloated(
     causesProps: Error0GeneralProps[],
   ): Error0GeneralProps {
     const cause = this.getClosestPropValue(causesProps, "cause")
