@@ -4,9 +4,6 @@ import { type AxiosError, HttpStatusCode, isAxiosError } from "axios"
 import { get } from "lodash"
 import z, { ZodError } from "zod"
 
-// TODO: anyMessage = message || clientMessage
-// TODO: zod errors tree, should be possible in meta, so it is not primitives only
-
 // TODO: not use self stack if toError0
 // TODO: fix default message in extended error0, should be used in constuctor of Error0
 // TODO: remove defaults prop from getPropsFromUnknown

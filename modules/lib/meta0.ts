@@ -5,7 +5,6 @@ import cloneDeep from "lodash/cloneDeep"
 import omit from "lodash/omit.js"
 import pick from "lodash/pick.js"
 
-// TODO: sensetive keys
 // TODO: refactor
 
 // TODO: use zod to define types
@@ -55,10 +54,6 @@ export class Meta0 {
     ...Meta0.errorKeys,
     ...Meta0.idsKeys,
   ]
-  private static skipValidationKeys = [
-    "zodTreeifyedError",
-    "zodFlattenedError",
-  ] satisfies Meta0.ValueKey[]
 
   constructor(input: Partial<Meta0.ValueType>) {
     this.value = cloneDeep(Meta0.safeParseValue(input))

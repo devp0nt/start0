@@ -9,17 +9,44 @@ import {
   type LogRecord,
   type Sink,
 } from "@logtape/logtape"
+import { deepMap } from "@shmoject/modules/lib/deepMap"
 import { Error0, type Error0Input } from "@shmoject/modules/lib/error0"
 import type { ExtractEnum } from "@shmoject/modules/lib/lodash0"
 import { Meta0 } from "@shmoject/modules/lib/meta0"
 import debug from "debug"
 import yaml from "yaml"
 
+// TODO: add constructor props to getChild props object or category string
 // TODO: hidden pretty meta keys
 // TODO: disallow change meta on root logger
+// TODO: remove root category from here
+// TODO: create factory
 
 export class Logger0 {
   static rootCategory = "shmoject"
+
+  sensetiveKeys = [
+    "imageUrl",
+    "imagesUrls",
+    "email",
+    "oldEmail",
+    "newEmail",
+    "phone",
+    "oldPhone",
+    "newPhone",
+    "password",
+    "newPassword",
+    "oldPassword",
+    "token",
+    "apiKey",
+    "verifcationCode",
+    "signature",
+    "signedUrl",
+    "apiSecret",
+    "apiKey",
+    "secret",
+  ]
+  hideSensitiveKeys = true
 
   error: Logger0.LogBadFn
   fatal: Logger0.LogBadFn
@@ -38,9 +65,13 @@ export class Logger0 {
   private constructor({
     loggerOriginal,
     meta,
+    sensetiveKeys,
+    hideSensitiveKeys,
   }: {
     loggerOriginal: Logger
     meta?: Meta0.Meta0OrValueTypeNullish
+    sensetiveKeys?: string[]
+    hideSensitiveKeys?: boolean
   }) {
     this.original = loggerOriginal
     this.error = Logger0.createLogBadFn({ logger0: this, level: "error" })
@@ -59,6 +90,8 @@ export class Logger0 {
       level: "debug",
     })
     this.meta = Meta0.toMeta0(meta)
+    this.sensetiveKeys = sensetiveKeys || this.sensetiveKeys
+    this.hideSensitiveKeys = hideSensitiveKeys || this.hideSensitiveKeys
   }
 
   static create = ({
@@ -71,6 +104,8 @@ export class Logger0 {
     removeDefaultFilters,
     debugConfig,
     skipInit,
+    sensetiveKeys,
+    hideSensitiveKeys,
   }: {
     formatter?: Logger0.FormatterProp
     category?: string
@@ -81,6 +116,8 @@ export class Logger0 {
     debugConfig?: string
     removeDefaultSinks?: boolean
     skipInit?: boolean
+    sensetiveKeys?: string[]
+    hideSensitiveKeys?: boolean
   }) => {
     if (!skipInit) {
       Logger0.init({
@@ -95,7 +132,12 @@ export class Logger0 {
     const loggerOriginal = getLogger(
       [Logger0.rootCategory, category].filter(Boolean) as string[],
     )
-    return new Logger0({ loggerOriginal, meta })
+    return new Logger0({
+      loggerOriginal,
+      meta,
+      sensetiveKeys,
+      hideSensitiveKeys,
+    })
   }
 
   getChild = (category: string) => {
@@ -103,6 +145,8 @@ export class Logger0 {
     return new Logger0({
       loggerOriginal,
       meta: this.meta.clone(),
+      sensetiveKeys: this.sensetiveKeys,
+      hideSensitiveKeys: this.hideSensitiveKeys,
     })
   }
 
@@ -133,7 +177,13 @@ export class Logger0 {
         },
         extraMeta,
       )
-      logger0.original[level](message, meta.value)
+      const metaSensetive = logger0.hideSensitiveKeys
+        ? Logger0.hideSensitiveKeys({
+            meta: meta.value,
+            sensetiveKeys: logger0.sensetiveKeys,
+          })
+        : meta.value
+      logger0.original[level](message, metaSensetive)
     }
     return logBadFn
   }
@@ -151,10 +201,16 @@ export class Logger0 {
           ? Meta0.toMeta0(args[0] as never)
           : Meta0.toMeta0(args[1] as never)
       const meta = Meta0.merge(logger0.meta, extraMeta)
+      const metaSensetive = logger0.hideSensitiveKeys
+        ? Logger0.hideSensitiveKeys({
+            meta: meta.value,
+            sensetiveKeys: logger0.sensetiveKeys,
+          })
+        : meta.value
       const message =
         (typeof args[0] === "string" ? args[0] : meta.value.message) ||
         "Unknown message"
-      logger0.original[level](message, meta.value)
+      logger0.original[level](message, metaSensetive)
     }
     return logOkFn
   }
@@ -215,6 +271,21 @@ export class Logger0 {
       record.properties,
     )
     return debug.enabled(tag)
+  }
+
+  static hideSensitiveKeys = ({
+    meta,
+    sensetiveKeys,
+  }: {
+    meta: Record<string, unknown>
+    sensetiveKeys: string[]
+  }): Meta0.ValueType => {
+    return deepMap(meta, ({ key, value }) => {
+      if (sensetiveKeys.includes(key)) {
+        return "*******"
+      }
+      return value
+    })
   }
 
   static init = ({

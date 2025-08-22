@@ -3,9 +3,17 @@ import { IdeasRoutesModel } from "@shmoject/modules/ideas/routes.model"
 import { IdeaBe } from "@shmoject/modules/ideas/utils.be"
 import { Error0 } from "@shmoject/modules/lib/error0"
 
-export const getIdeasTrpcRoute = BackendTrpc.baseProcedure().query(async () => {
-  return { ideas: IdeaBe.ideas }
-})
+export const getIdeasTrpcRoute = BackendTrpc.baseProcedure().query(
+  async ({ ctx }) => {
+    ctx.logger.info("Getting ideas", {
+      other: {
+        password: "123456",
+      },
+    })
+
+    return { ideas: IdeaBe.ideas }
+  },
+)
 
 export const getIdeaTrpcRoute = BackendTrpc.baseProcedure()
   .input(IdeasRoutesModel.zGetIdeaInput)
