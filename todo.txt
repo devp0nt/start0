@@ -2,20 +2,21 @@ env
 prisma
 entity Class
 
-better-auth
-https://dev.to/ayoubphy/step-by-step-guide-setting-up-trpc-better-auth-prisma-and-react-router-v7-4ho
-clien ctx
-
 logger client
 enum Class
 
-Хоно модель должна в себе иметь метод и путь, в то же время вроде в ней вообще нет нужды
 А нужда есть наверняка в именно инпуте
+Хоно модель вообще вероятно не нужна, и так будут генериться типы.
+
+better-auth
+https://dev.to/ayoubphy/step-by-step-guide-setting-up-trpc-better-auth-prisma-and-react-router-v7-4ho
+clien ctx
 
 generator
 generator site routes files
 genreator backend route files, search fields and get exports by names
 generate toClient types
+generate hono requests types and use query
 @ index files watcher
 
 biome rules
