@@ -145,25 +145,22 @@ export class Logger0 {
     input:
       | string
       | {
-          extendTagPrefix?: string
-          replaceTagPrefix?: string
           extendMeta?: Meta0.Meta0OrValueTypeNullish
           replaceMeta?: Meta0.Meta0OrValueTypeNullish
+          extendTagPrefix?: string
+          replaceTagPrefix?: string
         },
   ) => {
     const { extendTagPrefix, replaceTagPrefix, extendMeta, replaceMeta } =
       typeof input === "string" ? { extendTagPrefix: input } : input
 
-    const newMeta = Meta0.from(replaceMeta || this.meta)
+    const newMeta = replaceMeta ? Meta0.from(replaceMeta) : this.meta.clone()
     if (extendMeta) {
       newMeta.assign(extendMeta)
     }
-
-    const newTagPrefix =
-      replaceTagPrefix ||
-      [this.meta.value.tagPrefix, extendTagPrefix].filter(Boolean).join(":")
-    newMeta.assign({
-      tagPrefix: newTagPrefix,
+    newMeta.fixTagPrefix({
+      extend: extendTagPrefix,
+      replace: replaceTagPrefix,
     })
 
     return new Logger0({

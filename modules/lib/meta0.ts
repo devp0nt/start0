@@ -291,6 +291,20 @@ export class Meta0 {
     return result
   }
 
+  fixTagPrefix({
+    extend,
+    replace,
+  }: {
+    extend?: string
+    replace?: string
+  }): void {
+    const newBaseTagPrefix = replace || this.value.tagPrefix
+    const newTagPrefix = [newBaseTagPrefix, extend].filter(Boolean).join(":")
+    this.assign({
+      tagPrefix: newTagPrefix,
+    })
+  }
+
   static getFinalTag(
     input: Meta0.Meta0OrValueTypeNullish,
     providedTag?: string,
