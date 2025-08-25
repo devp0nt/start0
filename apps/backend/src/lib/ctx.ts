@@ -6,7 +6,7 @@ export namespace BackendCtx {
       prisma: { x: 1 },
       logger: Logger0.create({
         debugConfig: process.env.DEBUG,
-        category: `backend:${service}`,
+        tagPrefix: `backend:${service}`,
         formatter: process.env.NODE_ENV === "production" ? "json" : "pretty",
       }),
     }

@@ -60,7 +60,6 @@ export class Error0 extends Error {
   public readonly axiosError?: Error0GeneralProps["axiosError"]
 
   static defaultMessage = "Unknown error"
-  static defaultTag?: Error0GeneralProps["tag"]
   static defaultCode?: Error0GeneralProps["code"]
   static defaultHttpStatus?: Error0GeneralProps["httpStatus"]
   static defaultExpected?: Error0GeneralProps["expected"]
@@ -188,11 +187,13 @@ export class Error0 extends Error {
     stack: Error0GeneralProps["stack"]
   }): Error0GeneralProps {
     // const meta = Meta0.merge(error0Input.meta0, error0Input.meta).value
-    const meta = Meta0.merge(this.defaultMeta, error0Input.meta).value
+    const meta0 = Meta0.merge(this.defaultMeta, error0Input.meta)
+    const meta = meta0.value
+    const finalTag = meta0.getFinalTag(error0Input.tag)
     const clientMessage = error0Input.clientMessage || this.defaultClientMessage
     const result: Error0GeneralProps = {
       message: error0Input.message || this.defaultMessage,
-      tag: error0Input.tag || meta.tag || this.defaultTag,
+      tag: finalTag,
       code: error0Input.code || meta.code || this.defaultCode,
       httpStatus:
         typeof error0Input.httpStatus === "number"
@@ -607,7 +608,6 @@ export class Error0 extends Error {
 
   static extendClass(props: {
     defaultMessage?: Error0GeneralProps["message"]
-    defaultTag?: Error0GeneralProps["tag"]
     defaultCode?: Error0GeneralProps["code"]
     defaultHttpStatus?: Error0GeneralProps["httpStatus"]
     defaultExpected?: Error0GeneralProps["expected"]
@@ -617,7 +617,6 @@ export class Error0 extends Error {
     const parent = this
     return class ExtendedError0 extends Error0 {
       static defaultMessage = props.defaultMessage ?? parent.defaultMessage
-      static defaultTag = props.defaultTag ?? parent.defaultTag
       static defaultCode = props.defaultCode ?? parent.defaultCode
       static defaultHttpStatus =
         props.defaultHttpStatus ?? parent.defaultHttpStatus

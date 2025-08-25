@@ -307,10 +307,31 @@ export class Meta0 {
     return Meta0.getFinalTag(this, providedTag)
   }
 
+  getFinalTagParts(): string[] {
+    const finalTag = this.getFinalTag()
+    return finalTag ? finalTag.split(":") : []
+  }
+
   getValueWithFinalTag(): Meta0.ValueType {
     return {
       ...omit(this.value, ["tagPrefix"]),
       tag: this.getFinalTag(),
+    }
+  }
+
+  getValueWithoutTag(): Meta0.ValueType {
+    return omit(this.value, ["tagPrefix", "tag"])
+  }
+
+  splitValueAndFinalTag(): {
+    valueWithoutTag: Meta0.ValueType
+    finalTag: string | undefined
+  } {
+    const valueWithoutTag = this.getValueWithoutTag()
+    const finalTag = this.getFinalTag()
+    return {
+      valueWithoutTag,
+      finalTag,
     }
   }
 }

@@ -6,9 +6,9 @@ import { omit } from "lodash"
 
 const createLoggerAndLogs = () => {
   const logs: Record<string, any>[] = []
-  Logger0.rootCategory = "test"
+  Logger0.rootTagPrefix = "test"
   const logger0 = Logger0.create({
-    category: "nested",
+    tagPrefix: "nested",
     removeDefaultSinks: true,
     sinks: {
       variable: (record) => {

@@ -14,16 +14,11 @@ import { Error0, type Error0Input } from "@shmoject/modules/lib/error0"
 import type { ExtractEnum } from "@shmoject/modules/lib/lodash0"
 import { Meta0 } from "@shmoject/modules/lib/meta0"
 import debug from "debug"
+import { omit } from "lodash"
 import yaml from "yaml"
 
-// TODO: add constructor props to getChild props object or category string
-// TODO: hidden pretty meta keys
-// TODO: disallow change meta on root logger
-// TODO: remove root category from here
-// TODO: create factory
-
 export class Logger0 {
-  static rootCategory = "shmoject"
+  static rootTagPrefix = "shmoject"
 
   sensetiveKeys = [
     "imageUrl",
@@ -96,8 +91,8 @@ export class Logger0 {
 
   static create = ({
     formatter,
-    category,
-    meta,
+    tagPrefix,
+    meta: metaProvided,
     sinks,
     filters,
     removeDefaultSinks,
@@ -108,7 +103,7 @@ export class Logger0 {
     hideSensitiveKeys,
   }: {
     formatter?: Logger0.FormatterProp
-    category?: string
+    tagPrefix: string
     meta?: Meta0.Meta0OrValueTypeNullish
     sinks?: Record<string, Sink>
     filters?: Record<string, Filter>
@@ -129,8 +124,14 @@ export class Logger0 {
         debugConfig,
       })
     }
+    const meta = Meta0.from(metaProvided)
+    meta.assign({
+      tagPrefix,
+    })
     const loggerOriginal = getLogger(
-      [Logger0.rootCategory, category].filter(Boolean) as string[],
+      [Logger0.rootTagPrefix, ...meta.getFinalTagParts()].filter(
+        Boolean,
+      ) as string[],
     )
     return new Logger0({
       loggerOriginal,
@@ -140,11 +141,34 @@ export class Logger0 {
     })
   }
 
-  getChild = (category: string) => {
-    const loggerOriginal = this.original.getChild(category)
+  getChild = (
+    input:
+      | string
+      | {
+          extendTagPrefix?: string
+          replaceTagPrefix?: string
+          extendMeta?: Meta0.Meta0OrValueTypeNullish
+          replaceMeta?: Meta0.Meta0OrValueTypeNullish
+        },
+  ) => {
+    const { extendTagPrefix, replaceTagPrefix, extendMeta, replaceMeta } =
+      typeof input === "string" ? { extendTagPrefix: input } : input
+
+    const newMeta = Meta0.from(replaceMeta || this.meta)
+    if (extendMeta) {
+      newMeta.assign(extendMeta)
+    }
+
+    const newTagPrefix =
+      replaceTagPrefix ||
+      [this.meta.value.tagPrefix, extendTagPrefix].filter(Boolean).join(":")
+    newMeta.assign({
+      tagPrefix: newTagPrefix,
+    })
+
     return new Logger0({
-      loggerOriginal,
-      meta: this.meta.clone(),
+      loggerOriginal: this.original,
+      meta: newMeta,
       sensetiveKeys: this.sensetiveKeys,
       hideSensitiveKeys: this.hideSensitiveKeys,
     })
@@ -177,13 +201,13 @@ export class Logger0 {
         },
         extraMeta,
       )
-      const metaSensetive = logger0.hideSensitiveKeys
+      const metaWithHiddenSensetive = logger0.hideSensitiveKeys
         ? Logger0.hideSensitiveKeys({
             meta: meta.value,
             sensetiveKeys: logger0.sensetiveKeys,
           })
         : meta.value
-      logger0.original[level](message, metaSensetive)
+      logger0.original[level](message, metaWithHiddenSensetive)
     }
     return logBadFn
   }
@@ -201,7 +225,7 @@ export class Logger0 {
           ? Meta0.from(args[0] as never)
           : Meta0.from(args[1] as never)
       const meta = Meta0.merge(logger0.meta, extraMeta)
-      const metaSensetive = logger0.hideSensitiveKeys
+      const metaWithHiddenSensetive = logger0.hideSensitiveKeys
         ? Logger0.hideSensitiveKeys({
             meta: meta.value,
             sensetiveKeys: logger0.sensetiveKeys,
@@ -210,43 +234,35 @@ export class Logger0 {
       const message =
         (typeof args[0] === "string" ? args[0] : meta.value.message) ||
         "Unknown message"
-      logger0.original[level](message, metaSensetive)
+      logger0.original[level](message, metaWithHiddenSensetive)
     }
     return logOkFn
   }
 
-  private static categoriesAndPropertiesTagToTag(
-    categories: readonly string[],
-    properties: Record<string, unknown>,
-  ) {
-    return Logger0.extendCategoriesWithPropertiesTag(
-      categories,
-      properties,
-    ).join(":")
+  private static logRecordToTag(record: LogRecord, withRootTagPrefix: boolean) {
+    const finalTagByProperties = Meta0.getFinalTag(record.properties)
+    return (
+      [withRootTagPrefix ? this.rootTagPrefix : null, finalTagByProperties]
+        .filter(Boolean)
+        .join(":") || "unknownTag"
+    )
   }
 
-  private static extendCategoriesWithPropertiesTag(
-    categories: readonly string[],
-    properties: Record<string, unknown>,
-  ) {
-    return [...categories, properties.tag].filter(Boolean) as readonly string[]
-  }
-
-  static ansiColorFormatter = getAnsiColorFormatter({
-    category: (category) => category.join(":"),
-  })
+  static ansiColorFormatter = getAnsiColorFormatter({})
 
   static prettyFormatter = (record: LogRecord): string => {
     const line = Logger0.ansiColorFormatter({
       ...record,
-      category: Logger0.extendCategoriesWithPropertiesTag(
-        record.category,
-        record.properties,
-      ),
+      category: [Logger0.logRecordToTag(record, false)],
     })
+    const visibleProperties = omit(record.properties, [
+      "tag",
+      "tagPrefix",
+      "message",
+    ])
     const yamlProperties =
-      Object.keys(record.properties).length > 0
-        ? yaml.stringify(record.properties) + "\n"
+      Object.keys(visibleProperties).length > 0
+        ? yaml.stringify(visibleProperties) + "\n"
         : undefined
     return [line, yamlProperties].join("")
   }
@@ -257,19 +273,13 @@ export class Logger0 {
       timestamp: new Date(record.timestamp).toISOString(),
       level: record.level,
       message: meta.value.message || record.message.join(", "),
-      tag: Logger0.categoriesAndPropertiesTagToTag(
-        record.category,
-        record.properties,
-      ),
-      meta: meta.omitValue(["tag", "message"]),
+      tag: Logger0.logRecordToTag(record, true),
+      meta: meta.omitValue(["tag", "tagPrefix", "message"]),
     })
   }
 
   static filterByDebug: Filter = (record) => {
-    const tag = Logger0.categoriesAndPropertiesTagToTag(
-      record.category,
-      record.properties,
-    )
+    const tag = Logger0.logRecordToTag(record, true)
     return debug.enabled(tag)
   }
 
@@ -290,7 +300,7 @@ export class Logger0 {
 
   static init = ({
     formatter = "json",
-    debugConfig = `${Logger0.rootCategory}:*`,
+    debugConfig = `${Logger0.rootTagPrefix}:*`,
     sinks = {},
     filters = {},
     removeDefaultSinks = false,
@@ -330,7 +340,7 @@ export class Logger0 {
       filters,
       loggers: [
         {
-          category: Logger0.rootCategory,
+          category: Logger0.rootTagPrefix,
           lowestLevel: "debug",
           sinks: sinksKeys,
           filters: filtersKeys,
