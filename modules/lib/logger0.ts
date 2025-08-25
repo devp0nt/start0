@@ -136,32 +136,40 @@ export class Logger0 {
     })
   }
 
-  getChild = (
+  extend = (
     input:
       | string // extendTagPrefix
       | {
+          replaceTagPrefix?: string
+          extendTagPrefix?: string
           extendMeta?: Meta0.Meta0OrValueTypeNullish
           replaceMeta?: Meta0.Meta0OrValueTypeNullish
         },
   ) => {
-    const newMeta = (() => {
-      if (typeof input === "string") {
-        const newMeta = this.meta.clone()
-        newMeta.fixTagPrefix({
-          extend: input,
-        })
-        return newMeta
-      } else {
-        const { extendMeta, replaceMeta } = input
-        const newMeta = replaceMeta
-          ? Meta0.from(replaceMeta)
-          : this.meta.clone()
-        if (extendMeta) {
-          newMeta.assign(extendMeta)
+    const { replaceTagPrefix, extendTagPrefix, extendMeta, replaceMeta } =
+      (() => {
+        if (typeof input === "string") {
+          return {
+            extendTagPrefix: input,
+          }
+        } else {
+          return input
         }
-        return newMeta
-      }
-    })()
+      })()
+    const newMeta = replaceMeta ? Meta0.from(replaceMeta) : this.meta.clone()
+    if (extendMeta) {
+      newMeta.assign(extendMeta)
+    }
+    if (replaceTagPrefix) {
+      newMeta.fixTagPrefix({
+        replace: replaceTagPrefix,
+      })
+    }
+    if (extendTagPrefix) {
+      newMeta.fixTagPrefix({
+        extend: extendTagPrefix,
+      })
+    }
 
     return new Logger0({
       loggerOriginal: this.original,

@@ -154,7 +154,7 @@ describe("logger0", () => {
 
   it("child logger", () => {
     const { logger0, logs } = createLoggerAndLogs()
-    const childLogger = logger0.getChild("child")
+    const childLogger = logger0.extend("child")
     childLogger.info("xxx")
     expect(logs[0]).toMatchInlineSnapshot(`
       {

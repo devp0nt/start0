@@ -1,4 +1,5 @@
 import { trpcServer } from "@hono/trpc-server"
+import type { HonoReqCtx } from "@shmoject/backend/lib/ctx.hono"
 import type { HonoApp } from "@shmoject/backend/lib/hono"
 import type { BackendTrpcRouter } from "@shmoject/backend/router/index.trpc"
 import { Error0 } from "@shmoject/modules/lib/error0"
@@ -6,7 +7,7 @@ import { initTRPC } from "@trpc/server"
 import superjson from "superjson"
 
 export namespace BackendTrpc {
-  export type TrpcCtx = HonoApp.ReqCtx
+  export type TrpcCtx = HonoReqCtx.Flat
 
   const t = initTRPC.context<TrpcCtx>().create({
     transformer: superjson,
@@ -34,7 +35,7 @@ export namespace BackendTrpc {
 
   const loggedProcedure = procedure.use(async ({ ctx, next, path, type }) => {
     const reqStartedAt = performance.now()
-    const l = ctx.logger.getChild("req")
+    const l = ctx.logger.extend({})
     l.meta.assign({
       trpcReqPath: path,
       trpcReqType: type,
@@ -73,7 +74,9 @@ export namespace BackendTrpc {
         createContext: (_opts, c: HonoApp.HonoCtx) => {
           return {
             ...c.var,
-            logger: c.var.logger.getChild("trpc"),
+            ...c.var.honoReqCtx.extend({
+              tagPrefix: "trpc",
+            }),
           } as TrpcCtx
         },
       }),

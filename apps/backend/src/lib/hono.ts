@@ -5,81 +5,34 @@ import {
   type z,
 } from "@hono/zod-openapi"
 import type { BackendCtx } from "@shmoject/backend/lib/ctx"
+import { HonoReqCtx } from "@shmoject/backend/lib/ctx.hono"
 import { HonoRouteModel } from "@shmoject/backend/lib/hono.model"
 import { Error0 } from "@shmoject/modules/lib/error0"
-import { Meta0 } from "@shmoject/modules/lib/meta0"
 import type { Context as HonoContext } from "hono"
-import { getConnInfo } from "hono/bun"
 
 export namespace HonoApp {
   export type HonoCtx = HonoContext<{
-    Variables: ReqCtx
+    Variables: HonoReqCtx
   }>
 
-  export const create = ({ backendCtx }: { backendCtx: BackendCtx.Ctx }) => {
+  export const create = ({ backendCtx }: { backendCtx: BackendCtx }) => {
     const honoApp = new OpenAPIHono<{
-      Variables: ReqCtx
+      Variables: HonoReqCtx
     }>()
 
     honoApp.use(async (c, next) => {
-      const backendCtxForRequest = await HonoApp.createReqCtx({
+      const honoReqCtx = await HonoReqCtx.create({
         backendCtx,
         honoCtx: c,
       })
-      for (const [key, value] of Object.entries(backendCtxForRequest)) {
-        c.set(key as keyof ReqCtx, value as never)
+      for (const [key, value] of Object.entries(honoReqCtx)) {
+        c.set(key as keyof HonoReqCtx, value as never)
       }
       await next()
     })
 
     return { honoApp }
   }
-
-  export const createReqCtx = async ({
-    backendCtx,
-    honoCtx,
-  }: {
-    backendCtx: BackendCtx.Ctx
-    honoCtx: HonoContext
-  }) => {
-    const logger = backendCtx.logger.getChild("hono")
-    const meta = Meta0.create()
-    logger.replaceMeta(meta)
-
-    const req = honoCtx.req
-    const connInfo = getConnInfo(honoCtx)
-    meta.assign({
-      ip: connInfo.remote.address,
-      userAgent: req.header("User-Agent"),
-      reqMethod: req.method,
-      reqPath: req.path,
-    })
-
-    const reqCtx = {
-      backendCtx,
-      ...backendCtx,
-      logger,
-      meta,
-    }
-
-    // TODO: move to creqte req ctx as class
-    const getChild = ({
-      tag,
-      meta,
-    }: {
-      tag: string
-      meta: Meta0.Meta0OrValueTypeNullish
-    }) => {
-      return {
-        logger: reqCtx.logger.getChild(tag),
-        meta: Meta0.merge(meta, { tag }),
-      }
-    }
-
-    return reqCtx
-  }
-
-  export type ReqCtx = Awaited<ReturnType<typeof createReqCtx>>
 
   export const applyLogging = ({ honoApp }: { honoApp: AppType }) => {
     honoApp.use(async (c, next) => {
@@ -88,7 +41,7 @@ export namespace HonoApp {
         return
       }
       const reqStartedAt = performance.now()
-      const l = c.var.logger.getChild("req")
+      const l = c.var.logger.extend("req")
       l.info({
         message: "Hono request started",
       })

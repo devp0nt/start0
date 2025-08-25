@@ -115,6 +115,10 @@ export class Meta0 {
     )
   }
 
+  extend(...nexts: Meta0.Meta0OrValueTypeNullish[]) {
+    return Meta0.merge(this, ...nexts)
+  }
+
   private static assignValues(
     first: Meta0.ValueType,
     ...nexts: Meta0.ValueType[]
