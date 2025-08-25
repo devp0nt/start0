@@ -14,14 +14,13 @@ generator site routes files
 genreator backend route files, search fields and get exports by names
 generate toClient types
 generate hono requests types and use query
+generate hono swagger
 @ index files watcher
 
 biome rules
 biome hotkeys
 
-Отрефачить дефайн хоно роут
-full hono route
-swagger
+
 
 just
 plop
