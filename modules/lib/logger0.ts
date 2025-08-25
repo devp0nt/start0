@@ -59,7 +59,7 @@ export class Logger0 {
 
   meta: Meta0
   replaceMeta(meta0?: Meta0.Meta0OrValueTypeNullish) {
-    this.meta = Meta0.toMeta0(meta0)
+    this.meta = Meta0.from(meta0)
   }
 
   private constructor({
@@ -89,7 +89,7 @@ export class Logger0 {
       logger0: this,
       level: "debug",
     })
-    this.meta = Meta0.toMeta0(meta)
+    this.meta = Meta0.from(meta)
     this.sensetiveKeys = sensetiveKeys || this.sensetiveKeys
     this.hideSensitiveKeys = hideSensitiveKeys || this.hideSensitiveKeys
   }
@@ -161,8 +161,8 @@ export class Logger0 {
       const error0 = args[0] instanceof Error0 ? args[0] : Error0.from(args[0])
       const extraMeta =
         typeof args[1] === "object" && args[1] !== null
-          ? Meta0.toMeta0(args[1])
-          : Meta0.toMeta0({})
+          ? Meta0.from(args[1])
+          : Meta0.from({})
       const message = error0.message
       const meta = Meta0.merge(
         logger0.meta,
@@ -198,8 +198,8 @@ export class Logger0 {
     const logOkFn: Logger0.LogOkFn = (...args: unknown[]) => {
       const extraMeta =
         typeof args[0] !== "string"
-          ? Meta0.toMeta0(args[0] as never)
-          : Meta0.toMeta0(args[1] as never)
+          ? Meta0.from(args[0] as never)
+          : Meta0.from(args[1] as never)
       const meta = Meta0.merge(logger0.meta, extraMeta)
       const metaSensetive = logger0.hideSensitiveKeys
         ? Logger0.hideSensitiveKeys({
@@ -252,7 +252,7 @@ export class Logger0 {
   }
 
   static jsonFormatter = (record: LogRecord): string => {
-    const meta = Meta0.toMeta0(record.properties)
+    const meta = Meta0.from(record.properties)
     return JSON.stringify({
       timestamp: new Date(record.timestamp).toISOString(),
       level: record.level,

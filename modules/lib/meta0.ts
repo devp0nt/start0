@@ -13,7 +13,7 @@ import pick from "lodash/pick.js"
 export class Meta0 {
   value: Meta0.ValueType
 
-  private static otherKeys = ["other", "tag"] as const
+  private static otherKeys = ["other", "tag", "tagPrefix"] as const
   private static honoKeys = [
     "ip",
     "userAgent",
@@ -173,9 +173,9 @@ export class Meta0 {
     return cloneDeep(pick(this.value, keys))
   }
 
-  static toMeta0(input: Meta0.ValueTypeNullish): Meta0
-  static toMeta0(input: Meta0.Meta0OrValueTypeNullish): Meta0
-  static toMeta0(input: any) {
+  static from(input: Meta0.ValueTypeNullish): Meta0
+  static from(input: Meta0.Meta0OrValueTypeNullish): Meta0
+  static from(input: any) {
     if (input instanceof Meta0) {
       return input
     }
@@ -206,7 +206,7 @@ export class Meta0 {
   }
 
   static isEmpty(input: Meta0.Meta0OrValueTypeNullish): boolean {
-    const meta0 = Meta0.toMeta0(input)
+    const meta0 = Meta0.from(input)
     return meta0.isEmpty()
   }
 
@@ -290,10 +290,34 @@ export class Meta0 {
     }
     return result
   }
+
+  static getFinalTag(
+    input: Meta0.Meta0OrValueTypeNullish,
+    providedTag?: string,
+  ): string | undefined {
+    const meta0 = Meta0.from(input)
+    return (
+      [meta0.value.tagPrefix, providedTag || meta0.value.tag]
+        .filter(Boolean)
+        .join(":") || undefined
+    )
+  }
+
+  getFinalTag(providedTag?: string): string | undefined {
+    return Meta0.getFinalTag(this, providedTag)
+  }
+
+  getValueWithFinalTag(): Meta0.ValueType {
+    return {
+      ...omit(this.value, ["tagPrefix"]),
+      tag: this.getFinalTag(),
+    }
+  }
 }
 
 export namespace Meta0 {
   export type ValueType = {
+    tagPrefix?: string
     tag?: string
     code?: string
     httpStatus?: number

@@ -227,9 +227,12 @@ export class Error0 extends Error {
   ): Error0GeneralProps {
     const cause = this.getClosestPropValue(causesProps, "cause")
     const stack = this.mergeStack(causesProps[1]?.stack, causesProps[0]?.stack)
+    const closestTag = this.getClosestPropValue(causesProps, "tag")
+    const meta = this.getMergedMetaValue(causesProps)
+    const tag = Meta0.getFinalTag(meta, closestTag)
     const propsFloated: Error0GeneralProps = {
       message: this.getClosestPropValue(causesProps, "message"),
-      tag: this.getClosestPropValue(causesProps, "tag"),
+      tag,
       code: this.getClosestPropValue(causesProps, "code"),
       httpStatus: this.getClosestPropValue(causesProps, "httpStatus"),
       expected: this.isExpected(causesProps),
@@ -237,7 +240,7 @@ export class Error0 extends Error {
       cause,
       stack,
       anyMessage: causesProps[0].anyMessage,
-      meta: this.getMergedMetaValue(causesProps),
+      meta,
       zodError: this.getClosestPropValue(causesProps, "zodError"),
       axiosError: this.getClosestPropValue(causesProps, "axiosError"),
     }
