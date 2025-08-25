@@ -1,5 +1,5 @@
 import { IdeasPage as Page } from "@shmoject/modules/ideas/pages/IdeasPage"
-import { ErrorPage } from "@shmoject/site/components/Error"
+import { SiteError } from "@shmoject/site/components/Error"
 import { createLoader0, type LoaderArgs0 } from "@shmoject/site/lib/reactRouter"
 import type { Route } from "./+types/ideas"
 
@@ -16,7 +16,7 @@ export const loader = createLoader0(
 )
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
-  return <ErrorPage error={error} />
+  return <SiteError.Page error={error} />
 }
 
 export default function RouteComponent({

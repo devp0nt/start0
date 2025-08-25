@@ -1,4 +1,4 @@
-import { ErrorPage } from "@shmoject/site/components/Error"
+import { SiteError } from "@shmoject/site/components/Error"
 import { createLoader0, type LoaderArgs0 } from "@shmoject/site/lib/reactRouter"
 import { HomePage as Page } from "@shmoject/site/pages/HomePage"
 import type { Route } from "./+types/home"
@@ -16,7 +16,7 @@ export const loader = createLoader0(
 )
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
-  return <ErrorPage error={error} />
+  return <SiteError.Page error={error} />
 }
 
 export default function RouteComponent({

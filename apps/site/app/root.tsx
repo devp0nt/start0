@@ -1,16 +1,7 @@
-import { Error0 } from "@shmoject/modules/lib/error0"
-import { ErrorComponent } from "@shmoject/site/components/Error"
+import { SiteError } from "@shmoject/site/components/Error"
 import { GeneralLayout } from "@shmoject/site/components/GeneralLayout"
 import { TRPCReactProvider } from "@shmoject/site/lib/trpc"
-import { TRPCClientError } from "@trpc/client"
-import {
-  isRouteErrorResponse,
-  Links,
-  Meta,
-  Outlet,
-  Scripts,
-  ScrollRestoration,
-} from "react-router"
+import { Links, Meta, Outlet, Scripts, ScrollRestoration } from "react-router"
 import type { Route } from "./+types/root"
 
 // const TRPCReactProvider = ({ children }: { children: React.ReactNode }) => {
@@ -59,7 +50,7 @@ export default function App() {
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
   return (
     <GeneralLayout>
-      <ErrorComponent error={error} />
+      <SiteError.Page error={error} />
     </GeneralLayout>
   )
 }
