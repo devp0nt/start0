@@ -1,7 +1,7 @@
 import { describe, expect, it } from "bun:test"
 import axios, { type AxiosError, isAxiosError } from "axios"
 import z, { ZodError } from "zod"
-import { Error0, ErrorExpected0 } from "./error0"
+import { Error0, e0s } from "./error0"
 
 // TODO: test expected
 
@@ -387,11 +387,11 @@ describe("error0", () => {
     expect(error6.expected).toBe(false)
   })
 
-  it("expected preset", () => {
-    const error7 = new ErrorExpected0("expected error")
-    expect(ErrorExpected0.defaultExpected).toBe(true)
+  it("extends self", () => {
+    const error7 = new e0s.Expected("expected error")
+    expect(e0s.Expected.defaultExpected).toBe(true)
     expect(error7.expected).toBe(true)
-    expect(error7).toBeInstanceOf(ErrorExpected0)
+    expect(error7).toBeInstanceOf(e0s.Expected)
     expect(error7).toBeInstanceOf(Error0)
     expect(toJSON(error7)).toMatchInlineSnapshot(`
       {
@@ -409,6 +409,65 @@ describe("error0", () => {
           at <anonymous> (...)"
       ,
         "tag": undefined,
+      }
+    `)
+  })
+
+  it("extend collection", () => {
+    const e0s1 = Error0.extendCollection(e0s, {
+      defaultMessage: "nested error",
+      defaultMeta: {
+        tagPrefix: "nested",
+      },
+    })
+    const error0 = new e0s1.Default("nested error")
+    expect(error0).toBeInstanceOf(e0s1.Default)
+    expect(error0).toBeInstanceOf(e0s.Default)
+    expect(error0).toBeInstanceOf(Error0)
+    expect(toJSON(error0)).toMatchInlineSnapshot(`
+      {
+        "__I_AM_ERROR_0": true,
+        "anyMessage": undefined,
+        "cause": undefined,
+        "clientMessage": undefined,
+        "code": undefined,
+        "expected": false,
+        "httpStatus": undefined,
+        "message": "nested error",
+        "meta": {
+          "tagPrefix": "nested",
+        },
+        "stack": 
+      "Error0: nested error
+          at <anonymous> (...)"
+      ,
+        "tag": "nested:nested",
+      }
+    `)
+
+    const error02 = new e0s1.Expected("nested error 1")
+    expect(error02).toBeInstanceOf(e0s1.Expected)
+    expect(error02).toBeInstanceOf(e0s.Expected)
+    expect(error02).toBeInstanceOf(Error0)
+    expect(error02.expected).toBe(true)
+    expect(toJSON(error02)).toMatchInlineSnapshot(`
+      {
+        "__I_AM_ERROR_0": true,
+        "anyMessage": undefined,
+        "cause": undefined,
+        "clientMessage": undefined,
+        "code": undefined,
+        "expected": true,
+        "httpStatus": undefined,
+        "message": "nested error 1",
+        "meta": {
+          "tagPrefix": "nested",
+        },
+        "stack": 
+      "Error0: nested error 1
+          at <anonymous> (...)"
+      ,
+        "tag": "nested:nested",
       }
     `)
   })

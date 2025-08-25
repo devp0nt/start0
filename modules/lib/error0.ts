@@ -504,20 +504,14 @@ export class Error0 extends Error {
     if (!stack) {
       return stack
     }
-    const lines = stack.split("\n")
-    const removeLineContains = (search: string) => {
-      const lineIndex = lines.findIndex((line) => line.includes(search))
-      if (lineIndex === -1) {
-        return lineIndex
-      }
-      lines.splice(lineIndex, 1)
-      return lineIndex
+    let lines = stack.split("\n")
+    const removeAllLinesContains = (search: string) => {
+      lines = lines.filter((line) => !line.includes(search))
     }
-    removeLineContains("at new Error0")
-    removeLineContains("at _toError0")
-    removeLineContains("at Error0.from")
-    removeLineContains("at Error0._toError0")
-    removeLineContains("at new ExtendedError0")
+    removeAllLinesContains("at new Error0")
+    removeAllLinesContains("at _toError0")
+    removeAllLinesContains("at Error0.from")
+    removeAllLinesContains("at Error0._toError0")
     return lines.join("\n")
   }
 
@@ -606,7 +600,7 @@ export class Error0 extends Error {
     return this._toError0(error, inputOverride)
   }
 
-  static extendClass(props: {
+  static extend(props: {
     defaultMessage?: Error0GeneralProps["message"]
     defaultCode?: Error0GeneralProps["code"]
     defaultHttpStatus?: Error0GeneralProps["httpStatus"]
@@ -615,7 +609,7 @@ export class Error0 extends Error {
     defaultMeta?: Meta0.Meta0OrValueTypeNullish
   }) {
     const parent = this
-    return class ExtendedError0 extends Error0 {
+    return class Error0 extends parent {
       static defaultMessage = props.defaultMessage ?? parent.defaultMessage
       static defaultCode = props.defaultCode ?? parent.defaultCode
       static defaultHttpStatus =
@@ -625,6 +619,25 @@ export class Error0 extends Error {
         props.defaultClientMessage ?? parent.defaultClientMessage
       static defaultMeta = Meta0.merge(parent.defaultMeta, props.defaultMeta)
     }
+  }
+
+  static extendCollection<T extends Record<string, typeof Error0>>(
+    classes: T,
+    props: {
+      defaultMessage?: Error0GeneralProps["message"]
+      defaultCode?: Error0GeneralProps["code"]
+      defaultHttpStatus?: Error0GeneralProps["httpStatus"]
+      defaultExpected?: Error0GeneralProps["expected"]
+      defaultClientMessage?: Error0GeneralProps["clientMessage"]
+      defaultMeta?: Meta0.Meta0OrValueTypeNullish
+    },
+  ): T {
+    return Object.fromEntries(
+      Object.entries(classes).map(([name, Class]) => [
+        name,
+        Class.extend(props),
+      ]),
+    ) as T
   }
 
   toJSON() {
@@ -650,8 +663,12 @@ export class Error0 extends Error {
 
 export namespace Error0 {
   export type JSON = ReturnType<Error0["toJSON"]>
+  export type Collection = Record<string, typeof Error0>
 }
 
-export const ErrorExpected0 = Error0.extendClass({
-  defaultExpected: true,
-})
+export const e0s = {
+  Default: Error0,
+  Expected: Error0.extend({
+    defaultExpected: true,
+  }),
+} satisfies Error0.Collection

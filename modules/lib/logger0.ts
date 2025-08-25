@@ -91,7 +91,6 @@ export class Logger0 {
 
   static create = ({
     formatter,
-    tagPrefix,
     meta: metaProvided,
     sinks,
     filters,
@@ -103,7 +102,6 @@ export class Logger0 {
     hideSensitiveKeys,
   }: {
     formatter?: Logger0.FormatterProp
-    tagPrefix: string
     meta?: Meta0.Meta0OrValueTypeNullish
     sinks?: Record<string, Sink>
     filters?: Record<string, Filter>
@@ -125,9 +123,6 @@ export class Logger0 {
       })
     }
     const meta = Meta0.from(metaProvided)
-    meta.assign({
-      tagPrefix,
-    })
     const loggerOriginal = getLogger(
       [Logger0.rootTagPrefix, ...meta.getFinalTagParts()].filter(
         Boolean,
@@ -143,25 +138,30 @@ export class Logger0 {
 
   getChild = (
     input:
-      | string
+      | string // extendTagPrefix
       | {
           extendMeta?: Meta0.Meta0OrValueTypeNullish
           replaceMeta?: Meta0.Meta0OrValueTypeNullish
-          extendTagPrefix?: string
-          replaceTagPrefix?: string
         },
   ) => {
-    const { extendTagPrefix, replaceTagPrefix, extendMeta, replaceMeta } =
-      typeof input === "string" ? { extendTagPrefix: input } : input
-
-    const newMeta = replaceMeta ? Meta0.from(replaceMeta) : this.meta.clone()
-    if (extendMeta) {
-      newMeta.assign(extendMeta)
-    }
-    newMeta.fixTagPrefix({
-      extend: extendTagPrefix,
-      replace: replaceTagPrefix,
-    })
+    const newMeta = (() => {
+      if (typeof input === "string") {
+        const newMeta = this.meta.clone()
+        newMeta.fixTagPrefix({
+          extend: input,
+        })
+        return newMeta
+      } else {
+        const { extendMeta, replaceMeta } = input
+        const newMeta = replaceMeta
+          ? Meta0.from(replaceMeta)
+          : this.meta.clone()
+        if (extendMeta) {
+          newMeta.assign(extendMeta)
+        }
+        return newMeta
+      }
+    })()
 
     return new Logger0({
       loggerOriginal: this.original,

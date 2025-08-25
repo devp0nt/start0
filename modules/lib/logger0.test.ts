@@ -7,8 +7,11 @@ import { omit } from "lodash"
 const createLoggerAndLogs = () => {
   const logs: Record<string, any>[] = []
   Logger0.rootTagPrefix = "test"
-  const logger0 = Logger0.create({
+  const meta = Meta0.create({
     tagPrefix: "nested",
+  })
+  const logger0 = Logger0.create({
+    meta,
     removeDefaultSinks: true,
     sinks: {
       variable: (record) => {

@@ -13,7 +13,7 @@ import pick from "lodash/pick.js"
 export class Meta0 {
   value: Meta0.ValueType
 
-  private static otherKeys = ["other", "tag", "tagPrefix"] as const
+  private static otherKeys = ["other", "tag", "tagPrefix", "service"] as const
   private static honoKeys = [
     "ip",
     "userAgent",
@@ -352,6 +352,7 @@ export class Meta0 {
 
 export namespace Meta0 {
   export type ValueType = {
+    service?: string
     tagPrefix?: string
     tag?: string
     code?: string
