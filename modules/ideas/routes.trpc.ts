@@ -22,6 +22,7 @@ export const getIdeaTrpcRoute = BackendTrpc.baseProcedure()
     if (!idea) {
       throw new Error0(`Idea ${input.ideaId} not found`, {
         code: "IDEA_NOT_FOUND",
+        httpStatus: 404,
       })
     }
     return { idea }

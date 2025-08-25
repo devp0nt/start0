@@ -1,5 +1,10 @@
 {
-  "include": ["./**/*", "../apps/site/app/routes.ts"],
+  "include": ["./**/*", "../apps/site/app/**/*"],
+  "exclude": [
+    "../apps/site/.react-router/**/*",
+    "../apps/site/app/routes/**/*",
+    "../apps/site/app/root.tsx"
+  ],
   "compilerOptions": {
     "baseUrl": "../",
     "strict": true,

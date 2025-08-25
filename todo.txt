@@ -1,5 +1,5 @@
 logger client
-processes → ?bin
+html title dynamic
 
 env
 prisma
@@ -8,9 +8,10 @@ route0
 entity Class
 enum Class
 
-genreator route files, search fiels and get exports by names
-
-TODO: restart frontend server on code change
+generator
+genreator backend route files, search fields and get exports by names
+generate toClient types
+@ index files watcher
 
 biome rules
 biome hotkeys
@@ -27,14 +28,9 @@ full hono route
 form
 zod numer as text in form with coerce
 
-html title dynamic
-
-
-@ index files watcher
 cron/scheduler
 kafka/rabbitmq/pgboss
 
-test unit
 test integration trpc
 test integration hono
 test e2e
@@ -43,14 +39,14 @@ sentry
 swagger
 
 refine-antd
-watch-gen boilerplate
 ограничение импортов
-
-hono define route with my schema
 
 devops
 
+---
+
 Функции которые прнимают ctx, оборачивать в withCtx(extends, fn), и тут же генерировать createWithCtx который также может принимать extends
+restart frontend server on code change
 В свою админку вшить генератор админки свой без всяких там рефайнов, тупо определять какой формой какие поля редактируются
 
 remove old

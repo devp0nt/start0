@@ -1,14 +1,20 @@
 import { Error0 } from "@shmoject/modules/lib/error0"
 import { useMemo } from "react"
+import { type ErrorResponse, isRouteErrorResponse } from "react-router"
 
-export const useError0 = (error: Error0 | Error | Error0.JSON | unknown) => {
-  return useMemo(() => Error0.from(error), [error])
+export const useError0 = (
+  error: Error0 | ErrorResponse | Error | Error0.JSON | unknown,
+) => {
+  return useMemo(
+    () => Error0.from(isRouteErrorResponse(error) ? error.data : error),
+    [error],
+  )
 }
 
 export const ErrorPage = ({
   error,
 }: {
-  error: Error0 | Error | Error0.JSON | unknown
+  error: Error0 | ErrorResponse | Error | Error0.JSON | unknown
 }) => {
   const error0 = useError0(error)
   return <ErrorComponent error={error0} />
@@ -17,7 +23,7 @@ export const ErrorPage = ({
 export const ErrorComponent = ({
   error,
 }: {
-  error: Error0 | Error | unknown
+  error: Error0 | ErrorResponse | Error | Error0.JSON | unknown
 }) => {
   const error0 = useError0(error)
   return (
