@@ -1,7 +1,3 @@
-Функции которые прнимают ctx, оборачивать в withCtx(extends, fn), и тут же генерировать createWithCtx который также может принимать extends
-
-move react route pages itslef to modules
-
 logger client
 processes → ?bin
 
@@ -15,11 +11,9 @@ enum Class
 genreator route files, search fiels and get exports by names
 
 TODO: restart frontend server on code change
-refactor lib0
 
 biome rules
 biome hotkeys
-
 
 just
 better-auth
@@ -56,6 +50,7 @@ hono define route with my schema
 
 devops
 
+Функции которые прнимают ctx, оборачивать в withCtx(extends, fn), и тут же генерировать createWithCtx который также может принимать extends
 В свою админку вшить генератор админки свой без всяких там рефайнов, тупо определять какой формой какие поля редактируются
 
 remove old

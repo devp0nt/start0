@@ -11,7 +11,7 @@ import {
   useLoaderData as useLoaderDataOriginal,
 } from "react-router"
 
-export const createLoader = <TOutput>(
+export const createLoader0 = <TOutput>(
   fn: (props: LoaderArgs0<any>) => Promise<TOutput>,
 ) => {
   return async (loaderArgs: LoaderFunctionArgs) => {
@@ -40,6 +40,7 @@ export const createLoader = <TOutput>(
 export type LoaderArgs0<TLoaderArgs> = TLoaderArgs & {
   qc: QueryClient
 }
+
 export type LoaderResult0<TOutput> =
   | {
       data: TOutput
@@ -54,15 +55,53 @@ export type LoaderResult0<TOutput> =
       dehydratedState: DehydratedState
     }
 
-export type LoaderResultByLoader0<TLoader extends (...args: any) => any> =
-  Extract<Awaited<ReturnType<TLoader>>, { error: null }>
+export type LoaderResultClear0<TOutput> =
+  | {
+      data: TOutput
+      error: null
+      error0: null
+    }
+  | {
+      data: null
+      error: unknown
+      error0: Error0.JSON
+    }
 
-export const useLoaderData0 = <
+export type LoaderResultByLoader0<TLoader extends (...args: any) => any> =
+  Awaited<ReturnType<TLoader>>
+
+export type SuccessLoaderResultByLoader0<
   TLoader extends (...args: any) => any,
->(): LoaderResultByLoader0<TLoader> => {
+> = Extract<LoaderResultByLoader0<TLoader>, { error: null }>
+
+export type FailLoaderResultByLoader0<TLoader extends (...args: any) => any> =
+  Extract<LoaderResultByLoader0<TLoader>, { data: null }>
+
+export type LoaderResultClearSuccessByLoader0<
+  TLoader extends (...args: any) => any,
+> = Omit<SuccessLoaderResultByLoader0<TLoader>, "dehydratedState">
+
+export type LoaderResultClearFailByLoader0<
+  TLoader extends (...args: any) => any,
+> = Omit<FailLoaderResultByLoader0<TLoader>, "dehydratedState">
+
+export type LoaderResultClearByLoader0<TLoader extends (...args: any) => any> =
+  | LoaderResultClearSuccessByLoader0<TLoader>
+  | LoaderResultClearFailByLoader0<TLoader>
+
+export const useClearLoaderData0 = <
+  TLoader extends (...args: any) => any,
+>(): LoaderResultClearByLoader0<TLoader> => {
   const data = useLoaderDataOriginal()
   return useMemo(() => {
     const { dehydratedState: _dehydratedState, ...dataFromLoader } = data
     return dataFromLoader
   }, [data])
 }
+
+// export const withSuccessLoaderDataOrPageComponent = <
+//   TLoader extends (...args: any) => any,
+// >((props: { loaderData: SuccessLoaderResultByLoader0<TLoader> }) => {
+//   const { loaderData } = props
+//   return <PageComponent loaderData={loaderData} />
+// }

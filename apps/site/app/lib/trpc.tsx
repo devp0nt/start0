@@ -91,11 +91,6 @@ const links = [
   httpBatchLink({
     transformer: superjson,
     url: "http://localhost:3075/trpc",
-    headers() {
-      const headers = new Headers()
-      headers.set("x-trpc-source", "react")
-      return headers
-    },
   }),
 ]
 

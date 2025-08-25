@@ -1,5 +1,5 @@
 import { ErrorPage } from "@shmoject/site/components/Error"
-import { createLoader, type LoaderArgs0 } from "@shmoject/site/lib/reactRouter"
+import { createLoader0, type LoaderArgs0 } from "@shmoject/site/lib/reactRouter"
 import { trpc } from "@shmoject/site/lib/trpc"
 import { HomePage } from "@shmoject/site/pages/HomePage"
 import type { Route } from "./+types/home"
@@ -11,7 +11,7 @@ export function meta({}: Route.MetaArgs) {
   ]
 }
 
-export const loader = createLoader(
+export const loader = createLoader0(
   async ({ qc, params }: LoaderArgs0<Route.LoaderArgs>) => {
     return await qc.fetchQuery(trpc.ping.queryOptions())
   },
