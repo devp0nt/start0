@@ -5,9 +5,6 @@ entity Class
 logger client
 enum Class
 
-А нужда есть наверняка в именно инпуте
-Хоно модель вообще вероятно не нужна, и так будут генериться типы.
-
 better-auth
 https://dev.to/ayoubphy/step-by-step-guide-setting-up-trpc-better-auth-prisma-and-react-router-v7-4ho
 clien ctx
@@ -22,13 +19,16 @@ generate hono requests types and use query
 biome rules
 biome hotkeys
 
+Отрефачить дефайн хоно роут
+full hono route
+swagger
+
 just
 plop
 
-full hono route
-
 form
 zod numer as text in form with coerce
+ui
 
 cron/scheduler
 kafka/rabbitmq/pgboss
@@ -38,7 +38,6 @@ test integration hono
 test e2e
 
 sentry
-swagger
 
 refine-antd
 ограничение импортов

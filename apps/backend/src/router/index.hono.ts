@@ -7,9 +7,9 @@ import type { HonoApp } from "@shmoject/backend/lib/hono"
 
 export namespace BackendHonoRouter {
   export const apply = ({ honoApp }: { honoApp: HonoApp.AppType }) => {
-    // @index('./**/route.hono.ts', f => `${f.path.split('/').slice(0, -1).pop()}HonoRoute.apply({ honoApp })`)
-    helloHonoRoute.apply({ honoApp })
-    pingHonoRoute.apply({ honoApp })
+    // @index('./**/route.hono.ts', f => `${f.path.split('/').slice(0, -1).pop()}HonoRoute({ honoApp })`)
+    helloHonoRoute({ honoApp })
+    pingHonoRoute({ honoApp })
     // @endindex
   }
 }
