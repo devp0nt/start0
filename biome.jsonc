@@ -27,6 +27,7 @@
         "noUnusedFunctionParameters": "off"
       },
       "complexity": {
+        "noUselessThisAlias": "off",
         "noBannedTypes": "off",
         "noThisInStatic": "off"
       },

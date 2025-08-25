@@ -7,6 +7,7 @@ import z, { ZodError } from "zod"
 // TODO: not use self stack if toError0
 // TODO: fix default message in extended error0, should be used in constuctor of Error0
 // TODO: remove defaults prop from getPropsFromUnknown
+// TODO: code has enum type, fn to check if code exists
 
 export interface Error0Input {
   message?: string
@@ -54,7 +55,7 @@ export class Error0 extends Error {
   public readonly clientMessage?: Error0GeneralProps["clientMessage"]
   public readonly anyMessage?: Error0GeneralProps["anyMessage"]
   public readonly cause?: Error0GeneralProps["cause"]
-  public readonly meta?: Meta0.ValueType
+  public readonly meta?: Meta0.Meta0OrValueTypeNullish
   public readonly zodError?: Error0GeneralProps["zodError"]
   public readonly axiosError?: Error0GeneralProps["axiosError"]
 
@@ -64,8 +65,7 @@ export class Error0 extends Error {
   static defaultHttpStatus?: Error0GeneralProps["httpStatus"]
   static defaultExpected?: Error0GeneralProps["expected"]
   static defaultClientMessage?: Error0GeneralProps["clientMessage"]
-  static defaultCause?: Error0GeneralProps["cause"]
-  static defaultMeta?: Meta0.ValueType
+  static defaultMeta?: Meta0.Meta0OrValueTypeNullish
 
   public readonly propsOriginal: Error0GeneralProps
 
@@ -188,11 +188,7 @@ export class Error0 extends Error {
     stack: Error0GeneralProps["stack"]
   }): Error0GeneralProps {
     // const meta = Meta0.merge(error0Input.meta0, error0Input.meta).value
-    const meta = Meta0.merge(
-      this.defaultMeta,
-      error0Input.meta,
-      error0Input.meta,
-    ).value
+    const meta = Meta0.merge(this.defaultMeta, error0Input.meta).value
     const clientMessage = error0Input.clientMessage || this.defaultClientMessage
     const result: Error0GeneralProps = {
       message: error0Input.message || this.defaultMessage,
@@ -209,7 +205,7 @@ export class Error0 extends Error {
       expected: undefined,
       clientMessage,
       anyMessage: clientMessage || message,
-      cause: error0Input.cause || this.defaultCause,
+      cause: error0Input.cause,
       stack: undefined,
       meta,
       zodError: error0Input.zodError,
@@ -613,18 +609,19 @@ export class Error0 extends Error {
     defaultHttpStatus?: Error0GeneralProps["httpStatus"]
     defaultExpected?: Error0GeneralProps["expected"]
     defaultClientMessage?: Error0GeneralProps["clientMessage"]
-    defaultCause?: Error0GeneralProps["cause"]
-    defaultMeta?: Meta0.ValueType
+    defaultMeta?: Meta0.Meta0OrValueTypeNullish
   }) {
+    const parent = this
     return class ExtendedError0 extends Error0 {
-      static defaultMessage = props.defaultMessage || Error0.defaultMessage
-      static defaultTag = props.defaultTag
-      static defaultCode = props.defaultCode
-      static defaultHttpStatus = props.defaultHttpStatus
-      static defaultExpected = props.defaultExpected
-      static defaultClientMessage = props.defaultClientMessage
-      static defaultCause = props.defaultCause
-      static defaultMeta = props.defaultMeta
+      static defaultMessage = props.defaultMessage ?? parent.defaultMessage
+      static defaultTag = props.defaultTag ?? parent.defaultTag
+      static defaultCode = props.defaultCode ?? parent.defaultCode
+      static defaultHttpStatus =
+        props.defaultHttpStatus ?? parent.defaultHttpStatus
+      static defaultExpected = props.defaultExpected ?? parent.defaultExpected
+      static defaultClientMessage =
+        props.defaultClientMessage ?? parent.defaultClientMessage
+      static defaultMeta = Meta0.merge(parent.defaultMeta, props.defaultMeta)
     }
   }
 
@@ -638,7 +635,7 @@ export class Error0 extends Error {
       clientMessage: this.clientMessage,
       anyMessage: this.anyMessage,
       cause: this.cause,
-      meta: this.meta,
+      meta: Meta0.toValueSafe(this.meta),
       stack: this.stack,
       __I_AM_ERROR_0: this.__I_AM_ERROR_0,
     }

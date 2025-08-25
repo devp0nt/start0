@@ -1,3 +1,11 @@
+При экстенде главное экстендить тег правильно
+В мету сделать не просто ассайн, а extendTag
+Эррор0 в контекст а в него положить ту же мету что и в логгер
+Отказаться от категорий в логгере, точнее синхронизировать их с тегом из меты
+Когда когда делаем getChild логгера, то мы просто экстендим тег
+Сделать getChild в самом контектсе реквкеста, который модифицирует и мету, и логгер, и эррор0
+Функции которые прнимают ctx, оборачивать в withCtx(extends, fn), и тут же генерировать createWithCtx который также может принимать extends
+
 move react route pages itslef to modules
 
 logger client
@@ -25,6 +33,8 @@ https://dev.to/ayoubphy/step-by-step-guide-setting-up-trpc-better-auth-prisma-an
 plop
 
 full hono route
+Хоно модель должна в себе иметь метод и путь, в то же время вроде в ней вообще нет нужды
+А нужда есть наверняка в именно инпуте
 
 form
 zod numer as text in form with coerce
@@ -51,5 +61,7 @@ watch-gen boilerplate
 hono define route with my schema
 
 devops
+
+В свою админку вшить генератор админки свой без всяких там рефайнов, тупо определять какой формой какие поля редактируются
 
 remove old

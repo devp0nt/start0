@@ -55,12 +55,28 @@ export namespace HonoApp {
       reqPath: req.path,
     })
 
-    return {
+    const reqCtx = {
       backendCtx,
       ...backendCtx,
       logger,
       meta,
     }
+
+    // TODO: move to creqte req ctx as class
+    const getChild = ({
+      tag,
+      meta,
+    }: {
+      tag: string
+      meta: Meta0.Meta0OrValueTypeNullish
+    }) => {
+      return {
+        logger: reqCtx.logger.getChild(tag),
+        meta: Meta0.merge(meta, { tag }),
+      }
+    }
+
+    return reqCtx
   }
 
   export type ReqCtx = Awaited<ReturnType<typeof createReqCtx>>
