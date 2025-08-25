@@ -24,10 +24,14 @@ export namespace Page0 {
     loaderData: TLoaderData
   }) => React.ReactNode
 
-  export type Title<
+  export type TitleFn<
     TRouteParams extends RouteParams,
     TLoaderData extends LoaderData | undefined,
   > = (props: { params: TRouteParams; loaderData: TLoaderData }) => string
+  export type Title<
+    TRouteParams extends RouteParams,
+    TLoaderData extends LoaderData | undefined,
+  > = TitleFn<TRouteParams, TLoaderData> | string
 
   export type Meta<
     TRouteParams extends RouteParams,
@@ -85,7 +89,14 @@ export namespace Page0 {
               ) => {
                 const metaDefinition: Meta<TRouteParams, undefined> = (
                   props,
-                ) => [{ title: titleDefinition(props) }]
+                ) => [
+                  {
+                    title:
+                      typeof titleDefinition === "string"
+                        ? titleDefinition
+                        : titleDefinition(props),
+                  },
+                ]
                 return {
                   route: routeDefinition,
                   loader: undefined,
@@ -130,7 +141,14 @@ export namespace Page0 {
                   ) => {
                     const metaDefinition: Meta<TRouteParams, TLoaderData> = (
                       props,
-                    ) => [{ title: titleDefinition(props) }]
+                    ) => [
+                      {
+                        title:
+                          typeof titleDefinition === "string"
+                            ? titleDefinition
+                            : titleDefinition(props),
+                      },
+                    ]
                     return {
                       route: routeDefinition,
                       loader: loaderDefinition,

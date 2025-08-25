@@ -8,7 +8,7 @@ export const IdeasPage = Page0.create()
   .loader(async ({ qc }) => {
     return await qc.fetchQuery(trpc.getIdeas.queryOptions())
   })
-  .title(() => `Ideas`)
+  .title(`Ideas`)
   .component(({ loaderData: { ideas } }) => {
     return (
       <div>
