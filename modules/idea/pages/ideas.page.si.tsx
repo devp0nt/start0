@@ -1,5 +1,5 @@
-import { IdeasPage } from "@shmoject/modules/ideas/pages/ideas.page.component"
-import { Idea } from "@shmoject/modules/ideas/utils"
+import { IdeasPage } from "@shmoject/modules/idea/pages/ideas.comp.si"
+import { Idea } from "@shmoject/modules/idea/utils.sh"
 import { Page0 } from "@shmoject/modules/lib/page0"
 import { trpc } from "@shmoject/site/lib/trpc"
 

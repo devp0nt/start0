@@ -1,6 +1,6 @@
 import { BackendTrpc } from "@shmoject/backend/lib/trpc"
-import { zGetIdeaInput } from "@shmoject/modules/ideas/routes.model"
-import { IdeaBe } from "@shmoject/modules/ideas/utils.be"
+import { zGetIdeaInput } from "@shmoject/modules/idea/routes.input.sh"
+import { IdeaBe } from "@shmoject/modules/idea/utils.be"
 import { Error0 } from "@shmoject/modules/lib/error0"
 
 export const getIdeasTrpcRoute = BackendTrpc.baseProcedure().query(

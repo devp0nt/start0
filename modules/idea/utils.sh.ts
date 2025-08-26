@@ -1,4 +1,4 @@
-import type { IdeaBe } from "@shmoject/modules/ideas/utils.be"
+import type { IdeaBe } from "@shmoject/modules/idea/utils.be"
 import { Route } from "@typed/route"
 
 export namespace Idea {

@@ -3,7 +3,7 @@ import { getAppConfigTrpcRoute } from "@shmoject/modules/appConfig/routes.trpc.j
 import {
   getIdeasTrpcRoute,
   getIdeaTrpcRoute,
-} from "@shmoject/modules/ideas/routes.trpc.js"
+} from "@shmoject/modules/idea/routes.be.js"
 import type { inferRouterInputs, inferRouterOutputs } from "@trpc/server"
 
 // @index('./**/route.trpc.ts', f => `import { ${f.path.split('/').slice(0, -1).pop()}TrpcRoute } from '${f.path}.js'`)

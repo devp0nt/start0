@@ -1,9 +1,9 @@
-import { Idea } from "@shmoject/modules/ideas/utils"
+import { Idea } from "@shmoject/modules/idea/utils.sh"
 import { Page0 } from "@shmoject/modules/lib/page0"
 import { trpc } from "@shmoject/site/lib/trpc"
 import { Route } from "@typed/route"
 
-export const IdeaPage = Page0.route(Idea.baseRoute.concat(Route.param("id")))
+export const ideaPage = Page0.route(Idea.baseRoute.concat(Route.param("id")))
   .loader(async ({ qc, params }) => {
     return await qc.fetchQuery(trpc.getIdea.queryOptions({ ideaId: params.id }))
   })

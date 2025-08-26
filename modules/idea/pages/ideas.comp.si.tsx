@@ -1,4 +1,4 @@
-import type { Idea } from "@shmoject/modules/ideas/utils"
+import type { Idea } from "@shmoject/modules/idea/utils.sh"
 import { SiteCtx } from "@shmoject/site/lib/ctx"
 import { Link } from "react-router"
 
