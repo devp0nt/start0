@@ -49,7 +49,44 @@ export namespace SiteCtx {
     }
   }
 
-  export const rrContext = unstable_createContext<{
+  const ReactContext = createContext<Ctx>(null as never)
+
+  export const Provider = ({ children }: { children: React.ReactNode }) => {
+    const getAppConfigQr = useQuery(
+      trpc.getAppConfig.queryOptions(undefined, {
+        staleTime: Infinity,
+      }),
+    )
+    const siteCtx: Partial<Ctx> = {
+      me: {
+        user: null,
+        admin: null,
+      },
+      appConfig: getAppConfigQr.data?.appConfig,
+    }
+    const error = getAppConfigQr.error
+    const pending = getAppConfigQr.isPending
+    return (
+      <ReactContext.Provider value={siteCtx as Ctx}>
+        {error ? (
+          <div>{error.message}</div>
+        ) : pending ? (
+          <div>Loading...</div>
+        ) : (
+          children
+        )}
+      </ReactContext.Provider>
+    )
+  }
+
+  export const useCtx = () => {
+    return useContext(ReactContext)
+  }
+  export const useMe = () => useContextSelector(ReactContext, (ctx) => ctx.me)
+  export const useAppConfig = () =>
+    useContextSelector(ReactContext, (ctx) => ctx.appConfig)
+
+  const rrContext = unstable_createContext<{
     siteCtx: Ctx | null
     dehydratedState: DehydratedState | null
   }>({
@@ -93,41 +130,4 @@ export namespace SiteCtx {
       dehydratedState,
     }
   }
-
-  const ReactContext = createContext<Ctx>(null as never)
-
-  export const Provider = ({ children }: { children: React.ReactNode }) => {
-    const getAppConfigQr = useQuery(
-      trpc.getAppConfig.queryOptions(undefined, {
-        staleTime: Infinity,
-      }),
-    )
-    const siteCtx: Partial<Ctx> = {
-      me: {
-        user: null,
-        admin: null,
-      },
-      appConfig: getAppConfigQr.data?.appConfig,
-    }
-    const error = getAppConfigQr.error
-    const pending = getAppConfigQr.isPending
-    return (
-      <ReactContext.Provider value={siteCtx as Ctx}>
-        {error ? (
-          <div>{error.message}</div>
-        ) : pending ? (
-          <div>Loading...</div>
-        ) : (
-          children
-        )}
-      </ReactContext.Provider>
-    )
-  }
-
-  export const useCtx = () => {
-    return useContext(ReactContext)
-  }
-  export const useMe = () => useContextSelector(ReactContext, (ctx) => ctx.me)
-  export const useAppConfig = () =>
-    useContextSelector(ReactContext, (ctx) => ctx.appConfig)
 }
