@@ -1,5 +1,5 @@
 import { Idea } from "@shmoject/modules/idea/utils.sh"
-import { Page0 } from "@shmoject/modules/lib/page0"
+import { Page0 } from "@shmoject/site/lib/page0"
 import { trpc } from "@shmoject/site/lib/trpc"
 import { Route } from "@typed/route"
 

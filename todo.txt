@@ -8,7 +8,7 @@ entity Class
 enum Class
 
 generator
-generator site routes files, and route.tsx
+generator site routes files, and route.tsx, and routes.ts
 genreator backend route files, search fields and get exports by names
 generate toClient types
 generate hono requests types and use query
@@ -17,6 +17,8 @@ generate hono swagger
 
 biome rules
 biome hotkeys
+
+tsconfig includes by files exts
 
 just
 plop

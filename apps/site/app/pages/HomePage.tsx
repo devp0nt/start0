@@ -1,4 +1,4 @@
-import { Page0 } from "@shmoject/modules/lib/page0"
+import { Page0 } from "@shmoject/site/lib/page0"
 import { trpc, useTRPC } from "@shmoject/site/lib/trpc"
 import { useQuery } from "@tanstack/react-query"
 import { Route } from "@typed/route"

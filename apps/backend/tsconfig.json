@@ -1,5 +1,10 @@
 {
-  "include": ["./src/**/*", "../../modules/**/*", "../site/app/routes.ts"],
+  "include": [
+    "./src/**/*",
+    "../../modules/**/*",
+    "../site/app/routes.ts",
+    "../site/app/lib/page0.ts"
+  ],
   "exclude": ["../../modules/**/*.test.ts"],
   "compilerOptions": {
     "baseUrl": "../../",

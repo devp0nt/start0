@@ -3,8 +3,6 @@ import type { QueryClient } from "@tanstack/react-query"
 import type { Route as RouteTyped } from "@typed/route"
 import type { MetaDescriptor } from "react-router"
 
-// TODO: fix consistent import of pages for fast reloading
-
 export namespace Page0 {
   type Ctx = SiteCtx.Ctx
 
