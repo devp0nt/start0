@@ -1,12 +1,9 @@
 import { SiteError } from "@shmoject/site/components/Error"
 import { GeneralLayout } from "@shmoject/site/components/GeneralLayout"
+import { SiteCtx } from "@shmoject/site/lib/ctx"
 import { TRPCReactProvider } from "@shmoject/site/lib/trpc"
 import { Links, Meta, Outlet, Scripts, ScrollRestoration } from "react-router"
 import type { Route } from "./+types/root"
-
-// const TRPCReactProvider = ({ children }: { children: React.ReactNode }) => {
-//   return <>{children}</>;
-// };
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -42,7 +39,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
 export default function App() {
   return (
     <TRPCReactProvider>
-      <Outlet />
+      <SiteCtx.Provider>
+        <Outlet />
+      </SiteCtx.Provider>
     </TRPCReactProvider>
   )
 }

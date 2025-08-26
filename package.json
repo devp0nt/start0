@@ -67,7 +67,9 @@
     "react-router-hono-server": "^2.2.1",
     "server-only": "^0.0.1",
     "superjson": "^2.2.2",
+    "use-context-selector": "^2.0.0",
     "yaml": "^2.8.1",
-    "zod": "^4.0.17"
+    "zod": "^4.0.17",
+    "zustand": "^5.0.8"
   }
 }

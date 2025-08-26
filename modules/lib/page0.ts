@@ -1,8 +1,11 @@
+import type { SiteCtx } from "@shmoject/site/lib/ctx"
 import type { QueryClient } from "@tanstack/react-query"
 import type { Route as RouteTyped } from "@typed/route"
 import type { MetaDescriptor } from "react-router"
 
 export namespace Page0 {
+  type Ctx = SiteCtx.Ctx
+
   export type Route = RouteTyped.Route<any, any>
 
   export type RouteParams<TRoute extends Route = Route> = Parameters<
@@ -14,7 +17,11 @@ export namespace Page0 {
   export type Loader<
     TRouteParams extends RouteParams,
     TLoaderData extends LoaderData,
-  > = (props: { qc: QueryClient; params: TRouteParams }) => Promise<TLoaderData>
+  > = (props: {
+    qc: QueryClient
+    params: TRouteParams
+    ctx: Ctx
+  }) => Promise<TLoaderData>
 
   export type Component<
     TRouteParams extends RouteParams,
@@ -22,12 +29,17 @@ export namespace Page0 {
   > = (props: {
     params: TRouteParams
     loaderData: TLoaderData
+    ctx: Ctx
   }) => React.ReactNode
 
   export type TitleFn<
     TRouteParams extends RouteParams,
     TLoaderData extends LoaderData | undefined,
-  > = (props: { params: TRouteParams; loaderData: TLoaderData }) => string
+  > = (props: {
+    params: TRouteParams
+    loaderData: TLoaderData
+    ctx: Ctx
+  }) => string
   export type Title<
     TRouteParams extends RouteParams,
     TLoaderData extends LoaderData | undefined,
@@ -39,6 +51,7 @@ export namespace Page0 {
   > = (props: {
     params: TRouteParams
     loaderData: TLoaderData
+    ctx: Ctx
   }) => MetaDescriptor[]
 
   export type Page<

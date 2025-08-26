@@ -1,4 +1,5 @@
 import { BackendTrpc } from "@shmoject/backend/lib/trpc"
+import { getAppConfigTrpcRoute } from "@shmoject/modules/appConfig/routes.trpc.js"
 import {
   getIdeasTrpcRoute,
   getIdeaTrpcRoute,
@@ -23,6 +24,7 @@ export namespace BackendTrpcRouter {
     // @endindex
     getIdeas: getIdeasTrpcRoute,
     getIdea: getIdeaTrpcRoute,
+    getAppConfig: getAppConfigTrpcRoute,
   })
 
   export type TrpcRouter = typeof trpcRouter

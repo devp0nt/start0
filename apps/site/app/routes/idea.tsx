@@ -1,17 +1,22 @@
 import { IdeaPage as Page } from "@shmoject/modules/ideas/pages/IdeaPage"
 import { SiteError } from "@shmoject/site/components/Error"
-import { createLoader0, type LoaderArgs0 } from "@shmoject/site/lib/reactRouter"
+import { ReactRouter0 } from "@shmoject/site/lib/reactRouter"
 import type { Route } from "./+types/idea"
 
 export function meta({ loaderData, params }: Route.MetaArgs) {
-  if (loaderData) {
-    return Page.meta({ loaderData: loaderData.data, params })
+  if (!loaderData) {
+    return undefined
   }
+  return Page.meta({
+    loaderData: loaderData.data,
+    params,
+    ctx: loaderData.ctx,
+  })
 }
 
-export const loader = createLoader0(
-  async ({ qc, params }: LoaderArgs0<Route.LoaderArgs>) => {
-    return await Page.loader({ qc, params })
+export const loader = ReactRouter0.createLoader(
+  async ({ qc, params, ctx }: ReactRouter0.LoaderArgs<Route.LoaderArgs>) => {
+    return await Page.loader({ qc, params, ctx })
   },
 )
 
@@ -23,5 +28,11 @@ export default function RouteComponent({
   params,
   loaderData,
 }: Route.ComponentProps) {
-  return <Page.Component params={params} loaderData={loaderData.data} />
+  return (
+    <Page.Component
+      params={params}
+      loaderData={loaderData.data}
+      ctx={loaderData.ctx}
+    />
+  )
 }
