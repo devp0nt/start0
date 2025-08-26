@@ -1,12 +1,11 @@
 prisma
 env
-entity Class
-
-enum Class
 
 better-auth
 https://dev.to/ayoubphy/step-by-step-guide-setting-up-trpc-better-auth-prisma-and-react-router-v7-4ho
 
+entity Class
+enum Class
 
 generator
 generator site routes files, and route.tsx
@@ -18,8 +17,6 @@ generate hono swagger
 
 biome rules
 biome hotkeys
-
-
 
 just
 plop
