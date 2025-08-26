@@ -52,11 +52,22 @@ export namespace Page0 {
     component: Component<TRouteParams, TLoaderData> | undefined
   }
 
-  export const create = () => {
+  export const route = <
+    TRoute extends Route,
+    TRouteParams extends RouteParams<TRoute>,
+  >(
+    routeDefinition: TRoute,
+  ) => {
     return {
-      route: <TRoute extends Route, TRouteParams extends RouteParams<TRoute>>(
-        routeDefinition: TRoute,
-      ) => {
+      component: (componentDefinition: Component<TRouteParams, undefined>) => {
+        return {
+          route: routeDefinition,
+          loader: undefined,
+          meta: undefined,
+          Component: componentDefinition,
+        }
+      },
+      meta: (metaDefinition: Meta<TRouteParams, undefined>) => {
         return {
           component: (
             componentDefinition: Component<TRouteParams, undefined>,
@@ -64,30 +75,68 @@ export namespace Page0 {
             return {
               route: routeDefinition,
               loader: undefined,
+              meta: metaDefinition,
+              Component: componentDefinition,
+            }
+          },
+        }
+      },
+      title: (titleDefinition: Title<TRouteParams, undefined>) => {
+        return {
+          component: (
+            componentDefinition: Component<TRouteParams, undefined>,
+          ) => {
+            const metaDefinition: Meta<TRouteParams, undefined> = (props) => [
+              {
+                title:
+                  typeof titleDefinition === "string"
+                    ? titleDefinition
+                    : titleDefinition(props),
+              },
+            ]
+            return {
+              route: routeDefinition,
+              loader: undefined,
+              meta: metaDefinition,
+              Component: componentDefinition,
+            }
+          },
+        }
+      },
+      loader: <TLoaderData extends LoaderData>(
+        loaderDefinition: Loader<TRouteParams, TLoaderData>,
+      ) => {
+        return {
+          component: (
+            componentDefinition: Component<TRouteParams, TLoaderData>,
+          ) => {
+            return {
+              route: routeDefinition,
+              loader: loaderDefinition,
               meta: undefined,
               Component: componentDefinition,
             }
           },
-          meta: (metaDefinition: Meta<TRouteParams, undefined>) => {
+          meta: (metaDefinition: Meta<TRouteParams, TLoaderData>) => {
             return {
               component: (
-                componentDefinition: Component<TRouteParams, undefined>,
+                componentDefinition: Component<TRouteParams, TLoaderData>,
               ) => {
                 return {
                   route: routeDefinition,
-                  loader: undefined,
+                  loader: loaderDefinition,
                   meta: metaDefinition,
                   Component: componentDefinition,
                 }
               },
             }
           },
-          title: (titleDefinition: Title<TRouteParams, undefined>) => {
+          title: (titleDefinition: Title<TRouteParams, TLoaderData>) => {
             return {
               component: (
-                componentDefinition: Component<TRouteParams, undefined>,
+                componentDefinition: Component<TRouteParams, TLoaderData>,
               ) => {
-                const metaDefinition: Meta<TRouteParams, undefined> = (
+                const metaDefinition: Meta<TRouteParams, TLoaderData> = (
                   props,
                 ) => [
                   {
@@ -99,63 +148,9 @@ export namespace Page0 {
                 ]
                 return {
                   route: routeDefinition,
-                  loader: undefined,
+                  loader: loaderDefinition,
                   meta: metaDefinition,
                   Component: componentDefinition,
-                }
-              },
-            }
-          },
-          loader: <TLoaderData extends LoaderData>(
-            loaderDefinition: Loader<TRouteParams, TLoaderData>,
-          ) => {
-            return {
-              component: (
-                componentDefinition: Component<TRouteParams, TLoaderData>,
-              ) => {
-                return {
-                  route: routeDefinition,
-                  loader: loaderDefinition,
-                  meta: undefined,
-                  Component: componentDefinition,
-                }
-              },
-              meta: (metaDefinition: Meta<TRouteParams, TLoaderData>) => {
-                return {
-                  component: (
-                    componentDefinition: Component<TRouteParams, TLoaderData>,
-                  ) => {
-                    return {
-                      route: routeDefinition,
-                      loader: loaderDefinition,
-                      meta: metaDefinition,
-                      Component: componentDefinition,
-                    }
-                  },
-                }
-              },
-              title: (titleDefinition: Title<TRouteParams, TLoaderData>) => {
-                return {
-                  component: (
-                    componentDefinition: Component<TRouteParams, TLoaderData>,
-                  ) => {
-                    const metaDefinition: Meta<TRouteParams, TLoaderData> = (
-                      props,
-                    ) => [
-                      {
-                        title:
-                          typeof titleDefinition === "string"
-                            ? titleDefinition
-                            : titleDefinition(props),
-                      },
-                    ]
-                    return {
-                      route: routeDefinition,
-                      loader: loaderDefinition,
-                      meta: metaDefinition,
-                      Component: componentDefinition,
-                    }
-                  },
                 }
               },
             }

@@ -3,8 +3,7 @@ import { Page0 } from "@shmoject/modules/lib/page0"
 import { trpc } from "@shmoject/site/lib/trpc"
 import { Link } from "react-router"
 
-export const IdeasPage = Page0.create()
-  .route(Idea.baseRoute)
+export const IdeasPage = Page0.route(Idea.baseRoute)
   .loader(async ({ qc }) => {
     return await qc.fetchQuery(trpc.getIdeas.queryOptions())
   })

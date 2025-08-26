@@ -3,8 +3,7 @@ import { trpc, useTRPC } from "@shmoject/site/lib/trpc"
 import { useQuery } from "@tanstack/react-query"
 import { Route } from "@typed/route"
 
-export const HomePage = Page0.create()
-  .route(Route.home)
+export const HomePage = Page0.route(Route.home)
   .loader(async ({ qc }) => {
     return await qc.fetchQuery(trpc.ping.queryOptions())
   })

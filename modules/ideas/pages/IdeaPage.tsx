@@ -3,8 +3,7 @@ import { Page0 } from "@shmoject/modules/lib/page0"
 import { trpc } from "@shmoject/site/lib/trpc"
 import { Route } from "@typed/route"
 
-export const IdeaPage = Page0.create()
-  .route(Idea.baseRoute.concat(Route.param("id")))
+export const IdeaPage = Page0.route(Idea.baseRoute.concat(Route.param("id")))
   .loader(async ({ qc, params }) => {
     return await qc.fetchQuery(trpc.getIdea.queryOptions({ ideaId: params.id }))
   })

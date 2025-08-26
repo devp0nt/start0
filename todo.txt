@@ -1,3 +1,6 @@
+site ctx
+flat page0
+
 env
 prisma
 entity Class
@@ -7,10 +10,10 @@ enum Class
 
 better-auth
 https://dev.to/ayoubphy/step-by-step-guide-setting-up-trpc-better-auth-prisma-and-react-router-v7-4ho
-clien ctx
+
 
 generator
-generator site routes files
+generator site routes files, and route.tsx
 genreator backend route files, search fields and get exports by names
 generate toClient types
 generate hono requests types and use query
