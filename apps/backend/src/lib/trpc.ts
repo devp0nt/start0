@@ -40,18 +40,15 @@ export namespace BackendTrpc {
       trpcReqPath: path,
       trpcReqType: type,
     })
-    l.info({
-      message: "Trpc request started",
-    })
     const result = await next({ ctx })
     if (result.ok) {
       l.info({
-        message: "Trpc request finished with success",
+        message: "Successful trpc request",
         reqDurationMs: performance.now() - reqStartedAt,
       })
     } else {
       l.error(result.error.cause || result.error, {
-        message: "Trpc request finished with error",
+        message: "Failed trpc request",
         reqDurationMs: performance.now() - reqStartedAt,
       })
     }

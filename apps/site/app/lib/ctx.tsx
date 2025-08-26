@@ -1,46 +1,21 @@
 import type { BackendTrpcRouter } from "@shmoject/backend/router/index.trpc"
-import { trpc } from "@shmoject/site/lib/trpc"
-import { type QueryClient, useQuery } from "@tanstack/react-query"
-import { get, isEqual, isObject, keys, sortBy } from "lodash"
-import { useMatches } from "react-router"
+import { getQueryClient, trpc } from "@shmoject/site/lib/trpc"
+import {
+  type DehydratedState,
+  dehydrate,
+  type QueryClient,
+  useQuery,
+} from "@tanstack/react-query"
+import {
+  unstable_createContext,
+  type unstable_MiddlewareFunction,
+  type unstable_RouterContextProvider,
+} from "react-router"
 import {
   createContext,
   useContext,
   useContextSelector,
 } from "use-context-selector"
-
-// export const useLoaderData = (): { ctx: Ctx | undefined } => {
-//   const desiredKeys = sortBy(keys(defaultValue))
-//   const matches = useMatches()
-//   const result = matches.find((match) => {
-//     const loaderData = match.loaderData
-//     if (!isObject(loaderData)) return false
-//     const ctx = get(loaderData, "ctx")
-//     if (!isObject(ctx)) return false
-//     const actualKeys = sortBy(keys(ctx))
-//     return isEqual(desiredKeys, actualKeys)
-//   }) as { loaderData: { ctx: Ctx } } | undefined
-//   return { ctx: result?.loaderData?.ctx }
-// }
-
-// export const Provider = ({ children }: { children: React.ReactNode }) => {
-//   const qr = useQuery(trpc.getAppConfig.queryOptions())
-//   const value = {
-//     ...defaultValue,
-//     appConfig: qr.data?.appConfig ?? defaultValue.appConfig,
-//   }
-//   return (
-//     <ReactContext.Provider value={value}>
-//       {qr.isError ? (
-//         <div>Error</div>
-//       ) : qr.isPending ? (
-//         <div>Loading...</div>
-//       ) : (
-//         children
-//       )}
-//     </ReactContext.Provider>
-//   )
-// }
 
 export namespace SiteCtx {
   export type MeUser = { id: string; name: string; email: string }
@@ -52,37 +27,74 @@ export namespace SiteCtx {
     appConfig: AppConfig
   }
 
-  const defaultValue: Ctx = {
-    me: {
-      user: null,
-      admin: null,
-    },
-    appConfig: {
-      rubInUsd: 87,
-    },
-  }
-
-  const mergeWithDefaultValue = (data: Partial<Ctx>) => {
-    return {
-      ...defaultValue,
-      appConfig: data.appConfig ?? defaultValue.appConfig,
-    } as Ctx
-  }
-
-  export const loader = async ({ qc }: { qc: QueryClient }) => {
+  export const loader = async ({
+    qc,
+  }: {
+    qc: QueryClient
+  }): Promise<{ siteCtx: Ctx }> => {
     const getAppConfigData = await qc.fetchQuery(
       trpc.getAppConfig.queryOptions(undefined, {
         staleTime: Infinity,
       }),
     )
+    const siteCtx: Ctx = {
+      me: {
+        user: null,
+        admin: null,
+      },
+      appConfig: getAppConfigData.appConfig,
+    }
     return {
-      ctx: mergeWithDefaultValue({
-        appConfig: getAppConfigData.appConfig,
-      }),
+      siteCtx,
     }
   }
 
-  const ReactContext = createContext<Ctx>(defaultValue)
+  export const rrContext = unstable_createContext<{
+    siteCtx: Ctx | null
+    dehydratedState: DehydratedState | null
+  }>({
+    siteCtx: null,
+    dehydratedState: null,
+  })
+
+  export const rrMiddleware: unstable_MiddlewareFunction = async ({
+    context,
+  }) => {
+    const qc = getQueryClient()
+    const { siteCtx } = await SiteCtx.loader({ qc })
+    context.set(rrContext, {
+      siteCtx,
+      dehydratedState: dehydrate(qc),
+    })
+  }
+
+  export const rrGetFromContextOrThrow = ({
+    context,
+  }: {
+    context: Readonly<unstable_RouterContextProvider>
+  }) => {
+    const result = context.get(rrContext)
+    if (!result) {
+      throw new Error("siteCtx holder not found in react router context")
+    }
+    const { siteCtx, dehydratedState } = result
+    if (!siteCtx) {
+      throw new Error(
+        "siteCtx holder found in react router context, but siteCtx is null",
+      )
+    }
+    if (!dehydratedState) {
+      throw new Error(
+        "siteCtx holder found in react router context, but dehydratedState is null",
+      )
+    }
+    return {
+      siteCtx,
+      dehydratedState,
+    }
+  }
+
+  const ReactContext = createContext<Ctx>(null as never)
 
   export const Provider = ({ children }: { children: React.ReactNode }) => {
     const getAppConfigQr = useQuery(
@@ -90,13 +102,17 @@ export namespace SiteCtx {
         staleTime: Infinity,
       }),
     )
-    const value = mergeWithDefaultValue({
+    const siteCtx: Partial<Ctx> = {
+      me: {
+        user: null,
+        admin: null,
+      },
       appConfig: getAppConfigQr.data?.appConfig,
-    })
+    }
     const error = getAppConfigQr.error
     const pending = getAppConfigQr.isPending
     return (
-      <ReactContext.Provider value={value}>
+      <ReactContext.Provider value={siteCtx as Ctx}>
         {error ? (
           <div>{error.message}</div>
         ) : pending ? (

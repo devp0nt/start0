@@ -5,12 +5,6 @@ import { Error0 } from "@shmoject/modules/lib/error0"
 
 export const getIdeasTrpcRoute = BackendTrpc.baseProcedure().query(
   async ({ ctx }) => {
-    ctx.logger.info("Getting ideas", {
-      other: {
-        password: "123456",
-      },
-    })
-
     return { ideas: IdeaBe.ideas }
   },
 )

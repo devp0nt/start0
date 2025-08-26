@@ -1,6 +1,6 @@
 import type { BackendTrpcRouter } from "@shmoject/backend/router/index.trpc"
+import { RR0 } from "@shmoject/site/lib/reactRouter"
 import {
-  type DehydratedState,
   defaultShouldDehydrateQuery,
   HydrationBoundary,
   QueryClient,
@@ -12,9 +12,7 @@ import {
   createTRPCOptionsProxy,
   type TRPCQueryOptions,
 } from "@trpc/tanstack-react-query"
-import merge from "deepmerge"
 import { cache, useState } from "react"
-import { useMatches } from "react-router"
 import superjson from "superjson"
 
 const makeQueryClient = () => {
@@ -47,25 +45,8 @@ const trpcContext = createTRPCContext<BackendTrpcRouter.TrpcRouter>()
 const { TRPCProvider } = trpcContext
 export const useTRPC = trpcContext.useTRPC
 
-const useDehydratedState = (): DehydratedState | undefined => {
-  const matches = useMatches()
-  const dehydratedState = matches
-    .map(
-      (match) =>
-        (match.loaderData as { dehydratedState?: DehydratedState } | undefined)
-          ?.dehydratedState,
-    )
-    .filter(Boolean) as DehydratedState[]
-  return dehydratedState.length
-    ? dehydratedState.reduce(
-        (accumulator, currentValue) => merge(accumulator, currentValue),
-        { mutations: [], queries: [] } as DehydratedState,
-      )
-    : undefined
-}
-
 const HydrateClient = ({ children }: { children: React.ReactNode }) => {
-  const dehydratedState = useDehydratedState()
+  const dehydratedState = RR0.useDehydratedState()
   return (
     <HydrationBoundary state={dehydratedState}>{children}</HydrationBoundary>
   )

@@ -659,6 +659,19 @@ export class Error0 extends Error {
     const error0 = this.from(error, inputOverride)
     return error0.toJSON()
   }
+
+  toResponse(data?: Record<string, unknown>) {
+    return Response.json(
+      {
+        ...this.toJSON(),
+        ...data,
+      },
+      {
+        status: this.httpStatus,
+        statusText: this.message,
+      },
+    )
+  }
 }
 
 export namespace Error0 {

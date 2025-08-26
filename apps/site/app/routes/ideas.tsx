@@ -1,6 +1,6 @@
 import { IdeasPage as Page } from "@shmoject/modules/ideas/pages/IdeasPage"
 import { SiteError } from "@shmoject/site/components/Error"
-import { ReactRouter0 } from "@shmoject/site/lib/reactRouter"
+import { RR0 } from "@shmoject/site/lib/reactRouter"
 import type { Route } from "./+types/ideas"
 
 export function meta({ loaderData, params }: Route.MetaArgs) {
@@ -10,12 +10,12 @@ export function meta({ loaderData, params }: Route.MetaArgs) {
   return Page.meta({
     loaderData: loaderData.data,
     params,
-    ctx: loaderData.ctx,
+    ctx: loaderData.siteCtx,
   })
 }
 
-export const loader = ReactRouter0.createLoader(
-  async ({ qc, params, ctx }: ReactRouter0.LoaderArgs<Route.LoaderArgs>) => {
+export const loader = RR0.createLoader(
+  async ({ qc, params, ctx }: RR0.LoaderArgs<Route.LoaderArgs>) => {
     return await Page.loader({ qc, params, ctx })
   },
 )
@@ -32,7 +32,7 @@ export default function RouteComponent({
     <Page.Component
       params={params}
       loaderData={loaderData.data}
-      ctx={loaderData.ctx}
+      ctx={loaderData.siteCtx}
     />
   )
 }

@@ -1,6 +1,7 @@
 import { SiteError } from "@shmoject/site/components/Error"
 import { GeneralLayout } from "@shmoject/site/components/GeneralLayout"
 import { SiteCtx } from "@shmoject/site/lib/ctx"
+import { RR0 } from "@shmoject/site/lib/reactRouter"
 import { TRPCReactProvider } from "@shmoject/site/lib/trpc"
 import { Links, Meta, Outlet, Scripts, ScrollRestoration } from "react-router"
 import type { Route } from "./+types/root"
@@ -17,6 +18,16 @@ export const links: Route.LinksFunction = () => [
     href: "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap",
   },
 ]
+
+export const unstable_middleware = [SiteCtx.rrMiddleware]
+
+// keep this loader to hydrate query client with siteCtx
+// so on page error, we still have siteCtx
+export const loader = RR0.createLoader(
+  async ({ qc, context }: RR0.LoaderArgs<Route.LoaderArgs>) => {
+    return {}
+  },
+)
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
