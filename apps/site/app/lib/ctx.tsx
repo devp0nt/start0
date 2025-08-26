@@ -108,7 +108,7 @@ export namespace SiteCtx {
     )
   }
 
-  export const use = () => {
+  export const useCtx = () => {
     return useContext(ReactContext)
   }
   export const useMe = () => useContextSelector(ReactContext, (ctx) => ctx.me)

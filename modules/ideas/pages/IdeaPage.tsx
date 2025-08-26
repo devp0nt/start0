@@ -8,11 +8,12 @@ export const IdeaPage = Page0.route(Idea.baseRoute.concat(Route.param("id")))
     return await qc.fetchQuery(trpc.getIdea.queryOptions({ ideaId: params.id }))
   })
   .title(({ params, loaderData: { idea } }) => `Idea: ${idea.title}`)
-  .component(({ params, loaderData: { idea } }) => {
+  .component(({ params, loaderData: { idea }, ctx }) => {
     return (
       <div>
         <h1>{idea.title}</h1>
         <p>{idea.description}</p>
+        <pre>{JSON.stringify(ctx, null, 2)}</pre>
       </div>
     )
   })
