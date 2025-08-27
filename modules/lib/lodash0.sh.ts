@@ -1,4 +1,12 @@
 import lodashOmit from "lodash/omit.js"
+import lodashPick from "lodash/pick.js"
+
+export const pick = <TObject extends Object, TKeys extends keyof TObject>(
+  obj: TObject,
+  keys: TKeys[],
+): Pick<TObject, TKeys> => {
+  return lodashPick(obj, keys)
+}
 
 export const omit = <
   TObject extends Record<string, unknown>,

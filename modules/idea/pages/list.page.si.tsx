@@ -3,7 +3,7 @@ import { Idea } from "@shmoject/modules/idea/utils.sh"
 import { Page0 } from "@shmoject/site/lib/page0"
 import { trpc } from "@shmoject/site/lib/trpc"
 
-export const ideasPage = Page0.route(Idea.baseRoute)
+export const ideasPage = Page0.route(Idea.siteBaseRoute)
   .loader(async ({ qc }) => {
     return await qc.fetchQuery(trpc.getIdeas.queryOptions())
   })

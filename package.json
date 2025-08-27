@@ -20,16 +20,11 @@
     "vite-tsconfig-paths": "^5.1.4"
   },
   "scripts": {
-    "be": "bun --filter '@shmoject/backend'",
-    "si": "bun --filter '@shmoject/site'",
-    "mo": "bun --filter '@shmoject/modules'",
-    "pmd": "bun mo pmd",
     "types": "bun run --filter '*' types",
     "build": "bun run --filter '*' build",
     "dev": "bun run --filter '*' dev",
     "test": "bun run --filter '*' test",
     "lint": "biome check --write",
-    "prune": "rm -rf .react-router node_modules .vite .turbo dist build && bun install",
     "prepare": "husky"
   },
   "workspaces": {
