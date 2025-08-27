@@ -5,6 +5,7 @@ import cloneDeep from "lodash/cloneDeep"
 import omit from "lodash/omit.js"
 import pick from "lodash/pick.js"
 
+// TODO: ? simplify, remove keys definition, remove other
 // TODO: refactor
 // TODO: use zod to define types
 // TODO: private more main then static
@@ -32,6 +33,11 @@ export class Meta0 {
     "zodPrettifiedError",
     "zodFlattenedError",
   ] as const
+  private static prismaKeys = [
+    "prismaQuery",
+    "prismaParams",
+    "prismaDurationMs",
+  ] as const
   private static errorKeys = [
     "message",
     "code",
@@ -49,6 +55,7 @@ export class Meta0 {
     ...Meta0.trpcKeys,
     ...Meta0.axiosKeys,
     ...Meta0.zodKeys,
+    ...Meta0.prismaKeys,
     ...Meta0.honoKeys,
     ...Meta0.errorKeys,
     ...Meta0.idsKeys,
@@ -380,6 +387,9 @@ export namespace Meta0 {
     zodTreeifyedError?: Record<string, unknown>
     zodPrettifiedError?: string
     zodFlattenedError?: Record<string, unknown>
+    prismaQuery?: string
+    prismaParams?: Record<string, unknown> | string
+    prismaDurationMs?: number
   }
   export type ValueTypeNullish = ValueType | undefined | null
   export type ValueTypeFlat = Omit<ValueType, "other"> & {

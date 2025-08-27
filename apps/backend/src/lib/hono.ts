@@ -36,9 +36,6 @@ export namespace HonoApp {
       }
       const reqStartedAt = performance.now()
       const l = c.var.logger.extend("req")
-      l.info({
-        message: "Hono request started",
-      })
       try {
         await next()
         l.info({

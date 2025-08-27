@@ -1,21 +1,22 @@
 import { BackendTrpc } from "@shmoject/backend/lib/trpc"
 import { zGetIdeaInput } from "@shmoject/modules/idea/routes.input.sh"
-import { IdeaBe } from "@shmoject/modules/idea/utils.be"
 import { Error0 } from "@shmoject/modules/lib/error0"
 
 export const getIdeasTrpcRoute = BackendTrpc.baseProcedure().query(
   async ({ ctx }) => {
-    return { ideas: IdeaBe.ideas }
+    const ideas = await ctx.prisma.idea.findMany()
+    return { ideas }
   },
 )
 
 export const getIdeaTrpcRoute = BackendTrpc.baseProcedure()
   .input(zGetIdeaInput)
   .query(async ({ ctx, input }) => {
-    const idea = IdeaBe.ideas.find((idea) => idea.id === input.ideaId)
+    const idea = await ctx.prisma.idea.findUnique({
+      where: { sn: input.ideaSn },
+    })
     if (!idea) {
-      throw new Error0(`Idea ${input.ideaId} not found`, {
-        code: "IDEA_NOT_FOUND",
+      throw new Error0(`Idea ${input.ideaSn} not found`, {
         httpStatus: 404,
       })
     }

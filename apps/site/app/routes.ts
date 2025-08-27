@@ -9,7 +9,7 @@ export default [
   layout("components/GeneralLayout.tsx", [
     index("routes/home.tsx"),
     route("ideas", "routes/ideas.tsx"),
-    route("ideas/:id", "routes/idea.tsx"),
+    route("ideas/:sn", "routes/idea.tsx"),
   ]),
 ] satisfies RouteConfig
 

@@ -4,6 +4,7 @@ import { type AxiosError, HttpStatusCode, isAxiosError } from "axios"
 import { get } from "lodash"
 import z, { ZodError } from "zod"
 
+// TODO: store tags as array from all causes
 // TODO: not use self stack if toError0
 // TODO: fix default message in extended error0, should be used in constuctor of Error0
 // TODO: remove defaults prop from getPropsFromUnknown

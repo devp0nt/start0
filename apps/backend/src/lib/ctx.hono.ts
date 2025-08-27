@@ -2,14 +2,16 @@ import { BackendCtx } from "@shmoject/backend/lib/ctx"
 import type { e0s as e0sDefault } from "@shmoject/modules/lib/error0"
 import type { Logger0 } from "@shmoject/modules/lib/logger0"
 import type { Meta0 } from "@shmoject/modules/lib/meta0"
+import type { Prisma0 } from "@shmoject/modules/prisma/prisma0.be"
 import type { Context as HonoContext } from "hono"
 import { getConnInfo } from "hono/bun"
 
 export class HonoReqCtx {
+  req: HonoContext["req"]
   meta: Meta0
   logger: Logger0
   e0s: typeof e0sDefault
-  prisma: { x: 1 }
+  prisma: Prisma0.Client
   honoReqCtx: HonoReqCtx
   backendCtx: BackendCtx
 
@@ -29,6 +31,7 @@ export class HonoReqCtx {
       reqPath: req.path,
     })
     const extendable = backendCtx.extend(meta)
+    this.req = req
     this.meta = extendable.meta
     this.logger = extendable.logger
     this.e0s = extendable.e0s

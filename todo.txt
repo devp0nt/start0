@@ -1,11 +1,16 @@
 prisma
-env
+entity Class
+enum Class
+
+route0 
+https://www.npmjs.com/package/ts-routes
+https://dev.to/bytimo/useful-types-extract-route-params-with-typescript-5fhn
 
 better-auth
 https://dev.to/ayoubphy/step-by-step-guide-setting-up-trpc-better-auth-prisma-and-react-router-v7-4ho
 
-entity Class
-enum Class
+
+env
 
 generator
 generator site routes files, and route.tsx, and routes.ts
@@ -19,8 +24,10 @@ biome rules
 biome hotkeys
 
 tsconfig includes by files exts
+bun vite commands in terminal do not stop process
 
 just
+seed
 plop
 
 form
@@ -40,6 +47,11 @@ refine-antd
 ограничение импортов
 
 devops
+
+ai helpers, mcp, cusor files
+
+react-native
+reuse code between site and mobile
 
 ---
 
