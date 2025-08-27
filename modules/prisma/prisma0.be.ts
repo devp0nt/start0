@@ -118,4 +118,4 @@ export namespace Prisma0 {
   export type Client = ReturnType<typeof createClient>
 }
 
-export * from "./generated/index"
+export * from "./generated/models"
