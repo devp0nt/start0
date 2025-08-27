@@ -1,5 +1,5 @@
 import { BackendTrpc } from "@shmoject/backend/lib/trpc"
-import { getAppConfigTrpcRoute } from "@shmoject/modules/appConfig/routes.trpc.js"
+import { getAppConfigTrpcRoute } from "@shmoject/modules/appConfig/routes.be.js"
 import {
   getIdeasTrpcRoute,
   getIdeaTrpcRoute,

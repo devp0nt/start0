@@ -1,4 +1,4 @@
-import { Meta0 } from "@shmoject/modules/lib/meta0"
+import { Meta0 } from "@shmoject/modules/lib/meta0.sh"
 import { TRPCClientError } from "@trpc/client"
 import { type AxiosError, HttpStatusCode, isAxiosError } from "axios"
 import { get } from "lodash"

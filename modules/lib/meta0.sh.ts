@@ -1,5 +1,5 @@
-import { deepMap } from "@shmoject/modules/lib/deepMap"
-import { checkEnumEq } from "@shmoject/modules/lib/lodash0"
+import { deepMap } from "@shmoject/modules/lib/deepMap.sh"
+import { checkEnumEq } from "@shmoject/modules/lib/lodash0.sh"
 import { isArray, isPlainObject } from "lodash"
 import cloneDeep from "lodash/cloneDeep"
 import omit from "lodash/omit.js"

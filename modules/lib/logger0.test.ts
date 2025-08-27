@@ -1,7 +1,7 @@
 import { describe, expect, it } from "bun:test"
-import { Error0 } from "@shmoject/modules/lib/error0"
-import { Logger0 } from "@shmoject/modules/lib/logger0"
-import { Meta0 } from "@shmoject/modules/lib/meta0"
+import { Error0 } from "@shmoject/modules/lib/error0.sh"
+import { Logger0 } from "@shmoject/modules/lib/logger0.sh"
+import { Meta0 } from "@shmoject/modules/lib/meta0.sh"
 import { omit } from "lodash"
 
 const createLoggerAndLogs = () => {

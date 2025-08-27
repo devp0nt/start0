@@ -1,7 +1,7 @@
 import { describe, expect, it } from "bun:test"
 import axios, { type AxiosError, isAxiosError } from "axios"
 import z, { ZodError } from "zod"
-import { Error0, e0s } from "./error0"
+import { Error0, e0s } from "./error0.sh"
 
 // TODO: test expected
 

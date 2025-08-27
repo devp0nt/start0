@@ -1,7 +1,7 @@
 import { OpenAPIHono } from "@hono/zod-openapi"
 import type { BackendCtx } from "@shmoject/backend/lib/ctx"
 import { HonoReqCtx } from "@shmoject/backend/lib/ctx.hono"
-import { Error0 } from "@shmoject/modules/lib/error0"
+import { Error0 } from "@shmoject/modules/lib/error0.sh"
 import type { Context as HonoContext } from "hono"
 
 export namespace HonoApp {

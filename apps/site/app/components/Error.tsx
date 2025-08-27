@@ -1,4 +1,4 @@
-import { Error0 } from "@shmoject/modules/lib/error0"
+import { Error0 } from "@shmoject/modules/lib/error0.sh"
 import { useMemo } from "react"
 import { type ErrorResponse, isRouteErrorResponse } from "react-router"
 

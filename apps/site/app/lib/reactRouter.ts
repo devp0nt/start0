@@ -1,4 +1,4 @@
-import { Error0 } from "@shmoject/modules/lib/error0"
+import { Error0 } from "@shmoject/modules/lib/error0.sh"
 import { SiteCtx } from "@shmoject/site/lib/ctx"
 import { getQueryClient } from "@shmoject/site/lib/trpc"
 import {

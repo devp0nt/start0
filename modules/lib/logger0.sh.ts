@@ -9,10 +9,10 @@ import {
   type LogRecord,
   type Sink,
 } from "@logtape/logtape"
-import { deepMap } from "@shmoject/modules/lib/deepMap"
-import { Error0, type Error0Input } from "@shmoject/modules/lib/error0"
-import type { ExtractEnum } from "@shmoject/modules/lib/lodash0"
-import { Meta0 } from "@shmoject/modules/lib/meta0"
+import { deepMap } from "@shmoject/modules/lib/deepMap.sh"
+import { Error0, type Error0Input } from "@shmoject/modules/lib/error0.sh"
+import type { ExtractEnum } from "@shmoject/modules/lib/lodash0.sh"
+import { Meta0 } from "@shmoject/modules/lib/meta0.sh"
 import debug from "debug"
 import { omit } from "lodash"
 import yaml from "yaml"

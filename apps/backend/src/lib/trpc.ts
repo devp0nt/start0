@@ -2,7 +2,7 @@ import { trpcServer } from "@hono/trpc-server"
 import type { HonoReqCtx } from "@shmoject/backend/lib/ctx.hono"
 import type { HonoApp } from "@shmoject/backend/lib/hono"
 import type { BackendTrpcRouter } from "@shmoject/backend/router/index.trpc"
-import { Error0 } from "@shmoject/modules/lib/error0"
+import { Error0 } from "@shmoject/modules/lib/error0.sh"
 import { initTRPC } from "@trpc/server"
 import superjson from "superjson"
 

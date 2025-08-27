@@ -1,5 +1,5 @@
 import { describe, expect, it } from "bun:test"
-import { Meta0 } from "@shmoject/modules/lib/meta0"
+import { Meta0 } from "@shmoject/modules/lib/meta0.sh"
 
 describe("meta0", () => {
   it("simple", () => {
