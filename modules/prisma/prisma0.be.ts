@@ -1,6 +1,6 @@
 import { BackendCtx } from "@shmoject/backend/lib/ctx"
 import { backOff } from "exponential-backoff"
-import { Prisma, PrismaClient } from "./generated/client"
+import { Prisma, PrismaClient } from "./generated/prisma/client"
 
 // TODO: use as separate package
 // TODO: move to prisma-client not prisma-client-js
@@ -121,5 +121,5 @@ export namespace Prisma0 {
   export type Client = ReturnType<typeof createClient>
 }
 
-export * from "./generated/enums"
-export * from "./generated/models"
+export * from "./generated/prisma/enums"
+export * from "./generated/prisma/models"
