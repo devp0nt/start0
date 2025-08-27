@@ -1,4 +1,4 @@
-import { IdeasPage } from "@shmoject/modules/idea/pages/ideas.comp.si"
+import { IdeasPage } from "@shmoject/modules/idea/pages/list.comp.si"
 import { Idea } from "@shmoject/modules/idea/utils.sh"
 import { Page0 } from "@shmoject/site/lib/page0"
 import { trpc } from "@shmoject/site/lib/trpc"

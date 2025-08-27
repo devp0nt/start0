@@ -1,16 +1,14 @@
-prisma
 entity Class
 enum Class
-
+env
 route0 
+
 https://www.npmjs.com/package/ts-routes
 https://dev.to/bytimo/useful-types-extract-route-params-with-typescript-5fhn
 
 better-auth
 https://dev.to/ayoubphy/step-by-step-guide-setting-up-trpc-better-auth-prisma-and-react-router-v7-4ho
 
-
-env
 
 generator
 generator site routes files, and route.tsx, and routes.ts

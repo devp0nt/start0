@@ -1,4 +1,4 @@
-import { ideasPage as Page } from "@shmoject/modules/idea/pages/ideas.page.si"
+import { ideasPage as Page } from "@shmoject/modules/idea/pages/list.page.si"
 import { SiteError } from "@shmoject/site/components/Error"
 import { RR0 } from "@shmoject/site/lib/reactRouter"
 import type { Route } from "./+types/ideas"
