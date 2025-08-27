@@ -2,6 +2,9 @@ import { BackendCtx } from "@shmoject/backend/lib/ctx"
 import { backOff } from "exponential-backoff"
 import { Prisma, PrismaClient } from "./generated/client"
 
+// TODO: use as separate package
+// TODO: move to prisma-client not prisma-client-js
+
 export namespace Prisma0 {
   export const createClient = ({ ctx }: { ctx: BackendCtx.Extendable }) => {
     const { logger } = BackendCtx.extend(ctx, {
@@ -118,4 +121,5 @@ export namespace Prisma0 {
   export type Client = ReturnType<typeof createClient>
 }
 
+export * from "./generated/enums"
 export * from "./generated/models"
