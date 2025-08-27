@@ -1,14 +1,8 @@
-entity Class
-enum Class
 env
-route0 
 
+route0 
 https://www.npmjs.com/package/ts-routes
 https://dev.to/bytimo/useful-types-extract-route-params-with-typescript-5fhn
-
-better-auth
-https://dev.to/ayoubphy/step-by-step-guide-setting-up-trpc-better-auth-prisma-and-react-router-v7-4ho
-
 
 generator
 generator site routes files, and route.tsx, and routes.ts
@@ -18,19 +12,21 @@ generate hono requests types and use query
 generate hono swagger
 @ index files watcher
 
+tsconfig includes by files exts
+biome restrict imports
 biome rules
 biome hotkeys
 
-tsconfig includes by files exts
-bun vite commands in terminal do not stop process
-
-just
-seed
-plop
+better-auth
+https://dev.to/ayoubphy/step-by-step-guide-setting-up-trpc-better-auth-prisma-and-react-router-v7-4ho
 
 form
 zod numer as text in form with coerce
 ui
+
+devops
+
+---
 
 cron/scheduler
 kafka/rabbitmq/pgboss
@@ -40,12 +36,8 @@ test integration hono
 test e2e
 
 sentry
-
 refine-antd
-ограничение импортов
-
-devops
-
+enum Class
 ai helpers, mcp, cusor files
 
 react-native
