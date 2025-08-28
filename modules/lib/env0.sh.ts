@@ -3,15 +3,19 @@ import z from "zod"
 
 export namespace Env0 {
   export const create = <TZodSchema extends z.ZodObject<any>>({
-    schema,
+    schema: schemaOrFn,
     source,
   }: {
-    schema: TZodSchema
+    schema: TZodSchema | ((helpers: Helpers) => TZodSchema)
     source: Record<string, unknown>
   }) => {
+    const helpers = getHelpers(source)
+    const schema =
+      typeof schemaOrFn === "function" ? schemaOrFn(helpers) : schemaOrFn
     const parseResult = schema.safeParse(source)
     if (!parseResult.success) {
       throw new Error0({
+        tag: "env",
         message: `Invalid environment variables: ${z.prettifyError(parseResult.error)}`,
       })
     }
@@ -75,4 +79,50 @@ export namespace Env0 {
     z.literal(undefined),
     zInt,
   ])
+
+  const getHelpers = (source: Record<string, unknown>) => {
+    return {
+      optionalOnLocalHostEnv: <T extends z.ZodTypeAny>(value: T) => {
+        if (source.HOST_ENV !== "local") {
+          return value
+        }
+        return z.union([
+          z.literal(undefined),
+          z.literal("").transform(() => undefined),
+          value,
+        ])
+      },
+      optionalOnNotLocalHostEnv: <T extends z.ZodTypeAny>(value: T) => {
+        if (source.HOST_ENV === "local") {
+          return z.literal(undefined)
+        }
+        return z.union([
+          z.literal(undefined),
+          z.literal("").transform(() => undefined),
+          value,
+        ])
+      },
+      optionalOnProdHostEnv: <T extends z.ZodTypeAny>(value: T) => {
+        if (source.HOST_ENV === "prod") {
+          return value
+        }
+        return z.union([
+          z.literal(undefined),
+          z.literal("").transform(() => undefined),
+          value,
+        ])
+      },
+      optionalOnNotProdHostEnv: <T extends z.ZodTypeAny>(value: T) => {
+        if (source.HOST_ENV === "prod") {
+          return z.literal(undefined)
+        }
+        return z.union([
+          z.literal(undefined),
+          z.literal("").transform(() => undefined),
+          value,
+        ])
+      },
+    }
+  }
+  type Helpers = ReturnType<typeof getHelpers>
 }

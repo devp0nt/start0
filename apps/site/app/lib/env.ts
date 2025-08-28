@@ -4,9 +4,11 @@ import z from "zod"
 export const createEnvBuild = (source: Record<string, unknown>) =>
   E.create({
     source: source,
-    schema: z.object({
-      PORT: E.zInt,
-    }),
+    schema: ({ optionalOnLocalHostEnv }) =>
+      z.object({
+        PORT: E.zInt,
+        X: optionalOnLocalHostEnv(E.zBoolean),
+      }),
   })
 export type EnvBuild = ReturnType<typeof createEnvBuild>
 
