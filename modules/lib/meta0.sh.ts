@@ -5,10 +5,9 @@ import cloneDeep from "lodash/cloneDeep"
 import omit from "lodash/omit.js"
 import pick from "lodash/pick.js"
 
-// TODO: ? simplify, remove keys definition, remove other
-// TODO: refactor
-// TODO: use zod to define types
-// TODO: private more main then static
+// TODO: simplify, remove keys definition, remove other
+// TODO: on extend save parent metas in array
+// TODO: getValue → function
 // TODO: infer somehow correct meta in meta[] in props
 
 export class Meta0 {

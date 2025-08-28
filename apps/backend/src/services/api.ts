@@ -7,8 +7,9 @@ import { serve } from "bun"
 import { cors } from "hono/cors"
 
 export const startApiProcess = async () => {
+  let ctx: BackendCtx | null = null
   try {
-    const ctx = await BackendCtx.create({
+    ctx = await BackendCtx.create({
       meta: {
         service: "backend-api",
         tagPrefix: "backend",
@@ -30,16 +31,26 @@ export const startApiProcess = async () => {
 
     serve({
       fetch: honoApp.fetch,
-      port: process.env.PORT,
+      port: ctx.env.PORT,
     })
-    ctx.logger.info(`Hono is running at http://localhost:${process.env.PORT}`)
+    ctx.logger.info(`Hono is running at http://localhost:${ctx.env.PORT}`)
   } catch (e: any) {
-    // biome-ignore lint/suspicious/noConsole: <fallback to native logger>
-    console.error({
-      message: e.message || "Unknown error",
-      service: "backend-api",
-      tag: "backend:fatality",
-    })
+    if (ctx) {
+      ctx.logger.error(e)
+      await ctx.destroy()
+    } else {
+      // biome-ignore lint/suspicious/noConsole: <fallback to native logger>
+      console.dir(
+        {
+          level: "error",
+          message: e.message || "Unknown error",
+          service: "backend-api",
+          tag: "backend:fatality",
+          meta: e.meta,
+        },
+        { depth: null },
+      )
+    }
     process.exit(1)
   }
 }

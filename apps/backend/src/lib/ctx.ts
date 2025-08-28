@@ -1,37 +1,40 @@
+import { createEnv, type Env } from "@shmoject/backend/lib/env"
 import { Error0, e0s as e0sDefault } from "@shmoject/modules/lib/error0.sh"
 import { Logger0 } from "@shmoject/modules/lib/logger0.sh"
 import { Meta0 } from "@shmoject/modules/lib/meta0.sh"
 import { Prisma0 } from "@shmoject/modules/prisma/prisma0.be"
 
+// TODO: extend → getExtendable
+// TODO: getExtendable by string
+// TODO: type ExtendableWith<...>
 // TODO: make better, what extendable...
 export class BackendCtx {
   meta: Meta0
   logger: Logger0
   e0s: typeof e0sDefault
   prisma: Prisma0.Client
+  env: Env
 
   private constructor({ meta }: { meta: Meta0.Meta0OrValueTypeNullish }) {
     meta = Meta0.from(meta)
     meta.assign({
       tagPrefix: "backend",
     })
+    // biome-ignore lint/style/noProcessEnv: <x>
+    const env = createEnv(process.env)
     const e0s = Error0.extendCollection(e0sDefault, {
       defaultMeta: meta,
     })
     const logger = Logger0.create({
-      debugConfig: process.env.DEBUG,
+      debugConfig: env.DEBUG,
       meta,
-      formatter: process.env.NODE_ENV === "production" ? "json" : "pretty",
+      formatter: env.isProductionNodeEnv ? "json" : "pretty",
     })
-    const extendable = {
-      meta,
-      logger,
-      e0s,
-    }
+    this.env = env
     this.meta = meta
     this.logger = logger
     this.e0s = e0s
-    this.prisma = Prisma0.createClient({ ctx: extendable })
+    this.prisma = Prisma0.createClient({ ctx: this })
   }
 
   static async create({ meta }: { meta: Meta0.Meta0OrValueTypeNullish }) {
@@ -60,7 +63,8 @@ export class BackendCtx {
     return BackendCtx.extend(this, meta)
   }
 
-  destroy() {
+  async destroy() {
+    await this.prisma.$disconnect()
     this.logger.info("Context destroyed")
   }
 }

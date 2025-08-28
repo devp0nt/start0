@@ -6,7 +6,7 @@ import { Prisma, PrismaClient } from "./generated/prisma/client"
 // TODO: move to prisma-client not prisma-client-js
 
 export namespace Prisma0 {
-  export const createClient = ({ ctx }: { ctx: BackendCtx.Extendable }) => {
+  export const createClient = ({ ctx }: { ctx: BackendCtx }) => {
     const { logger } = BackendCtx.extend(ctx, {
       tagPrefix: "prisma",
     })
@@ -34,7 +34,7 @@ export namespace Prisma0 {
         message: "Successfull prisma request",
         prismaDurationMs: e.duration,
         prismaQuery: e.query,
-        prismaParams: process.env.HOST_ENV === "local" ? e.params : "***",
+        prismaParams: ctx.env.isLocalHostEnv ? e.params : "***",
       })
     })
 
@@ -62,7 +62,7 @@ export namespace Prisma0 {
                   other: {
                     prismaModel: model,
                     prismaOperation: operation,
-                    prismaArgs: process.env.HOST_ENV === "local" ? args : "***",
+                    prismaArgs: ctx.env.isLocalHostEnv ? args : "***",
                   },
                 })
                 return result
@@ -74,7 +74,7 @@ export namespace Prisma0 {
                   meta: {
                     model,
                     operation,
-                    args: process.env.HOST_ENV === "local" ? args : "***",
+                    args: ctx.env.isLocalHostEnv ? args : "***",
                     durationMs,
                   },
                 })

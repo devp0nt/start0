@@ -1,4 +1,5 @@
 import type { BackendTrpcRouter } from "@shmoject/backend/router/index.trpc"
+import { env } from "@shmoject/site/lib/env.self"
 import { RR0 } from "@shmoject/site/lib/reactRouter"
 import {
   defaultShouldDehydrateQuery,
@@ -71,7 +72,7 @@ const links = [
   }),
   httpBatchLink({
     transformer: superjson,
-    url: "http://localhost:3075/trpc",
+    url: env.VITE_TRPC_URL,
   }),
 ]
 
