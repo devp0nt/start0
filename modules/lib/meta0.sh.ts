@@ -69,6 +69,18 @@ export class Meta0 {
     return Meta0.from(input).getValue()
   }
 
+  getValueWithDeepReplacedValues(
+    keys: string[],
+    replaceValue = "*******",
+  ): Meta0.ValueType {
+    return deepMap(this.getValue(), ({ key, value }) => {
+      if (keys.includes(key)) {
+        return replaceValue
+      }
+      return value
+    })
+  }
+
   getValueRaw(): Meta0.ValueType {
     const parentsSelfValuesRaw = this.getParents().map((parent) =>
       parent.getSelfValueRaw(),

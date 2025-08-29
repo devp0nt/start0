@@ -295,12 +295,7 @@ export class Logger0 {
     meta: Record<string, unknown>
     sensetiveKeys: string[]
   }): Meta0.ValueType => {
-    return deepMap(meta, ({ key, value }) => {
-      if (sensetiveKeys.includes(key)) {
-        return "*******"
-      }
-      return value
-    })
+    return Meta0.from(meta).getValueWithDeepReplacedValues(sensetiveKeys)
   }
 
   static init = ({

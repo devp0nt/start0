@@ -122,4 +122,25 @@ describe("meta0", () => {
       }
     `)
   })
+
+  it("getValueWithDeepReplacedValues", () => {
+    const meta0 = Meta0.create({
+      a: 1,
+      b: 2,
+      x: {
+        z: 3,
+        a: 2,
+      },
+    })
+    expect(meta0.getValueWithDeepReplacedValues(["a"])).toMatchInlineSnapshot(`
+      {
+        "a": "*******",
+        "b": 2,
+        "x": {
+          "a": "*******",
+          "z": 3,
+        },
+      }
+    `)
+  })
 })
