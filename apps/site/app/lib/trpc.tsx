@@ -1,6 +1,6 @@
 import type { BackendTrpcRouter } from "@shmoject/backend/router/index.trpc"
 import { env } from "@shmoject/site/lib/env.self"
-import { RR0 } from "@shmoject/site/lib/reactRouter"
+import { RR0 } from "@shmoject/site/lib/reactRouter0"
 import {
   defaultShouldDehydrateQuery,
   HydrationBoundary,

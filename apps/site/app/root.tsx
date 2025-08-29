@@ -1,7 +1,7 @@
 import { SiteError } from "@shmoject/site/components/Error"
 import { GeneralLayout } from "@shmoject/site/components/GeneralLayout"
 import { SiteCtx } from "@shmoject/site/lib/ctx"
-import { RR0 } from "@shmoject/site/lib/reactRouter"
+import { RR0 } from "@shmoject/site/lib/reactRouter0"
 import { TRPCReactProvider } from "@shmoject/site/lib/trpc"
 import { Links, Meta, Outlet, Scripts, ScrollRestoration } from "react-router"
 import type { Route } from "./+types/root"

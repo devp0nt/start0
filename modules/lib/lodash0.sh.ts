@@ -49,3 +49,17 @@ export type FnProps<T> = {
   [K in keyof T]: T[K] extends Function ? K : never
 }
 export type FnPropsKeys<T> = FnProps<T>[keyof FnProps<T>]
+
+export type IsExactly<A, B> = (<T>() => T extends A ? 1 : 2) extends <
+  T,
+>() => T extends B ? 1 : 2
+  ? (<T>() => T extends B ? 1 : 2) extends <T>() => T extends A ? 1 : 2
+    ? true
+    : false
+  : false
+
+export type ToUndefinedIfExactlyEmpty<T> = [T] extends [undefined]
+  ? undefined
+  : IsExactly<NonNullable<T>, {}> extends true
+    ? undefined
+    : T

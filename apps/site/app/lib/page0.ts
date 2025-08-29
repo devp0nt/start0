@@ -63,15 +63,11 @@ export namespace Page0 {
       },
   ) => MetaDescriptor[]
 
-  export type Page<
-    TRoute extends Route = Route,
-    TRouteParams extends RouteParams<TRoute> = RouteParams<TRoute>,
-    TLoaderData extends LoaderData = LoaderData,
-  > = {
-    route: TRoute
-    loader: Loader<TRouteParams, TLoaderData> | undefined
-    meta: Meta<TRouteParams, TLoaderData> | undefined
-    component: Component<TRouteParams, TLoaderData> | undefined
+  export type Page = {
+    route: Route0<any, any, any, any>
+    loader?: Loader<RouteParams<Route> | undefined, any> | undefined
+    meta?: Meta<RouteParams<Route> | undefined, any> | undefined
+    Component?: Component<RouteParams<Route> | undefined, any>
   }
 
   // Builder
