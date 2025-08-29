@@ -22,10 +22,10 @@ export namespace RR0 {
         })
         hydrate(qc, siteCtxHolder.dehydratedState)
         const url = new URL(loaderArgs.request.url)
-        const search = Object.fromEntries(url.searchParams.entries())
+        const query = Object.fromEntries(url.searchParams.entries())
         const data = await fn({
           ...loaderArgs,
-          search,
+          query,
           ctx: siteCtxHolder.siteCtx,
           qc,
         })
@@ -34,7 +34,7 @@ export namespace RR0 {
           data: {
             ...data,
           },
-          search,
+          query,
           siteCtx: siteCtxHolder.siteCtx,
           dehydratedState,
         }
@@ -45,7 +45,7 @@ export namespace RR0 {
   }
 
   export type LoaderArgs<TLoaderArgs> = TLoaderArgs & {
-    search: Record<string, string>
+    query: Record<string, string>
     qc: QueryClient
     ctx: SiteCtx.Ctx
   }
@@ -55,7 +55,7 @@ export namespace RR0 {
       try {
         return fn({
           ...metaArgs,
-          search: metaArgs.loaderData?.search || {},
+          query: metaArgs.loaderData?.query || {},
         })
       } catch (error) {
         throw Error0.from(error).toResponse()
@@ -64,7 +64,7 @@ export namespace RR0 {
   }
 
   export type MetaArgs<TMetaArgsRR> = TMetaArgsRR & {
-    search: Record<string, string>
+    query: Record<string, string>
   }
 
   export const createRouteComponent = <TOutput>(
@@ -74,7 +74,7 @@ export namespace RR0 {
       try {
         return fn({
           ...componentArgs,
-          search: componentArgs.loaderData?.search || {},
+          query: componentArgs.loaderData?.query || {},
         })
       } catch (error) {
         throw Error0.from(error).toResponse()
@@ -83,7 +83,7 @@ export namespace RR0 {
   }
 
   export type RouteComponentArgs<TRouteComponentArgs> = TRouteComponentArgs & {
-    search: Record<string, string>
+    query: Record<string, string>
   }
 
   export const useDehydratedState = (): DehydratedState | undefined => {

@@ -11,7 +11,7 @@ export const meta = RR0.createMeta(
     }
     const result = Page.meta?.({
       loaderData: loaderData.data,
-      search: loaderData.search,
+      query: loaderData.query,
       params,
       ctx: loaderData.siteCtx,
     })
@@ -20,8 +20,8 @@ export const meta = RR0.createMeta(
 )
 
 export const loader = RR0.createLoader(
-  async ({ qc, params, search, ctx }: RR0.LoaderArgs<Route.LoaderArgs>) => {
-    return await Page.loader?.({ qc, params, search, ctx })
+  async ({ qc, params, query, ctx }: RR0.LoaderArgs<Route.LoaderArgs>) => {
+    return await Page.loader?.({ qc, params, query, ctx })
   },
 )
 
@@ -34,7 +34,7 @@ const RouteComponent = RR0.createRouteComponent(
     return (
       <Page.Component
         params={params}
-        search={loaderData.search}
+        query={loaderData.query}
         loaderData={loaderData.data}
         ctx={loaderData.siteCtx}
       />

@@ -2,13 +2,12 @@ export class Route0<
   TFullPathDefinition extends string,
   TPathDefinition extends Route0.PathDefinition<TFullPathDefinition>,
   TParamsDefinition extends Route0.ParamsDefinition<TFullPathDefinition>,
-  TSearchParamsDefinition extends
-    Route0.SearchParamsDefinition<TFullPathDefinition>,
+  TQueryDefinition extends Route0.QueryDefinition<TFullPathDefinition>,
 > {
   fullPathDefinition: TFullPathDefinition
   pathDefinition: TPathDefinition
   paramsDefinition: TParamsDefinition
-  searchParamsDefinition: TSearchParamsDefinition
+  queryDefinition: TQueryDefinition
   baseUrl: string
 
   private constructor(
@@ -27,10 +26,9 @@ export class Route0<
       fullPathDefinition,
     ) as TParamsDefinition
 
-    this.searchParamsDefinition =
-      Route0.getSearchParamsDefinitionByRouteDefinition(
-        fullPathDefinition,
-      ) as TSearchParamsDefinition
+    this.queryDefinition = Route0.getQueryDefinitionByRouteDefinition(
+      fullPathDefinition,
+    ) as TQueryDefinition
 
     if (baseUrl && typeof baseUrl === "string" && baseUrl.length) {
       this.baseUrl = Route0._normalizeBase(baseUrl)
@@ -45,14 +43,13 @@ export class Route0<
     TFullPathDefinition extends string,
     TPathDefinition extends Route0.PathDefinition<TFullPathDefinition>,
     TParamsDefinition extends Route0.ParamsDefinition<TFullPathDefinition>,
-    TSearchParamsDefinition extends
-      Route0.SearchParamsDefinition<TFullPathDefinition>,
+    TQueryDefinition extends Route0.QueryDefinition<TFullPathDefinition>,
   >(fullPathDefinition: TFullPathDefinition, baseUrl?: string) {
     return new Route0<
       TFullPathDefinition,
       TPathDefinition,
       TParamsDefinition,
-      TSearchParamsDefinition
+      TQueryDefinition
     >(fullPathDefinition, baseUrl)
   }
 
@@ -60,10 +57,10 @@ export class Route0<
 
   private static _split(fullPathDefinition: string) {
     const i = fullPathDefinition.indexOf("&")
-    if (i === -1) return { path: fullPathDefinition, searchTail: "" }
+    if (i === -1) return { path: fullPathDefinition, queryTail: "" }
     return {
       path: fullPathDefinition.slice(0, i),
-      searchTail: fullPathDefinition.slice(i + 1),
+      queryTail: fullPathDefinition.slice(i + 1),
     }
   }
 
@@ -76,7 +73,7 @@ export class Route0<
     const i = full.indexOf("&")
     if (i === -1) return full.replace(/\/{2,}/g, "/")
     const path = full.slice(0, i).replace(/\/{2,}/g, "/")
-    return path + full.slice(i) // keep search tail intact
+    return path + full.slice(i) // keep query tail intact
   }
 
   private static _joinAbsolute(baseUrl: string, pathWithQuery: string) {
@@ -108,21 +105,21 @@ export class Route0<
     ) as Route0.ParamsDefinition<TFullPathDefinition>
   }
 
-  static getSearchParamsDefinitionByRouteDefinition<
+  static getQueryDefinitionByRouteDefinition<
     TFullPathDefinition extends string,
   >(fullPathDefinition: TFullPathDefinition) {
-    const { searchTail } = Route0._split(fullPathDefinition)
-    if (!searchTail) {
-      return {} as Route0.SearchParamsDefinition<TFullPathDefinition>
+    const { queryTail } = Route0._split(fullPathDefinition)
+    if (!queryTail) {
+      return {} as Route0.QueryDefinition<TFullPathDefinition>
     }
     const out: Record<string, true> = {}
-    for (const k of searchTail.split("&")) {
+    for (const k of queryTail.split("&")) {
       if (!k) continue
       out[k] = true
     }
     return (
       Object.keys(out).length ? out : ({} as Record<never, never>)
-    ) as Route0.SearchParamsDefinition<TFullPathDefinition>
+    ) as Route0.QueryDefinition<TFullPathDefinition>
   }
 
   // ---------- instance API ----------
@@ -137,7 +134,7 @@ export class Route0<
     Route0.ParamsDefinition<
       Route0.RouteDefinitionExtended<TFullPathDefinition, TSuffixDefinition>
     >,
-    Route0.SearchParamsDefinition<
+    Route0.QueryDefinition<
       Route0.RouteDefinitionExtended<TFullPathDefinition, TSuffixDefinition>
     >
   > {
@@ -153,7 +150,7 @@ export class Route0<
     const combinedPathRaw = `${src.path}${needsSlash ? "/" : ""}${suf.path}`
     const combinedPath = Route0._normalizeFullDefinition(combinedPathRaw)
 
-    // merge (&) search keys from both sides, dedupe while preserving order
+    // merge (&) query keys from both sides, dedupe while preserving order
     const keys: string[] = []
     const pushKeys = (tail: string) => {
       if (!tail) return
@@ -161,12 +158,12 @@ export class Route0<
         if (k && !keys.includes(k)) keys.push(k)
       }
     }
-    pushKeys(src.searchTail)
-    pushKeys(suf.searchTail)
+    pushKeys(src.queryTail)
+    pushKeys(suf.queryTail)
 
-    const searchTail = keys.join("&")
-    const combinedFull = searchTail.length
-      ? `${combinedPath}&${searchTail}`
+    const queryTail = keys.join("&")
+    const combinedFull = queryTail.length
+      ? `${combinedPath}&${queryTail}`
       : combinedPath
 
     // Type-level: keep prior extended path typing; runtime uses full (with &)
@@ -183,7 +180,7 @@ export class Route0<
       Route0.ParamsDefinition<
         Route0.RouteDefinitionExtended<TFullPathDefinition, TSuffixDefinition>
       >,
-      Route0.SearchParamsDefinition<
+      Route0.QueryDefinition<
         Route0.RouteDefinitionExtended<TFullPathDefinition, TSuffixDefinition>
       >
     >(routeDefinition, this.baseUrl)
@@ -196,14 +193,14 @@ export class Route0<
     Route0.PathOnlyRouteValue<TFullPathDefinition>
   >
   get(props: {
-    search: Route0.SearchParamsInput<TSearchParamsDefinition>
+    query: Route0.QueryInput<TQueryDefinition>
     abs?: false
   }): Route0.OnlyIfNoParams<
     TParamsDefinition,
     Route0.WithQueryRouteValue<TFullPathDefinition>
   >
   get(props: {
-    search: Route0.SearchParamsInput<TSearchParamsDefinition>
+    query: Route0.QueryInput<TQueryDefinition>
     abs: true
   }): Route0.OnlyIfNoParams<
     TParamsDefinition,
@@ -233,14 +230,14 @@ export class Route0<
     Route0.PathOnlyRouteValue<TFullPathDefinition>
   >
 
-  // With params — two-arg form: get(params, { search?, abs? })
+  // With params — two-arg form: get(params, { query?, abs? })
   get(
     params: Route0.OnlyIfHasParams<
       TParamsDefinition,
       Route0.ParamsInput<TParamsDefinition>
     >,
     opts: {
-      search: Route0.SearchParamsInput<TSearchParamsDefinition>
+      query: Route0.QueryInput<TQueryDefinition>
       abs?: false
     },
   ): Route0.OnlyIfHasParams<
@@ -253,7 +250,7 @@ export class Route0<
       Route0.ParamsInput<TParamsDefinition>
     >,
     opts: {
-      search: Route0.SearchParamsInput<TSearchParamsDefinition>
+      query: Route0.QueryInput<TQueryDefinition>
       abs: true
     },
   ): Route0.OnlyIfHasParams<
@@ -284,12 +281,12 @@ export class Route0<
   // With params — object form
   get(props: {
     params: Route0.ParamsInput<TParamsDefinition>
-    search: Route0.SearchParamsInput<TSearchParamsDefinition>
+    query: Route0.QueryInput<TQueryDefinition>
     abs?: false
   }): Route0.WithQueryRouteValue<TFullPathDefinition>
   get(props: {
     params: Route0.ParamsInput<TParamsDefinition>
-    search: Route0.SearchParamsInput<TSearchParamsDefinition>
+    query: Route0.QueryInput<TQueryDefinition>
     abs: true
   }): Route0.AbsoluteWithQueryRouteValue<TFullPathDefinition>
   get(props: {
@@ -307,24 +304,24 @@ export class Route0<
       | Route0.ParamsInput<TParamsDefinition>
       | {
           params?: Route0.ParamsInput<TParamsDefinition>
-          search?: Route0.SearchParamsInput<TSearchParamsDefinition>
+          query?: Route0.QueryInput<TQueryDefinition>
           abs?: boolean
         },
     b?: {
-      search?: Route0.SearchParamsInput<TSearchParamsDefinition>
+      query?: Route0.QueryInput<TQueryDefinition>
       abs?: boolean
     },
   ): string {
     const needed = Object.keys(this.paramsDefinition) as string[]
 
     let params: Record<string, any> | undefined
-    let search: Record<string, any> | undefined
+    let query: Record<string, any> | undefined
     let abs = false
 
     const isObj =
       typeof a === "object" &&
       a !== null &&
-      ("params" in (a as any) || "search" in (a as any) || "abs" in (a as any))
+      ("params" in (a as any) || "query" in (a as any) || "abs" in (a as any))
 
     if (b !== undefined) {
       // Two-argument form: get(params, opts)
@@ -334,17 +331,17 @@ export class Route0<
       } else {
         params = a as any
       }
-      search = b?.search as any
+      query = b?.query as any
       abs = Boolean(b?.abs)
     } else if (isObj) {
       params = (a as any).params
-      search = (a as any).search
+      query = (a as any).query
       abs = Boolean((a as any).abs)
     } else if (a && typeof a === "object") {
       // Shorthand get(params) — only when params are defined
       if (needed.length === 0) {
         throw new Error(
-          `This route has no path params; use get() or get({ search }).`,
+          `This route has no path params; use get() or get({ query }).`,
         )
       }
       params = a as any
@@ -379,9 +376,9 @@ export class Route0<
     )
 
     // Build query string: accept both declared and arbitrary keys
-    if (search && Object.keys(search).length) {
+    if (query && Object.keys(query).length) {
       const parts: string[] = []
-      for (const [k, v] of Object.entries(search)) {
+      for (const [k, v] of Object.entries(query)) {
         if (v === undefined || v === null) continue
         const values = Array.isArray(v) ? v : [v]
         for (const one of values) {
@@ -501,15 +498,15 @@ export namespace Route0 {
         : { [K in Extract<U, string>]: true }
       : _EmptyRecord
 
-  export type SearchParamsDefinition<TFullPathDefinition extends string> =
-    _NonEmpty<_SearchTail<TFullPathDefinition>> extends infer Tail extends
-      string
-      ? _AmpSplit<Tail> extends infer U
-        ? [U] extends [never]
-          ? _EmptyRecord
-          : { [K in Extract<U, string>]: true }
-        : _EmptyRecord
+  export type QueryDefinition<TFullPathDefinition extends string> = _NonEmpty<
+    _SearchTail<TFullPathDefinition>
+  > extends infer Tail extends string
+    ? _AmpSplit<Tail> extends infer U
+      ? [U] extends [never]
+        ? _EmptyRecord
+        : { [K in Extract<U, string>]: true }
       : _EmptyRecord
+    : _EmptyRecord
 
   export type RouteDefinitionExtended<
     TSourceFullPathDefinition extends string,
@@ -520,18 +517,14 @@ export namespace Route0 {
     [K in keyof TParamsDefinition]: string | number | boolean
   }
 
-  export type SearchParamsInput<TSearchParamsDefinition extends object> =
-    Partial<{
-      [K in keyof TSearchParamsDefinition]:
-        | string
-        | number
-        | boolean
-        | Array<string | number | boolean>
-    }> &
-      Record<
-        string,
-        string | number | boolean | Array<string | number | boolean>
-      >
+  export type QueryInput<TQueryDefinition extends object> = Partial<{
+    [K in keyof TQueryDefinition]:
+      | string
+      | number
+      | boolean
+      | Array<string | number | boolean>
+  }> &
+    Record<string, string | number | boolean | Array<string | number | boolean>>
 
   export type RouteValue<TFullPathDefinition extends string> =
     `${_ReplacePathParams<PathDefinition<TFullPathDefinition>>}${_QuerySuffixUnion}`
@@ -539,7 +532,7 @@ export namespace Route0 {
   export type AbsoluteRouteValue<TFullPathDefinition extends string> =
     `${string}${RouteValue<TFullPathDefinition>}`
 
-  // Precise return types depending on presence of search in get() calls
+  // Precise return types depending on presence of query in get() calls
   export type PathOnlyRouteValue<TFullPathDefinition extends string> =
     `${_ReplacePathParams<PathDefinition<TFullPathDefinition>>}`
   export type WithQueryRouteValue<TFullPathDefinition extends string> =
@@ -555,10 +548,7 @@ export namespace Route0 {
       [K in keyof TRoute0["paramsDefinition"]]: string
     }
 
-  export type ExtractSearchParamsOutput<
-    TRoute0 extends Route0<any, any, any, any>,
-  > = { [K in keyof TRoute0["searchParamsDefinition"]]: string } & Record<
-    string,
-    string
-  >
+  export type ExtractQueryOutput<TRoute0 extends Route0<any, any, any, any>> = {
+    [K in keyof TRoute0["queryDefinition"]]: string
+  } & Record<string, string>
 }

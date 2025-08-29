@@ -13,15 +13,15 @@ export namespace Page0 {
   export type RouteParams<TRoute extends Route = Route> =
     Route0.ExtractParamsOutput<TRoute>
 
-  export type RouteSearchParams<TRoute extends Route = Route> =
-    Route0.ExtractSearchParamsOutput<TRoute>
+  export type RouteQuery<TRoute extends Route = Route> =
+    Route0.ExtractQueryOutput<TRoute>
 
   export type LoaderData = Record<string, any>
   type DefaultLoaderData = {}
 
   // ---- utility: conditionally optional props ----
   type WithParams<P> = { params: P }
-  type WithSearchParams<S> = { search: S }
+  type WithQuery<S> = { query: S }
   type WithLoaderData<D> = { loaderData: D }
 
   // ---- core signatures ----
@@ -31,7 +31,7 @@ export namespace Page0 {
     TLoaderData extends LoaderData = LoaderData,
   > = (
     props: WithParams<TRouteParams> &
-      WithSearchParams<TRouteSearch> & {
+      WithQuery<TRouteSearch> & {
         qc: QueryClient
         ctx: Ctx
       },
@@ -43,7 +43,7 @@ export namespace Page0 {
     TLoaderData extends LoaderData = LoaderData,
   > = (
     props: WithParams<TRouteParams> &
-      WithSearchParams<TRouteSearch> &
+      WithQuery<TRouteSearch> &
       WithLoaderData<TLoaderData> & {
         ctx: Ctx
       },
@@ -55,7 +55,7 @@ export namespace Page0 {
     TLoaderData extends LoaderData = LoaderData,
   > = (
     props: WithParams<TRouteParams> &
-      WithSearchParams<TRouteSearch> &
+      WithQuery<TRouteSearch> &
       WithLoaderData<TLoaderData> & {
         ctx: Ctx
       },
@@ -73,7 +73,7 @@ export namespace Page0 {
     TLoaderData extends LoaderData = LoaderData,
   > = (
     props: WithParams<TRouteParams> &
-      WithSearchParams<TRouteSearch> &
+      WithQuery<TRouteSearch> &
       WithLoaderData<TLoaderData> & {
         ctx: Ctx
       },
@@ -82,7 +82,7 @@ export namespace Page0 {
   export type Page<
     TRoute extends Route = Route,
     TRouteParams = RouteParams<TRoute>,
-    TRouteSearch = RouteSearchParams<TRoute>,
+    TRouteSearch = RouteQuery<TRoute>,
     TData extends LoaderData = LoaderData,
   > = {
     route: TRoute
@@ -94,7 +94,7 @@ export namespace Page0 {
   // Builder
   export const route = <TRoute extends Route>(routeDefinition: TRoute) => {
     type TRouteParams = RouteParams<TRoute>
-    type TRouteSearch = RouteSearchParams<TRoute>
+    type TRouteSearch = RouteQuery<TRoute>
 
     return {
       component: (

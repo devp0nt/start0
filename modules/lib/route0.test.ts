@@ -16,7 +16,7 @@ describe("meta0", () => {
 
   it("search params", () => {
     const route0 = Route0.create("/prefix&y&z")
-    const path = route0.get({ search: { y: "1", z: "2" } })
+    const path = route0.get({ query: { y: "1", z: "2" } })
     expect(path).toBe("/prefix?y=1&z=2")
   })
 
@@ -24,7 +24,7 @@ describe("meta0", () => {
     const route0 = Route0.create("/prefix/:x/some/:y/:z&z&c")
     const path = route0.get({
       params: { x: "1", y: "2", z: "3" },
-      search: { z: "4", c: "5" },
+      query: { z: "4", c: "5" },
     })
     expect(path).toBe("/prefix/1/some/2/3?z=4&c=5")
   })
@@ -62,8 +62,8 @@ describe("meta0", () => {
   it("extend with search params", () => {
     const route0 = Route0.create("/prefix&y&z")
     const route1 = route0.extend("/suffix&z&c")
-    const path = route1.get({ search: { y: "2", c: "3", a: "4" } })
-    expectTypeOf<(typeof route1)["searchParamsDefinition"]>().toEqualTypeOf<{
+    const path = route1.get({ query: { y: "2", c: "3", a: "4" } })
+    expectTypeOf<(typeof route1)["queryDefinition"]>().toEqualTypeOf<{
       y: true
       z: true
       c: true
