@@ -13,41 +13,67 @@ export namespace Page0 {
   export type RouteParams<TRoute extends Route = Route> =
     Route0.ExtractParamsOutput<TRoute>
 
+  export type RouteSearchParams<TRoute extends Route = Route> =
+    Route0.ExtractSearchParamsOutput<TRoute>
+
   export type LoaderData = Record<string, any>
   type DefaultLoaderData = {}
 
   // ---- utility: conditionally optional props ----
   type WithParams<P> = { params: P }
+  type WithSearchParams<S> = { search: S }
   type WithLoaderData<D> = { loaderData: D }
 
-  // ---- core signatures (accept params/loaderData optionally if undefined) ----
-  export type Loader<TRouteParams, TLoaderData extends LoaderData> = (
-    props: WithParams<TRouteParams> & {
-      qc: QueryClient
-      ctx: Ctx
-    },
+  // ---- core signatures ----
+  export type Loader<
+    TRouteParams,
+    TRouteSearch = unknown,
+    TLoaderData extends LoaderData = LoaderData,
+  > = (
+    props: WithParams<TRouteParams> &
+      WithSearchParams<TRouteSearch> & {
+        qc: QueryClient
+        ctx: Ctx
+      },
   ) => Promise<TLoaderData>
 
-  export type Component<TRouteParams, TLoaderData extends LoaderData> = (
+  export type Component<
+    TRouteParams,
+    TRouteSearch = unknown,
+    TLoaderData extends LoaderData = LoaderData,
+  > = (
     props: WithParams<TRouteParams> &
+      WithSearchParams<TRouteSearch> &
       WithLoaderData<TLoaderData> & {
         ctx: Ctx
       },
   ) => React.ReactNode
 
-  export type TitleFn<TRouteParams, TLoaderData extends LoaderData> = (
+  export type TitleFn<
+    TRouteParams,
+    TRouteSearch = unknown,
+    TLoaderData extends LoaderData = LoaderData,
+  > = (
     props: WithParams<TRouteParams> &
+      WithSearchParams<TRouteSearch> &
       WithLoaderData<TLoaderData> & {
         ctx: Ctx
       },
   ) => string
 
-  export type Title<TRouteParams, TLoaderData extends LoaderData> =
-    | TitleFn<TRouteParams, TLoaderData>
-    | string
+  export type Title<
+    TRouteParams,
+    TRouteSearch = unknown,
+    TLoaderData extends LoaderData = LoaderData,
+  > = TitleFn<TRouteParams, TRouteSearch, TLoaderData> | string
 
-  export type Meta<TRouteParams, TLoaderData extends LoaderData> = (
+  export type Meta<
+    TRouteParams,
+    TRouteSearch = unknown,
+    TLoaderData extends LoaderData = LoaderData,
+  > = (
     props: WithParams<TRouteParams> &
+      WithSearchParams<TRouteSearch> &
       WithLoaderData<TLoaderData> & {
         ctx: Ctx
       },
@@ -56,26 +82,33 @@ export namespace Page0 {
   export type Page<
     TRoute extends Route = Route,
     TRouteParams = RouteParams<TRoute>,
+    TRouteSearch = RouteSearchParams<TRoute>,
     TData extends LoaderData = LoaderData,
   > = {
     route: TRoute
-    loader: Loader<TRouteParams, TData>
-    meta?: Meta<TRouteParams, TData>
-    Component: Component<TRouteParams, TData>
+    loader: Loader<TRouteParams, TRouteSearch, TData>
+    meta?: Meta<TRouteParams, TRouteSearch, TData>
+    Component: Component<TRouteParams, TRouteSearch, TData>
   }
 
   // Builder
   export const route = <TRoute extends Route>(routeDefinition: TRoute) => {
     type TRouteParams = RouteParams<TRoute>
+    type TRouteSearch = RouteSearchParams<TRoute>
 
     return {
       component: (
-        componentDefinition: Component<TRouteParams, DefaultLoaderData>,
+        componentDefinition: Component<
+          TRouteParams,
+          TRouteSearch,
+          DefaultLoaderData
+        >,
       ) => {
         const defaultLoader: Loader<
           TRouteParams,
+          TRouteSearch,
           DefaultLoaderData
-        > = async () => ({})
+        > = async (_props) => ({})
         return {
           route: routeDefinition,
           loader: defaultLoader,
@@ -84,15 +117,22 @@ export namespace Page0 {
         }
       },
 
-      meta: (metaDefinition: Meta<TRouteParams, DefaultLoaderData>) => {
+      meta: (
+        metaDefinition: Meta<TRouteParams, TRouteSearch, DefaultLoaderData>,
+      ) => {
         return {
           component: (
-            componentDefinition: Component<TRouteParams, DefaultLoaderData>,
+            componentDefinition: Component<
+              TRouteParams,
+              TRouteSearch,
+              DefaultLoaderData
+            >,
           ) => {
             const defaultLoader: Loader<
               TRouteParams,
+              TRouteSearch,
               DefaultLoaderData
-            > = async () => ({})
+            > = async (_props) => ({})
             return {
               route: routeDefinition,
               loader: defaultLoader,
@@ -103,14 +143,22 @@ export namespace Page0 {
         }
       },
 
-      title: (titleDefinition: Title<TRouteParams, DefaultLoaderData>) => {
+      title: (
+        titleDefinition: Title<TRouteParams, TRouteSearch, DefaultLoaderData>,
+      ) => {
         return {
           component: (
-            componentDefinition: Component<TRouteParams, DefaultLoaderData>,
+            componentDefinition: Component<
+              TRouteParams,
+              TRouteSearch,
+              DefaultLoaderData
+            >,
           ) => {
-            const metaDefinition: Meta<TRouteParams, DefaultLoaderData> = (
-              props,
-            ) => [
+            const metaDefinition: Meta<
+              TRouteParams,
+              TRouteSearch,
+              DefaultLoaderData
+            > = (props) => [
               {
                 title:
                   typeof titleDefinition === "string"
@@ -120,8 +168,9 @@ export namespace Page0 {
             ]
             const defaultLoader: Loader<
               TRouteParams,
+              TRouteSearch,
               DefaultLoaderData
-            > = async () => ({})
+            > = async (_props) => ({})
             return {
               route: routeDefinition,
               loader: defaultLoader,
@@ -133,11 +182,15 @@ export namespace Page0 {
       },
 
       loader: <TLoaderData extends LoaderData>(
-        loaderDefinition: Loader<TRouteParams, TLoaderData>,
+        loaderDefinition: Loader<TRouteParams, TRouteSearch, TLoaderData>,
       ) => {
         return {
           component: (
-            componentDefinition: Component<TRouteParams, TLoaderData>,
+            componentDefinition: Component<
+              TRouteParams,
+              TRouteSearch,
+              TLoaderData
+            >,
           ) => {
             return {
               route: routeDefinition,
@@ -147,10 +200,16 @@ export namespace Page0 {
             }
           },
 
-          meta: (metaDefinition: Meta<TRouteParams, TLoaderData>) => {
+          meta: (
+            metaDefinition: Meta<TRouteParams, TRouteSearch, TLoaderData>,
+          ) => {
             return {
               component: (
-                componentDefinition: Component<TRouteParams, TLoaderData>,
+                componentDefinition: Component<
+                  TRouteParams,
+                  TRouteSearch,
+                  TLoaderData
+                >,
               ) => {
                 return {
                   route: routeDefinition,
@@ -162,14 +221,22 @@ export namespace Page0 {
             }
           },
 
-          title: (titleDefinition: Title<TRouteParams, TLoaderData>) => {
+          title: (
+            titleDefinition: Title<TRouteParams, TRouteSearch, TLoaderData>,
+          ) => {
             return {
               component: (
-                componentDefinition: Component<TRouteParams, TLoaderData>,
+                componentDefinition: Component<
+                  TRouteParams,
+                  TRouteSearch,
+                  TLoaderData
+                >,
               ) => {
-                const metaDefinition: Meta<TRouteParams, TLoaderData> = (
-                  props,
-                ) => [
+                const metaDefinition: Meta<
+                  TRouteParams,
+                  TRouteSearch,
+                  TLoaderData
+                > = (props) => [
                   {
                     title:
                       typeof titleDefinition === "string"

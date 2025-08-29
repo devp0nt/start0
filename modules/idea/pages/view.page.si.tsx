@@ -7,12 +7,14 @@ export const ideaPage = Page0.route(SiteRoutes.ideaView)
     return await qc.fetchQuery(trpc.getIdea.queryOptions({ ideaSn: params.sn }))
   })
   .title(({ params, loaderData: { idea } }) => `Idea: ${idea.title}`)
-  .component(({ params, loaderData: { idea }, ctx }) => {
+  .component(({ params, search, loaderData: { idea }, ctx }) => {
     return (
       <div>
         <h1>{idea.title}</h1>
         <p>{idea.description}</p>
-        <pre>{JSON.stringify(ctx, null, 2)}</pre>
+        <pre>params:{JSON.stringify(params, null, 2)}</pre>
+        <pre>search:{JSON.stringify(search, null, 2)}</pre>
+        <pre>ctx:{JSON.stringify(ctx, null, 2)}</pre>
       </div>
     )
   })
