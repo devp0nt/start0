@@ -3,24 +3,25 @@ import type { BackendCtx } from "@shmoject/backend/lib/ctx"
 import { HonoReqCtx } from "@shmoject/backend/lib/ctx.hono"
 import { Error0 } from "@shmoject/modules/lib/error0.sh"
 import type { Context as HonoContext } from "hono"
+import { getConnInfo } from "hono/bun"
 
 export namespace HonoApp {
-  export type HonoCtx = HonoContext<{
-    Variables: HonoReqCtx
-  }>
+  type HonoCtxInput = {
+    Variables: { honoReqCtx: HonoReqCtx } & HonoReqCtx.Unextendable
+  }
+  export type HonoCtx = HonoContext<HonoCtxInput>
 
   export const create = ({ backendCtx }: { backendCtx: BackendCtx }) => {
-    const honoApp = new OpenAPIHono<{
-      Variables: HonoReqCtx
-    }>()
-
-    honoApp.use(async (c, next) => {
+    const honoApp = new OpenAPIHono<HonoCtxInput>()
+    honoApp.use(async (honoCtx, next) => {
       const honoReqCtx = await HonoReqCtx.create({
         backendCtx,
-        honoCtx: c,
+        honoCtx,
       })
-      for (const [key, value] of Object.entries(honoReqCtx)) {
-        c.set(key as keyof HonoReqCtx, value as never)
+      honoCtx.set("honoReqCtx", honoReqCtx)
+      const unextendable = honoReqCtx.getUnextendable()
+      for (const [key, value] of Object.entries(unextendable)) {
+        honoCtx.set(key as keyof HonoReqCtx.Unextendable, value)
       }
       await next()
     })
@@ -30,20 +31,28 @@ export namespace HonoApp {
 
   export const applyLogging = ({ honoApp }: { honoApp: AppType }) => {
     honoApp.use(async (c, next) => {
+      const connInfo = getConnInfo(c)
+      c.var.honoReqCtx.meta.assign({
+        ip: connInfo.remote.address,
+        userAgent: c.req.header("User-Agent"),
+        reqMethod: c.req.method,
+        reqPath: c.req.path,
+      })
+
+      const { logger } = c.var.honoReqCtx.extend("hono:req")
       if (c.req.path.startsWith("/trpc")) {
         await next()
         return
       }
       const reqStartedAt = performance.now()
-      const l = c.var.logger.extend("req")
       try {
         await next()
-        l.info({
+        logger.info({
           message: "Hono request finished with success",
           reqDurationMs: performance.now() - reqStartedAt,
         })
       } catch (error) {
-        l.error(error, {
+        logger.error(error, {
           message: "Hono request finished with error",
           reqDurationMs: performance.now() - reqStartedAt,
         })

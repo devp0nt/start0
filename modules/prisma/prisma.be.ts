@@ -8,7 +8,7 @@ import { Prisma, PrismaClient } from "./generated.be/prisma/client.js"
 
 export namespace Prisma0 {
   export const createClient = ({ ctx }: { ctx: BackendCtx }) => {
-    const { logger } = BackendCtx.extend(ctx, {
+    const { logger } = BackendCtx.extendExtendable(ctx, {
       tagPrefix: "prisma",
     })
     const prismaOriginal = new PrismaClient({

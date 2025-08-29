@@ -7,7 +7,7 @@ import { initTRPC } from "@trpc/server"
 import superjson from "superjson"
 
 export namespace BackendTrpc {
-  export type TrpcCtx = HonoReqCtx.Flat
+  export type TrpcCtx = { honoReqCtx: HonoReqCtx } & HonoReqCtx.Unextendable
 
   const t = initTRPC.context<TrpcCtx>().create({
     transformer: superjson,
@@ -34,20 +34,20 @@ export namespace BackendTrpc {
   const procedure = t.procedure
 
   const loggedProcedure = procedure.use(async ({ ctx, next, path, type }) => {
-    const reqStartedAt = performance.now()
-    const l = ctx.logger.extend({})
-    l.meta.assign({
+    ctx.honoReqCtx.meta.assign({
       trpcReqPath: path,
       trpcReqType: type,
     })
+    const { logger } = ctx.honoReqCtx.extend("trpc:req")
+    const reqStartedAt = performance.now()
     const result = await next({ ctx })
     if (result.ok) {
-      l.info({
+      logger.info({
         message: "Successful trpc request",
         reqDurationMs: performance.now() - reqStartedAt,
       })
     } else {
-      l.error(result.error.cause || result.error, {
+      logger.error(result.error.cause || result.error, {
         message: "Failed trpc request",
         reqDurationMs: performance.now() - reqStartedAt,
       })
@@ -69,12 +69,9 @@ export namespace BackendTrpc {
       trpcServer({
         router: trpcRouter,
         createContext: (_opts, c: HonoApp.HonoCtx) => {
-          return {
-            ...c.var,
-            ...c.var.honoReqCtx.extend({
-              tagPrefix: "trpc",
-            }),
-          } as TrpcCtx
+          const honoReqCtx = c.var.honoReqCtx.extend("trpc")
+          const unextendable = honoReqCtx.getUnextendable()
+          return { honoReqCtx, ...unextendable } satisfies TrpcCtx
         },
       }),
     )
