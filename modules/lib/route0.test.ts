@@ -1,4 +1,4 @@
-import { describe, expect, it } from "bun:test"
+import { describe, expect, expectTypeOf, it } from "bun:test"
 import { Route0 } from "@shmoject/modules/lib/route0.sh"
 
 describe("meta0", () => {
@@ -22,7 +22,10 @@ describe("meta0", () => {
 
   it("params and search params", () => {
     const route0 = Route0.create("/prefix/:x/some/:y/:z&z&c")
-    const path = route0.get({ x: "1", y: "2", z: "3" }, { z: "4", c: "5" })
+    const path = route0.get({
+      params: { x: "1", y: "2", z: "3" },
+      search: { z: "4", c: "5" },
+    })
     expect(path).toBe("/prefix/1/some/2/3?z=4&c=5")
   })
 
@@ -35,9 +38,18 @@ describe("meta0", () => {
 
   it("simple extend double slash", () => {
     const route0 = Route0.create("/")
-    const route1 = route0.extend("/suffix")
-    const path = route1.get()
-    expect(path).toBe("/suffix")
+    const route1 = route0.extend("/suffix1/")
+    const route2 = route1.extend("/suffix2")
+    const path = route2.get()
+    expect(path).toBe("/suffix1/suffix2")
+  })
+
+  it("simple extend no slash", () => {
+    const route0 = Route0.create("/")
+    const route1 = route0.extend("suffix1")
+    const route2 = route1.extend("suffix2")
+    const path = route2.get()
+    expect(path).toBe("/suffix1/suffix2")
   })
 
   it("extend with params", () => {
@@ -50,8 +62,13 @@ describe("meta0", () => {
   it("extend with search params", () => {
     const route0 = Route0.create("/prefix&y&z")
     const route1 = route0.extend("/suffix&z&c")
-    const path = route1.get({ search: { z: "2", c: "3" } })
-    expect(path).toBe("/prefix/suffix?z=2&c=3")
+    const path = route1.get({ search: { y: "2", c: "3", a: "4" } })
+    expectTypeOf<(typeof route1)["searchParamsDefinition"]>().toEqualTypeOf<{
+      y: true
+      z: true
+      c: true
+    }>()
+    expect(path).toBe("/prefix/suffix?y=2&c=3&a=4")
   })
 
   it("abs default", () => {

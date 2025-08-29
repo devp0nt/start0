@@ -1,12 +1,13 @@
+import { Error0 } from "@shmoject/modules/lib/error0.sh"
 import { SiteError } from "@shmoject/site/components/Error"
 import { RR0 } from "@shmoject/site/lib/reactRouter0"
 import { HomePage as Page } from "@shmoject/site/pages/HomePage"
 import type { Route } from "./+types/home"
 
 export const meta = RR0.createMeta(
-  ({ loaderData, params }: RR0.MetaArgs<Route.MetaArgs>) => {
+  ({ loaderData, params, error }: RR0.MetaArgs<Route.MetaArgs>) => {
     if (!loaderData) {
-      return undefined
+      return [{ title: Error0.from(error).message }]
     }
     const result = Page.meta?.({
       loaderData: loaderData.data,

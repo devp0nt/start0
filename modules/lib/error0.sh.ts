@@ -2,7 +2,8 @@ import { Meta0 } from "@shmoject/modules/lib/meta0.sh"
 import { TRPCClientError } from "@trpc/client"
 import { type AxiosError, HttpStatusCode, isAxiosError } from "axios"
 import { get } from "lodash"
-import z, { ZodError } from "zod"
+import { UNSAFE_ErrorResponseImpl } from "react-router"
+import { ZodError } from "zod"
 
 // TODO: store tags as array from all causes
 // TODO: not use self stack if toError0
@@ -530,10 +531,6 @@ export class Error0 extends Error {
     }
 
     if (typeof error === "object" && error !== null) {
-      if ("name" in error && error.name === "Error0") {
-        return true
-      }
-
       if ("__I_AM_ERROR_0" in error && error.__I_AM_ERROR_0 === true) {
         return true
       }
@@ -544,52 +541,38 @@ export class Error0 extends Error {
 
   private static _toError0(
     error: unknown,
-    inputOverride?: Error0Input,
+    inputOverride: Error0Input = {},
   ): Error0 {
     if (error instanceof Error0) {
       return error
     }
 
-    if (error instanceof TRPCClientError) {
-      const error0Json = get(error, "data.error0")
-      return this._toError0(error0Json)
-    }
-
-    // if (
-    //   typeof error === "object" &&
-    //   error !== null &&
-    //   "message" in error &&
-    //   typeof error.message === "string" &&
-    //   error.message.includes("__I_AM_ERROR_0")
-    // ) {
-    //   try {
-    //     const error0Json = JSON.parse(error.message)
-    //     return this._toError0(error0Json)
-    //   } catch {}
-    // }
-
     if (typeof error === "string") {
-      return new Error0(error)
+      return new Error0(error, inputOverride)
     }
 
-    if (typeof error === "object" && error !== null) {
-      const input = this.getPropsFromUnknown(
-        error,
-        inputOverride,
-      ) satisfies Error0Input
-      // if (this.isLikelyError0(error)) {
-      //   return new Error0(input)
-      // } else {
-      //   return new Error0(
-      //     pick(input, ["message", "code", "httpStatus", "stack"]),
-      //   )
-      // }
-      return new Error0(input)
+    if (typeof error !== "object" || error === null) {
+      return new Error0({
+        message: this.defaultMessage,
+        ...inputOverride,
+      })
     }
 
-    return new Error0({
-      message: this.defaultMessage,
-    })
+    const inputFromData = get(error, "data")
+    if (inputFromData) {
+      if (Error0.isLikelyError0(inputFromData)) {
+        return this._toError0(inputFromData, inputOverride)
+      }
+    }
+
+    const inputFromDataError0 = get(error, "data.error0")
+    if (inputFromDataError0) {
+      if (Error0.isLikelyError0(inputFromDataError0)) {
+        return this._toError0(inputFromDataError0, inputOverride)
+      }
+    }
+
+    return new Error0(this.getPropsFromUnknown(error, inputOverride))
   }
 
   static from(error: unknown, inputOverride?: Error0Input): Error0 {

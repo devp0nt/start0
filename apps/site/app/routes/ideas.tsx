@@ -1,12 +1,13 @@
 import { ideasPage as Page } from "@shmoject/modules/idea/pages/list.page.si"
+import { Error0 } from "@shmoject/modules/lib/error0.sh"
 import { SiteError } from "@shmoject/site/components/Error"
 import { RR0 } from "@shmoject/site/lib/reactRouter0"
 import type { Route } from "./+types/ideas"
 
 export const meta = RR0.createMeta(
-  ({ loaderData, params }: RR0.MetaArgs<Route.MetaArgs>) => {
+  ({ loaderData, params, error }: RR0.MetaArgs<Route.MetaArgs>) => {
     if (!loaderData) {
-      return undefined
+      return [{ title: Error0.from(error).message }]
     }
     const result = Page.meta?.({
       loaderData: loaderData.data,

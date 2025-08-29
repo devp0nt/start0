@@ -1,12 +1,9 @@
 export class Route0<
   TFullPathDefinition extends string,
   TPathDefinition extends Route0.PathDefinition<TFullPathDefinition>,
-  TParamsDefinition extends
-    | Route0.ParamsDefinition<TFullPathDefinition>
-    | undefined,
+  TParamsDefinition extends Route0.ParamsDefinition<TFullPathDefinition>,
   TSearchParamsDefinition extends
-    | Route0.SearchParamsDefinition<TFullPathDefinition>
-    | undefined,
+    Route0.SearchParamsDefinition<TFullPathDefinition>,
 > {
   fullPathDefinition: TFullPathDefinition
   pathDefinition: TPathDefinition
@@ -18,19 +15,23 @@ export class Route0<
     fullPathDefinition: TFullPathDefinition,
     baseUrl?: string,
   ) {
-    this.fullPathDefinition = fullPathDefinition
+    this.fullPathDefinition = Route0._normalizeFullDefinition(
+      fullPathDefinition,
+    ) as TFullPathDefinition
+
     this.pathDefinition = Route0.getPathDefinition(
       fullPathDefinition,
     ) as TPathDefinition
+
     this.paramsDefinition = Route0.getParamsDefinitionByRouteDefinition(
       fullPathDefinition,
     ) as TParamsDefinition
+
     this.searchParamsDefinition =
       Route0.getSearchParamsDefinitionByRouteDefinition(
         fullPathDefinition,
       ) as TSearchParamsDefinition
 
-    // determine base url
     if (baseUrl && typeof baseUrl === "string" && baseUrl.length) {
       this.baseUrl = Route0._normalizeBase(baseUrl)
     } else if (typeof window !== "undefined" && window?.location?.origin) {
@@ -43,12 +44,9 @@ export class Route0<
   static create<
     TFullPathDefinition extends string,
     TPathDefinition extends Route0.PathDefinition<TFullPathDefinition>,
-    TParamsDefinition extends
-      | Route0.ParamsDefinition<TFullPathDefinition>
-      | undefined,
+    TParamsDefinition extends Route0.ParamsDefinition<TFullPathDefinition>,
     TSearchParamsDefinition extends
-      | Route0.SearchParamsDefinition<TFullPathDefinition>
-      | undefined,
+      Route0.SearchParamsDefinition<TFullPathDefinition>,
   >(fullPathDefinition: TFullPathDefinition, baseUrl?: string) {
     return new Route0<
       TFullPathDefinition,
@@ -70,7 +68,6 @@ export class Route0<
   }
 
   private static _normalizeBase(base: string) {
-    // drop trailing slashes
     return base.replace(/\/+$/, "")
   }
 
@@ -87,7 +84,7 @@ export class Route0<
     const path = pathWithQuery.startsWith("/")
       ? pathWithQuery
       : `/${pathWithQuery}`
-    return new URL(path, base + "/").toString().replace(/\/$/, "") // drop trailing slash if root
+    return new URL(path, base + "/").toString().replace(/\/$/, "")
   }
 
   static getPathDefinition<TFullPathDefinition extends string>(
@@ -107,7 +104,7 @@ export class Route0<
     // biome-ignore lint/suspicious/noAssignInExpressions: <x>
     while ((m = re.exec(path))) out[m[1]] = true
     return (
-      Object.keys(out).length ? out : undefined
+      Object.keys(out).length ? out : ({} as Record<never, never>)
     ) as Route0.ParamsDefinition<TFullPathDefinition>
   }
 
@@ -115,15 +112,16 @@ export class Route0<
     TFullPathDefinition extends string,
   >(fullPathDefinition: TFullPathDefinition) {
     const { searchTail } = Route0._split(fullPathDefinition)
-    if (!searchTail)
-      return undefined as Route0.SearchParamsDefinition<TFullPathDefinition>
+    if (!searchTail) {
+      return {} as Route0.SearchParamsDefinition<TFullPathDefinition>
+    }
     const out: Record<string, true> = {}
     for (const k of searchTail.split("&")) {
       if (!k) continue
       out[k] = true
     }
     return (
-      Object.keys(out).length ? out : undefined
+      Object.keys(out).length ? out : ({} as Record<never, never>)
     ) as Route0.SearchParamsDefinition<TFullPathDefinition>
   }
 
@@ -131,64 +129,127 @@ export class Route0<
 
   extend<TSuffixDefinition extends string>(
     suffixDefinition: TSuffixDefinition,
-  ) {
-    // Normalize the concatenated path to avoid "//"
-    const combined = `${this.pathDefinition}${suffixDefinition}`
-    const normalized = Route0._normalizeFullDefinition(combined)
+  ): Route0<
+    Route0.RouteDefinitionExtended<TFullPathDefinition, TSuffixDefinition>,
+    Route0.PathDefinition<
+      Route0.RouteDefinitionExtended<TFullPathDefinition, TSuffixDefinition>
+    >,
+    Route0.ParamsDefinition<
+      Route0.RouteDefinitionExtended<TFullPathDefinition, TSuffixDefinition>
+    >,
+    Route0.SearchParamsDefinition<
+      Route0.RouteDefinitionExtended<TFullPathDefinition, TSuffixDefinition>
+    >
+  > {
+    const src = Route0._split(this.fullPathDefinition)
+    const suf = Route0._split(suffixDefinition)
 
-    const routeDefinition: Route0.RouteDefinitionExtended<
-      TPathDefinition,
+    // ensure exactly one slash between segments
+    const needsSlash =
+      src.path.length > 0 &&
+      !src.path.endsWith("/") &&
+      !suf.path.startsWith("/")
+
+    const combinedPathRaw = `${src.path}${needsSlash ? "/" : ""}${suf.path}`
+    const combinedPath = Route0._normalizeFullDefinition(combinedPathRaw)
+
+    // merge (&) search keys from both sides, dedupe while preserving order
+    const keys: string[] = []
+    const pushKeys = (tail: string) => {
+      if (!tail) return
+      for (const k of tail.split("&")) {
+        if (k && !keys.includes(k)) keys.push(k)
+      }
+    }
+    pushKeys(src.searchTail)
+    pushKeys(suf.searchTail)
+
+    const searchTail = keys.join("&")
+    const combinedFull = searchTail.length
+      ? `${combinedPath}&${searchTail}`
+      : combinedPath
+
+    // Type-level: keep prior extended path typing; runtime uses full (with &)
+    const routeDefinition = combinedFull as Route0.RouteDefinitionExtended<
+      TFullPathDefinition,
       TSuffixDefinition
-    > = normalized as any
+    >
 
-    return new Route0(routeDefinition, this.baseUrl)
+    return new Route0<
+      Route0.RouteDefinitionExtended<TFullPathDefinition, TSuffixDefinition>,
+      Route0.PathDefinition<
+        Route0.RouteDefinitionExtended<TFullPathDefinition, TSuffixDefinition>
+      >,
+      Route0.ParamsDefinition<
+        Route0.RouteDefinitionExtended<TFullPathDefinition, TSuffixDefinition>
+      >,
+      Route0.SearchParamsDefinition<
+        Route0.RouteDefinitionExtended<TFullPathDefinition, TSuffixDefinition>
+      >
+    >(routeDefinition, this.baseUrl)
   }
 
   // ===== OVERLOADS =====
-
-  // no params
+  // No params
   get(): Route0.OnlyIfNoParams<
     TParamsDefinition,
     Route0.RouteValue<TFullPathDefinition>
   >
-  get(
-    search: Route0.OnlyIfNoParams<
-      TParamsDefinition,
-      Route0.SearchParamsInput<TSearchParamsDefinition>,
-      never
-    >,
-  ): Route0.OnlyIfNoParams<
-    TParamsDefinition,
-    Route0.RouteValue<TFullPathDefinition>
-  >
   get(props: {
-    search?: Route0.OnlyIfNoParams<
-      TParamsDefinition,
-      Route0.SearchParamsInput<TSearchParamsDefinition>,
-      never
-    >
+    search?: Route0.SearchParamsInput<TSearchParamsDefinition>
     abs?: false
   }): Route0.OnlyIfNoParams<
     TParamsDefinition,
     Route0.RouteValue<TFullPathDefinition>
   >
   get(props: {
-    search?: Route0.OnlyIfNoParams<
-      TParamsDefinition,
-      Route0.SearchParamsInput<TSearchParamsDefinition>,
-      never
-    >
+    search?: Route0.SearchParamsInput<TSearchParamsDefinition>
     abs: true
   }): Route0.OnlyIfNoParams<
     TParamsDefinition,
     Route0.AbsoluteRouteValue<TFullPathDefinition>
   >
 
-  // with params
+  // With params — shorthand: get(params)
   get(
-    params: Route0.ParamsInput<TParamsDefinition>,
-    search?: Route0.SearchParamsInput<TSearchParamsDefinition>,
-  ): Route0.RouteValue<TFullPathDefinition>
+    params: Route0.OnlyIfHasParams<
+      TParamsDefinition,
+      Route0.ParamsInput<TParamsDefinition>
+    >,
+  ): Route0.OnlyIfHasParams<
+    TParamsDefinition,
+    Route0.RouteValue<TFullPathDefinition>
+  >
+
+  // With params — two-arg form: get(params, { search?, abs? })
+  get(
+    params: Route0.OnlyIfHasParams<
+      TParamsDefinition,
+      Route0.ParamsInput<TParamsDefinition>
+    >,
+    opts: {
+      search?: Route0.SearchParamsInput<TSearchParamsDefinition>
+      abs?: false
+    },
+  ): Route0.OnlyIfHasParams<
+    TParamsDefinition,
+    Route0.RouteValue<TFullPathDefinition>
+  >
+  get(
+    params: Route0.OnlyIfHasParams<
+      TParamsDefinition,
+      Route0.ParamsInput<TParamsDefinition>
+    >,
+    opts: {
+      search?: Route0.SearchParamsInput<TSearchParamsDefinition>
+      abs: true
+    },
+  ): Route0.OnlyIfHasParams<
+    TParamsDefinition,
+    Route0.AbsoluteRouteValue<TFullPathDefinition>
+  >
+
+  // With params — object form
   get(props: {
     params: Route0.ParamsInput<TParamsDefinition>
     search?: Route0.SearchParamsInput<TSearchParamsDefinition>
@@ -204,39 +265,59 @@ export class Route0<
   get(
     a?:
       | Route0.ParamsInput<TParamsDefinition>
-      | Route0.SearchParamsInput<TSearchParamsDefinition>
       | {
           params?: Route0.ParamsInput<TParamsDefinition>
           search?: Route0.SearchParamsInput<TSearchParamsDefinition>
           abs?: boolean
         },
-    b?: Route0.SearchParamsInput<TSearchParamsDefinition>,
+    b?: {
+      search?: Route0.SearchParamsInput<TSearchParamsDefinition>
+      abs?: boolean
+    },
   ): string {
-    // <-- explicit return type
+    const needed = Object.keys(this.paramsDefinition) as string[]
+
+    let params: Record<string, any> | undefined
+    let search: Record<string, any> | undefined
+    let abs = false
+
     const isObj =
       typeof a === "object" &&
       a !== null &&
-      ("params" in a || "search" in a || "abs" in a)
+      ("params" in (a as any) || "search" in (a as any) || "abs" in (a as any))
 
-    let params = (isObj ? (a as any).params : a) as
-      | Record<string, any>
-      | undefined
-    let search = (isObj ? (a as any).search : b) as
-      | Record<string, any>
-      | undefined
-    const abs = isObj ? Boolean((a as any).abs) : false
+    if (b !== undefined) {
+      // Two-argument form: get(params, opts)
+      if (needed.length === 0) {
+        // No params expected; treat first arg as stray and only use opts
+        params = undefined
+      } else {
+        params = a as any
+      }
+      search = b?.search as any
+      abs = Boolean(b?.abs)
+    } else if (isObj) {
+      params = (a as any).params
+      search = (a as any).search
+      abs = Boolean((a as any).abs)
+    } else if (a && typeof a === "object") {
+      // Shorthand get(params) — only when params are defined
+      if (needed.length === 0) {
+        throw new Error(
+          `This route has no path params; use get() or get({ search }).`,
+        )
+      }
+      params = a as any
+    } else if (a === undefined) {
+      // ok for routes without params
+      if (needed.length > 0) {
+        throw new Error(
+          `Missing "params": expected keys ${needed.map((k) => `"${k}"`).join(", ")}.`,
+        )
+      }
+    }
 
     let url = String(this.pathDefinition)
-
-    const needed = (
-      this.paramsDefinition ? Object.keys(this.paramsDefinition) : []
-    ) as string[]
-
-    if (needed.length === 0 && !isObj && a !== undefined && b === undefined) {
-      // single-arg call treated as search params when no path params
-      search = a as any
-      params = undefined
-    }
 
     if (needed.length) {
       if (!params) {
@@ -252,18 +333,15 @@ export class Route0<
       }
     }
 
+    // replace path params (if any)
     url = url.replace(/:([A-Za-z0-9_]+)/g, (_m, k) =>
       encodeURIComponent(String(params?.[k] ?? "")),
     )
 
-    const allowedSearch = this.searchParamsDefinition
-      ? new Set(Object.keys(this.searchParamsDefinition))
-      : undefined
-
+    // Build query string: accept both declared and arbitrary keys
     if (search && Object.keys(search).length) {
       const parts: string[] = []
       for (const [k, v] of Object.entries(search)) {
-        if (allowedSearch && !allowedSearch.has(k)) continue
         if (v === undefined || v === null) continue
         const values = Array.isArray(v) ? v : [v]
         for (const one of values) {
@@ -275,12 +353,11 @@ export class Route0<
       if (parts.length) url += `?${parts.join("&")}`
     }
 
-    // Normalize any accidental double slashes in the final relative path
+    // Normalize accidental double slashes in the final relative path
     url = url.replace(/\/{2,}/g, "/")
 
     const finalUrl = abs ? Route0._joinAbsolute(this.baseUrl, url) : url
-
-    return finalUrl // <-- no conditional cast
+    return finalUrl
   }
 
   clone(baseUrl?: string) {
@@ -318,19 +395,61 @@ export namespace Route0 {
         ? _ReplacePathParams<`${Head}${string}/${Rest}`>
         : `${Head}${string}`
       : S
-  type _QuerySuffixUnion<T> = [T] extends [undefined] ? "" : "" | `?${string}`
 
-  // normalize consecutive slashes at type level
   type _NormalizeSlashes<S extends string> = S extends `${infer A}//${infer B}`
     ? _NormalizeSlashes<`${A}/${B}`>
     : S
 
+  type _QuerySuffixUnion = "" | `?${string}`
+  type _EmptyRecord = Record<never, never>
+
+  // Join tails from two full route definitions: "&A&B" style or empty
+  type _TailUnion<Src extends string, Suf extends string> = _NonEmpty<
+    _SearchTail<Src>
+  > extends infer TA
+    ? _NonEmpty<_SearchTail<Suf>> extends infer TB
+      ? [TA] extends [never]
+        ? [TB] extends [never]
+          ? ""
+          : `&${Extract<TB, string>}`
+        : [TB] extends [never]
+          ? `&${Extract<TA, string>}`
+          : `&${Extract<TA, string>}&${Extract<TB, string>}`
+      : never
+    : never
+
+  type _JoinPath<Src extends string, Suf extends string> = _NormalizeSlashes<
+    PathDefinition<Src> extends infer A extends string
+      ? PathDefinition<Suf> extends infer B extends string
+        ? A extends ""
+          ? B extends ""
+            ? ""
+            : B extends `/${string}`
+              ? B
+              : `/${B}`
+          : B extends ""
+            ? A
+            : A extends `${string}/`
+              ? `${A}${B}`
+              : B extends `/${string}`
+                ? `${A}${B}`
+                : `${A}/${B}`
+        : never
+      : never
+  >
+
   // ---------- public types ----------
-  export type OnlyIfNoParams<TParams, Yes, No = never> = [TParams] extends [
-    undefined,
-  ]
-    ? Yes
-    : No
+  export type OnlyIfNoParams<
+    TParams extends object,
+    Yes,
+    No = never,
+  > = keyof TParams extends never ? Yes : No
+
+  export type OnlyIfHasParams<
+    TParams extends object,
+    Yes,
+    No = never,
+  > = keyof TParams extends never ? No : Yes
 
   export type PathDefinition<TFullPathDefinition extends string> =
     _TrimSearch<TFullPathDefinition>
@@ -338,53 +457,57 @@ export namespace Route0 {
   export type ParamsDefinition<TFullPathDefinition extends string> =
     _ExtractPathParams<PathDefinition<TFullPathDefinition>> extends infer U
       ? [U] extends [never]
-        ? undefined
+        ? _EmptyRecord
         : { [K in Extract<U, string>]: true }
-      : undefined
+      : _EmptyRecord
 
   export type SearchParamsDefinition<TFullPathDefinition extends string> =
     _NonEmpty<_SearchTail<TFullPathDefinition>> extends infer Tail extends
       string
       ? _AmpSplit<Tail> extends infer U
         ? [U] extends [never]
-          ? undefined
+          ? _EmptyRecord
           : { [K in Extract<U, string>]: true }
-        : undefined
-      : undefined
+        : _EmptyRecord
+      : _EmptyRecord
 
   export type RouteDefinitionExtended<
     TSourceFullPathDefinition extends string,
     TSuffixFullPathDefinition extends string,
-  > = _NormalizeSlashes<`${PathDefinition<TSourceFullPathDefinition>}${TSuffixFullPathDefinition}`>
+  > = `${_JoinPath<TSourceFullPathDefinition, TSuffixFullPathDefinition>}${_TailUnion<TSourceFullPathDefinition, TSuffixFullPathDefinition>}`
 
-  export type ParamsInput<TParamsDefinition> = [TParamsDefinition] extends [
-    undefined,
-  ]
-    ? undefined
-    : {
-        [K in keyof Extract<TParamsDefinition, object>]:
-          | string
-          | number
-          | boolean
-      }
+  export type ParamsInput<TParamsDefinition extends object> = {
+    [K in keyof TParamsDefinition]: string | number | boolean
+  }
 
-  export type SearchParamsInput<TSearchParamsDefinition> = [
-    TSearchParamsDefinition,
-  ] extends [undefined]
-    ? undefined
-    : Partial<{
-        [K in keyof Extract<TSearchParamsDefinition, object>]:
-          | string
-          | number
-          | boolean
-          | Array<string | number | boolean>
-      }>
+  export type SearchParamsInput<TSearchParamsDefinition extends object> =
+    Partial<{
+      [K in keyof TSearchParamsDefinition]:
+        | string
+        | number
+        | boolean
+        | Array<string | number | boolean>
+    }> &
+      Record<
+        string,
+        string | number | boolean | Array<string | number | boolean>
+      >
 
-  // relative route literal with params replaced + optional query
   export type RouteValue<TFullPathDefinition extends string> =
-    `${_ReplacePathParams<PathDefinition<TFullPathDefinition>>}${_QuerySuffixUnion<SearchParamsDefinition<TFullPathDefinition>>}`
+    `${_ReplacePathParams<PathDefinition<TFullPathDefinition>>}${_QuerySuffixUnion}`
 
-  // absolute version (baseUrl unknown at type time, so prefix with string)
   export type AbsoluteRouteValue<TFullPathDefinition extends string> =
     `${string}${RouteValue<TFullPathDefinition>}`
+
+  // ---------- Export helpers ----------
+  export type ExportParamsOutput<TRoute0 extends Route0<any, any, any, any>> = {
+    [K in keyof TRoute0["paramsDefinition"]]: string
+  }
+
+  export type ExportSearchParamsOutput<
+    TRoute0 extends Route0<any, any, any, any>,
+  > = { [K in keyof TRoute0["searchParamsDefinition"]]: string } & Record<
+    string,
+    string
+  >
 }

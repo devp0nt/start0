@@ -1,5 +1,4 @@
 import { Error0 } from "@shmoject/modules/lib/error0.sh"
-import type { ToUndefinedIfExactlyEmpty } from "@shmoject/modules/lib/lodash0.sh"
 import { SiteCtx } from "@shmoject/site/lib/ctx"
 import { getQueryClient } from "@shmoject/site/lib/trpc"
 import {
@@ -26,10 +25,6 @@ export namespace RR0 {
           ...loaderArgs,
           ctx: siteCtxHolder.siteCtx,
           qc,
-          params:
-            Object.keys(loaderArgs.params).length > 0
-              ? (loaderArgs.params as any)
-              : undefined,
         })
         const dehydratedState = dehydrate(qc)
         return {
@@ -45,13 +40,9 @@ export namespace RR0 {
     }
   }
 
-  export type LoaderArgs<TLoaderArgs extends { params: any }> = Omit<
-    TLoaderArgs,
-    "params"
-  > & {
+  export type LoaderArgs<TLoaderArgs> = TLoaderArgs & {
     qc: QueryClient
     ctx: SiteCtx.Ctx
-    params: ToUndefinedIfExactlyEmpty<TLoaderArgs["params"]>
   }
 
   export const createMeta = <TOutput>(fn: (props: any) => TOutput) => {
@@ -59,10 +50,6 @@ export namespace RR0 {
       try {
         return fn({
           ...metaArgs,
-          params:
-            Object.keys(metaArgs.params).length > 0
-              ? metaArgs.params
-              : undefined,
         })
       } catch (error) {
         throw Error0.from(error).toResponse()
@@ -70,12 +57,7 @@ export namespace RR0 {
     }
   }
 
-  export type MetaArgs<TMetaArgsRR extends { params: any }> = Omit<
-    TMetaArgsRR,
-    "params"
-  > & {
-    params: ToUndefinedIfExactlyEmpty<TMetaArgsRR["params"]>
-  }
+  export type MetaArgs<TMetaArgsRR> = TMetaArgsRR
 
   export const createRouteComponent = <TOutput>(
     fn: (props: any) => TOutput,
@@ -84,10 +66,6 @@ export namespace RR0 {
       try {
         return fn({
           ...componentArgs,
-          params:
-            Object.keys(componentArgs.params).length > 0
-              ? componentArgs.params
-              : undefined,
         })
       } catch (error) {
         throw Error0.from(error).toResponse()
@@ -95,10 +73,7 @@ export namespace RR0 {
     }
   }
 
-  export type RouteComponentArgs<TRouteComponentArgs extends { params: any }> =
-    Omit<TRouteComponentArgs, "params"> & {
-      params: ToUndefinedIfExactlyEmpty<TRouteComponentArgs["params"]>
-    }
+  export type RouteComponentArgs<TRouteComponentArgs> = TRouteComponentArgs
 
   export const useDehydratedState = (): DehydratedState | undefined => {
     const matches = useMatches()

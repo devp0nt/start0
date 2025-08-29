@@ -1,5 +1,7 @@
 route0 params output can be strings only
-route0 should accept extra search params / or accapet any search params
+route0 search params output can be strings only
+route0 should accept extra search params
+route0, params should be empty object not undefined
 search params to Page0 from react router
 
 generator
