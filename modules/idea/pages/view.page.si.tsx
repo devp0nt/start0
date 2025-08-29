@@ -1,8 +1,8 @@
 import { Page0 } from "@shmoject/site/lib/page0"
-import { SiteRoutes } from "@shmoject/site/lib/routes"
+import { siteRoutes } from "@shmoject/site/lib/routes"
 import { trpc } from "@shmoject/site/lib/trpc"
 
-export const ideaPage = Page0.route(SiteRoutes.ideaView)
+export const ideaPage = Page0.route(siteRoutes.ideaView)
   .loader(async ({ qc, params }) => {
     return await qc.fetchQuery(trpc.getIdea.queryOptions({ ideaSn: params.sn }))
   })

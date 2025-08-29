@@ -1,6 +1,6 @@
 import type { Idea } from "@shmoject/modules/idea/utils.sh"
 import { SiteCtx } from "@shmoject/site/lib/ctx"
-import { SiteRoutes } from "@shmoject/site/lib/routes"
+import { siteRoutes } from "@shmoject/site/lib/routes"
 import { Link } from "react-router"
 
 export const IdeasPage: React.FC<{
@@ -13,7 +13,7 @@ export const IdeasPage: React.FC<{
       <ul>
         {ideas.map((idea) => (
           <li key={idea.id}>
-            <Link to={SiteRoutes.ideaView.get({ sn: idea.sn })}>
+            <Link to={siteRoutes.ideaView.get({ sn: idea.sn })}>
               {idea.title}
             </Link>
           </li>

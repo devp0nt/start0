@@ -1,3 +1,5 @@
+// TODO: getPathDefinition, with paramSuffix
+
 export class Route0<
   TFullPathDefinition extends string,
   TPathDefinition extends Route0.PathDefinition<TFullPathDefinition>,
@@ -548,7 +550,10 @@ export namespace Route0 {
       [K in keyof TRoute0["paramsDefinition"]]: string
     }
 
-  export type ExtractQueryOutput<TRoute0 extends Route0<any, any, any, any>> = {
-    [K in keyof TRoute0["queryDefinition"]]: string
-  } & Record<string, string>
+  export type ExtractQueryOutput<TRoute0 extends Route0<any, any, any, any>> =
+    Partial<
+      {
+        [K in keyof TRoute0["queryDefinition"]]: string
+      } & Record<string, string>
+    >
 }
