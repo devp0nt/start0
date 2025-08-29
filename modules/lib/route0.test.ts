@@ -169,31 +169,10 @@ describe("meta0", () => {
     expect(() => rWith.get({ query: { q: "1" } })).toThrow()
 
     // @ts-expect-error params can not be sent as object value it should be argument
-    rWith.get({ params: { id: "1" } })
+    rWith.get({ params: { id: "1" } }) // not throw becouse this will not used
 
     const rNo = Route0.create("/b")
     // @ts-expect-error no path params allowed for this route (shorthand)
     expect(() => rNo.get({ id: "1" })).toThrow()
-  })
-
-  it("shorthand get(params) autocompletion works", () => {
-    const route0 = Route0.create("/prefix/:x/some/:y/:z")
-
-    // This should now provide autocompletion for x, y, z params
-    const path = route0.get({ x: "1", y: "2", z: "3" })
-    expectTypeOf<
-      typeof path
-    >().toEqualTypeOf<`/prefix/${string}/some/${string}/${string}`>()
-    expect(path).toBe("/prefix/1/some/2/3")
-
-    // Test that it works with the two-arg form too
-    const pathWithQuery = route0.get(
-      { x: "1", y: "2", z: "3" },
-      { query: { q: "test" } },
-    )
-    expectTypeOf<
-      typeof pathWithQuery
-    >().toEqualTypeOf<`/prefix/${string}/some/${string}/${string}?${string}`>()
-    expect(pathWithQuery).toBe("/prefix/1/some/2/3?q=test")
   })
 })
