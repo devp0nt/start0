@@ -12,7 +12,3 @@ export default [
     route("ideas/:sn", "routes/idea.tsx"),
   ]),
 ] satisfies RouteConfig
-
-export const siteRoutes = {
-  x: 1,
-}

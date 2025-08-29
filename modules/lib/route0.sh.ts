@@ -56,6 +56,14 @@ export class Route0<
     }
   }
 
+  // Collapse multiple slashes in the *path* part only
+  private static _normalizeFullDefinition(full: string) {
+    const i = full.indexOf("&")
+    if (i === -1) return full.replace(/\/{2,}/g, "/")
+    const path = full.slice(0, i).replace(/\/{2,}/g, "/")
+    return path + full.slice(i) // keep search tail intact
+  }
+
   static getPathDefinition<TFullPathDefinition extends string>(
     fullPathDefinition: TFullPathDefinition,
   ) {
@@ -98,22 +106,24 @@ export class Route0<
   extend<TSuffixDefinition extends string>(
     suffixDefinition: TSuffixDefinition,
   ) {
+    // Normalize the concatenated path to avoid "//"
+    const combined = `${this.pathDefinition}${suffixDefinition}`
+    const normalized = Route0._normalizeFullDefinition(combined)
+
     const routeDefinition: Route0.RouteDefinitionExtended<
       TPathDefinition,
       TSuffixDefinition
-    > = (this.pathDefinition + suffixDefinition) as any
+    > = normalized as any
+
     return new Route0(routeDefinition)
   }
 
-  // ===== NEW/UPDATED OVERLOADS =====
+  // ===== OVERLOADS (as in your version) =====
 
-  // No-arg call ONLY when there are NO path params:
   get(): Route0.OnlyIfNoParams<
     TParamsDefinition,
     Route0.RouteValue<TFullPathDefinition>
   >
-
-  // Single-arg search params ONLY when there are NO path params:
   get(
     search: Route0.OnlyIfNoParams<
       TParamsDefinition,
@@ -124,8 +134,6 @@ export class Route0<
     TParamsDefinition,
     Route0.RouteValue<TFullPathDefinition>
   >
-
-  // Object form with only searchParams, ONLY when there are NO path params:
   get(props: {
     search?: Route0.OnlyIfNoParams<
       TParamsDefinition,
@@ -136,8 +144,6 @@ export class Route0<
     TParamsDefinition,
     Route0.RouteValue<TFullPathDefinition>
   >
-
-  // Existing forms (require params when present):
   get(
     params: Route0.ParamsInput<TParamsDefinition>,
     search?: Route0.SearchParamsInput<TSearchParamsDefinition>,
@@ -158,11 +164,9 @@ export class Route0<
         },
     b?: Route0.SearchParamsInput<TSearchParamsDefinition>,
   ) {
-    // Accept { search } object even without params:
     const isObj =
       typeof a === "object" && a !== null && ("params" in a || "search" in a)
 
-    // Pull out pieces:
     let params = (isObj ? (a as any).params : a) as
       | Record<string, any>
       | undefined
@@ -172,19 +176,15 @@ export class Route0<
 
     let url = String(this.pathDefinition)
 
-    // Determine required path params:
     const needed = (
       this.paramsDefinition ? Object.keys(this.paramsDefinition) : []
     ) as string[]
 
-    // If there are NO required path params and caller passed a single arg
-    // that isn't recognized as {params,...}, treat that first arg as search params:
     if (needed.length === 0 && !isObj && a !== undefined && b === undefined) {
       search = a as any
       params = undefined
     }
 
-    // Validate & replace path params:
     if (needed.length) {
       if (!params) {
         throw new Error(
@@ -203,7 +203,6 @@ export class Route0<
       encodeURIComponent(String(params?.[k] ?? "")),
     )
 
-    // Append search params:
     const allowedSearch = this.searchParamsDefinition
       ? new Set(Object.keys(this.searchParamsDefinition))
       : undefined
@@ -222,6 +221,9 @@ export class Route0<
       }
       if (parts.length) url += `?${parts.join("&")}`
     }
+
+    // Normalize again in case params introduced '//' (unlikely but safe)
+    url = url.replace(/\/{2,}/g, "/")
 
     return url as Route0.RouteValue<TFullPathDefinition>
   }
@@ -248,6 +250,11 @@ export namespace Route0 {
         : `${Head}${string}`
       : S
   type _QuerySuffixUnion<T> = [T] extends [undefined] ? "" : "" | `?${string}`
+
+  // NEW: normalize consecutive slashes at type level
+  type _NormalizeSlashes<S extends string> = S extends `${infer A}//${infer B}`
+    ? _NormalizeSlashes<`${A}/${B}`>
+    : S
 
   // Conditional “presence” helper
   export type OnlyIfNoParams<TParams, Yes, No = never> = [TParams] extends [
@@ -277,10 +284,11 @@ export namespace Route0 {
         : undefined
       : undefined
 
+  // Use normalized slashes in the extended definition type
   export type RouteDefinitionExtended<
     TSourceFullPathDefinition extends string,
     TSuffixFullPathDefinition extends string,
-  > = `${PathDefinition<TSourceFullPathDefinition>}${TSuffixFullPathDefinition}`
+  > = _NormalizeSlashes<`${PathDefinition<TSourceFullPathDefinition>}${TSuffixFullPathDefinition}`>
 
   export type ParamsInput<TParamsDefinition> = [TParamsDefinition] extends [
     undefined,
@@ -305,11 +313,7 @@ export namespace Route0 {
           | Array<string | number | boolean>
       }>
 
-  // with search params
+  // RouteValue keeps param literals and optional query
   export type RouteValue<TFullPathDefinition extends string> =
     `${_ReplacePathParams<PathDefinition<TFullPathDefinition>>}${_QuerySuffixUnion<SearchParamsDefinition<TFullPathDefinition>>}`
-
-  // without search params
-  // export type RouteValue<TFullPathDefinition extends string> =
-  //   `${_ReplacePathParams<PathDefinition<TFullPathDefinition>>}`
 }

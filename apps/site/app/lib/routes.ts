@@ -7,5 +7,3 @@ export namespace SiteRoutes {
   export const ideasList = ideasBase
   export const ideaView = ideasBase.extend("/:sn")
 }
-
-export const allRoutes = SiteRoutes

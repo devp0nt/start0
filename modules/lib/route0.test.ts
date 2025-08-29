@@ -33,6 +33,13 @@ describe("meta0", () => {
     expect(path).toBe("/prefix/suffix")
   })
 
+  it("simple extend double slash", () => {
+    const route0 = Route0.create("/")
+    const route1 = route0.extend("/suffix")
+    const path = route1.get()
+    expect(path).toBe("/suffix")
+  })
+
   it("extend with params", () => {
     const route0 = Route0.create("/prefix/:x")
     const route1 = route0.extend("/suffix/:y")
