@@ -1,5 +1,5 @@
 import { deepMap } from "@shmoject/modules/lib/deepMap.sh"
-import { checkEnumEq } from "@shmoject/modules/lib/lodash0.sh"
+import { checkEnumTypeEq } from "@shmoject/modules/lib/lodash0.sh"
 import { isArray, isPlainObject } from "lodash"
 import cloneDeep from "lodash/cloneDeep"
 import omit from "lodash/omit.js"
@@ -398,5 +398,5 @@ export namespace Meta0 {
   export type Meta0OrValueType = Meta0 | Partial<ValueType>
   export type Meta0OrValueTypeNullish = Meta0OrValueType | undefined | null
   export type ValueKey = (typeof Meta0.keys)[number]
-  checkEnumEq<keyof ValueType, ValueKey, true>()
+  checkEnumTypeEq<ValueKey, keyof ValueType, ValueKey>()
 }

@@ -49,6 +49,9 @@ export namespace Prisma0 {
       .$extends({
         query: {
           $allModels: {
+            // create: async (props) => {
+            //   // TODO: if model has "cretedAt", set it to now()
+            // },
             $allOperations: async (props) => {
               const { model, operation, args, query } = props
               const startedAt = performance.now()
