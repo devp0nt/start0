@@ -45,6 +45,7 @@
             "allow": []
           }
         },
+        "noFocusedTests": "error",
         "noExplicitAny": "off"
       }
     }

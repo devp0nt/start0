@@ -255,12 +255,7 @@ export class Error0 extends Error {
     zodError: ZodError,
   ): Partial<Error0GeneralProps> {
     return {
-      message: "Validation Error",
-      meta: {
-        zodTreeifyedError: z.treeifyError(zodError),
-        zodPrettifiedError: z.prettifyError(zodError),
-        zodFlattenedError: z.flattenError(zodError),
-      },
+      message: `Zod Validation Error: ${zodError.message}`,
     }
   }
 

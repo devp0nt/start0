@@ -1,4 +1,3 @@
-meta0
 error0 zod
 Плоский пейдж с перегрузками
 route0 
@@ -52,5 +51,6 @@ reuse code between site and mobile
 withCtxFn
 restart frontend server on code change
 В свою админку вшить генератор админки свой без всяких там рефайнов, тупо определять какой формой какие поля редактируются
+error0, meta0, route0 → library
 
 remove old

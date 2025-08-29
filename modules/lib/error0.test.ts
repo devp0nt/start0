@@ -491,22 +491,15 @@ describe("error0", () => {
     expect(zodError).toBeInstanceOf(ZodError)
     const error0 = Error0.from(zodError)
     expect(error0.zodError).toBe(zodError)
-    expect(error0.message).toBe("Validation Error")
-    expect(error0.meta).toMatchInlineSnapshot(`
-      {
-        "zodFlattenedError": {
-          "fieldErrors": {},
-          "formErrors": [
-            "Invalid input: expected object, received string",
-          ],
-        },
-        "zodPrettifiedError": "✖ Invalid input: expected object, received string",
-        "zodTreeifyedError": {
-          "errors": [
-            "Invalid input: expected object, received string",
-          ],
-        },
-      }
+    expect(error0.message).toMatchInlineSnapshot(`
+      "Zod Validation Error: [
+        {
+          "expected": "object",
+          "code": "invalid_type",
+          "path": [],
+          "message": "Invalid input: expected object, received string"
+        }
+      ]"
     `)
   })
 
