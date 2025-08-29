@@ -13,7 +13,7 @@ export class Route0<
   paramsDefinition: TParamsDefinition
   searchParamsDefinition: TSearchParamsDefinition
 
-  constructor(fullPathDefinition: TFullPathDefinition) {
+  private constructor(fullPathDefinition: TFullPathDefinition) {
     this.fullPathDefinition = fullPathDefinition
     this.pathDefinition = Route0.getPathDefinition(
       fullPathDefinition,
@@ -25,6 +25,24 @@ export class Route0<
       Route0.getSearchParamsDefinitionByRouteDefinition(
         fullPathDefinition,
       ) as TSearchParamsDefinition
+  }
+
+  static create<
+    TFullPathDefinition extends string,
+    TPathDefinition extends Route0.PathDefinition<TFullPathDefinition>,
+    TParamsDefinition extends
+      | Route0.ParamsDefinition<TFullPathDefinition>
+      | undefined,
+    TSearchParamsDefinition extends
+      | Route0.SearchParamsDefinition<TFullPathDefinition>
+      | undefined,
+  >(fullPathDefinition: TFullPathDefinition) {
+    return new Route0<
+      TFullPathDefinition,
+      TPathDefinition,
+      TParamsDefinition,
+      TSearchParamsDefinition
+    >(fullPathDefinition)
   }
 
   // ---------- statics ----------
@@ -97,7 +115,7 @@ export class Route0<
 
   // Single-arg search params ONLY when there are NO path params:
   get(
-    searchParams: Route0.OnlyIfNoParams<
+    search: Route0.OnlyIfNoParams<
       TParamsDefinition,
       Route0.SearchParamsInput<TSearchParamsDefinition>,
       never
@@ -109,7 +127,7 @@ export class Route0<
 
   // Object form with only searchParams, ONLY when there are NO path params:
   get(props: {
-    searchParams?: Route0.OnlyIfNoParams<
+    search?: Route0.OnlyIfNoParams<
       TParamsDefinition,
       Route0.SearchParamsInput<TSearchParamsDefinition>,
       never
@@ -122,11 +140,11 @@ export class Route0<
   // Existing forms (require params when present):
   get(
     params: Route0.ParamsInput<TParamsDefinition>,
-    searchParams?: Route0.SearchParamsInput<TSearchParamsDefinition>,
+    search?: Route0.SearchParamsInput<TSearchParamsDefinition>,
   ): Route0.RouteValue<TFullPathDefinition>
   get(props: {
     params: Route0.ParamsInput<TParamsDefinition>
-    searchParams?: Route0.SearchParamsInput<TSearchParamsDefinition>
+    search?: Route0.SearchParamsInput<TSearchParamsDefinition>
   }): Route0.RouteValue<TFullPathDefinition>
 
   // Implementation
@@ -136,21 +154,19 @@ export class Route0<
       | Route0.SearchParamsInput<TSearchParamsDefinition>
       | {
           params?: Route0.ParamsInput<TParamsDefinition>
-          searchParams?: Route0.SearchParamsInput<TSearchParamsDefinition>
+          search?: Route0.SearchParamsInput<TSearchParamsDefinition>
         },
     b?: Route0.SearchParamsInput<TSearchParamsDefinition>,
   ) {
-    // Accept { searchParams } object even without params:
+    // Accept { search } object even without params:
     const isObj =
-      typeof a === "object" &&
-      a !== null &&
-      ("params" in a || "searchParams" in a)
+      typeof a === "object" && a !== null && ("params" in a || "search" in a)
 
     // Pull out pieces:
     let params = (isObj ? (a as any).params : a) as
       | Record<string, any>
       | undefined
-    let searchParams = (isObj ? (a as any).searchParams : b) as
+    let search = (isObj ? (a as any).search : b) as
       | Record<string, any>
       | undefined
 
@@ -164,7 +180,7 @@ export class Route0<
     // If there are NO required path params and caller passed a single arg
     // that isn't recognized as {params,...}, treat that first arg as search params:
     if (needed.length === 0 && !isObj && a !== undefined && b === undefined) {
-      searchParams = a as any
+      search = a as any
       params = undefined
     }
 
@@ -192,9 +208,9 @@ export class Route0<
       ? new Set(Object.keys(this.searchParamsDefinition))
       : undefined
 
-    if (searchParams && Object.keys(searchParams).length) {
+    if (search && Object.keys(search).length) {
       const parts: string[] = []
-      for (const [k, v] of Object.entries(searchParams)) {
+      for (const [k, v] of Object.entries(search)) {
         if (allowedSearch && !allowedSearch.has(k)) continue
         if (v === undefined || v === null) continue
         const values = Array.isArray(v) ? v : [v]
@@ -289,6 +305,11 @@ export namespace Route0 {
           | Array<string | number | boolean>
       }>
 
+  // with search params
   export type RouteValue<TFullPathDefinition extends string> =
     `${_ReplacePathParams<PathDefinition<TFullPathDefinition>>}${_QuerySuffixUnion<SearchParamsDefinition<TFullPathDefinition>>}`
+
+  // without search params
+  // export type RouteValue<TFullPathDefinition extends string> =
+  //   `${_ReplacePathParams<PathDefinition<TFullPathDefinition>>}`
 }
