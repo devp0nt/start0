@@ -1,5 +1,3 @@
-error0 zod
-Плоский пейдж с перегрузками
 route0 
 https://www.npmjs.com/package/ts-routes
 https://dev.to/bytimo/useful-types-extract-route-params-with-typescript-5fhn
