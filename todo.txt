@@ -1,3 +1,5 @@
+route0 params output can be strings only
+route0 should accept extra search params / or accapet any search params
 search params to Page0 from react router
 
 generator
