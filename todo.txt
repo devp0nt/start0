@@ -1,5 +1,5 @@
-ctx, withCtx, extend
 meta0
+error0 zod
 Плоский пейдж с перегрузками
 route0 
 https://www.npmjs.com/package/ts-routes
@@ -49,7 +49,7 @@ reuse code between site and mobile
 
 ---
 
-Функции которые прнимают ctx, оборачивать в withCtx(extends, fn), и тут же генерировать createWithCtx который также может принимать extends
+withCtxFn
 restart frontend server on code change
 В свою админку вшить генератор админки свой без всяких там рефайнов, тупо определять какой формой какие поля редактируются
 

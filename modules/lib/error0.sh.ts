@@ -166,7 +166,7 @@ export class Error0 extends Error {
       error0Input.meta instanceof Meta0
         ? error0Input.meta
         : typeof error0Input.meta === "object" && error0Input.meta !== null
-          ? error0Input.meta
+          ? (error0Input.meta as Meta0.ValueType)
           : undefined
     result.zodError =
       error0Input.zodError instanceof ZodError
@@ -188,8 +188,8 @@ export class Error0 extends Error {
     stack: Error0GeneralProps["stack"]
   }): Error0GeneralProps {
     // const meta = Meta0.merge(error0Input.meta0, error0Input.meta).value
-    const meta0 = Meta0.merge(this.defaultMeta, error0Input.meta)
-    const meta = meta0.value
+    const meta0 = Meta0.extend(error0Input.meta, this.defaultMeta)
+    const meta = meta0.getValue()
     const finalTag = meta0.getFinalTag(error0Input.tag)
     const clientMessage = error0Input.clientMessage || this.defaultClientMessage
     const result: Error0GeneralProps = {
@@ -365,8 +365,8 @@ export class Error0 extends Error {
       cause: "cause" in error ? error.cause : defaults?.cause || undefined,
       meta:
         "meta" in error && typeof error.meta === "object" && error.meta !== null
-          ? Meta0.toValueSafe(error.meta)
-          : Meta0.toValueSafe(defaults?.meta) || {},
+          ? Meta0.getValue(error.meta as Meta0.ValueType)
+          : Meta0.getValue(defaults?.meta) || {},
       httpStatus:
         "httpStatus" in error &&
         typeof error.httpStatus === "number" &&
@@ -618,7 +618,7 @@ export class Error0 extends Error {
       static defaultExpected = props.defaultExpected ?? parent.defaultExpected
       static defaultClientMessage =
         props.defaultClientMessage ?? parent.defaultClientMessage
-      static defaultMeta = Meta0.merge(parent.defaultMeta, props.defaultMeta)
+      static defaultMeta = Meta0.extend(props.defaultMeta, parent.defaultMeta)
     }
   }
 
@@ -651,7 +651,7 @@ export class Error0 extends Error {
       clientMessage: this.clientMessage,
       anyMessage: this.anyMessage,
       cause: this.cause,
-      meta: Meta0.toValueSafe(this.meta),
+      meta: Meta0.getValue(this.meta),
       stack: this.stack,
       __I_AM_ERROR_0: this.__I_AM_ERROR_0,
     }

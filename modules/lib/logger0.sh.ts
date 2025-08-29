@@ -161,12 +161,12 @@ export class Logger0 {
       newMeta.assign(extendMeta)
     }
     if (replaceTagPrefix) {
-      newMeta.fixTagPrefix({
+      newMeta.updateTagPrefix({
         replace: replaceTagPrefix,
       })
     }
     if (extendTagPrefix) {
-      newMeta.fixTagPrefix({
+      newMeta.updateTagPrefix({
         extend: extendTagPrefix,
       })
     }
@@ -190,10 +190,10 @@ export class Logger0 {
       const error0 = args[0] instanceof Error0 ? args[0] : Error0.from(args[0])
       const extraMeta =
         typeof args[1] === "object" && args[1] !== null
-          ? Meta0.from(args[1])
+          ? Meta0.from(args[1] as Meta0.ValueType)
           : Meta0.from({})
       const message = error0.message
-      const meta = Meta0.merge(
+      const meta = Meta0.extend(
         logger0.meta,
         error0.meta,
         {
@@ -208,10 +208,10 @@ export class Logger0 {
       )
       const metaWithHiddenSensetive = logger0.hideSensitiveKeys
         ? Logger0.hideSensitiveKeys({
-            meta: meta.value,
+            meta: meta.getValue(),
             sensetiveKeys: logger0.sensetiveKeys,
           })
-        : meta.value
+        : meta.getValue()
       logger0.original[level](message, metaWithHiddenSensetive)
     }
     return logBadFn
@@ -229,15 +229,15 @@ export class Logger0 {
         typeof args[0] !== "string"
           ? Meta0.from(args[0] as never)
           : Meta0.from(args[1] as never)
-      const meta = Meta0.merge(logger0.meta, extraMeta)
+      const meta = Meta0.extend(logger0.meta, extraMeta)
       const metaWithHiddenSensetive = logger0.hideSensitiveKeys
         ? Logger0.hideSensitiveKeys({
-            meta: meta.value,
+            meta: meta.getValue(),
             sensetiveKeys: logger0.sensetiveKeys,
           })
-        : meta.value
+        : meta.getValue()
       const message =
-        (typeof args[0] === "string" ? args[0] : meta.value.message) ||
+        (typeof args[0] === "string" ? args[0] : meta.getValue().message) ||
         "Unknown message"
       logger0.original[level](message, metaWithHiddenSensetive)
     }
@@ -273,13 +273,13 @@ export class Logger0 {
   }
 
   static jsonFormatter = (record: LogRecord): string => {
-    const meta = Meta0.from(record.properties)
+    const meta = Meta0.getValue(record.properties)
     return JSON.stringify({
       timestamp: new Date(record.timestamp).toISOString(),
       level: record.level,
-      message: meta.value.message || record.message.join(", "),
+      message: meta.message || record.message.join(", "),
       tag: Logger0.logRecordToTag(record, true),
-      meta: meta.omitValue(["tag", "tagPrefix", "message"]),
+      meta: omit(meta, ["tag", "tagPrefix", "message"]),
     })
   }
 

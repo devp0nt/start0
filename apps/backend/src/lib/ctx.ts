@@ -32,7 +32,7 @@ export class BackendCtx {
 
     const meta = Meta0.from(providedMeta)
     meta.assign({
-      tagPrefix: meta.value.tagPrefix || "backend",
+      tagPrefix: meta.getValue().tagPrefix || "backend",
     })
     // biome-ignore lint/style/noProcessEnv: <x>
     const env = createEnv(process.env)

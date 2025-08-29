@@ -102,7 +102,7 @@ describe("logger0", () => {
 
   it("info meta instance", () => {
     const { logger0, logs } = createLoggerAndLogs()
-    const meta = new Meta0({
+    const meta = Meta0.create({
       message: "my message",
       userId: "user1",
     })
