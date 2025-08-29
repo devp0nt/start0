@@ -1,31 +1,62 @@
 import { describe, expect, expectTypeOf, it } from "bun:test"
 import { Route0 } from "@shmoject/modules/lib/route0.sh"
 
+// FIXED: Autocompletion now works for shorthand get(params) syntax
+// When you have a route with params like Route0.create("/user/:id/profile/:tab")
+// You can now use: route.get({ id: "123", tab: "settings" })
+// And TypeScript will provide autocompletion for the param keys
+
 describe("meta0", () => {
   it("simple", () => {
     const route0 = Route0.create("/")
     const path = route0.get()
+    expectTypeOf<typeof path>().toEqualTypeOf<"/">()
     expect(path).toBe("/")
+  })
+
+  it("simple any query", () => {
+    const route0 = Route0.create("/")
+    const path = route0.get({ query: { q: "1" } })
+    expectTypeOf<typeof path>().toEqualTypeOf<`/?${string}`>()
+    expect(path).toBe("/?q=1")
   })
 
   it("params", () => {
     const route0 = Route0.create("/prefix/:x/some/:y/:z")
     const path = route0.get({ x: "1", y: 2, z: "3" })
+    expectTypeOf<
+      typeof path
+    >().toEqualTypeOf<`/prefix/${string}/some/${string}/${string}`>()
     expect(path).toBe("/prefix/1/some/2/3")
+  })
+
+  it("params any query", () => {
+    const route0 = Route0.create("/prefix/:x/some/:y/:z")
+    const path = route0.get({ x: "1", y: 2, z: "3" }, { query: { q: "1" } })
+    expectTypeOf<
+      typeof path
+    >().toEqualTypeOf<`/prefix/${string}/some/${string}/${string}?${string}`>()
+    expect(path).toBe("/prefix/1/some/2/3?q=1")
   })
 
   it("search params", () => {
     const route0 = Route0.create("/prefix&y&z")
     const path = route0.get({ query: { y: "1", z: "2" } })
+    expectTypeOf<typeof path>().toEqualTypeOf<`/prefix?${string}`>()
     expect(path).toBe("/prefix?y=1&z=2")
   })
 
   it("params and search params", () => {
     const route0 = Route0.create("/prefix/:x/some/:y/:z&z&c")
-    const path = route0.get({
-      params: { x: "1", y: "2", z: "3" },
-      query: { z: "4", c: "5" },
-    })
+    const path = route0.get(
+      { x: "1", y: "2", z: "3" },
+      {
+        query: { z: "4", c: "5" },
+      },
+    )
+    expectTypeOf<
+      typeof path
+    >().toEqualTypeOf<`/prefix/${string}/some/${string}/${string}?${string}`>()
     expect(path).toBe("/prefix/1/some/2/3?z=4&c=5")
   })
 
@@ -33,6 +64,7 @@ describe("meta0", () => {
     const route0 = Route0.create("/prefix")
     const route1 = route0.extend("/suffix")
     const path = route1.get()
+    expectTypeOf<typeof path>().toEqualTypeOf<`/prefix/suffix`>()
     expect(path).toBe("/prefix/suffix")
   })
 
@@ -41,6 +73,7 @@ describe("meta0", () => {
     const route1 = route0.extend("/suffix1/")
     const route2 = route1.extend("/suffix2")
     const path = route2.get()
+    expectTypeOf<typeof path>().toEqualTypeOf<`/suffix1/suffix2`>()
     expect(path).toBe("/suffix1/suffix2")
   })
 
@@ -49,6 +82,7 @@ describe("meta0", () => {
     const route1 = route0.extend("suffix1")
     const route2 = route1.extend("suffix2")
     const path = route2.get()
+    expectTypeOf<typeof path>().toEqualTypeOf<`/suffix1/suffix2`>()
     expect(path).toBe("/suffix1/suffix2")
   })
 
@@ -56,6 +90,9 @@ describe("meta0", () => {
     const route0 = Route0.create("/prefix/:x")
     const route1 = route0.extend("/suffix/:y")
     const path = route1.get({ x: "1", y: "2" })
+    expectTypeOf<
+      typeof path
+    >().toEqualTypeOf<`/prefix/${string}/suffix/${string}`>()
     expect(path).toBe("/prefix/1/suffix/2")
   })
 
@@ -68,18 +105,24 @@ describe("meta0", () => {
       z: true
       c: true
     }>()
+    expectTypeOf<typeof path>().toEqualTypeOf<`/prefix/suffix?${string}`>()
     expect(path).toBe("/prefix/suffix?y=2&c=3&a=4")
+    const path1 = route1.get()
+    expectTypeOf<typeof path1>().toEqualTypeOf<`/prefix/suffix`>()
+    expect(path1).toBe("/prefix/suffix")
   })
 
   it("abs default", () => {
     const route0 = Route0.create("/path")
     const path = route0.get({ abs: true })
+    expectTypeOf<typeof path>().toEqualTypeOf<`${string}/path`>()
     expect(path).toBe("https://example.com/path")
   })
 
   it("abs set", () => {
     const route0 = Route0.create("/path", "https://x.com")
     const path = route0.get({ abs: true })
+    expectTypeOf<typeof path>().toEqualTypeOf<`${string}/path`>()
     expect(path).toBe("https://x.com/path")
   })
 
@@ -87,6 +130,7 @@ describe("meta0", () => {
     const route0 = Route0.create("/path", "https://x.com")
     route0.baseUrl = "https://y.com"
     const path = route0.get({ abs: true })
+    expectTypeOf<typeof path>().toEqualTypeOf<`${string}/path`>()
     expect(path).toBe("https://y.com/path")
   })
 
@@ -95,6 +139,7 @@ describe("meta0", () => {
     route0.baseUrl = "https://y.com"
     const route1 = route0.extend("/suffix")
     const path = route1.get({ abs: true })
+    expectTypeOf<typeof path>().toEqualTypeOf<`${string}/path/suffix`>()
     expect(path).toBe("https://y.com/path/suffix")
   })
 
@@ -107,6 +152,48 @@ describe("meta0", () => {
     }
     const routes2 = Route0.replaceManyBaseUrl(routes, "https://z.com")
     const path = routes2.r1.get({ abs: true })
+    expectTypeOf<typeof path>().toEqualTypeOf<`${string}/path/suffix`>()
     expect(path).toBe("https://z.com/path/suffix")
+  })
+
+  it("type errors: require params when defined", () => {
+    const rWith = Route0.create("/a/:id")
+    // @ts-expect-error missing required path params
+    expect(() => rWith.get()).toThrow()
+
+    // @ts-expect-error missing required path params
+    expect(() => rWith.get({})).toThrow()
+    // @ts-expect-error missing required path params (object form abs)
+    expect(() => rWith.get({ abs: true })).toThrow()
+    // @ts-expect-error missing required path params (object form query)
+    expect(() => rWith.get({ query: { q: "1" } })).toThrow()
+
+    // @ts-expect-error params can not be sent as object value it should be argument
+    rWith.get({ params: { id: "1" } })
+
+    const rNo = Route0.create("/b")
+    // @ts-expect-error no path params allowed for this route (shorthand)
+    expect(() => rNo.get({ id: "1" })).toThrow()
+  })
+
+  it("shorthand get(params) autocompletion works", () => {
+    const route0 = Route0.create("/prefix/:x/some/:y/:z")
+
+    // This should now provide autocompletion for x, y, z params
+    const path = route0.get({ x: "1", y: "2", z: "3" })
+    expectTypeOf<
+      typeof path
+    >().toEqualTypeOf<`/prefix/${string}/some/${string}/${string}`>()
+    expect(path).toBe("/prefix/1/some/2/3")
+
+    // Test that it works with the two-arg form too
+    const pathWithQuery = route0.get(
+      { x: "1", y: "2", z: "3" },
+      { query: { q: "test" } },
+    )
+    expectTypeOf<
+      typeof pathWithQuery
+    >().toEqualTypeOf<`/prefix/${string}/some/${string}/${string}?${string}`>()
+    expect(pathWithQuery).toBe("/prefix/1/some/2/3?q=test")
   })
 })

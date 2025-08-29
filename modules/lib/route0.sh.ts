@@ -189,39 +189,7 @@ export class Route0<
   }
 
   // ===== OVERLOADS =====
-  // No params
-  get(): Route0.OnlyIfNoParams<
-    TParamsDefinition,
-    Route0.PathOnlyRouteValue<TFullPathDefinition>
-  >
-  get(props: {
-    query: Route0.QueryInput<TQueryDefinition>
-    abs?: false
-  }): Route0.OnlyIfNoParams<
-    TParamsDefinition,
-    Route0.WithQueryRouteValue<TFullPathDefinition>
-  >
-  get(props: {
-    query: Route0.QueryInput<TQueryDefinition>
-    abs: true
-  }): Route0.OnlyIfNoParams<
-    TParamsDefinition,
-    Route0.AbsoluteWithQueryRouteValue<TFullPathDefinition>
-  >
-  get(props: {
-    abs: false
-  }): Route0.OnlyIfNoParams<
-    TParamsDefinition,
-    Route0.PathOnlyRouteValue<TFullPathDefinition>
-  >
-  get(props: {
-    abs: true
-  }): Route0.OnlyIfNoParams<
-    TParamsDefinition,
-    Route0.AbsolutePathOnlyRouteValue<TFullPathDefinition>
-  >
-
-  // With params — shorthand: get(params)
+  // With params — shorthand: get(params) - MUST BE FIRST for proper autocompletion
   get(
     params: Route0.OnlyIfHasParams<
       TParamsDefinition,
@@ -233,87 +201,69 @@ export class Route0<
   >
 
   // With params — two-arg form: get(params, { query?, abs? })
-  get(
-    params: Route0.OnlyIfHasParams<
-      TParamsDefinition,
-      Route0.ParamsInput<TParamsDefinition>
-    >,
-    opts: {
-      query: Route0.QueryInput<TQueryDefinition>
-      abs?: false
-    },
-  ): Route0.OnlyIfHasParams<
-    TParamsDefinition,
-    Route0.WithQueryRouteValue<TFullPathDefinition>
-  >
-  get(
-    params: Route0.OnlyIfHasParams<
-      TParamsDefinition,
-      Route0.ParamsInput<TParamsDefinition>
-    >,
-    opts: {
-      query: Route0.QueryInput<TQueryDefinition>
-      abs: true
-    },
-  ): Route0.OnlyIfHasParams<
-    TParamsDefinition,
-    Route0.AbsoluteWithQueryRouteValue<TFullPathDefinition>
-  >
-  get(
-    params: Route0.OnlyIfHasParams<
-      TParamsDefinition,
-      Route0.ParamsInput<TParamsDefinition>
-    >,
-    opts: { abs?: false },
-  ): Route0.OnlyIfHasParams<
-    TParamsDefinition,
-    Route0.PathOnlyRouteValue<TFullPathDefinition>
-  >
-  get(
-    params: Route0.OnlyIfHasParams<
-      TParamsDefinition,
-      Route0.ParamsInput<TParamsDefinition>
-    >,
-    opts: { abs: true },
-  ): Route0.OnlyIfHasParams<
-    TParamsDefinition,
-    Route0.AbsolutePathOnlyRouteValue<TFullPathDefinition>
-  >
-
-  // With params — object form
-  get(props: {
-    params: Route0.ParamsInput<TParamsDefinition>
-    query: Route0.QueryInput<TQueryDefinition>
-    abs?: false
-  }): Route0.WithQueryRouteValue<TFullPathDefinition>
-  get(props: {
-    params: Route0.ParamsInput<TParamsDefinition>
-    query: Route0.QueryInput<TQueryDefinition>
-    abs: true
-  }): Route0.AbsoluteWithQueryRouteValue<TFullPathDefinition>
-  get(props: {
-    params: Route0.ParamsInput<TParamsDefinition>
-    abs?: false
-  }): Route0.PathOnlyRouteValue<TFullPathDefinition>
-  get(props: {
-    params: Route0.ParamsInput<TParamsDefinition>
-    abs: true
-  }): Route0.AbsolutePathOnlyRouteValue<TFullPathDefinition>
-
-  // Implementation
-  get(
-    a?:
-      | Route0.ParamsInput<TParamsDefinition>
-      | {
-          params?: Route0.ParamsInput<TParamsDefinition>
-          query?: Route0.QueryInput<TQueryDefinition>
-          abs?: boolean
-        },
-    b?: {
+  get<
+    O extends {
       query?: Route0.QueryInput<TQueryDefinition>
       abs?: boolean
     },
-  ): string {
+  >(
+    params: Route0.OnlyIfHasParams<
+      TParamsDefinition,
+      Route0.ParamsInput<TParamsDefinition>
+    >,
+    opts: O,
+  ): Route0.OnlyIfHasParams<
+    TParamsDefinition,
+    O extends { abs: true }
+      ? O extends { query: any }
+        ? Route0.AbsoluteWithQueryRouteValue<TFullPathDefinition>
+        : Route0.AbsolutePathOnlyRouteValue<TFullPathDefinition>
+      : O extends { query: any }
+        ? Route0.WithQueryRouteValue<TFullPathDefinition>
+        : Route0.PathOnlyRouteValue<TFullPathDefinition>
+  >
+
+  // No params - these come after params overloads to avoid conflicts
+  get(
+    ...args: Route0.OnlyIfNoParams<TParamsDefinition, [], [never]>
+  ): Route0.PathOnlyRouteValue<TFullPathDefinition>
+  get(
+    props: Route0.OnlyIfNoParams<
+      TParamsDefinition,
+      { query: Route0.QueryInput<TQueryDefinition>; abs?: false }
+    >,
+  ): Route0.WithQueryRouteValue<TFullPathDefinition>
+  get(
+    props: Route0.OnlyIfNoParams<
+      TParamsDefinition,
+      { query: Route0.QueryInput<TQueryDefinition>; abs: true }
+    >,
+  ): Route0.AbsoluteWithQueryRouteValue<TFullPathDefinition>
+  get(
+    props: Route0.OnlyIfNoParams<
+      TParamsDefinition,
+      { query?: undefined; abs?: false }
+    >,
+  ): Route0.WithQueryRouteValue<TFullPathDefinition>
+  get(
+    props: Route0.OnlyIfNoParams<
+      TParamsDefinition,
+      { query?: undefined; abs: true }
+    >,
+  ): Route0.AbsolutePathOnlyRouteValue<TFullPathDefinition>
+  get(
+    props: Route0.OnlyIfNoParams<TParamsDefinition, { abs: false }>,
+  ): Route0.PathOnlyRouteValue<TFullPathDefinition>
+  get(
+    props: Route0.OnlyIfNoParams<TParamsDefinition, { abs: true }>,
+  ): Route0.AbsolutePathOnlyRouteValue<TFullPathDefinition>
+
+  // Disallow object-form with { params } entirely; only allow options for no-param routes
+
+  // Implementation
+  get(...args: any[]): string {
+    const a = args[0]
+    const b = args[1]
     const needed = Object.keys(this.paramsDefinition) as string[]
 
     let params: Record<string, any> | undefined
