@@ -2,7 +2,7 @@ import { BackendCtx } from "@shmoject/backend/lib/ctx"
 import type { e0s as e0sDefault } from "@shmoject/modules/lib/error0.sh"
 import type { Logger0 } from "@shmoject/modules/lib/logger0.sh"
 import type { Meta0 } from "@shmoject/modules/lib/meta0.sh"
-import type { Prisma0 } from "@shmoject/modules/prisma/prisma0.be"
+import type { Prisma0 } from "@shmoject/modules/prisma/prisma.be"
 import type { Context as HonoContext } from "hono"
 import { getConnInfo } from "hono/bun"
 

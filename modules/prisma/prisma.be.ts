@@ -1,6 +1,8 @@
 import { BackendCtx } from "@shmoject/backend/lib/ctx"
+import { Prisma0Models } from "@shmoject/modules/prisma/generated.be/custom/index.js"
 import { backOff } from "exponential-backoff"
-import { Prisma, PrismaClient } from "./generated/prisma/client"
+import * as generatedCustom from "./generated.be/custom/index.js"
+import { Prisma, PrismaClient } from "./generated.be/prisma/client.js"
 
 // TODO: use as separate package
 // TODO: move to prisma-client not prisma-client-js
@@ -37,7 +39,6 @@ export namespace Prisma0 {
         prismaParams: ctx.env.isLocalHostEnv ? e.params : "***",
       })
     })
-
     prismaOriginal.$on("info", (e) => {
       logger.info({
         tag: "low:info",
@@ -46,19 +47,67 @@ export namespace Prisma0 {
     })
 
     const prismaExtended = prismaOriginal
-      .$extends({
+      .$extends(getFakeTimersExtension({ ctx }))
+      .$extends(getHighLoggingExtension({ ctx }))
+      .$extends(retryTransactionsExtension)
+
+    return prismaExtended
+  }
+
+  const getFakeTimersExtension = ({ ctx }: { ctx: BackendCtx }) =>
+    Prisma.defineExtension((prisma) =>
+      !ctx.env.isTestNodeEnv
+        ? prisma
+        : prisma.$extends({
+            query: {
+              $allModels: {
+                create: async (props) => {
+                  const now = new Date()
+                  if (Prisma0Models.namesWithCreatedAt.includes(props.model)) {
+                    ;(props.args.data as any).createdAt ??= now
+                  }
+                  if (Prisma0Models.namesWithUpdatedAt.includes(props.model)) {
+                    ;(props.args.data as any).updatedAt ??= now
+                  }
+                  return props.query(props.args)
+                },
+                update: async (props) => {
+                  const now = new Date()
+                  if (Prisma0Models.namesWithUpdatedAt.includes(props.model)) {
+                    ;(props.args.data as any).updatedAt ??= now
+                  }
+                  return props.query(props.args)
+                },
+                createMany: async (props) => {
+                  const now = new Date()
+                  if (Prisma0Models.namesWithCreatedAt.includes(props.model)) {
+                    if (Array.isArray(props.args.data)) {
+                      for (const item of props.args.data) {
+                        ;(item as any).createdAt ??= now
+                      }
+                    } else {
+                      ;(props.args.data as any).createdAt ??= now
+                    }
+                  }
+                  return props.query(props.args)
+                },
+              },
+            },
+          }),
+    )
+
+  const getHighLoggingExtension = ({ ctx }: { ctx: BackendCtx }) =>
+    Prisma.defineExtension((prisma) =>
+      prisma.$extends({
         query: {
           $allModels: {
-            // create: async (props) => {
-            //   // TODO: if model has "cretedAt", set it to now()
-            // },
             $allOperations: async (props) => {
               const { model, operation, args, query } = props
               const startedAt = performance.now()
               try {
                 const result = await query(args)
                 const durationMs = performance.now() - startedAt
-                logger.info({
+                ctx.logger.info({
                   tag: "high",
                   message: "Successfull request",
                   prismaDurationMs: durationMs,
@@ -71,7 +120,7 @@ export namespace Prisma0 {
                 return result
               } catch (error) {
                 const durationMs = performance.now() - startedAt
-                logger.error({
+                ctx.logger.error({
                   tag: "high",
                   error,
                   meta: {
@@ -86,11 +135,8 @@ export namespace Prisma0 {
             },
           },
         },
-      })
-      .$extends(retryTransactionsExtension)
-
-    return prismaExtended
-  }
+      }),
+    )
 
   // https://github.com/prisma/prisma-client-extensions/blob/main/retry-transactions/script.ts
   const retryTransactionsExtension = Prisma.defineExtension((prisma) =>
@@ -122,7 +168,6 @@ export namespace Prisma0 {
   )
 
   export type Client = ReturnType<typeof createClient>
-}
 
-export * from "./generated/prisma/enums"
-export * from "./generated/prisma/models"
+  export const GeneratedCustom = generatedCustom
+}

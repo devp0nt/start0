@@ -6,13 +6,18 @@
 
 generator client {
   provider = "prisma-client"
-  output   = "./generated/prisma"
+  output   = "./generated.be/prisma"
 }
 
 generator json {
   provider  = "prisma-json-types-generator"
   namespace = "PrismaJson"
   allowAny  = false
+}
+
+generator custom {
+  provider = "bun ./prisma/generator.be.ts"
+  output   = "./generated.be/custom"
 }
 
 datasource db {
@@ -31,4 +36,9 @@ model Idea {
 
   /// [IdeaLog]
   logs Json[] @default([])
+}
+
+model AppConfigItem {
+  key   String @id
+  value String
 }

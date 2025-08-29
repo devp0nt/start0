@@ -2,7 +2,7 @@ import { createEnv, type Env } from "@shmoject/backend/lib/env"
 import { Error0, e0s as e0sDefault } from "@shmoject/modules/lib/error0.sh"
 import { Logger0 } from "@shmoject/modules/lib/logger0.sh"
 import { Meta0 } from "@shmoject/modules/lib/meta0.sh"
-import { Prisma0 } from "@shmoject/modules/prisma/prisma0.be"
+import { Prisma0 } from "@shmoject/modules/prisma/prisma.be"
 
 // TODO: extend → getExtendable
 // TODO: getExtendable by string

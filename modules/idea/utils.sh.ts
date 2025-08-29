@@ -1,4 +1,4 @@
-import type { IdeaModel } from "@shmoject/modules/prisma/prisma0.be"
+import type { IdeaModel } from "@shmoject/modules/prisma/generated.be/prisma/models"
 import { Route } from "@typed/route"
 import z from "zod"
 

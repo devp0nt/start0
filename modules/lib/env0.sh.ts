@@ -16,7 +16,8 @@ export namespace Env0 {
     if (!parseResult.success) {
       throw new Error0({
         tag: "env",
-        message: `Invalid environment variables: ${z.prettifyError(parseResult.error)}`,
+        // message: `Invalid environment variables: ${z.prettifyError(parseResult.error)}`,
+        message: `Invalid environment variables: ${JSON.stringify(z.flattenError(parseResult.error))}`,
       })
     }
     const data = parseResult.data
