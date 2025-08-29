@@ -9,14 +9,14 @@ export function meta({ loaderData, params }: Route.MetaArgs) {
   }
   return Page.meta({
     loaderData: loaderData.data,
-    params,
+    params: undefined,
     ctx: loaderData.siteCtx,
   })
 }
 
 export const loader = RR0.createLoader(
   async ({ qc, params, ctx }: RR0.LoaderArgs<Route.LoaderArgs>) => {
-    return await Page.loader({ qc, params, ctx })
+    return await Page.loader({ qc, params: undefined, ctx })
   },
 )
 
@@ -30,7 +30,7 @@ export default function RouteComponent({
 }: Route.ComponentProps) {
   return (
     <Page.Component
-      params={params}
+      params={undefined}
       loaderData={loaderData.data}
       ctx={loaderData.siteCtx}
     />

@@ -1,58 +1,67 @@
+import type { Route0 } from "@shmoject/modules/lib/route0.sh"
 import type { SiteCtx } from "@shmoject/site/lib/ctx"
 import type { QueryClient } from "@tanstack/react-query"
-import type { Route as RouteTyped } from "@typed/route"
 import type { MetaDescriptor } from "react-router"
 
 export namespace Page0 {
   type Ctx = SiteCtx.Ctx
 
-  export type Route = RouteTyped.Route<any, any>
+  // Any Route0 instance is acceptable; we’ll keep TRoute precise where it’s used.
+  export type Route = Route0<any, any, any, any>
 
-  export type RouteParams<TRoute extends Route = Route> = Parameters<
-    TRoute["interpolate"]
-  >[0]
+  // Derive params type from a specific route
+  export type RouteParams<TRoute extends Route = Route> = Route0.ParamsInput<
+    TRoute["paramsDefinition"]
+  >
 
   export type LoaderData = Record<string, any>
 
-  export type Loader<
-    TRouteParams extends RouteParams,
-    TLoaderData extends LoaderData,
-  > = (props: {
-    qc: QueryClient
-    params: TRouteParams
-    ctx: Ctx
-  }) => Promise<TLoaderData>
+  // ---- utility: conditionally optional props ----
+  type WithParams<P> = [P] extends [undefined]
+    ? { params?: undefined }
+    : { params: P }
+  type WithLoaderData<D> = [D] extends [undefined]
+    ? { loaderData?: undefined }
+    : { loaderData: D }
+
+  // ---- core signatures (accept params/loaderData optionally if undefined) ----
+  export type Loader<TRouteParams, TLoaderData extends LoaderData> = (
+    props: WithParams<TRouteParams> & {
+      qc: QueryClient
+      ctx: Ctx
+    },
+  ) => Promise<TLoaderData>
 
   export type Component<
-    TRouteParams extends RouteParams,
+    TRouteParams,
     TLoaderData extends LoaderData | undefined,
-  > = (props: {
-    params: TRouteParams
-    loaderData: TLoaderData
-    ctx: Ctx
-  }) => React.ReactNode
+  > = (
+    props: WithParams<TRouteParams> &
+      WithLoaderData<TLoaderData> & {
+        ctx: Ctx
+      },
+  ) => React.ReactNode
 
   export type TitleFn<
-    TRouteParams extends RouteParams,
+    TRouteParams,
     TLoaderData extends LoaderData | undefined,
-  > = (props: {
-    params: TRouteParams
-    loaderData: TLoaderData
-    ctx: Ctx
-  }) => string
-  export type Title<
-    TRouteParams extends RouteParams,
-    TLoaderData extends LoaderData | undefined,
-  > = TitleFn<TRouteParams, TLoaderData> | string
+  > = (
+    props: WithParams<TRouteParams> &
+      WithLoaderData<TLoaderData> & {
+        ctx: Ctx
+      },
+  ) => string
 
-  export type Meta<
-    TRouteParams extends RouteParams,
-    TLoaderData extends LoaderData | undefined,
-  > = (props: {
-    params: TRouteParams
-    loaderData: TLoaderData
-    ctx: Ctx
-  }) => MetaDescriptor[]
+  export type Title<TRouteParams, TLoaderData extends LoaderData | undefined> =
+    | TitleFn<TRouteParams, TLoaderData>
+    | string
+
+  export type Meta<TRouteParams, TLoaderData extends LoaderData | undefined> = (
+    props: WithParams<TRouteParams> &
+      WithLoaderData<TLoaderData> & {
+        ctx: Ctx
+      },
+  ) => MetaDescriptor[]
 
   export type Page<
     TRoute extends Route = Route,
@@ -60,17 +69,15 @@ export namespace Page0 {
     TLoaderData extends LoaderData = LoaderData,
   > = {
     route: TRoute
-    loader: Loader<TRouteParams, TLoaderData>
+    loader: Loader<TRouteParams, TLoaderData> | undefined
     meta: Meta<TRouteParams, TLoaderData> | undefined
     component: Component<TRouteParams, TLoaderData> | undefined
   }
 
-  export const route = <
-    TRoute extends Route,
-    TRouteParams extends RouteParams<TRoute>,
-  >(
-    routeDefinition: TRoute,
-  ) => {
+  // Builder
+  export const route = <TRoute extends Route>(routeDefinition: TRoute) => {
+    type TRouteParams = RouteParams<TRoute>
+
     return {
       component: (componentDefinition: Component<TRouteParams, undefined>) => {
         return {
@@ -80,6 +87,7 @@ export namespace Page0 {
           Component: componentDefinition,
         }
       },
+
       meta: (metaDefinition: Meta<TRouteParams, undefined>) => {
         return {
           component: (
@@ -94,6 +102,7 @@ export namespace Page0 {
           },
         }
       },
+
       title: (titleDefinition: Title<TRouteParams, undefined>) => {
         return {
           component: (
@@ -116,6 +125,7 @@ export namespace Page0 {
           },
         }
       },
+
       loader: <TLoaderData extends LoaderData>(
         loaderDefinition: Loader<TRouteParams, TLoaderData>,
       ) => {
@@ -130,6 +140,7 @@ export namespace Page0 {
               Component: componentDefinition,
             }
           },
+
           meta: (metaDefinition: Meta<TRouteParams, TLoaderData>) => {
             return {
               component: (
@@ -144,6 +155,7 @@ export namespace Page0 {
               },
             }
           },
+
           title: (titleDefinition: Title<TRouteParams, TLoaderData>) => {
             return {
               component: (

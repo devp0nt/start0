@@ -1,9 +1,9 @@
 import { Page0 } from "@shmoject/site/lib/page0"
+import { SiteRoutes } from "@shmoject/site/lib/routes"
 import { trpc, useTRPC } from "@shmoject/site/lib/trpc"
 import { useQuery } from "@tanstack/react-query"
-import { Route } from "@typed/route"
 
-export const HomePage = Page0.route(Route.home)
+export const HomePage = Page0.route(SiteRoutes.home)
   .loader(async ({ qc }) => {
     return await qc.fetchQuery(trpc.ping.queryOptions())
   })

@@ -1,6 +1,4 @@
-route0 
-https://www.npmjs.com/package/ts-routes
-https://dev.to/bytimo/useful-types-extract-route-params-with-typescript-5fhn
+search params to Page0 from react router
 
 generator
 generator site routes files, and route.tsx, and routes.ts
