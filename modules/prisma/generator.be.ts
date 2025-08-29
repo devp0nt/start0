@@ -1,6 +1,9 @@
 import { mkdirSync, writeFileSync } from "node:fs"
 import path from "node:path"
-import { generatorHandler } from "@prisma/generator-helper"
+import {
+  type GeneratorOptions,
+  generatorHandler,
+} from "@prisma/generator-helper"
 import { isMatch, lowerFirst } from "lodash"
 
 const __dirname = path.dirname(new URL(import.meta.url).pathname)
@@ -11,8 +14,6 @@ generatorHandler({
     prettyName: "Prisma0 Generator",
   }),
   onGenerate: async (options) => {
-    const outputDir = options.generator.output?.value || getDefaultOutputDir()
-    const outputPath = path.resolve(outputDir, "index.ts")
     const modelsOutputParts: string[] = []
 
     const modelsNames = options.dmmf.datamodel.models.map((m) => m.name)
@@ -54,16 +55,14 @@ generatorHandler({
     const modelsNamesWithUpdatedAtTs = `export const namesWithUpdatedAt = ["${modelsNamesWithUpdatedAt.join('", "')}"];`
     modelsOutputParts.push(modelsNamesWithUpdatedAtTs)
 
-    mkdirSync(outputDir, { recursive: true })
-    writeFileSync(
-      outputPath,
-      getOutputContent([["Prisma0Models", modelsOutputParts]]),
-    )
+    writeOutputContent(options, [
+      ["models.ts", withExportNamespace("Prisma0Models", modelsOutputParts)],
+    ])
   },
 })
 
 const getDefaultOutputDir = () => {
-  return path.resolve(__dirname, "generated.be/custom")
+  return path.resolve(__dirname, "generated.be/prisma0")
 }
 
 const withExportNamespace = (namespace: string, lines: string[]) => {
@@ -74,8 +73,14 @@ const withExportNamespace = (namespace: string, lines: string[]) => {
   ].join("\n")
 }
 
-const getOutputContent = (input: Array<[string, string[]]>) => {
-  return input
-    .map(([namespace, lines]) => withExportNamespace(namespace, lines))
-    .join("\n\n")
+const writeOutputContent = (
+  options: GeneratorOptions,
+  input: Array<[string, string]>,
+) => {
+  const outputDir = options.generator.output?.value || getDefaultOutputDir()
+  mkdirSync(outputDir, { recursive: true })
+  for (const [filename, content] of input) {
+    const outputPath = path.resolve(outputDir, filename)
+    writeFileSync(outputPath, content)
+  }
 }

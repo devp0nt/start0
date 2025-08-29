@@ -17,7 +17,7 @@ generator json {
 
 generator custom {
   provider = "bun ./prisma/generator.be.ts"
-  output   = "./generated.be/custom"
+  output   = "./generated.be/prisma0"
 }
 
 datasource db {

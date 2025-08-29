@@ -1,7 +1,6 @@
 import { BackendCtx } from "@shmoject/backend/lib/ctx"
-import { Prisma0Models } from "@shmoject/modules/prisma/generated.be/custom/index.js"
+import { Prisma0Models } from "@shmoject/modules/prisma/generated.be/prisma0/models.js"
 import { backOff } from "exponential-backoff"
-import * as generatedCustom from "./generated.be/custom/index.js"
 import { Prisma, PrismaClient } from "./generated.be/prisma/client.js"
 
 // TODO: use as separate package
@@ -168,6 +167,4 @@ export namespace Prisma0 {
   )
 
   export type Client = ReturnType<typeof createClient>
-
-  export const GeneratedCustom = generatedCustom
 }
