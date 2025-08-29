@@ -193,21 +193,33 @@ export class Route0<
   // No params
   get(): Route0.OnlyIfNoParams<
     TParamsDefinition,
-    Route0.RouteValue<TFullPathDefinition>
+    Route0.PathOnlyRouteValue<TFullPathDefinition>
   >
   get(props: {
-    search?: Route0.SearchParamsInput<TSearchParamsDefinition>
+    search: Route0.SearchParamsInput<TSearchParamsDefinition>
     abs?: false
   }): Route0.OnlyIfNoParams<
     TParamsDefinition,
-    Route0.RouteValue<TFullPathDefinition>
+    Route0.WithQueryRouteValue<TFullPathDefinition>
   >
   get(props: {
-    search?: Route0.SearchParamsInput<TSearchParamsDefinition>
+    search: Route0.SearchParamsInput<TSearchParamsDefinition>
     abs: true
   }): Route0.OnlyIfNoParams<
     TParamsDefinition,
-    Route0.AbsoluteRouteValue<TFullPathDefinition>
+    Route0.AbsoluteWithQueryRouteValue<TFullPathDefinition>
+  >
+  get(props: {
+    abs: false
+  }): Route0.OnlyIfNoParams<
+    TParamsDefinition,
+    Route0.PathOnlyRouteValue<TFullPathDefinition>
+  >
+  get(props: {
+    abs: true
+  }): Route0.OnlyIfNoParams<
+    TParamsDefinition,
+    Route0.AbsolutePathOnlyRouteValue<TFullPathDefinition>
   >
 
   // With params — shorthand: get(params)
@@ -218,7 +230,7 @@ export class Route0<
     >,
   ): Route0.OnlyIfHasParams<
     TParamsDefinition,
-    Route0.RouteValue<TFullPathDefinition>
+    Route0.PathOnlyRouteValue<TFullPathDefinition>
   >
 
   // With params — two-arg form: get(params, { search?, abs? })
@@ -228,12 +240,12 @@ export class Route0<
       Route0.ParamsInput<TParamsDefinition>
     >,
     opts: {
-      search?: Route0.SearchParamsInput<TSearchParamsDefinition>
+      search: Route0.SearchParamsInput<TSearchParamsDefinition>
       abs?: false
     },
   ): Route0.OnlyIfHasParams<
     TParamsDefinition,
-    Route0.RouteValue<TFullPathDefinition>
+    Route0.WithQueryRouteValue<TFullPathDefinition>
   >
   get(
     params: Route0.OnlyIfHasParams<
@@ -241,25 +253,53 @@ export class Route0<
       Route0.ParamsInput<TParamsDefinition>
     >,
     opts: {
-      search?: Route0.SearchParamsInput<TSearchParamsDefinition>
+      search: Route0.SearchParamsInput<TSearchParamsDefinition>
       abs: true
     },
   ): Route0.OnlyIfHasParams<
     TParamsDefinition,
-    Route0.AbsoluteRouteValue<TFullPathDefinition>
+    Route0.AbsoluteWithQueryRouteValue<TFullPathDefinition>
+  >
+  get(
+    params: Route0.OnlyIfHasParams<
+      TParamsDefinition,
+      Route0.ParamsInput<TParamsDefinition>
+    >,
+    opts: { abs?: false },
+  ): Route0.OnlyIfHasParams<
+    TParamsDefinition,
+    Route0.PathOnlyRouteValue<TFullPathDefinition>
+  >
+  get(
+    params: Route0.OnlyIfHasParams<
+      TParamsDefinition,
+      Route0.ParamsInput<TParamsDefinition>
+    >,
+    opts: { abs: true },
+  ): Route0.OnlyIfHasParams<
+    TParamsDefinition,
+    Route0.AbsolutePathOnlyRouteValue<TFullPathDefinition>
   >
 
   // With params — object form
   get(props: {
     params: Route0.ParamsInput<TParamsDefinition>
-    search?: Route0.SearchParamsInput<TSearchParamsDefinition>
+    search: Route0.SearchParamsInput<TSearchParamsDefinition>
     abs?: false
-  }): Route0.RouteValue<TFullPathDefinition>
+  }): Route0.WithQueryRouteValue<TFullPathDefinition>
   get(props: {
     params: Route0.ParamsInput<TParamsDefinition>
-    search?: Route0.SearchParamsInput<TSearchParamsDefinition>
+    search: Route0.SearchParamsInput<TSearchParamsDefinition>
     abs: true
-  }): Route0.AbsoluteRouteValue<TFullPathDefinition>
+  }): Route0.AbsoluteWithQueryRouteValue<TFullPathDefinition>
+  get(props: {
+    params: Route0.ParamsInput<TParamsDefinition>
+    abs?: false
+  }): Route0.PathOnlyRouteValue<TFullPathDefinition>
+  get(props: {
+    params: Route0.ParamsInput<TParamsDefinition>
+    abs: true
+  }): Route0.AbsolutePathOnlyRouteValue<TFullPathDefinition>
 
   // Implementation
   get(
@@ -498,6 +538,16 @@ export namespace Route0 {
 
   export type AbsoluteRouteValue<TFullPathDefinition extends string> =
     `${string}${RouteValue<TFullPathDefinition>}`
+
+  // Precise return types depending on presence of search in get() calls
+  export type PathOnlyRouteValue<TFullPathDefinition extends string> =
+    `${_ReplacePathParams<PathDefinition<TFullPathDefinition>>}`
+  export type WithQueryRouteValue<TFullPathDefinition extends string> =
+    `${_ReplacePathParams<PathDefinition<TFullPathDefinition>>}?${string}`
+  export type AbsolutePathOnlyRouteValue<TFullPathDefinition extends string> =
+    `${string}${PathOnlyRouteValue<TFullPathDefinition>}`
+  export type AbsoluteWithQueryRouteValue<TFullPathDefinition extends string> =
+    `${string}${WithQueryRouteValue<TFullPathDefinition>}`
 
   // ---------- Export helpers ----------
   export type ExportParamsOutput<TRoute0 extends Route0<any, any, any, any>> = {
