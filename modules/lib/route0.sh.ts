@@ -225,6 +225,13 @@ export namespace Route0 {
         ? Name | _ExtractPathParams<`/${Rest}`>
         : After
       : never
+  type _ReplacePathParams<S extends string> =
+    S extends `${infer Head}:${infer Tail}`
+      ? Tail extends `${infer _Param}/${infer Rest}`
+        ? _ReplacePathParams<`${Head}${string}/${Rest}`>
+        : `${Head}${string}`
+      : S
+  type _QuerySuffixUnion<T> = [T] extends [undefined] ? "" : "" | `?${string}`
 
   // Conditional “presence” helper
   export type OnlyIfNoParams<TParams, Yes, No = never> = [TParams] extends [
@@ -282,5 +289,6 @@ export namespace Route0 {
           | Array<string | number | boolean>
       }>
 
-  export type RouteValue<TFullPathDefinition extends string> = string
+  export type RouteValue<TFullPathDefinition extends string> =
+    `${_ReplacePathParams<PathDefinition<TFullPathDefinition>>}${_QuerySuffixUnion<SearchParamsDefinition<TFullPathDefinition>>}`
 }
