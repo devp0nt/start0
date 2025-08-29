@@ -53,4 +53,43 @@ describe("meta0", () => {
     const path = route1.get({ search: { z: "2", c: "3" } })
     expect(path).toBe("/prefix/suffix?z=2&c=3")
   })
+
+  it("abs default", () => {
+    const route0 = Route0.create("/path")
+    const path = route0.get({ abs: true })
+    expect(path).toBe("https://example.com/path")
+  })
+
+  it("abs set", () => {
+    const route0 = Route0.create("/path", "https://x.com")
+    const path = route0.get({ abs: true })
+    expect(path).toBe("https://x.com/path")
+  })
+
+  it("abs override", () => {
+    const route0 = Route0.create("/path", "https://x.com")
+    route0.baseUrl = "https://y.com"
+    const path = route0.get({ abs: true })
+    expect(path).toBe("https://y.com/path")
+  })
+
+  it("abs override extend", () => {
+    const route0 = Route0.create("/path", "https://x.com")
+    route0.baseUrl = "https://y.com"
+    const route1 = route0.extend("/suffix")
+    const path = route1.get({ abs: true })
+    expect(path).toBe("https://y.com/path/suffix")
+  })
+
+  it("abs override many", () => {
+    const route0 = Route0.create("/path", "https://x.com")
+    const route1 = route0.extend("/suffix")
+    const routes = {
+      r0: route0,
+      r1: route1,
+    }
+    const routes2 = Route0.replaceManyBaseUrl(routes, "https://z.com")
+    const path = routes2.r1.get({ abs: true })
+    expect(path).toBe("https://z.com/path/suffix")
+  })
 })
