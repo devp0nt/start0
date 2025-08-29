@@ -550,11 +550,12 @@ export namespace Route0 {
     `${string}${WithQueryRouteValue<TFullPathDefinition>}`
 
   // ---------- Export helpers ----------
-  export type ExportParamsOutput<TRoute0 extends Route0<any, any, any, any>> = {
-    [K in keyof TRoute0["paramsDefinition"]]: string
-  }
+  export type ExtractParamsOutput<TRoute0 extends Route0<any, any, any, any>> =
+    {
+      [K in keyof TRoute0["paramsDefinition"]]: string
+    }
 
-  export type ExportSearchParamsOutput<
+  export type ExtractSearchParamsOutput<
     TRoute0 extends Route0<any, any, any, any>,
   > = { [K in keyof TRoute0["searchParamsDefinition"]]: string } & Record<
     string,
