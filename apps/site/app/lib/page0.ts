@@ -3,10 +3,13 @@ import type { SiteCtx } from "@shmoject/site/lib/ctx"
 import type { QueryClient } from "@tanstack/react-query"
 import type { MetaDescriptor } from "react-router"
 
-// TODO: transform to class
-// TODO: tests
-// TODO: .create({})
-// TODO: meta error state, meta loading state
+// TODO: use in react router
+// TODO: layout0 → route0
+
+// TODO: ? transform to class
+// TODO: ? .create({})
+// TODO: metaError, metaLoading
+// TODO: titleError, titleLoading
 // TODO: title exact or suffix or prefix
 
 export namespace Page0 {
@@ -29,11 +32,7 @@ export namespace Page0 {
   type WithLoaderData<D> = { loaderData: D }
 
   // ---- core signatures ----
-  export type Loader<
-    TRouteParams,
-    TRouteSearch = unknown,
-    TLoaderData extends LoaderData = LoaderData,
-  > = (
+  export type Loader<TRouteParams, TRouteSearch = unknown, TLoaderData extends LoaderData = LoaderData> = (
     props: WithParams<TRouteParams> &
       WithQuery<TRouteSearch> & {
         qc: QueryClient
@@ -41,11 +40,7 @@ export namespace Page0 {
       },
   ) => Promise<TLoaderData>
 
-  export type Component<
-    TRouteParams,
-    TRouteSearch = unknown,
-    TLoaderData extends LoaderData = LoaderData,
-  > = (
+  export type Component<TRouteParams, TRouteSearch = unknown, TLoaderData extends LoaderData = LoaderData> = (
     props: WithParams<TRouteParams> &
       WithQuery<TRouteSearch> &
       WithLoaderData<TLoaderData> & {
@@ -53,11 +48,7 @@ export namespace Page0 {
       },
   ) => React.ReactNode
 
-  export type TitleFn<
-    TRouteParams,
-    TRouteSearch = unknown,
-    TLoaderData extends LoaderData = LoaderData,
-  > = (
+  export type TitleFn<TRouteParams, TRouteSearch = unknown, TLoaderData extends LoaderData = LoaderData> = (
     props: WithParams<TRouteParams> &
       WithQuery<TRouteSearch> &
       WithLoaderData<TLoaderData> & {
@@ -65,17 +56,11 @@ export namespace Page0 {
       },
   ) => string
 
-  export type Title<
-    TRouteParams,
-    TRouteSearch = unknown,
-    TLoaderData extends LoaderData = LoaderData,
-  > = TitleFn<TRouteParams, TRouteSearch, TLoaderData> | string
+  export type Title<TRouteParams, TRouteSearch = unknown, TLoaderData extends LoaderData = LoaderData> =
+    | TitleFn<TRouteParams, TRouteSearch, TLoaderData>
+    | string
 
-  export type Meta<
-    TRouteParams,
-    TRouteSearch = unknown,
-    TLoaderData extends LoaderData = LoaderData,
-  > = (
+  export type Meta<TRouteParams, TRouteSearch = unknown, TLoaderData extends LoaderData = LoaderData> = (
     props: WithParams<TRouteParams> &
       WithQuery<TRouteSearch> &
       WithLoaderData<TLoaderData> & {
@@ -101,41 +86,24 @@ export namespace Page0 {
     TRouteSearch = unknown,
     TLoaderData extends LoaderData = DefaultLoaderData,
   >(): Loader<TRouteParams, TRouteSearch, TLoaderData> => {
-    return (async (_props) => ({}) as TLoaderData) as Loader<
-      TRouteParams,
-      TRouteSearch,
-      TLoaderData
-    >
+    return (async (_props) => ({}) as TLoaderData) as Loader<TRouteParams, TRouteSearch, TLoaderData>
   }
 
-  const titleToMeta = <
-    TRouteParams,
-    TRouteSearch = unknown,
-    TLoaderData extends LoaderData = LoaderData,
-  >(
+  const titleToMeta = <TRouteParams, TRouteSearch = unknown, TLoaderData extends LoaderData = LoaderData>(
     titleDefinition: Title<TRouteParams, TRouteSearch, TLoaderData>,
   ): Meta<TRouteParams, TRouteSearch, TLoaderData> => {
     return (props) => [
       {
-        title:
-          typeof titleDefinition === "string"
-            ? titleDefinition
-            : titleDefinition(props),
+        title: typeof titleDefinition === "string" ? titleDefinition : titleDefinition(props),
       },
     ]
   }
 
-  const extendMetaWithTitle = <
-    TRouteParams,
-    TRouteSearch = unknown,
-    TLoaderData extends LoaderData = LoaderData,
-  >(
+  const extendMetaWithTitle = <TRouteParams, TRouteSearch = unknown, TLoaderData extends LoaderData = LoaderData>(
     baseMeta: Meta<TRouteParams, TRouteSearch, TLoaderData>,
     titleDefinition: Title<TRouteParams, TRouteSearch, TLoaderData>,
   ): Meta<TRouteParams, TRouteSearch, TLoaderData> => {
-    const titleMeta = titleToMeta<TRouteParams, TRouteSearch, TLoaderData>(
-      titleDefinition,
-    )
+    const titleMeta = titleToMeta<TRouteParams, TRouteSearch, TLoaderData>(titleDefinition)
     return (props) => [...baseMeta(props), ...titleMeta(props)]
   }
 
@@ -145,18 +113,8 @@ export namespace Page0 {
     type TRouteSearch = RouteQuery<TRoute>
 
     return {
-      component: (
-        componentDefinition: Component<
-          TRouteParams,
-          TRouteSearch,
-          DefaultLoaderData
-        >,
-      ) => {
-        const defaultLoader = createDefaultLoader<
-          TRouteParams,
-          TRouteSearch,
-          DefaultLoaderData
-        >()
+      component: (componentDefinition: Component<TRouteParams, TRouteSearch, DefaultLoaderData>) => {
+        const defaultLoader = createDefaultLoader<TRouteParams, TRouteSearch, DefaultLoaderData>()
         return {
           route: routeDefinition,
           loader: defaultLoader,
@@ -165,22 +123,10 @@ export namespace Page0 {
         }
       },
 
-      meta: (
-        metaDefinition: Meta<TRouteParams, TRouteSearch, DefaultLoaderData>,
-      ) => {
+      meta: (metaDefinition: Meta<TRouteParams, TRouteSearch, DefaultLoaderData>) => {
         return {
-          component: (
-            componentDefinition: Component<
-              TRouteParams,
-              TRouteSearch,
-              DefaultLoaderData
-            >,
-          ) => {
-            const defaultLoader = createDefaultLoader<
-              TRouteParams,
-              TRouteSearch,
-              DefaultLoaderData
-            >()
+          component: (componentDefinition: Component<TRouteParams, TRouteSearch, DefaultLoaderData>) => {
+            const defaultLoader = createDefaultLoader<TRouteParams, TRouteSearch, DefaultLoaderData>()
             return {
               route: routeDefinition,
               loader: defaultLoader,
@@ -191,31 +137,16 @@ export namespace Page0 {
         }
       },
 
-      title: (
-        titleDefinition: Title<TRouteParams, TRouteSearch, DefaultLoaderData>,
-      ) => {
+      title: (titleDefinition: Title<TRouteParams, TRouteSearch, DefaultLoaderData>) => {
         return {
-          meta: (
-            metaDefinition: Meta<TRouteParams, TRouteSearch, DefaultLoaderData>,
-          ) => {
+          meta: (metaDefinition: Meta<TRouteParams, TRouteSearch, DefaultLoaderData>) => {
             return {
-              component: (
-                componentDefinition: Component<
-                  TRouteParams,
-                  TRouteSearch,
-                  DefaultLoaderData
-                >,
-              ) => {
-                const metaCombined = extendMetaWithTitle<
-                  TRouteParams,
-                  TRouteSearch,
-                  DefaultLoaderData
-                >(metaDefinition, titleDefinition)
-                const defaultLoader = createDefaultLoader<
-                  TRouteParams,
-                  TRouteSearch,
-                  DefaultLoaderData
-                >()
+              component: (componentDefinition: Component<TRouteParams, TRouteSearch, DefaultLoaderData>) => {
+                const metaCombined = extendMetaWithTitle<TRouteParams, TRouteSearch, DefaultLoaderData>(
+                  metaDefinition,
+                  titleDefinition,
+                )
+                const defaultLoader = createDefaultLoader<TRouteParams, TRouteSearch, DefaultLoaderData>()
                 return {
                   route: routeDefinition,
                   loader: defaultLoader,
@@ -225,23 +156,9 @@ export namespace Page0 {
               },
             }
           },
-          component: (
-            componentDefinition: Component<
-              TRouteParams,
-              TRouteSearch,
-              DefaultLoaderData
-            >,
-          ) => {
-            const metaDefinition = titleToMeta<
-              TRouteParams,
-              TRouteSearch,
-              DefaultLoaderData
-            >(titleDefinition)
-            const defaultLoader = createDefaultLoader<
-              TRouteParams,
-              TRouteSearch,
-              DefaultLoaderData
-            >()
+          component: (componentDefinition: Component<TRouteParams, TRouteSearch, DefaultLoaderData>) => {
+            const metaDefinition = titleToMeta<TRouteParams, TRouteSearch, DefaultLoaderData>(titleDefinition)
+            const defaultLoader = createDefaultLoader<TRouteParams, TRouteSearch, DefaultLoaderData>()
             return {
               route: routeDefinition,
               loader: defaultLoader,
@@ -252,17 +169,9 @@ export namespace Page0 {
         }
       },
 
-      loader: <TLoaderData extends LoaderData>(
-        loaderDefinition: Loader<TRouteParams, TRouteSearch, TLoaderData>,
-      ) => {
+      loader: <TLoaderData extends LoaderData>(loaderDefinition: Loader<TRouteParams, TRouteSearch, TLoaderData>) => {
         return {
-          component: (
-            componentDefinition: Component<
-              TRouteParams,
-              TRouteSearch,
-              TLoaderData
-            >,
-          ) => {
+          component: (componentDefinition: Component<TRouteParams, TRouteSearch, TLoaderData>) => {
             return {
               route: routeDefinition,
               loader: loaderDefinition,
@@ -271,17 +180,9 @@ export namespace Page0 {
             }
           },
 
-          meta: (
-            metaDefinition: Meta<TRouteParams, TRouteSearch, TLoaderData>,
-          ) => {
+          meta: (metaDefinition: Meta<TRouteParams, TRouteSearch, TLoaderData>) => {
             return {
-              component: (
-                componentDefinition: Component<
-                  TRouteParams,
-                  TRouteSearch,
-                  TLoaderData
-                >,
-              ) => {
+              component: (componentDefinition: Component<TRouteParams, TRouteSearch, TLoaderData>) => {
                 return {
                   route: routeDefinition,
                   loader: loaderDefinition,
@@ -292,26 +193,15 @@ export namespace Page0 {
             }
           },
 
-          title: (
-            titleDefinition: Title<TRouteParams, TRouteSearch, TLoaderData>,
-          ) => {
+          title: (titleDefinition: Title<TRouteParams, TRouteSearch, TLoaderData>) => {
             return {
-              meta: (
-                metaDefinition: Meta<TRouteParams, TRouteSearch, TLoaderData>,
-              ) => {
+              meta: (metaDefinition: Meta<TRouteParams, TRouteSearch, TLoaderData>) => {
                 return {
-                  component: (
-                    componentDefinition: Component<
-                      TRouteParams,
-                      TRouteSearch,
-                      TLoaderData
-                    >,
-                  ) => {
-                    const metaCombined = extendMetaWithTitle<
-                      TRouteParams,
-                      TRouteSearch,
-                      TLoaderData
-                    >(metaDefinition, titleDefinition)
+                  component: (componentDefinition: Component<TRouteParams, TRouteSearch, TLoaderData>) => {
+                    const metaCombined = extendMetaWithTitle<TRouteParams, TRouteSearch, TLoaderData>(
+                      metaDefinition,
+                      titleDefinition,
+                    )
                     return {
                       route: routeDefinition,
                       loader: loaderDefinition,
@@ -321,18 +211,8 @@ export namespace Page0 {
                   },
                 }
               },
-              component: (
-                componentDefinition: Component<
-                  TRouteParams,
-                  TRouteSearch,
-                  TLoaderData
-                >,
-              ) => {
-                const metaDefinition = titleToMeta<
-                  TRouteParams,
-                  TRouteSearch,
-                  TLoaderData
-                >(titleDefinition)
+              component: (componentDefinition: Component<TRouteParams, TRouteSearch, TLoaderData>) => {
+                const metaDefinition = titleToMeta<TRouteParams, TRouteSearch, TLoaderData>(titleDefinition)
                 return {
                   route: routeDefinition,
                   loader: loaderDefinition,

@@ -1,4 +1,3 @@
-// TODO: refactor types
 // TODO: use in react router
 // TODO: self as function
 // TODO: .create(route, {useQuery, useParams})

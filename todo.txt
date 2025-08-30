@@ -1,8 +1,3 @@
-route0
-page0
-В рр переименовать апп в срц, а в срцположить реакт-роутер как ппп, чтобы всё его там и было
-layout0
-
 generator
 generator site routes files, and route.tsx, and routes.ts
 genreator backend route files, search fields and get exports by names
@@ -11,8 +6,11 @@ generate hono requests types and use query
 generate hono swagger
 @ index files watcher
 
-tsconfig includes by files exts
+В рр переименовать апп в срц, а в срцположить реакт-роутер как ппп, чтобы всё его там и было
 
+
+tsconfig includes by files exts
+biome import restrictions
 
 better-auth
 https://dev.to/ayoubphy/step-by-step-guide-setting-up-trpc-better-auth-prisma-and-react-router-v7-4ho
