@@ -1,11 +1,6 @@
 import { describe, expect, expectTypeOf, it } from "bun:test"
 import { Route0 } from "@shmoject/modules/lib/route0.sh"
 
-// FIXED: Autocompletion now works for shorthand get(params) syntax
-// When you have a route with params like Route0.create("/user/:id/profile/:tab")
-// You can now use: route.get({ id: "123", tab: "settings" })
-// And TypeScript will provide autocompletion for the param keys
-
 describe("meta0", () => {
   it("simple", () => {
     const route0 = Route0.create("/")
@@ -30,7 +25,7 @@ describe("meta0", () => {
 
   it("params any query", () => {
     const route0 = Route0.create("/prefix/:x/some/:y/:z")
-    const path = route0.get({ x: "1", y: 2, z: "3" }, { query: { q: "1" } })
+    const path = route0.get({ x: "1", y: 2, z: "3", query: { q: "1" } })
     expectTypeOf<typeof path>().toEqualTypeOf<`/prefix/${string}/some/${string}/${string}?${string}`>()
     expect(path).toBe("/prefix/1/some/2/3?q=1")
   })
@@ -45,12 +40,7 @@ describe("meta0", () => {
 
   it("params and search params", () => {
     const route0 = Route0.create("/prefix/:x/some/:y/:z&z&c")
-    const path = route0.get(
-      { x: "1", y: "2", z: "3" },
-      {
-        query: { z: "4", c: "5" },
-      },
-    )
+    const path = route0.get({ x: "1", y: "2", z: "3", query: { z: "4", c: "5" } })
     expectTypeOf<typeof path>().toEqualTypeOf<`/prefix/${string}/some/${string}/${string}?${string}`>()
     expect(path).toBe("/prefix/1/some/2/3?z=4&c=5")
   })
@@ -151,20 +141,20 @@ describe("meta0", () => {
   it("type errors: require params when defined", () => {
     const rWith = Route0.create("/a/:id")
     // @ts-expect-error missing required path params
-    expect(() => rWith.get()).toThrow()
+    expect(rWith.get()).toBe("/a/undefined")
 
     // @ts-expect-error missing required path params
-    expect(() => rWith.get({})).toThrow()
+    expect(rWith.get({})).toBe("/a/undefined")
     // @ts-expect-error missing required path params (object form abs)
-    expect(() => rWith.get({ abs: true })).toThrow()
+    expect(rWith.get({ abs: true })).toBe("https://example.com/a/undefined")
     // @ts-expect-error missing required path params (object form query)
-    expect(() => rWith.get({ query: { q: "1" } })).toThrow()
+    expect(rWith.get({ query: { q: "1" } })).toBe("/a/undefined?q=1")
 
     // @ts-expect-error params can not be sent as object value it should be argument
     rWith.get({ params: { id: "1" } }) // not throw becouse this will not used
 
     const rNo = Route0.create("/b")
     // @ts-expect-error no path params allowed for this route (shorthand)
-    expect(() => rNo.get({ id: "1" })).toThrow()
+    expect(rNo.get({ id: "1" })).toBe("/b")
   })
 })

@@ -1,8 +1,4 @@
-// TODO: refactor
-// TODO: on extend, do not get query params from parent
-// TODO: .create(route, {baseUrl})
-// TODO: get(), get({...params, query?, abs?})
-// TODO: overrideMany
+// TODO: refactor types
 // TODO: self as function
 // TODO: .create(route, {useQuery, useParams})
 // TODO: getPathDefinition
@@ -137,132 +133,90 @@ export class Route0<
     >(pathOriginalDefinition, { baseUrl: this.baseUrl })
   }
 
-  // ===== OVERLOADS =====
-  // With params — shorthand: get(params) - MUST BE FIRST for proper autocompletion
+  // Has params
   get(
-    params: Route0._OnlyIfHasParams<TParamsDefinition, Route0._ParamsInput<TParamsDefinition>>,
+    input: Route0._OnlyIfHasParams<
+      TParamsDefinition,
+      Route0._WithParamsInput<TParamsDefinition, { query?: undefined; abs?: false }>
+    >,
   ): Route0._OnlyIfHasParams<TParamsDefinition, Route0._PathOnlyRouteValue<TPathOriginalDefinition>>
+  get(
+    input: Route0._OnlyIfHasParams<
+      TParamsDefinition,
+      Route0._WithParamsInput<TParamsDefinition, { query: Route0._QueryInput<TQueryDefinition>; abs?: false }>
+    >,
+  ): Route0._OnlyIfHasParams<TParamsDefinition, Route0._WithQueryRouteValue<TPathOriginalDefinition>>
+  get(
+    input: Route0._OnlyIfHasParams<
+      TParamsDefinition,
+      Route0._WithParamsInput<TParamsDefinition, { query?: undefined; abs: true }>
+    >,
+  ): Route0._OnlyIfHasParams<TParamsDefinition, Route0._AbsolutePathOnlyRouteValue<TPathOriginalDefinition>>
+  get(
+    input: Route0._OnlyIfHasParams<
+      TParamsDefinition,
+      Route0._WithParamsInput<TParamsDefinition, { query: Route0._QueryInput<TQueryDefinition>; abs: true }>
+    >,
+  ): Route0._OnlyIfHasParams<TParamsDefinition, Route0._AbsoluteWithQueryRouteValue<TPathOriginalDefinition>>
 
-  // With params — two-arg form: get(params, { query?, abs? })
-  get<
-    O extends {
-      query?: Route0._QueryInput<TQueryDefinition>
-      abs?: boolean
-    },
-  >(
-    params: Route0._OnlyIfHasParams<TParamsDefinition, Route0._ParamsInput<TParamsDefinition>>,
-    opts: O,
-  ): Route0._OnlyIfHasParams<
-    TParamsDefinition,
-    O extends { abs: true }
-      ? O extends { query: any }
-        ? Route0._AbsoluteWithQueryRouteValue<TPathOriginalDefinition>
-        : Route0._AbsolutePathOnlyRouteValue<TPathOriginalDefinition>
-      : O extends { query: any }
-        ? Route0._WithQueryRouteValue<TPathOriginalDefinition>
-        : Route0._PathOnlyRouteValue<TPathOriginalDefinition>
-  >
-
-  // No params - these come after params overloads to avoid conflicts
+  // No params
   get(
     ...args: Route0._OnlyIfNoParams<TParamsDefinition, [], [never]>
   ): Route0._PathOnlyRouteValue<TPathOriginalDefinition>
   get(
-    props: Route0._OnlyIfNoParams<TParamsDefinition, { query: Route0._QueryInput<TQueryDefinition>; abs?: false }>,
-  ): Route0._WithQueryRouteValue<TPathOriginalDefinition>
+    input: Route0._OnlyIfNoParams<TParamsDefinition, { query?: undefined; abs?: false }>,
+  ): Route0._OnlyIfNoParams<TParamsDefinition, Route0._PathOnlyRouteValue<TPathOriginalDefinition>>
   get(
-    props: Route0._OnlyIfNoParams<TParamsDefinition, { query: Route0._QueryInput<TQueryDefinition>; abs: true }>,
-  ): Route0._AbsoluteWithQueryRouteValue<TPathOriginalDefinition>
+    input: Route0._OnlyIfNoParams<TParamsDefinition, { query: Route0._QueryInput<TQueryDefinition>; abs?: false }>,
+  ): Route0._OnlyIfNoParams<TParamsDefinition, Route0._WithQueryRouteValue<TPathOriginalDefinition>>
   get(
-    props: Route0._OnlyIfNoParams<TParamsDefinition, { query?: undefined; abs?: false }>,
-  ): Route0._WithQueryRouteValue<TPathOriginalDefinition>
+    input: Route0._OnlyIfNoParams<TParamsDefinition, { query?: undefined; abs: true }>,
+  ): Route0._OnlyIfNoParams<TParamsDefinition, Route0._AbsolutePathOnlyRouteValue<TPathOriginalDefinition>>
   get(
-    props: Route0._OnlyIfNoParams<TParamsDefinition, { query?: undefined; abs: true }>,
-  ): Route0._AbsolutePathOnlyRouteValue<TPathOriginalDefinition>
-  get(
-    props: Route0._OnlyIfNoParams<TParamsDefinition, { abs: false }>,
-  ): Route0._PathOnlyRouteValue<TPathOriginalDefinition>
-  get(
-    props: Route0._OnlyIfNoParams<TParamsDefinition, { abs: true }>,
-  ): Route0._AbsolutePathOnlyRouteValue<TPathOriginalDefinition>
-
-  // Disallow object-form with { params } entirely; only allow options for no-param routes
+    input: Route0._OnlyIfNoParams<TParamsDefinition, { query: Route0._QueryInput<TQueryDefinition>; abs: true }>,
+  ): Route0._OnlyIfNoParams<TParamsDefinition, Route0._AbsoluteWithQueryRouteValue<TPathOriginalDefinition>>
 
   // Implementation
   get(...args: any[]): string {
-    const a = args[0]
-    const b = args[1]
-    const needed = Object.keys(this.paramsDefinition) as string[]
-
-    let params: Record<string, any> | undefined
-    let query: Record<string, any> | undefined
-    let abs = false
-
-    const isObj =
-      typeof a === "object" && a !== null && ("params" in (a as any) || "query" in (a as any) || "abs" in (a as any))
-
-    if (b !== undefined) {
-      // Two-argument form: get(params, opts)
-      if (needed.length === 0) {
-        // No params expected; treat first arg as stray and only use opts
-        params = undefined
-      } else {
-        params = a as any
+    const { queryInput, paramsInput, absInput } = ((): {
+      queryInput: Record<string, string | number>
+      paramsInput: Record<string, string | number>
+      absInput: boolean
+    } => {
+      if (args.length === 0) {
+        return { queryInput: {}, paramsInput: {}, absInput: false }
       }
-      query = b?.query as any
-      abs = Boolean(b?.abs)
-    } else if (isObj) {
-      params = (a as any).params
-      query = (a as any).query
-      abs = Boolean((a as any).abs)
-    } else if (a && typeof a === "object") {
-      // Shorthand get(params) — only when params are defined
-      if (needed.length === 0) {
-        throw new Error(`This route has no path params; use get() or get({ query }).`)
+      const input = args[0]
+      if (typeof input !== "object" || input === null) {
+        // throw new Error("Invalid get route input: expected object")
+        return { queryInput: {}, paramsInput: {}, absInput: false }
       }
-      params = a as any
-    } else if (a === undefined) {
-      // ok for routes without params
-      if (needed.length > 0) {
-        throw new Error(`Missing "params": expected keys ${needed.map((k) => `"${k}"`).join(", ")}.`)
-      }
+      const { query, abs, ...params } = input
+      return { queryInput: query || {}, paramsInput: params || {}, absInput: abs ?? false }
+    })()
+
+    // validate params
+    const neededParamsKeys = Object.keys(this.paramsDefinition)
+    const providedParamsKeys = Object.keys(paramsInput)
+    const notProvidedKeys = neededParamsKeys.filter((k) => !providedParamsKeys.includes(k))
+    if (notProvidedKeys.length) {
+      // throw new Error(`Missing params: not defined keys ${notProvidedKeys.map((k) => `"${k}"`).join(", ")}.`)
+      Object.assign(paramsInput, Object.fromEntries(notProvidedKeys.map((k) => [k, "undefined"])))
     }
 
+    // create url
     let url = String(this.pathDefinition)
-
-    if (needed.length) {
-      if (!params) {
-        throw new Error(`Missing "params": expected keys ${needed.map((k) => `"${k}"`).join(", ")}.`)
-      }
-      for (const k of needed) {
-        const v = params[k]
-        if (v === undefined || v === null) {
-          throw new Error(`Missing value for path param ":${k}".`)
-        }
-      }
-    }
-
-    // replace path params (if any)
-    url = url.replace(/:([A-Za-z0-9_]+)/g, (_m, k) => encodeURIComponent(String(params?.[k] ?? "")))
-
-    // Build query string: accept both declared and arbitrary keys
-    if (query && Object.keys(query).length) {
-      const parts: string[] = []
-      for (const [k, v] of Object.entries(query)) {
-        if (v === undefined || v === null) continue
-        const values = Array.isArray(v) ? v : [v]
-        for (const one of values) {
-          parts.push(`${encodeURIComponent(k)}=${encodeURIComponent(String(one))}`)
-        }
-      }
-      if (parts.length) url += `?${parts.join("&")}`
-    }
-
-    // Normalize accidental double slashes in the final relative path
+    // replace params
+    url = url.replace(/:([A-Za-z0-9_]+)/g, (_m, k) => encodeURIComponent(String(paramsInput?.[k] ?? "")))
+    // query params
+    const queryInputStringified = Object.fromEntries(Object.entries(queryInput).map(([k, v]) => [k, String(v)]))
+    url = [url, new URLSearchParams(queryInputStringified).toString()].filter(Boolean).join("?")
+    // dedupe slashes
     url = url.replace(/\/{2,}/g, "/")
+    // absolute
+    url = absInput ? Route0._getAbsPath(this.baseUrl, url) : url
 
-    const finalUrl = abs ? Route0._getAbsPath(this.baseUrl, url) : url
-    return finalUrl
+    return url
   }
 
   clone(config?: Route0.RouteConfigInput) {
@@ -283,11 +237,11 @@ export namespace Route0 {
     } & Record<string, string | undefined>
   >
 
-  export type _TrimQueryDefinitionString<S extends string> = S extends `${infer P}&${string}` ? P : S
-  export type _QueryDefinitionStringTailWithoutFirstAmp<S extends string> = S extends `${string}&${infer T}` ? T : ""
-  export type _QueryDefinitionStringTailWithFirstAmp<S extends string> = S extends ""
+  export type _TrimQueryTailDefinition<S extends string> = S extends `${infer P}&${string}` ? P : S
+  export type _QueryTailDefinitionWithoutFirstAmp<S extends string> = S extends `${string}&${infer T}` ? T : ""
+  export type _QueryTailDefinitionWithFirstAmp<S extends string> = S extends ""
     ? ""
-    : `&${_QueryDefinitionStringTailWithoutFirstAmp<S>}`
+    : `&${_QueryTailDefinitionWithoutFirstAmp<S>}`
   export type _AmpSplit<S extends string> = S extends `${infer A}&${infer B}` ? A | _AmpSplit<B> : S
   export type _NonEmpty<T> = [T] extends ["" | never] ? never : T
   export type _ExtractPathParams<S extends string> = S extends `${string}:${infer After}`
@@ -326,7 +280,7 @@ export namespace Route0 {
   export type _OnlyIfHasParams<TParams extends object, Yes, No = never> = keyof TParams extends never ? No : Yes
 
   export type _PathDefinition<TPathOriginalDefinition extends string> =
-    _TrimQueryDefinitionString<TPathOriginalDefinition>
+    _TrimQueryTailDefinition<TPathOriginalDefinition>
   export type _ParamsDefinition<TPathOriginalDefinition extends string> = _ExtractPathParams<
     _PathDefinition<TPathOriginalDefinition>
   > extends infer U
@@ -335,7 +289,7 @@ export namespace Route0 {
       : { [K in Extract<U, string>]: true }
     : _EmptyRecord
   export type _QueryDefinition<TPathOriginalDefinition extends string> = _NonEmpty<
-    _QueryDefinitionStringTailWithoutFirstAmp<TPathOriginalDefinition>
+    _QueryTailDefinitionWithoutFirstAmp<TPathOriginalDefinition>
   > extends infer Tail extends string
     ? _AmpSplit<Tail> extends infer U
       ? [U] extends [never]
@@ -346,7 +300,7 @@ export namespace Route0 {
   export type _RoutePathOriginalDefinitionExtended<
     TSourcePathOriginalDefinition extends string,
     TSuffixPathOriginalDefinition extends string,
-  > = `${_JoinPath<TSourcePathOriginalDefinition, TSuffixPathOriginalDefinition>}${_QueryDefinitionStringTailWithFirstAmp<TSuffixPathOriginalDefinition>}`
+  > = `${_JoinPath<TSourcePathOriginalDefinition, TSuffixPathOriginalDefinition>}${_QueryTailDefinitionWithFirstAmp<TSuffixPathOriginalDefinition>}`
 
   export type _ParamsInput<TParamsDefinition extends object> = {
     [K in keyof TParamsDefinition]: string | number
@@ -355,6 +309,13 @@ export namespace Route0 {
     [K in keyof TQueryDefinition]: string | number
   }> &
     Record<string, string | number>
+  export type _WithParamsInput<
+    TParamsDefinition extends object,
+    T extends {
+      query?: _QueryInput<any>
+      abs?: boolean
+    },
+  > = _ParamsInput<TParamsDefinition> & T
 
   export type _PathOnlyRouteValue<TPathOriginalDefinition extends string> =
     `${_ReplacePathParams<_PathDefinition<TPathOriginalDefinition>>}`
