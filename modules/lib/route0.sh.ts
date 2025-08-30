@@ -33,9 +33,9 @@ export class Route0<
 
   private constructor(definition: TPathOriginalDefinition, config: Route0.RouteConfigInput = {}) {
     this.pathOriginalDefinition = definition as TPathOriginalDefinition
-    this.pathDefinition = Route0.getPathDefinitionByOriginalDefinition(definition) as TPathDefinition
-    this.paramsDefinition = Route0.getParamsDefinitionByRouteDefinition(definition) as TParamsDefinition
-    this.queryDefinition = Route0.getQueryDefinitionByRouteDefinition(definition) as TQueryDefinition
+    this.pathDefinition = Route0._getPathDefinitionByOriginalDefinition(definition) as TPathDefinition
+    this.paramsDefinition = Route0._getParamsDefinitionByRouteDefinition(definition) as TParamsDefinition
+    this.queryDefinition = Route0._getQueryDefinitionByRouteDefinition(definition) as TQueryDefinition
 
     const { baseUrl } = config
     if (baseUrl && typeof baseUrl === "string" && baseUrl.length) {
@@ -71,14 +71,14 @@ export class Route0<
     return new URL(pathWithQuery, baseUrl).toString().replace(/\/$/, "")
   }
 
-  static getPathDefinitionByOriginalDefinition<TPathOriginalDefinition extends string>(
+  private static _getPathDefinitionByOriginalDefinition<TPathOriginalDefinition extends string>(
     pathOriginalDefinition: TPathOriginalDefinition,
   ) {
     const { pathDefinition } = Route0._splitPathDefinitionAndQueryTailDefinition(pathOriginalDefinition)
     return pathDefinition as Route0._PathDefinition<TPathOriginalDefinition>
   }
 
-  static getParamsDefinitionByRouteDefinition<TPathOriginalDefinition extends string>(
+  private static _getParamsDefinitionByRouteDefinition<TPathOriginalDefinition extends string>(
     pathOriginalDefinition: TPathOriginalDefinition,
   ) {
     const { pathDefinition } = Route0._splitPathDefinitionAndQueryTailDefinition(pathOriginalDefinition)
@@ -87,7 +87,7 @@ export class Route0<
     return paramsDefinition as Route0._ParamsDefinition<TPathOriginalDefinition>
   }
 
-  static getQueryDefinitionByRouteDefinition<TPathOriginalDefinition extends string>(
+  private static _getQueryDefinitionByRouteDefinition<TPathOriginalDefinition extends string>(
     pathOriginalDefinition: TPathOriginalDefinition,
   ) {
     const { queryTailDefinition } = Route0._splitPathDefinitionAndQueryTailDefinition(pathOriginalDefinition)
@@ -99,7 +99,16 @@ export class Route0<
     return queryDefinition as Route0._QueryDefinition<TPathOriginalDefinition>
   }
 
-  // ---------- instance API ----------
+  static overrideMany<T extends Record<string, Route0<any, any, any, any>>>(
+    routes: T,
+    config: Route0.RouteConfigInput,
+  ): T {
+    const result = {} as T
+    for (const [key, value] of Object.entries(routes)) {
+      ;(result as any)[key] = value.clone(config)
+    }
+    return result
+  }
 
   extend<TSuffixDefinition extends string>(
     suffixDefinition: TSuffixDefinition,
@@ -258,17 +267,6 @@ export class Route0<
 
   clone(config?: Route0.RouteConfigInput) {
     return new Route0(this.pathOriginalDefinition, config)
-  }
-
-  static overrideMany<T extends Record<string, Route0<any, any, any, any>>>(
-    routes: T,
-    config: Route0.RouteConfigInput,
-  ): T {
-    const result = {} as T
-    for (const [key, value] of Object.entries(routes)) {
-      ;(result as any)[key] = value.clone(config)
-    }
-    return result
   }
 }
 
