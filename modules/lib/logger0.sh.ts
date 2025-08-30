@@ -9,13 +9,14 @@ import {
   type LogRecord,
   type Sink,
 } from "@logtape/logtape"
-import { deepMap } from "@shmoject/modules/lib/deepMap.sh"
 import { Error0, type Error0Input } from "@shmoject/modules/lib/error0.sh"
 import type { ExtractEnum } from "@shmoject/modules/lib/lodash0.sh"
 import { Meta0 } from "@shmoject/modules/lib/meta0.sh"
 import debug from "debug"
 import { omit } from "lodash"
 import yaml from "yaml"
+
+// TODO: oneliner formatter
 
 export class Logger0 {
   static rootTagPrefix = "shmoject"

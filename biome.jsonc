@@ -1,4 +1,8 @@
 {
+  // TODO: biome restrict imports
+  // TODO: biome rules
+  // TODO: biome hotkeys
+  // TODO: allow emtpy line between imports
   "$schema": "https://biomejs.dev/schemas/2.2.0/schema.json",
   "vcs": {
     "enabled": false,

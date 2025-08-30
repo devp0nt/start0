@@ -3,6 +3,12 @@ import type { SiteCtx } from "@shmoject/site/lib/ctx"
 import type { QueryClient } from "@tanstack/react-query"
 import type { MetaDescriptor } from "react-router"
 
+// TODO: transform to class
+// TODO: tests
+// TODO: .create({})
+// TODO: meta error state, meta loading state
+// TODO: title exact or suffix or prefix
+
 export namespace Page0 {
   type Ctx = SiteCtx.Ctx
 

@@ -1,3 +1,8 @@
+route0
+page0
+В рр переименовать апп в срц, а в срцположить реакт-роутер как ппп, чтобы всё его там и было
+layout0
+
 generator
 generator site routes files, and route.tsx, and routes.ts
 genreator backend route files, search fields and get exports by names
@@ -7,9 +12,7 @@ generate hono swagger
 @ index files watcher
 
 tsconfig includes by files exts
-biome restrict imports
-biome rules
-biome hotkeys
+
 
 better-auth
 https://dev.to/ayoubphy/step-by-step-guide-setting-up-trpc-better-auth-prisma-and-react-router-v7-4ho
@@ -41,6 +44,8 @@ refine
 
 react-native
 reuse code between site and mobile
+
+i0n, i0n route0
 
 ---
 

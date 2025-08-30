@@ -1,4 +1,22 @@
-// TODO: getPathDefinition, with paramSuffix
+// TODO: refactor
+// TODO: .create(route, {baseUrl})
+// TODO: get(), get({...params, query?, abs?})
+// TODO: overrideMany
+// TODO: self as function
+// TODO: .create(route, {useQuery, useParams})
+// TODO: getPathDefinition
+// TODO: check extend for params only
+
+// TODO: Из пас экзакт, из пасвизквери экзает, из чилдрен, из парент, из экзактОр
+// TODO: isEqual, isChildren, isParent
+// TODO: extractParams, extractQuery
+// TODO: getPathDefinition respecting definitionParamPrefix, definitionQueryPrefix
+// TODO: prepend
+// TODO: Route0.createTree({base:{self: x, children: ...})
+// TODO: overrideTree
+// TODO: .create(route, {baseUrl, useLocation})
+// TODO: ? optional path params as @
+// TODO: prependMany, extendMany, overrideMany, with types
 
 export class Route0<
   TFullPathDefinition extends string,
