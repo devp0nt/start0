@@ -24,23 +24,20 @@ describe("meta0", () => {
   it("params", () => {
     const route0 = Route0.create("/prefix/:x/some/:y/:z")
     const path = route0.get({ x: "1", y: 2, z: "3" })
-    expectTypeOf<
-      typeof path
-    >().toEqualTypeOf<`/prefix/${string}/some/${string}/${string}`>()
+    expectTypeOf<typeof path>().toEqualTypeOf<`/prefix/${string}/some/${string}/${string}`>()
     expect(path).toBe("/prefix/1/some/2/3")
   })
 
   it("params any query", () => {
     const route0 = Route0.create("/prefix/:x/some/:y/:z")
     const path = route0.get({ x: "1", y: 2, z: "3" }, { query: { q: "1" } })
-    expectTypeOf<
-      typeof path
-    >().toEqualTypeOf<`/prefix/${string}/some/${string}/${string}?${string}`>()
+    expectTypeOf<typeof path>().toEqualTypeOf<`/prefix/${string}/some/${string}/${string}?${string}`>()
     expect(path).toBe("/prefix/1/some/2/3?q=1")
   })
 
   it("search params", () => {
     const route0 = Route0.create("/prefix&y&z")
+    expectTypeOf<(typeof route0)["queryDefinition"]>().toEqualTypeOf<{ y: true; z: true }>()
     const path = route0.get({ query: { y: "1", z: "2" } })
     expectTypeOf<typeof path>().toEqualTypeOf<`/prefix?${string}`>()
     expect(path).toBe("/prefix?y=1&z=2")
@@ -54,9 +51,7 @@ describe("meta0", () => {
         query: { z: "4", c: "5" },
       },
     )
-    expectTypeOf<
-      typeof path
-    >().toEqualTypeOf<`/prefix/${string}/some/${string}/${string}?${string}`>()
+    expectTypeOf<typeof path>().toEqualTypeOf<`/prefix/${string}/some/${string}/${string}?${string}`>()
     expect(path).toBe("/prefix/1/some/2/3?z=4&c=5")
   })
 
@@ -90,9 +85,7 @@ describe("meta0", () => {
     const route0 = Route0.create("/prefix/:x")
     const route1 = route0.extend("/suffix/:y")
     const path = route1.get({ x: "1", y: "2" })
-    expectTypeOf<
-      typeof path
-    >().toEqualTypeOf<`/prefix/${string}/suffix/${string}`>()
+    expectTypeOf<typeof path>().toEqualTypeOf<`/prefix/${string}/suffix/${string}`>()
     expect(path).toBe("/prefix/1/suffix/2")
   })
 
@@ -101,7 +94,6 @@ describe("meta0", () => {
     const route1 = route0.extend("/suffix&z&c")
     const path = route1.get({ query: { y: "2", c: "3", a: "4" } })
     expectTypeOf<(typeof route1)["queryDefinition"]>().toEqualTypeOf<{
-      y: true
       z: true
       c: true
     }>()
