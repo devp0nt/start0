@@ -1,4 +1,5 @@
 // TODO: refactor
+// TODO: on extend, do not get query params from parent
 // TODO: .create(route, {baseUrl})
 // TODO: get(), get({...params, query?, abs?})
 // TODO: overrideMany
@@ -513,15 +514,13 @@ export namespace Route0 {
     `${string}${WithQueryRouteValue<TFullPathDefinition>}`
 
   // ---------- Export helpers ----------
-  export type ExtractParamsOutput<TRoute0 extends Route0<any, any, any, any>> =
-    {
-      [K in keyof TRoute0["paramsDefinition"]]: string
-    }
+  export type Params<TRoute0 extends Route0<any, any, any, any>> = {
+    [K in keyof TRoute0["paramsDefinition"]]: string
+  }
 
-  export type ExtractQueryOutput<TRoute0 extends Route0<any, any, any, any>> =
-    Partial<
-      {
-        [K in keyof TRoute0["queryDefinition"]]: string
-      } & Record<string, string>
-    >
+  export type Query<TRoute0 extends Route0<any, any, any, any>> = Partial<
+    {
+      [K in keyof TRoute0["queryDefinition"]]: string | undefined
+    } & Record<string, string | undefined>
+  >
 }

@@ -16,11 +16,9 @@ export namespace Page0 {
   export type Route = Route0<any, any, any, any>
 
   // Derive params type from a specific route
-  export type RouteParams<TRoute extends Route = Route> =
-    Route0.ExtractParamsOutput<TRoute>
+  export type RouteParams<TRoute extends Route = Route> = Route0.Params<TRoute>
 
-  export type RouteQuery<TRoute extends Route = Route> =
-    Route0.ExtractQueryOutput<TRoute>
+  export type RouteQuery<TRoute extends Route = Route> = Route0.Query<TRoute>
 
   export type LoaderData = Record<string, any>
   type DefaultLoaderData = {}
