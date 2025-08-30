@@ -89,7 +89,7 @@ describe("meta0", () => {
     expect(path).toBe("/prefix/1/suffix/2")
   })
 
-  it.only("extend with search params", () => {
+  it("extend with search params", () => {
     const route0 = Route0.create("/prefix&y&z")
     const route1 = route0.extend("/suffix&z&c")
     const path = route1.get({ query: { y: "2", c: "3", a: "4" } })

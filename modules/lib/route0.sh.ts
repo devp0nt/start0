@@ -120,13 +120,6 @@ export class Route0<
         TPathOriginalDefinition,
         TSuffixDefinition
       >
-    console.log({
-      parentPathDefinition,
-      suffixPathDefinition,
-      suffixQueryTailDefinition,
-      pathDefinition,
-      pathOriginalDefinition,
-    })
     return new Route0<
       Route0._RoutePathOriginalDefinitionExtended<TPathOriginalDefinition, TSuffixDefinition>,
       Route0._PathDefinition<Route0._RoutePathOriginalDefinitionExtended<TPathOriginalDefinition, TSuffixDefinition>>,
