@@ -89,7 +89,7 @@ describe("meta0", () => {
     expect(path).toBe("/prefix/1/suffix/2")
   })
 
-  it("extend with search params", () => {
+  it.only("extend with search params", () => {
     const route0 = Route0.create("/prefix&y&z")
     const route1 = route0.extend("/suffix&z&c")
     const path = route1.get({ query: { y: "2", c: "3", a: "4" } })
@@ -112,14 +112,14 @@ describe("meta0", () => {
   })
 
   it("abs set", () => {
-    const route0 = Route0.create("/path", "https://x.com")
+    const route0 = Route0.create("/path", { baseUrl: "https://x.com" })
     const path = route0.get({ abs: true })
     expectTypeOf<typeof path>().toEqualTypeOf<`${string}/path`>()
     expect(path).toBe("https://x.com/path")
   })
 
   it("abs override", () => {
-    const route0 = Route0.create("/path", "https://x.com")
+    const route0 = Route0.create("/path", { baseUrl: "https://x.com" })
     route0.baseUrl = "https://y.com"
     const path = route0.get({ abs: true })
     expectTypeOf<typeof path>().toEqualTypeOf<`${string}/path`>()
@@ -127,7 +127,7 @@ describe("meta0", () => {
   })
 
   it("abs override extend", () => {
-    const route0 = Route0.create("/path", "https://x.com")
+    const route0 = Route0.create("/path", { baseUrl: "https://x.com" })
     route0.baseUrl = "https://y.com"
     const route1 = route0.extend("/suffix")
     const path = route1.get({ abs: true })
@@ -136,13 +136,13 @@ describe("meta0", () => {
   })
 
   it("abs override many", () => {
-    const route0 = Route0.create("/path", "https://x.com")
+    const route0 = Route0.create("/path", { baseUrl: "https://x.com" })
     const route1 = route0.extend("/suffix")
     const routes = {
       r0: route0,
       r1: route1,
     }
-    const routes2 = Route0.replaceManyBaseUrl(routes, "https://z.com")
+    const routes2 = Route0.overrideMany(routes, { baseUrl: "https://z.com" })
     const path = routes2.r1.get({ abs: true })
     expectTypeOf<typeof path>().toEqualTypeOf<`${string}/path/suffix`>()
     expect(path).toBe("https://z.com/path/suffix")

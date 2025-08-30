@@ -58,12 +58,12 @@ export class Route0<
 
   // ---------- statics ----------
 
-  private static _splitPathDefinitionAndQueryTail(pathOriginalDefinition: string) {
+  private static _splitPathDefinitionAndQueryTailDefinition(pathOriginalDefinition: string) {
     const i = pathOriginalDefinition.indexOf("&")
     if (i === -1) return { pathDefinition: pathOriginalDefinition, queryTailDefinition: "" }
     return {
       pathDefinition: pathOriginalDefinition.slice(0, i),
-      queryTailDefinition: pathOriginalDefinition.slice(i + 1),
+      queryTailDefinition: pathOriginalDefinition.slice(i),
     }
   }
 
@@ -74,14 +74,14 @@ export class Route0<
   static getPathDefinitionByOriginalDefinition<TPathOriginalDefinition extends string>(
     pathOriginalDefinition: TPathOriginalDefinition,
   ) {
-    const { pathDefinition } = Route0._splitPathDefinitionAndQueryTail(pathOriginalDefinition)
+    const { pathDefinition } = Route0._splitPathDefinitionAndQueryTailDefinition(pathOriginalDefinition)
     return pathDefinition as Route0._PathDefinition<TPathOriginalDefinition>
   }
 
   static getParamsDefinitionByRouteDefinition<TPathOriginalDefinition extends string>(
     pathOriginalDefinition: TPathOriginalDefinition,
   ) {
-    const { pathDefinition } = Route0._splitPathDefinitionAndQueryTail(pathOriginalDefinition)
+    const { pathDefinition } = Route0._splitPathDefinitionAndQueryTailDefinition(pathOriginalDefinition)
     const matches = Array.from(pathDefinition.matchAll(/:([A-Za-z0-9_]+)/g))
     const paramsDefinition = Object.fromEntries(matches.map((m) => [m[1], true]))
     return paramsDefinition as Route0._ParamsDefinition<TPathOriginalDefinition>
@@ -90,11 +90,11 @@ export class Route0<
   static getQueryDefinitionByRouteDefinition<TPathOriginalDefinition extends string>(
     pathOriginalDefinition: TPathOriginalDefinition,
   ) {
-    const { queryTailDefinition } = Route0._splitPathDefinitionAndQueryTail(pathOriginalDefinition)
+    const { queryTailDefinition } = Route0._splitPathDefinitionAndQueryTailDefinition(pathOriginalDefinition)
     if (!queryTailDefinition) {
       return {} as Route0._QueryDefinition<TPathOriginalDefinition>
     }
-    const keys = queryTailDefinition.split("&")
+    const keys = queryTailDefinition.split("&").map(Boolean)
     const queryDefinition = Object.fromEntries(keys.map((k) => [k, true]))
     return queryDefinition as Route0._QueryDefinition<TPathOriginalDefinition>
   }
@@ -109,17 +109,24 @@ export class Route0<
     Route0._ParamsDefinition<Route0._RoutePathOriginalDefinitionExtended<TPathOriginalDefinition, TSuffixDefinition>>,
     Route0._QueryDefinition<Route0._RoutePathOriginalDefinitionExtended<TPathOriginalDefinition, TSuffixDefinition>>
   > {
-    const { pathDefinition: parentPathDefinition } = Route0._splitPathDefinitionAndQueryTail(
+    const { pathDefinition: parentPathDefinition } = Route0._splitPathDefinitionAndQueryTailDefinition(
       this.pathOriginalDefinition,
     )
     const { pathDefinition: suffixPathDefinition, queryTailDefinition: suffixQueryTailDefinition } =
-      Route0._splitPathDefinitionAndQueryTail(suffixDefinition)
+      Route0._splitPathDefinitionAndQueryTailDefinition(suffixDefinition)
     const pathDefinition = `${parentPathDefinition}/${suffixPathDefinition}`.replace(/\/{2,}/g, "/")
     const pathOriginalDefinition =
       `${pathDefinition}${suffixQueryTailDefinition}` as Route0._RoutePathOriginalDefinitionExtended<
         TPathOriginalDefinition,
         TSuffixDefinition
       >
+    console.log({
+      parentPathDefinition,
+      suffixPathDefinition,
+      suffixQueryTailDefinition,
+      pathDefinition,
+      pathOriginalDefinition,
+    })
     return new Route0<
       Route0._RoutePathOriginalDefinitionExtended<TPathOriginalDefinition, TSuffixDefinition>,
       Route0._PathDefinition<Route0._RoutePathOriginalDefinitionExtended<TPathOriginalDefinition, TSuffixDefinition>>,
@@ -285,8 +292,11 @@ export namespace Route0 {
     } & Record<string, string | undefined>
   >
 
-  export type _TrimQueryDefinition<S extends string> = S extends `${infer P}&${string}` ? P : S
-  export type _QueryDefinitionTail<S extends string> = S extends `${string}&${infer T}` ? T : ""
+  export type _TrimQueryDefinitionString<S extends string> = S extends `${infer P}&${string}` ? P : S
+  export type _QueryDefinitionStringTailWithoutFirstAmp<S extends string> = S extends `${string}&${infer T}` ? T : ""
+  export type _QueryDefinitionStringTailWithFirstAmp<S extends string> = S extends ""
+    ? ""
+    : `&${_QueryDefinitionStringTailWithoutFirstAmp<S>}`
   export type _AmpSplit<S extends string> = S extends `${infer A}&${infer B}` ? A | _AmpSplit<B> : S
   export type _NonEmpty<T> = [T] extends ["" | never] ? never : T
   export type _ExtractPathParams<S extends string> = S extends `${string}:${infer After}`
@@ -324,7 +334,8 @@ export namespace Route0 {
   export type _OnlyIfNoParams<TParams extends object, Yes, No = never> = keyof TParams extends never ? Yes : No
   export type _OnlyIfHasParams<TParams extends object, Yes, No = never> = keyof TParams extends never ? No : Yes
 
-  export type _PathDefinition<TPathOriginalDefinition extends string> = _TrimQueryDefinition<TPathOriginalDefinition>
+  export type _PathDefinition<TPathOriginalDefinition extends string> =
+    _TrimQueryDefinitionString<TPathOriginalDefinition>
   export type _ParamsDefinition<TPathOriginalDefinition extends string> = _ExtractPathParams<
     _PathDefinition<TPathOriginalDefinition>
   > extends infer U
@@ -333,7 +344,7 @@ export namespace Route0 {
       : { [K in Extract<U, string>]: true }
     : _EmptyRecord
   export type _QueryDefinition<TPathOriginalDefinition extends string> = _NonEmpty<
-    _QueryDefinitionTail<TPathOriginalDefinition>
+    _QueryDefinitionStringTailWithoutFirstAmp<TPathOriginalDefinition>
   > extends infer Tail extends string
     ? _AmpSplit<Tail> extends infer U
       ? [U] extends [never]
@@ -344,7 +355,7 @@ export namespace Route0 {
   export type _RoutePathOriginalDefinitionExtended<
     TSourcePathOriginalDefinition extends string,
     TSuffixPathOriginalDefinition extends string,
-  > = `${_JoinPath<TSourcePathOriginalDefinition, TSuffixPathOriginalDefinition>}${_QueryDefinitionTail<TSuffixPathOriginalDefinition>}`
+  > = `${_JoinPath<TSourcePathOriginalDefinition, TSuffixPathOriginalDefinition>}${_QueryDefinitionStringTailWithFirstAmp<TSuffixPathOriginalDefinition>}`
 
   export type _ParamsInput<TParamsDefinition extends object> = {
     [K in keyof TParamsDefinition]: string | number
