@@ -3,7 +3,6 @@ import type { SiteCtx } from "@shmoject/site/lib/ctx"
 import type { QueryClient } from "@tanstack/react-query"
 import type { MetaDescriptor } from "react-router"
 
-// TODO: test
 // TODO: fix type export
 
 // TODO: layout0
@@ -206,7 +205,7 @@ export class Page0<TRoute extends Page0.Route, TLoader extends Page0.Loader<TRou
 }
 
 export namespace Page0 {
-  type Ctx = SiteCtx.Ctx
+  export type Ctx = SiteCtx.Ctx
 
   export type Route = Route0<any, any, any, any>
   export type RouteParams<TRoute extends Route> = Route0.Params<TRoute>
