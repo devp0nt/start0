@@ -47,8 +47,33 @@ export class Route0<
     TPathDefinition extends Route0._PathDefinition<TPathOriginalDefinition>,
     TParamsDefinition extends Route0._ParamsDefinition<TPathOriginalDefinition>,
     TQueryDefinition extends Route0._QueryDefinition<TPathOriginalDefinition>,
-  >(definition: TPathOriginalDefinition, config?: Route0.RouteConfigInput) {
-    return new Route0<TPathOriginalDefinition, TPathDefinition, TParamsDefinition, TQueryDefinition>(definition, config)
+  >(
+    definition: TPathOriginalDefinition,
+    config?: Route0.RouteConfigInput,
+  ): Route0.Callable<Route0<TPathOriginalDefinition, TPathDefinition, TParamsDefinition, TQueryDefinition>> {
+    const original = new Route0<TPathOriginalDefinition, TPathDefinition, TParamsDefinition, TQueryDefinition>(
+      definition,
+      config,
+    )
+    const callable = original.get.bind(original)
+    const proxy = new Proxy(callable, {
+      get(_target, prop, receiver) {
+        const value = (original as any)[prop]
+        if (typeof value === "function") {
+          return value.bind(original)
+        }
+        return value
+      },
+      set(_target, prop, value, receiver) {
+        ;(original as any)[prop] = value
+        return true
+      },
+      has(_target, prop) {
+        return prop in original
+      },
+    })
+    Object.setPrototypeOf(proxy, Route0.prototype)
+    return proxy as never
   }
 
   private static _splitPathDefinitionAndQueryTailDefinition(pathOriginalDefinition: string) {
@@ -105,11 +130,13 @@ export class Route0<
 
   extend<TSuffixDefinition extends string>(
     suffixDefinition: TSuffixDefinition,
-  ): Route0<
-    Route0._RoutePathOriginalDefinitionExtended<TPathOriginalDefinition, TSuffixDefinition>,
-    Route0._PathDefinition<Route0._RoutePathOriginalDefinitionExtended<TPathOriginalDefinition, TSuffixDefinition>>,
-    Route0._ParamsDefinition<Route0._RoutePathOriginalDefinitionExtended<TPathOriginalDefinition, TSuffixDefinition>>,
-    Route0._QueryDefinition<Route0._RoutePathOriginalDefinitionExtended<TPathOriginalDefinition, TSuffixDefinition>>
+  ): Route0.Callable<
+    Route0<
+      Route0._RoutePathOriginalDefinitionExtended<TPathOriginalDefinition, TSuffixDefinition>,
+      Route0._PathDefinition<Route0._RoutePathOriginalDefinitionExtended<TPathOriginalDefinition, TSuffixDefinition>>,
+      Route0._ParamsDefinition<Route0._RoutePathOriginalDefinitionExtended<TPathOriginalDefinition, TSuffixDefinition>>,
+      Route0._QueryDefinition<Route0._RoutePathOriginalDefinitionExtended<TPathOriginalDefinition, TSuffixDefinition>>
+    >
   > {
     const { pathDefinition: parentPathDefinition } = Route0._splitPathDefinitionAndQueryTailDefinition(
       this.pathOriginalDefinition,
@@ -122,7 +149,7 @@ export class Route0<
         TPathOriginalDefinition,
         TSuffixDefinition
       >
-    return new Route0<
+    return Route0.create<
       Route0._RoutePathOriginalDefinitionExtended<TPathOriginalDefinition, TSuffixDefinition>,
       Route0._PathDefinition<Route0._RoutePathOriginalDefinitionExtended<TPathOriginalDefinition, TSuffixDefinition>>,
       Route0._ParamsDefinition<Route0._RoutePathOriginalDefinitionExtended<TPathOriginalDefinition, TSuffixDefinition>>,
@@ -226,6 +253,7 @@ export class Route0<
 }
 
 export namespace Route0 {
+  export type Callable<T extends Route0<any, any, any, any>> = T & T["get"]
   export type RouteConfigInput = {
     baseUrl?: string
   }

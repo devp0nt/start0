@@ -1,10 +1,19 @@
 import { describe, expect, expectTypeOf, it } from "bun:test"
 import { Route0 } from "@shmoject/modules/lib/route0.sh"
 
-describe("meta0", () => {
+describe("route0", () => {
   it("simple", () => {
     const route0 = Route0.create("/")
     const path = route0.get()
+    expect(route0).toBeInstanceOf(Route0)
+    expectTypeOf<typeof path>().toEqualTypeOf<"/">()
+    expect(path).toBe("/")
+  })
+
+  it("simple callable", () => {
+    const route0 = Route0.create("/")
+    const path = route0()
+    expect(route0).toBeInstanceOf(Route0)
     expectTypeOf<typeof path>().toEqualTypeOf<"/">()
     expect(path).toBe("/")
   })
@@ -92,6 +101,36 @@ describe("meta0", () => {
     const path1 = route1.get()
     expectTypeOf<typeof path1>().toEqualTypeOf<`/prefix/suffix`>()
     expect(path1).toBe("/prefix/suffix")
+  })
+
+  it("extend with params and query", () => {
+    const route0 = Route0.create("/prefix/:id&y&z")
+    const route1 = route0.extend("/:sn/suffix&z&c")
+    const path = route1.get({ id: "myid", sn: "mysn", query: { y: "2", c: "3", a: "4" } })
+    expectTypeOf<(typeof route1)["queryDefinition"]>().toEqualTypeOf<{
+      z: true
+      c: true
+    }>()
+    expectTypeOf<typeof path>().toEqualTypeOf<`/prefix/${string}/${string}/suffix?${string}`>()
+    expect(path).toBe("/prefix/myid/mysn/suffix?y=2&c=3&a=4")
+    const path1 = route1.get({ id: "myid", sn: "mysn" })
+    expectTypeOf<typeof path1>().toEqualTypeOf<`/prefix/${string}/${string}/suffix`>()
+    expect(path1).toBe("/prefix/myid/mysn/suffix")
+  })
+
+  it("extend with params and query, callable", () => {
+    const route0 = Route0.create("/prefix/:id&y&z")
+    const route1 = route0.extend("/:sn/suffix&z&c")
+    const path = route1({ id: "myid", sn: "mysn", query: { y: "2", c: "3", a: "4" } })
+    expectTypeOf<(typeof route1)["queryDefinition"]>().toEqualTypeOf<{
+      z: true
+      c: true
+    }>()
+    expectTypeOf<typeof path>().toEqualTypeOf<`/prefix/${string}/${string}/suffix?${string}`>()
+    expect(path).toBe("/prefix/myid/mysn/suffix?y=2&c=3&a=4")
+    const path1 = route1({ id: "myid", sn: "mysn" })
+    expectTypeOf<typeof path1>().toEqualTypeOf<`/prefix/${string}/${string}/suffix`>()
+    expect(path1).toBe("/prefix/myid/mysn/suffix")
   })
 
   it("abs default", () => {

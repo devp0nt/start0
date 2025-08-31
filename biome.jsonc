@@ -31,7 +31,8 @@
       },
       "correctness": {
         "noEmptyPattern": "off",
-        "noUnusedFunctionParameters": "off"
+        "noUnusedFunctionParameters": "off",
+        "noConstructorReturn": "off"
       },
       "complexity": {
         "noUselessThisAlias": "off",
