@@ -3,8 +3,7 @@ import type { SiteCtx } from "@shmoject/site/lib/ctx"
 import type { QueryClient } from "@tanstack/react-query"
 import type { MetaDescriptor } from "react-router"
 
-// TODO: try return component
-
+// TODO: try return component, to preserve hotreload
 // TODO: useLoaderData → react router
 // TODO: clientLoader
 // TODO: ? .create({})

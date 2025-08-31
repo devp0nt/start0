@@ -1,5 +1,3 @@
-// TODO: self as function
-
 // TODO: use splats in param definition "*"
 // TODO: ? check extend for query only .extend('&x&z')
 // TODO: .create(route, {useQuery, useParams})

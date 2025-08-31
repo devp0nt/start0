@@ -10,7 +10,7 @@ describe("route0", () => {
     expect(path).toBe("/")
   })
 
-  it("simple callable", () => {
+  it("simple, callable", () => {
     const route0 = Route0.create("/")
     const path = route0()
     expect(route0).toBeInstanceOf(Route0)
@@ -32,14 +32,14 @@ describe("route0", () => {
     expect(path).toBe("/prefix/1/some/2/3")
   })
 
-  it("params any query", () => {
+  it("params and any query", () => {
     const route0 = Route0.create("/prefix/:x/some/:y/:z")
     const path = route0.get({ x: "1", y: 2, z: "3", query: { q: "1" } })
     expectTypeOf<typeof path>().toEqualTypeOf<`/prefix/${string}/some/${string}/${string}?${string}`>()
     expect(path).toBe("/prefix/1/some/2/3?q=1")
   })
 
-  it("search params", () => {
+  it("query", () => {
     const route0 = Route0.create("/prefix&y&z")
     expectTypeOf<(typeof route0)["queryDefinition"]>().toEqualTypeOf<{ y: true; z: true }>()
     const path = route0.get({ query: { y: "1", z: "2" } })
@@ -47,11 +47,18 @@ describe("route0", () => {
     expect(path).toBe("/prefix?y=1&z=2")
   })
 
-  it("params and search params", () => {
+  it("params and query", () => {
     const route0 = Route0.create("/prefix/:x/some/:y/:z&z&c")
     const path = route0.get({ x: "1", y: "2", z: "3", query: { z: "4", c: "5" } })
     expectTypeOf<typeof path>().toEqualTypeOf<`/prefix/${string}/some/${string}/${string}?${string}`>()
     expect(path).toBe("/prefix/1/some/2/3?z=4&c=5")
+  })
+
+  it("params and query and any query", () => {
+    const route0 = Route0.create("/prefix/:x/some/:y/:z&z&c")
+    const path = route0.get({ x: "1", y: "2", z: "3", query: { z: "4", c: "5", o: "6" } })
+    expectTypeOf<typeof path>().toEqualTypeOf<`/prefix/${string}/some/${string}/${string}?${string}`>()
+    expect(path).toBe("/prefix/1/some/2/3?z=4&c=5&o=6")
   })
 
   it("simple extend", () => {
