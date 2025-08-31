@@ -77,4 +77,18 @@ describe("Page0", () => {
     expectTypeOf<Parameters<typeof page.component>[0]["loaderData"]>().toEqualTypeOf<{ x: number }>()
     expectTypeOf<Parameters<typeof page.component>[0]["params"]>().toEqualTypeOf<{ id: string }>()
   })
+
+  it("should create page with layout", async () => {
+    const page = Page0.route(routeWithParams)
+      .loader(async () => ({ x: 1 }))
+      .layout("layout-path")
+      .component(() => null)
+    const samePage = Page0.create({
+      route: routeWithParams,
+      loader: async () => ({ x: 1 }),
+      component: () => null,
+    })
+    expect(page).toEqual(samePage)
+    expect(page.layouts).toEqual(["layout-path"])
+  })
 })

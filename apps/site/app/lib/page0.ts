@@ -3,7 +3,6 @@ import type { SiteCtx } from "@shmoject/site/lib/ctx"
 import type { QueryClient } from "@tanstack/react-query"
 import type { MetaDescriptor } from "react-router"
 
-// TODO: .layout
 // TODO: try return component
 
 // TODO: useLoaderData → react router
@@ -22,6 +21,7 @@ export class Page0<TRoute extends Page0.Route, TLoader extends Page0.Loader<TRou
   private readonly titleOriginal: Page0.Title<TRoute, TLoader> | undefined
   public readonly meta: Page0.Meta<TRoute, TLoader>
   public readonly component: Page0.Component<TRoute, TLoader>
+  public readonly layouts: Page0.Layouts
 
   private constructor(input: Page0.CreateInputWithLoader<TRoute, TLoader>)
   private constructor(input: Page0.CreateInputWithoutLoader<TRoute>)
@@ -31,6 +31,7 @@ export class Page0<TRoute extends Page0.Route, TLoader extends Page0.Loader<TRou
     this.metaOriginal = input.meta
     this.titleOriginal = input.title
     this.meta = this.getMeta()
+    this.layouts = Page0.normalizeLayoutsInput(input.layout)
     this.component = input.component
     // TODO: check if it works in dev tools
     this.component.displayName = input.route.getDefinition()
@@ -50,6 +51,23 @@ export class Page0<TRoute extends Page0.Route, TLoader extends Page0.Loader<TRou
 
   private static createEmptyLoader = (): Page0.EmptyLoader => {
     return async () => ({})
+  }
+
+  private static normalizeLayoutSingleInput(layoutsInputSingle: Page0.LayoutsInputSingle): string {
+    if (typeof layoutsInputSingle === "string") {
+      return layoutsInputSingle
+    }
+    return layoutsInputSingle.path
+  }
+
+  private static normalizeLayoutsInput(layoutsInput: Page0.LayoutsInput | undefined): Page0.Layouts {
+    if (!layoutsInput) {
+      return []
+    }
+    if (Array.isArray(layoutsInput)) {
+      return layoutsInput.map(Page0.normalizeLayoutSingleInput)
+    }
+    return [Page0.normalizeLayoutSingleInput(layoutsInput)]
   }
 
   private static titleOutputToValue(titleOutput: Page0.TitleOutput): string {
@@ -108,6 +126,21 @@ export class Page0<TRoute extends Page0.Route, TLoader extends Page0.Loader<TRou
         })
       },
 
+      layout: (layouts: Page0.LayoutsInput) => {
+        return {
+          component: (component: Page0.Component<TRoute, undefined>) => {
+            return Page0.create({
+              route,
+              loader: undefined,
+              meta: undefined,
+              title: undefined,
+              component,
+              layout: layouts,
+            })
+          },
+        }
+      },
+
       meta: (meta: Page0.Meta<TRoute, undefined>) => {
         return {
           component: (component: Page0.Component<TRoute, undefined>) => {
@@ -118,6 +151,21 @@ export class Page0<TRoute extends Page0.Route, TLoader extends Page0.Loader<TRou
               title: undefined,
               component: component,
             })
+          },
+
+          layout: (layouts: Page0.LayoutsInput) => {
+            return {
+              component: (component: Page0.Component<TRoute, undefined>) => {
+                return Page0.create({
+                  route,
+                  loader: undefined,
+                  meta,
+                  title: undefined,
+                  component,
+                  layout: layouts,
+                })
+              },
+            }
           },
         }
       },
@@ -133,6 +181,21 @@ export class Page0<TRoute extends Page0.Route, TLoader extends Page0.Loader<TRou
               component,
             })
           },
+
+          layout: (layouts: Page0.LayoutsInput) => {
+            return {
+              component: (component: Page0.Component<TRoute, undefined>) => {
+                return Page0.create({
+                  route,
+                  loader: undefined,
+                  meta: undefined,
+                  title: undefined,
+                  component,
+                  layout: layouts,
+                })
+              },
+            }
+          },
           meta: (meta: Page0.Meta<TRoute, undefined>) => {
             return {
               component: (component: Page0.Component<TRoute, undefined>) => {
@@ -143,6 +206,21 @@ export class Page0<TRoute extends Page0.Route, TLoader extends Page0.Loader<TRou
                   title,
                   component,
                 })
+              },
+
+              layout: (layouts: Page0.LayoutsInput) => {
+                return {
+                  component: (component: Page0.Component<TRoute, undefined>) => {
+                    return Page0.create({
+                      route,
+                      loader: undefined,
+                      meta,
+                      title: undefined,
+                      component,
+                      layout: layouts,
+                    })
+                  },
+                }
               },
             }
           },
@@ -161,6 +239,21 @@ export class Page0<TRoute extends Page0.Route, TLoader extends Page0.Loader<TRou
             })
           },
 
+          layout: (layouts: Page0.LayoutsInput) => {
+            return {
+              component: (component: Page0.Component<TRoute, TLoader>) => {
+                return Page0.create({
+                  route,
+                  loader,
+                  meta: undefined,
+                  title: undefined,
+                  component,
+                  layout: layouts,
+                })
+              },
+            }
+          },
+
           meta: (meta: Page0.Meta<TRoute, TLoader>) => {
             return {
               component: (component: Page0.Component<TRoute, TLoader>) => {
@@ -171,6 +264,21 @@ export class Page0<TRoute extends Page0.Route, TLoader extends Page0.Loader<TRou
                   title: undefined,
                   component,
                 })
+              },
+
+              layout: (layouts: Page0.LayoutsInput) => {
+                return {
+                  component: (component: Page0.Component<TRoute, TLoader>) => {
+                    return Page0.create({
+                      route,
+                      loader,
+                      meta,
+                      title: undefined,
+                      component,
+                      layout: layouts,
+                    })
+                  },
+                }
               },
             }
           },
@@ -186,6 +294,22 @@ export class Page0<TRoute extends Page0.Route, TLoader extends Page0.Loader<TRou
                   component,
                 })
               },
+
+              layout: (layouts: Page0.LayoutsInput) => {
+                return {
+                  component: (component: Page0.Component<TRoute, TLoader>) => {
+                    return Page0.create({
+                      route,
+                      loader,
+                      meta: undefined,
+                      title: undefined,
+                      component,
+                      layout: layouts,
+                    })
+                  },
+                }
+              },
+
               meta: (meta: Page0.Meta<TRoute, TLoader>) => {
                 return {
                   component: (component: Page0.Component<TRoute, TLoader>) => {
@@ -196,6 +320,20 @@ export class Page0<TRoute extends Page0.Route, TLoader extends Page0.Loader<TRou
                       title,
                       component,
                     })
+                  },
+                  layout: (layouts: Page0.LayoutsInput) => {
+                    return {
+                      component: (component: Page0.Component<TRoute, TLoader>) => {
+                        return Page0.create({
+                          route,
+                          loader,
+                          meta: undefined,
+                          title: undefined,
+                          component,
+                          layout: layouts,
+                        })
+                      },
+                    }
                   },
                 }
               },
@@ -253,11 +391,16 @@ export namespace Page0 {
     props: WithRouteParamsAndQuery<TRoute> & WithLoaderData<TRoute, TLoader> & WithCtx,
   ) => MetaDescriptor[]
 
+  export type LayoutsInputSingle = string | { path: string }
+  export type LayoutsInput = LayoutsInputSingle[] | LayoutsInputSingle
+  export type Layouts = string[]
+
   export type CreateInputWithLoader<TRoute extends Route, TLoader extends Loader<TRoute> | undefined> = {
     route: TRoute
     loader: TLoader
     title?: Title<TRoute, TLoader>
     meta?: Meta<TRoute, TLoader>
+    layout?: LayoutsInput
     component: Component<TRoute, TLoader>
   }
   export type CreateInputWithoutLoader<TRoute extends Route = Route> = {
@@ -265,6 +408,7 @@ export namespace Page0 {
     loader?: undefined
     title?: Title<TRoute, EmptyLoader>
     meta?: Meta<TRoute, EmptyLoader>
+    layout?: LayoutsInput
     component: Component<TRoute, EmptyLoader>
   }
   export type CreateInput<

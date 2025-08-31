@@ -1,5 +1,4 @@
 // TODO: self as function
-// TODO: getPathDefinition
 
 // TODO: use splats in param definition "*"
 // TODO: ? check extend for query only .extend('&x&z')
