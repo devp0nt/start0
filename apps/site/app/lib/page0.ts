@@ -3,10 +3,11 @@ import type { SiteCtx } from "@shmoject/site/lib/ctx"
 import type { QueryClient } from "@tanstack/react-query"
 import type { MetaDescriptor } from "react-router"
 
-// TODO: use in react router
+// TODO: class
+// TODO: test
 // TODO: layout0 → route0
+// TODO: use in react router
 
-// TODO: ? transform to class
 // TODO: ? .create({})
 // TODO: metaError, metaLoading
 // TODO: titleError, titleLoading

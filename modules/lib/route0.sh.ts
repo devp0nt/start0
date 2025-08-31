@@ -1,9 +1,9 @@
-// TODO: use in react router
 // TODO: self as function
-// TODO: .create(route, {useQuery, useParams})
 // TODO: getPathDefinition
-// TODO: check extend for params only
+// TODO: use in react router
 
+// TODO: ? check extend for query only .extend('&x&z')
+// TODO: .create(route, {useQuery, useParams})
 // TODO: Из пас экзакт, из пасвизквери экзает, из чилдрен, из парент, из экзактОр
 // TODO: isEqual, isChildren, isParent
 // TODO: extractParams, extractQuery
