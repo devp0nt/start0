@@ -3,8 +3,7 @@ import { NavLink, Outlet, useNavigation } from "react-router"
 const layoutStyles = {
   display: "flex",
   minHeight: "100vh",
-  fontFamily:
-    "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+  fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
 }
 
 const sidebarStyles = {
@@ -99,9 +98,7 @@ export const GeneralLayout = ({ children }: { children?: React.ReactNode }) => {
           </NavLink>
         </nav>
       </aside>
-      <main style={{ ...mainContentStyles, opacity: isNavigating ? 0.5 : 1 }}>
-        {children}
-      </main>
+      <main style={{ ...mainContentStyles, opacity: isNavigating ? 0.5 : 1 }}>{children}</main>
     </div>
   )
 }

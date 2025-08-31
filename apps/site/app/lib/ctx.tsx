@@ -1,21 +1,12 @@
 import type { BackendTrpcRouter } from "@shmoject/backend/router/index.trpc"
 import { getQueryClient, trpc } from "@shmoject/site/lib/trpc"
-import {
-  type DehydratedState,
-  dehydrate,
-  type QueryClient,
-  useQuery,
-} from "@tanstack/react-query"
+import { type DehydratedState, dehydrate, type QueryClient, useQuery } from "@tanstack/react-query"
 import {
   unstable_createContext,
   type unstable_MiddlewareFunction,
   type unstable_RouterContextProvider,
 } from "react-router"
-import {
-  createContext,
-  useContext,
-  useContextSelector,
-} from "use-context-selector"
+import { createContext, useContext, useContextSelector } from "use-context-selector"
 
 export namespace SiteCtx {
   export type MeUser = { id: string; name: string; email: string }
@@ -27,11 +18,7 @@ export namespace SiteCtx {
     appConfig: AppConfig
   }
 
-  export const loader = async ({
-    qc,
-  }: {
-    qc: QueryClient
-  }): Promise<{ siteCtx: Ctx }> => {
+  export const loader = async ({ qc }: { qc: QueryClient }): Promise<{ siteCtx: Ctx }> => {
     const getAppConfigData = await qc.fetchQuery(
       trpc.getAppConfig.queryOptions(undefined, {
         staleTime: Infinity,
@@ -68,13 +55,7 @@ export namespace SiteCtx {
     const pending = getAppConfigQr.isPending
     return (
       <ReactContext.Provider value={siteCtx as Ctx}>
-        {error ? (
-          <div>{error.message}</div>
-        ) : pending ? (
-          <div>Loading...</div>
-        ) : (
-          children
-        )}
+        {error ? <div>{error.message}</div> : pending ? <div>Loading...</div> : children}
       </ReactContext.Provider>
     )
   }
@@ -83,8 +64,7 @@ export namespace SiteCtx {
     return useContext(ReactContext)
   }
   export const useMe = () => useContextSelector(ReactContext, (ctx) => ctx.me)
-  export const useAppConfig = () =>
-    useContextSelector(ReactContext, (ctx) => ctx.appConfig)
+  export const useAppConfig = () => useContextSelector(ReactContext, (ctx) => ctx.appConfig)
 
   const rrContext = unstable_createContext<{
     siteCtx: Ctx | null
@@ -94,9 +74,7 @@ export namespace SiteCtx {
     dehydratedState: null,
   })
 
-  export const rrMiddleware: unstable_MiddlewareFunction = async ({
-    context,
-  }) => {
+  export const rrMiddleware: unstable_MiddlewareFunction = async ({ context }) => {
     const qc = getQueryClient()
     const { siteCtx } = await SiteCtx.loader({ qc })
     context.set(rrContext, {
@@ -105,25 +83,17 @@ export namespace SiteCtx {
     })
   }
 
-  export const rrGetFromContextOrThrow = ({
-    context,
-  }: {
-    context: Readonly<unstable_RouterContextProvider>
-  }) => {
+  export const rrGetFromContextOrThrow = ({ context }: { context: Readonly<unstable_RouterContextProvider> }) => {
     const result = context.get(rrContext)
     if (!result) {
       throw new Error("siteCtx holder not found in react router context")
     }
     const { siteCtx, dehydratedState } = result
     if (!siteCtx) {
-      throw new Error(
-        "siteCtx holder found in react router context, but siteCtx is null",
-      )
+      throw new Error("siteCtx holder found in react router context, but siteCtx is null")
     }
     if (!dehydratedState) {
-      throw new Error(
-        "siteCtx holder found in react router context, but dehydratedState is null",
-      )
+      throw new Error("siteCtx holder found in react router context, but dehydratedState is null")
     }
     return {
       siteCtx,

@@ -5,25 +5,8 @@ import isObject from "lodash/isObject.js"
 // TODO: add path array
 // TODO: add path array
 
-type ReplaceFn = ({
-  path,
-  key,
-  value,
-}: {
-  path: string
-  key: string
-  value: Value
-}) => Value
-type Value =
-  | Object
-  | number
-  | string
-  | boolean
-  | null
-  | undefined
-  | Function
-  | Symbol
-  | any[]
+type ReplaceFn = ({ path, key, value }: { path: string; key: string; value: Value }) => Value
+type Value = Object | number | string | boolean | null | undefined | Function | Symbol | any[]
 
 const recursion = ({
   input,
@@ -38,11 +21,7 @@ const recursion = ({
   pathStartsWith: string
   parentKey: string
 }): Value => {
-  if (
-    ["object", "function", "symbol"].includes(typeof input) &&
-    input !== null &&
-    seens.length
-  ) {
+  if (["object", "function", "symbol"].includes(typeof input) && input !== null && seens.length) {
     if (seens.every((seen) => seen.has(input))) {
       return "!!!CIRCULAR!!!"
     } else {

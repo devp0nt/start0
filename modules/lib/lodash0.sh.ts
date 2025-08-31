@@ -8,10 +8,7 @@ export const pick = <TObject extends Object, TKeys extends keyof TObject>(
   return lodashPick(obj, keys)
 }
 
-export const omit = <
-  TObject extends Record<string, unknown>,
-  TKeys extends keyof TObject,
->(
+export const omit = <TObject extends Record<string, unknown>, TKeys extends keyof TObject>(
   obj: TObject,
   keys: TKeys[],
 ): Omit<TObject, TKeys> => {

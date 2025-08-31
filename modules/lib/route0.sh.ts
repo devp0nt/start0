@@ -1,3 +1,4 @@
+// TODO: pathOriginalDefinition type remove ending &
 // TODO: self as function
 // TODO: getPathDefinition
 // TODO: use in react router
@@ -230,9 +231,7 @@ export namespace Route0 {
 
 type _TrimQueryTailDefinition<S extends string> = S extends `${infer P}&${string}` ? P : S
 type _QueryTailDefinitionWithoutFirstAmp<S extends string> = S extends `${string}&${infer T}` ? T : ""
-type _QueryTailDefinitionWithFirstAmp<S extends string> = S extends ""
-  ? ""
-  : `&${_QueryTailDefinitionWithoutFirstAmp<S>}`
+type _QueryTailDefinitionWithFirstAmp<S extends string> = S extends `${string}&${infer T}` ? `&${T}` : ""
 type _AmpSplit<S extends string> = S extends `${infer A}&${infer B}` ? A | _AmpSplit<B> : S
 type _NonEmpty<T> = [T] extends ["" | never] ? never : T
 type _ExtractPathParams<S extends string> = S extends `${string}:${infer After}`

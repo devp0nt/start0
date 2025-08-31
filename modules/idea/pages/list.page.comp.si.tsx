@@ -13,9 +13,7 @@ export const IdeasPage: React.FC<{
       <ul>
         {ideas.map((idea) => (
           <li key={idea.id}>
-            <Link to={siteRoutes.ideaView.get({ sn: idea.sn })}>
-              {idea.title}
-            </Link>
+            <Link to={siteRoutes.ideaView.get({ sn: idea.sn })}>{idea.title}</Link>
           </li>
         ))}
         <li>

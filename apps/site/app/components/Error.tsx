@@ -6,10 +6,7 @@ export namespace SiteError {
   export type Type = Error0 | ErrorResponse | Error | Error0.JSON | unknown
 
   export const useError0 = (error: Type) => {
-    return useMemo(
-      () => Error0.from(isRouteErrorResponse(error) ? error.data : error),
-      [error],
-    )
+    return useMemo(() => Error0.from(isRouteErrorResponse(error) ? error.data : error), [error])
   }
 
   export const Page = ({ error }: { error: Type }) => {

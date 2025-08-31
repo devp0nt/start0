@@ -1,18 +1,9 @@
 import type { BackendTrpcRouter } from "@shmoject/backend/router/index.trpc"
 import { env } from "@shmoject/site/lib/env.self"
 import { RR0 } from "@shmoject/site/lib/reactRouter0"
-import {
-  defaultShouldDehydrateQuery,
-  HydrationBoundary,
-  QueryClient,
-  QueryClientProvider,
-} from "@tanstack/react-query"
+import { defaultShouldDehydrateQuery, HydrationBoundary, QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { createTRPCClient, httpBatchLink, loggerLink } from "@trpc/client"
-import {
-  createTRPCContext,
-  createTRPCOptionsProxy,
-  type TRPCQueryOptions,
-} from "@trpc/tanstack-react-query"
+import { createTRPCContext, createTRPCOptionsProxy, type TRPCQueryOptions } from "@trpc/tanstack-react-query"
 import { cache, useState } from "react"
 import superjson from "superjson"
 
@@ -24,9 +15,7 @@ const makeQueryClient = () => {
       },
       dehydrate: {
         serializeData: superjson.serialize,
-        shouldDehydrateQuery: (query) =>
-          defaultShouldDehydrateQuery(query) ||
-          query.state.status === "pending",
+        shouldDehydrateQuery: (query) => defaultShouldDehydrateQuery(query) || query.state.status === "pending",
       },
       hydrate: {
         deserializeData: superjson.deserialize,
@@ -48,14 +37,10 @@ export const useTRPC = trpcContext.useTRPC
 
 const HydrateClient = ({ children }: { children: React.ReactNode }) => {
   const dehydratedState = RR0.useDehydratedState()
-  return (
-    <HydrationBoundary state={dehydratedState}>{children}</HydrationBoundary>
-  )
+  return <HydrationBoundary state={dehydratedState}>{children}</HydrationBoundary>
 }
 
-export const prefetch = <T extends ReturnType<TRPCQueryOptions<any>>>(
-  queryOptions: T,
-) => {
+export const prefetch = <T extends ReturnType<TRPCQueryOptions<any>>>(queryOptions: T) => {
   const queryClient = getQueryClient()
   if (queryOptions.queryKey[1]?.type === "infinite") {
     void queryClient.prefetchInfiniteQuery(queryOptions as never)
@@ -83,11 +68,7 @@ export const trpc = createTRPCOptionsProxy({
   queryClient: getQueryClient,
 })
 
-export const TRPCReactProvider = ({
-  children,
-}: {
-  children: React.ReactNode
-}) => {
+export const TRPCReactProvider = ({ children }: { children: React.ReactNode }) => {
   const queryClient = getQueryClient()
 
   const [trpcClient] = useState(() =>

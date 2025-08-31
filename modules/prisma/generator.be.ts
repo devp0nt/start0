@@ -1,9 +1,6 @@
 import { mkdirSync, writeFileSync } from "node:fs"
 import path from "node:path"
-import {
-  type GeneratorOptions,
-  generatorHandler,
-} from "@prisma/generator-helper"
+import { type GeneratorOptions, generatorHandler } from "@prisma/generator-helper"
 import { isMatch, lowerFirst } from "lodash"
 
 const __dirname = path.dirname(new URL(import.meta.url).pathname)
@@ -20,9 +17,7 @@ generatorHandler({
     const modelsNamesTs = `export const names = ["${modelsNames.join('", "')}"];`
     modelsOutputParts.push(modelsNamesTs)
 
-    const modelsIdsKeys = options.dmmf.datamodel.models.map(
-      (m) => `${lowerFirst(m.name)}Id`,
-    )
+    const modelsIdsKeys = options.dmmf.datamodel.models.map((m) => `${lowerFirst(m.name)}Id`)
     const modelsIdsKeysTs = `export const idsKeys = ["${modelsIdsKeys.join('", "')}"];`
     modelsOutputParts.push(modelsIdsKeysTs)
 
@@ -55,9 +50,7 @@ generatorHandler({
     const modelsNamesWithUpdatedAtTs = `export const namesWithUpdatedAt = ["${modelsNamesWithUpdatedAt.join('", "')}"];`
     modelsOutputParts.push(modelsNamesWithUpdatedAtTs)
 
-    writeOutputContent(options, [
-      ["models.ts", withExportNamespace("Prisma0Models", modelsOutputParts)],
-    ])
+    writeOutputContent(options, [["models.ts", withExportNamespace("Prisma0Models", modelsOutputParts)]])
   },
 })
 
@@ -66,17 +59,10 @@ const getDefaultOutputDir = () => {
 }
 
 const withExportNamespace = (namespace: string, lines: string[]) => {
-  return [
-    `export namespace ${namespace} {`,
-    ...lines.map((line) => `  ${line}`),
-    `}`,
-  ].join("\n")
+  return [`export namespace ${namespace} {`, ...lines.map((line) => `  ${line}`), `}`].join("\n")
 }
 
-const writeOutputContent = (
-  options: GeneratorOptions,
-  input: Array<[string, string]>,
-) => {
+const writeOutputContent = (options: GeneratorOptions, input: Array<[string, string]>) => {
   const outputDir = options.generator.output?.value || getDefaultOutputDir()
   mkdirSync(outputDir, { recursive: true })
   for (const [filename, content] of input) {

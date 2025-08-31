@@ -105,8 +105,5 @@ export namespace HonoReqCtx {
   export type Props = NonFnProps<HonoReqCtx>
   export type ExtendableKeys = "meta" | "logger" | "e0s"
   export type Extendable = Pick<HonoReqCtx, ExtendableKeys>
-  export type Unextendable = Omit<
-    HonoReqCtx,
-    ExtendableKeys | FnPropsKeys<HonoReqCtx>
-  >
+  export type Unextendable = Omit<HonoReqCtx, ExtendableKeys | FnPropsKeys<HonoReqCtx>>
 }

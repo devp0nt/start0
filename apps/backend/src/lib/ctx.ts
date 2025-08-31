@@ -66,18 +66,9 @@ export class BackendCtx {
     return backendCtx
   }
 
-  static extendExtendable(
-    extendable: BackendCtx.Extendable,
-    meta: Meta0.Meta0OrValueTypeNullish,
-  ): BackendCtx.Extendable
-  static extendExtendable(
-    extendable: BackendCtx.Extendable,
-    tagPrefix: string,
-  ): BackendCtx.Extendable
-  static extendExtendable(
-    extendable: BackendCtx.Extendable,
-    metaOrTagPrefix: any,
-  ): BackendCtx.Extendable {
+  static extendExtendable(extendable: BackendCtx.Extendable, meta: Meta0.Meta0OrValueTypeNullish): BackendCtx.Extendable
+  static extendExtendable(extendable: BackendCtx.Extendable, tagPrefix: string): BackendCtx.Extendable
+  static extendExtendable(extendable: BackendCtx.Extendable, metaOrTagPrefix: any): BackendCtx.Extendable {
     const meta =
       typeof metaOrTagPrefix === "string"
         ? { tagPrefix: metaOrTagPrefix }
@@ -106,8 +97,5 @@ export namespace BackendCtx {
   export type Props = NonFnProps<BackendCtx>
   export type ExtendableKeys = "meta" | "logger" | "e0s"
   export type Extendable = Pick<BackendCtx, ExtendableKeys>
-  export type Unextendable = Omit<
-    BackendCtx,
-    ExtendableKeys | FnPropsKeys<BackendCtx>
-  >
+  export type Unextendable = Omit<BackendCtx, ExtendableKeys | FnPropsKeys<BackendCtx>>
 }

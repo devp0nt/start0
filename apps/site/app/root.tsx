@@ -23,11 +23,9 @@ export const unstable_middleware = [SiteCtx.rrMiddleware]
 
 // keep this loader to hydrate query client with siteCtx
 // so on page error, we still have siteCtx
-export const loader = RR0.createLoader(
-  async ({ qc, context }: RR0.LoaderArgs<Route.LoaderArgs>) => {
-    return {}
-  },
-)
+export const loader = RR0.createLoader(async ({ qc, context }: RR0.LoaderArgs<Route.LoaderArgs>) => {
+  return {}
+})
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (

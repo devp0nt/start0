@@ -1,3 +1,5 @@
+rename to ideanick
+
 generator
 generator site routes files, and route.tsx, and routes.ts
 genreator backend route files, search fields and get exports by names
@@ -5,10 +7,13 @@ generate toClient types
 generate hono requests types and use query
 generate hono swagger
 @ index files watcher
+gen0 syntax and autocompletion
+
+dev and watcher in tmux or any
 
 В рр переименовать апп в срц, а в срцположить реакт-роутер как ппп, чтобы всё его там и было
 
-
+remove package.json from modules
 tsconfig includes by files exts
 biome import restrictions
 
@@ -28,6 +33,7 @@ test integration hono
 test e2e
 
 ai helpers, mcp, cusor files
+code snippets
 
 
 sentry

@@ -5,10 +5,8 @@ import omit from "lodash/omit.js"
 import pick from "lodash/pick.js"
 import z from "zod"
 
-// TODO: simplify, remove keys definition, remove other
-// TODO: on extend save parent metas in array
-// TODO: getValue → function
-// TODO: infer somehow correct meta in meta[] in props
+// TODO: many parents
+// TODO: meta0#extend
 
 export class Meta0 {
   private value: Readonly<Meta0.ValueType>
@@ -23,10 +21,7 @@ export class Meta0 {
     expected: z.boolean().optional(),
   })
 
-  private constructor({
-    input,
-    parent,
-  }: { input: Meta0.ValueTypeNullish; parent?: Meta0 }) {
+  private constructor({ input, parent }: { input: Meta0.ValueTypeNullish; parent?: Meta0 }) {
     this.value = input ? cloneDeep(input) : {}
     this.parent = parent
   }
@@ -60,19 +55,14 @@ export class Meta0 {
   }
 
   getValue(): Meta0.ValueType {
-    const parentsSelfValues = this.getParents().map((parent) =>
-      parent.getSelfValue(),
-    )
+    const parentsSelfValues = this.getParents().map((parent) => parent.getSelfValue())
     return cloneDeep(assign({}, ...parentsSelfValues, this.value))
   }
   static getValue(input: Meta0.Meta0OrValueTypeNullish): Meta0.ValueType {
     return Meta0.from(input).getValue()
   }
 
-  getValueWithDeepReplacedValues(
-    keys: string[],
-    replaceValue = "*******",
-  ): Meta0.ValueType {
+  getValueWithDeepReplacedValues(keys: string[], replaceValue = "*******"): Meta0.ValueType {
     return deepMap(this.getValue(), ({ key, value }) => {
       if (keys.includes(key)) {
         return replaceValue
@@ -82,9 +72,7 @@ export class Meta0 {
   }
 
   getValueRaw(): Meta0.ValueType {
-    const parentsSelfValuesRaw = this.getParents().map((parent) =>
-      parent.getSelfValueRaw(),
-    )
+    const parentsSelfValuesRaw = this.getParents().map((parent) => parent.getSelfValueRaw())
     return cloneDeep(assign({}, ...parentsSelfValuesRaw, this.value))
   }
   static getValueRaw(input: Meta0.Meta0OrValueTypeNullish): Meta0.ValueType {
@@ -103,10 +91,7 @@ export class Meta0 {
     const input = cloneDeep(assign({}, ...values))
     return new Meta0({ input, parent: this })
   }
-  static extend(
-    first: Meta0.Meta0OrValueTypeNullish,
-    ...nexts: Meta0.Meta0OrValueTypeNullish[]
-  ): Meta0 {
+  static extend(first: Meta0.Meta0OrValueTypeNullish, ...nexts: Meta0.Meta0OrValueTypeNullish[]): Meta0 {
     return Meta0.from(first).extend(...nexts)
   }
 
@@ -115,10 +100,7 @@ export class Meta0 {
     assign(this.value, cloneDeep(assign({}, ...values)))
   }
 
-  static mergeValues(
-    first: Meta0.Meta0OrValueTypeNullish,
-    ...nexts: Meta0.Meta0OrValueTypeNullish[]
-  ): Meta0.ValueType {
+  static mergeValues(first: Meta0.Meta0OrValueTypeNullish, ...nexts: Meta0.Meta0OrValueTypeNullish[]): Meta0.ValueType {
     return Meta0.extend(first, ...nexts).getValue()
   }
 
@@ -144,9 +126,7 @@ export class Meta0 {
     )
   }
 
-  private static replaceNotPrimitives(
-    value: Meta0.ValueType,
-  ): Record<string, unknown> {
+  private static replaceNotPrimitives(value: Meta0.ValueType): Record<string, unknown> {
     return deepMap(value, ({ path, key, value }) => {
       if (isPlainObject(value) || isArray(value)) {
         return value
@@ -158,13 +138,7 @@ export class Meta0 {
     })
   }
 
-  updateTagPrefix({
-    extend,
-    replace,
-  }: {
-    extend?: string
-    replace?: string
-  }): void {
+  updateTagPrefix({ extend, replace }: { extend?: string; replace?: string }): void {
     const newBaseTagPrefix = replace || this.value.tagPrefix
     const newTagPrefix = [newBaseTagPrefix, extend].filter(Boolean).join(":")
     this.assign({
@@ -173,16 +147,9 @@ export class Meta0 {
   }
 
   getFinalTag(providedTag?: string): string | undefined {
-    return (
-      [this.value.tagPrefix, providedTag || this.value.tag]
-        .filter(Boolean)
-        .join(":") || undefined
-    )
+    return [this.value.tagPrefix, providedTag || this.value.tag].filter(Boolean).join(":") || undefined
   }
-  static getFinalTag(
-    input: Meta0.Meta0OrValueTypeNullish,
-    providedTag?: string,
-  ): string | undefined {
+  static getFinalTag(input: Meta0.Meta0OrValueTypeNullish, providedTag?: string): string | undefined {
     return Meta0.from(input).getFinalTag(providedTag)
   }
 

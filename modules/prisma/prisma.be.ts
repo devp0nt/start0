@@ -147,14 +147,11 @@ export namespace Prisma0 {
               const normalCode = e.code
               // parse e.message like this
               // ConnectorError(ConnectorError { user_facing_error: None, kind: QueryError(PostgresError { code: "25P02", message: "current transaction is aborted, commands ignored until end of transaction block", severity: "ERROR", detail: None, column: None, hint: None }), transient: false })
-              const secretCode = e.message.match(
-                /PostgresError \{ code: "([^"]+)"/,
-              )?.[1]
+              const secretCode = e.message.match(/PostgresError \{ code: "([^"]+)"/)?.[1]
               const code = normalCode || secretCode
               // Retry the transaction only if the error was due to a write conflict or deadlock
               // See: https://www.prisma.io/docs/reference/api-reference/error-reference#p2034
-              const isTransactionErrorCode =
-                code === "P2034" || code === "25P02"
+              const isTransactionErrorCode = code === "P2034" || code === "25P02"
               return isTransactionErrorCode
             },
             jitter: "none",

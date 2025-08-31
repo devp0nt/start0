@@ -124,11 +124,7 @@ export class Logger0 {
       })
     }
     const meta = Meta0.from(metaProvided)
-    const loggerOriginal = getLogger(
-      [Logger0.rootTagPrefix, ...meta.getFinalTagParts()].filter(
-        Boolean,
-      ) as string[],
-    )
+    const loggerOriginal = getLogger([Logger0.rootTagPrefix, ...meta.getFinalTagParts()].filter(Boolean) as string[])
     return new Logger0({
       loggerOriginal,
       meta,
@@ -147,16 +143,15 @@ export class Logger0 {
           replaceMeta?: Meta0.Meta0OrValueTypeNullish
         },
   ) => {
-    const { replaceTagPrefix, extendTagPrefix, extendMeta, replaceMeta } =
-      (() => {
-        if (typeof input === "string") {
-          return {
-            extendTagPrefix: input,
-          }
-        } else {
-          return input
+    const { replaceTagPrefix, extendTagPrefix, extendMeta, replaceMeta } = (() => {
+      if (typeof input === "string") {
+        return {
+          extendTagPrefix: input,
         }
-      })()
+      } else {
+        return input
+      }
+    })()
     const newMeta = replaceMeta ? Meta0.from(replaceMeta) : this.meta.clone()
     if (extendMeta) {
       newMeta.assign(extendMeta)
@@ -190,9 +185,7 @@ export class Logger0 {
     const logBadFn: Logger0.LogBadFn = (...args: unknown[]) => {
       const error0 = args[0] instanceof Error0 ? args[0] : Error0.from(args[0])
       const extraMeta =
-        typeof args[1] === "object" && args[1] !== null
-          ? Meta0.from(args[1] as Meta0.ValueType)
-          : Meta0.from({})
+        typeof args[1] === "object" && args[1] !== null ? Meta0.from(args[1] as Meta0.ValueType) : Meta0.from({})
       const message = error0.message
       const meta = Meta0.extend(
         logger0.meta,
@@ -226,10 +219,7 @@ export class Logger0 {
     level: ExtractEnum<LogLevel, "info" | "warning" | "trace" | "debug">
   }) => {
     const logOkFn: Logger0.LogOkFn = (...args: unknown[]) => {
-      const extraMeta =
-        typeof args[0] !== "string"
-          ? Meta0.from(args[0] as never)
-          : Meta0.from(args[1] as never)
+      const extraMeta = typeof args[0] !== "string" ? Meta0.from(args[0] as never) : Meta0.from(args[1] as never)
       const meta = Meta0.extend(logger0.meta, extraMeta)
       const metaWithHiddenSensetive = logger0.hideSensitiveKeys
         ? Logger0.hideSensitiveKeys({
@@ -237,9 +227,7 @@ export class Logger0 {
             sensetiveKeys: logger0.sensetiveKeys,
           })
         : meta.getValue()
-      const message =
-        (typeof args[0] === "string" ? args[0] : meta.getValue().message) ||
-        "Unknown message"
+      const message = (typeof args[0] === "string" ? args[0] : meta.getValue().message) || "Unknown message"
       logger0.original[level](message, metaWithHiddenSensetive)
     }
     return logOkFn
@@ -248,9 +236,7 @@ export class Logger0 {
   private static logRecordToTag(record: LogRecord, withRootTagPrefix: boolean) {
     const finalTagByProperties = Meta0.getFinalTag(record.properties)
     return (
-      [withRootTagPrefix ? this.rootTagPrefix : null, finalTagByProperties]
-        .filter(Boolean)
-        .join(":") || "unknownTag"
+      [withRootTagPrefix ? this.rootTagPrefix : null, finalTagByProperties].filter(Boolean).join(":") || "unknownTag"
     )
   }
 
@@ -261,15 +247,9 @@ export class Logger0 {
       ...record,
       category: [Logger0.logRecordToTag(record, false)],
     })
-    const visibleProperties = omit(record.properties, [
-      "tag",
-      "tagPrefix",
-      "message",
-    ])
+    const visibleProperties = omit(record.properties, ["tag", "tagPrefix", "message"])
     const yamlProperties =
-      Object.keys(visibleProperties).length > 0
-        ? yaml.stringify(visibleProperties) + "\n"
-        : undefined
+      Object.keys(visibleProperties).length > 0 ? yaml.stringify(visibleProperties) + "\n" : undefined
     return [line, yamlProperties].join("")
   }
 
@@ -316,11 +296,7 @@ export class Logger0 {
   } = {}) => {
     debug.enable(debugConfig)
     const formatterHere =
-      formatter === "pretty"
-        ? Logger0.prettyFormatter
-        : formatter === "json"
-          ? Logger0.jsonFormatter
-          : formatter
+      formatter === "pretty" ? Logger0.prettyFormatter : formatter === "json" ? Logger0.jsonFormatter : formatter
     sinks = removeDefaultSinks
       ? sinks
       : {

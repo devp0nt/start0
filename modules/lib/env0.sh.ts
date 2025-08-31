@@ -10,8 +10,7 @@ export namespace Env0 {
     source: Record<string, unknown>
   }) => {
     const helpers = getHelpers(source)
-    const schema =
-      typeof schemaOrFn === "function" ? schemaOrFn(helpers) : schemaOrFn
+    const schema = typeof schemaOrFn === "function" ? schemaOrFn(helpers) : schemaOrFn
     const parseResult = schema.safeParse(source)
     if (!parseResult.success) {
       throw new Error0({
@@ -46,10 +45,7 @@ export namespace Env0 {
   ])
   export const zBoolean = z.union([
     zString
-      .refine(
-        (val) => ["true", "false", "1", "0"].includes(val),
-        `Should be: 'true' | 'false' | '1' | '0' | boolean`,
-      )
+      .refine((val) => ["true", "false", "1", "0"].includes(val), `Should be: 'true' | 'false' | '1' | '0' | boolean`)
       .transform((val) => val === "true" || val === "1"),
     z.boolean(),
   ])
@@ -59,27 +55,15 @@ export namespace Env0 {
     zBoolean,
   ])
   export const zNumber = z.union([
-    zString
-      .refine((val) => !Number.isNaN(Number(val)), "Should be a number")
-      .transform(Number),
+    zString.refine((val) => !Number.isNaN(Number(val)), "Should be a number").transform(Number),
     z.number(),
   ])
-  export const zNumberOptional = z.union([
-    z.literal("").transform(() => undefined),
-    z.literal(undefined),
-    zNumber,
-  ])
+  export const zNumberOptional = z.union([z.literal("").transform(() => undefined), z.literal(undefined), zNumber])
   export const zInt = z.union([
-    zString
-      .refine((val) => Number.isInteger(Number(val)), "Should be integer")
-      .transform(Number),
+    zString.refine((val) => Number.isInteger(Number(val)), "Should be integer").transform(Number),
     z.number().int(),
   ])
-  export const zIntOptional = z.union([
-    z.literal("").transform(() => undefined),
-    z.literal(undefined),
-    zInt,
-  ])
+  export const zIntOptional = z.union([z.literal("").transform(() => undefined), z.literal(undefined), zInt])
 
   const getHelpers = (source: Record<string, unknown>) => {
     return {
@@ -87,41 +71,25 @@ export namespace Env0 {
         if (source.HOST_ENV !== "local") {
           return value
         }
-        return z.union([
-          z.literal(undefined),
-          z.literal("").transform(() => undefined),
-          value,
-        ])
+        return z.union([z.literal(undefined), z.literal("").transform(() => undefined), value])
       },
       optionalOnNotLocalHostEnv: <T extends z.ZodTypeAny>(value: T) => {
         if (source.HOST_ENV === "local") {
           return z.literal(undefined)
         }
-        return z.union([
-          z.literal(undefined),
-          z.literal("").transform(() => undefined),
-          value,
-        ])
+        return z.union([z.literal(undefined), z.literal("").transform(() => undefined), value])
       },
       optionalOnProdHostEnv: <T extends z.ZodTypeAny>(value: T) => {
         if (source.HOST_ENV === "prod") {
           return value
         }
-        return z.union([
-          z.literal(undefined),
-          z.literal("").transform(() => undefined),
-          value,
-        ])
+        return z.union([z.literal(undefined), z.literal("").transform(() => undefined), value])
       },
       optionalOnNotProdHostEnv: <T extends z.ZodTypeAny>(value: T) => {
         if (source.HOST_ENV === "prod") {
           return z.literal(undefined)
         }
-        return z.union([
-          z.literal(undefined),
-          z.literal("").transform(() => undefined),
-          value,
-        ])
+        return z.union([z.literal(undefined), z.literal("").transform(() => undefined), value])
       },
     }
   }

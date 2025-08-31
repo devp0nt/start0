@@ -1,8 +1,6 @@
 import { Meta0 } from "@shmoject/modules/lib/meta0.sh"
-import { TRPCClientError } from "@trpc/client"
 import { type AxiosError, HttpStatusCode, isAxiosError } from "axios"
 import { get } from "lodash"
-import { UNSAFE_ErrorResponseImpl } from "react-router"
 import { ZodError } from "zod"
 
 // TODO: store tags as array from all causes
@@ -44,8 +42,7 @@ type HttpStatusCodeString = keyof typeof HttpStatusCode
 type Error0Cause = Error | Error0 | unknown
 type ExpectedFn = (error: Error0GeneralProps) => boolean | undefined
 
-const isFilled = <T>(value: T): value is NonNullable<T> =>
-  value !== null && value !== undefined && value !== ""
+const isFilled = <T>(value: T): value is NonNullable<T> => value !== null && value !== undefined && value !== ""
 
 export class Error0 extends Error {
   public readonly __I_AM_ERROR_0: true = true
@@ -96,22 +93,16 @@ export class Error0 extends Error {
     Object.setPrototypeOf(this, (this.constructor as typeof Error0).prototype)
     this.name = "Error0"
 
-    this.propsOriginal = (
-      this.constructor as typeof Error0
-    ).getSelfGeneralProps({
+    this.propsOriginal = (this.constructor as typeof Error0).getSelfGeneralProps({
       error0Input: safeInput,
       message,
       stack: safeInput.stack || this.stack,
     })
-    const causesProps = (
-      this.constructor as typeof Error0
-    ).getCausesPropsFromError0Props(
+    const causesProps = (this.constructor as typeof Error0).getCausesPropsFromError0Props(
       this.propsOriginal,
       (this.constructor as typeof Error0).defaultMaxLevel,
     )
-    const propsFloated = (
-      this.constructor as typeof Error0
-    ).getSelfPropsFloated(causesProps)
+    const propsFloated = (this.constructor as typeof Error0).getSelfPropsFloated(causesProps)
     this.tag = propsFloated.tag
     this.code = propsFloated.code
     this.httpStatus = propsFloated.httpStatus
@@ -130,33 +121,22 @@ export class Error0 extends Error {
 
   // props
 
-  private static safeParseInput(
-    error0Input: Record<string, unknown>,
-  ): Error0Input {
+  private static safeParseInput(error0Input: Record<string, unknown>): Error0Input {
     const result: Error0Input = {}
-    result.message =
-      typeof error0Input.message === "string" ? error0Input.message : undefined
-    result.tag =
-      typeof error0Input.tag === "string" ? error0Input.tag : undefined
-    result.code =
-      typeof error0Input.code === "string" ? error0Input.code : undefined
+    result.message = typeof error0Input.message === "string" ? error0Input.message : undefined
+    result.tag = typeof error0Input.tag === "string" ? error0Input.tag : undefined
+    result.code = typeof error0Input.code === "string" ? error0Input.code : undefined
     result.httpStatus =
-      typeof error0Input.httpStatus === "number" ||
-      typeof error0Input.httpStatus === "string"
+      typeof error0Input.httpStatus === "number" || typeof error0Input.httpStatus === "string"
         ? (error0Input.httpStatus as never)
         : undefined
     result.expected =
-      typeof error0Input.expected === "function" ||
-      typeof error0Input.expected === "boolean"
+      typeof error0Input.expected === "function" || typeof error0Input.expected === "boolean"
         ? (error0Input.expected as never)
         : undefined
-    result.clientMessage =
-      typeof error0Input.clientMessage === "string"
-        ? error0Input.clientMessage
-        : undefined
+    result.clientMessage = typeof error0Input.clientMessage === "string" ? error0Input.clientMessage : undefined
     result.cause = error0Input.cause
-    result.stack =
-      typeof error0Input.stack === "string" ? error0Input.stack : undefined
+    result.stack = typeof error0Input.stack === "string" ? error0Input.stack : undefined
     // result.meta0 =
     //   error0Input.meta0 instanceof Meta0 ? error0Input.meta0 : undefined
     // result.meta =
@@ -169,13 +149,8 @@ export class Error0 extends Error {
         : typeof error0Input.meta === "object" && error0Input.meta !== null
           ? (error0Input.meta as Meta0.ValueType)
           : undefined
-    result.zodError =
-      error0Input.zodError instanceof ZodError
-        ? error0Input.zodError
-        : undefined
-    result.axiosError = isAxiosError(error0Input.axiosError)
-      ? error0Input.axiosError
-      : undefined
+    result.zodError = error0Input.zodError instanceof ZodError ? error0Input.zodError : undefined
+    result.axiosError = isAxiosError(error0Input.axiosError) ? error0Input.axiosError : undefined
     return result
   }
 
@@ -216,8 +191,7 @@ export class Error0 extends Error {
     }
     result.expected = this.normalizeSelfExpected(
       result,
-      typeof error0Input.expected === "boolean" ||
-        typeof error0Input.expected === "function"
+      typeof error0Input.expected === "boolean" || typeof error0Input.expected === "function"
         ? error0Input.expected
         : meta.expected || this.defaultExpected,
     )
@@ -225,9 +199,7 @@ export class Error0 extends Error {
     return result
   }
 
-  private static getSelfPropsFloated(
-    causesProps: Error0GeneralProps[],
-  ): Error0GeneralProps {
+  private static getSelfPropsFloated(causesProps: Error0GeneralProps[]): Error0GeneralProps {
     const cause = this.getClosestPropValue(causesProps, "cause")
     const stack = this.mergeStack(causesProps[1]?.stack, causesProps[0]?.stack)
     const closestTag = this.getClosestPropValue(causesProps, "tag")
@@ -252,17 +224,13 @@ export class Error0 extends Error {
 
   // sepcial
 
-  private static getExtraError0PropsByZodError(
-    zodError: ZodError,
-  ): Partial<Error0GeneralProps> {
+  private static getExtraError0PropsByZodError(zodError: ZodError): Partial<Error0GeneralProps> {
     return {
       message: `Zod Validation Error: ${zodError.message}`,
     }
   }
 
-  private static getExtraError0PropsByAxiosError(
-    axiosError: AxiosError,
-  ): Partial<Error0GeneralProps> {
+  private static getExtraError0PropsByAxiosError(axiosError: AxiosError): Partial<Error0GeneralProps> {
     return {
       message: "Axios Error",
       meta: {
@@ -313,10 +281,7 @@ export class Error0 extends Error {
 
   // getters
 
-  private static getPropsFromUnknown(
-    error: unknown,
-    defaults?: Error0Input,
-  ): Error0GeneralProps {
+  private static getPropsFromUnknown(error: unknown, defaults?: Error0Input): Error0GeneralProps {
     if (typeof error !== "object" || error === null) {
       return {
         message: undefined,
@@ -333,40 +298,26 @@ export class Error0 extends Error {
         meta: {},
       }
     }
-    const message =
-      "message" in error && typeof error.message === "string"
-        ? error.message
-        : undefined
+    const message = "message" in error && typeof error.message === "string" ? error.message : undefined
     const clientMessage =
       "clientMessage" in error && typeof error.clientMessage === "string"
         ? error.clientMessage
         : defaults?.clientMessage || undefined
     const result: Error0GeneralProps = {
       message,
-      code:
-        "code" in error && typeof error.code === "string"
-          ? error.code
-          : defaults?.code || undefined,
+      code: "code" in error && typeof error.code === "string" ? error.code : defaults?.code || undefined,
       clientMessage,
       anyMessage: clientMessage || message || this.defaultMessage,
       expected: undefined,
-      stack:
-        "stack" in error && typeof error.stack === "string"
-          ? error.stack
-          : undefined,
-      tag:
-        "tag" in error && typeof error.tag === "string"
-          ? error.tag
-          : defaults?.tag || undefined,
+      stack: "stack" in error && typeof error.stack === "string" ? error.stack : undefined,
+      tag: "tag" in error && typeof error.tag === "string" ? error.tag : defaults?.tag || undefined,
       cause: "cause" in error ? error.cause : defaults?.cause || undefined,
       meta:
         "meta" in error && typeof error.meta === "object" && error.meta !== null
           ? Meta0.getValue(error.meta as Meta0.ValueType)
           : Meta0.getValue(defaults?.meta) || {},
       httpStatus:
-        "httpStatus" in error &&
-        typeof error.httpStatus === "number" &&
-        error.httpStatus in HttpStatusCode
+        "httpStatus" in error && typeof error.httpStatus === "number" && error.httpStatus in HttpStatusCode
           ? error.httpStatus
           : typeof defaults?.httpStatus === "string"
             ? HttpStatusCode[defaults.httpStatus]
@@ -386,31 +337,20 @@ export class Error0 extends Error {
     }
     result.expected = this.normalizeSelfExpected(
       result,
-      "expected" in error &&
-        (typeof error.expected === "boolean" ||
-          typeof error.expected === "function")
+      "expected" in error && (typeof error.expected === "boolean" || typeof error.expected === "function")
         ? (error.expected as ExpectedFn)
         : defaults?.expected || undefined,
     )
     if (result.zodError) {
-      this.assignError0Props(
-        result,
-        this.getExtraError0PropsByZodError(result.zodError),
-      )
+      this.assignError0Props(result, this.getExtraError0PropsByZodError(result.zodError))
     }
     if (result.axiosError) {
-      this.assignError0Props(
-        result,
-        this.getExtraError0PropsByAxiosError(result.axiosError),
-      )
+      this.assignError0Props(result, this.getExtraError0PropsByAxiosError(result.axiosError))
     }
     return result
   }
 
-  private static getCausesPropsFromUnknown(
-    error: unknown,
-    maxLevel: number,
-  ): Error0GeneralProps[] {
+  private static getCausesPropsFromUnknown(error: unknown, maxLevel: number): Error0GeneralProps[] {
     if (!error) {
       return []
     }
@@ -420,12 +360,7 @@ export class Error0 extends Error {
       return causesProps
     }
     if (maxLevel > 0) {
-      causesProps.push(
-        ...this.getCausesPropsFromUnknown(
-          this.getPropsFromUnknown(causeProps.cause),
-          maxLevel - 1,
-        ),
-      )
+      causesProps.push(...this.getCausesPropsFromUnknown(this.getPropsFromUnknown(causeProps.cause), maxLevel - 1))
     }
     return causesProps
   }
@@ -434,10 +369,7 @@ export class Error0 extends Error {
     error0Props: Error0GeneralProps,
     maxLevel: number,
   ): Error0GeneralProps[] {
-    return [
-      error0Props,
-      ...this.getCausesPropsFromUnknown(error0Props.cause, maxLevel - 1),
-    ]
+    return [error0Props, ...this.getCausesPropsFromUnknown(error0Props.cause, maxLevel - 1)]
   }
 
   private static getClosestPropValue<TPropKey extends keyof Error0GeneralProps>(
@@ -480,9 +412,7 @@ export class Error0 extends Error {
     return values
   }
 
-  private static getMergedMetaValue(
-    causesProps: Error0GeneralProps[],
-  ): Meta0.ValueType {
+  private static getMergedMetaValue(causesProps: Error0GeneralProps[]): Meta0.ValueType {
     const metas = this.getFilledPropValues(causesProps, "meta")
     if (metas.length === 0) {
       return {}
@@ -495,9 +425,7 @@ export class Error0 extends Error {
 
   // stack
 
-  private static removeConstructorStackPart(
-    stack: Error0GeneralProps["stack"],
-  ): Error0GeneralProps["stack"] {
+  private static removeConstructorStackPart(stack: Error0GeneralProps["stack"]): Error0GeneralProps["stack"] {
     if (!stack) {
       return stack
     }
@@ -539,10 +467,7 @@ export class Error0 extends Error {
     return false
   }
 
-  private static _toError0(
-    error: unknown,
-    inputOverride: Error0Input = {},
-  ): Error0 {
+  private static _toError0(error: unknown, inputOverride: Error0Input = {}): Error0 {
     if (error instanceof Error0) {
       return error
     }
@@ -591,11 +516,9 @@ export class Error0 extends Error {
     return class Error0 extends parent {
       static defaultMessage = props.defaultMessage ?? parent.defaultMessage
       static defaultCode = props.defaultCode ?? parent.defaultCode
-      static defaultHttpStatus =
-        props.defaultHttpStatus ?? parent.defaultHttpStatus
+      static defaultHttpStatus = props.defaultHttpStatus ?? parent.defaultHttpStatus
       static defaultExpected = props.defaultExpected ?? parent.defaultExpected
-      static defaultClientMessage =
-        props.defaultClientMessage ?? parent.defaultClientMessage
+      static defaultClientMessage = props.defaultClientMessage ?? parent.defaultClientMessage
       static defaultMeta = Meta0.extend(props.defaultMeta, parent.defaultMeta)
     }
   }
@@ -611,12 +534,7 @@ export class Error0 extends Error {
       defaultMeta?: Meta0.Meta0OrValueTypeNullish
     },
   ): T {
-    return Object.fromEntries(
-      Object.entries(classes).map(([name, Class]) => [
-        name,
-        Class.extend(props),
-      ]),
-    ) as T
+    return Object.fromEntries(Object.entries(classes).map(([name, Class]) => [name, Class.extend(props)])) as T
   }
 
   toJSON() {

@@ -1,19 +1,12 @@
 import { Error0 } from "@shmoject/modules/lib/error0.sh"
 import { SiteCtx } from "@shmoject/site/lib/ctx"
 import { getQueryClient } from "@shmoject/site/lib/trpc"
-import {
-  type DehydratedState,
-  dehydrate,
-  hydrate,
-  type QueryClient,
-} from "@tanstack/react-query"
+import { type DehydratedState, dehydrate, hydrate, type QueryClient } from "@tanstack/react-query"
 import merge from "deepmerge"
 import { type LoaderFunctionArgs, useMatches } from "react-router"
 
 export namespace RR0 {
-  export const createLoader = <TOutput>(
-    fn: (props: any) => Promise<TOutput>,
-  ) => {
+  export const createLoader = <TOutput>(fn: (props: any) => Promise<TOutput>) => {
     return async (loaderArgs: LoaderFunctionArgs) => {
       try {
         const qc = getQueryClient()
@@ -67,9 +60,7 @@ export namespace RR0 {
     query: Record<string, string>
   }
 
-  export const createRouteComponent = <TOutput>(
-    fn: (props: any) => TOutput,
-  ) => {
+  export const createRouteComponent = <TOutput>(fn: (props: any) => TOutput) => {
     return async (componentArgs: any) => {
       try {
         return fn({
@@ -89,20 +80,13 @@ export namespace RR0 {
   export const useDehydratedState = (): DehydratedState | undefined => {
     const matches = useMatches()
     const dehydratedState = matches
-      .map(
-        (match) =>
-          (
-            match.loaderData as
-              | { dehydratedState?: DehydratedState }
-              | undefined
-          )?.dehydratedState,
-      )
+      .map((match) => (match.loaderData as { dehydratedState?: DehydratedState } | undefined)?.dehydratedState)
       .filter(Boolean) as DehydratedState[]
     return dehydratedState.length
-      ? dehydratedState.reduce(
-          (accumulator, currentValue) => merge(accumulator, currentValue),
-          { mutations: [], queries: [] } as DehydratedState,
-        )
+      ? dehydratedState.reduce((accumulator, currentValue) => merge(accumulator, currentValue), {
+          mutations: [],
+          queries: [],
+        } as DehydratedState)
       : undefined
   }
 }

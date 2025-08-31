@@ -13,13 +13,7 @@
   "files": {
     "ignoreUnknown": true,
     // TODO: try use .gitignore as source of ignores
-    "includes": [
-      "**",
-      "!**/dist",
-      "!**/node_modules",
-      "!**/.react-router",
-      "!**/generated*"
-    ]
+    "includes": ["**", "!**/dist", "!**/node_modules", "!**/.react-router", "!**/generated*"]
   },
   "formatter": {
     "enabled": true,

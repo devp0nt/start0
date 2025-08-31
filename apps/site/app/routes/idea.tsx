@@ -4,26 +4,22 @@ import { SiteError } from "@shmoject/site/components/Error"
 import { RR0 } from "@shmoject/site/lib/reactRouter0"
 import type { Route } from "./+types/idea"
 
-export const meta = RR0.createMeta(
-  ({ loaderData, params, error }: RR0.MetaArgs<Route.MetaArgs>) => {
-    if (!loaderData) {
-      return [{ title: Error0.from(error).message }]
-    }
-    const result = Page.meta?.({
-      loaderData: loaderData.data,
-      query: loaderData.query,
-      params,
-      ctx: loaderData.siteCtx,
-    })
-    return result
-  },
-)
+export const meta = RR0.createMeta(({ loaderData, params, error }: RR0.MetaArgs<Route.MetaArgs>) => {
+  if (!loaderData) {
+    return [{ title: Error0.from(error).message }]
+  }
+  const result = Page.getMeta()({
+    loaderData: loaderData.data,
+    query: loaderData.query,
+    params,
+    ctx: loaderData.siteCtx,
+  })
+  return result
+})
 
-export const loader = RR0.createLoader(
-  async ({ qc, params, query, ctx }: RR0.LoaderArgs<Route.LoaderArgs>) => {
-    return await Page.loader?.({ qc, params, query, ctx })
-  },
-)
+export const loader = RR0.createLoader(async ({ qc, params, query, ctx }: RR0.LoaderArgs<Route.LoaderArgs>) => {
+  return await Page.loader?.({ qc, params, query, ctx })
+})
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
   return <SiteError.Page error={error} />
@@ -32,12 +28,7 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
 const RouteComponent = RR0.createRouteComponent(
   ({ params, loaderData }: RR0.RouteComponentArgs<Route.ComponentProps>) => {
     return (
-      <Page.Component
-        params={params}
-        query={loaderData.query}
-        loaderData={loaderData.data}
-        ctx={loaderData.siteCtx}
-      />
+      <Page.component params={params} query={loaderData.query} loaderData={loaderData.data} ctx={loaderData.siteCtx} />
     )
   },
 )
