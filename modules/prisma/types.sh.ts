@@ -1,4 +1,4 @@
-import type { Idea } from "@shmoject/modules/idea/utils.sh"
+import type { Idea } from "@ideanick/modules/idea/utils.sh"
 
 // This file must be a module, so we include an empty export.
 // export {}

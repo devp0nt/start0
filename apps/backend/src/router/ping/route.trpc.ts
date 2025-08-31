@@ -1,4 +1,4 @@
-import { BackendTrpc } from "@shmoject/backend/lib/trpc"
+import { BackendTrpc } from "@ideanick/backend/lib/trpc"
 
 // TODO: combine all routes into one file and use generator to find desired routes
 

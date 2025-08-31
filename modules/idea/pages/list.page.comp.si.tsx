@@ -1,6 +1,6 @@
-import type { Idea } from "@shmoject/modules/idea/utils.sh"
-import { SiteCtx } from "@shmoject/site/lib/ctx"
-import { siteRoutes } from "@shmoject/site/lib/routes"
+import type { Idea } from "@ideanick/modules/idea/utils.sh"
+import { SiteCtx } from "@ideanick/site/lib/ctx"
+import { siteRoutes } from "@ideanick/site/lib/routes"
 import { Link } from "react-router"
 
 export const IdeasPage: React.FC<{

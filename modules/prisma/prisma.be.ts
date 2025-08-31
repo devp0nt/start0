@@ -1,5 +1,5 @@
-import { BackendCtx } from "@shmoject/backend/lib/ctx"
-import { Prisma0Models } from "@shmoject/modules/prisma/generated.be/prisma0/models.js"
+import { BackendCtx } from "@ideanick/backend/lib/ctx"
+import { Prisma0Models } from "@ideanick/modules/prisma/generated.be/prisma0/models.js"
 import { backOff } from "exponential-backoff"
 import { Prisma, PrismaClient } from "./generated.be/prisma/client.js"
 

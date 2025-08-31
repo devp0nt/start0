@@ -4,8 +4,9 @@ alias mo := modules
 alias pmd := prisma-migrate-dev
 alias pmt := prisma-migrate-test
 alias pgc := prisma-generate-client
+alias t := test-root
 
-# forward command
+# forward command to app
 
 backend *ARGS:
   cd ./apps/backend && bun run {{ARGS}}
@@ -45,6 +46,9 @@ prisma-generate-client *ARGS:
   cd ./modules && bun run --env-file=./prisma/.env prisma generate client {{ARGS}}
 
 # helpers
+
+test-root *ARGS:
+  bun test {{ARGS}}
 
 prune:
   rm -rf .react-router node_modules .vite .turbo dist build && bun install

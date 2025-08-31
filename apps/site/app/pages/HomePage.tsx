@@ -1,6 +1,6 @@
-import { Page0 } from "@shmoject/site/lib/page0"
-import { siteRoutes } from "@shmoject/site/lib/routes"
-import { trpc, useTRPC } from "@shmoject/site/lib/trpc"
+import { Page0 } from "@ideanick/site/lib/page0"
+import { siteRoutes } from "@ideanick/site/lib/routes"
+import { trpc, useTRPC } from "@ideanick/site/lib/trpc"
 import { useQuery } from "@tanstack/react-query"
 
 export const homePage = Page0.route(siteRoutes.home)

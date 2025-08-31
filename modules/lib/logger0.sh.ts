@@ -1,3 +1,6 @@
+import { Error0, type Error0Input } from "@ideanick/modules/lib/error0.sh"
+import type { ExtractEnum } from "@ideanick/modules/lib/lodash0.sh"
+import { Meta0 } from "@ideanick/modules/lib/meta0.sh"
 import {
   configureSync,
   type Filter,
@@ -9,9 +12,6 @@ import {
   type LogRecord,
   type Sink,
 } from "@logtape/logtape"
-import { Error0, type Error0Input } from "@shmoject/modules/lib/error0.sh"
-import type { ExtractEnum } from "@shmoject/modules/lib/lodash0.sh"
-import { Meta0 } from "@shmoject/modules/lib/meta0.sh"
 import debug from "debug"
 import { omit } from "lodash"
 import yaml from "yaml"
@@ -19,7 +19,7 @@ import yaml from "yaml"
 // TODO: oneliner formatter
 
 export class Logger0 {
-  static rootTagPrefix = "shmoject"
+  static rootTagPrefix = "ideanick"
 
   sensetiveKeys = [
     "imageUrl",

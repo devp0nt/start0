@@ -1,5 +1,5 @@
-import type { Route0 } from "@shmoject/modules/lib/route0.sh"
-import type { SiteCtx } from "@shmoject/site/lib/ctx"
+import type { Route0 } from "@ideanick/modules/lib/route0.sh"
+import type { SiteCtx } from "@ideanick/site/lib/ctx"
 import type { QueryClient } from "@tanstack/react-query"
 import type { MetaDescriptor } from "react-router"
 
@@ -12,7 +12,7 @@ import type { MetaDescriptor } from "react-router"
 // TODO: title exact or suffix or prefix
 
 export class Page0<TRoute extends Page0.Route, TLoader extends Page0.Loader<TRoute> | undefined> {
-  static titleSuffix = " | shmoject"
+  static titleSuffix = " | ideanick"
 
   public readonly route: TRoute
   public readonly loader: TLoader
@@ -362,12 +362,14 @@ export namespace Page0 {
   export type EmptyLoader = (...args: any[]) => Promise<EmptyLoaderData>
   export type Loader<TRoute extends Route> = (
     props: WithRouteParamsAndQuery<TRoute> & WithCtx & WithQc,
-  ) => Promise<FilledLoaderData>
+  ) => Promise<FilledLoaderData> | FilledLoaderData
   export type LoaderData<TRoute extends Route, TLoader extends Loader<TRoute> | undefined> = TLoader extends (
     ...args: any[]
   ) => Promise<infer TData>
     ? Awaited<TData>
-    : EmptyLoaderData
+    : TLoader extends (...args: any[]) => infer TData
+      ? TData
+      : EmptyLoaderData
   export type WithLoaderData<TRoute extends Route, TLoader extends Loader<TRoute> | undefined> = {
     loaderData: LoaderData<TRoute, TLoader>
   }

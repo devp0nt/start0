@@ -1,10 +1,10 @@
-import { BackendCtx } from "@shmoject/backend/lib/ctx"
-import type { Env } from "@shmoject/backend/lib/env"
-import type { e0s as e0sDefault } from "@shmoject/modules/lib/error0.sh"
-import type { FnPropsKeys, NonFnProps } from "@shmoject/modules/lib/lodash0.sh"
-import type { Logger0 } from "@shmoject/modules/lib/logger0.sh"
-import type { Meta0 } from "@shmoject/modules/lib/meta0.sh"
-import type { Prisma0 } from "@shmoject/modules/prisma/prisma.be"
+import { BackendCtx } from "@ideanick/backend/lib/ctx"
+import type { Env } from "@ideanick/backend/lib/env"
+import type { e0s as e0sDefault } from "@ideanick/modules/lib/error0.sh"
+import type { FnPropsKeys, NonFnProps } from "@ideanick/modules/lib/lodash0.sh"
+import type { Logger0 } from "@ideanick/modules/lib/logger0.sh"
+import type { Meta0 } from "@ideanick/modules/lib/meta0.sh"
+import type { Prisma0 } from "@ideanick/modules/prisma/prisma.be"
 import type { Context as HonoContext } from "hono"
 
 export class HonoReqCtx {

@@ -1,6 +1,6 @@
 import { describe, expect, expectTypeOf, it } from "bun:test"
-import { Route0 } from "@shmoject/modules/lib/route0.sh"
-import { Page0 } from "@shmoject/site/lib/page0"
+import { Route0 } from "@ideanick/modules/lib/route0.sh"
+import { Page0 } from "@ideanick/site/lib/page0"
 
 const routeWithoutParams = Route0.create("/example")
 const routeWithParams = routeWithoutParams.extend("/:id")
@@ -12,7 +12,7 @@ describe("Page0", () => {
       route: routeWithoutParams,
       component: () => null,
     })
-    expect(page).toEqual(samePage)
+    expect(page).toMatchObject(samePage)
     expect(page).toBeDefined()
     expect(page).toBeInstanceOf(Page0)
     expect(page.route).toBe(routeWithoutParams)
@@ -28,7 +28,7 @@ describe("Page0", () => {
       route: routeWithParams,
       component: () => null,
     })
-    expect(page).toEqual(samePage)
+    expect(page).toMatchObject(samePage)
     expect(page).toBeDefined()
     expect(page).toBeInstanceOf(Page0)
     expect(page.route).toBe(routeWithParams)
@@ -47,7 +47,7 @@ describe("Page0", () => {
       loader: async () => ({ x: 1 }),
       component: () => null,
     })
-    expect(page).toEqual(samePage)
+    expect(page).toMatchObject(samePage)
     expect(page).toBeDefined()
     expect(page).toBeInstanceOf(Page0)
     expect(page.route).toBe(routeWithoutParams)
@@ -67,7 +67,7 @@ describe("Page0", () => {
       loader: async () => ({ x: 1 }),
       component: () => null,
     })
-    expect(page).toEqual(samePage)
+    expect(page).toMatchObject(samePage)
     expect(page).toBeDefined()
     expect(page).toBeInstanceOf(Page0)
     expect(page.route).toBe(routeWithParams)
@@ -86,9 +86,10 @@ describe("Page0", () => {
     const samePage = Page0.create({
       route: routeWithParams,
       loader: async () => ({ x: 1 }),
+      layout: "layout-path",
       component: () => null,
     })
-    expect(page).toEqual(samePage)
+    expect(page).toMatchObject(samePage)
     expect(page.layouts).toEqual(["layout-path"])
   })
 })

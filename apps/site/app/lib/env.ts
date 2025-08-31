@@ -1,4 +1,4 @@
-import { Env0 as E } from "@shmoject/modules/lib/env0.sh"
+import { Env0 as E } from "@ideanick/modules/lib/env0.sh"
 import z from "zod"
 
 export const createEnvBuild = (source: Record<string, unknown>) =>

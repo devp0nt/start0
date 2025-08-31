@@ -1,4 +1,4 @@
-# shmoject
+# ideanick
 
 To install dependencies:
 

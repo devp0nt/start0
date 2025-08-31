@@ -18,9 +18,9 @@
     "moduleResolution": "bundler",
     "jsx": "react-jsx",
     "paths": {
-      "@shmoject/site/*": ["./apps/site/app/*"],
-      "@shmoject/backend/*": ["./apps/backend/src/*"],
-      "@shmoject/modules/*": ["./modules/*"]
+      "@ideanick/site/*": ["./apps/site/app/*"],
+      "@ideanick/backend/*": ["./apps/backend/src/*"],
+      "@ideanick/modules/*": ["./modules/*"]
     },
     "esModuleInterop": true,
     "verbatimModuleSyntax": true,

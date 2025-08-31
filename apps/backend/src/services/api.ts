@@ -1,8 +1,8 @@
-import { BackendCtx } from "@shmoject/backend/lib/ctx"
-import { HonoApp } from "@shmoject/backend/lib/hono"
-import { BackendTrpc } from "@shmoject/backend/lib/trpc"
-import { BackendHonoRouter } from "@shmoject/backend/router/index.hono"
-import { BackendTrpcRouter } from "@shmoject/backend/router/index.trpc"
+import { BackendCtx } from "@ideanick/backend/lib/ctx"
+import { HonoApp } from "@ideanick/backend/lib/hono"
+import { BackendTrpc } from "@ideanick/backend/lib/trpc"
+import { BackendHonoRouter } from "@ideanick/backend/router/index.hono"
+import { BackendTrpcRouter } from "@ideanick/backend/router/index.trpc"
 import { serve } from "bun"
 import { cors } from "hono/cors"
 

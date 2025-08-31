@@ -1,4 +1,4 @@
-import { Meta0 } from "@shmoject/modules/lib/meta0.sh"
+import { Meta0 } from "@ideanick/modules/lib/meta0.sh"
 import { type AxiosError, HttpStatusCode, isAxiosError } from "axios"
 import { get } from "lodash"
 import { ZodError } from "zod"

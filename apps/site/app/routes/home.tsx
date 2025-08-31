@@ -1,7 +1,7 @@
-import { Error0 } from "@shmoject/modules/lib/error0.sh"
-import { SiteError } from "@shmoject/site/components/Error"
-import { RR0 } from "@shmoject/site/lib/reactRouter0"
-import { homePage as page } from "@shmoject/site/pages/HomePage"
+import { Error0 } from "@ideanick/modules/lib/error0.sh"
+import { SiteError } from "@ideanick/site/components/Error"
+import { RR0 } from "@ideanick/site/lib/reactRouter0"
+import { homePage as page } from "@ideanick/site/pages/HomePage"
 import type { Route } from "./+types/home"
 
 export const meta = RR0.createMeta(({ loaderData, params, error }: RR0.MetaArgs<Route.MetaArgs>) => {

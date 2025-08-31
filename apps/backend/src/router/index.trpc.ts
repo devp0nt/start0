@@ -1,6 +1,6 @@
-import { BackendTrpc } from "@shmoject/backend/lib/trpc"
-import { getAppConfigTrpcRoute } from "@shmoject/modules/appConfig/routes.be.js"
-import { getIdeasTrpcRoute, getIdeaTrpcRoute } from "@shmoject/modules/idea/routes.be.js"
+import { BackendTrpc } from "@ideanick/backend/lib/trpc"
+import { getAppConfigTrpcRoute } from "@ideanick/modules/appConfig/routes.be.js"
+import { getIdeasTrpcRoute, getIdeaTrpcRoute } from "@ideanick/modules/idea/routes.be.js"
 import type { inferRouterInputs, inferRouterOutputs } from "@trpc/server"
 
 // @index('./**/route.trpc.ts', f => `import { ${f.path.split('/').slice(0, -1).pop()}TrpcRoute } from '${f.path}.js'`)

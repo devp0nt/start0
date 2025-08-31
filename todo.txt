@@ -1,5 +1,4 @@
-rename to ideanick
-rename top
+rename package to ideanick
 
 generator
 generator site routes files, and route.tsx, and routes.ts

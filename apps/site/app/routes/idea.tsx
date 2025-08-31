@@ -1,7 +1,7 @@
-import { ideaPage as page } from "@shmoject/modules/idea/pages/view.page.si"
-import { Error0 } from "@shmoject/modules/lib/error0.sh"
-import { SiteError } from "@shmoject/site/components/Error"
-import { RR0 } from "@shmoject/site/lib/reactRouter0"
+import { ideaPage as page } from "@ideanick/modules/idea/pages/view.page.si"
+import { Error0 } from "@ideanick/modules/lib/error0.sh"
+import { SiteError } from "@ideanick/site/components/Error"
+import { RR0 } from "@ideanick/site/lib/reactRouter0"
 import type { Route } from "./+types/idea"
 
 export const meta = RR0.createMeta(({ loaderData, params, error }: RR0.MetaArgs<Route.MetaArgs>) => {

@@ -1,4 +1,4 @@
-import { Error0 } from "@shmoject/modules/lib/error0.sh"
+import { Error0 } from "@ideanick/modules/lib/error0.sh"
 import z from "zod"
 
 export namespace Env0 {

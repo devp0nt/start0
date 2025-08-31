@@ -1,4 +1,4 @@
-import type { HonoApp } from "@shmoject/backend/lib/hono"
+import type { HonoApp } from "@ideanick/backend/lib/hono"
 import z from "zod"
 
 export const pingHonoRoute = ({ honoApp }: { honoApp: HonoApp.AppType }) =>
