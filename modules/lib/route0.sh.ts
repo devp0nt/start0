@@ -1,8 +1,7 @@
-// TODO: pathOriginalDefinition type remove ending &
 // TODO: self as function
 // TODO: getPathDefinition
-// TODO: use in react router
 
+// TODO: use splats in param definition "*"
 // TODO: ? check extend for query only .extend('&x&z')
 // TODO: .create(route, {useQuery, useParams})
 // TODO: Из пас экзакт, из пасвизквери экзает, из чилдрен, из парент, из экзактОр
@@ -23,7 +22,7 @@ export class Route0<
   TQueryDefinition extends Route0._QueryDefinition<TPathOriginalDefinition>,
 > {
   pathOriginalDefinition: TPathOriginalDefinition
-  pathDefinition: TPathDefinition
+  private pathDefinition: TPathDefinition
   paramsDefinition: TParamsDefinition
   queryDefinition: TQueryDefinition
   baseUrl: string
@@ -216,6 +215,10 @@ export class Route0<
     url = absInput ? Route0._getAbsPath(this.baseUrl, url) : url
 
     return url
+  }
+
+  getDefinition() {
+    return this.pathDefinition
   }
 
   clone(config?: Route0.RouteConfigInput) {

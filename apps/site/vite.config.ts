@@ -20,8 +20,8 @@ export default defineConfig(({ mode }) => {
       reactRouterHonoServer({
         runtime: "bun",
       }),
-      reactRouter(),
       tsconfigPaths(),
+      reactRouter(),
     ],
   }
 })

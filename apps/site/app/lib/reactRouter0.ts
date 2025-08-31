@@ -61,7 +61,7 @@ export namespace RR0 {
   }
 
   export const createRouteComponent = <TOutput>(fn: (props: any) => TOutput) => {
-    return async (componentArgs: any) => {
+    return (componentArgs: any) => {
       try {
         return fn({
           ...componentArgs,

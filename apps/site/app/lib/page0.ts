@@ -3,12 +3,11 @@ import type { SiteCtx } from "@shmoject/site/lib/ctx"
 import type { QueryClient } from "@tanstack/react-query"
 import type { MetaDescriptor } from "react-router"
 
-// TODO: fix type export
+// TODO: .layout
+// TODO: try return component
 
-// TODO: layout0
-// TODO: layout0 loaderData → route0 loaderData
-// TODO: use in react router
-
+// TODO: useLoaderData → react router
+// TODO: clientLoader
 // TODO: ? .create({})
 // TODO: metaError, metaLoading
 // TODO: titleError, titleLoading
@@ -19,8 +18,9 @@ export class Page0<TRoute extends Page0.Route, TLoader extends Page0.Loader<TRou
 
   public readonly route: TRoute
   public readonly loader: TLoader
-  private readonly meta: Page0.Meta<TRoute, TLoader> | undefined
-  private readonly title: Page0.Title<TRoute, TLoader> | undefined
+  private readonly metaOriginal: Page0.Meta<TRoute, TLoader> | undefined
+  private readonly titleOriginal: Page0.Title<TRoute, TLoader> | undefined
+  public readonly meta: Page0.Meta<TRoute, TLoader>
   public readonly component: Page0.Component<TRoute, TLoader>
 
   private constructor(input: Page0.CreateInputWithLoader<TRoute, TLoader>)
@@ -28,9 +28,12 @@ export class Page0<TRoute extends Page0.Route, TLoader extends Page0.Loader<TRou
   private constructor(input: Page0.CreateInput<TRoute, TLoader>) {
     this.route = input.route
     this.loader = input.loader as TLoader
-    this.meta = input.meta
-    this.title = input.title
+    this.metaOriginal = input.meta
+    this.titleOriginal = input.title
+    this.meta = this.getMeta()
     this.component = input.component
+    // TODO: check if it works in dev tools
+    this.component.displayName = input.route.getDefinition()
   }
 
   static create<TRoute extends Page0.Route, TLoader extends Page0.Loader<TRoute>>(
@@ -75,17 +78,17 @@ export class Page0<TRoute extends Page0.Route, TLoader extends Page0.Loader<TRou
     return Page0.createEmptyLoader()
   }
 
-  getMeta() {
+  private getMeta() {
     return ((props) => {
       const result: MetaDescriptor[] = []
-      if (this.meta) {
-        result.push(...this.meta(props))
+      if (this.metaOriginal) {
+        result.push(...this.metaOriginal(props))
       }
-      if (this.title) {
-        if (typeof this.title === "function") {
-          result.push(...Page0.titleOutputToMetaDescriptors(this.title(props)))
+      if (this.titleOriginal) {
+        if (typeof this.titleOriginal === "function") {
+          result.push(...Page0.titleOutputToMetaDescriptors(this.titleOriginal(props)))
         } else {
-          result.push(...Page0.titleOutputToMetaDescriptors(this.title))
+          result.push(...Page0.titleOutputToMetaDescriptors(this.titleOriginal))
         }
       }
       return result
@@ -232,9 +235,9 @@ export namespace Page0 {
     loaderData: LoaderData<TRoute, TLoader>
   }
 
-  export type Component<TRoute extends Route, TLoader extends Loader<TRoute> | undefined> = (
-    props: WithRouteParamsAndQuery<TRoute> & WithLoaderData<TRoute, TLoader> & WithCtx,
-  ) => React.ReactNode
+  export type Component<TRoute extends Route, TLoader extends Loader<TRoute> | undefined> = React.FC<
+    WithRouteParamsAndQuery<TRoute> & WithLoaderData<TRoute, TLoader> & WithCtx
+  >
 
   export type TitleOutputString = string
   export type TitleOutputRecord = { value: string; exact?: boolean }

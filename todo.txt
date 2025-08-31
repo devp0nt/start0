@@ -1,4 +1,5 @@
 rename to ideanick
+rename top
 
 generator
 generator site routes files, and route.tsx, and routes.ts
@@ -7,11 +8,10 @@ generate toClient types
 generate hono requests types and use query
 generate hono swagger
 @ index files watcher
-gen0 syntax and autocompletion
-
 dev and watcher in tmux or any
 
 В рр переименовать апп в срц, а в срцположить реакт-роутер как ппп, чтобы всё его там и было
+404 page "*" in rotues.ts
 
 remove package.json from modules
 tsconfig includes by files exts
@@ -56,6 +56,7 @@ i0n, i0n route0
 withCtxFn
 restart frontend server on code change
 В свою админку вшить генератор админки свой без всяких там рефайнов, тупо определять какой формой какие поля редактируются
+gen0 syntax and autocompletion
 error0, meta0, route0 → library
 
 remove old
