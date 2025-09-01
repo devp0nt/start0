@@ -129,8 +129,9 @@ export class Gen0 {
         return nodePath.resolve(target.fileDir, path)
       },
       toRelative: (path: string) => {
-        return nodePath.relative(target.fileDir, path)
+        return Gen0.relativePath({ cwd: target.fileDir, path: path })
       },
+      _,
     }
     const ctx: Gen0.RunnerCtx = {
       ...Gen0.ctx,
@@ -138,7 +139,6 @@ export class Gen0 {
       gen0: this,
       prints,
       console,
-      _,
       filePath: target.filePath,
       fileDir: target.fileDir,
       store,
@@ -164,9 +164,9 @@ export class Gen0 {
     output: string
     srcContent: string
   }): string {
-    return [srcContent.substring(0, target.outputStartPos), output, srcContent.substring(target.outputEndPos)]
-      .filter(Boolean)
-      .join("\n")
+    return (
+      srcContent.substring(0, target.outputStartPos) + "\n" + output + "\n" + srcContent.substring(target.outputEndPos)
+    )
   }
 
   // plugins
@@ -214,7 +214,7 @@ export class Gen0 {
     if (!relative) {
       return paths
     } else {
-      return paths.map((path) => nodePath.relative(relative, path))
+      return paths.map((path) => Gen0.relativePath({ cwd: relative, path: path }))
     }
   }
 
@@ -254,6 +254,17 @@ export class Gen0 {
 
   absPath<T extends string | string[]>({ cwd, path }: { cwd: string; path: T }): T {
     return Gen0.absPath({ projectRootDir: this.projectRootDir, cwd, path: path }) as T
+  }
+
+  static relativePath<T extends string | string[]>({ cwd, path }: { cwd: string; path: T }): T {
+    if (Array.isArray(path)) {
+      return path.map((p) => Gen0.relativePath({ cwd, path: p })) as T
+    }
+    const result = nodePath.relative(cwd, path)
+    if (!result.startsWith("../") && !result.startsWith("/") && !result.startsWith("./")) {
+      return `./${result}` as T
+    }
+    return result as T
   }
 }
 

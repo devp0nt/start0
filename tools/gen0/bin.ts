@@ -20,7 +20,9 @@ program
       console.log(`✅ Successfully processed: ${filePath}`)
     } catch (error) {
       // biome-ignore lint/suspicious/noConsole: CLI tool needs console output
-      console.error(`❌ Error processing file: ${error instanceof Error ? error.message : String(error)}`)
+      console.error(`❌ Error processing file: "${filePath}"`)
+      // biome-ignore lint/suspicious/noConsole: <x>
+      console.error(error)
       process.exit(1)
     }
   })
