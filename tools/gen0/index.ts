@@ -6,16 +6,13 @@ import { findUpSync } from "find-up"
 import { globby } from "globby"
 import _ from "lodash"
 
+// TODO: watchers
 // TODO: typed gen0 ctx
-
 // TODO: better parsing, and spaces before finish
 // TODO: check if we need static props at all
 // TODO: bin file
 // TODO: find all files using gen0
 // TODO: add logger
-// TODO: watchers
-// TODO: parse config file
-// TODO: after process cmd
 // TODO: project root in config
 // TODO: many config extensions
 // TODO: runner as class
