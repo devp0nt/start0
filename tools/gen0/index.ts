@@ -3,7 +3,11 @@ import nodePath from "node:path"
 import vm from "node:vm"
 import { findUpSync } from "find-up"
 import { globby } from "globby"
+import _ from "lodash"
 
+// TODO: generate trpc
+
+// TODO: add logger
 // TODO: watchers
 // TODO: parse config file
 // TODO: many config extensions
@@ -44,9 +48,9 @@ export class Gen0 {
   async generateFileContent({ srcContent, path }: { srcContent: string; path: string }) {
     let distContent = srcContent
     let target = Gen0.getTarget({ srcContent: distContent, skipBeforePos: 0, path })
-    const storage: Gen0.RunnerStorage = {}
+    const store: Gen0.RunnerStore = {}
     while (target) {
-      const targetOutput = await this.generateTargetOutput({ target, storage })
+      const targetOutput = await this.generateTargetOutput({ target, store })
       distContent = Gen0.injectTargetOutput({ target, output: targetOutput, srcContent: distContent })
       target = Gen0.getTarget({ srcContent: distContent, skipBeforePos: target.outputEndPos, path })
     }
@@ -93,29 +97,39 @@ export class Gen0 {
     }
   }
 
-  async generateTargetOutput({ target, storage }: { target: Gen0.Target; storage: Gen0.RunnerStorage }) {
-    const runnerCtx = this.getRunnerCtx({ target, storage })
+  async generateTargetOutput({ target, store }: { target: Gen0.Target; store: Gen0.RunnerStore }) {
+    const runnerCtx = this.getRunnerCtx({ target, store })
     const vmContex = vm.createContext(runnerCtx)
-    await vm.runInContext(target.scriptContent, vmContex)
+    const wrappedScript = `
+      ;(async () => {
+        try {
+          ${target.scriptContent}
+        } catch (error) {
+          console.error(error)
+        }
+      })()
+    `
+    await vm.runInContext(wrappedScript, vmContex)
+    // TODO: pass all consolwe.logs to console.log outside
     const distContent = runnerCtx.prints.join("\n")
     return distContent
   }
 
-  getRunnerCtx({ target, storage }: { target: Gen0.Target; storage: Gen0.RunnerStorage }) {
+  getRunnerCtx({ target, store }: { target: Gen0.Target; store: Gen0.RunnerStore }) {
     const prints: string[] = []
     const specialFns = {
       print: (print: string) => {
         prints.push(print)
       },
-      glob: (glob: string, relative = true) => {
-        const absGlob = this.absPath({ cwd: this.projectRootDir, path: glob })
+      glob: <T extends string | string[]>(glob: T, relative: string | boolean = true) => {
+        const absGlob = this.absPath({ cwd: target.fileDir, path: glob })
         return this.findFilesPaths({ glob: absGlob, relative: relative === true ? target.fileDir : relative })
       },
       fromRelative: (path: string) => {
         return nodePath.resolve(target.fileDir, path)
       },
-      tsExtToJsExt: (path: string) => {
-        return path.replace(/\.tsx?$/, ".js")
+      toRelative: (path: string) => {
+        return nodePath.relative(target.fileDir, path)
       },
     }
     const ctx: Gen0.RunnerCtx = {
@@ -123,9 +137,11 @@ export class Gen0 {
       ...specialFns,
       gen0: this,
       prints,
+      console,
+      _,
       filePath: target.filePath,
       fileDir: target.fileDir,
-      storage,
+      store,
     }
     // bind ctx itself to all functions as first argument
     for (const key of Object.keys(ctx)) {
@@ -185,13 +201,13 @@ export class Gen0 {
 
   // utils
 
-  static async findFilesPaths({
+  static async findFilesPaths<T extends string | string[]>({
     cwd,
     glob,
     relative,
   }: {
     cwd: string
-    glob: string
+    glob: T
     relative?: string | false
   }): Promise<string[]> {
     const paths = await globby(glob, { cwd, gitignore: true, absolute: true })
@@ -202,7 +218,7 @@ export class Gen0 {
     }
   }
 
-  findFilesPaths({ glob, relative }: { glob: string; relative?: string | false }) {
+  findFilesPaths<T extends string | string[]>({ glob, relative }: { glob: T; relative?: string | false }) {
     return Gen0.findFilesPaths({
       cwd: this.projectRootDir,
       glob,
@@ -218,15 +234,26 @@ export class Gen0 {
     return nodePath.dirname(configPath)
   }
 
-  static absPath = ({ projectRootDir, cwd, path }: { projectRootDir: string; cwd: string; path: string }) => {
-    if (path.startsWith("@/")) {
-      path = nodePath.join(projectRootDir, path.replace(/^@\//, ""))
+  static absPath = <T extends string | string[]>({
+    projectRootDir,
+    cwd,
+    path,
+  }: {
+    projectRootDir: string
+    cwd: string
+    path: T
+  }): T => {
+    if (Array.isArray(path)) {
+      return path.map((p) => Gen0.absPath({ projectRootDir, cwd, path: p })) as T
     }
-    return nodePath.resolve(cwd, path)
+    if (path.startsWith("~/")) {
+      return nodePath.resolve(cwd, nodePath.join(projectRootDir, path.replace(/^~\//, ""))) as T
+    }
+    return nodePath.resolve(cwd, path) as T
   }
 
-  absPath({ cwd, path }: { cwd: string; path: string }) {
-    return Gen0.absPath({ projectRootDir: this.projectRootDir, cwd, path: path })
+  absPath<T extends string | string[]>({ cwd, path }: { cwd: string; path: T }): T {
+    return Gen0.absPath({ projectRootDir: this.projectRootDir, cwd, path: path }) as T
   }
 }
 
@@ -241,13 +268,16 @@ export namespace Gen0 {
   export type RunnerCtx = Record<string, any> & {
     prints: string[]
     print: (print: string) => void
+    glob: <T extends string | string[]>(glob: T, relative?: string | boolean) => Promise<string[]>
     gen0: Gen0
     filePath: string
     fileDir: string
     fromRelative: (path: string) => string
-    storage: RunnerStorage
+    toRelative: (path: string) => string
+    store: RunnerStore
+    _: typeof _
   }
-  export type RunnerStorage = Record<string, any>
+  export type RunnerStore = Record<string, any>
 
   export type PluginGetter = (gen0: Gen0) => PluginResult
   export type PluginResult = {

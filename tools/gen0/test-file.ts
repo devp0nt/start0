@@ -5,8 +5,17 @@
 // y
 // gen0/
 
-// /gen0 importTrpcRoutes()
 import { pingTrpcRoute } from "../../apps/backend/src/router/ping/route.trpc.js"
+// /gen0 store.x = await importFromTsFiles({ globPattern: "~/**/route{s,}.*.ts", exportEndsWith: "TrpcRoute" })
+import { getAppConfigTrpcRoute } from "../../modules/appConfig/routes.be.js"
+import { getIdeasTrpcRoute, getIdeaTrpcRoute } from "../../modules/idea/routes.be.js"
+// gen0/
+
+// /gen0 store.x.exportNames.map(name => print(`export const ${name}X = ${name}`))
+export const getAppConfigTrpcRouteX = getAppConfigTrpcRoute
+export const getIdeasTrpcRouteX = getIdeasTrpcRoute
+export const getIdeaTrpcRouteX = getIdeaTrpcRoute
+export const pingTrpcRouteX = pingTrpcRoute
 // gen0/
 
 export const message = "Hello from gen0"

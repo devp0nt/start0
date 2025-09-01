@@ -1,9 +1,25 @@
+import fs from "node:fs/promises"
 import { Gen0 } from "@ideanick/tools/gen0"
 import { Project } from "ts-morph"
 
 export default Gen0.definePlugin({
   ctx: {
-    getExportNames: async (ctx, filePath: string) => {
+    getConstExportNames: async (ctx, filePath: string) => {
+      filePath = ctx.fromRelative(filePath)
+      const content = await fs.readFile(filePath, "utf8")
+
+      // Match: export const <identifier>
+      const regex = /export\s+const\s+([A-Za-z0-9_$]+)/g
+      const matches: string[] = []
+      let match: RegExpExecArray | null
+      // biome-ignore lint/suspicious/noAssignInExpressions: <x>
+      while ((match = regex.exec(content)) !== null) {
+        matches.push(match[1])
+      }
+
+      return matches
+    },
+    getRealExportNames: async (ctx, filePath: string) => {
       filePath = ctx.fromRelative(filePath)
       const project = new Project({
         // tsConfigFilePath: "tsconfig.json", // make sure this exists in your project
