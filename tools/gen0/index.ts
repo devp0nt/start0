@@ -1,3 +1,4 @@
+import { exec } from "node:child_process"
 import fs from "node:fs/promises"
 import nodePath from "node:path"
 import vm from "node:vm"
@@ -5,13 +6,17 @@ import { findUpSync } from "find-up"
 import { globby } from "globby"
 import _ from "lodash"
 
+// TODO: typed gen0 ctx
+
 // TODO: better parsing, and spaces before finish
+// TODO: check if we need static props at all
 // TODO: bin file
 // TODO: find all files using gen0
 // TODO: add logger
 // TODO: watchers
 // TODO: parse config file
 // TODO: after process cmd
+// TODO: project root in config
 // TODO: many config extensions
 // TODO: runner as class
 // TODO: plugin as class
@@ -20,10 +25,16 @@ import _ from "lodash"
 export class Gen0 {
   static ctx: Record<string, any> = {}
   static watchers: Record<string, (ctx: Gen0.RunnerCtx) => void | Promise<void>> = {}
-  static pluginsGlob: string = "./**/*.gen0.*"
+  static pluginsGlob: string | string[] = ["**/*.gen0.*"]
+  static clientsGlob: string | string[] = ["**/*.{ts,tsx,js,jsx,mjs}", "!**/gen0/index.ts"]
+  static plugins: Record<string, Gen0.Plugin> = {}
+
+  pluginsGlob = Gen0.pluginsGlob
+  clientsGlob = Gen0.clientsGlob
 
   configPath: string
   projectRootDir: string
+  afterProcessCmd: string | ((filePath: string) => string) | undefined = undefined
 
   constructor({ cwd = process.cwd() }: { cwd?: string } = {}) {
     const configPath = Gen0.getConfigPath({ cwd })
@@ -36,6 +47,8 @@ export class Gen0 {
 
   static async init({ cwd }: { cwd?: string } = {}) {
     const gen0 = new Gen0({ cwd })
+    const config = await Gen0.parseConfig({ configPath: gen0.configPath })
+    gen0.afterProcessCmd = config.afterProcessCmd || gen0.afterProcessCmd
     await gen0.applyPlugins()
     return gen0
   }
@@ -46,6 +59,11 @@ export class Gen0 {
     const srcContent = await fs.readFile(path, "utf8")
     const distContent = await this.generateFileContent({ srcContent, path })
     await fs.writeFile(path, distContent)
+    if (this.afterProcessCmd) {
+      const afterProcessCmd =
+        typeof this.afterProcessCmd === "function" ? this.afterProcessCmd(path) : this.afterProcessCmd
+      await exec(afterProcessCmd, { cwd: this.projectRootDir })
+    }
   }
 
   async generateFileContent({ srcContent, path }: { srcContent: string; path: string }) {
@@ -209,7 +227,10 @@ export class Gen0 {
   // clients
 
   async findClientsPaths() {
-    return await this.findFilesPathsWithContent({ glob: ["**/*.ts", "!**/gen0/index.ts"], search: "// /gen0 " })
+    return await this.findFilesPathsWithContent({
+      glob: this.clientsGlob,
+      search: "// /gen0 ",
+    })
   }
 
   async processClients() {
@@ -221,7 +242,12 @@ export class Gen0 {
   // config
 
   static getConfigPath = ({ cwd }: { cwd: string }) => {
-    return findUpSync([".gen0.mjs"], { cwd })
+    return findUpSync([".gen0rc.mjs", ".gen0rc.ts", ".gen0rc.js"], { cwd })
+  }
+
+  static async parseConfig({ configPath }: { configPath: string }) {
+    const config = await import(configPath)
+    return config.default || config
   }
 
   // utils
@@ -235,7 +261,7 @@ export class Gen0 {
     glob: T
     relative?: string | false
   }): Promise<string[]> {
-    const paths = await globby(glob, { cwd, gitignore: true, absolute: true })
+    const paths = await globby(glob, { cwd, gitignore: true, absolute: true, dot: true })
     if (!relative) {
       return paths
     } else {
@@ -337,6 +363,11 @@ export class Gen0 {
 }
 
 export namespace Gen0 {
+  export type Config = {
+    afterProcessCmd?: (filePath: string) => string
+    plugins?: Record<string, Gen0.Plugin>
+  }
+
   export type Target = {
     filePath: string
     fileDir: string

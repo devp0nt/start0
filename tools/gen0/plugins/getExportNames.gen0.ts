@@ -1,8 +1,8 @@
 import fs from "node:fs/promises"
-import { Gen0 } from "@ideanick/tools/gen0"
+import type { Gen0 } from "@ideanick/tools/gen0"
 import { Project } from "ts-morph"
 
-export default Gen0.definePlugin({
+export default {
   ctx: {
     getConstExportNames: async (ctx, filePath: string) => {
       filePath = ctx.fromRelative(filePath)
@@ -45,4 +45,4 @@ export default Gen0.definePlugin({
       return exportNames
     },
   },
-})
+} satisfies Gen0.Plugin

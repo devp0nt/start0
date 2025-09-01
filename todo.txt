@@ -1,13 +1,4 @@
-rename package to ideanick
-
-generator
-generator site routes files, and route.tsx, and routes.ts
-genreator backend route files, search fields and get exports by names
-generate toClient types
-generate hono requests types and use query
-generate hono swagger
-generatte zTrpc со всеми инпутами
-@ index files watcher
+generator watcher
 dev and watcher in tmux or any
 
 В рр переименовать апп в срц, а в срцположить реакт-роутер как ппп, чтобы всё его там и было
@@ -50,6 +41,8 @@ react-native
 reuse code between site and mobile
 
 i0n, i0n route0
+hono response type by fn output
+hono swagger
 
 ---
 
