@@ -5,8 +5,8 @@ import { findUpSync } from "find-up"
 import { globby } from "globby"
 import _ from "lodash"
 
-// TODO: generate trpc
-
+// TODO: better parsing, and spaces before finish
+// TODO: find all files using gen0
 // TODO: add logger
 // TODO: watchers
 // TODO: parse config file
@@ -165,7 +165,11 @@ export class Gen0 {
     srcContent: string
   }): string {
     return (
-      srcContent.substring(0, target.outputStartPos) + "\n" + output + "\n" + srcContent.substring(target.outputEndPos)
+      srcContent.substring(0, target.outputStartPos) +
+      "\n\n" +
+      output +
+      "\n" +
+      srcContent.substring(target.outputEndPos)
     )
   }
 
@@ -180,7 +184,7 @@ export class Gen0 {
   }
 
   async applyPlugin(plugin: Gen0.Plugin) {
-    const pluginResult = typeof plugin === "function" ? plugin(this) : plugin
+    const pluginResult = typeof plugin === "function" ? await plugin(this) : plugin
     if (pluginResult.ctx) {
       for (const key of Object.keys(pluginResult.ctx)) {
         Gen0.ctx[key] = pluginResult.ctx[key]
@@ -197,6 +201,24 @@ export class Gen0 {
         await this.applyPlugin(pluginNormalized)
       }
     }
+  }
+
+  // clients
+
+  async findClientsPaths() {
+    return await this.findFilesPathsWithContent({ glob: ["**/*.ts", "!**/gen0/index.ts"], search: "// /gen0 " })
+  }
+
+  async processClients() {
+    return await this.findClientsPaths().then((clientsPaths) => {
+      return Promise.all(clientsPaths.map((clientPath) => this.processFile({ path: clientPath })))
+    })
+  }
+
+  // config
+
+  static getConfigPath = ({ cwd }: { cwd: string }) => {
+    return findUpSync([".gen0.mjs"], { cwd })
   }
 
   // utils
@@ -218,16 +240,59 @@ export class Gen0 {
     }
   }
 
-  findFilesPaths<T extends string | string[]>({ glob, relative }: { glob: T; relative?: string | false }) {
-    return Gen0.findFilesPaths({
+  async findFilesPaths<T extends string | string[]>({ glob, relative }: { glob: T; relative?: string | false }) {
+    return await Gen0.findFilesPaths({
       cwd: this.projectRootDir,
       glob,
       relative,
     })
   }
 
-  static getConfigPath = ({ cwd }: { cwd: string }) => {
-    return findUpSync([".gen0.mjs"], { cwd })
+  static async findFilesPathsWithContent<T extends string | string[]>({
+    cwd,
+    glob,
+    relative,
+    search,
+  }: {
+    cwd: string
+    glob: T
+    relative?: string | false
+    search: string
+  }) {
+    const allPaths = await Gen0.findFilesPaths({
+      cwd,
+      glob,
+      relative,
+    })
+    const result = (
+      await Promise.all(
+        allPaths.map(async (path) => {
+          const content = await fs.readFile(path, "utf8")
+          if (content.includes(search)) {
+            return path
+          }
+          return null
+        }),
+      )
+    ).filter(Boolean) as string[]
+    return result
+  }
+
+  async findFilesPathsWithContent<T extends string | string[]>({
+    glob,
+    relative,
+    search,
+  }: {
+    glob: T
+    relative?: string | false
+    search: string
+  }) {
+    return await Gen0.findFilesPathsWithContent({
+      cwd: this.projectRootDir,
+      glob,
+      relative,
+      search,
+    })
   }
 
   static getProjectRootDir = ({ configPath }: { configPath: string }) => {

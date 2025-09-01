@@ -47,6 +47,7 @@
             "allow": []
           }
         },
+        "useAwait": "error",
         "noFocusedTests": "error",
         "noExplicitAny": "off"
       }
