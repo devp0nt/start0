@@ -13,10 +13,10 @@
     "outDir": "./dist",
     "verbatimModuleSyntax": true,
     "paths": {
-      "@ideanick/backend/*": ["../apps/backend/src/*"],
-      "@ideanick/site/*": ["../apps/site/app/*"],
-      "@ideanick/modules/*": ["../modules/*"],
-      "@ideanick/tools/*": ["./*"]
+      "@ideanick/backend/*": ["./apps/backend/src/*"],
+      "@ideanick/site/*": ["./apps/site/app/*"],
+      "@ideanick/modules/*": ["./modules/*"],
+      "@ideanick/tools/*": ["./tools/*"]
     }
   }
 }

@@ -1,7 +1,7 @@
 #!/usr/bin/env bun
 
 import { Command } from "commander"
-import { Gen0 } from "./utils.js"
+import { Gen0 } from "./index.js"
 
 const program = new Command()
 

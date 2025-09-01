@@ -6,7 +6,7 @@
 // gen0/
 
 // /gen0 importTrpcRoutes()
-import x from "../../apps/backend/src/router/ping/route.trpc.ts"
+import { pingTrpcRoute } from "../../apps/backend/src/router/ping/route.trpc.js"
 // gen0/
 
 export const message = "Hello from gen0"

@@ -1,21 +1,13 @@
-import { Gen0 } from "@ideanick/tools/gen0/utils"
+import { Gen0 } from "@ideanick/tools/gen0/index.js"
 
-// Gen0.addToCtx("importTrpcRoutes", async (ctx) => {
-//   const paths = await ctx.glob("./**/route.trpc.ts")
-//   console.log("paths", paths)
-//   for (const path of paths) {
-//     ctx.print(`import x from "${path}"`)
-//   }
-// })
-
-export default {
+export default Gen0.definePlugin({
   ctx: {
     importTrpcRoutes: async (ctx) => {
       const paths = await ctx.glob("./**/route.trpc.ts")
-      console.log("paths", paths)
       for (const path of paths) {
-        ctx.print(`import x from "${path}"`)
+        const exportNames = await ctx.getExportNames(path)
+        ctx.print(`import { ${exportNames.join(", ")} } from "${ctx.tsExtToJsExt(path)}"`)
       }
     },
   },
-} satisfies Gen0.Plugin
+})

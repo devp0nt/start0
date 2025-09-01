@@ -7,6 +7,8 @@ import { globby } from "globby"
 // TODO: watchers
 // TODO: parse config file
 // TODO: many config extensions
+// TODO: runner as class
+// TODO: plugin as class
 
 export class Gen0 {
   static ctx: Record<string, any> = {}
@@ -27,7 +29,7 @@ export class Gen0 {
 
   static async init({ cwd }: { cwd?: string } = {}) {
     const gen0 = new Gen0({ cwd })
-    await gen0.importPlugins()
+    await gen0.applyPlugins()
     return gen0
   }
 
@@ -109,6 +111,12 @@ export class Gen0 {
         const absGlob = this.absPath({ cwd: this.projectRootDir, path: glob })
         return this.findFilesPaths({ glob: absGlob, relative: relative === true ? target.fileDir : relative })
       },
+      fromRelative: (path: string) => {
+        return nodePath.resolve(target.fileDir, path)
+      },
+      tsExtToJsExt: (path: string) => {
+        return path.replace(/\.tsx?$/, ".js")
+      },
     }
     const ctx: Gen0.RunnerCtx = {
       ...Gen0.ctx,
@@ -147,19 +155,31 @@ export class Gen0 {
 
   // plugins
 
-  static addToCtx(propKey: string, fn: (ctx: Gen0.RunnerCtx) => any): void
-  static addToCtx(propKey: string, something: any): void {
-    Gen0.ctx[propKey] = something
-  }
-
   async findPluginsPaths() {
     return await Gen0.findFilesPaths({ cwd: this.projectRootDir, glob: Gen0.pluginsGlob, relative: false })
   }
 
-  async importPlugins() {
+  static definePlugin(plugin: Gen0.Plugin): Gen0.Plugin {
+    return plugin
+  }
+
+  async applyPlugin(plugin: Gen0.Plugin) {
+    const pluginResult = typeof plugin === "function" ? plugin(this) : plugin
+    if (pluginResult.ctx) {
+      for (const key of Object.keys(pluginResult.ctx)) {
+        Gen0.ctx[key] = pluginResult.ctx[key]
+      }
+    }
+  }
+
+  async applyPlugins() {
     const pluginsPaths = await this.findPluginsPaths()
     for (const pluginPath of pluginsPaths) {
-      await import(pluginPath)
+      const plugin = await import(pluginPath)
+      const pluginNormalized = plugin.default || plugin
+      if (pluginNormalized) {
+        await this.applyPlugin(pluginNormalized)
+      }
     }
   }
 
@@ -175,7 +195,6 @@ export class Gen0 {
     relative?: string | false
   }): Promise<string[]> {
     const paths = await globby(glob, { cwd, gitignore: true, absolute: true })
-    console.log("relative", relative, paths)
     if (!relative) {
       return paths
     } else {
@@ -225,7 +244,14 @@ export namespace Gen0 {
     gen0: Gen0
     filePath: string
     fileDir: string
+    fromRelative: (path: string) => string
     storage: RunnerStorage
   }
   export type RunnerStorage = Record<string, any>
+
+  export type PluginGetter = (gen0: Gen0) => PluginResult
+  export type PluginResult = {
+    ctx?: Record<string, (ctx: RunnerCtx, ...args: any[]) => any | Promise<any>>
+  }
+  export type Plugin = PluginGetter | PluginResult
 }
