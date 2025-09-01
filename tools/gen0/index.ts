@@ -11,6 +11,7 @@ import _ from "lodash"
 // TODO: add logger
 // TODO: watchers
 // TODO: parse config file
+// TODO: after process cmd
 // TODO: many config extensions
 // TODO: runner as class
 // TODO: plugin as class
