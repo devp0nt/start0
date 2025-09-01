@@ -6,6 +6,7 @@ import { globby } from "globby"
 import _ from "lodash"
 
 // TODO: better parsing, and spaces before finish
+// TODO: bin file
 // TODO: find all files using gen0
 // TODO: add logger
 // TODO: watchers
@@ -13,6 +14,7 @@ import _ from "lodash"
 // TODO: many config extensions
 // TODO: runner as class
 // TODO: plugin as class
+// TODO: bin to bin in package.json
 
 export class Gen0 {
   static ctx: Record<string, any> = {}

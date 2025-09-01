@@ -1,15 +1,17 @@
-// @index('./**/route.hono.ts', f => `import { ${f.path.split('/').slice(0, -1).pop()}HonoRoute } from '${f.path}.js'`)
+// /gen0 store.x = await importFromTsFiles({ globPattern: "~/**/route.hono.ts", exportEndsWith: "HonoRoute" })
+
 import { helloHonoRoute } from "./hello/route.hono.js"
 import { pingHonoRoute } from "./ping/route.hono.js"
-// @endindex
+// gen0/
 
 import type { HonoApp } from "@ideanick/backend/lib/hono"
 
 export namespace BackendHonoRouter {
   export const apply = ({ honoApp }: { honoApp: HonoApp.AppType }) => {
-    // @index('./**/route.hono.ts', f => `${f.path.split('/').slice(0, -1).pop()}HonoRoute({ honoApp })`)
-    helloHonoRoute({ honoApp })
+    // /gen0 store.x.exportNames.map(name => print(`${name}({ honoApp })`))
+
     pingHonoRoute({ honoApp })
-    // @endindex
+    helloHonoRoute({ honoApp })
+    // gen0/
   }
 }
