@@ -5,6 +5,7 @@ alias pmd := prisma-migrate-dev
 alias pmt := prisma-migrate-test
 alias pgc := prisma-generate-client
 alias t := test-root
+alias g := gen0
 
 # forward command to app
 
