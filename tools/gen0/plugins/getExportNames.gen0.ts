@@ -19,7 +19,7 @@ export default Gen0.definePlugin({
 
       return matches
     },
-    getRealExportNames: async (ctx, filePath: string) => {
+    getRealExportNames: (ctx, filePath: string) => {
       filePath = ctx.fromRelative(filePath)
       const project = new Project({
         // tsConfigFilePath: "tsconfig.json", // make sure this exists in your project
