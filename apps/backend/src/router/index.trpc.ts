@@ -11,9 +11,9 @@ export namespace BackendTrpcRouter {
   export const trpcRouter = BackendTrpc.createTRPCRouter({
     // /gen0 store.x.exportNames.map(name => print(`    ${name.replace("TrpcRoute", "")}: ${name},`))
 
+    getAppConfig: getAppConfigTrpcRoute,
     getIdeas: getIdeasTrpcRoute,
     getIdea: getIdeaTrpcRoute,
-    getAppConfig: getAppConfigTrpcRoute,
     ping: pingTrpcRoute,
     // gen0/
   })

@@ -10,8 +10,8 @@ export namespace BackendHonoRouter {
   export const apply = ({ honoApp }: { honoApp: HonoApp.AppType }) => {
     // /gen0 store.x.exportNames.map(name => print(`${name}({ honoApp })`))
 
-    helloHonoRoute({ honoApp })
     pingHonoRoute({ honoApp })
+    helloHonoRoute({ honoApp })
     // gen0/
   }
 }
