@@ -6,6 +6,7 @@ genreator backend route files, search fields and get exports by names
 generate toClient types
 generate hono requests types and use query
 generate hono swagger
+generatte zTrpc со всеми инпутами
 @ index files watcher
 dev and watcher in tmux or any
 
