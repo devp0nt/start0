@@ -45,6 +45,11 @@ prisma-migrate-test *ARGS:
 prisma-generate-client *ARGS:
   cd ./modules && bun run --env-file=./prisma/.env prisma generate client {{ARGS}}
 
+# tools
+
+gen0 *ARGS:
+  bun run tools/gen0/bin.ts {{ARGS}}
+
 # helpers
 
 test-root *ARGS:

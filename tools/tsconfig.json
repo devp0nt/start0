@@ -1,0 +1,22 @@
+{
+  "include": ["./**/*.ts", "../modules/**/*.to.ts", "../modules/**/*.sh.ts"],
+  "exclude": ["**/*.test.ts", "**/node_modules/**/*"],
+  "compilerOptions": {
+    "baseUrl": "../",
+    "strict": true,
+    "jsx": "react-jsx",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "strictNullChecks": true,
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "outDir": "./dist",
+    "verbatimModuleSyntax": true,
+    "paths": {
+      "@ideanick/backend/*": ["../apps/backend/src/*"],
+      "@ideanick/site/*": ["../apps/site/app/*"],
+      "@ideanick/modules/*": ["../modules/*"],
+      "@ideanick/tools/*": ["./*"]
+    }
+  }
+}
