@@ -1,5 +1,4 @@
 // This is a test file for gen0
-// biome-ignore assist/source/organizeImports: we need to keep import order
 
 // /gen0 print("// x"); print("// y")
 

@@ -63,7 +63,7 @@ program
   .description("Show gen0 ctx keys")
   .action(async () => {
     try {
-      const gen0 = await Gen0.init()
+      await Gen0.init()
       // biome-ignore lint/suspicious/noConsole: CLI tool needs console output
       console.log("Ctx keys:")
       Object.keys(Gen0.ctx).forEach((key) => {
