@@ -177,46 +177,6 @@ export class Gen0 {
     return distContent
   }
 
-  getRunnerCtx({ target, store }: { target: Gen0.Target; store: Gen0.RunnerStore }) {
-    const prints: string[] = []
-    const specialFns = {
-      print: (print: string) => {
-        prints.push(print)
-      },
-      glob: <T extends string | string[]>(glob: T, relative: string | boolean = true) => {
-        const absGlob = this.absPath({ cwd: target.fileDir, path: glob })
-        return this.findFilesPaths({ glob: absGlob, relative: relative === true ? target.fileDir : relative })
-      },
-      fromRelative: (path: string) => {
-        return nodePath.resolve(target.fileDir, path)
-      },
-      toRelative: (path: string) => {
-        return Gen0.relativePath({ cwd: target.fileDir, path: path })
-      },
-      _,
-    }
-    const ctx: Gen0.RunnerCtx = {
-      ...Gen0.ctx,
-      ...specialFns,
-      gen0: this,
-      prints,
-      console,
-      filePath: target.filePath,
-      fileDir: target.fileDir,
-      store,
-    }
-    // bind ctx itself to all functions as first argument
-    for (const key of Object.keys(ctx)) {
-      if (key in specialFns) {
-        continue
-      }
-      if (typeof ctx[key] === "function") {
-        ctx[key] = ctx[key].bind(this, ctx)
-      }
-    }
-    return ctx
-  }
-
   static injectTargetOutput({
     target,
     output,
