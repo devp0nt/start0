@@ -3,7 +3,7 @@ import fs from "node:fs/promises"
 import nodePath from "node:path"
 import readline from "node:readline"
 import type { Gen0Config } from "@ideanick/tools/gen0/config"
-import { globby } from "globby"
+import { globby, globbySync } from "globby"
 
 export class Gen0Fs {
   config: Gen0Config
@@ -60,6 +60,52 @@ export class Gen0Fs {
       throw new Error("Invalid input")
     })()
     const paths = await globby(glob, { cwd, gitignore: true, absolute: true, dot: true })
+    if (!relative) {
+      return paths
+    } else if (relative === true) {
+      return paths.map((path) => this.toRel(path))
+    } else {
+      return paths.map((path) => this.toRel(path, relative))
+    }
+  }
+
+  findFilesPathsSync(glob: Gen0Fs.PathOrPaths): string[]
+  findFilesPathsSync({
+    cwd,
+    glob,
+    relative,
+  }: {
+    cwd?: string
+    glob: Gen0Fs.PathOrPaths
+    relative?: string | boolean
+  }): string[]
+  findFilesPathsSync(
+    input:
+      | Gen0Fs.PathOrPaths
+      | {
+          cwd?: string
+          glob: Gen0Fs.PathOrPaths
+          relative?: string | boolean
+        },
+  ): string[] {
+    const { cwd, glob, relative } = (() => {
+      if (typeof input === "string" || Array.isArray(input)) {
+        return {
+          cwd: this.config.rootDir,
+          glob: Array.isArray(input) ? this.normalizePaths(input) : this.normalizePath(input),
+          relative: undefined,
+        }
+      }
+      if (typeof input === "object" && input !== null) {
+        return {
+          cwd: input.cwd || this.config.rootDir,
+          glob: Array.isArray(input.glob) ? this.normalizePaths(input.glob) : this.normalizePath(input.glob),
+          relative: input.relative,
+        }
+      }
+      throw new Error("Invalid input")
+    })()
+    const paths = globbySync(glob, { cwd, gitignore: true, absolute: true, dot: true })
     if (!relative) {
       return paths
     } else if (relative === true) {

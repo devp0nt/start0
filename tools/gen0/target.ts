@@ -1,5 +1,4 @@
 import type { Gen0Client } from "@ideanick/tools/gen0/client"
-import { Gen0Fs } from "@ideanick/tools/gen0/fs"
 
 // TODO: respect silent mark, using tests
 export class Gen0Target {

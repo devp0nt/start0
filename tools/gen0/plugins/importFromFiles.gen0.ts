@@ -1,16 +1,30 @@
+import nodeFsSync from "node:fs"
 import type { Gen0ClientProcessCtx } from "@ideanick/tools/gen0/clientCtx"
 import type { Gen0Fs } from "@ideanick/tools/gen0/fs"
 import type { Gen0Plugin } from "@ideanick/tools/gen0/plugin"
-import { getConstExportNames } from "@ideanick/tools/gen0/plugins/getExportNames.gen0"
 
-export const importFromFiles = async (
+const getConstExportNames = (ctx: Gen0ClientProcessCtx, filePath: string) => {
+  filePath = ctx.fs.toAbs(filePath)
+  const content = nodeFsSync.readFileSync(filePath, "utf8")
+  // Match: export const <identifier>
+  const regex = /export\s+const\s+([A-Za-z0-9_$]+)/g
+  const matches: string[] = []
+  let match: RegExpExecArray | null
+  // biome-ignore lint/suspicious/noAssignInExpressions: <x>
+  while ((match = regex.exec(content)) !== null) {
+    matches.push(match[1])
+  }
+  return matches
+}
+
+export const importFromFiles = (
   ctx: Gen0ClientProcessCtx,
   glob: Gen0Fs.PathOrPaths,
   printer: (path: Gen0Fs.PathParsed) => string,
   replaceExt?: string | false,
   withEmptyLine: boolean = true,
 ) => {
-  const paths = await ctx.fs.findFilesPaths(glob)
+  const paths = ctx.fs.findFilesPathsSync(glob)
   const result: { paths: string[] } = {
     paths: [],
   }
@@ -29,14 +43,14 @@ export const importFromFiles = async (
   return result
 }
 
-export const importAsFromFiles = async (
+export const importAsFromFiles = (
   ctx: Gen0ClientProcessCtx,
   glob: Gen0Fs.PathOrPaths,
   as: (path: Gen0Fs.PathParsed) => string,
   replaceExt?: string | false,
   withEmptyLine?: boolean,
 ) => {
-  const paths = await ctx.fs.findFilesPaths(glob)
+  const paths = ctx.fs.findFilesPathsSync(glob)
   const result: { paths: string[]; names: string[] } = {
     paths: [],
     names: [],
@@ -60,14 +74,14 @@ export const importAsFromFiles = async (
   return result
 }
 
-export const importExportedFromFiles = async (
+export const importExportedFromFiles = (
   ctx: Gen0ClientProcessCtx,
   glob: Gen0Fs.PathOrPaths,
   exportEndsWith?: string,
   replaceExt: string | false = ".js",
   withEmptyLine: boolean = true,
 ) => {
-  const paths = await ctx.fs.findFilesPaths(glob)
+  const paths = ctx.fs.findFilesPathsSync(glob)
   const result: {
     files: Array<{ path: string; names: string[]; cutted: string[] }>
     paths: string[]
@@ -82,7 +96,7 @@ export const importExportedFromFiles = async (
     imports: [],
   }
   for (let path of paths) {
-    let exportNames = await getConstExportNames(ctx, path)
+    let exportNames = getConstExportNames(ctx, path)
     if (exportEndsWith) {
       exportNames = exportNames.filter((exportName: string) => exportName.endsWith(exportEndsWith))
     }
