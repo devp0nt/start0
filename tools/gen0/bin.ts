@@ -102,4 +102,21 @@ program
     }
   })
 
+// watch
+program
+  .command("watch")
+  .description("Watch")
+  .action(async () => {
+    try {
+      const gen0 = await Gen0.init()
+      await gen0.watch()
+    } catch (error) {
+      // biome-ignore lint/suspicious/noConsole: CLI tool needs console output
+      console.error(`❌ Error watching: ${error instanceof Error ? error.message : String(error)}`)
+      // biome-ignore lint/suspicious/noConsole: <x>
+      console.error(error)
+      process.exit(1)
+    }
+  })
+
 program.parse()

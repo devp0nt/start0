@@ -1,4 +1,5 @@
 generator watcher
+generate react-router
 dev and watcher in tmux or any
 
 В рр переименовать апп в срц, а в срцположить реакт-роутер как ппп, чтобы всё его там и было

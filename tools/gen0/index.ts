@@ -2,22 +2,31 @@ import { exec } from "node:child_process"
 import fs from "node:fs/promises"
 import nodePath from "node:path"
 import vm from "node:vm"
+import chokidar from "chokidar"
 import { findUpSync } from "find-up"
-import { globby } from "globby"
+import { globby, isGitIgnored, isGitIgnoredSync } from "globby"
 import _ from "lodash"
 
+// TODO: named actions
+// TODO: plugin inport from files
+// TODO: export name without ending
+// TODO: remove forced new line after first comment
+// TODO: boime ignore organize imports
 // TODO: watchers
-// TODO: typed gen0 ctx
+// TODO: typed ctx
 // TODO: better parsing, and spaces before finish
 // TODO: check if we need static props at all
 // TODO: bin file
-// TODO: find all files using gen0
+// TODO: find all files using
 // TODO: add logger
 // TODO: project root in config
 // TODO: many config extensions
 // TODO: runner as class
 // TODO: plugin as class
 // TODO: bin to bin in package.json
+// TODO: respect nodepath in globs
+// TODO: print inline
+// TODO: prim space count
 
 export class Gen0 {
   static ctx: Record<string, any> = {}
@@ -32,6 +41,7 @@ export class Gen0 {
   configPath: string
   projectRootDir: string
   afterProcessCmd: string | ((filePath: string) => string) | undefined = undefined
+  isIgnored: (path: string) => boolean = (path) => false
 
   constructor({ cwd = process.cwd() }: { cwd?: string } = {}) {
     const configPath = Gen0.getConfigPath({ cwd })
@@ -45,9 +55,43 @@ export class Gen0 {
   static async init({ cwd }: { cwd?: string } = {}) {
     const gen0 = new Gen0({ cwd })
     const config = await Gen0.parseConfig({ configPath: gen0.configPath })
+    gen0.isIgnored = await isGitIgnored({ cwd: gen0.projectRootDir })
     gen0.afterProcessCmd = config.afterProcessCmd || gen0.afterProcessCmd
     await gen0.applyPlugins()
     return gen0
+  }
+
+  // watchers
+
+  async watch() {
+    chokidar
+      .watch(this.projectRootDir, {
+        cwd: this.projectRootDir,
+        ignored: this.isIgnored,
+        ignoreInitial: true,
+        persistent: true,
+      })
+      .on("add", (path) => {
+        console.log("all", path)
+      })
+      .on("change", (path) => {
+        console.log("change", path)
+      })
+      .on("unlink", (path) => {
+        console.log("unlink", path)
+      })
+      .on("addDir", (path) => {
+        console.log("addDir", path)
+      })
+      .on("unlinkDir", (path) => {
+        console.log("unlinkDir", path)
+      })
+      .on("error", (error) => {
+        console.log("error", error)
+      })
+      .on("ready", () => {
+        console.log("ready")
+      })
   }
 
   // runner
@@ -363,6 +407,11 @@ export namespace Gen0 {
   export type Config = {
     afterProcessCmd?: (filePath: string) => string
     plugins?: Record<string, Gen0.Plugin>
+  }
+
+  export type Watcher = {
+    trigger: string | string[]
+    client: string | string[]
   }
 
   export type Target = {

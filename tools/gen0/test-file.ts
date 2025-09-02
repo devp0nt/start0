@@ -15,9 +15,9 @@ import { getIdeasTrpcRoute, getIdeaTrpcRoute } from "../../modules/idea/routes.b
 
 // /gen0 store.x.exportNames.map(name => print(`export const ${name}X = ${name}`))
 
+export const getAppConfigTrpcRouteX = getAppConfigTrpcRoute
 export const getIdeasTrpcRouteX = getIdeasTrpcRoute
 export const getIdeaTrpcRouteX = getIdeaTrpcRoute
-export const getAppConfigTrpcRouteX = getAppConfigTrpcRoute
 export const pingTrpcRouteX = pingTrpcRoute
 // gen0/
 
