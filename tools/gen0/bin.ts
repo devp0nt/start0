@@ -28,7 +28,7 @@ const withGen0 = <T extends any[]>(action: (gen0: Gen0, ...args: T) => Promise<v
 }
 const printArray = <T>(array: T[]) => {
   for (const item of array) {
-    logger.info(`  ${item}`)
+    logger.info(`${item}`)
   }
 }
 

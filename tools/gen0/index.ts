@@ -3,9 +3,6 @@ import { Gen0Config } from "@ideanick/tools/gen0/config"
 import { Gen0Fs } from "@ideanick/tools/gen0/fs"
 import { Gen0Plugin } from "@ideanick/tools/gen0/plugin"
 
-// TODO: sync helpers
-// TODO: respect nodepath in globs
-
 // TODO: watchers
 // TODO: named actions
 

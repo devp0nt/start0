@@ -1,6 +1,7 @@
+import nodeFs from "node:fs"
+import nodePath from "node:path"
 import vm from "node:vm"
 import type { Gen0Client } from "@ideanick/tools/gen0/client"
-import type { Gen0Config } from "@ideanick/tools/gen0/config"
 import type { Gen0Fs } from "@ideanick/tools/gen0/fs"
 import _ from "lodash"
 
@@ -14,6 +15,8 @@ export class Gen0ClientProcessCtx {
   fs: Gen0Fs
   $: Gen0ClientProcessCtx.Store = {}
 
+  nodeFs: Gen0ClientProcessCtx.NodeFs = nodeFs
+  nodePath: Gen0ClientProcessCtx.NodePath = nodePath
   _: Gen0ClientProcessCtx.Lodash = _
   console: Gen0ClientProcessCtx.Console = console
   logger: Gen0ClientProcessCtx.Logger = console
@@ -174,4 +177,6 @@ export namespace Gen0ClientProcessCtx {
   export type Fns = Record<string, Fn>
   export type Var = any
   export type Vars = Record<string, Var>
+  export type NodeFs = typeof nodeFs
+  export type NodePath = typeof nodePath
 }

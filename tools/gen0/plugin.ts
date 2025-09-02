@@ -43,7 +43,7 @@ export class Gen0Plugin {
   static async createByFilePath({ filePath, config }: { filePath: string; config: Gen0Config }) {
     const file = Gen0File.create({ filePath, config })
     const imported = await file.import()
-    const definition = imported?.default?.plugin || imported?.plugin || imported?.default
+    const definition = imported?.default || imported
     if (!definition) {
       throw new Error(`No plugin definition found in ${filePath}`)
     }

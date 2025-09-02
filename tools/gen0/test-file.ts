@@ -3,7 +3,7 @@
 // @gen0:start
 // @gen0:end
 
-// @gen0:start await importExportedFromFiles("~/**/route{s,}.*.ts", "TrpcRoute")
+// @gen0:start await importExportedFromFiles("~/**/route{s,}.*.ts", "TrpcRoute");
 
 import { pingTrpcRoute } from "../../apps/backend/src/router/ping/route.trpc.js"
 import { getAppConfigTrpcRoute } from "../../modules/appConfig/routes.be.js"
