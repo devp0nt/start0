@@ -9,7 +9,7 @@ export class Gen0Fs {
   rootDir: string
   cwd: string
 
-  constructor(input: { rootDir: string } & ({ fileDir: string } | { filePath: string } | { cwd: string })) {
+  private constructor(input: { rootDir: string } & ({ fileDir: string } | { filePath: string } | { cwd: string })) {
     this.rootDir = input.rootDir
     if ("fileDir" in input) {
       this.cwd = input.fileDir
@@ -18,6 +18,9 @@ export class Gen0Fs {
     } else {
       this.cwd = input.cwd
     }
+  }
+  static create(input: { rootDir: string } & ({ fileDir: string } | { filePath: string } | { cwd: string })) {
+    return new Gen0Fs(input)
   }
 
   async findFilesPaths<T extends Gen0Fs.PathOrPaths>({
@@ -135,16 +138,16 @@ export class Gen0Fs {
   }
 
   parsePath(path: string, relativeTo: string = this.rootDir) {
-    const pathAbs = this.toAbs(path)
-    const pathRel = this.toRel(path, relativeTo, false)
-    const pathRelDotted = this.toRel(path, relativeTo, true)
+    const abs = this.toAbs(path)
+    const rel = this.toRel(path, relativeTo, false)
+    const relDotted = this.toRel(path, relativeTo, true)
     const extDotted = nodePath.extname(path)
     const ext = extDotted.replace(/^\./, "")
     const name = nodePath.basename(path)
     const basename = nodePath.basename(path, extDotted)
     const dir = nodePath.dirname(path)
     const dirname = nodePath.basename(dir)
-    return { pathAbs, pathRel, pathRelDotted, name, ext, extDotted, basename, dir, dirname }
+    return { abs, rel, relDotted, name, ext, extDotted, basename, dir, dirname }
   }
 
   writeFileSync(path: string, content: string) {

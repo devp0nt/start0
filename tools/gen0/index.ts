@@ -159,24 +159,6 @@ export class Gen0 {
     }
   }
 
-  async generateTargetOutput({ target, store }: { target: Gen0.Target; store: Gen0.RunnerStore }) {
-    const runnerCtx = this.getRunnerCtx({ target, store })
-    const vmContex = vm.createContext(runnerCtx)
-    const wrappedScript = `
-      ;(async () => {
-        try {
-          ${target.scriptContent}
-        } catch (error) {
-          console.error(error)
-        }
-      })()
-    `
-    await vm.runInContext(wrappedScript, vmContex)
-    // TODO: pass all consolwe.logs to console.log outside
-    const distContent = runnerCtx.prints.join("\n")
-    return distContent
-  }
-
   static injectTargetOutput({
     target,
     output,

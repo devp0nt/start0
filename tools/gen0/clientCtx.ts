@@ -3,9 +3,11 @@ import { Gen0Fs } from "@ideanick/tools/gen0/fs"
 import _ from "lodash"
 
 export class Gen0ClientCtx {
+  fns: Gen0ClientCtx.Fns = {}
+  vars: Gen0ClientCtx.Vars = {}
+
   fs: Gen0Fs
   $: Gen0ClientCtx.Store = {}
-  fns: Gen0ClientCtx.GlobalFns = {}
 
   _: Gen0ClientCtx.Lodash = _
   console: Gen0ClientCtx.Console = console
@@ -23,16 +25,20 @@ export class Gen0ClientCtx {
 
   prints: string[] = []
 
-  constructor({ clientPath, rootDir }: { clientPath: string; rootDir: string }) {
-    this.fs = new Gen0Fs({ rootDir, filePath: clientPath })
+  private constructor({ clientPath, rootDir }: { clientPath: string; rootDir: string }) {
+    this.fs = Gen0Fs.create({ rootDir, filePath: clientPath })
     const pathParsed = this.fs.parsePath(clientPath)
-    this.selfPath = pathParsed.pathAbs
+    this.selfPath = pathParsed.abs
     this.selfName = pathParsed.name
     this.selfExt = pathParsed.ext
     this.selfExtDotted = pathParsed.extDotted
     this.selfBasename = pathParsed.basename
     this.selfDir = pathParsed.dir
     this.selfDirName = pathParsed.dirname
+  }
+
+  static create({ clientPath, rootDir }: { clientPath: string; rootDir: string }) {
+    return new Gen0ClientCtx({ clientPath, rootDir })
   }
 
   print: Gen0ClientCtx.Print = (str: string) => {
@@ -51,21 +57,37 @@ export class Gen0ClientCtx {
     return this.prints.join("\n")
   }
 
-  getSelfWithFns() {
-    const ctx = { ...this.fns, ...this }
-    return new Proxy(ctx, {
+  clearPrints() {
+    this.prints = []
+  }
+
+  getSelfWithFnsAndVars() {
+    const proxy = new Proxy(this, {
       get: (target, prop, receiver) => {
+        if (prop in this.vars) {
+          return this.vars[prop as keyof typeof this.vars]
+        }
+
+        if (prop in this.fns) {
+          const fn = this.fns[prop as keyof typeof this.fns]
+          if (typeof fn === "function") {
+            return fn.bind(this)
+          }
+          return fn
+        }
+
         const value = Reflect.get(target, prop, receiver)
         if (typeof value === "function") {
-          return value.bind(this) // always bind to the outer instance
+          return (value as Function).bind(this)
         }
         return value
       },
     })
+    return proxy
   }
 
   async execScript(scriptContent: string) {
-    const runnerCtx = this.getSelfWithFns()
+    const runnerCtx = this.getSelfWithFnsAndVars()
     const vmContex = vm.createContext(runnerCtx)
     const wrappedScript = `
       ;(async () => {
@@ -79,7 +101,16 @@ export class Gen0ClientCtx {
       })()
     `
     await vm.runInContext(wrappedScript, vmContex)
-    return this.getPrinted()
+    const printed = this.getPrinted()
+    this.clearPrints()
+    return { printed }
+  }
+
+  async execFn<TArgs extends any[] = any[], TReturn = any>(fn: Gen0ClientCtx.Fn<TArgs, TReturn>, ...args: TArgs) {
+    const result = await fn(this, ...args)
+    const printed = this.getPrinted()
+    this.clearPrints()
+    return { result, printed }
   }
 }
 
@@ -91,6 +122,8 @@ export namespace Gen0ClientCtx {
   export type LoggerLog = typeof console.log
   export type Print = (str: string) => void
   export type PrintInline = (str: string) => void
-  export type GlobalFn<TArgs extends any[] = any[], TReturn = any> = (ctx: Gen0ClientCtx, ...args: TArgs) => TReturn
-  export type GlobalFns = Record<string, GlobalFn>
+  export type Fn<TArgs extends any[] = any[], TReturn = any> = (ctx: Gen0ClientCtx, ...args: TArgs) => TReturn
+  export type Fns = Record<string, Fn>
+  export type Var = any
+  export type Vars = Record<string, Var>
 }

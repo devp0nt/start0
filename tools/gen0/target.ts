@@ -1,7 +1,187 @@
+import type { Gen0Client } from "@ideanick/tools/gen0/client"
+
+// TODO: respect silent mark, using tests
 export class Gen0Target {
-  filePath: string
-  fileDir: string
+  static inlineCommentStartMarks = ["//", "#"]
+  static blockCommentStartMarks = ["/*"]
+  static blockCommentEndMarks = ["*/"]
+  static startMark = "@gen0:start"
+  static endMark = "@gen0:end"
+  static silentMark = "@gen0:silent"
+
+  client: Gen0Client
   scriptContent: string
-  outputStartPos: number
-  outputEndPos: number
+  outputStartLineIndex: number
+  outputEndLineIndex: number
+
+  constructor({
+    client,
+    scriptContent,
+    outputStartLineIndex,
+    outputEndLineIndex,
+  }: { client: Gen0Client; scriptContent: string; outputStartLineIndex: number; outputEndLineIndex: number }) {
+    this.client = client
+    this.scriptContent = scriptContent
+    this.outputStartLineIndex = outputStartLineIndex
+    this.outputEndLineIndex = outputEndLineIndex
+  }
+
+  static async extract({ client, skipBeforeLine = 0 }: { client: Gen0Client; skipBeforeLine?: number }) {
+    const startMark = Gen0Target.startMark
+    const endMark = Gen0Target.endMark
+    const inlineCommentStartMarks = Gen0Target.inlineCommentStartMarks
+    const blockCommentStartMarks = Gen0Target.blockCommentStartMarks
+    const blockCommentEndMarks = Gen0Target.blockCommentEndMarks
+
+    const srcContent = await client.read()
+    const srcLines = srcContent.split("\n")
+    const startLineIndex = srcLines.findIndex((line) => line.includes(startMark), skipBeforeLine)
+    if (startLineIndex === -1) {
+      return null
+    }
+    const endLineIndex = srcLines.findIndex((line) => line.includes(endMark), startLineIndex)
+    if (endLineIndex === -1) {
+      throw new Error(`Expecting "${endMark}" in file ${client.path.abs} in line ${startLineIndex + 1} or later`)
+    }
+    const nextStartLineIndex = srcLines.findIndex((line) => line.includes(startMark), endLineIndex)
+    if (nextStartLineIndex !== -1 && nextStartLineIndex < endLineIndex) {
+      throw new Error(`Expecting "${endMark}" in file ${client.path.abs} before line ${nextStartLineIndex}`)
+    }
+
+    const startLine = srcLines[startLineIndex]
+    const startLineContentTrimmedBeforeStartString = startLine.substring(0, startLine.indexOf(startMark)).trim()
+    const commentType = (() => {
+      if (inlineCommentStartMarks.some((mark) => startLineContentTrimmedBeforeStartString === mark)) {
+        return "inline" as const
+      }
+      if (blockCommentStartMarks.some((mark) => startLineContentTrimmedBeforeStartString === mark)) {
+        return "block" as const
+      }
+      throw new Error(
+        `Expecting "${inlineCommentStartMarks.join(" or ")}" or "${blockCommentStartMarks.join(" or ")}" in file ${client.path.abs} in line ${startLineIndex + 1} before "${startMark}" and nothing else`,
+      )
+    })()
+
+    const outputEndLineIndex = endLineIndex - 1
+    const { scriptContent, outputStartLineIndex } = (() => {
+      if (commentType === "inline") {
+        const scriptStartPosInLine = startLine.indexOf(startMark) + startMark.length
+        const scriptContent = startLine.substring(scriptStartPosInLine)
+        const outputStartLineIndex = startLineIndex
+        return { scriptContent, outputStartLineIndex }
+      } else {
+        const skipBeforeIndex = srcLines.slice(0, startLineIndex).join("\n").length
+        const scriptStartPosInFile = srcContent.indexOf(startMark, skipBeforeIndex) + startMark.length
+        const blockCommentEndMarkPosInFile = (() => {
+          for (const blockCommentEndMark of blockCommentEndMarks) {
+            const blockCommentEndMarkPosInFile = srcContent.indexOf(blockCommentEndMark, scriptStartPosInFile)
+            if (blockCommentEndMarkPosInFile !== -1) {
+              return blockCommentEndMarkPosInFile
+            }
+          }
+          throw new Error(
+            `Expecting "${blockCommentEndMarks.join(" or ")}" in file ${client.path.abs} after "${startMark}" in line ${startLineIndex + 1}`,
+          )
+        })()
+        const endPosInFile = srcContent.indexOf(endMark, skipBeforeIndex)
+        if (blockCommentEndMarkPosInFile > endPosInFile) {
+          throw new Error(
+            `Expecting block comment end mark "${blockCommentEndMarks.join(" or ")}" in file ${client.path.abs} after "${startMark}" adter line ${startLineIndex} before "${endMark}"`,
+          )
+        }
+        const scriptEndPosInFile = blockCommentEndMarkPosInFile
+        const scriptContent = srcContent.substring(scriptStartPosInFile, scriptEndPosInFile)
+        const outputStartLineIndex = srcContent.slice(0, blockCommentEndMarkPosInFile).split("\n").length + 1
+        return { scriptContent, outputStartLineIndex }
+      }
+    })()
+
+    return new Gen0Target({
+      scriptContent,
+      outputStartLineIndex,
+      outputEndLineIndex,
+      client,
+    })
+  }
 }
+
+// async processFile({ path }: { path: string }) {
+//   const srcContent = await fs.readFile(path, "utf8")
+//   const distContent = await this.generateFileContent({ srcContent, path })
+//   await fs.writeFile(path, distContent)
+//   if (this.afterProcessCmd) {
+//     const afterProcessCmd =
+//       typeof this.afterProcessCmd === "function" ? this.afterProcessCmd(path) : this.afterProcessCmd
+//     await exec(afterProcessCmd, { cwd: this.projectRootDir })
+//   }
+// }
+
+// async generateFileContent({ srcContent, path }: { srcContent: string; path: string }) {
+//   let distContent = srcContent
+//   let target = Gen0.getTarget({ srcContent: distContent, skipBeforePos: 0, path })
+//   const store: Gen0.RunnerStore = {}
+//   while (target) {
+//     const targetOutput = await this.generateTargetOutput({ target, store })
+//     distContent = Gen0.injectTargetOutput({ target, output: targetOutput, srcContent: distContent })
+//     target = Gen0.getTarget({ srcContent: distContent, skipBeforePos: target.outputEndPos, path })
+//   }
+//   return distContent
+// }
+
+// static getTarget({
+//   srcContent,
+//   skipBeforePos = 0,
+//   path,
+// }: {
+//   srcContent: string
+//   skipBeforePos?: number
+//   path: string
+// }): Gen0.Target | null {
+//   const startString = "// /gen0 "
+//   const endString = "// gen0/"
+//   const definitionStartPos = srcContent.indexOf(startString, skipBeforePos)
+//   if (definitionStartPos === -1) {
+//     return null
+//   }
+//   const definitionEndPos = srcContent.indexOf(endString, definitionStartPos)
+//   if (definitionEndPos === -1) {
+//     throw new Error(`gen0 target end not found, you forget to add "${endString}" in file "${path}"`)
+//   }
+//   const nextDefinitionStartPos = srcContent.indexOf(startString, definitionStartPos + 1)
+//   if (nextDefinitionStartPos !== -1 && nextDefinitionStartPos < definitionEndPos) {
+//     throw new Error(`gen0 target end not found, you forget to add "${endString}" in file "${path}"`)
+//   }
+//   // from "// gen0 " to end of line
+//   const scriptStartPos = definitionStartPos + startString.length
+//   const scriptEndPos = srcContent.indexOf("\n", scriptStartPos)
+//   const scriptContent = srcContent.substring(scriptStartPos, scriptEndPos)
+//   // next line after scriptEndPos
+//   const scriptDefinitionEndPos = scriptEndPos
+//   const outputStartPos = scriptDefinitionEndPos
+//   const outputEndPos = definitionEndPos
+//   return {
+//     filePath: path,
+//     fileDir: nodePath.dirname(path),
+//     scriptContent,
+//     outputStartPos,
+//     outputEndPos,
+//   }
+// }
+
+// static injectTargetOutput({
+//   target,
+//   output,
+//   srcContent,
+// }: {
+//   target: Gen0.Target
+//   output: string
+//   srcContent: string
+// }): string {
+//   return (
+//     srcContent.substring(0, target.outputStartPos) +
+//     "\n\n" +
+//     output +
+//     "\n" +
+//     srcContent.substring(target.outputEndPos)
+//   )
+// }

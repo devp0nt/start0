@@ -38,7 +38,8 @@
       "complexity": {
         "noUselessThisAlias": "off",
         "noBannedTypes": "off",
-        "noThisInStatic": "off"
+        "noThisInStatic": "off",
+        "noStaticOnlyClass": "off"
       },
       "suspicious": {
         "noConsole": {
