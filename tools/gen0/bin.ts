@@ -1,6 +1,7 @@
 #!/usr/bin/env bun
 
 import { Command } from "commander"
+import { omit } from "lodash"
 import { Gen0 } from "./index.js"
 
 const program = new Command()
@@ -50,13 +51,14 @@ program
     }),
   )
 
-// show ctx
+// show plugins
 program
-  .command("config")
-  .description("Show gen0 config")
+  .command("plugins")
+  .description("Show gen0 plugins")
   .action(
     withGen0(async (gen0) => {
-      logger.info(JSON.stringify(gen0.config, null, 2))
+      const pluginsNames = Object.keys(gen0.config.plugins)
+      printArray(pluginsNames)
     }),
   )
 

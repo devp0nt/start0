@@ -1,3 +1,4 @@
+import nodePath from "node:path"
 import type { Gen0ClientProcessCtx } from "@ideanick/tools/gen0/clientCtx"
 import type { Gen0Fs } from "@ideanick/tools/gen0/fs"
 import { Gen0Plugin } from "@ideanick/tools/gen0/plugin"
@@ -53,7 +54,10 @@ export class Gen0Config {
       }
       return await Gen0Config.parseConfig({ configPath })
     })()
-    const rootDir = configDefinition.rootDir || (await Gen0Config.getWorkspaceRootDir({ cwd }))
+    const rootDir =
+      configDefinition.rootDir ||
+      (configPath && nodePath.dirname(configPath)) ||
+      (await Gen0Config.getWorkspaceRootDir({ cwd }))
     if (!rootDir) {
       throw new Error("Project root dir not found")
     }

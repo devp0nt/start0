@@ -57,17 +57,24 @@ export class Gen0Target {
     const blockCommentStartMarks = Gen0Target.blockCommentStartMarks
     const blockCommentEndMarks = Gen0Target.blockCommentEndMarks
 
+    const findLineIndex = (lines: string[], fn: (line: string) => boolean, skipBeforeLineIndex: number = 0) => {
+      const cuttedLines = lines.slice(skipBeforeLineIndex)
+      const lineIndex = cuttedLines.findIndex(fn)
+      return lineIndex === -1 ? -1 : lineIndex + skipBeforeLineIndex
+    }
+
     const srcContent = await client.file.read()
     const srcLines = srcContent.split("\n")
-    const startLineIndex = srcLines.findIndex((line) => line.includes(startMark), skipBeforeLineIndex)
+    const startLineIndex = findLineIndex(srcLines, (line) => line.includes(startMark), skipBeforeLineIndex)
     if (startLineIndex === -1) {
       return null
     }
-    const endLineIndex = srcLines.findIndex((line) => line.includes(endMark), startLineIndex)
+    const endLineIndex = findLineIndex(srcLines, (line) => line.includes(endMark), startLineIndex)
     if (endLineIndex === -1) {
       throw new Error(`Expecting "${endMark}" in file ${client.file.path.abs} in line ${startLineIndex + 1} or later`)
     }
-    const nextStartLineIndex = srcLines.findIndex((line) => line.includes(startMark), endLineIndex)
+    const nextStartLineIndex = findLineIndex(srcLines, (line) => line.includes(startMark), endLineIndex)
+
     if (nextStartLineIndex !== -1 && nextStartLineIndex < endLineIndex) {
       throw new Error(`Expecting "${endMark}" in file ${client.file.path.abs} before line ${nextStartLineIndex}`)
     }
@@ -81,17 +88,21 @@ export class Gen0Target {
       if (blockCommentStartMarks.some((mark) => startLineContentTrimmedBeforeStartString === mark)) {
         return "block" as const
       }
-      throw new Error(
-        `Expecting "${inlineCommentStartMarks.join(" or ")}" or "${blockCommentStartMarks.join(" or ")}" in file ${client.file.path.abs} in line ${startLineIndex + 1} before "${startMark}" and nothing else`,
-      )
+      return null
+      // throw new Error(
+      //   `Expecting "${inlineCommentStartMarks.join(" or ")}" or "${blockCommentStartMarks.join(" or ")}" in file ${client.file.path.abs} in line ${startLineIndex + 1} before "${startMark}" and nothing else`,
+      // )
     })()
+    if (!commentType) {
+      return null
+    }
 
-    const outputEndLineIndex = endLineIndex - 1
+    const outputEndLineIndex = endLineIndex
     const { scriptContent, outputStartLineIndex } = (() => {
       if (commentType === "inline") {
         const scriptStartPosInLine = startLine.indexOf(startMark) + startMark.length
         const scriptContent = startLine.substring(scriptStartPosInLine)
-        const outputStartLineIndex = startLineIndex
+        const outputStartLineIndex = startLineIndex + 1
         return { scriptContent, outputStartLineIndex }
       } else {
         const skipBeforeIndex = srcLines.slice(0, startLineIndex).join("\n").length

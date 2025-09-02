@@ -20,7 +20,7 @@ export class Gen0ClientProcess {
       const { printed } = await clientProcess.ctx.execScript(target.scriptContent)
       await target.fill(printed)
       clientProcess.targets.push(target)
-      target = await Gen0Target.extract({ client, skipBeforeLineIndex: target.outputEndLineIndex })
+      target = await Gen0Target.extract({ client, skipBeforeLineIndex: target.outputEndLineIndex + printed.length })
     }
     clientProcess.finishedAt = new Date()
     return clientProcess

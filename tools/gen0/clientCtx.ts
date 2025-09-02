@@ -1,12 +1,15 @@
 import vm from "node:vm"
 import type { Gen0Client } from "@ideanick/tools/gen0/client"
+import type { Gen0Config } from "@ideanick/tools/gen0/config"
 import type { Gen0Fs } from "@ideanick/tools/gen0/fs"
 import _ from "lodash"
 
+// TODO: add lines numbers to stack trace
+
 export class Gen0ClientProcessCtx {
   client: Gen0Client
-  fns: Gen0ClientProcessCtx.Fns = {}
-  vars: Gen0ClientProcessCtx.Vars = {}
+  fns: Gen0ClientProcessCtx.Fns
+  vars: Gen0ClientProcessCtx.Vars
 
   fs: Gen0Fs
   $: Gen0ClientProcessCtx.Store = {}
@@ -30,6 +33,8 @@ export class Gen0ClientProcessCtx {
   private constructor({ client }: { client: Gen0Client }) {
     this.client = client
     this.fs = this.client.file.fs
+    this.fns = this.client.config.fns
+    this.vars = this.client.config.vars
     this.selfPath = this.client.file.path.abs
     this.selfName = this.client.file.path.name
     this.selfExt = this.client.file.path.ext
@@ -63,29 +68,66 @@ export class Gen0ClientProcessCtx {
     this.prints = []
   }
 
+  // getSelfWithFnsAndVars() {
+  //   const proxy = new Proxy(this, {
+  //     get: (target, prop, receiver) => {
+  //       if (prop in this.vars) {
+  //         return this.vars[prop as keyof typeof this.vars]
+  //       }
+
+  //       if (prop in this.fns) {
+  //         const fn = this.fns[prop as keyof typeof this.fns]
+  //         if (typeof fn === "function") {
+  //           return fn.bind(this)
+  //         }
+  //         return fn
+  //       }
+
+  //       const value = Reflect.get(target, prop, receiver)
+  //       if (typeof value === "function") {
+  //         return (value as Function).bind(this)
+  //       }
+  //       return value
+  //     },
+  //   })
+  //   return proxy
+  // }
+
   getSelfWithFnsAndVars() {
-    const proxy = new Proxy(this, {
-      get: (target, prop, receiver) => {
-        if (prop in this.vars) {
-          return this.vars[prop as keyof typeof this.vars]
-        }
+    // Base: copy all instance props
+    const ctx: Record<string, any> = {}
 
-        if (prop in this.fns) {
-          const fn = this.fns[prop as keyof typeof this.fns]
-          if (typeof fn === "function") {
-            return fn.bind(this)
-          }
-          return fn
-        }
+    // Copy instance fields and bind functions
+    // for (const key of Object.getOwnPropertyNames(Object.getPrototypeOf(this))) {
+    //   const value = (this as any)[key]
+    //   if (typeof value === "function" && Gen0ClientProcessCtx.bindableMethods.includes(key)) {
+    //     ctx[key] = value.bind(this)
+    //   }
+    // }
 
-        const value = Reflect.get(target, prop, receiver)
-        if (typeof value === "function") {
-          return (value as Function).bind(this)
-        }
-        return value
-      },
-    })
-    return proxy
+    // for (const [key, value] of Object.entries(this)) {
+    //   if (typeof value === "function" && Gen0ClientProcessCtx.bindableMethods.includes(key)) {
+    //     ctx[key] = value.bind(this)
+    //   } else {
+    //     ctx[key] = value
+    //   }
+    // }
+
+    // Vars override
+    for (const [key, value] of Object.entries(this.vars)) {
+      ctx[key] = value
+    }
+
+    // Fns override (bind if function)
+    for (const [key, value] of Object.entries(this.fns)) {
+      ctx[key] = typeof value === "function" ? value.bind(this, this) : value
+    }
+
+    for (const [key, value] of Object.entries(this)) {
+      ctx[key] = value
+    }
+
+    return ctx
   }
 
   async execScript(scriptContent: string) {
@@ -97,8 +139,9 @@ export class Gen0ClientProcessCtx {
           ${scriptContent}
         } catch (error) {
           console.error(\`Error in "${this.selfPath}"\`)
-          console.error(error)
-          console.log("Stacktrace:", error.stack)
+          // console.error(error)
+          // console.log("Stacktrace:", error.stack)
+          throw error
         }
       })()
     `

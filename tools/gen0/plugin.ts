@@ -42,7 +42,11 @@ export class Gen0Plugin {
 
   static async createByFilePath({ filePath, config }: { filePath: string; config: Gen0Config }) {
     const file = Gen0File.create({ filePath, config })
-    const definition = await file.import()
+    const imported = await file.import()
+    const definition = imported?.default?.plugin || imported?.plugin || imported?.default
+    if (!definition) {
+      throw new Error(`No plugin definition found in ${filePath}`)
+    }
     return Gen0Plugin.createByDefinition({ definition, config, file })
   }
 
@@ -55,9 +59,8 @@ export class Gen0Plugin {
     config: Gen0Config
     pluginsGlob?: Gen0Config["pluginsGlob"]
   }) {
-    const pluginsPaths = await fs.findFilesPathsContentMatch({
+    const pluginsPaths = await fs.findFilesPaths({
       glob: pluginsGlob || config.pluginsGlob,
-      search: [Gen0Target.startMark, Gen0Target.silentMark],
     })
     return await Promise.all(pluginsPaths.map((filePath) => Gen0Plugin.createByFilePath({ filePath, config })))
   }
