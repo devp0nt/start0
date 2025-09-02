@@ -5,6 +5,14 @@ import { Gen0Plugin } from "@ideanick/tools/gen0/plugin"
 
 // TODO: watchers
 // TODO: named actions
+// TODO: named clients
+// TODO: commander actions
+// TODO: commander actions and clients anmes, and client paths
+
+// TODO: multiline comments
+// TODO: silent comments
+// TODO: importFromFiles → importNamed, importSimple, importDefault, importAs
+// TODO: importNamed → match not ends, matched not cutted
 
 // TODO: boime ignore organize imports
 // TODO: add logger
@@ -38,8 +46,8 @@ export class Gen0 {
   removeClient(client: Gen0Client[]): void
   removeClient(client: Gen0Fs.Path | Gen0Fs.Paths | Gen0Client | Gen0Client[]) {
     const clientsPaths = Array.isArray(client)
-      ? client.map((c) => (typeof c === "string" ? c : c.file.path.abs))
-      : [typeof client === "string" ? client : client.file.path.abs]
+      ? client.map((c) => (typeof c === "string" ? this.fs.toAbs(c) : c.file.path.abs))
+      : [typeof client === "string" ? this.fs.toAbs(client) : client.file.path.abs]
     this.clients = this.clients.filter((c) => !clientsPaths.includes(c.file.path.abs))
   }
 
@@ -49,7 +57,14 @@ export class Gen0 {
     const clients = Array.isArray(path)
       ? path.map((p) => Gen0Client.create({ filePath: p, config: this.config }))
       : [Gen0Client.create({ filePath: path, config: this.config })]
-    this.clients.push(...clients)
+    const filteredClients = clients.filter((c) => !this.clients.some((cc) => Gen0Client.isSameClient(cc, c)))
+    this.clients.push(...filteredClients)
+  }
+
+  getClient(path: Gen0Fs.Path): void
+  getClient(path: Gen0Fs.Paths): void
+  getClient(path: Gen0Fs.Path | Gen0Fs.Paths) {
+    return this.clients.find((c) => this.fs.isPathMatchGlob(c.file.path.abs, path))
   }
 
   async processClients() {

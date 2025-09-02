@@ -31,13 +31,15 @@ export class Gen0Plugin {
   static async createByDefinition({
     definition,
     config,
+    name,
     file,
   }: {
     definition: Gen0Plugin.Definition
     config: Gen0Config
+    name: string
     file?: Gen0File
   }) {
-    return new Gen0Plugin({ config, name: definition.name, fns: definition.fns, vars: definition.vars, file })
+    return new Gen0Plugin({ config, name, fns: definition.fns, vars: definition.vars, file })
   }
 
   static async createByFilePath({ filePath, config }: { filePath: string; config: Gen0Config }) {
@@ -47,7 +49,7 @@ export class Gen0Plugin {
     if (!definition) {
       throw new Error(`No plugin definition found in ${filePath}`)
     }
-    return Gen0Plugin.createByDefinition({ definition, config, file })
+    return new Gen0Plugin({ config, name: definition.name, fns: definition.fns, vars: definition.vars, file })
   }
 
   static async findAndCreateAll({
@@ -91,7 +93,7 @@ export namespace Gen0Plugin {
   export type Fns = Gen0ClientProcessCtx.Fns
   export type Vars = Gen0ClientProcessCtx.Vars
   export type Definition<TFns extends Fns | undefined = Fns, TVars extends Vars | undefined = Vars> = {
-    name: string
+    name?: string
     fns?: TFns
     vars?: TVars
   }

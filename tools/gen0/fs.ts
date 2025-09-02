@@ -4,6 +4,9 @@ import nodePath from "node:path"
 import readline from "node:readline"
 import type { Gen0Config } from "@ideanick/tools/gen0/config"
 import { globby, globbySync } from "globby"
+import micromatch from "micromatch"
+
+// TODO: make better string | string[] → T
 
 export class Gen0Fs {
   config: Gen0Config
@@ -252,6 +255,12 @@ export class Gen0Fs {
   async readFile(path: string) {
     const pathNormalized = this.normalizePath(path)
     return await fs.readFile(pathNormalized, "utf8")
+  }
+
+  isPathMatchGlob(path: string, glob: string | string[]): boolean {
+    const pathNormalized = this.normalizePath(path)
+    const globNormalized = Array.isArray(glob) ? this.normalizePaths(glob) : [this.normalizePath(glob)]
+    return micromatch.isMatch(pathNormalized, globNormalized)
   }
 }
 
