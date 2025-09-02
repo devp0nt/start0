@@ -22,9 +22,21 @@ export class Gen0Client {
     return clientProcess
   }
 
-  static async findAndCreateAll({ fs, config }: { fs: Gen0Fs; config: Gen0Config }) {
+  static async processMany(clients: Gen0Client[]) {
+    return await Promise.all(clients.map((client) => client.process()))
+  }
+
+  static async findAndCreateAll({
+    fs,
+    config,
+    clientsGlob,
+  }: {
+    fs: Gen0Fs
+    config: Gen0Config
+    clientsGlob?: Gen0Config["clients"]
+  }) {
     const clientsPaths = await fs.findFilesPathsContentMatch({
-      glob: config.clients,
+      glob: clientsGlob || config.clients,
       search: [Gen0Target.startMark, Gen0Target.silentMark],
     })
     return await Promise.all(clientsPaths.map((filePath) => Gen0Client.create({ filePath, config })))

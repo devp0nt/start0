@@ -29,14 +29,14 @@ export class Gen0ClientProcessCtx {
 
   private constructor({ client }: { client: Gen0Client }) {
     this.client = client
-    this.fs = this.client.fs
-    this.selfPath = this.client.path.abs
-    this.selfName = this.client.path.name
-    this.selfExt = this.client.path.ext
-    this.selfExtDotted = this.client.path.extDotted
-    this.selfBasename = this.client.path.basename
-    this.selfDir = this.client.path.dir
-    this.selfDirName = this.client.path.dirname
+    this.fs = this.client.file.fs
+    this.selfPath = this.client.file.path.abs
+    this.selfName = this.client.file.path.name
+    this.selfExt = this.client.file.path.ext
+    this.selfExtDotted = this.client.file.path.extDotted
+    this.selfBasename = this.client.file.path.basename
+    this.selfDir = this.client.file.path.dir
+    this.selfDirName = this.client.file.path.dirname
   }
 
   static create({ client }: { client: Gen0Client }) {

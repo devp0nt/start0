@@ -6,6 +6,7 @@ export class Gen0ClientProcess {
   ctx: Gen0ClientProcessCtx
   client: Gen0Client
   targets: Gen0Target[] = []
+  finishedAt: Date | undefined
 
   private constructor({ client }: { client: Gen0Client }) {
     this.client = client
@@ -21,6 +22,7 @@ export class Gen0ClientProcess {
       clientProcess.targets.push(target)
       target = await Gen0Target.extract({ client, skipBeforeLineIndex: target.outputEndLineIndex })
     }
+    clientProcess.finishedAt = new Date()
     return clientProcess
   }
 }

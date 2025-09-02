@@ -37,7 +37,7 @@ export class Gen0Target {
   }
 
   async getClientContentFilled(outputContent: string) {
-    const srcContent = await this.client.read()
+    const srcContent = await this.client.file.read()
     const srcLines = srcContent.split("\n")
     srcLines.splice(this.outputStartLineIndex, this.outputEndLineIndex - this.outputStartLineIndex, outputContent)
     const newSrcContent = srcLines.join("\n")
@@ -46,7 +46,7 @@ export class Gen0Target {
 
   async fill(outputContent: string) {
     const newSrcContent = await this.getClientContentFilled(outputContent)
-    await this.client.write(newSrcContent)
+    await this.client.file.write(newSrcContent)
     this.outputContent = outputContent
   }
 
@@ -57,7 +57,7 @@ export class Gen0Target {
     const blockCommentStartMarks = Gen0Target.blockCommentStartMarks
     const blockCommentEndMarks = Gen0Target.blockCommentEndMarks
 
-    const srcContent = await client.read()
+    const srcContent = await client.file.read()
     const srcLines = srcContent.split("\n")
     const startLineIndex = srcLines.findIndex((line) => line.includes(startMark), skipBeforeLineIndex)
     if (startLineIndex === -1) {
@@ -65,11 +65,11 @@ export class Gen0Target {
     }
     const endLineIndex = srcLines.findIndex((line) => line.includes(endMark), startLineIndex)
     if (endLineIndex === -1) {
-      throw new Error(`Expecting "${endMark}" in file ${client.path.abs} in line ${startLineIndex + 1} or later`)
+      throw new Error(`Expecting "${endMark}" in file ${client.file.path.abs} in line ${startLineIndex + 1} or later`)
     }
     const nextStartLineIndex = srcLines.findIndex((line) => line.includes(startMark), endLineIndex)
     if (nextStartLineIndex !== -1 && nextStartLineIndex < endLineIndex) {
-      throw new Error(`Expecting "${endMark}" in file ${client.path.abs} before line ${nextStartLineIndex}`)
+      throw new Error(`Expecting "${endMark}" in file ${client.file.path.abs} before line ${nextStartLineIndex}`)
     }
 
     const startLine = srcLines[startLineIndex]
@@ -82,7 +82,7 @@ export class Gen0Target {
         return "block" as const
       }
       throw new Error(
-        `Expecting "${inlineCommentStartMarks.join(" or ")}" or "${blockCommentStartMarks.join(" or ")}" in file ${client.path.abs} in line ${startLineIndex + 1} before "${startMark}" and nothing else`,
+        `Expecting "${inlineCommentStartMarks.join(" or ")}" or "${blockCommentStartMarks.join(" or ")}" in file ${client.file.path.abs} in line ${startLineIndex + 1} before "${startMark}" and nothing else`,
       )
     })()
 
@@ -104,13 +104,13 @@ export class Gen0Target {
             }
           }
           throw new Error(
-            `Expecting "${blockCommentEndMarks.join(" or ")}" in file ${client.path.abs} after "${startMark}" in line ${startLineIndex + 1}`,
+            `Expecting "${blockCommentEndMarks.join(" or ")}" in file ${client.file.path.abs} after "${startMark}" in line ${startLineIndex + 1}`,
           )
         })()
         const endPosInFile = srcContent.indexOf(endMark, skipBeforeIndex)
         if (blockCommentEndMarkPosInFile > endPosInFile) {
           throw new Error(
-            `Expecting block comment end mark "${blockCommentEndMarks.join(" or ")}" in file ${client.path.abs} after "${startMark}" adter line ${startLineIndex} before "${endMark}"`,
+            `Expecting block comment end mark "${blockCommentEndMarks.join(" or ")}" in file ${client.file.path.abs} after "${startMark}" adter line ${startLineIndex} before "${endMark}"`,
           )
         }
         const scriptEndPosInFile = blockCommentEndMarkPosInFile
@@ -128,10 +128,6 @@ export class Gen0Target {
       client,
       outputContent,
     })
-  }
-
-  static async hasTargets(filePath: string) {
-    const fileContent = await Gen0Fs.contentMatch(filePath, "// @gen0:start ")
   }
 }
 

@@ -23,15 +23,34 @@ export class Gen0Fs {
     return new Gen0Fs(input)
   }
 
-  async findFilesPaths<T extends Gen0Fs.PathOrPaths>({
-    cwd = this.config.rootDir,
+  async findFilesPaths(glob: Gen0Fs.PathOrPaths): Promise<string[]>
+  async findFilesPaths({
+    cwd,
     glob,
     relative,
   }: {
     cwd?: string
-    glob: T
+    glob: Gen0Fs.PathOrPaths
     relative?: string | boolean
-  }): Promise<string[]> {
+  }): Promise<string[]>
+  async findFilesPaths(
+    input:
+      | Gen0Fs.PathOrPaths
+      | {
+          cwd?: string
+          glob: Gen0Fs.PathOrPaths
+          relative?: string | boolean
+        },
+  ): Promise<string[]> {
+    const { cwd, glob, relative } = (() => {
+      if (typeof input === "string" || Array.isArray(input)) {
+        return { cwd: this.config.rootDir, glob: input, relative: false }
+      }
+      if (typeof input === "object" && input !== null) {
+        return { cwd: input.cwd || this.config.rootDir, glob: input.glob, relative: input.relative }
+      }
+      throw new Error("Invalid input")
+    })()
     const paths = await globby(glob, { cwd, gitignore: true, absolute: true, dot: true })
     if (!relative) {
       return paths
@@ -172,6 +191,8 @@ export class Gen0Fs {
 }
 
 export namespace Gen0Fs {
-  export type PathOrPaths = string | string[]
+  export type Path = string
+  export type Paths = string[]
+  export type PathOrPaths = Path | Paths
   export type PathParsed = ReturnType<typeof Gen0Fs.prototype.parsePath>
 }

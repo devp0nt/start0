@@ -46,18 +46,35 @@ export class Gen0Plugin {
     return Gen0Plugin.createByDefinition({ definition, config, file })
   }
 
-  static async findAndCreateAll({ fs, config }: { fs: Gen0Fs; config: Gen0Config }) {
+  static async findAndCreateAll({
+    fs,
+    config,
+    pluginsGlob,
+  }: {
+    fs: Gen0Fs
+    config: Gen0Config
+    pluginsGlob?: Gen0Config["pluginsGlob"]
+  }) {
     const pluginsPaths = await fs.findFilesPathsContentMatch({
-      glob: config.pluginsGlob,
+      glob: pluginsGlob || config.pluginsGlob,
       search: [Gen0Target.startMark, Gen0Target.silentMark],
     })
     return await Promise.all(pluginsPaths.map((filePath) => Gen0Plugin.createByFilePath({ filePath, config })))
   }
 
-  static assignPluginsToConfig({ config, plugins }: { config: Gen0Config; plugins: Gen0Config.Plugins }) {
+  static assignPluginsToConfig({ config, plugins }: { config: Gen0Config; plugins: Gen0Plugin[] }): void
+  static assignPluginsToConfig({ config, plugins }: { config: Gen0Config; plugins: Gen0Config.Plugins }): void
+  static assignPluginsToConfig({
+    config,
+    plugins,
+  }: {
+    config: Gen0Config
+    plugins: Gen0Config.Plugins | Gen0Plugin[]
+  }) {
+    plugins = Array.isArray(plugins) ? plugins : Object.values(plugins)
     const pluginsFns = {}
     const pluginsVars = {}
-    for (const plugin of Object.values(plugins)) {
+    for (const plugin of plugins) {
       config.plugins[plugin.name] = plugin
       Object.assign(pluginsFns, plugin.fns)
       Object.assign(pluginsVars, plugin.vars)
@@ -70,7 +87,7 @@ export class Gen0Plugin {
 export namespace Gen0Plugin {
   export type Fns = Gen0ClientProcessCtx.Fns
   export type Vars = Gen0ClientProcessCtx.Vars
-  export type Definition<TFns extends Fns | undefined = undefined, TVars extends Vars | undefined = undefined> = {
+  export type Definition<TFns extends Fns | undefined = Fns, TVars extends Vars | undefined = Vars> = {
     name: string
     fns?: TFns
     vars?: TVars

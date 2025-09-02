@@ -5,118 +5,79 @@ import { Gen0 } from "./index.js"
 
 const program = new Command()
 
+// TODO: add logger
+const logger = console
+
+const withErrorWrapper = <T extends any[]>(action: (...args: T) => Promise<void>) => {
+  return async (...args: T) => {
+    try {
+      await action(...args)
+    } catch (error) {
+      logger.error(error)
+    }
+  }
+}
+const withGen0 = <T extends any[]>(action: (gen0: Gen0, ...args: T) => Promise<void>) => {
+  return withErrorWrapper(async (...args: T) => {
+    const gen0 = await Gen0.init()
+    await action(gen0, ...args)
+  })
+}
+const printArray = <T>(array: T[]) => {
+  for (const item of array) {
+    logger.info(`  ${item}`)
+  }
+}
+
 program.name("gen0").description("A code generation tool").version("1.0.0")
 
 // Main command for processing files
 program
-  .command("run")
+  .command("process")
+  .alias("p")
   .description("Process a file with gen0 or process all clients if no file path provided")
   .argument("[file-path]", "Path to the file to process (optional)")
-  .action(async (filePath?: string) => {
-    try {
-      const gen0 = await Gen0.init()
-
+  .action(
+    withGen0(async (gen0, filePath?: string) => {
       if (filePath) {
-        await gen0.processFile({ path: filePath })
-        // biome-ignore lint/suspicious/noConsole: CLI tool needs console output
-        console.info(`✅ Successfully processed: ${filePath}`)
+        const result = await gen0.processFile(filePath)
+        logger.info(`✅ Successfully processed: ${result.client.file.path.rel}`)
       } else {
-        await gen0.processClients()
-        // biome-ignore lint/suspicious/noConsole: CLI tool needs console output
-        console.info(`✅ Successfully processed all clients`)
+        const results = await gen0.processClients()
+        logger.info(`✅ Successfully processed all clients (total: ${results.length})`)
+        printArray(results.map((result) => result.client.file.path.rel))
       }
-    } catch (error) {
-      // biome-ignore lint/suspicious/noConsole: CLI tool needs console output
-      console.error(`❌ Error processing ${filePath ? `file: "${filePath}"` : "clients"}`)
-      // biome-ignore lint/suspicious/noConsole: <x>
-      console.error(error)
-      process.exit(1)
-    }
-  })
+    }),
+  )
 
-// Plugins subcommand
+// show ctx
 program
-  .command("plugins")
-  .description("Get plugin paths")
-  .action(async () => {
-    try {
-      const gen0 = await Gen0.init()
-      const pluginPaths = await gen0.findPluginsPaths()
-      // biome-ignore lint/suspicious/noConsole: CLI tool needs console output
-      console.log("Plugin paths:")
-      pluginPaths.forEach((path) => {
-        // biome-ignore lint/suspicious/noConsole: CLI tool needs console output
-        console.log(`  ${path}`)
-      })
-    } catch (error) {
-      // biome-ignore lint/suspicious/noConsole: CLI tool needs console output
-      console.error(`❌ Error getting plugin paths: ${error instanceof Error ? error.message : String(error)}`)
-      // biome-ignore lint/suspicious/noConsole: <x>
-      console.error(error)
-      process.exit(1)
-    }
-  })
-
-// show ctx keys
-program
-  .command("ctx")
-  .description("Show gen0 ctx keys")
-  .action(async () => {
-    try {
-      await Gen0.init()
-      // biome-ignore lint/suspicious/noConsole: CLI tool needs console output
-      console.log("Ctx keys:")
-      Object.keys(Gen0.ctx).forEach((key) => {
-        // biome-ignore lint/suspicious/noConsole: CLI tool needs console output
-        console.log(`  ${key}`)
-      })
-    } catch (error) {
-      // biome-ignore lint/suspicious/noConsole: CLI tool needs console output
-      console.error(`❌ Error getting ctx keys: ${error instanceof Error ? error.message : String(error)}`)
-      // biome-ignore lint/suspicious/noConsole: <x>
-      console.error(error)
-      process.exit(1)
-    }
-  })
+  .command("config")
+  .description("Show gen0 config")
+  .action(
+    withGen0(async (gen0) => {
+      logger.info(JSON.stringify(gen0.config, null, 2))
+    }),
+  )
 
 // show clients
 program
   .command("clients")
   .description("Show clients")
-  .action(async () => {
-    try {
-      const gen0 = await Gen0.init()
-      // biome-ignore lint/suspicious/noConsole: CLI tool needs console output
-      console.log("Clients:")
-      const clients = await gen0.findClientsPaths()
-      clients.forEach((client) => {
-        // biome-ignore lint/suspicious/noConsole: CLI tool needs console output
-        console.log(`  ${client}`)
-      })
-    } catch (error) {
-      // biome-ignore lint/suspicious/noConsole: CLI tool needs console output
-      console.error(`❌ Error getting clients: ${error instanceof Error ? error.message : String(error)}`)
-      // biome-ignore lint/suspicious/noConsole: <x>
-      console.error(error)
-      process.exit(1)
-    }
-  })
+  .action(
+    withGen0(async (gen0) => {
+      printArray(gen0.clients.map((client) => client.file.path.rel))
+    }),
+  )
 
 // watch
 program
   .command("watch")
   .description("Watch")
-  .action(async () => {
-    try {
-      const gen0 = await Gen0.init()
-      await gen0.watch()
-    } catch (error) {
-      // biome-ignore lint/suspicious/noConsole: CLI tool needs console output
-      console.error(`❌ Error watching: ${error instanceof Error ? error.message : String(error)}`)
-      // biome-ignore lint/suspicious/noConsole: <x>
-      console.error(error)
-      process.exit(1)
-    }
-  })
+  .action(
+    withGen0(async (gen0) => {
+      // await gen0.watch()
+    }),
+  )
 
 program.parse()
