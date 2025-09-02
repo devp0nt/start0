@@ -3,26 +3,16 @@ import { Gen0Config } from "@ideanick/tools/gen0/config"
 import { Gen0Fs } from "@ideanick/tools/gen0/fs"
 import { Gen0Plugin } from "@ideanick/tools/gen0/plugin"
 
-// TODO: named actions
-// TODO: plugin inport from files
-// TODO: export name without ending
-// TODO: remove forced new line after first comment
-// TODO: boime ignore organize imports
-// TODO: watchers
-// TODO: typed ctx
-// TODO: better parsing, and spaces before finish
-// TODO: check if we need static props at all
 // TODO: bin file
-// TODO: find all files using
-// TODO: add logger
-// TODO: project root in config
-// TODO: many config extensions
-// TODO: runner as class
-// TODO: plugin as class
-// TODO: bin to bin in package.json
 // TODO: respect nodepath in globs
-// TODO: print inline
-// TODO: prim space count
+
+// TODO: watchers
+// TODO: named actions
+
+// TODO: boime ignore organize imports
+// TODO: add logger
+// TODO: prinst space count default
+// TODO: bin to bin in package.json
 
 export class Gen0 {
   clients: Gen0Client[] = []

@@ -11,6 +11,7 @@ export class Gen0Target {
   static silentMark = "@gen0:silent"
 
   client: Gen0Client
+  startLineIndex: number
   scriptContent: string
   outputStartLineIndex: number
   outputEndLineIndex: number
@@ -18,12 +19,14 @@ export class Gen0Target {
 
   private constructor({
     client,
+    startLineIndex,
     scriptContent,
     outputContent,
     outputStartLineIndex,
     outputEndLineIndex,
   }: {
     client: Gen0Client
+    startLineIndex: number
     scriptContent: string
     outputContent: string
     outputStartLineIndex: number
@@ -31,6 +34,7 @@ export class Gen0Target {
   }) {
     this.client = client
     this.scriptContent = scriptContent
+    this.startLineIndex = startLineIndex
     this.outputStartLineIndex = outputStartLineIndex
     this.outputEndLineIndex = outputEndLineIndex
     this.outputContent = outputContent
@@ -39,7 +43,11 @@ export class Gen0Target {
   async getClientContentFilled(outputContent: string) {
     const srcContent = await this.client.file.read()
     const srcLines = srcContent.split("\n")
-    srcLines.splice(this.outputStartLineIndex, this.outputEndLineIndex - this.outputStartLineIndex, outputContent)
+    if (outputContent.trim() === "") {
+      srcLines.splice(this.outputStartLineIndex, this.outputEndLineIndex - this.outputStartLineIndex)
+    } else {
+      srcLines.splice(this.outputStartLineIndex, this.outputEndLineIndex - this.outputStartLineIndex, outputContent)
+    }
     const newSrcContent = srcLines.join("\n")
     return newSrcContent
   }
@@ -48,9 +56,39 @@ export class Gen0Target {
     const newSrcContent = await this.getClientContentFilled(outputContent)
     await this.client.file.write(newSrcContent)
     this.outputContent = outputContent
+    const targetUpdated = await Gen0Target.extract({
+      client: this.client,
+      clientContent: newSrcContent,
+      skipBeforeLineIndex: this.startLineIndex - 1,
+    })
+    if (targetUpdated) {
+      if (targetUpdated.outputContent !== this.outputContent) {
+        // biome-ignore lint/suspicious/noConsole: <x>
+        console.error(`Target updated content differs from expectedcontent`, {
+          expected: this.outputContent,
+          received: targetUpdated.outputContent,
+        })
+      }
+      this.scriptContent = targetUpdated.scriptContent
+      this.startLineIndex = targetUpdated.startLineIndex
+      this.outputStartLineIndex = targetUpdated.outputStartLineIndex
+      this.outputEndLineIndex = targetUpdated.outputEndLineIndex
+      this.outputContent = targetUpdated.outputContent
+    } else {
+      // biome-ignore lint/suspicious/noConsole: <x>
+      console.error(`Target update not found in file ${this.client.file.path.abs} at line ${this.startLineIndex + 1}`)
+    }
   }
 
-  static async extract({ client, skipBeforeLineIndex = 0 }: { client: Gen0Client; skipBeforeLineIndex?: number }) {
+  static async extract({
+    client,
+    clientContent,
+    skipBeforeLineIndex = 0,
+  }: {
+    client: Gen0Client
+    clientContent?: string
+    skipBeforeLineIndex?: number
+  }) {
     const startMark = Gen0Target.startMark
     const endMark = Gen0Target.endMark
     const inlineCommentStartMarks = Gen0Target.inlineCommentStartMarks
@@ -63,8 +101,8 @@ export class Gen0Target {
       return lineIndex === -1 ? -1 : lineIndex + skipBeforeLineIndex
     }
 
-    const srcContent = await client.file.read()
-    const srcLines = srcContent.split("\n")
+    clientContent = clientContent || (await client.file.read())
+    const srcLines = clientContent.split("\n")
     const startLineIndex = findLineIndex(srcLines, (line) => line.includes(startMark), skipBeforeLineIndex)
     if (startLineIndex === -1) {
       return null
@@ -106,10 +144,10 @@ export class Gen0Target {
         return { scriptContent, outputStartLineIndex }
       } else {
         const skipBeforeIndex = srcLines.slice(0, startLineIndex).join("\n").length
-        const scriptStartPosInFile = srcContent.indexOf(startMark, skipBeforeIndex) + startMark.length
+        const scriptStartPosInFile = clientContent.indexOf(startMark, skipBeforeIndex) + startMark.length
         const blockCommentEndMarkPosInFile = (() => {
           for (const blockCommentEndMark of blockCommentEndMarks) {
-            const blockCommentEndMarkPosInFile = srcContent.indexOf(blockCommentEndMark, scriptStartPosInFile)
+            const blockCommentEndMarkPosInFile = clientContent.indexOf(blockCommentEndMark, scriptStartPosInFile)
             if (blockCommentEndMarkPosInFile !== -1) {
               return blockCommentEndMarkPosInFile
             }
@@ -118,21 +156,22 @@ export class Gen0Target {
             `Expecting "${blockCommentEndMarks.join(" or ")}" in file ${client.file.path.abs} after "${startMark}" in line ${startLineIndex + 1}`,
           )
         })()
-        const endPosInFile = srcContent.indexOf(endMark, skipBeforeIndex)
+        const endPosInFile = clientContent.indexOf(endMark, skipBeforeIndex)
         if (blockCommentEndMarkPosInFile > endPosInFile) {
           throw new Error(
             `Expecting block comment end mark "${blockCommentEndMarks.join(" or ")}" in file ${client.file.path.abs} after "${startMark}" adter line ${startLineIndex} before "${endMark}"`,
           )
         }
         const scriptEndPosInFile = blockCommentEndMarkPosInFile
-        const scriptContent = srcContent.substring(scriptStartPosInFile, scriptEndPosInFile)
-        const outputStartLineIndex = srcContent.slice(0, blockCommentEndMarkPosInFile).split("\n").length + 1
+        const scriptContent = clientContent.substring(scriptStartPosInFile, scriptEndPosInFile)
+        const outputStartLineIndex = clientContent.slice(0, blockCommentEndMarkPosInFile).split("\n").length + 1
         return { scriptContent, outputStartLineIndex }
       }
     })()
     const outputContent = srcLines.slice(outputStartLineIndex, outputEndLineIndex).join("\n")
 
     return new Gen0Target({
+      startLineIndex,
       scriptContent,
       outputStartLineIndex,
       outputEndLineIndex,

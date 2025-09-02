@@ -1,5 +1,5 @@
-import type { Gen0 } from "@ideanick/tools/gen0/index.ts"
+import type { Gen0Config } from "@ideanick/tools/gen0/config"
 
 export default {
-  // afterProcessCmd: (filePath) => `bun run lint ${filePath}`,
-} satisfies Gen0.Config
+  afterProcessCmd: (filePath) => `bun run lint ${filePath}`,
+} satisfies Gen0Config.Definition

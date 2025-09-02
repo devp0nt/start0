@@ -1,6 +1,8 @@
 import type { Gen0Client } from "@ideanick/tools/gen0/client"
 import { Gen0ClientProcessCtx } from "@ideanick/tools/gen0/clientCtx"
+import type { Gen0Config } from "@ideanick/tools/gen0/config"
 import { Gen0Target } from "@ideanick/tools/gen0/target"
+import { exec } from "child_process"
 
 export class Gen0ClientProcess {
   ctx: Gen0ClientProcessCtx
@@ -20,9 +22,20 @@ export class Gen0ClientProcess {
       const { printed } = await clientProcess.ctx.execScript(target.scriptContent)
       await target.fill(printed)
       clientProcess.targets.push(target)
-      target = await Gen0Target.extract({ client, skipBeforeLineIndex: target.outputEndLineIndex + printed.length })
+      target = await Gen0Target.extract({ client, skipBeforeLineIndex: target.outputEndLineIndex })
     }
     clientProcess.finishedAt = new Date()
+    await clientProcess.runAfterProcessCmd({ afterProcessCmd: client.config.afterProcessCmd })
     return clientProcess
+  }
+
+  async runAfterProcessCmd({ afterProcessCmd }: { afterProcessCmd: Gen0Config.AfterProcessCmd | undefined }) {
+    if (afterProcessCmd) {
+      if (typeof afterProcessCmd === "function") {
+        await exec(afterProcessCmd(this.client.file.path.abs))
+      } else {
+        await exec(afterProcessCmd)
+      }
+    }
   }
 }

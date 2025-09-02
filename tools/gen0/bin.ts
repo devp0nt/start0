@@ -1,10 +1,12 @@
 #!/usr/bin/env bun
 
 import { Command } from "commander"
-import { omit } from "lodash"
 import { Gen0 } from "./index.js"
 
 const program = new Command()
+program.name("gen0").description("A code generation tool").version("1.0.0")
+
+// helpers
 
 // TODO: add logger
 const logger = console
@@ -30,9 +32,8 @@ const printArray = <T>(array: T[]) => {
   }
 }
 
-program.name("gen0").description("A code generation tool").version("1.0.0")
+// commands
 
-// Main command for processing files
 program
   .command("process")
   .alias("p")
@@ -51,20 +52,33 @@ program
     }),
   )
 
-// show plugins
 program
-  .command("plugins")
-  .description("Show gen0 plugins")
+  .command("config")
+  .alias("c")
+  .description("Show gen0 config")
   .action(
     withGen0(async (gen0) => {
-      const pluginsNames = Object.keys(gen0.config.plugins)
-      printArray(pluginsNames)
+      logger.info(
+        JSON.stringify(
+          {
+            rootDir: gen0.config.rootDir,
+            afterProcessCmd: gen0.config.afterProcessCmd,
+            pluginsGlob: gen0.config.pluginsGlob,
+            plugins: Object.keys(gen0.config.plugins),
+            clients: gen0.config.clients,
+            fns: Object.keys(gen0.config.fns),
+            vars: Object.keys(gen0.config.vars),
+          },
+          null,
+          2,
+        ),
+      )
     }),
   )
 
-// show clients
 program
   .command("clients")
+  .alias("cl")
   .description("Show clients")
   .action(
     withGen0(async (gen0) => {
@@ -72,9 +86,9 @@ program
     }),
   )
 
-// watch
 program
   .command("watch")
+  .alias("w")
   .description("Watch")
   .action(
     withGen0(async (gen0) => {

@@ -1,0 +1,126 @@
+import type { Gen0ClientProcessCtx } from "@ideanick/tools/gen0/clientCtx"
+import type { Gen0Fs } from "@ideanick/tools/gen0/fs"
+import type { Gen0Plugin } from "@ideanick/tools/gen0/plugin"
+import { getConstExportNames } from "@ideanick/tools/gen0/plugins/getExportNames.gen0"
+
+export const importFromFiles = async (
+  ctx: Gen0ClientProcessCtx,
+  glob: Gen0Fs.PathOrPaths,
+  printer: (path: Gen0Fs.PathParsed) => string,
+  replaceExt?: string | false,
+  withEmptyLine: boolean = true,
+) => {
+  const paths = await ctx.fs.findFilesPaths(glob)
+  const result: { paths: string[] } = {
+    paths: [],
+  }
+  for (let path of paths) {
+    if (replaceExt) {
+      path = ctx.fs.replaceExt(path, replaceExt)
+    }
+    path = ctx.fs.toRel(path, ctx.fs.cwd)
+    result.paths.push(path)
+    ctx.print(printer(ctx.fs.parsePath(path)))
+  }
+  if (withEmptyLine && ctx.prints.length > 0) {
+    ctx.prints.unshift("")
+  }
+  ctx.$.paths = result.paths
+  return result
+}
+
+export const importAsFromFiles = async (
+  ctx: Gen0ClientProcessCtx,
+  glob: Gen0Fs.PathOrPaths,
+  as: (path: Gen0Fs.PathParsed) => string,
+  replaceExt?: string | false,
+  withEmptyLine?: boolean,
+) => {
+  const paths = await ctx.fs.findFilesPaths(glob)
+  const result: { paths: string[]; names: string[] } = {
+    paths: [],
+    names: [],
+  }
+  for (let path of paths) {
+    const pathParsed = ctx.fs.parsePath(path)
+    const asOutput = as(pathParsed)
+    if (replaceExt) {
+      path = ctx.fs.replaceExt(path, replaceExt)
+    }
+    path = ctx.fs.toRel(path, ctx.fs.cwd)
+    result.paths.push(path)
+    result.names.push(asOutput)
+    ctx.print(`import ${asOutput} from "${path}"`)
+  }
+  if (withEmptyLine && ctx.prints.length > 0) {
+    ctx.prints.unshift("")
+  }
+  ctx.$.paths = result.paths
+  ctx.$.names = result.names
+  return result
+}
+
+export const importExportedFromFiles = async (
+  ctx: Gen0ClientProcessCtx,
+  glob: Gen0Fs.PathOrPaths,
+  exportEndsWith?: string,
+  replaceExt: string | false = ".js",
+  withEmptyLine: boolean = true,
+) => {
+  const paths = await ctx.fs.findFilesPaths(glob)
+  const result: {
+    files: Array<{ path: string; names: string[]; cutted: string[] }>
+    paths: string[]
+    names: string[]
+    cutted: string[]
+    imports: Array<{ path: string; name: string; cutted: string }>
+  } = {
+    files: [],
+    paths: [],
+    names: [],
+    cutted: [],
+    imports: [],
+  }
+  for (let path of paths) {
+    let exportNames = await getConstExportNames(ctx, path)
+    if (exportEndsWith) {
+      exportNames = exportNames.filter((exportName: string) => exportName.endsWith(exportEndsWith))
+    }
+    if (exportNames.length === 0) {
+      continue
+    }
+    const exportNamesCutted = exportEndsWith
+      ? exportNames.map((exportName: string) => exportName.slice(0, -exportEndsWith.length))
+      : exportNames
+    if (replaceExt) {
+      path = ctx.fs.replaceExt(path, replaceExt)
+    }
+    path = ctx.fs.toRel(path, ctx.fs.cwd)
+    result.files.push({ path, names: exportNames, cutted: exportNamesCutted })
+    result.names.push(...exportNames)
+    result.cutted.push(...exportNamesCutted)
+    result.paths.push(path)
+    for (let i = 0; i < exportNames.length; i++) {
+      result.imports.push({ path, name: exportNames[i], cutted: exportNamesCutted[i] })
+    }
+    ctx.print(`import { ${exportNames.join(", ")} } from "${path}"`)
+  }
+  if (withEmptyLine && ctx.prints.length > 0) {
+    ctx.prints.unshift("")
+  }
+  ctx.$.files = result.files
+  ctx.$.names = result.names
+  ctx.$.cutted = result.cutted
+  ctx.$.paths = result.paths
+  ctx.$.imports = result.imports
+  return result
+}
+
+export default {
+  name: "importFromFiles",
+  fns: {
+    importFromFiles,
+    importAsFromFiles,
+    importExportedFromFiles,
+  },
+} satisfies Gen0Plugin.Definition

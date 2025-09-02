@@ -44,10 +44,18 @@ export class Gen0Fs {
   ): Promise<string[]> {
     const { cwd, glob, relative } = (() => {
       if (typeof input === "string" || Array.isArray(input)) {
-        return { cwd: this.config.rootDir, glob: input, relative: false }
+        return {
+          cwd: this.config.rootDir,
+          glob: Array.isArray(input) ? this.normalizePaths(input) : this.normalizePath(input),
+          relative: undefined,
+        }
       }
       if (typeof input === "object" && input !== null) {
-        return { cwd: input.cwd || this.config.rootDir, glob: input.glob, relative: input.relative }
+        return {
+          cwd: input.cwd || this.config.rootDir,
+          glob: Array.isArray(input.glob) ? this.normalizePaths(input.glob) : this.normalizePath(input.glob),
+          relative: input.relative,
+        }
       }
       throw new Error("Invalid input")
     })()
@@ -155,6 +163,9 @@ export class Gen0Fs {
     }
     return path
   }
+  normalizePaths(paths: string[]) {
+    return paths.map((path) => this.normalizePath(path))
+  }
 
   parsePath(path: string, relativeTo: string = this.config.rootDir) {
     const abs = this.toAbs(path)
@@ -167,6 +178,14 @@ export class Gen0Fs {
     const dir = nodePath.dirname(path)
     const dirname = nodePath.basename(dir)
     return { abs, rel, relDotted, name, ext, extDotted, basename, dir, dirname }
+  }
+
+  replaceExt(path: string, ext: string) {
+    const originalExt = nodePath.extname(path)
+    if (!ext.startsWith(".")) {
+      ext = `.${ext}`
+    }
+    return path.replace(new RegExp(`${originalExt}$`), ext)
   }
 
   writeFileSync(path: string, content: string) {

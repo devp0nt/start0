@@ -3,6 +3,8 @@ import type { Gen0ClientProcessCtx } from "@ideanick/tools/gen0/clientCtx"
 import type { Gen0Plugin } from "@ideanick/tools/gen0/plugin"
 import { Project } from "ts-morph"
 
+// TODO: remove it, use getConstExportNames right inside importFromFiles.gen0.ts
+
 export const getConstExportNames = async (ctx: Gen0ClientProcessCtx, filePath: string) => {
   filePath = ctx.fs.toAbs(filePath)
   const content = await fs.readFile(filePath, "utf8")
