@@ -5,6 +5,8 @@ import { Logger0 } from "@ideanick/modules/lib/logger0.sh"
 import { Meta0 } from "@ideanick/modules/lib/meta0.sh"
 import { Prisma0 } from "@ideanick/modules/prisma/prisma.be"
 
+// TODO: private constructor
+
 export class BackendCtx {
   meta: Meta0
   logger: Logger0

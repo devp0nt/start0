@@ -1,4 +1,5 @@
 import type { Gen0Client } from "@ideanick/tools/gen0/client"
+import { Gen0Fs } from "@ideanick/tools/gen0/fs"
 
 // TODO: respect silent mark, using tests
 export class Gen0Target {
@@ -13,20 +14,43 @@ export class Gen0Target {
   scriptContent: string
   outputStartLineIndex: number
   outputEndLineIndex: number
+  outputContent: string | undefined
 
-  constructor({
+  private constructor({
     client,
     scriptContent,
+    outputContent,
     outputStartLineIndex,
     outputEndLineIndex,
-  }: { client: Gen0Client; scriptContent: string; outputStartLineIndex: number; outputEndLineIndex: number }) {
+  }: {
+    client: Gen0Client
+    scriptContent: string
+    outputContent: string
+    outputStartLineIndex: number
+    outputEndLineIndex: number
+  }) {
     this.client = client
     this.scriptContent = scriptContent
     this.outputStartLineIndex = outputStartLineIndex
     this.outputEndLineIndex = outputEndLineIndex
+    this.outputContent = outputContent
   }
 
-  static async extract({ client, skipBeforeLine = 0 }: { client: Gen0Client; skipBeforeLine?: number }) {
+  async getClientContentFilled(outputContent: string) {
+    const srcContent = await this.client.read()
+    const srcLines = srcContent.split("\n")
+    srcLines.splice(this.outputStartLineIndex, this.outputEndLineIndex - this.outputStartLineIndex, outputContent)
+    const newSrcContent = srcLines.join("\n")
+    return newSrcContent
+  }
+
+  async fill(outputContent: string) {
+    const newSrcContent = await this.getClientContentFilled(outputContent)
+    await this.client.write(newSrcContent)
+    this.outputContent = outputContent
+  }
+
+  static async extract({ client, skipBeforeLineIndex = 0 }: { client: Gen0Client; skipBeforeLineIndex?: number }) {
     const startMark = Gen0Target.startMark
     const endMark = Gen0Target.endMark
     const inlineCommentStartMarks = Gen0Target.inlineCommentStartMarks
@@ -35,7 +59,7 @@ export class Gen0Target {
 
     const srcContent = await client.read()
     const srcLines = srcContent.split("\n")
-    const startLineIndex = srcLines.findIndex((line) => line.includes(startMark), skipBeforeLine)
+    const startLineIndex = srcLines.findIndex((line) => line.includes(startMark), skipBeforeLineIndex)
     if (startLineIndex === -1) {
       return null
     }
@@ -95,13 +119,19 @@ export class Gen0Target {
         return { scriptContent, outputStartLineIndex }
       }
     })()
+    const outputContent = srcLines.slice(outputStartLineIndex, outputEndLineIndex).join("\n")
 
     return new Gen0Target({
       scriptContent,
       outputStartLineIndex,
       outputEndLineIndex,
       client,
+      outputContent,
     })
+  }
+
+  static async hasTargets(filePath: string) {
+    const fileContent = await Gen0Fs.contentMatch(filePath, "// @gen0:start ")
   }
 }
 
@@ -137,8 +167,8 @@ export class Gen0Target {
 //   skipBeforePos?: number
 //   path: string
 // }): Gen0.Target | null {
-//   const startString = "// /gen0 "
-//   const endString = "// gen0/"
+//   const startString = "// @gen0:start "
+//   const endString = "// @gen0:end"
 //   const definitionStartPos = srcContent.indexOf(startString, skipBeforePos)
 //   if (definitionStartPos === -1) {
 //     return null

@@ -2,15 +2,15 @@ import fsSync from "node:fs"
 import fs from "node:fs/promises"
 import nodePath from "node:path"
 import readline from "node:readline"
-import type { Gen0 } from "@ideanick/tools/gen0"
+import type { Gen0Config } from "@ideanick/tools/gen0/config"
 import { globby } from "globby"
 
 export class Gen0Fs {
-  rootDir: string
+  config: Gen0Config
   cwd: string
 
-  private constructor(input: { rootDir: string } & ({ fileDir: string } | { filePath: string } | { cwd: string })) {
-    this.rootDir = input.rootDir
+  private constructor(input: { config: Gen0Config } & ({ fileDir: string } | { filePath: string } | { cwd: string })) {
+    this.config = input.config
     if ("fileDir" in input) {
       this.cwd = input.fileDir
     } else if ("filePath" in input) {
@@ -19,12 +19,12 @@ export class Gen0Fs {
       this.cwd = input.cwd
     }
   }
-  static create(input: { rootDir: string } & ({ fileDir: string } | { filePath: string } | { cwd: string })) {
+  static create(input: { config: Gen0Config } & ({ fileDir: string } | { filePath: string } | { cwd: string })) {
     return new Gen0Fs(input)
   }
 
   async findFilesPaths<T extends Gen0Fs.PathOrPaths>({
-    cwd = this.rootDir,
+    cwd = this.config.rootDir,
     glob,
     relative,
   }: {
@@ -53,7 +53,7 @@ export class Gen0Fs {
     }
   }
 
-  async fileContains(path: string, search: string | string[] | RegExp): Promise<boolean> {
+  async contentMatch(path: string, search: string | string[] | RegExp | RegExp[]): Promise<boolean> {
     const pathNormalized = this.normalizePath(path)
     return new Promise((resolve, reject) => {
       const stream = fsSync.createReadStream(pathNormalized, { encoding: "utf8" })
@@ -74,8 +74,8 @@ export class Gen0Fs {
     })
   }
 
-  async findFilesPathsWithContent<T extends Gen0Fs.PathOrPaths>({
-    cwd = this.rootDir,
+  async findFilesPathsContentMatch<T extends Gen0Fs.PathOrPaths>({
+    cwd = this.config.rootDir,
     glob,
     relative,
     search,
@@ -83,7 +83,7 @@ export class Gen0Fs {
     cwd?: string
     glob: T
     relative?: string | false
-    search: string
+    search: string | string[] | RegExp | RegExp[]
   }) {
     const allPaths = await this.findFilesPaths({
       cwd,
@@ -93,7 +93,7 @@ export class Gen0Fs {
     const result = (
       await Promise.all(
         allPaths.map(async (path) => {
-          if (await this.fileContains(path, search)) {
+          if (await this.contentMatch(path, search)) {
             return path
           }
           return null
@@ -129,15 +129,15 @@ export class Gen0Fs {
 
   normalizePath(path: string) {
     if (/^~\//.test(path)) {
-      return nodePath.resolve(this.rootDir, path.replace(/^~\//, ""))
+      return nodePath.resolve(this.config.rootDir, path.replace(/^~\//, ""))
     }
     if (/^~[a-zA-Z0-9_-]+/.test(path)) {
-      return nodePath.resolve(this.rootDir, path.replace(/^~/, ""))
+      return nodePath.resolve(this.config.rootDir, path.replace(/^~/, ""))
     }
     return path
   }
 
-  parsePath(path: string, relativeTo: string = this.rootDir) {
+  parsePath(path: string, relativeTo: string = this.config.rootDir) {
     const abs = this.toAbs(path)
     const rel = this.toRel(path, relativeTo, false)
     const relDotted = this.toRel(path, relativeTo, true)

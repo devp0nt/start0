@@ -1,16 +1,21 @@
 import fsSync from "node:fs"
 import fs from "node:fs/promises"
+import type { Gen0Config } from "@ideanick/tools/gen0/config"
 import { Gen0Fs } from "@ideanick/tools/gen0/fs"
 
 export class Gen0File {
-  rootDir: string
+  config: Gen0Config
   path: Gen0Fs.PathParsed
   fs: Gen0Fs
 
-  constructor({ filePath, rootDir }: { filePath: string; rootDir: string }) {
-    this.rootDir = rootDir
-    this.fs = Gen0Fs.create({ rootDir: this.rootDir, filePath })
+  private constructor({ filePath, config }: { filePath: string; config: Gen0Config }) {
+    this.config = config
+    this.fs = Gen0Fs.create({ config, filePath })
     this.path = this.fs.parsePath(filePath)
+  }
+
+  static create({ filePath, config }: { filePath: string; config: Gen0Config }) {
+    return new Gen0File({ filePath, config })
   }
 
   writeSync(content: string) {
@@ -27,5 +32,9 @@ export class Gen0File {
 
   async read() {
     return await fs.readFile(this.path.abs, "utf8")
+  }
+
+  async import() {
+    return await import(this.path.abs)
   }
 }

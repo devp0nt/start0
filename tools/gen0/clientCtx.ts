@@ -1,19 +1,21 @@
 import vm from "node:vm"
-import { Gen0Fs } from "@ideanick/tools/gen0/fs"
+import type { Gen0Client } from "@ideanick/tools/gen0/client"
+import type { Gen0Fs } from "@ideanick/tools/gen0/fs"
 import _ from "lodash"
 
-export class Gen0ClientCtx {
-  fns: Gen0ClientCtx.Fns = {}
-  vars: Gen0ClientCtx.Vars = {}
+export class Gen0ClientProcessCtx {
+  client: Gen0Client
+  fns: Gen0ClientProcessCtx.Fns = {}
+  vars: Gen0ClientProcessCtx.Vars = {}
 
   fs: Gen0Fs
-  $: Gen0ClientCtx.Store = {}
+  $: Gen0ClientProcessCtx.Store = {}
 
-  _: Gen0ClientCtx.Lodash = _
-  console: Gen0ClientCtx.Console = console
-  logger: Gen0ClientCtx.Logger = console
+  _: Gen0ClientProcessCtx.Lodash = _
+  console: Gen0ClientProcessCtx.Console = console
+  logger: Gen0ClientProcessCtx.Logger = console
   // biome-ignore lint/suspicious/noConsole: <x>
-  log: Gen0ClientCtx.LoggerLog = console.log.bind(console)
+  log: Gen0ClientProcessCtx.LoggerLog = console.log.bind(console)
 
   selfPath: string
   selfName: string
@@ -25,27 +27,27 @@ export class Gen0ClientCtx {
 
   prints: string[] = []
 
-  private constructor({ clientPath, rootDir }: { clientPath: string; rootDir: string }) {
-    this.fs = Gen0Fs.create({ rootDir, filePath: clientPath })
-    const pathParsed = this.fs.parsePath(clientPath)
-    this.selfPath = pathParsed.abs
-    this.selfName = pathParsed.name
-    this.selfExt = pathParsed.ext
-    this.selfExtDotted = pathParsed.extDotted
-    this.selfBasename = pathParsed.basename
-    this.selfDir = pathParsed.dir
-    this.selfDirName = pathParsed.dirname
+  private constructor({ client }: { client: Gen0Client }) {
+    this.client = client
+    this.fs = this.client.fs
+    this.selfPath = this.client.path.abs
+    this.selfName = this.client.path.name
+    this.selfExt = this.client.path.ext
+    this.selfExtDotted = this.client.path.extDotted
+    this.selfBasename = this.client.path.basename
+    this.selfDir = this.client.path.dir
+    this.selfDirName = this.client.path.dirname
   }
 
-  static create({ clientPath, rootDir }: { clientPath: string; rootDir: string }) {
-    return new Gen0ClientCtx({ clientPath, rootDir })
+  static create({ client }: { client: Gen0Client }) {
+    return new Gen0ClientProcessCtx({ client })
   }
 
-  print: Gen0ClientCtx.Print = (str: string) => {
+  print: Gen0ClientProcessCtx.Print = (str: string) => {
     this.prints.push(str)
   }
 
-  printInline: Gen0ClientCtx.PrintInline = (str: string) => {
+  printInline: Gen0ClientProcessCtx.PrintInline = (str: string) => {
     if (this.prints.length > 0) {
       this.prints[this.prints.length - 1] += str
     } else {
@@ -106,7 +108,10 @@ export class Gen0ClientCtx {
     return { printed }
   }
 
-  async execFn<TArgs extends any[] = any[], TReturn = any>(fn: Gen0ClientCtx.Fn<TArgs, TReturn>, ...args: TArgs) {
+  async execFn<TArgs extends any[] = any[], TReturn = any>(
+    fn: Gen0ClientProcessCtx.Fn<TArgs, TReturn>,
+    ...args: TArgs
+  ) {
     const result = await fn(this, ...args)
     const printed = this.getPrinted()
     this.clearPrints()
@@ -114,7 +119,7 @@ export class Gen0ClientCtx {
   }
 }
 
-export namespace Gen0ClientCtx {
+export namespace Gen0ClientProcessCtx {
   export type Lodash = typeof _
   export type Store = Record<string, any>
   export type Console = typeof console
@@ -122,7 +127,7 @@ export namespace Gen0ClientCtx {
   export type LoggerLog = typeof console.log
   export type Print = (str: string) => void
   export type PrintInline = (str: string) => void
-  export type Fn<TArgs extends any[] = any[], TReturn = any> = (ctx: Gen0ClientCtx, ...args: TArgs) => TReturn
+  export type Fn<TArgs extends any[] = any[], TReturn = any> = (ctx: Gen0ClientProcessCtx, ...args: TArgs) => TReturn
   export type Fns = Record<string, Fn>
   export type Var = any
   export type Vars = Record<string, Var>

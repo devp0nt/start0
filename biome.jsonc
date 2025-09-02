@@ -25,6 +25,9 @@
   "linter": {
     "enabled": true,
     "rules": {
+      "nursery": {
+        "noFloatingPromises": "error"
+      },
       "recommended": true,
       "style": {
         "useTemplate": "off",

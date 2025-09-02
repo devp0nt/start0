@@ -1,25 +1,32 @@
-import { Gen0ClientCtx } from "@ideanick/tools/gen0/clientCtx"
+import { Gen0ClientProcess } from "@ideanick/tools/gen0/clientProcess"
+import type { Gen0Config } from "@ideanick/tools/gen0/config"
 import { Gen0File } from "@ideanick/tools/gen0/file"
-import { Gen0Fs } from "@ideanick/tools/gen0/fs"
+import type { Gen0Fs } from "@ideanick/tools/gen0/fs"
+import { Gen0Target } from "@ideanick/tools/gen0/target"
 
-export class Gen0Client extends Gen0File {
-  ctx: Gen0ClientCtx
+export class Gen0Client {
+  config: Gen0Config
+  file: Gen0File
 
-  constructor({ filePath, rootDir }: { filePath: string; rootDir: string }) {
-    super({ filePath, rootDir })
-    this.ctx = Gen0ClientCtx.create({ clientPath: this.path.abs, rootDir: this.rootDir })
+  private constructor({ filePath, config }: { filePath: string; config: Gen0Config }) {
+    this.config = config
+    this.file = Gen0File.create({ filePath, config })
   }
 
-  pruneCtx() {
-    this.ctx = Gen0ClientCtx.create({ clientPath: this.path.abs, rootDir: this.rootDir })
+  static create({ filePath, config }: { filePath: string; config: Gen0Config }) {
+    return new Gen0Client({ filePath, config })
   }
 
-  process() {
-    // TODO: din targets, run scripts
+  async process() {
+    const clientProcess = await Gen0ClientProcess.start({ client: this })
+    return clientProcess
   }
-}
 
-export namespace Gen0Client {
-  export type PathOrPaths = string | string[]
-  export type PathParsed = ReturnType<typeof Gen0Fs.prototype.parsePath>
+  static async findAndCreateAll({ fs, config }: { fs: Gen0Fs; config: Gen0Config }) {
+    const clientsPaths = await fs.findFilesPathsContentMatch({
+      glob: config.clients,
+      search: [Gen0Target.startMark, Gen0Target.silentMark],
+    })
+    return await Promise.all(clientsPaths.map((filePath) => Gen0Client.create({ filePath, config })))
+  }
 }

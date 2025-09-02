@@ -56,5 +56,5 @@ export const startApiProcess = async () => {
 }
 
 if (import.meta.main) {
-  startApiProcess()
+  void startApiProcess()
 }

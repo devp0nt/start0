@@ -7,6 +7,8 @@ import type { Meta0 } from "@ideanick/modules/lib/meta0.sh"
 import type { Prisma0 } from "@ideanick/modules/prisma/prisma.be"
 import type { Context as HonoContext } from "hono"
 
+// TODO: private constructor
+
 export class HonoReqCtx {
   // extended from BackendCtx
   meta: Meta0

@@ -26,5 +26,5 @@ export const startWorkerProcess = async () => {
 }
 
 if (import.meta.main) {
-  startWorkerProcess()
+  void startWorkerProcess()
 }
