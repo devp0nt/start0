@@ -3,6 +3,7 @@ import fs from "node:fs/promises"
 import type { Gen0Config } from "@ideanick/tools/gen0/config"
 import { Gen0Fs } from "@ideanick/tools/gen0/fs"
 import { Gen0Logger } from "@ideanick/tools/gen0/logger"
+import type { Gen0Utils } from "@ideanick/tools/gen0/utils"
 
 export class Gen0File {
   static logger = Gen0Logger.create("file")
@@ -40,5 +41,9 @@ export class Gen0File {
 
   async import() {
     return await import(this.path.abs)
+  }
+
+  async isContentMatch(search: Gen0Utils.Search) {
+    return await this.fs.isContentMatch(this.path.abs, search)
   }
 }

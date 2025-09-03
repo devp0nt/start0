@@ -122,14 +122,17 @@ export class Gen0ClientProcessCtx {
   }
 
   getVmErrorData(error: unknown): Gen0ClientProcessCtx.NormalizedVmError {
+    // TODO: do it good. Replace stack
     // TODO: offset also column position
-    if (typeof error !== "object" || error === null) {
-      return {
-        message: "Unknown terrible error",
-        stack: this.path.abs,
-      }
+    if (error instanceof Error) {
+      return error
     }
-    const message = "message" in error && typeof error.message === "string" ? error.message : "Unknown error"
+    if (typeof error !== "object" || error === null) {
+      const e = new Error("Unknown terrible error")
+      ;(e as any).stack = this.path.abs
+      return e
+    }
+    // const message = "message" in error && typeof error.message === "string" ? error.message : "Unknown error"
     const stack = "stack" in error && typeof error.stack === "string" ? error.stack : undefined
     const normalizedStack = stack
       ?.split("\n")
@@ -138,10 +141,8 @@ export class Gen0ClientProcessCtx {
         // .replace("file:///:", `${this.path.abs}:`)
       })
       .join("\n")
-    return {
-      message,
-      stack: normalizedStack,
-    }
+    ;(error as any).stack = normalizedStack
+    return error as Error
   }
 
   async execScript(scriptContent: string, lineOffset: number = 0) {
@@ -183,7 +184,8 @@ export class Gen0ClientProcessCtx {
 }
 
 export namespace Gen0ClientProcessCtx {
-  export type NormalizedVmError = { message: string; stack: string | undefined }
+  // export type NormalizedVmError = { message: string; stack: string | undefined }
+  export type NormalizedVmError = Error
   export type Lodash = typeof _
   export type Store = Record<string, any>
   export type Console = typeof console

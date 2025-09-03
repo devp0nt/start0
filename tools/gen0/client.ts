@@ -4,6 +4,7 @@ import { Gen0File } from "@ideanick/tools/gen0/file"
 import type { Gen0Fs } from "@ideanick/tools/gen0/fs"
 import { Gen0Logger } from "@ideanick/tools/gen0/logger"
 import type { Gen0PluginsManager } from "@ideanick/tools/gen0/pluginsManager"
+import { Gen0Target } from "@ideanick/tools/gen0/target"
 import { Gen0Utils } from "@ideanick/tools/gen0/utils"
 
 export class Gen0Client {
@@ -56,6 +57,10 @@ export class Gen0Client {
 
   isMatchName(nameSearch: Gen0Utils.Search) {
     return Gen0Utils.isStringMatch(this.name, nameSearch)
+  }
+
+  hasTargets() {
+    return this.file.isContentMatch([Gen0Target.startMark, Gen0Target.silentMark])
   }
 
   getMeta(): Gen0Client.Meta {

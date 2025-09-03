@@ -83,7 +83,7 @@ export class Gen0PluginsManager {
   remove(plugins: Gen0Plugin[]) {
     this.plugins = this.plugins.filter((plugin) => plugins.every((p) => !p.isSame(plugin)))
     for (const plugin of plugins) {
-      this.logger.debug(`remove: ${plugin.file?.path.rel}`)
+      this.logger.debug(`remove plugin ${plugin.file?.path.rel}`)
     }
     return plugins
   }

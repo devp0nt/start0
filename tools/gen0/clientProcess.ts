@@ -44,11 +44,11 @@ export class Gen0ClientProcess {
         this.logger.error(error)
       }
       this.logger.error(
-        `"${client.file.path.rel}" processed with errors in ${clientProcess.finishedAt.getTime() - clientProcess.startedAt.getTime()}ms`,
+        `${client.file.path.rel} processed with errors in ${clientProcess.finishedAt.getTime() - clientProcess.startedAt.getTime()}ms`,
       )
     } else {
       this.logger.info(
-        `"${client.file.path.rel}" processed in ${clientProcess.finishedAt.getTime() - clientProcess.startedAt.getTime()}ms`,
+        `${client.file.path.rel} processed in ${clientProcess.finishedAt.getTime() - clientProcess.startedAt.getTime()}ms`,
       )
     }
     return clientProcess

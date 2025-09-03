@@ -70,7 +70,7 @@ export class Gen0ClientsManager {
   removeByPath(path: string) {
     const removedClients: typeof this.clients = []
     for (const client of this.clients) {
-      if (client.file.path.abs !== path) {
+      if (client.file.path.abs === path) {
         removedClients.push(client)
       }
     }
@@ -80,7 +80,7 @@ export class Gen0ClientsManager {
   removeByName(nameSearch: Gen0Utils.Search) {
     const removedClients: typeof this.clients = []
     for (const client of this.clients) {
-      if (!client.isMatchName(nameSearch)) {
+      if (client.isMatchName(nameSearch)) {
         removedClients.push(client)
       }
     }
@@ -90,7 +90,7 @@ export class Gen0ClientsManager {
   remove(clients: Gen0Client[]) {
     this.clients = this.clients.filter((client) => clients.every((c) => !c.isSame(client)))
     for (const client of clients) {
-      this.logger.debug(`remove: ${client.file.path.rel}`)
+      this.logger.debug(`remove client ${client.file.path.rel}`)
     }
     return clients
   }

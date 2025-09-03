@@ -1,6 +1,7 @@
 #!/usr/bin/env bun
 
 // import * as readline from "node:readline"
+import { Gen0Logger } from "@ideanick/tools/gen0/logger.js"
 import { Command } from "commander"
 import { Gen0 } from "./index.js"
 
@@ -9,7 +10,7 @@ program.name("gen0").description("A code generation tool").version("1.0.0")
 
 // helpers
 
-const logger = console
+const logger = Gen0Logger.create("bin")
 
 const withErrorWrapper = <T extends any[]>(action: (...args: T) => Promise<void>) => {
   return async (...args: T) => {
@@ -46,20 +47,12 @@ program
       if (glob) {
         const results = await gen0.clientsManager.findAndProcessManyByGlob(glob)
         if (results.length === 0) {
-          logger.error(`❌ No clients files found for glob: ${glob}`)
-        } else {
-          for (const result of results) {
-            logger.info(`✅ ${result.client.file.path.rel}`)
-          }
+          logger.error(`No clients files found for glob: ${glob}`)
         }
       } else {
         const results = await gen0.clientsManager.processAll()
         if (results.length === 0) {
-          logger.error(`❌ No clients files found by config glob: ${gen0.config.originalClientsGlob}`)
-        } else {
-          for (const result of results) {
-            logger.info(`✅ ${result.client.file.path.rel}`)
-          }
+          logger.error(`No clients files found by config glob: ${gen0.config.originalClientsGlob}`)
         }
       }
     }),
@@ -75,12 +68,10 @@ program
     withGen0(async (gen0, options: { processClients: boolean }) => {
       if (options.processClients) {
         const results = await gen0.clientsManager.processAll()
-        for (const result of results) {
-          logger.info(`✅ ${result.client.file.path.rel}`)
-        }
+        logger.info(`Processed ${results.length} clients`)
       }
       await gen0.watchersManager.watchAllByParcel()
-      logger.info("Watchers started")
+      logger.info("watcher started")
 
       // const rl = readline.createInterface({
       //   input: process.stdin,
@@ -115,18 +106,15 @@ program
           process.exit(0)
         }
         if (key === "p") {
-          logger.log("")
           logger.info("Processing all clients...")
           const results = await gen0.clientsManager.processAll()
           for (const result of results) {
             logger.info(`✅ ${result.client.file.path.rel}`)
           }
         } else if (key === "q") {
-          logger.log("")
           logger.info("Exiting...")
           process.exit(0)
         } else if (key === "h") {
-          logger.log("")
           logger.info("Available keys:")
           logger.info("  p - Process all clients")
           logger.info("  q - Quit")

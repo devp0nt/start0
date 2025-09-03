@@ -99,6 +99,7 @@ export class Gen0Watcher {
     if (!this.isPathMatchWatchGlob(path)) {
       return
     }
+    this.logger.info(`watcher "${this.name}" received event "${event}" for path "${path}"`)
     if (this.originalHandler) {
       this.originalHandler(event, path)
     }

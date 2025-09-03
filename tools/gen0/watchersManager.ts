@@ -88,7 +88,7 @@ export class Gen0WatchersManager {
   remove(watchers: Gen0Watcher[]) {
     this.watchers = this.watchers.filter((watcher) => watchers.every((w) => !w.isSame(watcher)))
     for (const watcher of watchers) {
-      this.logger.debug(`remove: ${watcher.name}`)
+      this.logger.debug(`remove watcher ${watcher.name}`)
     }
     return watchers
   }
@@ -230,7 +230,12 @@ export class Gen0WatchersManager {
       }
       const exClient = this.clientsManager.getByPath(path)
       if (exClient) {
-        return
+        if (await exClient.hasTargets()) {
+          return
+        } else {
+          this.clientsManager.removeByPath(exClient.file.path.abs)
+          return
+        }
       }
       this.clientsManager.addByPath(path)
     } else {
