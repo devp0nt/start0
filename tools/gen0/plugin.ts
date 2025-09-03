@@ -72,7 +72,7 @@ export class Gen0Plugin {
       name: definition.name,
       fns: definition.fns,
       vars: definition.vars,
-      watchersDefinitions: definition.watchersDefinitions,
+      watchersDefinitions: definition.watchers,
       file,
     })
   }

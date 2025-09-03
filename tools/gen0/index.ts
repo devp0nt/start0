@@ -4,10 +4,11 @@ import { Gen0Config } from "@ideanick/tools/gen0/config"
 import { Gen0Fs } from "@ideanick/tools/gen0/fs"
 import { Gen0Plugin } from "@ideanick/tools/gen0/plugin"
 import { Gen0PluginsManager } from "@ideanick/tools/gen0/pluginsManager"
+import { Gen0WatchersManager } from "@ideanick/tools/gen0/watchersManager"
 
-// Вотчер берёт клиентс глоб и клиентс нэймс
-// При запуске вотчера делаем первый прогон клиентов, и таким образом собираем из них спмодекларации
-// on init, делаем драй ран, где в клиентах не переписываем файлы, но также собираем все декларации
+// TODO: watch for new clients
+// TODO: watch for new plugins
+// TODO: add logger
 
 // TODO: watchers
 // TODO: named actions
@@ -15,9 +16,10 @@ import { Gen0PluginsManager } from "@ideanick/tools/gen0/pluginsManager"
 
 // TODO: self named clients
 // TODO: self watched clients
+// TODO:При запуске вотчера делаем первый прогон клиентов, и таким образом собираем из них спмодекларации
+// TODO:on init, делаем драй ран, где в клиентах не переписываем файлы, но также собираем все декларации
 
 // TODO: commander actions and clients anmes, and client paths
-// TODO: add logger
 // TODO: plugin on init
 
 // TODO: multiline comments
@@ -32,6 +34,7 @@ import { Gen0PluginsManager } from "@ideanick/tools/gen0/pluginsManager"
 export class Gen0 {
   clientsManager: Gen0ClientsManager
   pluginsManager: Gen0PluginsManager
+  watchersManager: Gen0WatchersManager
   config: Gen0Config
   fs: Gen0Fs
 
@@ -40,11 +43,19 @@ export class Gen0 {
     fs,
     clientsManager,
     pluginsManager,
-  }: { config: Gen0Config; fs: Gen0Fs; clientsManager: Gen0ClientsManager; pluginsManager: Gen0PluginsManager }) {
+    watchersManager,
+  }: {
+    config: Gen0Config
+    fs: Gen0Fs
+    clientsManager: Gen0ClientsManager
+    pluginsManager: Gen0PluginsManager
+    watchersManager: Gen0WatchersManager
+  }) {
     this.config = config
     this.fs = fs
     this.clientsManager = clientsManager
     this.pluginsManager = pluginsManager
+    this.watchersManager = watchersManager
   }
 
   static async create({ cwd }: { cwd?: string } = {}) {
@@ -52,13 +63,15 @@ export class Gen0 {
     const fs = Gen0Fs.create({ config, cwd: config.rootDir })
     const pluginsManager = await Gen0PluginsManager.create({ fs, config })
     const clientsManager = await Gen0ClientsManager.create({ fs, config, pluginsManager })
-    const gen0 = new Gen0({ config, fs, clientsManager, pluginsManager })
+    const watchersManager = await Gen0WatchersManager.create({ fs, config, pluginsManager, clientsManager })
+    const gen0 = new Gen0({ config, fs, clientsManager, pluginsManager, watchersManager })
     return gen0
   }
 
   async init() {
     await this.clientsManager.addAll()
     await this.pluginsManager.addAll()
+    await this.watchersManager.addAll()
   }
 }
 

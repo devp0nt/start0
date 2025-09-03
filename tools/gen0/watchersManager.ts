@@ -43,6 +43,7 @@ export class Gen0WatchersManager {
   }) {
     const watchersManager = new Gen0WatchersManager({ pluginsManager, config, fs, clientsManager })
     watchersManager.isIgnored = await isGitIgnored({ cwd: watchersManager.config.rootDir })
+    return watchersManager
   }
 
   getWatchersDefinitionsWithPlugins(): { watchersDefinition: Gen0Watcher.DefinitionWithName; plugin: Gen0Plugin }[] {
@@ -131,15 +132,19 @@ export class Gen0WatchersManager {
     return { add, remove }
   }
 
-  getAllWatchersMeta(): Gen0Watcher.Meta[] {
-    return this.watchers.map((watcher) => watcher.getMeta())
+  getAllWatchersOriginalMeta(): Gen0Watcher.OriginalMeta[] {
+    return this.watchers.map((watcher) => watcher.getOriginalMeta())
+  }
+
+  getAllWatchersRealMeta(): Gen0Watcher.RealMeta[] {
+    return this.watchers.map((watcher) => watcher.getRealMeta())
   }
 
   isSame(watcher1: Gen0Watcher, watcher2: Gen0Watcher) {
     return watcher1.isSame(watcher2)
   }
 
-  watchAll() {
+  async watchAll() {
     this.watchGlob = this.getAllWatchersWatchGlob()
     this.chokidarWatcher = chokidar
       .watch(this.watchGlob, {
@@ -155,5 +160,5 @@ export class Gen0WatchersManager {
 }
 
 export namespace Gen0WatchersManager {
-  export type WatchersMeta = Gen0Watcher.Meta[]
+  export type WatchersMeta = Gen0Watcher.OriginalMeta[]
 }

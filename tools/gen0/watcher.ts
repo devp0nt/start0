@@ -12,7 +12,7 @@ export class Gen0Watcher {
   plugin: Gen0Plugin
   handler: Gen0Watcher.Handler
   watchGlob: Gen0Fs.Paths
-  originalWatch: Gen0Watcher.Definition["watch"]
+  originalWatchGlob: Gen0Watcher.Definition["watch"]
   clientsManager: Gen0ClientsManager
   clientsGlob: Gen0Fs.Paths | undefined
   clientsNames: Gen0Watcher.Definition["clientsNames"]
@@ -24,7 +24,7 @@ export class Gen0Watcher {
     name,
     fs,
     watchGlob,
-    originalWatch,
+    originalWatchGlob,
     handler,
     clientsManager,
     clientsGlob,
@@ -36,7 +36,7 @@ export class Gen0Watcher {
     name: string
     fs: Gen0Fs
     watchGlob: Gen0Fs.Paths
-    originalWatch: Gen0Watcher.Definition["watch"]
+    originalWatchGlob: Gen0Watcher.Definition["watch"]
     handler: Gen0Watcher.Handler
     clientsManager: Gen0ClientsManager
     clientsGlob?: Gen0Fs.Paths
@@ -49,7 +49,7 @@ export class Gen0Watcher {
     this.fs = fs
     this.handler = handler
     this.watchGlob = watchGlob
-    this.originalWatch = originalWatch
+    this.originalWatchGlob = originalWatchGlob
     this.clientsManager = clientsManager
     this.clientsGlob = clientsGlob
     this.originalClientsGlob = originalClientsGlob
@@ -61,7 +61,7 @@ export class Gen0Watcher {
     plugin,
     name,
     fs,
-    watch: originalWatch,
+    watch: originalWatchGlob,
     handler: originalHandler,
     clientsManager,
     clientsGlob: originalClientsGlob,
@@ -80,13 +80,13 @@ export class Gen0Watcher {
       throw new Error(`Clients or/and handler must be provided for watcher ${name}`)
     }
     const clientsGlob = originalClientsGlob ? fs.toPaths(originalClientsGlob) : []
-    const watchGlob = fs.toPaths(originalWatch)
+    const watchGlob = fs.toPaths(originalWatchGlob)
     const watcher = new Gen0Watcher({
       plugin,
       name,
       fs,
       watchGlob,
-      originalWatch,
+      originalWatchGlob,
       handler: Gen0Watcher.getNormalizedHandler({
         originalHandler,
         clientsGlob,
@@ -134,13 +134,26 @@ export class Gen0Watcher {
     return Gen0Utils.isStringMatch(this.name, nameSearch)
   }
 
-  getMeta(): Gen0Watcher.Meta {
+  getOriginalMeta(): Gen0Watcher.OriginalMeta {
     return {
       name: this.name,
       plugin: this.plugin.name,
-      watch: this.watchGlob,
-      ...(this.clientsGlob ? { clientsGlob: this.clientsGlob } : {}),
+      watch: this.originalWatchGlob,
+      ...(this.originalClientsGlob ? { clientsGlob: this.originalClientsGlob } : {}),
       ...(this.clientsNames ? { clientsNames: this.clientsNames } : {}),
+    }
+  }
+
+  getRealMeta(): Gen0Watcher.RealMeta {
+    return {
+      name: this.name,
+      plugin: this.plugin.name,
+      watchGlob: this.watchGlob,
+      originalWatchGlob: this.originalWatchGlob,
+      clientsGlob: this.clientsGlob,
+      originalClientsGlob: this.originalClientsGlob,
+      clientsNames: this.clientsNames,
+      originalHandler: this.originalHandler,
     }
   }
 }
@@ -148,12 +161,22 @@ export class Gen0Watcher {
 export namespace Gen0Watcher {
   export type EventName = EmitArgsWithName[0]
   export type Handler = (event: EventName, path: string) => void
-  export type Meta = {
+  export type OriginalMeta = {
     name: string
     plugin: string
     watch: Gen0Fs.PathOrPaths
     clientsGlob?: Gen0Fs.PathOrPaths
     clientsNames?: Gen0Utils.Search
+  }
+  export type RealMeta = {
+    name: string
+    plugin: string
+    watchGlob: Gen0Fs.Paths
+    originalWatchGlob: Gen0Watcher.Definition["watch"]
+    clientsGlob: Gen0Fs.Paths | undefined
+    originalClientsGlob: Gen0Watcher.Definition["clientsGlob"]
+    clientsNames: Gen0Watcher.Definition["clientsNames"]
+    originalHandler: Gen0Watcher.Definition["handler"]
   }
   export type Definition = {
     name?: string

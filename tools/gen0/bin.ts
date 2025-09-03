@@ -148,4 +148,24 @@ getCommand
     }),
   )
 
+getCommand
+  .command("watchers")
+  .alias("w")
+  .description("Show watchers")
+  .action(
+    withGen0(async (gen0) => {
+      logger.info(JSON.stringify(gen0.watchersManager.getAllWatchersOriginalMeta(), null, 2))
+    }),
+  )
+
+getCommand
+  .command("watchers-real")
+  .alias("ww")
+  .description("Show watchers real meta")
+  .action(
+    withGen0(async (gen0) => {
+      logger.info(JSON.stringify(gen0.watchersManager.getAllWatchersRealMeta(), null, 2))
+    }),
+  )
+
 program.parse()
