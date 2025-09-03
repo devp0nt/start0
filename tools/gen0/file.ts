@@ -40,7 +40,7 @@ export class Gen0File {
   }
 
   async import() {
-    return await import(this.path.abs)
+    return await import(`${this.path.abs}?t=${Date.now()}`)
   }
 
   async isContentMatch(search: Gen0Utils.Search) {

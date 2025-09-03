@@ -76,8 +76,7 @@ export class Gen0Target {
     })
     if (targetUpdated) {
       if (targetUpdated.outputContent !== this.outputContent) {
-        // biome-ignore lint/suspicious/noConsole: <x>
-        console.error(`Target updated content differs from expectedcontent`, {
+        this.logger.error(`Target updated content differs from expectedcontent`, {
           expected: this.outputContent,
           received: targetUpdated.outputContent,
         })
@@ -88,8 +87,9 @@ export class Gen0Target {
       this.outputEndLineIndex = targetUpdated.outputEndLineIndex
       this.outputContent = targetUpdated.outputContent
     } else {
-      // biome-ignore lint/suspicious/noConsole: <x>
-      console.error(`Target update not found in file ${this.client.file.path.abs} at line ${this.startLineIndex + 1}`)
+      this.logger.error(
+        `Target update not found in file ${this.client.file.path.abs} at line ${this.startLineIndex + 1}`,
+      )
     }
     return newClientContent
   }

@@ -6,8 +6,8 @@ export default {
     testWatcher: {
       watch: ["**/*.test.txt", "!**/bad.test.txt"],
       clientsGlob: "./test-client.ts",
-      handler: (event, path) => {
-        // console.log(event, path, "xxxxx")
+      handler: (ctx, event, path) => {
+        // console.log("1000zxczxczxcxzxc", event, path, "xxxxx")
       },
     },
   },

@@ -29,6 +29,8 @@ import { Gen0WatchersManager } from "@ideanick/tools/gen0/watchersManager"
 // TODO: boime ignore organize imports
 // TODO: prinst space count default
 // TODO: bin to bin in package.json
+// TODO: prevent double watch process
+
 export class Gen0 {
   static logger = Gen0Logger.create("core")
   logger = Gen0.logger

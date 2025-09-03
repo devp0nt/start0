@@ -154,7 +154,8 @@ export namespace Gen0Plugin {
     watchers?: Gen0Plugin.WatchersDefinitionsRecord
   }
   export type DefinitionWithName = Omit<DefinitionResult, "name"> & { name: string }
-  export type DefinitionFn = ({ fs }: { fs: Gen0Fs }) => DefinitionResult | Promise<DefinitionResult>
+  export type DefinitionFnCtx = { fs: Gen0Fs }
+  export type DefinitionFn = (ctx: DefinitionFnCtx) => DefinitionResult | Promise<DefinitionResult>
   export type Definition = DefinitionResult | DefinitionFn
 
   export type Meta = {

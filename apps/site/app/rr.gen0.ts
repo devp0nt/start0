@@ -8,7 +8,7 @@ export default (({ fs }) => {
     watchers: {
       createRouteByPage: {
         watch: ["~/**/*.page.si.ts{x,}"],
-        handler: (event, path) => {
+        handler: (ctx, event, path) => {
           console.error(event, path, "x")
         },
       },

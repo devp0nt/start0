@@ -1,4 +1,3 @@
-/** biome-ignore-all lint/suspicious/noConsole: <x> */
 import type { Gen0ClientsManager } from "@ideanick/tools/gen0/clientsManager"
 import type { Gen0Fs } from "@ideanick/tools/gen0/fs"
 import { Gen0Logger } from "@ideanick/tools/gen0/logger"
