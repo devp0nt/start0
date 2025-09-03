@@ -13,7 +13,7 @@ export class Gen0Config {
   logger = Gen0Config.logger
 
   static configFilesNames = [".gen0rc.mjs", ".gen0rc.ts", ".gen0rc.js"]
-  static defaultPluginsGlob: Gen0Fs.PathOrPaths = ["**/*.gen0.{ts,tsx,js,jsx,mjs}"]
+  static defaultPluginsGlob: Gen0Fs.PathOrPaths = ["**/{*.gen0,gen0}.{ts,tsx,js,jsx,mjs}"]
   static defaultClientsGlob: Gen0Fs.PathOrPaths = ["**/*.{ts,tsx,js,jsx,mjs,json}"]
   static defaultDebug: string | boolean = false
 

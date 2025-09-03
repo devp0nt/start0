@@ -6,6 +6,7 @@ import { Gen0PluginsManager } from "@ideanick/tools/gen0/pluginsManager"
 import { Gen0WatchersManager } from "@ideanick/tools/gen0/watchersManager"
 
 // TODO: generate react router
+// TODO: p command in watch, should also restart init commands of plugins, or somehow
 
 // TODO: silent comments
 // TODO: named actions

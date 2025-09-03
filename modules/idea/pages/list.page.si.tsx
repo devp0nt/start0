@@ -1,8 +1,8 @@
 import { IdeasPage } from "@ideanick/modules/idea/pages/list.page.comp.si"
-import { GeneralLayout } from "@ideanick/site/components/GeneralLayout"
-import { Page0 } from "@ideanick/site/lib/page0"
-import { siteRoutes } from "@ideanick/site/lib/routes"
-import { trpc } from "@ideanick/site/lib/trpc"
+import { GeneralLayout } from "apps/site/src/components/GeneralLayout"
+import { Page0 } from "apps/site/src/lib/page0"
+import { siteRoutes } from "apps/site/src/lib/routes"
+import { trpc } from "apps/site/src/lib/trpc"
 
 export default Page0.route(siteRoutes.ideasList)
   .loader(async ({ qc }) => {

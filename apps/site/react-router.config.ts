@@ -5,6 +5,7 @@ export default {
   // Server-side render by default, to enable SPA mode set this to `false`
   ssr: true,
   buildDirectory: "dist",
+  appDirectory: "src/react-router",
   future: {
     unstable_middleware: true,
   },

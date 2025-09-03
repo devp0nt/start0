@@ -14,7 +14,7 @@
     "verbatimModuleSyntax": true,
     "paths": {
       "@ideanick/backend/*": ["./apps/backend/src/*"],
-      "@ideanick/site/*": ["./apps/site/app/*"],
+      "@ideanick/site/*": ["./apps/site/src/*"],
       "@ideanick/modules/*": ["./modules/*"],
       "@ideanick/tools/*": ["./tools/*"]
     }

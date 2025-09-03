@@ -1,6 +1,6 @@
 import type { BackendTrpcRouter } from "@ideanick/backend/router/index.trpc"
-import { getQueryClient, trpc } from "@ideanick/site/lib/trpc"
 import { type DehydratedState, dehydrate, type QueryClient, useQuery } from "@tanstack/react-query"
+import { getQueryClient, trpc } from "apps/site/src/lib/trpc"
 import {
   unstable_createContext,
   type unstable_MiddlewareFunction,

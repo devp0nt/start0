@@ -1,5 +1,5 @@
 {
-  "include": ["./src/**/*", "../../modules/**/*", "../site/app/routes.ts", "../site/app/lib/page0.ts"],
+  "include": ["./src/**/*", "../../modules/**/*", "../site/src/react-router/routes.ts", "../site/src/lib/page0.ts"],
   "exclude": ["../../modules/**/*.test.ts", "**/*.to.ts"],
   "compilerOptions": {
     "baseUrl": "../../",
@@ -14,7 +14,7 @@
     "verbatimModuleSyntax": true,
     "paths": {
       "@ideanick/backend/*": ["./apps/backend/src/*"],
-      "@ideanick/site/*": ["./apps/site/app/*"],
+      "@ideanick/site/*": ["./apps/site/src/*"],
       "@ideanick/modules/*": ["./modules/*"]
     }
   }

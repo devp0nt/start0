@@ -1,8 +1,8 @@
 import { Error0 } from "@ideanick/modules/lib/error0.sh"
 import { SiteError } from "@ideanick/site/components/Error"
 import { RR0 } from "@ideanick/site/lib/reactRouter0"
-import page from "../../pages/home.page.js"
-import type { Route } from "./+types/apps-site-app-pages-home-page-tsx"
+import page from "../../../pages/home.page.js"
+import type { Route } from "./+types/apps-site-src-pages-home-page-tsx"
 
 export const meta = RR0.createMeta(({ loaderData, params, error }: RR0.MetaArgs<Route.MetaArgs>) => {
   if (!loaderData) {

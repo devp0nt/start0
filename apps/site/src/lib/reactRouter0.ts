@@ -1,7 +1,7 @@
 import { Error0 } from "@ideanick/modules/lib/error0.sh"
-import { SiteCtx } from "@ideanick/site/lib/ctx"
-import { getQueryClient } from "@ideanick/site/lib/trpc"
 import { type DehydratedState, dehydrate, hydrate, type QueryClient } from "@tanstack/react-query"
+import { SiteCtx } from "apps/site/src/lib/ctx"
+import { getQueryClient } from "apps/site/src/lib/trpc"
 import merge from "deepmerge"
 import { type LoaderFunctionArgs, useMatches } from "react-router"
 

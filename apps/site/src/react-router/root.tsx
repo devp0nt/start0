@@ -1,8 +1,8 @@
-import { SiteError } from "@ideanick/site/components/Error"
-import { GeneralLayout } from "@ideanick/site/components/GeneralLayout"
-import { SiteCtx } from "@ideanick/site/lib/ctx"
-import { RR0 } from "@ideanick/site/lib/reactRouter0"
-import { TRPCReactProvider } from "@ideanick/site/lib/trpc"
+import { SiteError } from "apps/site/src/components/Error"
+import { GeneralLayout } from "apps/site/src/components/GeneralLayout"
+import { SiteCtx } from "apps/site/src/lib/ctx"
+import { RR0 } from "apps/site/src/lib/reactRouter0"
+import { TRPCReactProvider } from "apps/site/src/lib/trpc"
 import { Links, Meta, Outlet, Scripts, ScrollRestoration } from "react-router"
 import type { Route } from "./+types/root"
 

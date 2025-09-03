@@ -1,8 +1,8 @@
-import { GeneralLayout } from "@ideanick/site/components/GeneralLayout"
-import { Page0 } from "@ideanick/site/lib/page0"
-import { siteRoutes } from "@ideanick/site/lib/routes"
-import { trpc, useTRPC } from "@ideanick/site/lib/trpc"
 import { useQuery } from "@tanstack/react-query"
+import { GeneralLayout } from "apps/site/src/components/GeneralLayout"
+import { Page0 } from "apps/site/src/lib/page0"
+import { siteRoutes } from "apps/site/src/lib/routes"
+import { trpc, useTRPC } from "apps/site/src/lib/trpc"
 
 export default Page0.route(siteRoutes.home)
   .loader(async ({ qc }) => {

@@ -1,5 +1,5 @@
-import { createEnvBuild } from "@ideanick/site/lib/env"
 import { reactRouter } from "@react-router/dev/vite"
+import { createEnvBuild } from "apps/site/src/lib/env"
 import { reactRouterHonoServer } from "react-router-hono-server/dev"
 import { defineConfig, loadEnv } from "vite"
 import devtoolsJson from "vite-plugin-devtools-json"
