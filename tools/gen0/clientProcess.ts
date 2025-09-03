@@ -6,12 +6,13 @@ import { Gen0Logger } from "@ideanick/tools/gen0/logger"
 import { Gen0Target } from "@ideanick/tools/gen0/target"
 
 export class Gen0ClientProcess {
-  static logger = Gen0Logger.create1("clientProcess")
+  static logger = Gen0Logger.create("clientProcess")
   logger = Gen0ClientProcess.logger
 
   ctx: Gen0ClientProcessCtx
   client: Gen0Client
   targets: Gen0Target[] = []
+  startedAt: Date | undefined
   finishedAt: Date | undefined
 
   private constructor({ client }: { client: Gen0Client }) {
@@ -21,10 +22,15 @@ export class Gen0ClientProcess {
 
   static async start({ client }: { client: Gen0Client }) {
     const clientProcess = new Gen0ClientProcess({ client })
+    clientProcess.startedAt = new Date()
     let target = await Gen0Target.extract({ client, skipBeforeLineIndex: 0 })
     let clientContent = await client.file.read()
+    const errors: Gen0ClientProcessCtx.NormalizedVmError[] = []
     while (target) {
-      const { printed } = await clientProcess.ctx.execScript(target.scriptContent, target.startLineIndex)
+      const { printed, error } = await clientProcess.ctx.execScript(target.scriptContent, target.startLineIndex)
+      if (error) {
+        errors.push(error)
+      }
       clientContent = await target.fill({ outputContent: printed, clientContent })
       // clientContent = await client.file.read()
       clientProcess.targets.push(target)
@@ -33,6 +39,18 @@ export class Gen0ClientProcess {
     clientProcess.finishedAt = new Date()
     await client.file.write(clientContent)
     await clientProcess.runAfterProcessCmd({ afterProcessCmd: client.config.afterProcessCmd })
+    if (errors.length > 0) {
+      for (const error of errors) {
+        this.logger.error(error)
+      }
+      this.logger.error(
+        `"${client.file.path.rel}" processed with errors in ${clientProcess.finishedAt.getTime() - clientProcess.startedAt.getTime()}ms`,
+      )
+    } else {
+      this.logger.info(
+        `"${client.file.path.rel}" processed in ${clientProcess.finishedAt.getTime() - clientProcess.startedAt.getTime()}ms`,
+      )
+    }
     return clientProcess
   }
 

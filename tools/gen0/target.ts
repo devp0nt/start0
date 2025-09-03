@@ -3,7 +3,7 @@ import { Gen0Logger } from "@ideanick/tools/gen0/logger"
 
 // TODO: respect silent mark, using tests
 export class Gen0Target {
-  static logger = Gen0Logger.create1("target")
+  static logger = Gen0Logger.create("target")
   logger = Gen0Target.logger
 
   static inlineCommentStartMarks = ["//", "#"]

@@ -101,6 +101,7 @@ export class Logger0 {
     skipInit,
     sensetiveKeys,
     hideSensitiveKeys,
+    lowestLevel,
   }: {
     formatter?: Logger0.FormatterProp
     meta?: Meta0.Meta0OrValueTypeNullish
@@ -112,6 +113,7 @@ export class Logger0 {
     skipInit?: boolean
     sensetiveKeys?: string[]
     hideSensitiveKeys?: boolean
+    lowestLevel?: ExtractEnum<LogLevel, "error" | "fatal" | "info" | "warning" | "trace" | "debug">
   }) => {
     if (!skipInit) {
       Logger0.init({
@@ -121,6 +123,7 @@ export class Logger0 {
         filters,
         removeDefaultFilters,
         debugConfig,
+        lowestLevel,
       })
     }
     const meta = Meta0.from(metaProvided)
@@ -264,6 +267,10 @@ export class Logger0 {
     })
   }
 
+  static justMessageFormatter = (record: LogRecord): string => {
+    return record.message.join(", ")
+  }
+
   static filterByDebug: Filter = (record) => {
     const tag = Logger0.logRecordToTag(record, true)
     return debug.enabled(tag)
@@ -286,6 +293,7 @@ export class Logger0 {
     filters = {},
     removeDefaultSinks = false,
     removeDefaultFilters = false,
+    lowestLevel = "debug",
   }: {
     formatter?: Logger0.FormatterProp
     filters?: Record<string, Filter>
@@ -293,10 +301,17 @@ export class Logger0 {
     debugConfig?: string
     removeDefaultSinks?: boolean
     removeDefaultFilters?: boolean
+    lowestLevel?: ExtractEnum<LogLevel, "error" | "fatal" | "info" | "warning" | "trace" | "debug">
   } = {}) => {
     debug.enable(debugConfig)
     const formatterHere =
-      formatter === "pretty" ? Logger0.prettyFormatter : formatter === "json" ? Logger0.jsonFormatter : formatter
+      formatter === "pretty"
+        ? Logger0.prettyFormatter
+        : formatter === "json"
+          ? Logger0.jsonFormatter
+          : formatter === "justMessage"
+            ? Logger0.justMessageFormatter
+            : formatter
     sinks = removeDefaultSinks
       ? sinks
       : {
@@ -318,7 +333,7 @@ export class Logger0 {
       loggers: [
         {
           category: Logger0.rootTagPrefix,
-          lowestLevel: "debug",
+          lowestLevel: lowestLevel,
           sinks: sinksKeys,
           filters: filtersKeys,
         },
@@ -334,7 +349,7 @@ export class Logger0 {
 }
 
 export namespace Logger0 {
-  export type FormatterPreset = "pretty" | "json"
+  export type FormatterPreset = "pretty" | "json" | "justMessage"
   export type FormatterProp = FormatterPreset | ((record: LogRecord) => string)
 
   export type LogOkFn = {

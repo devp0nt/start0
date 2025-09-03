@@ -1,25 +1,27 @@
 import { Logger0 } from "@ideanick/modules/lib/logger0.sh"
-import debug from "debug"
 
-export class Gen0Logger extends Logger0 {
-  static rootTagPrefix = "gen0"
-
-  static init1(debugConfig?: string | boolean) {
-    return Gen0Logger.create({
-      debugConfig: !debugConfig ? "" : typeof debugConfig === "string" ? debugConfig : `${Gen0Logger.rootTagPrefix}:*`,
+Logger0.rootTagPrefix = "gen0"
+export class Gen0Logger {
+  static init(debugConfig: string | boolean = false) {
+    return Logger0.init({
+      debugConfig:
+        typeof debugConfig === "string"
+          ? debugConfig
+              .split(",")
+              .map((tag) => `gen0:${tag}`)
+              .join(",")
+          : `gen0:*`,
+      lowestLevel: debugConfig === false ? "info" : "debug",
+      formatter: debugConfig === false ? "justMessage" : "pretty",
     })
   }
 
-  static create1(tagPrefix: string) {
-    return Gen0Logger.create({
+  static create(tagPrefix: string) {
+    return Logger0.create({
       meta: {
         tagPrefix,
       },
       skipInit: true,
     })
-  }
-
-  static redebug1(debugConfig?: string | boolean) {
-    debug.enable(!debugConfig ? "" : typeof debugConfig === "string" ? debugConfig : `${Gen0Logger.rootTagPrefix}:*`)
   }
 }

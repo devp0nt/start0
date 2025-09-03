@@ -13,7 +13,7 @@ import parcel from "@parcel/watcher"
 import { isGitIgnored } from "globby"
 
 export class Gen0WatchersManager {
-  static logger = Gen0Logger.create1("watchersManager")
+  static logger = Gen0Logger.create("watchersManager")
   logger = Gen0WatchersManager.logger
 
   config: Gen0Config
@@ -79,7 +79,18 @@ export class Gen0WatchersManager {
   add(watchers: Gen0Watcher[]) {
     const filteredWatchers = watchers.filter((w1) => !this.watchers.some((w2) => this.isSame(w1, w2)))
     this.watchers.push(...filteredWatchers)
+    for (const watcher of filteredWatchers) {
+      this.logger.debug(`add watcher ${watcher.name} from ${watcher.plugin.name}`)
+    }
     return filteredWatchers
+  }
+
+  remove(watchers: Gen0Watcher[]) {
+    this.watchers = this.watchers.filter((watcher) => watchers.every((w) => !w.isSame(watcher)))
+    for (const watcher of watchers) {
+      this.logger.debug(`remove: ${watcher.name}`)
+    }
+    return watchers
   }
 
   async createAll() {
@@ -111,8 +122,12 @@ export class Gen0WatchersManager {
   }
 
   async actualizeAll() {
-    this.pruneAll()
-    await this.addAll()
+    // this.pruneAll()
+    // await this.addAll()
+    const actualWatchers = await this.createAll()
+    const toRemoveWatchers = this.watchers.filter((watcher) => this.watchers.every((w) => !w.isSame(watcher)))
+    await this.remove(toRemoveWatchers)
+    return this.add(actualWatchers)
   }
 
   // actualizeChokidarWatcher() {

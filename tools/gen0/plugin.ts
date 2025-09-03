@@ -10,7 +10,7 @@ import type { Gen0Watcher } from "@ideanick/tools/gen0/watcher"
 // TODO: add possibility to rename plugins when use
 
 export class Gen0Plugin {
-  static logger = Gen0Logger.create1("plugin")
+  static logger = Gen0Logger.create("plugin")
   logger = Gen0Plugin.logger
 
   config: Gen0Config

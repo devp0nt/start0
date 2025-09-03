@@ -7,7 +7,7 @@ import { Gen0Logger } from "@ideanick/tools/gen0/logger"
 import _ from "lodash"
 
 export class Gen0ClientProcessCtx {
-  static logger = Gen0Logger.create1("clientProcessCtx")
+  static logger = Gen0Logger.create("clientProcessCtx")
   logger = Gen0ClientProcessCtx.logger
 
   client: Gen0Client
@@ -121,7 +121,7 @@ export class Gen0ClientProcessCtx {
     return ctx
   }
 
-  getVmErrorData(error: unknown) {
+  getVmErrorData(error: unknown): Gen0ClientProcessCtx.NormalizedVmError {
     // TODO: offset also column position
     if (typeof error !== "object" || error === null) {
       return {
@@ -148,6 +148,7 @@ export class Gen0ClientProcessCtx {
     // TODO: return error, if error occured
     const runnerCtx = this.getSelfWithFnsAndVars()
     const vmContex = vm.createContext(runnerCtx)
+    let error: Gen0ClientProcessCtx.NormalizedVmError | undefined
     const wrappedScript = `
       ;(async () => {
         try {
@@ -162,14 +163,12 @@ export class Gen0ClientProcessCtx {
       await vm.runInContext(wrappedScript, vmContex, {
         lineOffset: lineOffset - wrapperScriptOffset,
       })
-    } catch (error) {
-      const { message, stack } = this.getVmErrorData(error)
-      this.logger.error(message)
-      this.logger.error(stack)
+    } catch (e) {
+      error = this.getVmErrorData(e)
     }
     const printed = this.getPrinted()
     this.clearPrints()
-    return { printed }
+    return { printed, error }
   }
 
   async execFn<TArgs extends any[] = any[], TReturn = any>(
@@ -184,6 +183,7 @@ export class Gen0ClientProcessCtx {
 }
 
 export namespace Gen0ClientProcessCtx {
+  export type NormalizedVmError = { message: string; stack: string | undefined }
   export type Lodash = typeof _
   export type Store = Record<string, any>
   export type Console = typeof console

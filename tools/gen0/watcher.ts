@@ -7,7 +7,7 @@ import { Gen0Utils } from "@ideanick/tools/gen0/utils"
 import type { Gen0WatchersManager } from "@ideanick/tools/gen0/watchersManager"
 
 export class Gen0Watcher {
-  static logger = Gen0Logger.create1("watcher")
+  static logger = Gen0Logger.create("watcher")
   logger = Gen0Watcher.logger
 
   fs: Gen0Fs

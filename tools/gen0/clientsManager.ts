@@ -7,7 +7,7 @@ import { Gen0Target } from "@ideanick/tools/gen0/target"
 import type { Gen0Utils } from "@ideanick/tools/gen0/utils"
 
 export class Gen0ClientsManager {
-  static logger = Gen0Logger.create1("clientsManager")
+  static logger = Gen0Logger.create("clientsManager")
   logger = Gen0ClientsManager.logger
 
   config: Gen0Config
@@ -36,6 +36,9 @@ export class Gen0ClientsManager {
   add(clients: Gen0Client[]) {
     const filteredClients = clients.filter((c1) => !this.clients.some((c2) => this.isSame(c1, c2)))
     this.clients.push(...filteredClients)
+    for (const client of filteredClients) {
+      this.logger.debug(`add client ${client.file.path.rel}`)
+    }
     return filteredClients
   }
 
@@ -56,38 +59,40 @@ export class Gen0ClientsManager {
 
   removeByGlob(clientsGlob: Gen0Fs.PathOrPaths) {
     const removedClients: typeof this.clients = []
-    this.clients = this.clients.filter((client) => {
-      const shouldKeep = this.fs.isPathMatchGlob(client.file.path.abs, clientsGlob)
-      if (!shouldKeep) {
+    for (const client of this.clients) {
+      if (this.fs.isPathMatchGlob(client.file.path.abs, clientsGlob)) {
         removedClients.push(client)
       }
-      return shouldKeep
-    })
-    return removedClients
+    }
+    return this.remove(removedClients)
   }
 
   removeByPath(path: string) {
     const removedClients: typeof this.clients = []
-    this.clients = this.clients.filter((client) => {
-      const shouldKeep = client.file.path.abs !== path
-      if (!shouldKeep) {
+    for (const client of this.clients) {
+      if (client.file.path.abs !== path) {
         removedClients.push(client)
       }
-      return shouldKeep
-    })
-    return removedClients
+    }
+    return this.remove(removedClients)
   }
 
   removeByName(nameSearch: Gen0Utils.Search) {
     const removedClients: typeof this.clients = []
-    this.clients = this.clients.filter((client) => {
-      const shouldKeep = !client.isMatchName(nameSearch)
-      if (!shouldKeep) {
+    for (const client of this.clients) {
+      if (!client.isMatchName(nameSearch)) {
         removedClients.push(client)
       }
-      return shouldKeep
-    })
-    return removedClients
+    }
+    return this.remove(removedClients)
+  }
+
+  remove(clients: Gen0Client[]) {
+    this.clients = this.clients.filter((client) => clients.every((c) => !c.isSame(client)))
+    for (const client of clients) {
+      this.logger.debug(`remove: ${client.file.path.rel}`)
+    }
+    return clients
   }
 
   getByPath(path: string) {

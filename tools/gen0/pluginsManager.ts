@@ -6,7 +6,7 @@ import type { Gen0Utils } from "@ideanick/tools/gen0/utils"
 import type { Gen0Watcher } from "@ideanick/tools/gen0/watcher"
 
 export class Gen0PluginsManager {
-  static logger = Gen0Logger.create1("pluginsManager")
+  static logger = Gen0Logger.create("pluginsManager")
   logger = Gen0PluginsManager.logger
 
   config: Gen0Config
@@ -29,6 +29,9 @@ export class Gen0PluginsManager {
   add(plugins: Gen0Plugin[]) {
     const filteredPlugins = plugins.filter((p1) => !this.plugins.some((p2) => this.isSame(p1, p2)))
     this.plugins.push(...filteredPlugins)
+    for (const plugin of filteredPlugins) {
+      this.logger.debug(`add plugin ${plugin.file?.path.rel}`)
+    }
     return filteredPlugins
   }
 
@@ -49,38 +52,40 @@ export class Gen0PluginsManager {
 
   removeByGlob(pluginsGlob: Gen0Fs.PathOrPaths) {
     const removedPlugins: typeof this.plugins = []
-    this.plugins = this.plugins.filter((plugin) => {
-      const shouldKeep = plugin.file && this.fs.isPathMatchGlob(plugin.file.path.abs, pluginsGlob)
-      if (!shouldKeep) {
+    for (const plugin of this.plugins) {
+      if (plugin.file && this.fs.isPathMatchGlob(plugin.file.path.abs, pluginsGlob)) {
         removedPlugins.push(plugin)
       }
-      return shouldKeep
-    })
-    return removedPlugins
+    }
+    return this.remove(removedPlugins)
   }
 
   removeByNameSearch(nameSearch: Gen0Utils.Search) {
     const removedPlugins: typeof this.plugins = []
-    this.plugins = this.plugins.filter((plugin) => {
-      const shouldKeep = !plugin.isMatchName(nameSearch)
-      if (!shouldKeep) {
+    for (const plugin of this.plugins) {
+      if (plugin.isMatchName(nameSearch)) {
         removedPlugins.push(plugin)
       }
-      return shouldKeep
-    })
-    return removedPlugins
+    }
+    return this.remove(removedPlugins)
   }
 
   removeByPath(path: Gen0Fs.PathOrPaths) {
     const removedPlugins: typeof this.plugins = []
-    this.plugins = this.plugins.filter((plugin) => {
-      const shouldKeep = plugin.file?.path.abs !== path
-      if (!shouldKeep) {
+    for (const plugin of this.plugins) {
+      if (plugin.file?.path.abs === path) {
         removedPlugins.push(plugin)
       }
-      return shouldKeep
-    })
-    return removedPlugins
+    }
+    return this.remove(removedPlugins)
+  }
+
+  remove(plugins: Gen0Plugin[]) {
+    this.plugins = this.plugins.filter((plugin) => plugins.every((p) => !p.isSame(plugin)))
+    for (const plugin of plugins) {
+      this.logger.debug(`remove: ${plugin.file?.path.rel}`)
+    }
+    return plugins
   }
 
   getByGlob(pluginsGlob: Gen0Fs.PathOrPaths) {

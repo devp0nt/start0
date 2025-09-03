@@ -7,7 +7,7 @@ import type { Gen0PluginsManager } from "@ideanick/tools/gen0/pluginsManager"
 import { Gen0Utils } from "@ideanick/tools/gen0/utils"
 
 export class Gen0Client {
-  static logger = Gen0Logger.create1("client")
+  static logger = Gen0Logger.create("client")
   logger = Gen0Client.logger
 
   config: Gen0Config

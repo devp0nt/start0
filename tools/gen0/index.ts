@@ -32,7 +32,7 @@ import { Gen0WatchersManager } from "@ideanick/tools/gen0/watchersManager"
 // TODO: prinst space count default
 // TODO: bin to bin in package.json
 export class Gen0 {
-  static logger = Gen0Logger.create1("core")
+  static logger = Gen0Logger.create("core")
   logger = Gen0.logger
 
   clientsManager: Gen0ClientsManager
@@ -61,9 +61,12 @@ export class Gen0 {
     this.watchersManager = watchersManager
   }
 
-  static async create({ cwd, debug }: { cwd?: string; debug?: string | boolean } = {}) {
-    Gen0Logger.init1(debug)
+  static async create({ cwd, debug = Gen0Config.defaultDebug }: { cwd?: string; debug?: string | boolean } = {}) {
+    Gen0Logger.init(debug)
     const config = await Gen0Config.create({ cwd: cwd || process.cwd() })
+    if (debug !== config.debug) {
+      Gen0Logger.init(config.debug)
+    }
     const fs = Gen0Fs.create({ config, cwd: config.rootDir })
     const pluginsManager = await Gen0PluginsManager.create({ fs, config })
     const clientsManager = await Gen0ClientsManager.create({ fs, config, pluginsManager })
@@ -74,6 +77,7 @@ export class Gen0 {
       clientsManager,
     })
     const gen0 = new Gen0({ config, fs, clientsManager, pluginsManager, watchersManager })
+    this.logger.debug("gen0 created")
     return gen0
   }
 

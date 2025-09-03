@@ -5,7 +5,7 @@ import { Gen0Fs } from "@ideanick/tools/gen0/fs"
 import { Gen0Logger } from "@ideanick/tools/gen0/logger"
 
 export class Gen0File {
-  static logger = Gen0Logger.create1("file")
+  static logger = Gen0Logger.create("file")
   logger = Gen0File.logger
 
   config: Gen0Config

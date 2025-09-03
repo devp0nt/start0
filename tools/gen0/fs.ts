@@ -11,7 +11,7 @@ import micromatch from "micromatch"
 // TODO: make better string | string[] → T
 
 export class Gen0Fs {
-  static logger = Gen0Logger.create1("fs")
+  static logger = Gen0Logger.create("fs")
   logger = Gen0Fs.logger
 
   rootDir: string

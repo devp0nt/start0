@@ -4,7 +4,7 @@ import { globby } from "globby"
 import { globifyGitIgnoreFile } from "globify-gitignore"
 
 export namespace Gen0Utils {
-  export const logger = Gen0Logger.create1("utils")
+  export const logger = Gen0Logger.create("utils")
   export type Search = string | string[] | RegExp | RegExp[]
   export const isStringMatch = (line: string | undefined, search: Search): boolean => {
     if (!line) return false

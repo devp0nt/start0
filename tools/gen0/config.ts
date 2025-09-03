@@ -9,7 +9,7 @@ import { workspaceRoot } from "workspace-root"
 // TODO: respect json configs
 
 export class Gen0Config {
-  static logger = Gen0Logger.create1("config")
+  static logger = Gen0Logger.create("config")
   logger = Gen0Config.logger
 
   static configFilesNames = [".gen0rc.mjs", ".gen0rc.ts", ".gen0rc.js"]
