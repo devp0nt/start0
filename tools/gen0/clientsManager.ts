@@ -37,7 +37,12 @@ export class Gen0ClientsManager {
 
   async addByGlob(glob: Gen0Fs.PathOrPaths) {
     glob = this.fs.toPaths(glob)
-    const clients = await this.findAndCreateMany(glob)
+    const clients = await this.findAndCreateManyByGlob(glob)
+    return this.add(clients)
+  }
+
+  async addByPath(path: string) {
+    const clients = await this.findAndCreateManyByPath(path)
     return this.add(clients)
   }
 
@@ -46,29 +51,43 @@ export class Gen0ClientsManager {
   }
 
   removeByGlob(clientsGlob: Gen0Fs.PathOrPaths) {
-    const clientsEntries = this.clients.map((c, index) => ({
-      index,
-      client: c,
-    }))
-    const removedClientsEntries = clientsEntries.filter(
-      ({ client }) => !this.fs.isPathMatchGlob(client.file.path.abs, clientsGlob),
-    )
-    for (const { index } of removedClientsEntries) {
-      this.clients.splice(index, 1)
-    }
-    return removedClientsEntries.map(({ client }) => client)
+    const removedClients: typeof this.clients = []
+    this.clients = this.clients.filter((client) => {
+      const shouldKeep = this.fs.isPathMatchGlob(client.file.path.abs, clientsGlob)
+      if (!shouldKeep) {
+        removedClients.push(client)
+      }
+      return shouldKeep
+    })
+    return removedClients
+  }
+
+  removeByPath(path: string) {
+    const removedClients: typeof this.clients = []
+    this.clients = this.clients.filter((client) => {
+      const shouldKeep = client.file.path.abs !== path
+      if (!shouldKeep) {
+        removedClients.push(client)
+      }
+      return shouldKeep
+    })
+    return removedClients
   }
 
   removeByName(nameSearch: Gen0Utils.Search) {
-    const clientsEntries = this.clients.map((c, index) => ({
-      index,
-      client: c,
-    }))
-    const removedClientsEntries = clientsEntries.filter(({ client }) => client.isMatchName(nameSearch))
-    for (const { index } of removedClientsEntries) {
-      this.clients.splice(index, 1)
-    }
-    return removedClientsEntries.map(({ client }) => client)
+    const removedClients: typeof this.clients = []
+    this.clients = this.clients.filter((client) => {
+      const shouldKeep = !client.isMatchName(nameSearch)
+      if (!shouldKeep) {
+        removedClients.push(client)
+      }
+      return shouldKeep
+    })
+    return removedClients
+  }
+
+  getByPath(path: string) {
+    return this.clients.find((c) => c.file.path.abs === path)
   }
 
   getByGlob(clientsGlob: Gen0Fs.PathOrPaths) {
@@ -92,7 +111,7 @@ export class Gen0ClientsManager {
     return await this.processMany(this.clients)
   }
 
-  async findAndCreateMany(clientsGlob: Gen0Fs.PathOrPaths) {
+  async findAndCreateManyByGlob(clientsGlob: Gen0Fs.PathOrPaths) {
     const clientsPaths = await this.fs.findFilesPathsContentMatch({
       glob: clientsGlob,
       search: [Gen0Target.startMark, Gen0Target.silentMark],
@@ -104,17 +123,29 @@ export class Gen0ClientsManager {
     )
   }
 
-  async findAndCreateAll() {
-    return await this.findAndCreateMany(this.config.clientsGlob)
+  async findAndCreateManyByPath(path: Gen0Fs.PathOrPaths) {
+    const clientsPaths = await this.fs.ensureFilesPathsContentMatch({
+      path,
+      search: [Gen0Target.startMark, Gen0Target.silentMark],
+    })
+    return await Promise.all(
+      clientsPaths.map((filePath) =>
+        Gen0Client.create({ filePath, config: this.config, pluginsManager: this.pluginsManager }),
+      ),
+    )
   }
 
-  async findAndProcessMany(clientsGlob: Gen0Fs.PathOrPaths) {
-    const clients = await this.findAndCreateMany(clientsGlob)
+  async findAndCreateAll() {
+    return await this.findAndCreateManyByGlob(this.config.clientsGlob)
+  }
+
+  async findAndProcessManyByGlob(clientsGlob: Gen0Fs.PathOrPaths) {
+    const clients = await this.findAndCreateManyByGlob(clientsGlob)
     return await this.processMany(clients)
   }
 
   async findAndProcessAll() {
-    return await this.findAndProcessMany(this.config.clientsGlob)
+    return await this.findAndProcessManyByGlob(this.config.clientsGlob)
   }
 
   isSame(client1: Gen0Client, client2: Gen0Client) {

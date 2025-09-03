@@ -10,11 +10,18 @@ import micromatch from "micromatch"
 // TODO: make better string | string[] → T
 
 export class Gen0Fs {
-  config: Gen0Config
+  rootDir: string
   cwd: string
 
-  private constructor(input: { config: Gen0Config } & ({ fileDir: string } | { filePath: string } | { cwd: string })) {
-    this.config = input.config
+  private constructor(
+    input: ({ rootDir: string } | { config: Gen0Config }) &
+      ({ fileDir: string } | { filePath: string } | { cwd: string }),
+  ) {
+    if ("rootDir" in input) {
+      this.rootDir = input.rootDir
+    } else {
+      this.rootDir = input.config.rootDir
+    }
     if ("fileDir" in input) {
       this.cwd = input.fileDir
     } else if ("filePath" in input) {
@@ -23,7 +30,10 @@ export class Gen0Fs {
       this.cwd = input.cwd
     }
   }
-  static create(input: { config: Gen0Config } & ({ fileDir: string } | { filePath: string } | { cwd: string })) {
+  static create(
+    input: ({ rootDir: string } | { config: Gen0Config }) &
+      ({ fileDir: string } | { filePath: string } | { cwd: string }),
+  ) {
     return new Gen0Fs(input)
   }
 
@@ -49,14 +59,14 @@ export class Gen0Fs {
     const { cwd, glob, relative } = (() => {
       if (typeof input === "string" || Array.isArray(input)) {
         return {
-          cwd: this.config.rootDir,
+          cwd: this.rootDir,
           glob: this.toPaths(input),
           relative: undefined,
         }
       }
       if (typeof input === "object" && input !== null) {
         return {
-          cwd: input.cwd || this.config.rootDir,
+          cwd: input.cwd || this.rootDir,
           glob: this.toPaths(input.glob),
           relative: input.relative,
         }
@@ -95,14 +105,14 @@ export class Gen0Fs {
     const { cwd, glob, relative } = (() => {
       if (typeof input === "string" || Array.isArray(input)) {
         return {
-          cwd: this.config.rootDir,
+          cwd: this.rootDir,
           glob: this.toPaths(input),
           relative: undefined,
         }
       }
       if (typeof input === "object" && input !== null) {
         return {
-          cwd: input.cwd || this.config.rootDir,
+          cwd: input.cwd || this.rootDir,
           glob: this.toPaths(input.glob),
           relative: input.relative,
         }
@@ -140,14 +150,14 @@ export class Gen0Fs {
     })
   }
 
-  async findFilesPathsContentMatch<T extends Gen0Fs.PathOrPaths>({
-    cwd = this.config.rootDir,
+  async findFilesPathsContentMatch({
+    cwd = this.rootDir,
     glob,
     relative,
     search,
   }: {
     cwd?: string
-    glob: T
+    glob: Gen0Fs.PathOrPaths
     relative?: string | false
     search: Gen0Utils.Search
   }) {
@@ -156,6 +166,31 @@ export class Gen0Fs {
       glob,
       relative,
     })
+    const result = (
+      await Promise.all(
+        allPaths.map(async (path) => {
+          if (await this.isContentMatch(path, search)) {
+            return path
+          }
+          return null
+        }),
+      )
+    ).filter(Boolean) as string[]
+    return result
+  }
+
+  async ensureFilesPathsContentMatch({
+    cwd = this.rootDir,
+    path,
+    relative,
+    search,
+  }: {
+    cwd?: string
+    path: Gen0Fs.PathOrPaths
+    relative?: string | false
+    search: Gen0Utils.Search
+  }) {
+    const allPaths = this.toPaths(path)
     const result = (
       await Promise.all(
         allPaths.map(async (path) => {
@@ -203,7 +238,7 @@ export class Gen0Fs {
     return result as T
   }
 
-  parsePath(path: string, relativeTo: string = this.config.rootDir) {
+  parsePath(path: string, relativeTo: string = this.rootDir) {
     const abs = this.toAbs(path)
     const rel = this.toRel(path, relativeTo, false)
     const relDotted = this.toRel(path, relativeTo, true)
@@ -240,16 +275,64 @@ export class Gen0Fs {
     return await fs.readFile(this.normalizePath(path), "utf8")
   }
 
+  isDirectorySync(path: string): boolean {
+    try {
+      return fsSync.statSync(this.normalizePath(path)).isDirectory()
+    } catch {
+      return false
+    }
+  }
+
+  async isDirectory(path: string): Promise<boolean> {
+    try {
+      return (await fs.stat(this.normalizePath(path))).isDirectory()
+    } catch {
+      return false
+    }
+  }
+
+  isFileSync(path: string): boolean {
+    try {
+      return fsSync.statSync(this.normalizePath(path)).isFile()
+    } catch {
+      return false
+    }
+  }
+
+  async isFile(path: string): Promise<boolean> {
+    try {
+      return (await fs.stat(this.normalizePath(path))).isFile()
+    } catch {
+      return false
+    }
+  }
+
+  isExistsSync(path: string): boolean {
+    try {
+      return fsSync.existsSync(this.normalizePath(path))
+    } catch {
+      return false
+    }
+  }
+
+  async isExists(path: string): Promise<boolean> {
+    try {
+      return await fs.exists(this.normalizePath(path))
+    } catch {
+      return false
+    }
+  }
+
   normalizePath(path: string): string {
     if (path.startsWith("!")) {
       const result = this.normalizePath(path.replace(/^!/, ""))
       return `!${result}`
     }
     if (/^~\//.test(path)) {
-      return nodePath.resolve(this.config.rootDir, path.replace(/^~\//, ""))
+      return nodePath.resolve(this.rootDir, path.replace(/^~\//, ""))
     }
     if (/^~[a-zA-Z0-9_-]+/.test(path)) {
-      return nodePath.resolve(this.config.rootDir, path.replace(/^~/, ""))
+      return nodePath.resolve(this.rootDir, path.replace(/^~/, ""))
     }
     return path
   }

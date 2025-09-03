@@ -204,6 +204,32 @@ export class Gen0WatchersManager {
   //   return this.bunWatcher
   // }
 
+  async handleNewClients(event: Gen0WatchersManager.EventType, path: string) {
+    if (event !== "delete") {
+      if (!this.fs.isPathMatchGlob(path, this.config.clientsGlob)) {
+        return
+      }
+      const exClient = this.clientsManager.getByPath(path)
+      if (exClient) {
+        return
+      }
+      this.clientsManager.addByPath(path)
+    }
+  }
+
+  async handleNewPlugins(event: Gen0WatchersManager.EventType, path: string) {
+    if (event !== "delete") {
+      if (!this.fs.isPathMatchGlob(path, this.config.pluginsGlob)) {
+        return
+      }
+      const exPlugin = this.pluginsManager.getByPath(path)
+      if (exPlugin) {
+        return
+      }
+      this.pluginsManager.addByPath(path)
+    }
+  }
+
   async watchAllByParcel() {
     const gitignoreGlob = await Gen0Utils.getGitignoreGlob(this.config.rootDir)
     this.parcelWatcher = await parcel.subscribe(
@@ -233,6 +259,8 @@ export class Gen0WatchersManager {
           // })()
           const event = originalEvent
 
+          this.handleNewClients(event, pathAbs)
+          this.handleNewPlugins(event, pathAbs)
           for (const watcher of this.watchers) {
             watcher.handler(event, pathAbs)
           }

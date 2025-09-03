@@ -4,7 +4,6 @@ import { Gen0Fs } from "@ideanick/tools/gen0/fs"
 import { Gen0PluginsManager } from "@ideanick/tools/gen0/pluginsManager"
 import { Gen0WatchersManager } from "@ideanick/tools/gen0/watchersManager"
 
-// TODO: watch handlers fith filtering
 // TODO: watch for new clients
 // TODO: watch for new plugins
 // TODO: add logger

@@ -18,13 +18,16 @@ export class Gen0ClientProcess {
   static async start({ client }: { client: Gen0Client }) {
     const clientProcess = new Gen0ClientProcess({ client })
     let target = await Gen0Target.extract({ client, skipBeforeLineIndex: 0 })
+    let clientContent = await client.file.read()
     while (target) {
       const { printed } = await clientProcess.ctx.execScript(target.scriptContent, target.startLineIndex)
-      await target.fill(printed)
+      clientContent = await target.fill({ outputContent: printed, clientContent })
+      // clientContent = await client.file.read()
       clientProcess.targets.push(target)
-      target = await Gen0Target.extract({ client, skipBeforeLineIndex: target.outputEndLineIndex })
+      target = await Gen0Target.extract({ client, clientContent, skipBeforeLineIndex: target.outputEndLineIndex })
     }
     clientProcess.finishedAt = new Date()
+    await client.file.write(clientContent)
     await clientProcess.runAfterProcessCmd({ afterProcessCmd: client.config.afterProcessCmd })
     return clientProcess
   }

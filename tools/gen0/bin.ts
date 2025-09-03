@@ -43,7 +43,7 @@ program
   .action(
     withGen0(async (gen0, glob?: string) => {
       if (glob) {
-        const results = await gen0.clientsManager.findAndProcessMany(glob)
+        const results = await gen0.clientsManager.findAndProcessManyByGlob(glob)
         if (results.length === 0) {
           logger.error(`❌ No clients found for glob: ${glob}`)
         } else {
@@ -72,7 +72,7 @@ program
     withGen0(async (gen0) => {
       // gen0.watchersManager.watchAllByChokidar()
       // gen0.watchersManager.watchAllByNative()
-      const x = await gen0.watchersManager.watchAllByParcel()
+      await gen0.watchersManager.watchAllByParcel()
       logger.info("Watchers started")
     }),
   )

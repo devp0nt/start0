@@ -7,7 +7,7 @@ export default {
       watch: ["**/*.test.txt", "!**/bad.test.txt"],
       clientsGlob: "./test-client.ts",
       handler: (event, path) => {
-        // console.log(event, path)
+        // console.log(event, path, "x");
       },
     },
   },

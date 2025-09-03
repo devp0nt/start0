@@ -39,8 +39,8 @@ export class Gen0Target {
     this.outputContent = outputContent
   }
 
-  async getClientContentFilled(outputContent: string) {
-    const srcContent = await this.client.file.read()
+  async getClientContentFilled({ outputContent, clientContent }: { outputContent: string; clientContent?: string }) {
+    const srcContent = clientContent || (await this.client.file.read())
     const srcLines = srcContent.split("\n")
     if (outputContent.trim() === "") {
       srcLines.splice(this.outputStartLineIndex, this.outputEndLineIndex - this.outputStartLineIndex)
@@ -51,14 +51,24 @@ export class Gen0Target {
     return newSrcContent
   }
 
-  async fill(outputContent: string) {
-    const newSrcContent = await this.getClientContentFilled(outputContent)
-    await this.client.file.write(newSrcContent)
+  async fill({
+    outputContent,
+    clientContent,
+    writeFile = false,
+  }: {
+    outputContent: string
+    clientContent?: string
+    writeFile?: boolean
+  }) {
+    const newClientContent = await this.getClientContentFilled({ outputContent, clientContent })
+    if (writeFile) {
+      await this.client.file.write(newClientContent)
+    }
     this.outputContent = outputContent
     const targetUpdated = await Gen0Target.extract({
       client: this.client,
-      clientContent: newSrcContent,
-      skipBeforeLineIndex: this.startLineIndex - 1,
+      clientContent: newClientContent,
+      skipBeforeLineIndex: this.startLineIndex > 0 ? this.startLineIndex - 1 : 0,
     })
     if (targetUpdated) {
       if (targetUpdated.outputContent !== this.outputContent) {
@@ -77,6 +87,7 @@ export class Gen0Target {
       // biome-ignore lint/suspicious/noConsole: <x>
       console.error(`Target update not found in file ${this.client.file.path.abs} at line ${this.startLineIndex + 1}`)
     }
+    return newClientContent
   }
 
   static async extract({

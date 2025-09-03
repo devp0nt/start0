@@ -9,8 +9,8 @@ import type { HonoApp } from "@ideanick/backend/lib/hono"
 export namespace BackendHonoRouter {
   export const apply = ({ honoApp }: { honoApp: HonoApp.AppType }) => {
     // @gen0:start $.names.map(name => print(`${name}({ honoApp })`))
-    helloHonoRoute({ honoApp })
     pingHonoRoute({ honoApp })
+    helloHonoRoute({ honoApp })
     // @gen0:end
   }
 }

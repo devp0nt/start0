@@ -18,6 +18,10 @@ export class Gen0PluginsManager {
     return new Gen0PluginsManager({ config, fs })
   }
 
+  async createByPath(filePath: string) {
+    return Gen0Plugin.createByFilePath({ filePath, config: this.config })
+  }
+
   add(plugins: Gen0Plugin[]) {
     const filteredPlugins = plugins.filter((p1) => !this.plugins.some((p2) => this.isSame(p1, p2)))
     this.plugins.push(...filteredPlugins)
@@ -26,8 +30,13 @@ export class Gen0PluginsManager {
 
   async addPluginsByGlob(glob: Gen0Fs.PathOrPaths) {
     glob = this.fs.toPaths(glob)
-    const plugins = await this.findAndCreateMany(glob)
+    const plugins = await this.findAndCreateManyByGlob(glob)
     return this.add(plugins)
+  }
+
+  async addByPath(path: string) {
+    const plugin = await this.createByPath(path)
+    return this.add([plugin])
   }
 
   async addAll() {
@@ -35,29 +44,39 @@ export class Gen0PluginsManager {
   }
 
   removeByGlob(pluginsGlob: Gen0Fs.PathOrPaths) {
-    const pluginsEntries = this.plugins.map((c, index) => ({
-      index,
-      plugin: c,
-    }))
-    const removedPluginsEntries = pluginsEntries.filter(
-      ({ plugin }) => plugin.file && !this.fs.isPathMatchGlob(plugin.file.path.abs, pluginsGlob),
-    )
-    for (const { index } of removedPluginsEntries) {
-      this.plugins.splice(index, 1)
-    }
-    return removedPluginsEntries.map(({ plugin }) => plugin)
+    const removedPlugins: typeof this.plugins = []
+    this.plugins = this.plugins.filter((plugin) => {
+      const shouldKeep = plugin.file && this.fs.isPathMatchGlob(plugin.file.path.abs, pluginsGlob)
+      if (!shouldKeep) {
+        removedPlugins.push(plugin)
+      }
+      return shouldKeep
+    })
+    return removedPlugins
   }
 
-  removeByName(nameSearch: Gen0Utils.Search) {
-    const pluginsEntries = this.plugins.map((c, index) => ({
-      index,
-      plugin: c,
-    }))
-    const removedPluginsEntries = pluginsEntries.filter(({ plugin }) => plugin.isMatchName(nameSearch))
-    for (const { index } of removedPluginsEntries) {
-      this.plugins.splice(index, 1)
-    }
-    return removedPluginsEntries.map(({ plugin }) => plugin)
+  removeByNameSearch(nameSearch: Gen0Utils.Search) {
+    const removedPlugins: typeof this.plugins = []
+    this.plugins = this.plugins.filter((plugin) => {
+      const shouldKeep = !plugin.isMatchName(nameSearch)
+      if (!shouldKeep) {
+        removedPlugins.push(plugin)
+      }
+      return shouldKeep
+    })
+    return removedPlugins
+  }
+
+  removeByPath(path: Gen0Fs.PathOrPaths) {
+    const removedPlugins: typeof this.plugins = []
+    this.plugins = this.plugins.filter((plugin) => {
+      const shouldKeep = plugin.file?.path.abs !== path
+      if (!shouldKeep) {
+        removedPlugins.push(plugin)
+      }
+      return shouldKeep
+    })
+    return removedPlugins
   }
 
   getByGlob(pluginsGlob: Gen0Fs.PathOrPaths) {
@@ -68,7 +87,11 @@ export class Gen0PluginsManager {
     return this.plugins.filter((c) => c.isMatchName(nameSearch))
   }
 
-  async findAndCreateMany(pluginsGlob: Gen0Fs.PathOrPaths) {
+  getByPath(path: string) {
+    return this.plugins.find((c) => c.file?.path.abs === path)
+  }
+
+  async findAndCreateManyByGlob(pluginsGlob: Gen0Fs.PathOrPaths) {
     const pluginsPaths = await this.fs.findFilesPaths({
       glob: pluginsGlob,
     })
@@ -78,7 +101,7 @@ export class Gen0PluginsManager {
   }
 
   async findAndCreateAll() {
-    return await this.findAndCreateMany(this.config.pluginsGlob)
+    return await this.findAndCreateManyByGlob(this.config.pluginsGlob)
   }
 
   isSame(plugin1: Gen0Plugin, plugin2: Gen0Plugin) {

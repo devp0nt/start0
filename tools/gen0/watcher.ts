@@ -99,7 +99,7 @@ export class Gen0Watcher {
       this.originalHandler(event, path)
     }
     if (this.clientsGlob) {
-      this.clientsManager.findAndProcessMany(this.clientsGlob)
+      this.clientsManager.findAndProcessManyByGlob(this.clientsGlob)
     }
     if (this.clientsNames) {
       this.clientsManager.processManyByNames(this.clientsNames)
