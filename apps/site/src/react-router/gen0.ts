@@ -7,6 +7,7 @@ export default (async ({ fs, _ }) => {
   const pagesGlob = ["~/**/*.page.si.ts{x,}", "~/apps/site/**/*.page.ts{x,}"]
   const appDir = fs.resolve(".")
   const generatedRoutesDir = fs.toAbs(fs.resolve(appDir, "routes/generated"))
+  const catchall = "./routes/catchall.tsx"
 
   const getHelpersByPagePath = (pagePath: string) => {
     const pagePathRelToProjectRoot = fs.toRel(pagePath, fs.rootDir)
@@ -55,7 +56,7 @@ export default (async ({ fs, _ }) => {
         }),
       ),
     )
-    const structure = buildRoutesStructure(input)
+    const structure = buildRoutesStructure(input, catchall)
     const { routesFilePath } = getHelpersByPagePath(pagesPaths[0])
     await fs.writeFile(routesFilePath, getRoutesContent({ structure }))
     return pagesPaths
@@ -134,8 +135,7 @@ export default RouteComponent
 }
 
 const getRoutesContent = ({ structure }: { structure: string }) => {
-  return `
-import { index, layout, type RouteConfig, route } from "@react-router/dev/routes"
+  return `import { index, layout, type RouteConfig, route } from "@react-router/dev/routes"
 
 export default ${structure} satisfies RouteConfig
 `
@@ -143,8 +143,8 @@ export default ${structure} satisfies RouteConfig
 
 type RRInput = {
   routePathRelativeToAppDir: string
-  layouts: string[]
-  route0Definition: string // "/" means index
+  layouts: string[] // 0..3 layout paths
+  route0Definition: string // "/" => index, else route path (can include params)
 }
 
 type RRNode =
@@ -152,7 +152,8 @@ type RRNode =
   | { type: "index"; componentPath: string }
   | { type: "route"; path: string; componentPath: string }
 
-export function buildRoutesStructure(data: RRInput[]): string {
+// --- core builder that returns only the array DSL as a string ---
+export function buildRoutesStructure(data: RRInput[], catchallPath: string): string {
   const root: RRNode[] = []
 
   const findOrCreateLayout = (level: RRNode[], layoutPath: string): RRNode => {
@@ -176,13 +177,13 @@ export function buildRoutesStructure(data: RRInput[]): string {
     } else {
       level.push({
         type: "route",
-        path: item.route0Definition.replace(/^\//, ""), // drop leading slash
+        path: item.route0Definition.replace(/^\//, ""),
         componentPath: item.routePathRelativeToAppDir,
       })
     }
   }
 
-  // optional: stable-ish ordering — layouts first, then index, then routes
+  // Make ordering stable: layouts first, then index, then routes
   const sortNodes = (nodes: RRNode[]) => {
     const order = { layout: 0, index: 1, route: 2 } as const
     nodes.sort((a, b) => order[a.type] - order[b.type])
@@ -190,26 +191,39 @@ export function buildRoutesStructure(data: RRInput[]): string {
   }
   sortNodes(root)
 
-  // stringifier for the requested DSL
+  // Stringify to DSL, appending a generated catchall as the last entry of each array
   const q = (s: string) => JSON.stringify(s)
   const indentUnit = "  "
+  let catchallCounter = 0
+
+  const makeCatchallLine = (pad: string) =>
+    `${pad}${indentUnit}route("*", ${q(catchallPath)}, { id: ${q(`catchall${++catchallCounter}`)} })`
+
   const printNodes = (nodes: RRNode[], indent = 0): string => {
     const pad = indentUnit.repeat(indent)
-    const inner = nodes
-      .map((n) => {
-        if (n.type === "index") {
-          return `${pad}${indentUnit}index(${q(n.componentPath)})`
-        }
-        if (n.type === "route") {
-          return `${pad}${indentUnit}route(${q(n.path)}, ${q(n.componentPath)})`
-        }
-        // layout
-        const children = printNodes(n.children, indent + 1)
-        return `${pad}${indentUnit}layout(${q(n.layoutPath)}, ${children})`
-      })
-      .join(",\n")
-    return `[\n${inner}\n${pad}]`
+    const lines: string[] = nodes.map((n) => {
+      if (n.type === "index") {
+        return `${pad}${indentUnit}index(${q(n.componentPath)})`
+      }
+      if (n.type === "route") {
+        return `${pad}${indentUnit}route(${q(n.path)}, ${q(n.componentPath)})`
+      }
+      // layout
+      const children = printNodes(n.children, indent + 1)
+      return `${pad}${indentUnit}layout(${q(n.layoutPath)}, ${children})`
+    })
+
+    // Always append the catchall as the final element of this array
+    lines.push(makeCatchallLine(pad))
+
+    return `[\n${lines.join(",\n")}\n${pad}]`
   }
 
   return printNodes(root, 0)
+}
+
+// --- convenience: produce the full routes file content ---
+export function buildRoutesFile(data: RRInput[], catchallPath: string): string {
+  const body = buildRoutesStructure(data, catchallPath)
+  return `import { index, layout, type RouteConfig, route } from "@react-router/dev/routes"\n\nexport default ${body} satisfies RouteConfig\n`
 }

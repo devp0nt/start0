@@ -1,6 +1,3 @@
-В рр переименовать апп в срц, а в срцположить реакт-роутер как ппп, чтобы всё его там и было
-404 page "*" in rotues.ts
-
 remove package.json from modules
 tsconfig includes by files exts
 biome import restrictions
