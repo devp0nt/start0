@@ -3,6 +3,7 @@ import { Gen0ClientsManager } from "@ideanick/tools/gen0/clientsManager"
 import { Gen0Config } from "@ideanick/tools/gen0/config"
 import { Gen0Fs } from "@ideanick/tools/gen0/fs"
 import { Gen0Plugin } from "@ideanick/tools/gen0/plugin"
+import { Gen0PluginsManager } from "@ideanick/tools/gen0/pluginsManager"
 
 // Вотчер берёт клиентс глоб и клиентс нэймс
 // Удален клиента по нейму и по глобу отдельно
@@ -33,6 +34,7 @@ import { Gen0Plugin } from "@ideanick/tools/gen0/plugin"
 
 export class Gen0 {
   clientsManager: Gen0ClientsManager
+  pluginsManager: Gen0PluginsManager
   config: Gen0Config
   fs: Gen0Fs
 
@@ -40,19 +42,20 @@ export class Gen0 {
     config,
     fs,
     clientsManager,
-  }: { config: Gen0Config; fs: Gen0Fs; clientsManager: Gen0ClientsManager }) {
+    pluginsManager,
+  }: { config: Gen0Config; fs: Gen0Fs; clientsManager: Gen0ClientsManager; pluginsManager: Gen0PluginsManager }) {
     this.config = config
     this.fs = fs
     this.clientsManager = clientsManager
+    this.pluginsManager = pluginsManager
   }
 
   static async init({ cwd }: { cwd?: string } = {}) {
     const config = await Gen0Config.create({ cwd: cwd || process.cwd() })
     const fs = Gen0Fs.create({ config, cwd: config.rootDir })
-    const plugins = await Gen0Plugin.findAndCreateAll({ fs, config })
-    Gen0Plugin.assignPluginsToConfig({ config, plugins })
+    const pluginsManager = await Gen0PluginsManager.create({ fs, config })
     const clientsManager = await Gen0ClientsManager.create({ fs, config })
-    const gen0 = new Gen0({ config, fs, clientsManager })
+    const gen0 = new Gen0({ config, fs, clientsManager, pluginsManager })
     return gen0
   }
 }

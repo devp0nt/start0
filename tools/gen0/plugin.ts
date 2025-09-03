@@ -1,4 +1,3 @@
-import type { Gen0Client } from "@ideanick/tools/gen0/client"
 import type { Gen0ClientProcessCtx } from "@ideanick/tools/gen0/clientProcessCtx"
 import type { Gen0Config } from "@ideanick/tools/gen0/config"
 import { Gen0File } from "@ideanick/tools/gen0/file"
