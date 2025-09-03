@@ -5,8 +5,6 @@ import type { Gen0Client } from "@ideanick/tools/gen0/client"
 import type { Gen0Fs } from "@ideanick/tools/gen0/fs"
 import _ from "lodash"
 
-// TODO: add lines numbers to stack trace
-
 export class Gen0ClientProcessCtx {
   client: Gen0Client
   fns: Gen0ClientProcessCtx.FnsRecord
@@ -14,6 +12,7 @@ export class Gen0ClientProcessCtx {
 
   fs: Gen0Fs
   $: Gen0ClientProcessCtx.Store = {}
+  path: Gen0Fs.PathParsed
 
   nodeFs: Gen0ClientProcessCtx.NodeFs = nodeFs
   nodePath: Gen0ClientProcessCtx.NodePath = nodePath
@@ -23,15 +22,6 @@ export class Gen0ClientProcessCtx {
   // biome-ignore lint/suspicious/noConsole: <x>
   log: Gen0ClientProcessCtx.LoggerLog = console.log.bind(console)
 
-  // TODO: selfPath.name,.ext,...
-  selfPath: string
-  selfName: string
-  selfExt: string
-  selfExtDotted: string
-  selfBasename: string
-  selfDir: string
-  selfDirName: string
-
   prints: string[] = []
 
   private constructor({ client }: { client: Gen0Client }) {
@@ -39,13 +29,7 @@ export class Gen0ClientProcessCtx {
     this.fs = this.client.file.fs
     this.fns = this.client.pluginsManager.getFnsRecord()
     this.vars = this.client.pluginsManager.getVarsRecord()
-    this.selfPath = this.client.file.path.abs
-    this.selfName = this.client.file.path.name
-    this.selfExt = this.client.file.path.ext
-    this.selfExtDotted = this.client.file.path.extDotted
-    this.selfBasename = this.client.file.path.basename
-    this.selfDir = this.client.file.path.dir
-    this.selfDirName = this.client.file.path.dirname
+    this.path = this.client.file.path
   }
 
   static create({ client }: { client: Gen0Client }) {
@@ -134,7 +118,31 @@ export class Gen0ClientProcessCtx {
     return ctx
   }
 
-  async execScript(scriptContent: string) {
+  getVmErrorData(error: unknown) {
+    // TODO: offset also column position
+    if (typeof error !== "object" || error === null) {
+      return {
+        message: "Unknown terrible error",
+        stack: this.path.abs,
+      }
+    }
+    const message = "message" in error && typeof error.message === "string" ? error.message : "Unknown error"
+    const stack = "stack" in error && typeof error.stack === "string" ? error.stack : undefined
+    const normalizedStack = stack
+      ?.split("\n")
+      .map((line) => {
+        return line.replace("evalmachine.<anonymous>", `${this.path.abs}`)
+        // .replace("file:///:", `${this.path.abs}:`)
+      })
+      .join("\n")
+    return {
+      message,
+      stack: normalizedStack,
+    }
+  }
+
+  async execScript(scriptContent: string, lineOffset: number = 0) {
+    // TODO: return error, if error occured
     const runnerCtx = this.getSelfWithFnsAndVars()
     const vmContex = vm.createContext(runnerCtx)
     const wrappedScript = `
@@ -142,14 +150,20 @@ export class Gen0ClientProcessCtx {
         try {
           ${scriptContent}
         } catch (error) {
-          console.error(\`Error in "${this.selfPath}"\`)
-          // console.error(error)
-          // console.log("Stacktrace:", error.stack)
           throw error
         }
       })()
     `
-    await vm.runInContext(wrappedScript, vmContex)
+    const wrapperScriptOffset = 3
+    try {
+      await vm.runInContext(wrappedScript, vmContex, {
+        lineOffset: lineOffset - wrapperScriptOffset,
+      })
+    } catch (error) {
+      const { message, stack } = this.getVmErrorData(error)
+      this.logger.error(message)
+      this.logger.error(stack)
+    }
     const printed = this.getPrinted()
     this.clearPrints()
     return { printed }

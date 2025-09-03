@@ -1,125 +1,166 @@
 /** biome-ignore-all lint/suspicious/noConsole: <x> */
-import { Gen0Client } from "@ideanick/tools/gen0/client"
-import type { Gen0Config } from "@ideanick/tools/gen0/config"
+import type { Gen0ClientsManager } from "@ideanick/tools/gen0/clientsManager"
 import type { Gen0Fs } from "@ideanick/tools/gen0/fs"
+import type { Gen0Plugin } from "@ideanick/tools/gen0/plugin"
+import { Gen0Utils } from "@ideanick/tools/gen0/utils"
 import type { EmitArgsWithName } from "chokidar"
 import { isGitIgnored } from "globby"
 
 export class Gen0Watcher {
   fs: Gen0Fs
   name: string
-  config: Gen0Config
+  plugin: Gen0Plugin
   handler: Gen0Watcher.Handler
-  watch: Gen0Watcher.Definition["watch"]
-  isIgnored: (path: string) => boolean = (path) => false
+  watchGlob: Gen0Fs.Paths
+  originalWatch: Gen0Watcher.Definition["watch"]
+  clientsManager: Gen0ClientsManager
+  clientsGlob: Gen0Fs.Paths | undefined
+  clientsNames: Gen0Watcher.Definition["clientsNames"]
+  originalClientsGlob: Gen0Watcher.Definition["clientsGlob"]
+  originalHandler: Gen0Watcher.Definition["handler"]
 
   private constructor({
-    config,
+    plugin,
     name,
     fs,
+    watchGlob,
+    originalWatch,
     handler,
-    watch,
+    clientsManager,
+    clientsGlob,
+    originalClientsGlob,
+    clientsNames,
+    originalHandler,
   }: {
-    config: Gen0Config
+    plugin: Gen0Plugin
     name: string
     fs: Gen0Fs
+    watchGlob: Gen0Fs.Paths
+    originalWatch: Gen0Watcher.Definition["watch"]
     handler: Gen0Watcher.Handler
-    watch: Gen0Watcher.Definition["watch"]
+    clientsManager: Gen0ClientsManager
+    clientsGlob?: Gen0Fs.Paths
+    originalClientsGlob?: Gen0Watcher.Definition["clientsGlob"]
+    clientsNames?: Gen0Watcher.Definition["clientsNames"]
+    originalHandler?: Gen0Watcher.Definition["handler"]
   }) {
     this.name = name
-    this.config = config
+    this.plugin = plugin
     this.fs = fs
     this.handler = handler
-    this.watch = watch
+    this.watchGlob = watchGlob
+    this.originalWatch = originalWatch
+    this.clientsManager = clientsManager
+    this.clientsGlob = clientsGlob
+    this.originalClientsGlob = originalClientsGlob
+    this.clientsNames = clientsNames
+    this.originalHandler = originalHandler
   }
 
   static async create({
-    config,
+    plugin,
     name,
     fs,
-    watch,
-    handler: providedHandler,
-    clients: clientsGlob,
+    watch: originalWatch,
+    handler: originalHandler,
+    clientsManager,
+    clientsGlob: originalClientsGlob,
+    clientsNames,
   }: {
-    config: Gen0Config
+    plugin: Gen0Plugin
     name: string
     fs: Gen0Fs
     watch: Gen0Watcher.Definition["watch"]
     handler?: Gen0Watcher.Definition["handler"]
-    clients?: Gen0Watcher.Definition["clients"]
+    clientsManager: Gen0ClientsManager
+    clientsGlob?: Gen0Watcher.Definition["clientsGlob"]
+    clientsNames?: Gen0Watcher.Definition["clientsNames"]
   }) {
-    if (!clientsGlob && !providedHandler) {
+    if (!originalClientsGlob && !originalHandler) {
       throw new Error(`Clients or/and handler must be provided for watcher ${name}`)
     }
-    const handler = Gen0Watcher.createCombinedHandler({ config, clientsGlob, providedHandler, fs })
-    const watcher = new Gen0Watcher({ config, name, fs, handler, watch })
-    watcher.isIgnored = await isGitIgnored({ cwd: config.rootDir })
+    const clientsGlob = originalClientsGlob ? fs.toPaths(originalClientsGlob) : []
+    const watchGlob = fs.toPaths(originalWatch)
+    const watcher = new Gen0Watcher({
+      plugin,
+      name,
+      fs,
+      watchGlob,
+      originalWatch,
+      handler: Gen0Watcher.getNormalizedHandler({
+        originalHandler,
+        clientsGlob,
+        clientsNames,
+        clientsManager,
+      }),
+      clientsManager,
+      clientsGlob,
+      originalClientsGlob,
+      clientsNames,
+      originalHandler,
+    })
     return watcher
   }
 
-  static createCombinedHandler({
-    config,
+  static getNormalizedHandler({
+    originalHandler,
     clientsGlob,
-    providedHandler,
-    fs,
+    clientsNames,
+    clientsManager,
   }: {
-    config: Gen0Config
-    clientsGlob?: Gen0Watcher.Definition["clients"]
-    providedHandler?: Gen0Watcher.Handler
-    fs: Gen0Fs
+    originalHandler?: Gen0Watcher.Handler
+    clientsGlob?: Gen0Fs.Paths
+    clientsNames?: Gen0Watcher.Definition["clientsNames"]
+    clientsManager: Gen0ClientsManager
   }): Gen0Watcher.Handler {
     return (event: Gen0Watcher.EventName, path: string) => {
-      if (providedHandler) {
-        providedHandler(event, path)
+      if (originalHandler) {
+        originalHandler(event, path)
       }
       if (clientsGlob) {
-        // Gen0Client.findAndProcessMany({ fs, config, clientsGlob })
+        clientsManager.findAndProcessMany(clientsGlob)
+      }
+      if (clientsNames) {
+        clientsManager.processManyByName(clientsNames)
       }
     }
   }
 
-  static async watchAll() {
-    // chokidar
-    //   .watch(this.config.rootDir, {
-    //     cwd: this.config.rootDir,
-    //     ignored: this.isIgnored,
-    //     ignoreInitial: true,
-    //     persistent: true,
-    //   })
-    //   .on("all", (event, path) => {
-    //     this.handler(event, path)
-    //   })
-    //   .on("add", (path) => {
-    //     console.log("all", path)
-    //   })
-    //   .on("change", (path) => {
-    //     console.log("change", path)
-    //   })
-    //   .on("unlink", (path) => {
-    //     console.log("unlink", path)
-    //   })
-    //   .on("addDir", (path) => {
-    //     console.log("addDir", path)
-    //   })
-    //   .on("unlinkDir", (path) => {
-    //     console.log("unlinkDir", path)
-    //   })
-    //   .on("error", (error) => {
-    //     console.log("error", error)
-    //   })
-    //   .on("ready", () => {
-    //     console.log("ready")
-    //   })
+  isSame(watcher: Gen0Watcher) {
+    return this.plugin.name === watcher.plugin.name && this.name === watcher.name
+  }
+
+  isMatchName(nameSearch: Gen0Utils.Search) {
+    return Gen0Utils.isStringMatch(this.name, nameSearch)
+  }
+
+  getMeta(): Gen0Watcher.Meta {
+    return {
+      name: this.name,
+      plugin: this.plugin.name,
+      watch: this.watchGlob,
+      ...(this.clientsGlob ? { clientsGlob: this.clientsGlob } : {}),
+      ...(this.clientsNames ? { clientsNames: this.clientsNames } : {}),
+    }
   }
 }
 
 export namespace Gen0Watcher {
   export type EventName = EmitArgsWithName[0]
   export type Handler = (event: EventName, path: string) => void
-  export type Definition = {
+  export type Meta = {
     name: string
+    plugin: string
     watch: Gen0Fs.PathOrPaths
-    clients?: Gen0Fs.PathOrPaths
+    clientsGlob?: Gen0Fs.PathOrPaths
+    clientsNames?: Gen0Utils.Search
+  }
+  export type Definition = {
+    name?: string
+    watch: Gen0Fs.PathOrPaths
+    clientsGlob?: Gen0Fs.PathOrPaths
+    clientsNames?: Gen0Utils.Search
     handler?: Handler
   }
+  export type DefinitionWithName = Omit<Definition, "name"> & { name: string }
 }

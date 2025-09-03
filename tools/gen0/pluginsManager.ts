@@ -1,9 +1,8 @@
-import type { Gen0ClientProcessCtx } from "@ideanick/tools/gen0/clientProcessCtx"
 import type { Gen0Config } from "@ideanick/tools/gen0/config"
 import type { Gen0Fs } from "@ideanick/tools/gen0/fs"
 import { Gen0Plugin } from "@ideanick/tools/gen0/plugin"
-import { Gen0Target } from "@ideanick/tools/gen0/target"
 import type { Gen0Utils } from "@ideanick/tools/gen0/utils"
+import type { Gen0Watcher } from "@ideanick/tools/gen0/watcher"
 
 export class Gen0PluginsManager {
   config: Gen0Config
@@ -130,6 +129,24 @@ export class Gen0PluginsManager {
 
   getVarsWithMeta(): Gen0Plugin.VarsWithMeta {
     return this.plugins.flatMap((plugin) => plugin.getVarsWithMeta())
+  }
+
+  getWatchersDefinitionsRecord(): Gen0Plugin.WatchersDefinitionsWithNamesRecord {
+    return this.plugins.reduce((acc, plugin) => {
+      for (const [watcherName, watcherDefinition] of Object.entries(plugin.watchersDefinitions)) {
+        acc[watcherName] = { ...watcherDefinition, name: watcherDefinition.name || watcherName }
+      }
+      return acc
+    }, {} as Gen0Plugin.WatchersDefinitionsWithNamesRecord)
+  }
+
+  getWatchersDefinitionsArray(): Gen0Watcher.DefinitionWithName[] {
+    return this.plugins.reduce((acc, plugin) => {
+      for (const [watcherName, watcherDefinition] of Object.entries(plugin.watchersDefinitions)) {
+        acc.push({ ...watcherDefinition, name: watcherDefinition.name || watcherName })
+      }
+      return acc
+    }, [] as Gen0Watcher.DefinitionWithName[])
   }
 }
 

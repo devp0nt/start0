@@ -3,6 +3,7 @@ import type { Gen0Config } from "@ideanick/tools/gen0/config"
 import { Gen0File } from "@ideanick/tools/gen0/file"
 import type { Gen0Fs } from "@ideanick/tools/gen0/fs"
 import { Gen0Utils } from "@ideanick/tools/gen0/utils"
+import type { Gen0Watcher } from "@ideanick/tools/gen0/watcher"
 
 // TODO: add to fns property .getPluginName()
 // TODO: add possibility to rename plugins when use
@@ -13,6 +14,7 @@ export class Gen0Plugin {
   name: string
   fns: Gen0Plugin.FnsRecord
   vars: Gen0Plugin.VarsRecord
+  watchersDefinitions: Gen0Plugin.WatchersDefinitionsRecord
 
   private constructor({
     config,
@@ -20,12 +22,21 @@ export class Gen0Plugin {
     fns,
     vars,
     file,
-  }: { config: Gen0Config; name: string; fns?: Gen0Plugin.FnsRecord; vars?: Gen0Plugin.VarsRecord; file?: Gen0File }) {
+    watchersDefinitions,
+  }: {
+    config: Gen0Config
+    name: string
+    fns?: Gen0Plugin.FnsRecord
+    vars?: Gen0Plugin.VarsRecord
+    file?: Gen0File
+    watchersDefinitions?: Gen0Plugin.WatchersDefinitionsRecord
+  }) {
     this.config = config
     this.file = file
     this.name = name
     this.fns = fns || {}
     this.vars = vars || {}
+    this.watchersDefinitions = watchersDefinitions || {}
   }
 
   static async createByDefinition({
@@ -39,7 +50,14 @@ export class Gen0Plugin {
     name: string
     file?: Gen0File
   }) {
-    return new Gen0Plugin({ config, name, fns: definition.fns, vars: definition.vars, file })
+    return new Gen0Plugin({
+      config,
+      name,
+      fns: definition.fns,
+      vars: definition.vars,
+      watchersDefinitions: definition.watchers,
+      file,
+    })
   }
 
   static async createByFilePath({ filePath, config }: { filePath: string; config: Gen0Config }) {
@@ -49,7 +67,14 @@ export class Gen0Plugin {
     if (!definition) {
       throw new Error(`No plugin definition found in ${filePath}`)
     }
-    return new Gen0Plugin({ config, name: definition.name, fns: definition.fns, vars: definition.vars, file })
+    return new Gen0Plugin({
+      config,
+      name: definition.name,
+      fns: definition.fns,
+      vars: definition.vars,
+      watchersDefinitions: definition.watchersDefinitions,
+      file,
+    })
   }
 
   isSame(plugin: Gen0Plugin) {
@@ -91,10 +116,13 @@ export class Gen0Plugin {
 export namespace Gen0Plugin {
   export type FnsRecord = Record<string, Gen0ClientProcessCtx.Fn>
   export type VarsRecord = Record<string, Gen0ClientProcessCtx.Var>
+  export type WatchersDefinitionsRecord = Record<string, Gen0Watcher.Definition>
+  export type WatchersDefinitionsWithNamesRecord = Record<string, Gen0Watcher.DefinitionWithName>
   export type Definition = {
     name?: string
     fns?: Gen0Plugin.FnsRecord
     vars?: Gen0Plugin.VarsRecord
+    watchers?: Gen0Plugin.WatchersDefinitionsRecord
   }
   export type DefinitionWithName = Omit<Definition, "name"> & { name: string }
 

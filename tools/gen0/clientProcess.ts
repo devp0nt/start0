@@ -19,7 +19,7 @@ export class Gen0ClientProcess {
     const clientProcess = new Gen0ClientProcess({ client })
     let target = await Gen0Target.extract({ client, skipBeforeLineIndex: 0 })
     while (target) {
-      const { printed } = await clientProcess.ctx.execScript(target.scriptContent)
+      const { printed } = await clientProcess.ctx.execScript(target.scriptContent, target.startLineIndex)
       await target.fill(printed)
       clientProcess.targets.push(target)
       target = await Gen0Target.extract({ client, skipBeforeLineIndex: target.outputEndLineIndex })

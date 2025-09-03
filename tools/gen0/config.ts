@@ -1,6 +1,7 @@
 import nodePath from "node:path"
 import type { Gen0Fs } from "@ideanick/tools/gen0/fs"
 import type { Gen0Plugin } from "@ideanick/tools/gen0/plugin"
+// import { Gen0Utils } from "@ideanick/tools/gen0/utils"
 import { findUpSync } from "find-up"
 import { workspaceRoot } from "workspace-root"
 
@@ -12,6 +13,7 @@ export class Gen0Config {
   static defaultClientsGlob: Gen0Fs.PathOrPaths = ["**/*.{ts,tsx,js,jsx,mjs,json}"]
 
   rootDir: string
+  // gitignoreGlob: string[]
   clientsGlob: Gen0Fs.PathOrPaths
   pluginsGlob: Gen0Fs.PathOrPaths
   pluginsDefinitions: Gen0Config.PluginsDefinitions
@@ -19,12 +21,14 @@ export class Gen0Config {
 
   private constructor({
     rootDir,
+    // gitignoreGlob,
     afterProcessCmd,
     pluginsGlob,
     clientsGlob,
     pluginsDefinitions,
   }: {
     rootDir: string
+    // gitignoreGlob: string[]
     afterProcessCmd?: Gen0Config.AfterProcessCmd
     pluginsGlob?: Gen0Fs.PathOrPaths
     clientsGlob?: Gen0Fs.PathOrPaths
@@ -32,6 +36,7 @@ export class Gen0Config {
   }) {
     this.rootDir = rootDir
     this.afterProcessCmd = afterProcessCmd
+    // this.gitignoreGlob = gitignoreGlob || []
     this.pluginsGlob = pluginsGlob || Gen0Config.defaultPluginsGlob
     this.clientsGlob = clientsGlob || Gen0Config.defaultClientsGlob
     this.pluginsDefinitions = pluginsDefinitions || []
@@ -53,7 +58,15 @@ export class Gen0Config {
       throw new Error("Project root dir not found")
     }
     const { afterProcessCmd, plugins, clientsGlob, pluginsGlob } = configDefinition
-    const config = new Gen0Config({ rootDir, afterProcessCmd, pluginsDefinitions: plugins, clientsGlob, pluginsGlob })
+    // const gitignoreGlob = await Gen0Utils.getGitignoreGlob(rootDir)
+    const config = new Gen0Config({
+      rootDir,
+      // gitignoreGlob,
+      afterProcessCmd,
+      pluginsDefinitions: plugins,
+      clientsGlob,
+      pluginsGlob,
+    })
     return config
   }
 
