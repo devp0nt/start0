@@ -8,7 +8,6 @@ program.name("gen0").description("A code generation tool").version("1.0.0")
 
 // helpers
 
-// TODO: add logger
 const logger = console
 
 const withErrorWrapper = <T extends any[]>(action: (...args: T) => Promise<void>) => {
@@ -20,16 +19,18 @@ const withErrorWrapper = <T extends any[]>(action: (...args: T) => Promise<void>
     }
   }
 }
-const withGen0 = <T extends any[]>(action: (gen0: Gen0, ...args: T) => Promise<void>) => {
+const withClearGen0 = <T extends any[]>(action: (gen0: Gen0, ...args: T) => Promise<void>) => {
   return withErrorWrapper(async (...args: T) => {
-    const gen0 = await Gen0.init()
+    const gen0 = await Gen0.create()
     await action(gen0, ...args)
   })
 }
-const printArray = <T>(array: T[]) => {
-  for (const item of array) {
-    logger.info(`${item}`)
-  }
+const withGen0 = <T extends any[]>(action: (gen0: Gen0, ...args: T) => Promise<void>) => {
+  return withErrorWrapper(async (...args: T) => {
+    const gen0 = await Gen0.create()
+    await gen0.init()
+    await action(gen0, ...args)
+  })
 }
 
 // commands
@@ -64,21 +65,31 @@ program
   )
 
 program
-  .command("config")
-  .alias("c")
-  .description("Show gen0 config")
+  .command("watch")
+  .alias("w")
+  .description("Watch")
+  .action(
+    withClearGen0(async (gen0) => {
+      // await gen0.watch()
+    }),
+  )
+
+const getCommand = program.command("get").alias("g").description("Get various information from gen0")
+
+getCommand
+  .command("all")
+  .alias("a")
+  .description("Show all gen0 info")
   .action(
     withGen0(async (gen0) => {
       logger.info(
         JSON.stringify(
           {
-            rootDir: gen0.config.rootDir,
-            afterProcessCmd: gen0.config.afterProcessCmd,
-            pluginsGlob: gen0.config.pluginsGlob,
-            plugins: Object.keys(gen0.config.plugins),
-            clients: gen0.config.clientsGlob,
-            fns: Object.keys(gen0.config.fns),
-            vars: Object.keys(gen0.config.vars),
+            ...gen0.config.getMeta(),
+            plugins: gen0.pluginsManager.getPluginsMeta(),
+            fns: gen0.pluginsManager.getFnsMeta(),
+            vars: gen0.pluginsManager.getVarsMeta(),
+            clients: gen0.clientsManager.getClientsMeta(),
           },
           null,
           2,
@@ -87,29 +98,53 @@ program
     }),
   )
 
-program
+getCommand
   .command("clients")
-  .alias("cl")
+  .alias("c")
   .description("Show clients")
   .action(
     withGen0(async (gen0) => {
-      const paths = gen0.clientsManager.clients.map((client) => client.file.path.rel)
-      if (paths.length === 0) {
-        logger.error(`❌ No clients found by config glob: ${gen0.config.clientsGlob}`)
-      } else {
-        logger.info(`✅ ${paths.length} clients found`)
-        printArray(paths)
-      }
+      logger.info(JSON.stringify(gen0.clientsManager.getClientsMeta(), null, 2))
     }),
   )
 
-program
-  .command("watch")
-  .alias("w")
-  .description("Watch")
+getCommand
+  .command("plugins")
+  .alias("p")
+  .description("Show plugins")
   .action(
     withGen0(async (gen0) => {
-      // await gen0.watch()
+      logger.info(JSON.stringify(gen0.pluginsManager.getPluginsMeta(), null, 2))
+    }),
+  )
+
+getCommand
+  .command("fns")
+  .alias("f")
+  .description("Show functions")
+  .action(
+    withGen0(async (gen0) => {
+      logger.info(JSON.stringify(gen0.pluginsManager.getFnsMeta(), null, 2))
+    }),
+  )
+
+getCommand
+  .command("vars")
+  .alias("v")
+  .description("Show variables")
+  .action(
+    withGen0(async (gen0) => {
+      logger.info(JSON.stringify(gen0.pluginsManager.getVarsMeta(), null, 2))
+    }),
+  )
+
+getCommand
+  .command("vars-values")
+  .alias("vv")
+  .description("Show variables with values")
+  .action(
+    withGen0(async (gen0) => {
+      logger.info(JSON.stringify(gen0.pluginsManager.getVarsWithMeta(), null, 2))
     }),
   )
 

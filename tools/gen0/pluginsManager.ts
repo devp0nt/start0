@@ -1,3 +1,4 @@
+import type { Gen0ClientProcessCtx } from "@ideanick/tools/gen0/clientProcessCtx"
 import type { Gen0Config } from "@ideanick/tools/gen0/config"
 import type { Gen0Fs } from "@ideanick/tools/gen0/fs"
 import { Gen0Plugin } from "@ideanick/tools/gen0/plugin"
@@ -28,6 +29,10 @@ export class Gen0PluginsManager {
     glob = this.fs.toPaths(glob)
     const plugins = await this.findAndCreateMany(glob)
     return this.add(plugins)
+  }
+
+  async addAll() {
+    return await this.addPluginsByGlob(this.config.pluginsGlob)
   }
 
   removeByGlob(pluginsGlob: Gen0Fs.PathOrPaths) {
@@ -64,18 +69,9 @@ export class Gen0PluginsManager {
     return this.plugins.filter((c) => c.isMatchName(nameSearch))
   }
 
-  // async processMany(plugins: Gen0Plugin[]) {
-  //   return await Promise.all(plugins.map((plugin) => plugin.process()))
-  // }
-
-  // async processAll() {
-  //   return await this.processMany(this.plugins)
-  // }
-
   async findAndCreateMany(pluginsGlob: Gen0Fs.PathOrPaths) {
-    const pluginsPaths = await this.fs.findFilesPathsContentMatch({
+    const pluginsPaths = await this.fs.findFilesPaths({
       glob: pluginsGlob,
-      search: [Gen0Target.startMark, Gen0Target.silentMark],
     })
     return await Promise.all(
       pluginsPaths.map((filePath) => Gen0Plugin.createByFilePath({ filePath, config: this.config })),
@@ -85,15 +81,6 @@ export class Gen0PluginsManager {
   async findAndCreateAll() {
     return await this.findAndCreateMany(this.config.pluginsGlob)
   }
-
-  // async findAndProcessMany(pluginsGlob: Gen0Fs.PathOrPaths) {
-  //   const plugins = await this.findAndCreateMany(pluginsGlob)
-  //   return await this.processMany(plugins)
-  // }
-
-  // async findAndProcessAll() {
-  //   return await this.findAndProcessMany(this.config.pluginsGlob)
-  // }
 
   isSame(plugin1: Gen0Plugin, plugin2: Gen0Plugin) {
     return plugin1.isSame(plugin2)
@@ -106,4 +93,46 @@ export class Gen0PluginsManager {
   isMatchName(plugin: Gen0Plugin, nameSearch: Gen0Utils.Search) {
     return plugin.isMatchName(nameSearch)
   }
+
+  getPluginsMeta(): Gen0PluginsManager.PluginsMeta {
+    return this.plugins.map((plugin) => plugin.getMeta())
+  }
+
+  getFnsRecord(): Gen0Plugin.FnsRecord {
+    return this.plugins.reduce((acc, plugin) => {
+      for (const [fnName, fn] of Object.entries(plugin.fns)) {
+        acc[fnName] = fn
+      }
+      return acc
+    }, {} as Gen0Plugin.FnsRecord)
+  }
+
+  getFnsMeta(): Gen0Plugin.FnsMeta {
+    return this.plugins.flatMap((plugin) => plugin.getFnsMeta())
+  }
+
+  getFnsWithMeta(): Gen0Plugin.FnsWithMeta {
+    return this.plugins.flatMap((plugin) => plugin.getFnsWithMeta())
+  }
+
+  getVarsRecord(): Gen0Plugin.VarsRecord {
+    return this.plugins.reduce((acc, plugin) => {
+      for (const [varName, value] of Object.entries(plugin.vars)) {
+        acc[varName] = value
+      }
+      return acc
+    }, {} as Gen0Plugin.VarsRecord)
+  }
+
+  getVarsMeta(): Gen0Plugin.VarsMeta {
+    return this.plugins.flatMap((plugin) => plugin.getVarsMeta())
+  }
+
+  getVarsWithMeta(): Gen0Plugin.VarsWithMeta {
+    return this.plugins.flatMap((plugin) => plugin.getVarsWithMeta())
+  }
+}
+
+export namespace Gen0PluginsManager {
+  export type PluginsMeta = Gen0Plugin.Meta[]
 }

@@ -1,20 +1,32 @@
 import { Gen0Client } from "@ideanick/tools/gen0/client"
 import type { Gen0Config } from "@ideanick/tools/gen0/config"
 import type { Gen0Fs } from "@ideanick/tools/gen0/fs"
+import type { Gen0PluginsManager } from "@ideanick/tools/gen0/pluginsManager"
 import { Gen0Target } from "@ideanick/tools/gen0/target"
+import type { Gen0Utils } from "@ideanick/tools/gen0/utils"
 
 export class Gen0ClientsManager {
   config: Gen0Config
   fs: Gen0Fs
   clients: Gen0Client[] = []
+  pluginsManager: Gen0PluginsManager
 
-  constructor({ config, fs }: { config: Gen0Config; fs: Gen0Fs }) {
+  constructor({ config, fs, pluginsManager }: { config: Gen0Config; fs: Gen0Fs; pluginsManager: Gen0PluginsManager }) {
     this.config = config
     this.fs = fs
+    this.pluginsManager = pluginsManager
   }
 
-  static create({ config, fs }: { config: Gen0Config; fs: Gen0Fs }) {
-    return new Gen0ClientsManager({ config, fs })
+  static create({
+    config,
+    fs,
+    pluginsManager,
+  }: {
+    config: Gen0Config
+    fs: Gen0Fs
+    pluginsManager: Gen0PluginsManager
+  }) {
+    return new Gen0ClientsManager({ config, fs, pluginsManager })
   }
 
   add(clients: Gen0Client[]) {
@@ -27,6 +39,10 @@ export class Gen0ClientsManager {
     glob = this.fs.toPaths(glob)
     const clients = await this.findAndCreateMany(glob)
     return this.add(clients)
+  }
+
+  async addAll() {
+    return await this.addByGlob(this.config.clientsGlob)
   }
 
   removeByGlob(clientsGlob: Gen0Fs.PathOrPaths) {
@@ -43,7 +59,7 @@ export class Gen0ClientsManager {
     return removedClientsEntries.map(({ client }) => client)
   }
 
-  removeByName(nameSearch: Gen0Fs.Search) {
+  removeByName(nameSearch: Gen0Utils.Search) {
     const clientsEntries = this.clients.map((c, index) => ({
       index,
       client: c,
@@ -59,7 +75,7 @@ export class Gen0ClientsManager {
     return this.clients.find((c) => c.isMatchGlob(clientsGlob))
   }
 
-  getByName(nameSearch: Gen0Fs.Search) {
+  getByName(nameSearch: Gen0Utils.Search) {
     return this.clients.filter((c) => c.isMatchName(nameSearch))
   }
 
@@ -76,7 +92,11 @@ export class Gen0ClientsManager {
       glob: clientsGlob,
       search: [Gen0Target.startMark, Gen0Target.silentMark],
     })
-    return await Promise.all(clientsPaths.map((filePath) => Gen0Client.create({ filePath, config: this.config })))
+    return await Promise.all(
+      clientsPaths.map((filePath) =>
+        Gen0Client.create({ filePath, config: this.config, pluginsManager: this.pluginsManager }),
+      ),
+    )
   }
 
   async findAndCreateAll() {
@@ -100,7 +120,15 @@ export class Gen0ClientsManager {
     return client.isMatchGlob(clientsGlob)
   }
 
-  isMatchName(client: Gen0Client, nameSearch: Gen0Fs.Search) {
+  isMatchName(client: Gen0Client, nameSearch: Gen0Utils.Search) {
     return client.isMatchName(nameSearch)
   }
+
+  getClientsMeta(): Gen0ClientsManager.ClientsMeta {
+    return this.clients.map((client) => client.getMeta())
+  }
+}
+
+export namespace Gen0ClientsManager {
+  export type ClientsMeta = Gen0Client.Meta[]
 }

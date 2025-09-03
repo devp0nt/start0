@@ -63,6 +63,29 @@ export class Gen0Plugin {
   isMatchName(nameSearch: Gen0Utils.Search) {
     return Gen0Utils.isStringMatch(this.name, nameSearch)
   }
+
+  getMeta(): Gen0Plugin.Meta {
+    return {
+      name: this.name,
+      ...(this.file ? { path: this.file.path.rel } : {}),
+    }
+  }
+
+  getFnsMeta(): Gen0Plugin.FnsMeta {
+    return Object.entries(this.fns).map(([name]) => ({ name, plugin: this.name }))
+  }
+
+  getVarsMeta(): Gen0Plugin.VarsMeta {
+    return Object.entries(this.vars).map(([name]) => ({ name, plugin: this.name }))
+  }
+
+  getFnsWithMeta(): Gen0Plugin.FnsWithMeta {
+    return Object.entries(this.fns).map(([name, fn]) => ({ fn, name, plugin: this.name }))
+  }
+
+  getVarsWithMeta(): Gen0Plugin.VarsWithMeta {
+    return Object.entries(this.vars).map(([name, value]) => ({ value, name, plugin: this.name }))
+  }
 }
 
 export namespace Gen0Plugin {
@@ -73,4 +96,28 @@ export namespace Gen0Plugin {
     fns?: Gen0Plugin.FnsRecord
     vars?: Gen0Plugin.VarsRecord
   }
+  export type DefinitionWithName = Omit<Definition, "name"> & { name: string }
+
+  export type Meta = {
+    name: string
+    path?: string
+  }
+  export type FnMeta = {
+    name: string
+    plugin: string
+  }
+  export type FnsMeta = FnMeta[]
+  export type FnWithMeta = FnMeta & {
+    fn: Gen0ClientProcessCtx.Fn
+  }
+  export type FnsWithMeta = FnWithMeta[]
+  export type VarMeta = {
+    name: string
+    plugin: string
+  }
+  export type VarsMeta = VarMeta[]
+  export type VarWithMeta = VarMeta & {
+    value: any
+  }
+  export type VarsWithMeta = VarWithMeta[]
 }

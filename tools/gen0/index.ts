@@ -50,13 +50,18 @@ export class Gen0 {
     this.pluginsManager = pluginsManager
   }
 
-  static async init({ cwd }: { cwd?: string } = {}) {
+  static async create({ cwd }: { cwd?: string } = {}) {
     const config = await Gen0Config.create({ cwd: cwd || process.cwd() })
     const fs = Gen0Fs.create({ config, cwd: config.rootDir })
     const pluginsManager = await Gen0PluginsManager.create({ fs, config })
-    const clientsManager = await Gen0ClientsManager.create({ fs, config })
+    const clientsManager = await Gen0ClientsManager.create({ fs, config, pluginsManager })
     const gen0 = new Gen0({ config, fs, clientsManager, pluginsManager })
     return gen0
+  }
+
+  async init() {
+    await this.clientsManager.addAll()
+    await this.pluginsManager.addAll()
   }
 }
 

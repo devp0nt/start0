@@ -37,8 +37,8 @@ export class Gen0ClientProcessCtx {
   private constructor({ client }: { client: Gen0Client }) {
     this.client = client
     this.fs = this.client.file.fs
-    this.fns = this.client.config.fns
-    this.vars = this.client.config.vars
+    this.fns = this.client.pluginsManager.getFnsRecord()
+    this.vars = this.client.pluginsManager.getVarsRecord()
     this.selfPath = this.client.file.path.abs
     this.selfName = this.client.file.path.name
     this.selfExt = this.client.file.path.ext

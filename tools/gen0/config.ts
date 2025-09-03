@@ -1,7 +1,6 @@
 import nodePath from "node:path"
-import type { Gen0ClientProcessCtx } from "@ideanick/tools/gen0/clientProcessCtx"
 import type { Gen0Fs } from "@ideanick/tools/gen0/fs"
-import { Gen0Plugin } from "@ideanick/tools/gen0/plugin"
+import type { Gen0Plugin } from "@ideanick/tools/gen0/plugin"
 import { findUpSync } from "find-up"
 import { workspaceRoot } from "workspace-root"
 
@@ -15,9 +14,7 @@ export class Gen0Config {
   rootDir: string
   clientsGlob: Gen0Fs.PathOrPaths
   pluginsGlob: Gen0Fs.PathOrPaths
-  plugins: Gen0Config.Plugins
-  fns: Gen0Config.Fns
-  vars: Gen0Config.Vars
+  pluginsDefinitions: Gen0Config.PluginsDefinitions
   afterProcessCmd: Gen0Config.AfterProcessCmd | undefined
 
   private constructor({
@@ -25,25 +22,19 @@ export class Gen0Config {
     afterProcessCmd,
     pluginsGlob,
     clientsGlob,
-    plugins,
-    fns,
-    vars,
+    pluginsDefinitions,
   }: {
     rootDir: string
     afterProcessCmd?: Gen0Config.AfterProcessCmd
     pluginsGlob?: Gen0Fs.PathOrPaths
-    plugins?: Gen0Config.Plugins
     clientsGlob?: Gen0Fs.PathOrPaths
-    fns?: Gen0Config.Fns
-    vars?: Gen0Config.Vars
+    pluginsDefinitions?: Gen0Config.PluginsDefinitions
   }) {
     this.rootDir = rootDir
     this.afterProcessCmd = afterProcessCmd
     this.pluginsGlob = pluginsGlob || Gen0Config.defaultPluginsGlob
     this.clientsGlob = clientsGlob || Gen0Config.defaultClientsGlob
-    this.plugins = plugins || {}
-    this.fns = fns || {}
-    this.vars = vars || {}
+    this.pluginsDefinitions = pluginsDefinitions || []
   }
 
   static async create({ cwd }: { cwd: string }) {
@@ -61,9 +52,8 @@ export class Gen0Config {
     if (!rootDir) {
       throw new Error("Project root dir not found")
     }
-    const { afterProcessCmd, plugins, fns, vars } = configDefinition
-    const config = new Gen0Config({ rootDir, afterProcessCmd, plugins, fns, vars })
-    Gen0Plugin.assignPluginsToConfig({ config, plugins: config.plugins })
+    const { afterProcessCmd, plugins, clientsGlob, pluginsGlob } = configDefinition
+    const config = new Gen0Config({ rootDir, afterProcessCmd, pluginsDefinitions: plugins, clientsGlob, pluginsGlob })
     return config
   }
 
@@ -79,29 +69,29 @@ export class Gen0Config {
     const config = await import(configPath)
     return config.default || config
   }
+
+  getMeta() {
+    return {
+      rootDir: this.rootDir,
+      afterProcessCmd: this.afterProcessCmd,
+      pluginsGlob: this.pluginsGlob,
+      clientsGlob: this.clientsGlob,
+      plugins: this.pluginsDefinitions.map((plugin) => plugin.name),
+    }
+  }
 }
 
 export namespace Gen0Config {
-  export type Definition<
-    TPluginsDefinitions extends PluginsDefinitions | undefined = undefined,
-    TFns extends Fns | undefined = undefined,
-    TVars extends Vars | undefined = undefined,
-  > = {
+  export type Definition = {
     rootDir?: string
     afterProcessCmd?: AfterProcessCmd
     pluginsGlob?: Gen0Fs.PathOrPaths
     clientsGlob?: Gen0Fs.PathOrPaths
-    plugins?: TPluginsDefinitions
-    fns?: TFns
-    vars?: TVars
+    plugins?: Gen0Config.PluginsDefinitions
   }
-
-  export type Fns = Gen0ClientProcessCtx.FnsRecord
-  export type Vars = Gen0ClientProcessCtx.VarsRecord
 
   export type AfterProcessCmdString = string
   export type AfterProcessCmdFn = (filePath: string) => AfterProcessCmdString
   export type AfterProcessCmd = AfterProcessCmdString | AfterProcessCmdFn
-  export type PluginsDefinitions = Record<string, Gen0Plugin.Definition>
-  export type Plugins = Record<string, Gen0Plugin>
+  export type PluginsDefinitions = Gen0Plugin.DefinitionWithName[]
 }
