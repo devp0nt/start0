@@ -1,6 +1,6 @@
+import nodePath from "node:path"
 import { globby } from "globby"
 import { globifyGitIgnoreFile } from "globify-gitignore"
-import nodePath from "path"
 
 export namespace Gen0Utils {
   export type Search = string | string[] | RegExp | RegExp[]
