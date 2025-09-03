@@ -34,12 +34,16 @@ export class Gen0ClientsManager {
   }
 
   add(clients: Gen0Client[]) {
-    const filteredClients = clients.filter((c1) => !this.clients.some((c2) => this.isSame(c1, c2)))
-    this.clients.push(...filteredClients)
-    for (const client of filteredClients) {
-      this.logger.debug(`add client ${client.file.path.rel}`)
+    for (const newClient of clients) {
+      const exClientIndex = this.clients.findIndex((exClient) => newClient.isSame(exClient))
+      if (exClientIndex === -1) {
+        this.clients.push(newClient)
+        this.logger.debug(`add client ${newClient.file.path.rel}`)
+      } else {
+        this.clients[exClientIndex] = newClient
+        this.logger.debug(`update client ${newClient.file.path.rel}`)
+      }
     }
-    return filteredClients
   }
 
   async addByGlob(glob: Gen0Fs.PathOrPaths) {

@@ -33,4 +33,4 @@ export default {
   fns: {
     getRealExportNames,
   },
-} satisfies Gen0Plugin.Definition
+} satisfies Gen0Plugin.DefinitionResult

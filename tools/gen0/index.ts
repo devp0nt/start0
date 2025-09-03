@@ -82,7 +82,6 @@ export class Gen0 {
   async init() {
     await this.clientsManager.addAll()
     await this.pluginsManager.addAll()
-    await this.watchersManager.addAll()
   }
 }
 

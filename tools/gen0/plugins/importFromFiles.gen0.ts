@@ -137,4 +137,4 @@ export default {
     importAsFromFiles,
     importExportedFromFiles,
   },
-} satisfies Gen0Plugin.Definition
+} satisfies Gen0Plugin.DefinitionResult

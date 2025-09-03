@@ -4,7 +4,7 @@ import { Gen0File } from "@ideanick/tools/gen0/file"
 import type { Gen0Fs } from "@ideanick/tools/gen0/fs"
 import { Gen0Logger } from "@ideanick/tools/gen0/logger"
 import { Gen0Utils } from "@ideanick/tools/gen0/utils"
-import type { Gen0Watcher } from "@ideanick/tools/gen0/watcher"
+import { Gen0Watcher } from "@ideanick/tools/gen0/watcher"
 
 // TODO: add to fns property .getPluginName()
 // TODO: add possibility to rename plugins when use
@@ -15,10 +15,11 @@ export class Gen0Plugin {
 
   config: Gen0Config
   file?: Gen0File
+  fs: Gen0Fs
   name: string
   fns: Gen0Plugin.FnsRecord
   vars: Gen0Plugin.VarsRecord
-  watchersDefinitions: Gen0Plugin.WatchersDefinitionsRecord
+  watchers: Gen0Watcher[]
 
   private constructor({
     config,
@@ -26,21 +27,24 @@ export class Gen0Plugin {
     fns,
     vars,
     file,
-    watchersDefinitions,
+    fs,
+    watchers,
   }: {
     config: Gen0Config
     name: string
     fns?: Gen0Plugin.FnsRecord
     vars?: Gen0Plugin.VarsRecord
     file?: Gen0File
-    watchersDefinitions?: Gen0Plugin.WatchersDefinitionsRecord
+    fs: Gen0Fs
+    watchers?: Gen0Watcher[]
   }) {
     this.config = config
     this.file = file
+    this.fs = fs
     this.name = name
     this.fns = fns || {}
     this.vars = vars || {}
-    this.watchersDefinitions = watchersDefinitions || {}
+    this.watchers = watchers || []
   }
 
   static async createByDefinition({
@@ -48,37 +52,58 @@ export class Gen0Plugin {
     config,
     name,
     file,
+    fs,
   }: {
-    definition: Gen0Plugin.Definition
+    definition: Gen0Plugin.DefinitionResult
     config: Gen0Config
     name: string
     file?: Gen0File
+    fs: Gen0Fs
   }) {
-    return new Gen0Plugin({
+    const plugin = new Gen0Plugin({
       config,
       name,
       fns: definition.fns,
       vars: definition.vars,
-      watchersDefinitions: definition.watchers,
+      watchers: [],
       file,
+      fs,
     })
+    plugin.watchers = await plugin.createWatchersByDefinitions(definition.watchers || {})
+    return plugin
   }
 
   static async createByFilePath({ filePath, config }: { filePath: string; config: Gen0Config }) {
     const file = Gen0File.create({ filePath, config })
     const imported = await file.import()
-    const definition = imported?.default || imported
+    const definitionOrFn = imported?.default || imported
+    const definition = typeof definitionOrFn === "function" ? await definitionOrFn({ fs: file.fs }) : definitionOrFn
     if (!definition) {
       throw new Error(`No plugin definition found in ${filePath}`)
     }
-    return new Gen0Plugin({
+    return Gen0Plugin.createByDefinition({
+      definition,
       config,
       name: definition.name,
-      fns: definition.fns,
-      vars: definition.vars,
-      watchersDefinitions: definition.watchers,
       file,
+      fs: file.fs,
     })
+  }
+
+  async createWatchersByDefinitions(watchersDefinitions: Gen0Plugin.WatchersDefinitionsRecord) {
+    return await Promise.all(
+      Object.entries(watchersDefinitions).map(([name, watcherDefinition]) => {
+        return Gen0Watcher.create({
+          plugin: this,
+          name,
+          watch: watcherDefinition.watch,
+          handler: watcherDefinition.handler,
+          clientsGlob: watcherDefinition.clientsGlob,
+          clientsNames: watcherDefinition.clientsNames,
+          fs: this.fs,
+        })
+      }),
+    )
   }
 
   isSame(plugin: Gen0Plugin) {
@@ -122,13 +147,15 @@ export namespace Gen0Plugin {
   export type VarsRecord = Record<string, Gen0ClientProcessCtx.Var>
   export type WatchersDefinitionsRecord = Record<string, Gen0Watcher.Definition>
   export type WatchersDefinitionsWithNamesRecord = Record<string, Gen0Watcher.DefinitionWithName>
-  export type Definition = {
+  export type DefinitionResult = {
     name?: string
     fns?: Gen0Plugin.FnsRecord
     vars?: Gen0Plugin.VarsRecord
     watchers?: Gen0Plugin.WatchersDefinitionsRecord
   }
-  export type DefinitionWithName = Omit<Definition, "name"> & { name: string }
+  export type DefinitionWithName = Omit<DefinitionResult, "name"> & { name: string }
+  export type DefinitionFn = ({ fs }: { fs: Gen0Fs }) => DefinitionResult | Promise<DefinitionResult>
+  export type Definition = DefinitionResult | DefinitionFn
 
   export type Meta = {
     name: string

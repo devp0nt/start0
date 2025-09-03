@@ -2,10 +2,9 @@ import type { Gen0ClientsManager } from "@ideanick/tools/gen0/clientsManager"
 import type { Gen0Config } from "@ideanick/tools/gen0/config"
 import type { Gen0Fs } from "@ideanick/tools/gen0/fs"
 import { Gen0Logger } from "@ideanick/tools/gen0/logger"
-import type { Gen0Plugin } from "@ideanick/tools/gen0/plugin"
 import type { Gen0PluginsManager } from "@ideanick/tools/gen0/pluginsManager"
 import { Gen0Utils } from "@ideanick/tools/gen0/utils"
-import { Gen0Watcher } from "@ideanick/tools/gen0/watcher"
+import type { Gen0Watcher } from "@ideanick/tools/gen0/watcher"
 import type { EventType as ParcelEventType } from "@parcel/watcher"
 import parcel from "@parcel/watcher"
 // import chokidar, { type FSWatcher as ChokidarFSWatcher, type EmitArgsWithName } from "chokidar"
@@ -19,7 +18,6 @@ export class Gen0WatchersManager {
   config: Gen0Config
   pluginsManager: Gen0PluginsManager
   clientsManager: Gen0ClientsManager
-  watchers: Gen0Watcher[] = []
   watchGlob: string[] = []
   fs: Gen0Fs
   isGitIgnored: (path: string) => boolean = (path) => false
@@ -36,7 +34,6 @@ export class Gen0WatchersManager {
     this.config = config
     this.pluginsManager = pluginsManager
     this.clientsManager = clientsManager
-    this.watchers = []
     this.fs = fs
   }
 
@@ -56,100 +53,12 @@ export class Gen0WatchersManager {
     return watchersManager
   }
 
-  // async createIsIgnored() {
-  //   const isIgnoredByGit = await isGitIgnored({ cwd: this.config.rootDir })
-  //   return (path: string) => isIgnoredByGit(path) || path.split("/")[0] === ".git"
-  // }
-
-  getWatchersDefinitionsWithPlugins(): { watchersDefinition: Gen0Watcher.DefinitionWithName; plugin: Gen0Plugin }[] {
-    return this.pluginsManager.plugins.reduce(
-      (acc, plugin) => {
-        for (const [watcherName, watcherDefinition] of Object.entries(plugin.watchersDefinitions)) {
-          acc.push({
-            watchersDefinition: { ...watcherDefinition, name: watcherDefinition.name || watcherName },
-            plugin,
-          })
-        }
-        return acc
-      },
-      [] as { watchersDefinition: Gen0Watcher.DefinitionWithName; plugin: Gen0Plugin }[],
-    )
+  getWatchers() {
+    return this.pluginsManager.getWatchers()
   }
-
-  add(watchers: Gen0Watcher[]) {
-    const filteredWatchers = watchers.filter((w1) => !this.watchers.some((w2) => this.isSame(w1, w2)))
-    this.watchers.push(...filteredWatchers)
-    for (const watcher of filteredWatchers) {
-      this.logger.debug(`add watcher ${watcher.name} from ${watcher.plugin.name}`)
-    }
-    return filteredWatchers
-  }
-
-  remove(watchers: Gen0Watcher[]) {
-    this.watchers = this.watchers.filter((watcher) => watchers.every((w) => !w.isSame(watcher)))
-    for (const watcher of watchers) {
-      this.logger.debug(`remove watcher ${watcher.name}`)
-    }
-    return watchers
-  }
-
-  async createAll() {
-    const watchersDefinitionsWithPlugins = this.getWatchersDefinitionsWithPlugins()
-    const watchers = await Promise.all(
-      watchersDefinitionsWithPlugins.map(({ watchersDefinition, plugin }) => {
-        return Gen0Watcher.create({
-          plugin,
-          fs: plugin.file?.fs || this.fs,
-          clientsManager: this.clientsManager,
-          name: watchersDefinition.name,
-          watch: watchersDefinition.watch,
-          handler: watchersDefinition.handler,
-          clientsGlob: watchersDefinition.clientsGlob,
-          clientsNames: watchersDefinition.clientsNames,
-        })
-      }),
-    )
-    return watchers
-  }
-
-  async addAll() {
-    const watchers = await this.createAll()
-    return this.add(watchers)
-  }
-
-  pruneAll() {
-    this.watchers = []
-  }
-
-  async actualizeAll() {
-    // this.pruneAll()
-    // await this.addAll()
-    const actualWatchers = await this.createAll()
-    const toRemoveWatchers = this.watchers.filter((watcher) => this.watchers.every((w) => !w.isSame(watcher)))
-    await this.remove(toRemoveWatchers)
-    return this.add(actualWatchers)
-  }
-
-  // actualizeChokidarWatcher() {
-  //   if (!this.chokidarWatcher) {
-  //     return
-  //   }
-  //   const diff = this.getActualWatchGlobDiff()
-  //   if (diff.add.length > 0) {
-  //     this.chokidarWatcher.add(diff.add)
-  //   }
-  //   if (diff.remove.length > 0) {
-  //     this.chokidarWatcher.unwatch(diff.remove)
-  //   }
-  // }
-
-  // async actualizeEverything() {
-  //   await this.actualizeAll()
-  //   this.actualizeChokidarWatcher()
-  // }
 
   getAllWatchersWatchGlob(): string[] {
-    return this.watchers.reduce((acc, watcher) => {
+    return this.getWatchers().reduce((acc, watcher) => {
       acc.push(...watcher.watchGlob)
       return acc
     }, [] as string[])
@@ -163,11 +72,11 @@ export class Gen0WatchersManager {
   }
 
   getAllWatchersOriginalMeta(): Gen0Watcher.OriginalMeta[] {
-    return this.watchers.map((watcher) => watcher.getOriginalMeta())
+    return this.getWatchers().map((watcher) => watcher.getOriginalMeta())
   }
 
   getAllWatchersRealMeta(): Gen0Watcher.RealMeta[] {
-    return this.watchers.map((watcher) => watcher.getRealMeta())
+    return this.getWatchers().map((watcher) => watcher.getRealMeta())
   }
 
   isSame(watcher1: Gen0Watcher, watcher2: Gen0Watcher) {
@@ -231,6 +140,7 @@ export class Gen0WatchersManager {
       const exClient = this.clientsManager.getByPath(path)
       if (exClient) {
         if (await exClient.hasTargets()) {
+          this.clientsManager.addByPath(path)
           return
         } else {
           this.clientsManager.removeByPath(exClient.file.path.abs)
@@ -253,14 +163,18 @@ export class Gen0WatchersManager {
       }
       const exPlugin = this.pluginsManager.getByPath(path)
       if (exPlugin) {
+        if (exPlugin.file) {
+          // always true here
+          await this.pluginsManager.addByPath(exPlugin.file.path.abs)
+        }
         return
       }
-      this.pluginsManager.addByPath(path)
+      await this.pluginsManager.addByPath(path)
     } else {
       const exPlugins = this.pluginsManager.getByDir(path)
       for (const exPlugin of exPlugins) {
         if (exPlugin.file) {
-          this.pluginsManager.removeByPath(exPlugin.file.path.abs)
+          await this.pluginsManager.removeByPath(exPlugin.file.path.abs)
         }
       }
     }
@@ -297,8 +211,8 @@ export class Gen0WatchersManager {
 
           this.handleClientsUpdates(event, pathAbs)
           this.handlePluginsUpdates(event, pathAbs)
-          for (const watcher of this.watchers) {
-            watcher.handler(event, pathAbs)
+          for (const watcher of this.getWatchers()) {
+            watcher.handler({ clientsManager: this.clientsManager, fs: this.fs }, event, pathAbs)
           }
         }
       },

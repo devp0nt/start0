@@ -26,13 +26,18 @@ export class Gen0PluginsManager {
     return Gen0Plugin.createByFilePath({ filePath, config: this.config })
   }
 
-  add(plugins: Gen0Plugin[]) {
-    const filteredPlugins = plugins.filter((p1) => !this.plugins.some((p2) => this.isSame(p1, p2)))
-    this.plugins.push(...filteredPlugins)
-    for (const plugin of filteredPlugins) {
-      this.logger.debug(`add plugin ${plugin.file?.path.rel}`)
+  add(newPlugins: Gen0Plugin[]) {
+    for (const newPlugin of newPlugins) {
+      const exPluginIndex = this.plugins.findIndex((exPlugin) => newPlugin.isSame(exPlugin))
+      if (exPluginIndex === -1) {
+        this.plugins.push(newPlugin)
+        this.logger.debug(`add plugin ${newPlugin.file?.path.rel}`)
+      } else {
+        this.plugins[exPluginIndex] = newPlugin
+        this.logger.debug(`update plugin ${newPlugin.file?.path.rel}`)
+      }
     }
-    return filteredPlugins
+    return newPlugins
   }
 
   async addPluginsByGlob(glob: Gen0Fs.PathOrPaths) {
@@ -167,22 +172,8 @@ export class Gen0PluginsManager {
     return this.plugins.flatMap((plugin) => plugin.getVarsWithMeta())
   }
 
-  getWatchersDefinitionsRecord(): Gen0Plugin.WatchersDefinitionsWithNamesRecord {
-    return this.plugins.reduce((acc, plugin) => {
-      for (const [watcherName, watcherDefinition] of Object.entries(plugin.watchersDefinitions)) {
-        acc[watcherName] = { ...watcherDefinition, name: watcherDefinition.name || watcherName }
-      }
-      return acc
-    }, {} as Gen0Plugin.WatchersDefinitionsWithNamesRecord)
-  }
-
-  getWatchersDefinitionsArray(): Gen0Watcher.DefinitionWithName[] {
-    return this.plugins.reduce((acc, plugin) => {
-      for (const [watcherName, watcherDefinition] of Object.entries(plugin.watchersDefinitions)) {
-        acc.push({ ...watcherDefinition, name: watcherDefinition.name || watcherName })
-      }
-      return acc
-    }, [] as Gen0Watcher.DefinitionWithName[])
+  getWatchers(): Gen0Watcher[] {
+    return this.plugins.flatMap((plugin) => plugin.watchers)
   }
 }
 

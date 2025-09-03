@@ -7,8 +7,8 @@ export default {
       watch: ["**/*.test.txt", "!**/bad.test.txt"],
       clientsGlob: "./test-client.ts",
       handler: (event, path) => {
-        // console.log(event, path, "x");
+        // console.log(event, path, "xxxxx")
       },
     },
   },
-} satisfies Gen0Plugin.Definition
+} satisfies Gen0Plugin.DefinitionResult
