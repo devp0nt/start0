@@ -4,6 +4,7 @@ import { Gen0Logger } from "@ideanick/tools/gen0/logger"
 import type { Gen0Plugin } from "@ideanick/tools/gen0/plugin"
 import { Gen0Utils } from "@ideanick/tools/gen0/utils"
 import type { Gen0WatchersManager } from "@ideanick/tools/gen0/watchersManager"
+import { uniq } from "lodash"
 
 export class Gen0Watcher {
   static logger = Gen0Logger.create("watcher")
@@ -68,8 +69,10 @@ export class Gen0Watcher {
     clientsGlob?: Gen0Watcher.Definition["clientsGlob"]
     clientsNames?: Gen0Watcher.Definition["clientsNames"]
   }) {
-    if (!originalClientsGlob && !originalHandler) {
-      throw new Error(`Clients or/and handler must be provided for watcher ${name}`)
+    if (!originalClientsGlob && !originalHandler && !clientsNames) {
+      throw new Error(
+        `Clients or/and handler or/and clientsNames must be provided for watcher "${name}" in plugin "${plugin.name}"`,
+      )
     }
     const clientsGlob = Gen0Utils.toArray(originalClientsGlob ? fs.toAbs(originalClientsGlob) : [])
     const watchGlob = Gen0Utils.toArray(fs.toAbs(originalWatchGlob))
@@ -91,7 +94,9 @@ export class Gen0Watcher {
     if (!this.isPathMatchWatchGlob(path)) {
       return
     }
-    this.logger.info(`watcher "${this.name}" received event "${event}" for path "${path}"`)
+    this.logger.info(
+      `watcher "${this.name}" of plugin "${uniq([this.plugin.name, this.plugin.file?.path.rel]).filter(Boolean).join(":")}" received event "${event}" for path "${path}"`,
+    )
     if (this.originalHandler) {
       this.originalHandler(ctx, event, path)
     }

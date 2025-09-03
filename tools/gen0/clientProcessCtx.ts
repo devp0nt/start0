@@ -4,6 +4,8 @@ import vm from "node:vm"
 import type { Gen0Client } from "@ideanick/tools/gen0/client"
 import type { Gen0Fs } from "@ideanick/tools/gen0/fs"
 import { Gen0Logger } from "@ideanick/tools/gen0/logger"
+import type { Gen0Plugin } from "@ideanick/tools/gen0/plugin"
+import { Gen0Utils } from "@ideanick/tools/gen0/utils"
 import _ from "lodash"
 
 export class Gen0ClientProcessCtx {
@@ -17,6 +19,7 @@ export class Gen0ClientProcessCtx {
   fs: Gen0Fs
   $: Gen0ClientProcessCtx.Store = {}
   path: Gen0Fs.PathParsed
+  selfPluginDefinition: Gen0Plugin.DefinitionWithName | undefined
 
   nodeFs: Gen0ClientProcessCtx.NodeFs = nodeFs
   nodePath: Gen0ClientProcessCtx.NodePath = nodePath
@@ -57,6 +60,27 @@ export class Gen0ClientProcessCtx {
 
   clearPrints() {
     this.prints = []
+  }
+
+  watch(glob: Gen0Fs.PathOrPaths) {
+    this.selfPluginDefinition ??= { name: this.client.name }
+    this.selfPluginDefinition.watchers ??= {
+      watchDependentFiles: {
+        watch: [],
+        clientsNames: [this.client.name],
+      },
+    }
+    this.selfPluginDefinition.watchers.watchDependentFiles.watch = [
+      ...Gen0Utils.toArray(this.selfPluginDefinition.watchers.watchDependentFiles.watch),
+      ...Gen0Utils.toArray(glob),
+    ]
+  }
+
+  name(selfName: string) {
+    if (this.selfPluginDefinition) {
+      this.selfPluginDefinition.name = selfName
+    }
+    this.client.name = selfName
   }
 
   // getSelfWithFnsAndVars() {
@@ -118,6 +142,10 @@ export class Gen0ClientProcessCtx {
       ctx[key] = value
     }
 
+    // special methods
+    ctx.name = this.name.bind(this)
+    ctx.watch = this.watch.bind(this)
+
     return ctx
   }
 
@@ -146,7 +174,6 @@ export class Gen0ClientProcessCtx {
   }
 
   async execScript(scriptContent: string, lineOffset: number = 0) {
-    // TODO: return error, if error occured
     const runnerCtx = this.getSelfWithFnsAndVars()
     const vmContex = vm.createContext(runnerCtx)
     let error: Gen0ClientProcessCtx.NormalizedVmError | undefined

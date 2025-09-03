@@ -20,36 +20,53 @@ export class Gen0ClientProcess {
     this.ctx = Gen0ClientProcessCtx.create({ client: this.client })
   }
 
-  static async start({ client }: { client: Gen0Client }) {
+  static async start({ client, dryRun }: { client: Gen0Client; dryRun: boolean }) {
     const clientProcess = new Gen0ClientProcess({ client })
     clientProcess.startedAt = new Date()
     let target = await Gen0Target.extract({ client, skipBeforeLineIndex: 0 })
     let clientContent = await client.file.read()
+
     const errors: Gen0ClientProcessCtx.NormalizedVmError[] = []
     while (target) {
       const { printed, error } = await clientProcess.ctx.execScript(target.scriptContent, target.startLineIndex)
       if (error) {
         errors.push(error)
       }
-      clientContent = await target.fill({ outputContent: printed, clientContent })
+      clientContent = await target.fill({ outputContent: printed, clientContent, dryRun: true })
       // clientContent = await client.file.read()
       clientProcess.targets.push(target)
       target = await Gen0Target.extract({ client, clientContent, skipBeforeLineIndex: target.outputEndLineIndex })
     }
+    if (!dryRun) {
+      await client.file.write(clientContent)
+    }
+
+    if (clientProcess.ctx.selfPluginDefinition) {
+      await client.replaceSelfPlugin(clientProcess.ctx.selfPluginDefinition)
+    }
     clientProcess.finishedAt = new Date()
-    await client.file.write(clientContent)
-    await clientProcess.runAfterProcessCmd({ afterProcessCmd: client.config.afterProcessCmd })
+
+    if (!dryRun) {
+      void clientProcess.runAfterProcessCmd({ afterProcessCmd: client.config.afterProcessCmd }).catch((error) => {
+        this.logger.error(error)
+      })
+    }
     if (errors.length > 0) {
       for (const error of errors) {
         this.logger.error(error)
       }
       this.logger.error(
-        `${client.file.path.rel} processed with errors in ${clientProcess.finishedAt.getTime() - clientProcess.startedAt.getTime()}ms`,
+        `🔴 ${client.file.path.rel} processed with errors in ${clientProcess.finishedAt.getTime() - clientProcess.startedAt.getTime()}ms`,
       )
     } else {
-      this.logger.info(
-        `${client.file.path.rel} processed in ${clientProcess.finishedAt.getTime() - clientProcess.startedAt.getTime()}ms`,
-      )
+      const circle = dryRun ? "🟡" : "🟢"
+      const how = dryRun ? "dry run" : "processed"
+      const message = `${circle} ${client.file.path.rel} ${how} in ${clientProcess.finishedAt.getTime() - clientProcess.startedAt.getTime()}ms`
+      if (dryRun) {
+        this.logger.info(message)
+      } else {
+        this.logger.debug(message)
+      }
     }
     return clientProcess
   }

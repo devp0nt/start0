@@ -23,7 +23,11 @@ export const importFromFiles = (
   printer: (path: Gen0Fs.PathParsed) => string,
   replaceExt?: string | false,
   withEmptyLine: boolean = true,
+  noWatcher: boolean = false,
 ) => {
+  if (!noWatcher) {
+    ctx.watch(glob)
+  }
   const paths = ctx.fs.findFilesPathsSync(glob)
   const result: { paths: string[] } = {
     paths: [],
@@ -49,7 +53,11 @@ export const importAsFromFiles = (
   as: (path: Gen0Fs.PathParsed) => string,
   replaceExt?: string | false,
   withEmptyLine?: boolean,
+  noWatcher: boolean = false,
 ) => {
+  if (!noWatcher) {
+    ctx.watch(glob)
+  }
   const paths = ctx.fs.findFilesPathsSync(glob)
   const result: { paths: string[]; names: string[] } = {
     paths: [],
@@ -80,7 +88,11 @@ export const importExportedFromFiles = (
   exportEndsWith?: string,
   replaceExt: string | false = ".js",
   withEmptyLine: boolean = true,
+  noWatcher: boolean = false,
 ) => {
+  if (!noWatcher) {
+    ctx.watch(glob)
+  }
   const paths = ctx.fs.findFilesPathsSync(glob)
   const result: {
     files: Array<{ path: string; names: string[]; cutted: string[] }>

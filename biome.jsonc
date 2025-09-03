@@ -4,6 +4,7 @@
   // TODO: biome hotkeys
   // TODO: allow emtpy line between imports
   // TODO: more symbols in line
+  // TODO: quoteStyle single
   "$schema": "https://biomejs.dev/schemas/2.2.0/schema.json",
   "vcs": {
     "enabled": false,

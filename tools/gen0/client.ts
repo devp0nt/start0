@@ -3,6 +3,7 @@ import type { Gen0Config } from "@ideanick/tools/gen0/config"
 import { Gen0File } from "@ideanick/tools/gen0/file"
 import type { Gen0Fs } from "@ideanick/tools/gen0/fs"
 import { Gen0Logger } from "@ideanick/tools/gen0/logger"
+import type { Gen0Plugin } from "@ideanick/tools/gen0/plugin"
 import type { Gen0PluginsManager } from "@ideanick/tools/gen0/pluginsManager"
 import { Gen0Target } from "@ideanick/tools/gen0/target"
 import { Gen0Utils } from "@ideanick/tools/gen0/utils"
@@ -15,6 +16,7 @@ export class Gen0Client {
   file: Gen0File
   name: string
   pluginsManager: Gen0PluginsManager
+  selfPlugin: Gen0Plugin | undefined
 
   private constructor({
     filePath,
@@ -42,8 +44,8 @@ export class Gen0Client {
     return new Gen0Client({ filePath, config, name, pluginsManager })
   }
 
-  async process() {
-    const clientProcess = await Gen0ClientProcess.start({ client: this })
+  async process({ dryRun }: { dryRun: boolean }) {
+    const clientProcess = await Gen0ClientProcess.start({ client: this, dryRun })
     return clientProcess
   }
 
@@ -56,7 +58,8 @@ export class Gen0Client {
   }
 
   isMatchName(nameSearch: Gen0Utils.Search) {
-    return Gen0Utils.isStringMatch(this.name, nameSearch)
+    const result = Gen0Utils.isStringMatch(this.name, nameSearch)
+    return result
   }
 
   hasTargets() {
@@ -67,6 +70,32 @@ export class Gen0Client {
     return {
       name: this.name,
       path: this.file.path.rel,
+    }
+  }
+
+  async replaceSelfPlugin(definition: Gen0Plugin.DefinitionWithName) {
+    const plugin = await this.pluginsManager.createByDefinition(definition, {
+      fs: this.file.fs,
+      file: this.file,
+    })
+    if (this.selfPlugin) {
+      await this.pluginsManager.remove([this.selfPlugin])
+    }
+    await this.pluginsManager.add([plugin])
+    this.selfPlugin = plugin
+    return plugin
+  }
+
+  async removeSelfPlugin() {
+    if (this.selfPlugin) {
+      await this.pluginsManager.remove([this.selfPlugin])
+      this.selfPlugin = undefined
+    }
+  }
+
+  async applySelfPlugin() {
+    if (this.selfPlugin) {
+      await this.pluginsManager.add([this.selfPlugin])
     }
   }
 }

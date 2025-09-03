@@ -1,6 +1,6 @@
 // This is a test file for gen0
 
-// @gen0:start
+// @gen0:start name('zxc'); watch('**/route.trpc.ts')
 // @gen0:end
 
 // @gen0:start await importExportedFromFiles("~/**/route{s,}.*.ts", "TrpcRoute");

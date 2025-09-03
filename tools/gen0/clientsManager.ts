@@ -33,17 +33,35 @@ export class Gen0ClientsManager {
     return new Gen0ClientsManager({ config, fs, pluginsManager })
   }
 
-  add(clients: Gen0Client[]) {
+  async add(clients: Gen0Client[], withDryRun: boolean = false) {
     for (const newClient of clients) {
       const exClientIndex = this.clients.findIndex((exClient) => newClient.isSame(exClient))
       if (exClientIndex === -1) {
+        if (withDryRun) {
+          await newClient.process({ dryRun: true })
+        }
         this.clients.push(newClient)
         this.logger.debug(`add client ${newClient.file.path.rel}`)
       } else {
-        this.clients[exClientIndex] = newClient
-        this.logger.debug(`update client ${newClient.file.path.rel}`)
+        await this.replace(newClient, exClientIndex, withDryRun)
       }
     }
+    return clients
+  }
+
+  async replace(client: Gen0Client, index: number, withDryRun: boolean = false) {
+    const oldClient = this.clients[index]
+    if (!oldClient) {
+      this.add([client])
+      return
+    }
+    await oldClient.removeSelfPlugin()
+    if (withDryRun) {
+      await client.process({ dryRun: true })
+    }
+    await client.applySelfPlugin()
+    this.clients[index] = client
+    this.logger.debug(`replace client ${client.file.path.rel}`)
   }
 
   async addByGlob(glob: Gen0Fs.PathOrPaths) {
@@ -52,9 +70,9 @@ export class Gen0ClientsManager {
     return this.add(clients)
   }
 
-  async addByPath(path: string) {
+  async addByPath(path: string, withDryRun: boolean = false) {
     const clients = await this.findAndCreateManyByPath(path)
-    return this.add(clients)
+    return this.add(clients, withDryRun)
   }
 
   async addAll() {
@@ -91,7 +109,10 @@ export class Gen0ClientsManager {
     return this.remove(removedClients)
   }
 
-  remove(clients: Gen0Client[]) {
+  async remove(clients: Gen0Client[]) {
+    for (const client of clients) {
+      await client.removeSelfPlugin()
+    }
     this.clients = this.clients.filter((client) => clients.every((c) => !c.isSame(client)))
     for (const client of clients) {
       this.logger.debug(`remove client ${client.file.path.rel}`)
@@ -116,7 +137,7 @@ export class Gen0ClientsManager {
   }
 
   async processMany(clients: Gen0Client[]) {
-    return await Promise.all(clients.map((client) => client.process()))
+    return await Promise.all(clients.map((client) => client.process({ dryRun: false })))
   }
 
   async processManyByNames(name: Gen0Utils.Search) {

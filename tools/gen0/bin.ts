@@ -67,8 +67,7 @@ program
   .action(
     withGen0(async (gen0, options: { processClients: boolean }) => {
       if (options.processClients) {
-        const results = await gen0.clientsManager.processAll()
-        logger.info(`Processed ${results.length} clients`)
+        await gen0.clientsManager.processAll()
       }
       await gen0.watchersManager.watchAllByParcel()
       logger.info("watcher started")
@@ -111,12 +110,17 @@ program
           for (const result of results) {
             logger.info(`✅ ${result.client.file.path.rel}`)
           }
+        } else if (key === "c") {
+          for (let i = 0; i < 10; i++) {
+            logger.info("")
+          }
         } else if (key === "q") {
           logger.info("Exiting...")
           process.exit(0)
         } else if (key === "h") {
           logger.info("Available keys:")
           logger.info("  p - Process all clients")
+          logger.info("  c - Add a lot of empty lines")
           logger.info("  q - Quit")
           logger.info("  h - Help")
         }

@@ -58,14 +58,14 @@ export class Gen0Target {
   async fill({
     outputContent,
     clientContent,
-    writeFile = false,
+    dryRun,
   }: {
     outputContent: string
     clientContent?: string
-    writeFile?: boolean
+    dryRun: boolean
   }) {
     const newClientContent = await this.getClientContentFilled({ outputContent, clientContent })
-    if (writeFile) {
+    if (!dryRun) {
       await this.client.file.write(newClientContent)
     }
     this.outputContent = outputContent

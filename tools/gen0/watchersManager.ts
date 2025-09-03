@@ -140,14 +140,14 @@ export class Gen0WatchersManager {
       const exClient = this.clientsManager.getByPath(path)
       if (exClient) {
         if (await exClient.hasTargets()) {
-          this.clientsManager.addByPath(path)
+          await this.clientsManager.addByPath(path, true)
           return
         } else {
           this.clientsManager.removeByPath(exClient.file.path.abs)
           return
         }
       }
-      this.clientsManager.addByPath(path)
+      await this.clientsManager.addByPath(path, true)
     } else {
       const exClients = this.clientsManager.getByDir(path)
       for (const exClient of exClients) {

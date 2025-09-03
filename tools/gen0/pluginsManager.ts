@@ -1,4 +1,5 @@
 import type { Gen0Config } from "@ideanick/tools/gen0/config"
+import type { Gen0File } from "@ideanick/tools/gen0/file"
 import type { Gen0Fs } from "@ideanick/tools/gen0/fs"
 import { Gen0Logger } from "@ideanick/tools/gen0/logger"
 import { Gen0Plugin } from "@ideanick/tools/gen0/plugin"
@@ -26,6 +27,22 @@ export class Gen0PluginsManager {
     return Gen0Plugin.createByFilePath({ filePath, config: this.config })
   }
 
+  async createByDefinition(
+    definition: Gen0Plugin.DefinitionWithName,
+    rest?: {
+      fs?: Gen0Fs
+      file?: Gen0File
+    },
+  ) {
+    return Gen0Plugin.createByDefinition({
+      definition,
+      config: this.config,
+      name: definition.name,
+      fs: rest?.fs || this.fs,
+      file: rest?.file,
+    })
+  }
+
   add(newPlugins: Gen0Plugin[]) {
     for (const newPlugin of newPlugins) {
       const exPluginIndex = this.plugins.findIndex((exPlugin) => newPlugin.isSame(exPlugin))
@@ -48,7 +65,20 @@ export class Gen0PluginsManager {
 
   async addByPath(path: string) {
     const plugin = await this.createByPath(path)
-    return this.add([plugin])
+    this.add([plugin])
+    return plugin
+  }
+
+  async addByDefinition(
+    definition: Gen0Plugin.DefinitionWithName,
+    rest?: {
+      fs?: Gen0Fs
+      file?: Gen0File
+    },
+  ) {
+    const plugin = await this.createByDefinition(definition, rest)
+    this.add([plugin])
+    return plugin
   }
 
   async addAll() {
