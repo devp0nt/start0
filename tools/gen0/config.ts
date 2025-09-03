@@ -1,5 +1,5 @@
 import nodePath from "node:path"
-import type { Gen0ClientProcessCtx } from "@ideanick/tools/gen0/clientCtx"
+import type { Gen0ClientProcessCtx } from "@ideanick/tools/gen0/clientProcessCtx"
 import type { Gen0Fs } from "@ideanick/tools/gen0/fs"
 import { Gen0Plugin } from "@ideanick/tools/gen0/plugin"
 import { findUpSync } from "find-up"

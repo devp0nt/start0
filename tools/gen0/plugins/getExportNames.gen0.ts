@@ -1,4 +1,4 @@
-import type { Gen0ClientProcessCtx } from "@ideanick/tools/gen0/clientCtx"
+import type { Gen0ClientProcessCtx } from "@ideanick/tools/gen0/clientProcessCtx"
 import type { Gen0Plugin } from "@ideanick/tools/gen0/plugin"
 import { Project } from "ts-morph"
 

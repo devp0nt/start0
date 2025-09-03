@@ -49,14 +49,14 @@ export class Gen0Fs {
       if (typeof input === "string" || Array.isArray(input)) {
         return {
           cwd: this.config.rootDir,
-          glob: Array.isArray(input) ? this.normalizePaths(input) : this.normalizePath(input),
+          glob: this.toPaths(input),
           relative: undefined,
         }
       }
       if (typeof input === "object" && input !== null) {
         return {
           cwd: input.cwd || this.config.rootDir,
-          glob: Array.isArray(input.glob) ? this.normalizePaths(input.glob) : this.normalizePath(input.glob),
+          glob: this.toPaths(input.glob),
           relative: input.relative,
         }
       }
@@ -95,14 +95,14 @@ export class Gen0Fs {
       if (typeof input === "string" || Array.isArray(input)) {
         return {
           cwd: this.config.rootDir,
-          glob: Array.isArray(input) ? this.normalizePaths(input) : this.normalizePath(input),
+          glob: this.toPaths(input),
           relative: undefined,
         }
       }
       if (typeof input === "object" && input !== null) {
         return {
           cwd: input.cwd || this.config.rootDir,
-          glob: Array.isArray(input.glob) ? this.normalizePaths(input.glob) : this.normalizePath(input.glob),
+          glob: this.toPaths(input.glob),
           relative: input.relative,
         }
       }
@@ -118,25 +118,14 @@ export class Gen0Fs {
     }
   }
 
-  static isStringMatch(line: string | undefined, search: string | string[] | RegExp | RegExp[]): boolean {
-    if (!line) return false
-    if (Array.isArray(search)) {
-      return search.some((item) => Gen0Fs.isStringMatch(line, item))
-    } else if (typeof search === "string") {
-      return line.includes(search)
-    } else {
-      return search.test(line)
-    }
-  }
-
-  async contentMatch(path: string, search: string | string[] | RegExp | RegExp[]): Promise<boolean> {
+  async isContentMatch(path: string, search: Gen0Fs.Search): Promise<boolean> {
     const pathNormalized = this.normalizePath(path)
     return new Promise((resolve, reject) => {
       const stream = fsSync.createReadStream(pathNormalized, { encoding: "utf8" })
       const rl = readline.createInterface({ input: stream })
       let found = false
       rl.on("line", (line) => {
-        if (Gen0Fs.isStringMatch(line, search)) {
+        if (this.isStringMatch(line, search)) {
           found = true
           rl.close()
         }
@@ -159,7 +148,7 @@ export class Gen0Fs {
     cwd?: string
     glob: T
     relative?: string | false
-    search: string | string[] | RegExp | RegExp[]
+    search: Gen0Fs.Search
   }) {
     const allPaths = await this.findFilesPaths({
       cwd,
@@ -169,7 +158,7 @@ export class Gen0Fs {
     const result = (
       await Promise.all(
         allPaths.map(async (path) => {
-          if (await this.contentMatch(path, search)) {
+          if (await this.isContentMatch(path, search)) {
             return path
           }
           return null
@@ -203,19 +192,6 @@ export class Gen0Fs {
     return result as T
   }
 
-  normalizePath(path: string) {
-    if (/^~\//.test(path)) {
-      return nodePath.resolve(this.config.rootDir, path.replace(/^~\//, ""))
-    }
-    if (/^~[a-zA-Z0-9_-]+/.test(path)) {
-      return nodePath.resolve(this.config.rootDir, path.replace(/^~/, ""))
-    }
-    return path
-  }
-  normalizePaths(paths: string[]) {
-    return paths.map((path) => this.normalizePath(path))
-  }
-
   parsePath(path: string, relativeTo: string = this.config.rootDir) {
     const abs = this.toAbs(path)
     const rel = this.toRel(path, relativeTo, false)
@@ -238,28 +214,49 @@ export class Gen0Fs {
   }
 
   writeFileSync(path: string, content: string) {
-    const pathNormalized = this.normalizePath(path)
-    fsSync.writeFileSync(pathNormalized, content)
+    fsSync.writeFileSync(this.normalizePath(path), content)
   }
 
   async writeFile(path: string, content: string) {
-    const pathNormalized = this.normalizePath(path)
-    await fs.writeFile(pathNormalized, content)
+    await fs.writeFile(this.normalizePath(path), content)
   }
 
   readFileSync(path: string) {
-    const pathNormalized = this.normalizePath(path)
-    return fsSync.readFileSync(pathNormalized, "utf8")
+    return fsSync.readFileSync(this.normalizePath(path), "utf8")
   }
 
   async readFile(path: string) {
-    const pathNormalized = this.normalizePath(path)
-    return await fs.readFile(pathNormalized, "utf8")
+    return await fs.readFile(this.normalizePath(path), "utf8")
+  }
+
+  normalizePath(path: string) {
+    if (/^~\//.test(path)) {
+      return nodePath.resolve(this.config.rootDir, path.replace(/^~\//, ""))
+    }
+    if (/^~[a-zA-Z0-9_-]+/.test(path)) {
+      return nodePath.resolve(this.config.rootDir, path.replace(/^~/, ""))
+    }
+    return path
+  }
+
+  isStringMatch(line: string | undefined, search: Gen0Fs.Search): boolean {
+    if (!line) return false
+    if (Array.isArray(search)) {
+      return search.some((item) => this.isStringMatch(line, item))
+    } else if (typeof search === "string") {
+      return line.includes(search)
+    } else {
+      return search.test(line)
+    }
+  }
+
+  toPaths(path: Gen0Fs.PathOrPaths): string[] {
+    return Array.isArray(path) ? path.map(this.normalizePath) : [this.normalizePath(path)]
   }
 
   isPathMatchGlob(path: string, glob: string | string[]): boolean {
     const pathNormalized = this.normalizePath(path)
-    const globNormalized = Array.isArray(glob) ? this.normalizePaths(glob) : [this.normalizePath(glob)]
+    const globNormalized = Array.isArray(glob) ? glob.map(this.normalizePath) : [this.normalizePath(glob)]
     return micromatch.isMatch(pathNormalized, globNormalized)
   }
 }
@@ -269,4 +266,5 @@ export namespace Gen0Fs {
   export type Paths = string[]
   export type PathOrPaths = Path | Paths
   export type PathParsed = ReturnType<typeof Gen0Fs.prototype.parsePath>
+  export type Search = string | string[] | RegExp | RegExp[]
 }

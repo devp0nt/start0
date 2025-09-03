@@ -1,5 +1,5 @@
 import nodeFsSync from "node:fs"
-import type { Gen0ClientProcessCtx } from "@ideanick/tools/gen0/clientCtx"
+import type { Gen0ClientProcessCtx } from "@ideanick/tools/gen0/clientProcessCtx"
 import type { Gen0Fs } from "@ideanick/tools/gen0/fs"
 import type { Gen0Plugin } from "@ideanick/tools/gen0/plugin"
 

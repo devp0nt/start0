@@ -1,8 +1,8 @@
+import { exec } from "node:child_process"
 import type { Gen0Client } from "@ideanick/tools/gen0/client"
-import { Gen0ClientProcessCtx } from "@ideanick/tools/gen0/clientCtx"
+import { Gen0ClientProcessCtx } from "@ideanick/tools/gen0/clientProcessCtx"
 import type { Gen0Config } from "@ideanick/tools/gen0/config"
 import { Gen0Target } from "@ideanick/tools/gen0/target"
-import { exec } from "child_process"
 
 export class Gen0ClientProcess {
   ctx: Gen0ClientProcessCtx

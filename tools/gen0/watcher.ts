@@ -73,7 +73,7 @@ export class Gen0Watcher {
         providedHandler(event, path)
       }
       if (clientsGlob) {
-        Gen0Client.findAndProcessMany({ fs, config, clientsGlob })
+        // Gen0Client.findAndProcessMany({ fs, config, clientsGlob })
       }
     }
   }

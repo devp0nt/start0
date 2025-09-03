@@ -38,16 +38,27 @@ program
   .command("process")
   .alias("p")
   .description("Process a file with gen0 or process all clients if no file path provided")
-  .argument("[file-path]", "Path to the file to process (optional)")
+  .argument("[glob]", "Glob to the files to process (optional)")
   .action(
-    withGen0(async (gen0, filePath?: string) => {
-      if (filePath) {
-        const result = await gen0.processFile(filePath)
-        logger.info(`✅ Successfully processed: ${result.client.file.path.rel}`)
+    withGen0(async (gen0, glob?: string) => {
+      if (glob) {
+        const results = await gen0.clientsManager.findAndProcessMany(glob)
+        if (results.length === 0) {
+          logger.error(`❌ No clients found for glob: ${glob}`)
+        } else {
+          for (const result of results) {
+            logger.info(`✅ ${result.client.file.path.rel}`)
+          }
+        }
       } else {
-        const results = await gen0.processClients()
-        logger.info(`✅ Successfully processed all clients (total: ${results.length})`)
-        printArray(results.map((result) => result.client.file.path.rel))
+        const results = await gen0.clientsManager.findAndProcessAll()
+        if (results.length === 0) {
+          logger.error(`❌ No clients found by config glob: ${gen0.config.clientsGlob}`)
+        } else {
+          for (const result of results) {
+            logger.info(`✅ ${result.client.file.path.rel}`)
+          }
+        }
       }
     }),
   )
@@ -82,7 +93,13 @@ program
   .description("Show clients")
   .action(
     withGen0(async (gen0) => {
-      printArray(gen0.clients.map((client) => client.file.path.rel))
+      const paths = gen0.clientsManager.clients.map((client) => client.file.path.rel)
+      if (paths.length === 0) {
+        logger.error(`❌ No clients found by config glob: ${gen0.config.clientsGlob}`)
+      } else {
+        logger.info(`✅ ${paths.length} clients found`)
+        printArray(paths)
+      }
     }),
   )
 
