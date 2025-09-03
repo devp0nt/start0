@@ -90,21 +90,32 @@ export class Gen0Watcher {
     return watcher
   }
 
-  handler: Gen0Watcher.Handler = (ctx: Gen0Watcher.HandlerCtx, event: Gen0WatchersManager.EventType, path: string) => {
-    if (!this.isPathMatchWatchGlob(path)) {
-      return
-    }
-    this.logger.info(
-      `watcher "${this.name}" of plugin "${uniq([this.plugin.name, this.plugin.file?.path.rel]).filter(Boolean).join(":")}" received event "${event}" for path "${path}"`,
-    )
-    if (this.originalHandler) {
-      this.originalHandler(ctx, event, path)
-    }
-    if (this.clientsGlob) {
-      ctx.clientsManager.findAndProcessManyByGlob(this.clientsGlob)
-    }
-    if (this.clientsNames) {
-      ctx.clientsManager.processManyByNames(this.clientsNames)
+  handler: Gen0Watcher.Handler = async (
+    ctx: Gen0Watcher.HandlerCtx,
+    event: Gen0WatchersManager.EventType,
+    path: string,
+  ) => {
+    try {
+      if (!this.isPathMatchWatchGlob(path)) {
+        return
+      }
+      this.logger.info(
+        `watcher "${this.name}" of plugin "${uniq([this.plugin.name, this.plugin.file?.path.rel]).filter(Boolean).join(":")}" received event "${event}" for path "${path}"`,
+      )
+      if (this.originalHandler) {
+        await this.originalHandler(ctx, event, path)
+      }
+      if (this.clientsGlob) {
+        await ctx.clientsManager.findAndProcessManyByGlob(this.clientsGlob)
+      }
+      if (this.clientsNames) {
+        await ctx.clientsManager.processManyByNames(this.clientsNames)
+      }
+    } catch (error) {
+      this.logger.error(
+        `error in watcher "${this.name}" of plugin "${uniq([this.plugin.name, this.plugin.file?.path.rel]).filter(Boolean).join(":")}"\n`,
+        error,
+      )
     }
   }
 

@@ -75,7 +75,7 @@ export class Gen0Plugin {
 
   static async createByFilePath({ filePath, config }: { filePath: string; config: Gen0Config }) {
     const file = Gen0File.create({ filePath, config })
-    const imported = await file.import()
+    const imported = await file.importFresh()
     const definitionOrFn = imported?.default || imported
     const definition = typeof definitionOrFn === "function" ? await definitionOrFn({ fs: file.fs }) : definitionOrFn
     if (!definition) {

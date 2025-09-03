@@ -5,10 +5,9 @@ import { Gen0Logger } from "@ideanick/tools/gen0/logger"
 import { Gen0PluginsManager } from "@ideanick/tools/gen0/pluginsManager"
 import { Gen0WatchersManager } from "@ideanick/tools/gen0/watchersManager"
 
-// TODO: self watched clients, so clients as plugins
-// TODO: silent comments
 // TODO: generate react router
 
+// TODO: silent comments
 // TODO: named actions
 // TODO: commander actions by action name
 

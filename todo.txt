@@ -1,6 +1,4 @@
 generate react-router
-dev and watcher in tmux or any
-
 В рр переименовать апп в срц, а в срцположить реакт-роутер как ппп, чтобы всё его там и было
 404 page "*" in rotues.ts
 
@@ -47,6 +45,7 @@ hono swagger
 
 ---
 
+dev and watcher in tmux or any
 withCtxFn
 restart frontend server on code change
 В свою админку вшить генератор админки свой без всяких там рефайнов, тупо определять какой формой какие поля редактируются

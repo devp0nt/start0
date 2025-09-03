@@ -5,6 +5,8 @@ import readline from "node:readline"
 import type { Gen0Config } from "@ideanick/tools/gen0/config"
 import { Gen0Logger } from "@ideanick/tools/gen0/logger"
 import { Gen0Utils } from "@ideanick/tools/gen0/utils"
+import dotenv from "dotenv"
+import { findUp, findUpSync } from "find-up"
 import { globby, globbySync } from "globby"
 import micromatch from "micromatch"
 
@@ -359,6 +361,30 @@ export class Gen0Fs {
     const pathNormalized = this.toAbs(path)
     const dirNormalized = this.toAbs(dir)
     return pathNormalized.startsWith(dirNormalized) && pathNormalized !== dirNormalized
+  }
+
+  async findUp(filename: string): Promise<string | undefined> {
+    return await findUp(filename, { cwd: this.cwd })
+  }
+
+  findUpSync(filename: string): string | undefined {
+    return findUpSync(filename, { cwd: this.cwd })
+  }
+
+  async loadEnv(filename: string = ".env"): Promise<Record<string, string>> {
+    return dotenv.config({ path: await this.findUp(filename) }).parsed as Record<string, string>
+  }
+
+  loadEnvSync(filename: string = ".env"): Record<string, string> {
+    return dotenv.config({ path: this.findUpSync(filename) }).parsed as Record<string, string>
+  }
+
+  async importFresh(path: string) {
+    return await import(`${path}?t=${Date.now()}`)
+  }
+
+  async importFreshDefault(path: string) {
+    return await import(`${path}?t=${Date.now()}`).then((m) => m.default)
   }
 }
 

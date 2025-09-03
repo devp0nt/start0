@@ -39,7 +39,7 @@ export class Gen0File {
     return await fs.readFile(this.path.abs, "utf8")
   }
 
-  async import() {
+  async importFresh() {
     return await import(`${this.path.abs}?t=${Date.now()}`)
   }
 
