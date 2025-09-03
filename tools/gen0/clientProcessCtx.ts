@@ -9,8 +9,8 @@ import _ from "lodash"
 
 export class Gen0ClientProcessCtx {
   client: Gen0Client
-  fns: Gen0ClientProcessCtx.Fns
-  vars: Gen0ClientProcessCtx.Vars
+  fns: Gen0ClientProcessCtx.FnsRecord
+  vars: Gen0ClientProcessCtx.VarsRecord
 
   fs: Gen0Fs
   $: Gen0ClientProcessCtx.Store = {}
@@ -23,6 +23,7 @@ export class Gen0ClientProcessCtx {
   // biome-ignore lint/suspicious/noConsole: <x>
   log: Gen0ClientProcessCtx.LoggerLog = console.log.bind(console)
 
+  // TODO: selfPath.name,.ext,...
   selfPath: string
   selfName: string
   selfExt: string
@@ -174,9 +175,9 @@ export namespace Gen0ClientProcessCtx {
   export type Print = (str: string) => void
   export type PrintInline = (str: string) => void
   export type Fn<TArgs extends any[] = any[], TReturn = any> = (ctx: Gen0ClientProcessCtx, ...args: TArgs) => TReturn
-  export type Fns = Record<string, Fn>
+  export type FnsRecord = Record<string, Fn>
   export type Var = any
-  export type Vars = Record<string, Var>
+  export type VarsRecord = Record<string, Var>
   export type NodeFs = typeof nodeFs
   export type NodePath = typeof nodePath
 }

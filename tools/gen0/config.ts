@@ -96,8 +96,8 @@ export namespace Gen0Config {
     vars?: TVars
   }
 
-  export type Fns = Gen0ClientProcessCtx.Fns
-  export type Vars = Gen0ClientProcessCtx.Vars
+  export type Fns = Gen0ClientProcessCtx.FnsRecord
+  export type Vars = Gen0ClientProcessCtx.VarsRecord
 
   export type AfterProcessCmdString = string
   export type AfterProcessCmdFn = (filePath: string) => AfterProcessCmdString

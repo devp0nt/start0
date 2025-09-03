@@ -3,6 +3,7 @@ import fs from "node:fs/promises"
 import nodePath from "node:path"
 import readline from "node:readline"
 import type { Gen0Config } from "@ideanick/tools/gen0/config"
+import { Gen0Utils } from "@ideanick/tools/gen0/utils"
 import { globby, globbySync } from "globby"
 import micromatch from "micromatch"
 
@@ -118,14 +119,14 @@ export class Gen0Fs {
     }
   }
 
-  async isContentMatch(path: string, search: Gen0Fs.Search): Promise<boolean> {
+  async isContentMatch(path: string, search: Gen0Utils.Search): Promise<boolean> {
     const pathNormalized = this.normalizePath(path)
     return new Promise((resolve, reject) => {
       const stream = fsSync.createReadStream(pathNormalized, { encoding: "utf8" })
       const rl = readline.createInterface({ input: stream })
       let found = false
       rl.on("line", (line) => {
-        if (this.isStringMatch(line, search)) {
+        if (Gen0Utils.isStringMatch(line, search)) {
           found = true
           rl.close()
         }
@@ -148,7 +149,7 @@ export class Gen0Fs {
     cwd?: string
     glob: T
     relative?: string | false
-    search: Gen0Fs.Search
+    search: Gen0Utils.Search
   }) {
     const allPaths = await this.findFilesPaths({
       cwd,
@@ -239,17 +240,6 @@ export class Gen0Fs {
     return path
   }
 
-  isStringMatch(line: string | undefined, search: Gen0Fs.Search): boolean {
-    if (!line) return false
-    if (Array.isArray(search)) {
-      return search.some((item) => this.isStringMatch(line, item))
-    } else if (typeof search === "string") {
-      return line.includes(search)
-    } else {
-      return search.test(line)
-    }
-  }
-
   toPaths(path: Gen0Fs.PathOrPaths): string[] {
     return Array.isArray(path) ? path.map(this.normalizePath) : [this.normalizePath(path)]
   }
@@ -266,5 +256,4 @@ export namespace Gen0Fs {
   export type Paths = string[]
   export type PathOrPaths = Path | Paths
   export type PathParsed = ReturnType<typeof Gen0Fs.prototype.parsePath>
-  export type Search = string | string[] | RegExp | RegExp[]
 }

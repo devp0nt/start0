@@ -17,19 +17,19 @@ export class Gen0ClientsManager {
     return new Gen0ClientsManager({ config, fs })
   }
 
-  addClients(clients: Gen0Client[]) {
+  add(clients: Gen0Client[]) {
     const filteredClients = clients.filter((c1) => !this.clients.some((c2) => this.isSame(c1, c2)))
     this.clients.push(...filteredClients)
     return filteredClients
   }
 
-  async addClientsByGlob(glob: Gen0Fs.PathOrPaths) {
+  async addByGlob(glob: Gen0Fs.PathOrPaths) {
     glob = this.fs.toPaths(glob)
     const clients = await this.findAndCreateMany(glob)
-    return this.addClients(clients)
+    return this.add(clients)
   }
 
-  removeClientsByGlob(clientsGlob: Gen0Fs.PathOrPaths) {
+  removeByGlob(clientsGlob: Gen0Fs.PathOrPaths) {
     const clientsEntries = this.clients.map((c, index) => ({
       index,
       client: c,
@@ -43,7 +43,7 @@ export class Gen0ClientsManager {
     return removedClientsEntries.map(({ client }) => client)
   }
 
-  removeClientsByName(nameSearch: Gen0Fs.Search) {
+  removeByName(nameSearch: Gen0Fs.Search) {
     const clientsEntries = this.clients.map((c, index) => ({
       index,
       client: c,
@@ -55,11 +55,11 @@ export class Gen0ClientsManager {
     return removedClientsEntries.map(({ client }) => client)
   }
 
-  getClientsByGlob(clientsGlob: Gen0Fs.PathOrPaths) {
+  getByGlob(clientsGlob: Gen0Fs.PathOrPaths) {
     return this.clients.find((c) => c.isMatchGlob(clientsGlob))
   }
 
-  getClientsByName(nameSearch: Gen0Fs.Search) {
+  getByName(nameSearch: Gen0Fs.Search) {
     return this.clients.filter((c) => c.isMatchName(nameSearch))
   }
 
