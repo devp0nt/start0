@@ -1,4 +1,3 @@
-generator watcher
 generate react-router
 dev and watcher in tmux or any
 

@@ -5,17 +5,15 @@ import { Gen0Logger } from "@ideanick/tools/gen0/logger"
 import { Gen0PluginsManager } from "@ideanick/tools/gen0/pluginsManager"
 import { Gen0WatchersManager } from "@ideanick/tools/gen0/watchersManager"
 
-// TODO: watch for new clients
-// TODO: watch for new plugins
-// TODO: add logger
+// TODO: self watched clients
+// TODO: generate react router
 
 // TODO: named actions
-// TODO: commander actions
+// TODO: commander actions by action name
 
 // TODO: self named clients
-// TODO: self watched clients
-// TODO: При запуске вотчера делаем первый прогон клиентов, и таким образом собираем из них спмодекларации
-// TODO: on init, делаем драй ран, где в клиентах не переписываем файлы, но также собираем все декларации
+// TODO: commander actions by action or client name
+// TODO: on init dry run without write, to get self called clients functions results
 
 // TODO: add delay for watcher after write in file for this file watching
 // TODO: better usage of logger0

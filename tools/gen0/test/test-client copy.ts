@@ -5,9 +5,9 @@
 
 // @gen0:start await importExportedFromFiles("~/**/route{s,}.*.ts", "TrpcRoute")
 
-import { pingTrpcRoute } from "../../../apps/backend/src/router/ping/route.trpc.js"
 import { getAppConfigTrpcRoute } from "../../../modules/appConfig/routes.be.js"
 import { getIdeasTrpcRoute, getIdeaTrpcRoute } from "../../../modules/idea/routes.be.js"
+import { pingTrpcRoute } from "../../../apps/backend/src/router/ping/route.trpc.js"
 // @gen0:end
 
 // @gen0:start $.imports.map(im => print(`export const ${im.cutted} = ${im.name}`))
