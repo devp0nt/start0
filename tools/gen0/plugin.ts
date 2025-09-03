@@ -5,7 +5,7 @@ import type { Gen0Fs } from "@ideanick/tools/gen0/fs"
 import { Gen0Logger } from "@ideanick/tools/gen0/logger"
 import { Gen0Utils } from "@ideanick/tools/gen0/utils"
 import { Gen0Watcher } from "@ideanick/tools/gen0/watcher"
-import { uniq } from "lodash"
+import _, { uniq } from "lodash"
 
 // TODO: add to fns property .getPluginName()
 // TODO: add possibility to rename plugins when use
@@ -73,7 +73,7 @@ export class Gen0Plugin {
       watchers: [],
       file,
       fs,
-      onInit: definition.onInit,
+      onInit: definition.init,
     })
     plugin.watchers = await plugin.createWatchersByDefinitions(definition.watchers || {})
     return plugin
@@ -83,7 +83,7 @@ export class Gen0Plugin {
     const file = Gen0File.create({ filePath, config })
     const imported = await file.importFresh()
     const definitionOrFn = imported?.default || imported
-    const definition = typeof definitionOrFn === "function" ? await definitionOrFn({ fs: file.fs }) : definitionOrFn
+    const definition = typeof definitionOrFn === "function" ? await definitionOrFn({ fs: file.fs, _ }) : definitionOrFn
     if (!definition) {
       throw new Error(`No plugin definition found in ${filePath}`)
     }
@@ -172,10 +172,10 @@ export namespace Gen0Plugin {
     fns?: Gen0Plugin.FnsRecord
     vars?: Gen0Plugin.VarsRecord
     watchers?: Gen0Plugin.WatchersDefinitionsRecord
-    onInit?: () => Promise<void>
+    init?: () => Promise<void>
   }
   export type DefinitionWithName = Omit<DefinitionResult, "name"> & { name: string }
-  export type DefinitionFnCtx = { fs: Gen0Fs }
+  export type DefinitionFnCtx = { fs: Gen0Fs; _: typeof _ }
   export type DefinitionFn = (ctx: DefinitionFnCtx) => DefinitionResult | Promise<DefinitionResult>
   export type Definition = DefinitionResult | DefinitionFn
 

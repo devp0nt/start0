@@ -29,6 +29,8 @@ import { Gen0WatchersManager } from "@ideanick/tools/gen0/watchersManager"
 // TODO: prinst space count default
 // TODO: bin to bin in package.json
 // TODO: prevent double watch process
+// TODO: dry run on init, or not dry run on init as arg and option
+// TODO: onInit plugin ctx shul recieve dry run
 
 export class Gen0 {
   static logger = Gen0Logger.create("core")
@@ -80,9 +82,10 @@ export class Gen0 {
     return gen0
   }
 
-  async init() {
+  async init({ dryRun }: { dryRun: boolean } = { dryRun: false }) {
     await this.clientsManager.addAll()
     await this.pluginsManager.addAll()
+    await this.clientsManager.processAll(dryRun)
     await this.pluginsManager.initAll()
   }
 }

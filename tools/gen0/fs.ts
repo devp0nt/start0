@@ -270,7 +270,9 @@ export class Gen0Fs {
   }
 
   async writeFile(path: string, content: string) {
-    await fs.writeFile(this.normalizePath(path), content)
+    path = this.normalizePath(path)
+    await fs.mkdir(nodePath.dirname(path), { recursive: true })
+    await fs.writeFile(path, content)
   }
 
   readFileSync(path: string) {
@@ -279,6 +281,19 @@ export class Gen0Fs {
 
   async readFile(path: string) {
     return await fs.readFile(this.normalizePath(path), "utf8")
+  }
+
+  resolve(...paths: string[]): string {
+    paths = paths.map((path) => this.normalizePath(path))
+    return nodePath.resolve(this.cwd, ...paths)
+  }
+
+  basename(path: string): string {
+    return nodePath.basename(this.normalizePath(path))
+  }
+
+  basenameWithoutExt(path: string): string {
+    return nodePath.basename(this.normalizePath(path), nodePath.extname(path))
   }
 
   isDirectorySync(path: string): boolean {
@@ -383,9 +398,13 @@ export class Gen0Fs {
     return await import(`${path}?t=${Date.now()}`)
   }
 
-  async importFreshDefault(path: string) {
-    return await import(`${path}?t=${Date.now()}`).then((m) => m.default)
+  async importFreshDefault<T = any>(path: string): Promise<T> {
+    return (await import(`${path}?t=${Date.now()}`).then((m) => m.default)) as T
   }
+
+  node = fs
+
+  nodeSync = fsSync
 }
 
 export namespace Gen0Fs {

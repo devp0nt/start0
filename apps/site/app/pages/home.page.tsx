@@ -1,13 +1,15 @@
+import { GeneralLayout } from "@ideanick/site/components/GeneralLayout"
 import { Page0 } from "@ideanick/site/lib/page0"
 import { siteRoutes } from "@ideanick/site/lib/routes"
 import { trpc, useTRPC } from "@ideanick/site/lib/trpc"
 import { useQuery } from "@tanstack/react-query"
 
-export const homePage = Page0.route(siteRoutes.home)
+export default Page0.route(siteRoutes.home)
   .loader(async ({ qc }) => {
     return await qc.fetchQuery(trpc.ping.queryOptions())
   })
   .title(() => `Home Page`)
+  .layout(GeneralLayout)
   .component(({ loaderData: dataFromLoader }) => {
     const trpc = useTRPC()
     const { data: dataFromClient } = useQuery(trpc.ping.queryOptions())

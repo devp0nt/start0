@@ -1,14 +1,14 @@
-import { Page0 } from "@ideanick/site/lib/page0";
-import { siteRoutes } from "@ideanick/site/lib/routes";
-import { trpc } from "@ideanick/site/lib/trpc";
+import { GeneralLayout } from "@ideanick/site/components/GeneralLayout"
+import { Page0 } from "@ideanick/site/lib/page0"
+import { siteRoutes } from "@ideanick/site/lib/routes"
+import { trpc } from "@ideanick/site/lib/trpc"
 
 export default Page0.route(siteRoutes.ideaView)
   .loader(async ({ qc, params }) => {
-    return await qc.fetchQuery(
-      trpc.getIdea.queryOptions({ ideaSn: params.sn })
-    );
+    return await qc.fetchQuery(trpc.getIdea.queryOptions({ ideaSn: params.sn }))
   })
   .title(({ params, loaderData: { idea } }) => `Idea: ${idea.title}`)
+  .layout(GeneralLayout)
   .component(({ params, query, loaderData: { idea }, ctx }) => {
     return (
       <div>
@@ -18,5 +18,5 @@ export default Page0.route(siteRoutes.ideaView)
         <pre>query:{JSON.stringify(query, null, 2)}</pre>
         <pre>ctx:{JSON.stringify(ctx, null, 2)}</pre>
       </div>
-    );
-  });
+    )
+  })

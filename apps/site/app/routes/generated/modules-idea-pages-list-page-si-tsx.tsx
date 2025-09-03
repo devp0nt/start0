@@ -1,8 +1,8 @@
-import { ideaPage as page } from "@ideanick/modules/idea/pages/view.page.si"
 import { Error0 } from "@ideanick/modules/lib/error0.sh"
 import { SiteError } from "@ideanick/site/components/Error"
 import { RR0 } from "@ideanick/site/lib/reactRouter0"
-import type { Route } from "./+types/idea"
+import page from "../../../../../modules/idea/pages/list.page.si.js"
+import type { Route } from "./+types/modules-idea-pages-list-page-si-tsx"
 
 export const meta = RR0.createMeta(({ loaderData, params, error }: RR0.MetaArgs<Route.MetaArgs>) => {
   if (!loaderData) {

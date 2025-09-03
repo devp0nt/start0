@@ -64,10 +64,10 @@ export class Gen0ClientsManager {
     this.logger.debug(`replace client ${client.file.path.rel}`)
   }
 
-  async addByGlob(glob: Gen0Fs.PathOrPaths) {
+  async addByGlob(glob: Gen0Fs.PathOrPaths, withDryRun: boolean = false) {
     glob = this.fs.toPaths(glob)
     const clients = await this.findAndCreateManyByGlob(glob)
-    return this.add(clients)
+    return this.add(clients, withDryRun)
   }
 
   async addByPath(path: string, withDryRun: boolean = false) {
@@ -75,8 +75,8 @@ export class Gen0ClientsManager {
     return this.add(clients, withDryRun)
   }
 
-  async addAll() {
-    return await this.addByGlob(this.config.clientsGlob)
+  async addAll(withDryRun: boolean = false) {
+    return await this.addByGlob(this.config.clientsGlob, withDryRun)
   }
 
   removeByGlob(clientsGlob: Gen0Fs.PathOrPaths) {
@@ -136,17 +136,17 @@ export class Gen0ClientsManager {
     return this.clients.filter((c) => this.fs.isPathInDir(c.file.path.abs, dir))
   }
 
-  async processMany(clients: Gen0Client[]) {
-    return await Promise.all(clients.map((client) => client.process({ dryRun: false })))
+  async processMany(clients: Gen0Client[], dryRun: boolean = false) {
+    return await Promise.all(clients.map((client) => client.process({ dryRun })))
   }
 
-  async processManyByNames(name: Gen0Utils.Search) {
+  async processManyByNames(name: Gen0Utils.Search, dryRun: boolean = false) {
     const clients = this.getByName(name)
-    return await this.processMany(clients)
+    return await this.processMany(clients, dryRun)
   }
 
-  async processAll() {
-    return await this.processMany(this.clients)
+  async processAll(dryRun: boolean = false) {
+    return await this.processMany(this.clients, dryRun)
   }
 
   async findAndCreateManyByGlob(clientsGlob: Gen0Fs.PathOrPaths) {

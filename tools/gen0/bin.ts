@@ -21,16 +21,23 @@ const withErrorWrapper = <T extends any[]>(action: (...args: T) => Promise<void>
     }
   }
 }
-// const withClearGen0 = <T extends any[]>(action: (gen0: Gen0, ...args: T) => Promise<void>) => {
-//   return withErrorWrapper(async (...args: T) => {
-//     const gen0 = await Gen0.create()
-//     await action(gen0, ...args)
-//   })
-// }
+const withCleanGen0 = <T extends any[]>(action: (gen0: Gen0, ...args: T) => Promise<void>) => {
+  return withErrorWrapper(async (...args: T) => {
+    const gen0 = await Gen0.create()
+    await action(gen0, ...args)
+  })
+}
 const withGen0 = <T extends any[]>(action: (gen0: Gen0, ...args: T) => Promise<void>) => {
   return withErrorWrapper(async (...args: T) => {
     const gen0 = await Gen0.create()
-    await gen0.init()
+    await gen0.init({ dryRun: false })
+    await action(gen0, ...args)
+  })
+}
+const withDryGen0 = <T extends any[]>(action: (gen0: Gen0, ...args: T) => Promise<void>) => {
+  return withErrorWrapper(async (...args: T) => {
+    const gen0 = await Gen0.create()
+    await gen0.init({ dryRun: true })
     await action(gen0, ...args)
   })
 }
@@ -63,12 +70,10 @@ program
   .alias("w")
   .description("Watch")
   // option to process all clients on start
-  .option("--process-clients, -p", "Process all clients before start watching", true)
+  .option("--dry-run, -d", "Dry run will not write to files on init", false)
   .action(
-    withGen0(async (gen0, options: { processClients: boolean }) => {
-      if (options.processClients) {
-        await gen0.clientsManager.processAll()
-      }
+    withCleanGen0(async (gen0, options: { dryRun: boolean }) => {
+      await gen0.init({ dryRun: options.dryRun })
       await gen0.watchersManager.watchAllByParcel()
       logger.info("watcher started")
 

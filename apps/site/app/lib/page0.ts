@@ -3,6 +3,7 @@ import type { SiteCtx } from "@ideanick/site/lib/ctx"
 import type { QueryClient } from "@tanstack/react-query"
 import type { MetaDescriptor } from "react-router"
 
+// TODO: make type Page0 normally exportable, now if Page0<any, any> everything is any
 // TODO: try return component, to preserve hotreload
 // TODO: useLoaderData → react router
 // TODO: clientLoader
