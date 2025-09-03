@@ -43,7 +43,7 @@ export class Gen0PluginsManager {
     })
   }
 
-  add(newPlugins: Gen0Plugin[]) {
+  async add(newPlugins: Gen0Plugin[], init: boolean = false) {
     for (const newPlugin of newPlugins) {
       const exPluginIndex = this.plugins.findIndex((exPlugin) => newPlugin.isSame(exPlugin))
       if (exPluginIndex === -1) {
@@ -53,19 +53,22 @@ export class Gen0PluginsManager {
         this.plugins[exPluginIndex] = newPlugin
         this.logger.debug(`update plugin ${newPlugin.file?.path.rel}`)
       }
+      if (init) {
+        await newPlugin.init()
+      }
     }
     return newPlugins
   }
 
-  async addPluginsByGlob(glob: Gen0Fs.PathOrPaths) {
+  async addPluginsByGlob(glob: Gen0Fs.PathOrPaths, init: boolean = false) {
     glob = this.fs.toPaths(glob)
     const plugins = await this.findAndCreateManyByGlob(glob)
-    return this.add(plugins)
+    return await this.add(plugins, init)
   }
 
-  async addByPath(path: string) {
+  async addByPath(path: string, init: boolean = false) {
     const plugin = await this.createByPath(path)
-    this.add([plugin])
+    await this.add([plugin], init)
     return plugin
   }
 
@@ -75,14 +78,15 @@ export class Gen0PluginsManager {
       fs?: Gen0Fs
       file?: Gen0File
     },
+    init: boolean = false,
   ) {
     const plugin = await this.createByDefinition(definition, rest)
-    this.add([plugin])
+    await this.add([plugin], init)
     return plugin
   }
 
-  async addAll() {
-    return await this.addPluginsByGlob(this.config.pluginsGlob)
+  async addAll(init: boolean = false) {
+    return await this.addPluginsByGlob(this.config.pluginsGlob, init)
   }
 
   removeByGlob(pluginsGlob: Gen0Fs.PathOrPaths) {
@@ -150,6 +154,10 @@ export class Gen0PluginsManager {
 
   async findAndCreateAll() {
     return await this.findAndCreateManyByGlob(this.config.pluginsGlob)
+  }
+
+  async initAll() {
+    await Promise.all(this.plugins.map((plugin) => plugin.init()))
   }
 
   isSame(plugin1: Gen0Plugin, plugin2: Gen0Plugin) {

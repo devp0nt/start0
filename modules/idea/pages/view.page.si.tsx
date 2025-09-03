@@ -12,7 +12,7 @@ export default Page0.route(siteRoutes.ideaView)
   .component(({ params, query, loaderData: { idea }, ctx }) => {
     return (
       <div>
-        <h1>{idea.title}2sssss2</h1>
+        <h1>{idea.title}2ssssss2</h1>
         <p>{idea.description}</p>
         <pre>params:{JSON.stringify(params, null, 2)}</pre>
         <pre>query:{JSON.stringify(query, null, 2)}</pre>

@@ -5,6 +5,7 @@ import type { Gen0Fs } from "@ideanick/tools/gen0/fs"
 import { Gen0Logger } from "@ideanick/tools/gen0/logger"
 import { Gen0Utils } from "@ideanick/tools/gen0/utils"
 import { Gen0Watcher } from "@ideanick/tools/gen0/watcher"
+import { uniq } from "lodash"
 
 // TODO: add to fns property .getPluginName()
 // TODO: add possibility to rename plugins when use
@@ -20,6 +21,7 @@ export class Gen0Plugin {
   fns: Gen0Plugin.FnsRecord
   vars: Gen0Plugin.VarsRecord
   watchers: Gen0Watcher[]
+  onInit: (() => Promise<void>) | undefined
 
   private constructor({
     config,
@@ -29,6 +31,7 @@ export class Gen0Plugin {
     file,
     fs,
     watchers,
+    onInit,
   }: {
     config: Gen0Config
     name: string
@@ -37,6 +40,7 @@ export class Gen0Plugin {
     file?: Gen0File
     fs: Gen0Fs
     watchers?: Gen0Watcher[]
+    onInit?: () => Promise<void>
   }) {
     this.config = config
     this.file = file
@@ -45,6 +49,7 @@ export class Gen0Plugin {
     this.fns = fns || {}
     this.vars = vars || {}
     this.watchers = watchers || []
+    this.onInit = onInit
   }
 
   static async createByDefinition({
@@ -68,6 +73,7 @@ export class Gen0Plugin {
       watchers: [],
       file,
       fs,
+      onInit: definition.onInit,
     })
     plugin.watchers = await plugin.createWatchersByDefinitions(definition.watchers || {})
     return plugin
@@ -88,6 +94,20 @@ export class Gen0Plugin {
       file,
       fs: file.fs,
     })
+  }
+
+  init = async () => {
+    if (this.onInit) {
+      try {
+        await this.onInit()
+        this.logger.debug(`plugin init ${uniq([this.name, this.file?.path.rel]).filter(Boolean).join(":")} completed`)
+      } catch (error) {
+        this.logger.error(
+          `plugin init ${uniq([this.name, this.file?.path.rel]).filter(Boolean).join(":")} failed\n`,
+          error,
+        )
+      }
+    }
   }
 
   async createWatchersByDefinitions(watchersDefinitions: Gen0Plugin.WatchersDefinitionsRecord) {
@@ -152,6 +172,7 @@ export namespace Gen0Plugin {
     fns?: Gen0Plugin.FnsRecord
     vars?: Gen0Plugin.VarsRecord
     watchers?: Gen0Plugin.WatchersDefinitionsRecord
+    onInit?: () => Promise<void>
   }
   export type DefinitionWithName = Omit<DefinitionResult, "name"> & { name: string }
   export type DefinitionFnCtx = { fs: Gen0Fs }

@@ -165,11 +165,13 @@ export class Gen0WatchersManager {
       if (exPlugin) {
         if (exPlugin.file) {
           // always true here
-          await this.pluginsManager.addByPath(exPlugin.file.path.abs)
+          const updatedPlugin = await this.pluginsManager.addByPath(exPlugin.file.path.abs)
+          await updatedPlugin.init()
         }
         return
       }
-      await this.pluginsManager.addByPath(path)
+      const newPlugin = await this.pluginsManager.addByPath(path)
+      await newPlugin.init()
     } else {
       const exPlugins = this.pluginsManager.getByDir(path)
       for (const exPlugin of exPlugins) {

@@ -5,7 +5,7 @@ export default (({ fs }) => {
   const generateRouteByPagePath = async (pagePath: string) => {
     await fs.loadEnv(".env")
     const page: Page0<any, any> = await fs.importFreshDefault(pagePath)
-    console.log(123123, page.route)
+    console.log(1723, page.route)
     const routeDefinition = page.route.getDefinition()
 
     console.log({
@@ -16,6 +16,9 @@ export default (({ fs }) => {
 
   return {
     name: "reactRouter",
+    onInit: async () => {
+      await generateRouteByPagePath("/Users/iserdmi/cc/projects/svagatron/modules/idea/pages/view.page.si.tsx")
+    },
     watchers: {
       createRouteByPage: {
         watch: ["~/**/*.page.si.ts{x,}"],
