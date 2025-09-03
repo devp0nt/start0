@@ -15,6 +15,10 @@ export namespace Gen0Utils {
       return search.test(line)
     }
   }
+
+  export const toArray = <T>(value: T | T[]): T[] => {
+    return Array.isArray(value) ? value : [value]
+  }
   // export const getGitignoreGlob = async (cwd: string): Promise<string[]> => {
   //   const gitignoreFilesPaths = await globby(cwd, {
   //     gitignore: true,

@@ -4,7 +4,7 @@ export default {
   name: "testPlugin",
   watchers: {
     testWatcher: {
-      watch: "**/*.test.txt",
+      watch: ["**/*.test.txt", "*.test.txt", "!.git"],
       clientsGlob: "./test-client.ts",
     },
   },

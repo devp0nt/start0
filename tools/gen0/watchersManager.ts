@@ -14,7 +14,7 @@ export class Gen0WatchersManager {
   watchers: Gen0Watcher[] = []
   watchGlob: string[] = []
   fs: Gen0Fs
-  isIgnored: (path: string) => boolean = (path) => false
+  isGitIgnored: (path: string) => boolean = (path) => false
   chokidarWatcher: FSWatcher | null = null
 
   constructor({
@@ -42,9 +42,14 @@ export class Gen0WatchersManager {
     clientsManager: Gen0ClientsManager
   }) {
     const watchersManager = new Gen0WatchersManager({ pluginsManager, config, fs, clientsManager })
-    watchersManager.isIgnored = await isGitIgnored({ cwd: watchersManager.config.rootDir })
+    watchersManager.isGitIgnored = await isGitIgnored({ cwd: watchersManager.config.rootDir })
     return watchersManager
   }
+
+  // async createIsIgnored() {
+  //   const isIgnoredByGit = await isGitIgnored({ cwd: this.config.rootDir })
+  //   return (path: string) => isIgnoredByGit(path) || path.split("/")[0] === ".git"
+  // }
 
   getWatchersDefinitionsWithPlugins(): { watchersDefinition: Gen0Watcher.DefinitionWithName; plugin: Gen0Plugin }[] {
     return this.pluginsManager.plugins.reduce(
@@ -144,18 +149,20 @@ export class Gen0WatchersManager {
     return watcher1.isSame(watcher2)
   }
 
-  async watchAll() {
-    this.watchGlob = this.getAllWatchersWatchGlob()
+  watchAll() {
     this.chokidarWatcher = chokidar
-      .watch(this.watchGlob, {
+      .watch([this.config.rootDir, "!.git/**/*"], {
         cwd: this.config.rootDir,
-        ignored: this.isIgnored,
+        ignored: [/(^|[/\\])\.git/, this.isGitIgnored],
+        persistent: true,
+        // ignoreInitial: true
       })
       .on("all", (event, path) => {
         for (const watcher of this.watchers) {
           watcher.handler(event, path)
         }
       })
+    return this.chokidarWatcher
   }
 }
 

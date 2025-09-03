@@ -19,12 +19,12 @@ const withErrorWrapper = <T extends any[]>(action: (...args: T) => Promise<void>
     }
   }
 }
-const withClearGen0 = <T extends any[]>(action: (gen0: Gen0, ...args: T) => Promise<void>) => {
-  return withErrorWrapper(async (...args: T) => {
-    const gen0 = await Gen0.create()
-    await action(gen0, ...args)
-  })
-}
+// const withClearGen0 = <T extends any[]>(action: (gen0: Gen0, ...args: T) => Promise<void>) => {
+//   return withErrorWrapper(async (...args: T) => {
+//     const gen0 = await Gen0.create()
+//     await action(gen0, ...args)
+//   })
+// }
 const withGen0 = <T extends any[]>(action: (gen0: Gen0, ...args: T) => Promise<void>) => {
   return withErrorWrapper(async (...args: T) => {
     const gen0 = await Gen0.create()
@@ -69,8 +69,8 @@ program
   .alias("w")
   .description("Watch")
   .action(
-    withClearGen0(async (gen0) => {
-      // await gen0.watch()
+    withGen0(async (gen0) => {
+      gen0.watchersManager.watchAll()
     }),
   )
 

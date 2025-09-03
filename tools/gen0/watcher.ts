@@ -79,8 +79,8 @@ export class Gen0Watcher {
     if (!originalClientsGlob && !originalHandler) {
       throw new Error(`Clients or/and handler must be provided for watcher ${name}`)
     }
-    const clientsGlob = originalClientsGlob ? fs.toPaths(originalClientsGlob) : []
-    const watchGlob = fs.toPaths(originalWatchGlob)
+    const clientsGlob = Gen0Utils.toArray(originalClientsGlob ? fs.toAbs(originalClientsGlob) : [])
+    const watchGlob = Gen0Utils.toArray(fs.toAbs(originalWatchGlob))
     const watcher = new Gen0Watcher({
       plugin,
       name,
