@@ -35,10 +35,10 @@ export class Gen0Client {
   }: {
     fs: Gen0Fs
     config: Gen0Config
-    clientsGlob?: Gen0Config["clients"]
+    clientsGlob?: Gen0Config["clientsGlob"]
   }) {
     const clientsPaths = await fs.findFilesPathsContentMatch({
-      glob: clientsGlob || config.clients,
+      glob: clientsGlob || config.clientsGlob,
       search: [Gen0Target.startMark, Gen0Target.silentMark],
     })
     return await Promise.all(clientsPaths.map((filePath) => Gen0Client.create({ filePath, config })))
@@ -51,7 +51,7 @@ export class Gen0Client {
   }: {
     fs: Gen0Fs
     config: Gen0Config
-    clientsGlob?: Gen0Config["clients"]
+    clientsGlob?: Gen0Config["clientsGlob"]
   }) {
     const clients = await Gen0Client.findAndCreateAll({ fs, config, clientsGlob })
     return await Gen0Client.processMany(clients)

@@ -13,18 +13,18 @@ export class Gen0Config {
   static defaultClientsGlob: Gen0Fs.PathOrPaths = ["**/*.{ts,tsx,js,jsx,mjs,json}"]
 
   rootDir: string
-  afterProcessCmd: Gen0Config.AfterProcessCmd | undefined
+  clientsGlob: Gen0Fs.PathOrPaths
   pluginsGlob: Gen0Fs.PathOrPaths
   plugins: Gen0Config.Plugins
-  clients: Gen0Fs.PathOrPaths
   fns: Gen0Config.Fns
   vars: Gen0Config.Vars
+  afterProcessCmd: Gen0Config.AfterProcessCmd | undefined
 
   private constructor({
     rootDir,
     afterProcessCmd,
     pluginsGlob,
-    clients,
+    clientsGlob,
     plugins,
     fns,
     vars,
@@ -33,14 +33,14 @@ export class Gen0Config {
     afterProcessCmd?: Gen0Config.AfterProcessCmd
     pluginsGlob?: Gen0Fs.PathOrPaths
     plugins?: Gen0Config.Plugins
-    clients?: Gen0Fs.PathOrPaths
+    clientsGlob?: Gen0Fs.PathOrPaths
     fns?: Gen0Config.Fns
     vars?: Gen0Config.Vars
   }) {
     this.rootDir = rootDir
     this.afterProcessCmd = afterProcessCmd
     this.pluginsGlob = pluginsGlob || Gen0Config.defaultPluginsGlob
-    this.clients = clients || Gen0Config.defaultClientsGlob
+    this.clientsGlob = clientsGlob || Gen0Config.defaultClientsGlob
     this.plugins = plugins || {}
     this.fns = fns || {}
     this.vars = vars || {}
@@ -90,7 +90,7 @@ export namespace Gen0Config {
     rootDir?: string
     afterProcessCmd?: AfterProcessCmd
     pluginsGlob?: Gen0Fs.PathOrPaths
-    clients?: Gen0Fs.PathOrPaths
+    clientsGlob?: Gen0Fs.PathOrPaths
     plugins?: TPluginsDefinitions
     fns?: TFns
     vars?: TVars

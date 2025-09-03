@@ -65,7 +65,7 @@ program
             afterProcessCmd: gen0.config.afterProcessCmd,
             pluginsGlob: gen0.config.pluginsGlob,
             plugins: Object.keys(gen0.config.plugins),
-            clients: gen0.config.clients,
+            clients: gen0.config.clientsGlob,
             fns: Object.keys(gen0.config.fns),
             vars: Object.keys(gen0.config.vars),
           },

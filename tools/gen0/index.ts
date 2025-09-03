@@ -3,10 +3,21 @@ import { Gen0Config } from "@ideanick/tools/gen0/config"
 import { Gen0Fs } from "@ideanick/tools/gen0/fs"
 import { Gen0Plugin } from "@ideanick/tools/gen0/plugin"
 
+// Вотчер берёт клиентс глоб и клиентс нэймс
+// Удален клиента по нейму и по глобу отдельно
+// Конфиг берёт не клиентс, а клиентсглоб
+// Гет клиент пас бай нейм
+// ? Хранить вотчеры, функции, плагины, в массиве и тогда имена из файловвозьмутся, а в конфиге по ключам возьмём, и тип правильный не плагинс, а плагинсколлекшее
+// При запуске вотчера делаем первый прогон клиентов, и таким образом собираем из них спмодекларации
+// При запросе бин инфо, делаем драй ран, где в клиентах не переписываем файлы, но также собираем все декларации
+
 // TODO: watchers
 // TODO: named actions
-// TODO: named clients
 // TODO: commander actions
+
+// TODO: self named clients
+// TODO: self watched clients
+
 // TODO: commander actions and clients anmes, and client paths
 
 // TODO: multiline comments
@@ -76,7 +87,7 @@ export class Gen0 {
     return await client.process()
   }
 
-  async processFiles(clientsGlob: Gen0Config["clients"]) {
+  async processFiles(clientsGlob: Gen0Config["clientsGlob"]) {
     const clients = await Gen0Client.findAndCreateAll({ fs: this.fs, config: this.config, clientsGlob })
     return await Gen0Client.processMany(clients)
   }
