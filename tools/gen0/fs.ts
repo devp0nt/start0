@@ -169,12 +169,17 @@ export class Gen0Fs {
     return result
   }
 
-  toAbs<T extends Gen0Fs.PathOrPaths>(path: T, relativeTo: string = this.cwd): T {
+  toAbs<T extends Gen0Fs.PathOrPaths>(path: T, relativeToAbs: string = this.cwd): T {
     if (Array.isArray(path)) {
       return path.map((p) => this.toAbs(p)) as T
     }
+    if (path.startsWith("!")) {
+      const cutted = path.replace(/^!/, "")
+      const result = this.toAbs(cutted, relativeToAbs)
+      return `!${result}` as T
+    }
     const pathNormalized = this.normalizePath(path)
-    return nodePath.resolve(relativeTo, pathNormalized) as T
+    return nodePath.resolve(relativeToAbs, pathNormalized) as T
   }
 
   toRel<T extends Gen0Fs.PathOrPaths>(path: T, relativeTo?: string, withLeadingDot?: boolean): T
@@ -184,6 +189,11 @@ export class Gen0Fs {
     const withLeadingDot = typeof first === "boolean" ? first : typeof second === "boolean" ? second : true
     if (Array.isArray(path)) {
       return path.map((p) => this.toRel(p)) as T
+    }
+    if (path.startsWith("!")) {
+      const cutted = path.replace(/^!/, "")
+      const result = this.toRel(cutted, first, second)
+      return `!${result}` as T
     }
     const pathNormalized = this.normalizePath(path)
     const result = nodePath.relative(relativeTo, pathNormalized)
@@ -230,7 +240,11 @@ export class Gen0Fs {
     return await fs.readFile(this.normalizePath(path), "utf8")
   }
 
-  normalizePath(path: string) {
+  normalizePath(path: string): string {
+    if (path.startsWith("!")) {
+      const result = this.normalizePath(path.replace(/^!/, ""))
+      return `!${result}`
+    }
     if (/^~\//.test(path)) {
       return nodePath.resolve(this.config.rootDir, path.replace(/^~\//, ""))
     }
@@ -241,13 +255,17 @@ export class Gen0Fs {
   }
 
   toPaths(path: Gen0Fs.PathOrPaths): string[] {
-    return Array.isArray(path) ? path.map(this.normalizePath) : [this.normalizePath(path)]
+    return Array.isArray(path) ? path.map(this.normalizePath.bind(this)) : [this.normalizePath(path)]
   }
 
   isPathMatchGlob(path: string, glob: string | string[]): boolean {
     const pathNormalized = this.normalizePath(path)
-    const globNormalized = Array.isArray(glob) ? glob.map(this.normalizePath) : [this.normalizePath(glob)]
-    return micromatch.isMatch(pathNormalized, globNormalized)
+    const globNormalized = Array.isArray(glob) ? glob.map(this.normalizePath.bind(this)) : [this.normalizePath(glob)]
+    const negativeGlobs = globNormalized.filter((g) => g.startsWith("!")).map((g) => g.replace(/^!/, ""))
+    const positiveGlobs = globNormalized.filter((g) => !g.startsWith("!"))
+    const isMatchPositive = micromatch.isMatch(pathNormalized, positiveGlobs)
+    const isMatchNegative = micromatch.isMatch(pathNormalized, negativeGlobs)
+    return isMatchPositive && !isMatchNegative
   }
 }
 

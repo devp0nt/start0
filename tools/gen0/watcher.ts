@@ -3,14 +3,12 @@ import type { Gen0ClientsManager } from "@ideanick/tools/gen0/clientsManager"
 import type { Gen0Fs } from "@ideanick/tools/gen0/fs"
 import type { Gen0Plugin } from "@ideanick/tools/gen0/plugin"
 import { Gen0Utils } from "@ideanick/tools/gen0/utils"
-import type { EmitArgsWithName } from "chokidar"
-import { isGitIgnored } from "globby"
+import type { Gen0WatchersManager } from "@ideanick/tools/gen0/watchersManager"
 
 export class Gen0Watcher {
   fs: Gen0Fs
   name: string
   plugin: Gen0Plugin
-  handler: Gen0Watcher.Handler
   watchGlob: Gen0Fs.Paths
   originalWatchGlob: Gen0Watcher.Definition["watch"]
   clientsManager: Gen0ClientsManager
@@ -25,7 +23,6 @@ export class Gen0Watcher {
     fs,
     watchGlob,
     originalWatchGlob,
-    handler,
     clientsManager,
     clientsGlob,
     originalClientsGlob,
@@ -37,7 +34,6 @@ export class Gen0Watcher {
     fs: Gen0Fs
     watchGlob: Gen0Fs.Paths
     originalWatchGlob: Gen0Watcher.Definition["watch"]
-    handler: Gen0Watcher.Handler
     clientsManager: Gen0ClientsManager
     clientsGlob?: Gen0Fs.Paths
     originalClientsGlob?: Gen0Watcher.Definition["clientsGlob"]
@@ -47,7 +43,6 @@ export class Gen0Watcher {
     this.name = name
     this.plugin = plugin
     this.fs = fs
-    this.handler = handler
     this.watchGlob = watchGlob
     this.originalWatchGlob = originalWatchGlob
     this.clientsManager = clientsManager
@@ -87,12 +82,6 @@ export class Gen0Watcher {
       fs,
       watchGlob,
       originalWatchGlob,
-      handler: Gen0Watcher.getNormalizedHandler({
-        originalHandler,
-        clientsGlob,
-        clientsNames,
-        clientsManager,
-      }),
       clientsManager,
       clientsGlob,
       originalClientsGlob,
@@ -102,28 +91,23 @@ export class Gen0Watcher {
     return watcher
   }
 
-  static getNormalizedHandler({
-    originalHandler,
-    clientsGlob,
-    clientsNames,
-    clientsManager,
-  }: {
-    originalHandler?: Gen0Watcher.Handler
-    clientsGlob?: Gen0Fs.Paths
-    clientsNames?: Gen0Watcher.Definition["clientsNames"]
-    clientsManager: Gen0ClientsManager
-  }): Gen0Watcher.Handler {
-    return (event: Gen0Watcher.EventName, path: string) => {
-      if (originalHandler) {
-        originalHandler(event, path)
-      }
-      if (clientsGlob) {
-        clientsManager.findAndProcessMany(clientsGlob)
-      }
-      if (clientsNames) {
-        clientsManager.processManyByName(clientsNames)
-      }
+  handler: Gen0Watcher.Handler = (event: Gen0WatchersManager.EventType, path: string) => {
+    if (!this.isPathMatchWatchGlob(path)) {
+      return
     }
+    if (this.originalHandler) {
+      this.originalHandler(event, path)
+    }
+    if (this.clientsGlob) {
+      this.clientsManager.findAndProcessMany(this.clientsGlob)
+    }
+    if (this.clientsNames) {
+      this.clientsManager.processManyByNames(this.clientsNames)
+    }
+  }
+
+  isPathMatchWatchGlob(path: string) {
+    return this.fs.isPathMatchGlob(path, this.watchGlob)
   }
 
   isSame(watcher: Gen0Watcher) {
@@ -159,8 +143,7 @@ export class Gen0Watcher {
 }
 
 export namespace Gen0Watcher {
-  export type EventName = EmitArgsWithName[0]
-  export type Handler = (event: EventName, path: string) => void
+  export type Handler = (event: Gen0WatchersManager.EventType, path: string) => void
   export type OriginalMeta = {
     name: string
     plugin: string

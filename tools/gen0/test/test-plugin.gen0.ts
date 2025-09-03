@@ -4,8 +4,11 @@ export default {
   name: "testPlugin",
   watchers: {
     testWatcher: {
-      watch: ["**/*.test.txt", "*.test.txt", "!.git"],
+      watch: ["**/*.test.txt", "!**/bad.test.txt"],
       clientsGlob: "./test-client.ts",
+      handler: (event, path) => {
+        // console.log(event, path)
+      },
     },
   },
 } satisfies Gen0Plugin.Definition

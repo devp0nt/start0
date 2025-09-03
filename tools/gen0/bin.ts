@@ -70,7 +70,10 @@ program
   .description("Watch")
   .action(
     withGen0(async (gen0) => {
-      gen0.watchersManager.watchAll()
+      // gen0.watchersManager.watchAllByChokidar()
+      // gen0.watchersManager.watchAllByNative()
+      const x = await gen0.watchersManager.watchAllByParcel()
+      logger.info("Watchers started")
     }),
   )
 

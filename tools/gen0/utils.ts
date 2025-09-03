@@ -1,7 +1,6 @@
-// import type { Gen0Fs } from "@ideanick/tools/gen0/fs"
-// import gitignoreToGlob from "gitignore-to-glob"
-// import { globby } from "globby"
-// import nodePath from "path"
+import { globby } from "globby"
+import { globifyGitIgnoreFile } from "globify-gitignore"
+import nodePath from "path"
 
 export namespace Gen0Utils {
   export type Search = string | string[] | RegExp | RegExp[]
@@ -19,21 +18,21 @@ export namespace Gen0Utils {
   export const toArray = <T>(value: T | T[]): T[] => {
     return Array.isArray(value) ? value : [value]
   }
-  // export const getGitignoreGlob = async (cwd: string): Promise<string[]> => {
-  //   const gitignoreFilesPaths = await globby(cwd, {
-  //     gitignore: true,
-  //     absolute: true,
-  //     dot: true,
-  //   })
-  //   const relativeToCwd = (path: string) => {
-  //     const selfRelative = nodePath.resolve(nodePath.dirname(cwd), path)
-  //     const cwdRelative = nodePath.relative(cwd, selfRelative)
-  //     return cwdRelative
-  //   }
-  //   const gitignoreGlobs = gitignoreFilesPaths.flatMap((path) => {
-  //     const glob: string[] = gitignoreToGlob(path)
-  //     return glob.map(relativeToCwd)
-  //   })
-  //   return gitignoreGlobs
-  // }
+  export const getGitignoreGlob = async (cwd: string, reverse: boolean = false): Promise<string[]> => {
+    const gitignoreFilesPaths = await globby("**/.gitignore", {
+      cwd,
+      gitignore: true,
+      absolute: true,
+      dot: true,
+    })
+    const promises = await Promise.all(
+      gitignoreFilesPaths.map(async (pathAbs) => {
+        const results = await globifyGitIgnoreFile(nodePath.dirname(pathAbs), true)
+        return results.map((r) => (reverse ? (r.included ? r.glob : `!${r.glob}`) : r.included ? `!${r.glob}` : r.glob))
+      }),
+    )
+    // biome-ignore lint/complexity/noFlatMapIdentity: <x>
+    const globs = promises.flatMap((g) => g)
+    return globs
+  }
 }

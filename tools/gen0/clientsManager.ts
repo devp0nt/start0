@@ -83,8 +83,8 @@ export class Gen0ClientsManager {
     return await Promise.all(clients.map((client) => client.process()))
   }
 
-  async processManyByName(nameSearch: Gen0Utils.Search) {
-    const clients = this.getByName(nameSearch)
+  async processManyByNames(name: Gen0Utils.Search) {
+    const clients = this.getByName(name)
     return await this.processMany(clients)
   }
 

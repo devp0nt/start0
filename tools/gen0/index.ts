@@ -1,11 +1,10 @@
-import { Gen0Client } from "@ideanick/tools/gen0/client"
 import { Gen0ClientsManager } from "@ideanick/tools/gen0/clientsManager"
 import { Gen0Config } from "@ideanick/tools/gen0/config"
 import { Gen0Fs } from "@ideanick/tools/gen0/fs"
-import { Gen0Plugin } from "@ideanick/tools/gen0/plugin"
 import { Gen0PluginsManager } from "@ideanick/tools/gen0/pluginsManager"
 import { Gen0WatchersManager } from "@ideanick/tools/gen0/watchersManager"
 
+// TODO: watch handlers fith filtering
 // TODO: watch for new clients
 // TODO: watch for new plugins
 // TODO: add logger

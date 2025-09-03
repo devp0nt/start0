@@ -3,8 +3,12 @@ import type { Gen0Config } from "@ideanick/tools/gen0/config"
 import type { Gen0Fs } from "@ideanick/tools/gen0/fs"
 import type { Gen0Plugin } from "@ideanick/tools/gen0/plugin"
 import type { Gen0PluginsManager } from "@ideanick/tools/gen0/pluginsManager"
+import { Gen0Utils } from "@ideanick/tools/gen0/utils"
 import { Gen0Watcher } from "@ideanick/tools/gen0/watcher"
-import chokidar, { type FSWatcher } from "chokidar"
+import type { EventType as ParcelEventType } from "@parcel/watcher"
+import parcel from "@parcel/watcher"
+// import chokidar, { type FSWatcher as ChokidarFSWatcher, type EmitArgsWithName } from "chokidar"
+// import fs from "fs"
 import { isGitIgnored } from "globby"
 
 export class Gen0WatchersManager {
@@ -15,7 +19,9 @@ export class Gen0WatchersManager {
   watchGlob: string[] = []
   fs: Gen0Fs
   isGitIgnored: (path: string) => boolean = (path) => false
-  chokidarWatcher: FSWatcher | null = null
+  // chokidarWatcher: ChokidarFSWatcher | null = null
+  // bunWatcher: fs.FSWatcher | null = null
+  parcelWatcher: { unsubscribe: () => void } | null = null
 
   constructor({
     pluginsManager,
@@ -105,23 +111,23 @@ export class Gen0WatchersManager {
     await this.addAll()
   }
 
-  actualizeChokidarWatcher() {
-    if (!this.chokidarWatcher) {
-      return
-    }
-    const diff = this.getActualWatchGlobDiff()
-    if (diff.add.length > 0) {
-      this.chokidarWatcher.add(diff.add)
-    }
-    if (diff.remove.length > 0) {
-      this.chokidarWatcher.unwatch(diff.remove)
-    }
-  }
+  // actualizeChokidarWatcher() {
+  //   if (!this.chokidarWatcher) {
+  //     return
+  //   }
+  //   const diff = this.getActualWatchGlobDiff()
+  //   if (diff.add.length > 0) {
+  //     this.chokidarWatcher.add(diff.add)
+  //   }
+  //   if (diff.remove.length > 0) {
+  //     this.chokidarWatcher.unwatch(diff.remove)
+  //   }
+  // }
 
-  async actualizeEverything() {
-    await this.actualizeAll()
-    this.actualizeChokidarWatcher()
-  }
+  // async actualizeEverything() {
+  //   await this.actualizeAll()
+  //   this.actualizeChokidarWatcher()
+  // }
 
   getAllWatchersWatchGlob(): string[] {
     return this.watchers.reduce((acc, watcher) => {
@@ -149,23 +155,99 @@ export class Gen0WatchersManager {
     return watcher1.isSame(watcher2)
   }
 
-  watchAll() {
-    this.chokidarWatcher = chokidar
-      .watch([this.config.rootDir, "!.git/**/*"], {
-        cwd: this.config.rootDir,
-        ignored: [/(^|[/\\])\.git/, this.isGitIgnored],
-        persistent: true,
-        // ignoreInitial: true
-      })
-      .on("all", (event, path) => {
-        for (const watcher of this.watchers) {
-          watcher.handler(event, path)
+  // async watchAllByChokidar() {
+  //   this.chokidarWatcher = chokidar
+  //     .watch(this.config.rootDir, {
+  //       cwd: this.config.rootDir,
+  //       ignored: [/(^|[/\\])\.git/, this.isGitIgnored],
+  //       persistent: true,
+  //       // ignoreInitial: true
+  //     })
+  //     .on("all", (event, path) => {
+  //       const pathAbs = this.fs.toAbs(path)
+  //       for (const watcher of this.watchers) {
+  //         watcher.handler(event, pathAbs)
+  //       }
+  //     })
+  //   return this.chokidarWatcher
+  // }
+
+  // async watchAllByNative() {
+  //   this.bunWatcher = fs.watch(this.config.rootDir, { recursive: true }, (originalEvent, path) => {
+  //     if (!path) return
+  //     console.log(originalEvent, path)
+  //     const pathAbs = this.fs.toAbs(path)
+  //     if (/(^|[/\\])\.git/.test(path)) return
+  //     if (this.isGitIgnored(path)) return
+
+  //     // normalize event type like chokidar
+  //     // to "all" | "ready" | "add" | "change" | "addDir" | "unlink" | "unlinkDir" | "raw" | "error"
+  //     // from "change" | "rename"
+  //     const event: "change" | "addDir" | "unlink" = (() => {
+  //       if (originalEvent === "change") return "change"
+  //       const stat = (() => {
+  //         try {
+  //           return fs.statSync(pathAbs)
+  //         } catch {
+  //           return null
+  //         }
+  //       })()
+  //       if (!stat) return "unlink"
+  //       if (stat.isDirectory()) return "addDir"
+  //       return "change"
+  //     })()
+
+  //     for (const watcher of this.watchers) {
+  //       watcher.handler(event, pathAbs)
+  //     }
+  //   })
+  //   return this.bunWatcher
+  // }
+
+  async watchAllByParcel() {
+    const gitignoreGlob = await Gen0Utils.getGitignoreGlob(this.config.rootDir)
+    this.parcelWatcher = await parcel.subscribe(
+      this.config.rootDir,
+      (error, events) => {
+        for (const { path, type: originalEvent } of events) {
+          const pathAbs = this.fs.toAbs(path)
+          if (/(^|[/\\])\.git/.test(path)) return
+          if (this.isGitIgnored(path)) return
+
+          // normalize event type like chokidar
+          // to "all" | "ready" | "add" | "change" | "addDir" | "unlink" | "unlinkDir" | "raw" | "error"
+          // from "create" | "update" | "delete"
+          // const event: "change" | "addDir" | "unlink" | "add" = (() => {
+          //   if (originalEvent === "update") return "change"
+          //   if (originalEvent === "delete") return "unlink"
+          //   const stat = (() => {
+          //     try {
+          //       return fs.statSync(pathAbs)
+          //     } catch {
+          //       return null
+          //     }
+          //   })()
+          //   if (!stat) return "unlink"
+          //   if (stat.isDirectory()) return "addDir"
+          //   return "add"
+          // })()
+          const event = originalEvent
+
+          for (const watcher of this.watchers) {
+            watcher.handler(event, pathAbs)
+          }
         }
-      })
-    return this.chokidarWatcher
+      },
+      {
+        ignore: [".git/**/*", ...gitignoreGlob],
+      },
+    )
+    return this.parcelWatcher
   }
 }
 
 export namespace Gen0WatchersManager {
-  export type WatchersMeta = Gen0Watcher.OriginalMeta[]
+  // export type NativeEvent = "change" | "addDir" | "unlink"
+  // export type ChokidarEvent = Exclude<EmitArgsWithName[0], "all">
+  export type EventType = ParcelEventType
 }

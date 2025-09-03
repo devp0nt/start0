@@ -3,6 +3,7 @@
   "private": true,
   "devDependencies": {
     "@biomejs/biome": "2.2.0",
+    "@parcel/watcher": "^2.5.1",
     "@react-router/dev": "^7.7.1",
     "@types/bun": "latest",
     "@types/debug": "^4.1.12",
@@ -17,6 +18,7 @@
     "find-up": "^7.0.0",
     "gitignore-to-glob": "^0.3.0",
     "globby": "^14.1.0",
+    "globify-gitignore": "^1.0.3",
     "husky": "^9.1.7",
     "lint-staged": "^16.1.5",
     "micromatch": "^4.0.8",
