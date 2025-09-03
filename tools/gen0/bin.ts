@@ -1,5 +1,6 @@
 #!/usr/bin/env bun
 
+// import * as readline from "node:readline"
 import { Command } from "commander"
 import { Gen0 } from "./index.js"
 
@@ -36,25 +37,25 @@ const withGen0 = <T extends any[]>(action: (gen0: Gen0, ...args: T) => Promise<v
 // commands
 
 program
-  .command("process")
+  .command("process-clients")
   .alias("p")
-  .description("Process a file with gen0 or process all clients if no file path provided")
+  .description("Process clients files")
   .argument("[glob]", "Glob to the files to process (optional)")
   .action(
     withGen0(async (gen0, glob?: string) => {
       if (glob) {
         const results = await gen0.clientsManager.findAndProcessManyByGlob(glob)
         if (results.length === 0) {
-          logger.error(`❌ No clients found for glob: ${glob}`)
+          logger.error(`❌ No clients files found for glob: ${glob}`)
         } else {
           for (const result of results) {
             logger.info(`✅ ${result.client.file.path.rel}`)
           }
         }
       } else {
-        const results = await gen0.clientsManager.findAndProcessAll()
+        const results = await gen0.clientsManager.processAll()
         if (results.length === 0) {
-          logger.error(`❌ No clients found by config glob: ${gen0.config.clientsGlob}`)
+          logger.error(`❌ No clients files found by config glob: ${gen0.config.originalClientsGlob}`)
         } else {
           for (const result of results) {
             logger.info(`✅ ${result.client.file.path.rel}`)
@@ -68,12 +69,70 @@ program
   .command("watch")
   .alias("w")
   .description("Watch")
+  // option to process all clients on start
+  .option("--process-clients, -p", "Process all clients before start watching", true)
   .action(
-    withGen0(async (gen0) => {
-      // gen0.watchersManager.watchAllByChokidar()
-      // gen0.watchersManager.watchAllByNative()
+    withGen0(async (gen0, options: { processClients: boolean }) => {
+      if (options.processClients) {
+        const results = await gen0.clientsManager.processAll()
+        for (const result of results) {
+          logger.info(`✅ ${result.client.file.path.rel}`)
+        }
+      }
       await gen0.watchersManager.watchAllByParcel()
       logger.info("Watchers started")
+
+      // const rl = readline.createInterface({
+      //   input: process.stdin,
+      //   output: process.stdout,
+      //   prompt: "",
+      // })
+      // rl.prompt()
+      // rl.on("line", async (input) => {
+      //   const command = input.trim().toLowerCase()
+      //   if (command === "p") {
+      //     const results = await gen0.clientsManager.processAll()
+      //     for (const result of results) {
+      //       logger.info(`✅ ${result.client.file.path.rel}`)
+      //     }
+      //   } else if (command === "q" || command === "quit" || command === "exit") {
+      //     rl.close()
+      //     process.exit(0)
+      //   }
+      //   rl.prompt()
+      // })
+      // rl.on("close", () => {
+      //   process.exit(0)
+      // })
+      process.stdin.setRawMode(true)
+      process.stdin.resume()
+      process.stdin.setEncoding("utf8")
+
+      process.stdin.on("data", async (key: string) => {
+        // handle ctrl+c
+        if (key === "\u0003") {
+          logger.info("Exiting...")
+          process.exit(0)
+        }
+        if (key === "p") {
+          logger.log("")
+          logger.info("Processing all clients...")
+          const results = await gen0.clientsManager.processAll()
+          for (const result of results) {
+            logger.info(`✅ ${result.client.file.path.rel}`)
+          }
+        } else if (key === "q") {
+          logger.log("")
+          logger.info("Exiting...")
+          process.exit(0)
+        } else if (key === "h") {
+          logger.log("")
+          logger.info("Available keys:")
+          logger.info("  p - Process all clients")
+          logger.info("  q - Quit")
+          logger.info("  h - Help")
+        }
+      })
     }),
   )
 
