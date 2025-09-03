@@ -6,12 +6,8 @@ import { Gen0Plugin } from "@ideanick/tools/gen0/plugin"
 import { Gen0PluginsManager } from "@ideanick/tools/gen0/pluginsManager"
 
 // Вотчер берёт клиентс глоб и клиентс нэймс
-// Удален клиента по нейму и по глобу отдельно
-// Конфиг берёт не клиентс, а клиентсглоб
-// Гет клиент пас бай нейм
-// ? Хранить вотчеры, функции, плагины, в массиве и тогда имена из файловвозьмутся, а в конфиге по ключам возьмём, и тип правильный не плагинс, а плагинсколлекшее
 // При запуске вотчера делаем первый прогон клиентов, и таким образом собираем из них спмодекларации
-// При запросе бин инфо, делаем драй ран, где в клиентах не переписываем файлы, но также собираем все декларации
+// on init, делаем драй ран, где в клиентах не переписываем файлы, но также собираем все декларации
 
 // TODO: watchers
 // TODO: named actions
@@ -21,6 +17,8 @@ import { Gen0PluginsManager } from "@ideanick/tools/gen0/pluginsManager"
 // TODO: self watched clients
 
 // TODO: commander actions and clients anmes, and client paths
+// TODO: add logger
+// TODO: plugin on init
 
 // TODO: multiline comments
 // TODO: silent comments
@@ -28,7 +26,6 @@ import { Gen0PluginsManager } from "@ideanick/tools/gen0/pluginsManager"
 // TODO: importNamed → match not ends, matched not cutted
 
 // TODO: boime ignore organize imports
-// TODO: add logger
 // TODO: prinst space count default
 // TODO: bin to bin in package.json
 
