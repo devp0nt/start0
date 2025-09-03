@@ -1,11 +1,15 @@
 import { Gen0Client } from "@ideanick/tools/gen0/client"
 import type { Gen0Config } from "@ideanick/tools/gen0/config"
 import type { Gen0Fs } from "@ideanick/tools/gen0/fs"
+import { Gen0Logger } from "@ideanick/tools/gen0/logger"
 import type { Gen0PluginsManager } from "@ideanick/tools/gen0/pluginsManager"
 import { Gen0Target } from "@ideanick/tools/gen0/target"
 import type { Gen0Utils } from "@ideanick/tools/gen0/utils"
 
 export class Gen0ClientsManager {
+  static logger = Gen0Logger.create1("clientsManager")
+  logger = Gen0ClientsManager.logger
+
   config: Gen0Config
   fs: Gen0Fs
   clients: Gen0Client[] = []
@@ -96,6 +100,10 @@ export class Gen0ClientsManager {
 
   getByName(nameSearch: Gen0Utils.Search) {
     return this.clients.filter((c) => c.isMatchName(nameSearch))
+  }
+
+  getByDir(dir: string) {
+    return this.clients.filter((c) => this.fs.isPathInDir(c.file.path.abs, dir))
   }
 
   async processMany(clients: Gen0Client[]) {

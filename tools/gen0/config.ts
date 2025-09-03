@@ -1,5 +1,6 @@
 import nodePath from "node:path"
 import { Gen0Fs } from "@ideanick/tools/gen0/fs"
+import { Gen0Logger } from "@ideanick/tools/gen0/logger"
 import type { Gen0Plugin } from "@ideanick/tools/gen0/plugin"
 // import { Gen0Utils } from "@ideanick/tools/gen0/utils"
 import { findUpSync } from "find-up"
@@ -8,9 +9,13 @@ import { workspaceRoot } from "workspace-root"
 // TODO: respect json configs
 
 export class Gen0Config {
+  static logger = Gen0Logger.create1("config")
+  logger = Gen0Config.logger
+
   static configFilesNames = [".gen0rc.mjs", ".gen0rc.ts", ".gen0rc.js"]
   static defaultPluginsGlob: Gen0Fs.PathOrPaths = ["**/*.gen0.{ts,tsx,js,jsx,mjs}"]
   static defaultClientsGlob: Gen0Fs.PathOrPaths = ["**/*.{ts,tsx,js,jsx,mjs,json}"]
+  static defaultDebug: string | boolean = false
 
   fs: Gen0Fs
   rootDir: string
@@ -21,6 +26,7 @@ export class Gen0Config {
   originalPluginsGlob: Gen0Fs.PathOrPaths
   pluginsDefinitions: Gen0Config.PluginsDefinitions
   afterProcessCmd: Gen0Config.AfterProcessCmd | undefined
+  debug: Gen0Config.Debug
 
   private constructor({
     fs,
@@ -32,6 +38,7 @@ export class Gen0Config {
     pluginsGlob,
     originalPluginsGlob,
     pluginsDefinitions,
+    debug,
   }: {
     fs: Gen0Fs
     rootDir: string
@@ -42,6 +49,7 @@ export class Gen0Config {
     clientsGlob: Gen0Fs.PathOrPaths
     originalClientsGlob: Gen0Fs.PathOrPaths
     pluginsDefinitions?: Gen0Config.PluginsDefinitions
+    debug: Gen0Config.Debug
   }) {
     this.fs = fs
     this.rootDir = rootDir
@@ -52,6 +60,7 @@ export class Gen0Config {
     this.originalPluginsGlob = originalPluginsGlob
     this.originalClientsGlob = originalClientsGlob
     this.pluginsDefinitions = pluginsDefinitions || []
+    this.debug = debug
   }
 
   static async create({ cwd }: { cwd: string }) {
@@ -75,6 +84,7 @@ export class Gen0Config {
       plugins,
       clientsGlob: originalClientsGlob = Gen0Config.defaultClientsGlob,
       pluginsGlob: originalPluginsGlob = Gen0Config.defaultPluginsGlob,
+      debug = Gen0Config.defaultDebug,
     } = configDefinition
     const pluginsGlob = fs.toAbs(originalPluginsGlob)
     const clientsGlob = fs.toAbs(originalClientsGlob)
@@ -89,6 +99,7 @@ export class Gen0Config {
       pluginsGlob,
       originalPluginsGlob: originalPluginsGlob,
       fs,
+      debug,
     })
     return config
   }
@@ -121,11 +132,13 @@ export namespace Gen0Config {
   export type Definition = {
     rootDir?: string
     afterProcessCmd?: AfterProcessCmd
+    debug?: Debug
     pluginsGlob?: Gen0Fs.PathOrPaths
     clientsGlob?: Gen0Fs.PathOrPaths
     plugins?: Gen0Config.PluginsDefinitions
   }
 
+  export type Debug = string | boolean
   export type AfterProcessCmdString = string
   export type AfterProcessCmdFn = (filePath: string) => AfterProcessCmdString
   export type AfterProcessCmd = AfterProcessCmdString | AfterProcessCmdFn

@@ -1,10 +1,14 @@
 import type { Gen0Config } from "@ideanick/tools/gen0/config"
 import type { Gen0Fs } from "@ideanick/tools/gen0/fs"
+import { Gen0Logger } from "@ideanick/tools/gen0/logger"
 import { Gen0Plugin } from "@ideanick/tools/gen0/plugin"
 import type { Gen0Utils } from "@ideanick/tools/gen0/utils"
 import type { Gen0Watcher } from "@ideanick/tools/gen0/watcher"
 
 export class Gen0PluginsManager {
+  static logger = Gen0Logger.create1("pluginsManager")
+  logger = Gen0PluginsManager.logger
+
   config: Gen0Config
   fs: Gen0Fs
   plugins: Gen0Plugin[] = []
@@ -89,6 +93,10 @@ export class Gen0PluginsManager {
 
   getByPath(path: string) {
     return this.plugins.find((c) => c.file?.path.abs === path)
+  }
+
+  getByDir(dir: string) {
+    return this.plugins.filter((p) => p.file && this.fs.isPathInDir(p.file?.path.abs, dir))
   }
 
   async findAndCreateManyByGlob(pluginsGlob: Gen0Fs.PathOrPaths) {

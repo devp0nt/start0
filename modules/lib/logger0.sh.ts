@@ -58,7 +58,7 @@ export class Logger0 {
     this.meta = Meta0.from(meta0)
   }
 
-  private constructor({
+  constructor({
     loggerOriginal,
     meta,
     sensetiveKeys,

@@ -2,10 +2,14 @@ import { Gen0ClientProcess } from "@ideanick/tools/gen0/clientProcess"
 import type { Gen0Config } from "@ideanick/tools/gen0/config"
 import { Gen0File } from "@ideanick/tools/gen0/file"
 import type { Gen0Fs } from "@ideanick/tools/gen0/fs"
+import { Gen0Logger } from "@ideanick/tools/gen0/logger"
 import type { Gen0PluginsManager } from "@ideanick/tools/gen0/pluginsManager"
 import { Gen0Utils } from "@ideanick/tools/gen0/utils"
 
 export class Gen0Client {
+  static logger = Gen0Logger.create1("client")
+  logger = Gen0Client.logger
+
   config: Gen0Config
   file: Gen0File
   name: string

@@ -1,7 +1,11 @@
 import type { Gen0Client } from "@ideanick/tools/gen0/client"
+import { Gen0Logger } from "@ideanick/tools/gen0/logger"
 
 // TODO: respect silent mark, using tests
 export class Gen0Target {
+  static logger = Gen0Logger.create1("target")
+  logger = Gen0Target.logger
+
   static inlineCommentStartMarks = ["//", "#"]
   static blockCommentStartMarks = ["/*"]
   static blockCommentEndMarks = ["*/"]

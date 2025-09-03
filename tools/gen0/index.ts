@@ -1,6 +1,7 @@
 import { Gen0ClientsManager } from "@ideanick/tools/gen0/clientsManager"
 import { Gen0Config } from "@ideanick/tools/gen0/config"
 import { Gen0Fs } from "@ideanick/tools/gen0/fs"
+import { Gen0Logger } from "@ideanick/tools/gen0/logger"
 import { Gen0PluginsManager } from "@ideanick/tools/gen0/pluginsManager"
 import { Gen0WatchersManager } from "@ideanick/tools/gen0/watchersManager"
 
@@ -8,14 +9,16 @@ import { Gen0WatchersManager } from "@ideanick/tools/gen0/watchersManager"
 // TODO: watch for new plugins
 // TODO: add logger
 
-// TODO: watchers
 // TODO: named actions
 // TODO: commander actions
 
 // TODO: self named clients
 // TODO: self watched clients
-// TODO:При запуске вотчера делаем первый прогон клиентов, и таким образом собираем из них спмодекларации
-// TODO:on init, делаем драй ран, где в клиентах не переписываем файлы, но также собираем все декларации
+// TODO: При запуске вотчера делаем первый прогон клиентов, и таким образом собираем из них спмодекларации
+// TODO: on init, делаем драй ран, где в клиентах не переписываем файлы, но также собираем все декларации
+
+// TODO: add delay for watcher after write in file for this file watching
+// TODO: better usage of logger0
 
 // TODO: commander actions and clients anmes, and client paths
 // TODO: plugin on init
@@ -28,8 +31,10 @@ import { Gen0WatchersManager } from "@ideanick/tools/gen0/watchersManager"
 // TODO: boime ignore organize imports
 // TODO: prinst space count default
 // TODO: bin to bin in package.json
-
 export class Gen0 {
+  static logger = Gen0Logger.create1("core")
+  logger = Gen0.logger
+
   clientsManager: Gen0ClientsManager
   pluginsManager: Gen0PluginsManager
   watchersManager: Gen0WatchersManager
@@ -56,12 +61,18 @@ export class Gen0 {
     this.watchersManager = watchersManager
   }
 
-  static async create({ cwd }: { cwd?: string } = {}) {
+  static async create({ cwd, debug }: { cwd?: string; debug?: string | boolean } = {}) {
+    Gen0Logger.init1(debug)
     const config = await Gen0Config.create({ cwd: cwd || process.cwd() })
     const fs = Gen0Fs.create({ config, cwd: config.rootDir })
     const pluginsManager = await Gen0PluginsManager.create({ fs, config })
     const clientsManager = await Gen0ClientsManager.create({ fs, config, pluginsManager })
-    const watchersManager = await Gen0WatchersManager.create({ fs, config, pluginsManager, clientsManager })
+    const watchersManager = await Gen0WatchersManager.create({
+      fs,
+      config,
+      pluginsManager,
+      clientsManager,
+    })
     const gen0 = new Gen0({ config, fs, clientsManager, pluginsManager, watchersManager })
     return gen0
   }

@@ -2,6 +2,7 @@ import type { Gen0ClientProcessCtx } from "@ideanick/tools/gen0/clientProcessCtx
 import type { Gen0Config } from "@ideanick/tools/gen0/config"
 import { Gen0File } from "@ideanick/tools/gen0/file"
 import type { Gen0Fs } from "@ideanick/tools/gen0/fs"
+import { Gen0Logger } from "@ideanick/tools/gen0/logger"
 import { Gen0Utils } from "@ideanick/tools/gen0/utils"
 import type { Gen0Watcher } from "@ideanick/tools/gen0/watcher"
 
@@ -9,6 +10,9 @@ import type { Gen0Watcher } from "@ideanick/tools/gen0/watcher"
 // TODO: add possibility to rename plugins when use
 
 export class Gen0Plugin {
+  static logger = Gen0Logger.create1("plugin")
+  logger = Gen0Plugin.logger
+
   config: Gen0Config
   file?: Gen0File
   name: string

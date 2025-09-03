@@ -3,6 +3,7 @@ import fs from "node:fs/promises"
 import nodePath from "node:path"
 import readline from "node:readline"
 import type { Gen0Config } from "@ideanick/tools/gen0/config"
+import { Gen0Logger } from "@ideanick/tools/gen0/logger"
 import { Gen0Utils } from "@ideanick/tools/gen0/utils"
 import { globby, globbySync } from "globby"
 import micromatch from "micromatch"
@@ -10,6 +11,9 @@ import micromatch from "micromatch"
 // TODO: make better string | string[] → T
 
 export class Gen0Fs {
+  static logger = Gen0Logger.create1("fs")
+  logger = Gen0Fs.logger
+
   rootDir: string
   cwd: string
 
@@ -349,6 +353,12 @@ export class Gen0Fs {
     const isMatchPositive = micromatch.isMatch(pathNormalized, positiveGlobs)
     const isMatchNegative = micromatch.isMatch(pathNormalized, negativeGlobs)
     return isMatchPositive && !isMatchNegative
+  }
+
+  isPathInDir(path: string, dir: string): boolean {
+    const pathNormalized = this.toAbs(path)
+    const dirNormalized = this.toAbs(dir)
+    return pathNormalized.startsWith(dirNormalized) && pathNormalized !== dirNormalized
   }
 }
 

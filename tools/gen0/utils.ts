@@ -1,8 +1,10 @@
 import nodePath from "node:path"
+import { Gen0Logger } from "@ideanick/tools/gen0/logger"
 import { globby } from "globby"
 import { globifyGitIgnoreFile } from "globify-gitignore"
 
 export namespace Gen0Utils {
+  export const logger = Gen0Logger.create1("utils")
   export type Search = string | string[] | RegExp | RegExp[]
   export const isStringMatch = (line: string | undefined, search: Search): boolean => {
     if (!line) return false

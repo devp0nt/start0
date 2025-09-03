@@ -3,9 +3,13 @@ import nodePath from "node:path"
 import vm from "node:vm"
 import type { Gen0Client } from "@ideanick/tools/gen0/client"
 import type { Gen0Fs } from "@ideanick/tools/gen0/fs"
+import { Gen0Logger } from "@ideanick/tools/gen0/logger"
 import _ from "lodash"
 
 export class Gen0ClientProcessCtx {
+  static logger = Gen0Logger.create1("clientProcessCtx")
+  logger = Gen0ClientProcessCtx.logger
+
   client: Gen0Client
   fns: Gen0ClientProcessCtx.FnsRecord
   vars: Gen0ClientProcessCtx.VarsRecord
@@ -18,7 +22,6 @@ export class Gen0ClientProcessCtx {
   nodePath: Gen0ClientProcessCtx.NodePath = nodePath
   _: Gen0ClientProcessCtx.Lodash = _
   console: Gen0ClientProcessCtx.Console = console
-  logger: Gen0ClientProcessCtx.Logger = console
   // biome-ignore lint/suspicious/noConsole: <x>
   log: Gen0ClientProcessCtx.LoggerLog = console.log.bind(console)
 

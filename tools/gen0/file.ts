@@ -2,8 +2,12 @@ import fsSync from "node:fs"
 import fs from "node:fs/promises"
 import type { Gen0Config } from "@ideanick/tools/gen0/config"
 import { Gen0Fs } from "@ideanick/tools/gen0/fs"
+import { Gen0Logger } from "@ideanick/tools/gen0/logger"
 
 export class Gen0File {
+  static logger = Gen0Logger.create1("file")
+  logger = Gen0File.logger
+
   config: Gen0Config
   path: Gen0Fs.PathParsed
   fs: Gen0Fs

@@ -1,6 +1,7 @@
 import type { Gen0ClientsManager } from "@ideanick/tools/gen0/clientsManager"
 import type { Gen0Config } from "@ideanick/tools/gen0/config"
 import type { Gen0Fs } from "@ideanick/tools/gen0/fs"
+import { Gen0Logger } from "@ideanick/tools/gen0/logger"
 import type { Gen0Plugin } from "@ideanick/tools/gen0/plugin"
 import type { Gen0PluginsManager } from "@ideanick/tools/gen0/pluginsManager"
 import { Gen0Utils } from "@ideanick/tools/gen0/utils"
@@ -12,6 +13,9 @@ import parcel from "@parcel/watcher"
 import { isGitIgnored } from "globby"
 
 export class Gen0WatchersManager {
+  static logger = Gen0Logger.create1("watchersManager")
+  logger = Gen0WatchersManager.logger
+
   config: Gen0Config
   pluginsManager: Gen0PluginsManager
   clientsManager: Gen0ClientsManager
@@ -204,7 +208,7 @@ export class Gen0WatchersManager {
   //   return this.bunWatcher
   // }
 
-  async handleNewClients(event: Gen0WatchersManager.EventType, path: string) {
+  async handleClientsUpdates(event: Gen0WatchersManager.EventType, path: string) {
     if (event !== "delete") {
       if (!this.fs.isPathMatchGlob(path, this.config.clientsGlob)) {
         return
@@ -214,10 +218,15 @@ export class Gen0WatchersManager {
         return
       }
       this.clientsManager.addByPath(path)
+    } else {
+      const exClients = this.clientsManager.getByDir(path)
+      for (const exClient of exClients) {
+        this.clientsManager.removeByPath(exClient.file.path.abs)
+      }
     }
   }
 
-  async handleNewPlugins(event: Gen0WatchersManager.EventType, path: string) {
+  async handlePluginsUpdates(event: Gen0WatchersManager.EventType, path: string) {
     if (event !== "delete") {
       if (!this.fs.isPathMatchGlob(path, this.config.pluginsGlob)) {
         return
@@ -227,6 +236,13 @@ export class Gen0WatchersManager {
         return
       }
       this.pluginsManager.addByPath(path)
+    } else {
+      const exPlugins = this.pluginsManager.getByDir(path)
+      for (const exPlugin of exPlugins) {
+        if (exPlugin.file) {
+          this.pluginsManager.removeByPath(exPlugin.file.path.abs)
+        }
+      }
     }
   }
 
@@ -259,8 +275,8 @@ export class Gen0WatchersManager {
           // })()
           const event = originalEvent
 
-          this.handleNewClients(event, pathAbs)
-          this.handleNewPlugins(event, pathAbs)
+          this.handleClientsUpdates(event, pathAbs)
+          this.handlePluginsUpdates(event, pathAbs)
           for (const watcher of this.watchers) {
             watcher.handler(event, pathAbs)
           }
