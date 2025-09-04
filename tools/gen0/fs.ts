@@ -402,6 +402,18 @@ export class Gen0Fs {
     return (await import(`${path}?t=${Date.now()}`).then((m) => m.default)) as T
   }
 
+  async rmdir(path: string) {
+    try {
+      await fs.rmdir(path, { recursive: true })
+    } catch {}
+  }
+
+  rmdirSync(path: string) {
+    try {
+      fsSync.rmdirSync(path, { recursive: true })
+    } catch {}
+  }
+
   node = fs
 
   nodeSync = fsSync

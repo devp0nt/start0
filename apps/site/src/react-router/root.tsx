@@ -1,7 +1,7 @@
+import { RR0 } from "@ideanick/site/react-router/utils"
 import { SiteError } from "apps/site/src/components/Error"
 import { GeneralLayout } from "apps/site/src/components/GeneralLayout"
 import { SiteCtx } from "apps/site/src/lib/ctx"
-import { RR0 } from "apps/site/src/lib/reactRouter0"
 import { TRPCReactProvider } from "apps/site/src/lib/trpc"
 import { Links, Meta, Outlet, Scripts, ScrollRestoration } from "react-router"
 import type { Route } from "./+types/root"

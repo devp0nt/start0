@@ -23,6 +23,8 @@ code snippets
 sentry
 devops
 
+local update mechanic
+public update mechanic
 
 ---
 

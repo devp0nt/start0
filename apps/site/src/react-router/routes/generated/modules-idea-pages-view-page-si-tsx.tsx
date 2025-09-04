@@ -1,6 +1,6 @@
 import { Error0 } from "@ideanick/modules/lib/error0.sh"
 import { SiteError } from "@ideanick/site/components/Error"
-import { RR0 } from "@ideanick/site/lib/reactRouter0"
+import { RR0 } from "@ideanick/site/react-router/utils.js"
 import page from "../../../../../../modules/idea/pages/view.page.si.js"
 import type { Route } from "./+types/modules-idea-pages-view-page-si-tsx"
 

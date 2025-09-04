@@ -1,5 +1,6 @@
 import type { Gen0Plugin } from "@ideanick/tools/gen0/plugin"
 import type { Page0 } from "apps/site/src/lib/page0"
+import { RRGen0 } from "apps/site/src/react-router/gen0.templates"
 
 export default (async ({ fs, _ }) => {
   await fs.loadEnv(".env")
@@ -31,7 +32,7 @@ export default (async ({ fs, _ }) => {
 
     await fs.writeFile(
       routeFilePath,
-      getRouteContent({
+      RRGen0.routeFileTemplate({
         pathForImport: pagePathRelToGeneratedRoutesDir,
         selfBaseNameWitoutExt: pagePathSlug,
       }),
@@ -58,12 +59,12 @@ export default (async ({ fs, _ }) => {
     )
     const structure = buildRoutesStructure(input, catchall)
     const { routesFilePath } = getHelpersByPagePath(pagesPaths[0])
-    await fs.writeFile(routesFilePath, getRoutesContent({ structure }))
+    await fs.writeFile(routesFilePath, RRGen0.routesFileTemplate({ structure }))
     return pagesPaths
   }
 
   const clearGeneratedRoutesDir = async () => {
-    await fs.node.rmdir(generatedRoutesDir, { recursive: true })
+    await fs.rmdir(generatedRoutesDir)
   }
 
   const generateEverything = async () => {
@@ -88,59 +89,6 @@ export default (async ({ fs, _ }) => {
   }
 }) satisfies Gen0Plugin.Definition
 
-const getRouteContent = ({
-  pathForImport,
-  selfBaseNameWitoutExt,
-}: {
-  pathForImport: string
-  selfBaseNameWitoutExt: string
-}) => {
-  return `import page from "${pathForImport}"
-import { Error0 } from "@ideanick/modules/lib/error0.sh"
-import { SiteError } from "@ideanick/site/components/Error"
-import { RR0 } from "@ideanick/site/lib/reactRouter0"
-import type { Route } from "./+types/${selfBaseNameWitoutExt}"
-
-export const meta = RR0.createMeta(({ loaderData, params, error }: RR0.MetaArgs<Route.MetaArgs>) => {
-  if (!loaderData) {
-    return [{ title: Error0.from(error).message }]
-  }
-  const result = page.meta({
-    loaderData: loaderData.data,
-    query: loaderData.query,
-    params,
-    ctx: loaderData.siteCtx,
-  })
-  return result
-})
-
-export const loader = RR0.createLoader(async ({ qc, params, query, ctx }: RR0.LoaderArgs<Route.LoaderArgs>) => {
-  return await page.loader?.({ qc, params, query, ctx })
-})
-
-export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
-  return <SiteError.Page error={error} />
-}
-
-const RouteComponent = RR0.createRouteComponent(
-  ({ params, loaderData }: RR0.RouteComponentArgs<Route.ComponentProps>) => {
-    return (
-      <page.component params={params} query={loaderData.query} loaderData={loaderData.data} ctx={loaderData.siteCtx} />
-    )
-  },
-)
-
-export default RouteComponent
-`
-}
-
-const getRoutesContent = ({ structure }: { structure: string }) => {
-  return `import { index, layout, type RouteConfig, route } from "@react-router/dev/routes"
-
-export default ${structure} satisfies RouteConfig
-`
-}
-
 type RRInput = {
   routePathRelativeToAppDir: string
   layouts: string[] // 0..3 layout paths
@@ -153,7 +101,7 @@ type RRNode =
   | { type: "route"; path: string; componentPath: string }
 
 // --- core builder that returns only the array DSL as a string ---
-export function buildRoutesStructure(data: RRInput[], catchallPath: string): string {
+function buildRoutesStructure(data: RRInput[], catchallPath: string): string {
   const root: RRNode[] = []
 
   const findOrCreateLayout = (level: RRNode[], layoutPath: string): RRNode => {
@@ -220,10 +168,4 @@ export function buildRoutesStructure(data: RRInput[], catchallPath: string): str
   }
 
   return printNodes(root, 0)
-}
-
-// --- convenience: produce the full routes file content ---
-export function buildRoutesFile(data: RRInput[], catchallPath: string): string {
-  const body = buildRoutesStructure(data, catchallPath)
-  return `import { index, layout, type RouteConfig, route } from "@react-router/dev/routes"\n\nexport default ${body} satisfies RouteConfig\n`
 }
