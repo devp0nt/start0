@@ -394,11 +394,13 @@ export class Gen0Fs {
     return dotenv.config({ path: this.findUpSync(filename) }).parsed as Record<string, string>
   }
 
-  async importFresh(path: string) {
+  async importFresh<T = any>(path: string): Promise<T> {
+    path = this.toAbs(path)
     return await import(`${path}?t=${Date.now()}`)
   }
 
   async importFreshDefault<T = any>(path: string): Promise<T> {
+    path = this.toAbs(path)
     return (await import(`${path}?t=${Date.now()}`).then((m) => m.default)) as T
   }
 

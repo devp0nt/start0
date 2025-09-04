@@ -1,11 +1,12 @@
 import type { Gen0Plugin } from "@ideanick/tools/gen0/plugin"
 import type { Page0 } from "apps/site/src/lib/page0"
-import { RRGen0 } from "apps/site/src/react-router/gen0.templates"
 
 export default (async ({ fs, _ }) => {
   await fs.loadEnv(".env")
 
+  const { RRGen0 } = await fs.importFresh<typeof import("./gen0.templates")>("./gen0.templates.ts")
   const pagesGlob = ["~/**/*.page.si.ts{x,}", "~/apps/site/**/*.page.ts{x,}"]
+  const watchGlob = [...pagesGlob, "./gen0.templates.ts"]
   const appDir = fs.resolve(".")
   const generatedRoutesDir = fs.toAbs(fs.resolve(appDir, "routes/generated"))
   const catchall = "./routes/catchall.tsx"
@@ -93,7 +94,7 @@ export default (async ({ fs, _ }) => {
     },
     watchers: {
       createRouteByPage: {
-        watch: pagesGlob,
+        watch: watchGlob,
         handler: async (ctx, event, path) => {
           if (event !== "delete") {
             await generateRouteFileByPagePath(path)

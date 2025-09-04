@@ -119,12 +119,16 @@ program
           for (let i = 0; i < 10; i++) {
             logger.info("")
           }
+        } else if (key === "r") {
+          logger.info("Restarting current command...")
+          process.exit(0)
         } else if (key === "q") {
           logger.info("Exiting...")
           process.exit(0)
         } else if (key === "h") {
           logger.info("Available keys:")
           logger.info("  p - Process all clients")
+          logger.info("  r - Restart currne command")
           logger.info("  c - Add a lot of empty lines")
           logger.info("  q - Quit")
           logger.info("  h - Help")
