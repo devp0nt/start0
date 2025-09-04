@@ -6,6 +6,8 @@ import { Gen0PluginsManager } from "@ideanick/tools/gen0/pluginsManager"
 import { Gen0WatchersManager } from "@ideanick/tools/gen0/watchersManager"
 
 // TODO: Переименовать инит на процесс для плагинов, и тогда всё будет консистентно
+// TODO: реакт роутер пути генерироваьт не через / а по папочкам
+// TODO: реакт роутер страницы ипортировать именованными
 // TODO: Драйран в аргументе передавать не булеаном, а строкой ран тайп или нул
 // TODO: Процесс получив путь к плагину сделает плагин процесс, а к файлу, файл процесс
 // TODO: Процесс переименовать на ран чтобы не использовать лишнее слово
@@ -41,6 +43,7 @@ import { Gen0WatchersManager } from "@ideanick/tools/gen0/watchersManager"
 // TODO: prevent double watch process
 // TODO: dry run on init, or not dry run on init as arg and option
 // TODO: onInit plugin ctx shul recieve dry run
+// TODO: алерты при регенерации файлов
 
 export class Gen0 {
   static logger = Gen0Logger.create("core")

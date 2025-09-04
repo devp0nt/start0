@@ -18,6 +18,25 @@ site *ARGS:
 modules *ARGS:
   cd ./modules && bun run {{ARGS}}
 
+# mega dev command
+
+dev:
+  tmux kill-session -t dev-ideanick || true
+  tmux new-session -d -s dev-ideanick
+
+  tmux split-window -v
+  tmux split-window -t 0 -h
+
+  tmux send-keys -t 0 "just backend dev" Enter
+  tmux send-keys -t 1 "just site dev" Enter
+  tmux send-keys -t 2 "just gen0 watch" Enter
+
+  tmux resize-pane -t 0 -x "$(($(tmux display -p '#{window_width}') * 50 / 100))"
+  tmux resize-pane -t 1 -x "$(($(tmux display -p '#{window_width}') * 50 / 100))"
+  tmux resize-pane -t 2 -y "$(($(tmux display -p '#{window_height}') * 30 / 100))"
+
+  tmux attach -t dev-ideanick
+
 # bun commands mirror
 
 types *ARGS:
@@ -26,8 +45,8 @@ types *ARGS:
 build *ARGS:
   bun run build {{ARGS}}
 
-dev *ARGS:
-  bun run dev {{ARGS}}
+# dev *ARGS:
+#   bun run dev {{ARGS}}
 
 test *ARGS:
   bun run test {{ARGS}}
