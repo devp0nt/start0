@@ -10,6 +10,9 @@ import { Gen0WatchersManager } from "@ideanick/tools/gen0/watchersManager"
 // TODO: Процесс получив путь к плагину сделает плагин процесс, а к файлу, файл процесс
 // TODO: Процесс переименовать на ран чтобы не использовать лишнее слово
 // TODO: Гитигнор файлы и их пути кешировать, а после перезапускать вотчер если они поменялись
+// TODO: Не переписывать файл, если посимвольно он без изменений
+// TODO: Сделать чтобы было нормально для при вотче собственного пути
+// TODO: Кастомные суффиксы для комментариев gen0:start, gen0:end, gen0:silent
 
 // TODO: generate react router
 // TODO: p command in watch, should also restart init commands of plugins, or somehow
