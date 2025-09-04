@@ -29,7 +29,6 @@ export default (async ({ fs, _ }) => {
 
   const generateRouteFileByPagePath = async (pagePath: string) => {
     const { routeFilePath, pagePathSlug, pagePathRelToGeneratedRoutesDir } = getHelpersByPagePath(pagePath)
-
     await fs.writeFile(
       routeFilePath,
       RRGen0.routeFileTemplate({
@@ -42,6 +41,20 @@ export default (async ({ fs, _ }) => {
   const generateAllRoutesFiles = async (pagesPaths?: string[]) => {
     pagesPaths = pagesPaths || (await fs.findFilesPaths(pagesGlob))
     await Promise.all(pagesPaths.map(generateRouteFileByPagePath))
+    return pagesPaths
+  }
+
+  const removeAllUnusedRoutesFiles = async (pagesPaths?: string[]) => {
+    pagesPaths = pagesPaths || (await fs.findFilesPaths(pagesGlob))
+    const unuedPaths: string[] = []
+    const existsingRoutesPaths = await fs.findFilesPaths(generatedRoutesDir)
+    const neeededRoutesPaths = pagesPaths.map((pagePath) => getHelpersByPagePath(pagePath).routeFilePath)
+    for (const existingRoutePath of existsingRoutesPaths) {
+      if (!neeededRoutesPaths.includes(existingRoutePath)) {
+        unuedPaths.push(existingRoutePath)
+      }
+    }
+    await Promise.all(unuedPaths.map((p) => fs.rm(p)))
     return pagesPaths
   }
 
@@ -82,7 +95,11 @@ export default (async ({ fs, _ }) => {
       createRouteByPage: {
         watch: pagesGlob,
         handler: async (ctx, event, path) => {
-          await generateEverything()
+          if (event !== "delete") {
+            await generateRouteFileByPagePath(path)
+          }
+          const pagesPaths = await generateRoutesFile()
+          await removeAllUnusedRoutesFiles(pagesPaths)
         },
       },
     },

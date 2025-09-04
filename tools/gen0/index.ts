@@ -9,6 +9,7 @@ import { Gen0WatchersManager } from "@ideanick/tools/gen0/watchersManager"
 // TODO: Драйран в аргументе передавать не булеаном, а строкой ран тайп или нул
 // TODO: Процесс получив путь к плагину сделает плагин процесс, а к файлу, файл процесс
 // TODO: Процесс переименовать на ран чтобы не использовать лишнее слово
+// TODO: Гитигнор файлы и их пути кешировать, а после перезапускать вотчер если они поменялись
 
 // TODO: generate react router
 // TODO: p command in watch, should also restart init commands of plugins, or somehow
