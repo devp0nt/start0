@@ -1,5 +1,5 @@
 {
-  "include": ["./**/*.ts", "../modules/**/*.to.ts", "../modules/**/*.sh.ts"],
+  "include": ["./**/*.ts", "../modules/**/*.to.ts", "../modules/**/*.sh.ts", "src/package.gen0.ts"],
   "exclude": ["**/*.test.ts", "**/node_modules/**/*"],
   "compilerOptions": {
     "baseUrl": "../",

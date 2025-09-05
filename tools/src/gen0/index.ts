@@ -18,6 +18,8 @@ import { Gen0WatchersManager } from "@ideanick/tools/gen0/watchersManager"
 // TODO: Не переписывать файл, если посимвольно он без изменений
 // TODO: Сделать чтобы было нормально для при вотче собственного пути
 // TODO: Кастомные суффиксы для комментариев gen0:start, gen0:end, gen0:silent
+// TODO: on plugin iside error not fail, just console log
+// TODO: sound on error
 
 // TODO: generate react router
 // TODO: p command in watch, should also restart init commands of plugins, or somehow
