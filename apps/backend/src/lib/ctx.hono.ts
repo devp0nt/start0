@@ -1,11 +1,11 @@
-import { BackendCtx } from "@ideanick/backend/lib/ctx"
-import type { Env } from "@ideanick/backend/lib/env"
-import type { e0s as e0sDefault } from "@ideanick/modules/lib/error0.sh"
-import type { FnPropsKeys, NonFnProps } from "@ideanick/modules/lib/lodash0.sh"
-import type { Logger0 } from "@ideanick/modules/lib/logger0.sh"
-import type { Meta0 } from "@ideanick/modules/lib/meta0.sh"
-import type { Prisma0 } from "@ideanick/modules/prisma/src/prisma.be"
 import type { Context as HonoContext } from "hono"
+import { BackendCtx } from "@/backend/lib/ctx"
+import type { Env } from "@/backend/lib/env"
+import type { e0s as e0sDefault } from "@/lib/error0.sh"
+import type { FnPropsKeys, NonFnProps } from "@/lib/lodash0.sh"
+import type { Logger0 } from "@/lib/logger0.sh"
+import type { Meta0 } from "@/lib/meta0.sh"
+import type { Prisma0 } from "@/prisma/src/prisma.be"
 
 // TODO: private constructor
 

@@ -1,10 +1,10 @@
-import type { Gen0Config } from "@ideanick/tools/gen0/config"
-import type { Gen0File } from "@ideanick/tools/gen0/file"
-import type { Gen0Fs } from "@ideanick/tools/gen0/fs"
-import { Gen0Logger } from "@ideanick/tools/gen0/logger"
-import { Gen0Plugin } from "@ideanick/tools/gen0/plugin"
-import type { Gen0Utils } from "@ideanick/tools/gen0/utils"
-import type { Gen0Watcher } from "@ideanick/tools/gen0/watcher"
+import type { Gen0Config } from "@/tools/gen0/config"
+import type { Gen0File } from "@/tools/gen0/file"
+import type { Gen0Fs } from "@/tools/gen0/fs"
+import { Gen0Logger } from "@/tools/gen0/logger"
+import { Gen0Plugin } from "@/tools/gen0/plugin"
+import type { Gen0Utils } from "@/tools/gen0/utils"
+import type { Gen0Watcher } from "@/tools/gen0/watcher"
 
 export class Gen0PluginsManager {
   static logger = Gen0Logger.create("pluginsManager")

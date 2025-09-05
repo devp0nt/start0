@@ -1,5 +1,5 @@
-import { startApiProcess } from "@ideanick/backend/services/api"
-import { startWorkerProcess } from "@ideanick/backend/services/worker"
+import { startApiProcess } from "@/backend/services/api"
+import { startWorkerProcess } from "@/backend/services/worker"
 
 void startApiProcess()
 void startWorkerProcess()

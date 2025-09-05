@@ -1,9 +1,9 @@
 import fsSync from "node:fs"
 import fs from "node:fs/promises"
-import type { Gen0Config } from "@ideanick/tools/gen0/config"
-import { Gen0Fs } from "@ideanick/tools/gen0/fs"
-import { Gen0Logger } from "@ideanick/tools/gen0/logger"
-import type { Gen0Utils } from "@ideanick/tools/gen0/utils"
+import type { Gen0Config } from "@/tools/gen0/config"
+import { Gen0Fs } from "@/tools/gen0/fs"
+import { Gen0Logger } from "@/tools/gen0/logger"
+import type { Gen0Utils } from "@/tools/gen0/utils"
 
 // TODO: use File0 and Fs0
 

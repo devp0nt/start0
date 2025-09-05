@@ -1,12 +1,12 @@
-import { Gen0ClientProcess } from "@ideanick/tools/gen0/clientProcess"
-import type { Gen0Config } from "@ideanick/tools/gen0/config"
-import { Gen0File } from "@ideanick/tools/gen0/file"
-import type { Gen0Fs } from "@ideanick/tools/gen0/fs"
-import { Gen0Logger } from "@ideanick/tools/gen0/logger"
-import type { Gen0Plugin } from "@ideanick/tools/gen0/plugin"
-import type { Gen0PluginsManager } from "@ideanick/tools/gen0/pluginsManager"
-import { Gen0Target } from "@ideanick/tools/gen0/target"
-import { Gen0Utils } from "@ideanick/tools/gen0/utils"
+import { Gen0ClientProcess } from "@/tools/gen0/clientProcess"
+import type { Gen0Config } from "@/tools/gen0/config"
+import { Gen0File } from "@/tools/gen0/file"
+import type { Gen0Fs } from "@/tools/gen0/fs"
+import { Gen0Logger } from "@/tools/gen0/logger"
+import type { Gen0Plugin } from "@/tools/gen0/plugin"
+import type { Gen0PluginsManager } from "@/tools/gen0/pluginsManager"
+import { Gen0Target } from "@/tools/gen0/target"
+import { Gen0Utils } from "@/tools/gen0/utils"
 
 export class Gen0Client {
   static logger = Gen0Logger.create("client")

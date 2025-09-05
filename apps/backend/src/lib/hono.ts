@@ -1,9 +1,9 @@
 import { OpenAPIHono } from "@hono/zod-openapi"
-import type { BackendCtx } from "@ideanick/backend/lib/ctx"
-import { HonoReqCtx } from "@ideanick/backend/lib/ctx.hono"
-import { Error0 } from "@ideanick/modules/lib/error0.sh"
 import type { Context as HonoContext } from "hono"
 import { getConnInfo } from "hono/bun"
+import type { BackendCtx } from "@/backend/lib/ctx"
+import { HonoReqCtx } from "@/backend/lib/ctx.hono"
+import { Error0 } from "@/lib/error0.sh"
 
 export namespace HonoApp {
   type HonoCtxInput = {

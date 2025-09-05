@@ -2,11 +2,11 @@ import fsSync from "node:fs"
 import fs from "node:fs/promises"
 import nodePath from "node:path"
 import readline from "node:readline"
-import { Gen0Utils } from "@ideanick/tools/gen0/utils"
 import dotenv from "dotenv"
 import { findUp, findUpSync } from "find-up"
 import { type Options as GlobbyOptions, globby, globbySync } from "globby"
 import micromatch from "micromatch"
+import { Gen0Utils } from "@/tools/gen0/utils"
 
 export class Fs0 {
   rootDir: string

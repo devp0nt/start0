@@ -7,9 +7,9 @@ export namespace RRGen0 {
     selfBaseNameWitoutExt: string
   }) => {
     return `import page from "${pathForImport}"
-import { Error0 } from "@ideanick/modules/lib/error0.sh"
-import { SiteError } from "@ideanick/site/components/Error"
-import { RR0 } from "@ideanick/site/react-router/utils.js"
+import { Error0 } from "@/lib/error0.sh"
+import { SiteError } from "@/site/components/Error"
+import { RR0 } from "@/site/react-router/utils.js"
 import type { Route } from "./+types/${selfBaseNameWitoutExt}"
 
 export const meta = RR0.createMeta(({ loaderData, params, error }: RR0.MetaArgs<Route.MetaArgs>) => {

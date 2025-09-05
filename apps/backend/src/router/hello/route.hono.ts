@@ -1,5 +1,5 @@
-import type { HonoApp } from "@ideanick/backend/lib/hono"
 import z from "zod"
+import type { HonoApp } from "@/backend/lib/hono"
 
 export const helloHonoRoute = ({ honoApp }: { honoApp: HonoApp.AppType }) =>
   honoApp.openapi(

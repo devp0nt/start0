@@ -1,5 +1,5 @@
-import type { Gen0Plugin } from "@ideanick/tools/gen0/plugin"
 import type { Page0 } from "apps/site/src/lib/page0"
+import type { Gen0Plugin } from "@/tools/gen0/plugin"
 
 export default (async ({ fs, _ }) => {
   await fs.loadEnv(".env")

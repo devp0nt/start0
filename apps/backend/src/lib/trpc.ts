@@ -1,10 +1,10 @@
 import { trpcServer } from "@hono/trpc-server"
-import type { HonoReqCtx } from "@ideanick/backend/lib/ctx.hono"
-import type { HonoApp } from "@ideanick/backend/lib/hono"
-import type { BackendTrpcRouter } from "@ideanick/backend/router/index.trpc"
-import { Error0 } from "@ideanick/modules/lib/error0.sh"
 import { initTRPC } from "@trpc/server"
 import superjson from "superjson"
+import type { HonoReqCtx } from "@/backend/lib/ctx.hono"
+import type { HonoApp } from "@/backend/lib/hono"
+import type { BackendTrpcRouter } from "@/backend/router/index.trpc"
+import { Error0 } from "@/lib/error0.sh"
 
 export namespace BackendTrpc {
   export type TrpcCtx = { honoReqCtx: HonoReqCtx } & HonoReqCtx.Unextendable

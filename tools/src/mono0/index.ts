@@ -1,7 +1,7 @@
-import { Mono0Config } from "@ideanick/tools/mono0/config"
-import { Mono0CorePackage } from "@ideanick/tools/mono0/corePackage"
-import { Mono0ModulePackage } from "@ideanick/tools/mono0/modulePackage"
-import { Mono0RootBaseTsconfig, Mono0RootTsconfig } from "@ideanick/tools/mono0/tsconfig"
+import { Mono0Config } from "@/tools/mono0/config"
+import { Mono0CorePackage } from "@/tools/mono0/corePackage"
+import { Mono0ModulePackage } from "@/tools/mono0/modulePackage"
+import { Mono0RootBaseTsconfig, Mono0RootTsconfig } from "@/tools/mono0/tsconfig"
 
 // TODO: remove previous tsconfig.json
 // TODO: rename old files

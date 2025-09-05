@@ -1,6 +1,3 @@
-import { Error0, type Error0Input } from "@ideanick/modules/lib/error0.sh"
-import type { ExtractEnum } from "@ideanick/modules/lib/lodash0.sh"
-import { Meta0 } from "@ideanick/modules/lib/meta0.sh"
 import {
   configureSync,
   type Filter,
@@ -15,6 +12,9 @@ import {
 import debug from "debug"
 import { omit } from "lodash"
 import yaml from "yaml"
+import { Error0, type Error0Input } from "@/lib/error0.sh"
+import type { ExtractEnum } from "@/lib/lodash0.sh"
+import { Meta0 } from "@/lib/meta0.sh"
 
 // TODO: oneliner formatter
 

@@ -1,5 +1,5 @@
-import { Env0 as E } from "@ideanick/modules/lib/env0.sh"
 import z from "zod"
+import { Env0 as E } from "@/lib/env0.sh"
 
 export const createEnvBuild = (source: Record<string, unknown>) =>
   E.create({

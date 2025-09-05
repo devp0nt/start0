@@ -1,7 +1,7 @@
+import { Error0 } from "@/lib/error0.sh"
+import { SiteError } from "@/site/components/Error"
+import { RR0 } from "@/site/react-router/utils.js"
 import page from "../../../pages/home.page.js"
-import { Error0 } from "@ideanick/modules/lib/error0.sh"
-import { SiteError } from "@ideanick/site/components/Error"
-import { RR0 } from "@ideanick/site/react-router/utils.js"
 import type { Route } from "./+types/apps-site-src-pages-home-page-tsx"
 
 export const meta = RR0.createMeta(({ loaderData, params, error }: RR0.MetaArgs<Route.MetaArgs>) => {
@@ -34,4 +34,3 @@ const RouteComponent = RR0.createRouteComponent(
 )
 
 export default RouteComponent
-  

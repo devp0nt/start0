@@ -1,8 +1,8 @@
 #!/usr/bin/env bun
 
-// import * as readline from "node:readline"
-import { Gen0Logger } from "@ideanick/tools/gen0/logger.js"
 import { Command } from "commander"
+// import * as readline from "node:readline"
+import { Gen0Logger } from "@/tools/gen0/logger.js"
 import { Gen0 } from "./index.js"
 
 const program = new Command()

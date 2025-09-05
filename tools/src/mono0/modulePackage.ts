@@ -1,6 +1,6 @@
-import { Fs0 } from "@ideanick/tools/fs0"
-import type { Mono0CorePackage } from "@ideanick/tools/mono0/corePackage"
-import { Mono0Tsconfig } from "@ideanick/tools/mono0/tsconfig"
+import { Fs0 } from "@/tools/fs0"
+import type { Mono0CorePackage } from "@/tools/mono0/corePackage"
+import { Mono0Tsconfig } from "@/tools/mono0/tsconfig"
 
 export class Mono0ModulePackage {
   name: string

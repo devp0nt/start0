@@ -1,7 +1,7 @@
 import nodeFsSync from "node:fs"
-import type { Gen0ClientProcessCtx } from "@ideanick/tools/gen0/clientProcessCtx"
-import type { Gen0Fs } from "@ideanick/tools/gen0/fs"
-import type { Gen0Plugin } from "@ideanick/tools/gen0/plugin"
+import type { Gen0ClientProcessCtx } from "@/tools/gen0/clientProcessCtx"
+import type { Gen0Fs } from "@/tools/gen0/fs"
+import type { Gen0Plugin } from "@/tools/gen0/plugin"
 
 const getConstExportNames = (ctx: Gen0ClientProcessCtx, filePath: string) => {
   filePath = ctx.fs.toAbs(filePath)

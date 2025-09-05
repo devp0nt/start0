@@ -1,8 +1,8 @@
 import nodePath from "node:path"
-import { File0, type Fs0 } from "@ideanick/tools/fs0"
-import type { Mono0CorePackage } from "@ideanick/tools/mono0/corePackage"
-import type { Mono0ModulePackage } from "@ideanick/tools/mono0/modulePackage"
 import { isEqual, isMatch } from "lodash"
+import { File0, type Fs0 } from "@/tools/fs0"
+import type { Mono0CorePackage } from "@/tools/mono0/corePackage"
+import type { Mono0ModulePackage } from "@/tools/mono0/modulePackage"
 
 export class Mono0Tsconfig {
   file0: File0

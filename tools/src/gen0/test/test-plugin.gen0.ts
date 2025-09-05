@@ -1,4 +1,4 @@
-import type { Gen0Plugin } from "@ideanick/tools/gen0/plugin"
+import type { Gen0Plugin } from "@/tools/gen0/plugin"
 
 export default {
   name: "testPlugin",

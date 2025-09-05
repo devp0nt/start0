@@ -1,5 +1,5 @@
-import { BackendTrpc } from "@ideanick/backend/lib/trpc"
 import type { inferRouterInputs, inferRouterOutputs } from "@trpc/server"
+import { BackendTrpc } from "@/backend/lib/trpc"
 
 // @gen0:start await importExportedFromFiles("~/**/route{s,}.*.ts", "TrpcRoute")
 
@@ -11,10 +11,10 @@ import { pingTrpcRoute } from "./ping/route.trpc.js"
 export namespace BackendTrpcRouter {
   export const trpcRouter = BackendTrpc.createTRPCRouter({
     // @gen0:start $.imports.map(im => print(`${im.cutted}: ${im.name},`))
-getAppConfig: getAppConfigTrpcRoute,
-getIdeas: getIdeasTrpcRoute,
-getIdea: getIdeaTrpcRoute,
-ping: pingTrpcRoute,
+    getAppConfig: getAppConfigTrpcRoute,
+    getIdeas: getIdeasTrpcRoute,
+    getIdea: getIdeaTrpcRoute,
+    ping: pingTrpcRoute,
     // @gen0:end
   })
 

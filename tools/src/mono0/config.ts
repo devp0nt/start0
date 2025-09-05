@@ -1,5 +1,5 @@
-import { Fs0 } from "@ideanick/tools/fs0"
 import z from "zod"
+import { Fs0 } from "@/tools/fs0"
 
 export class Mono0Config {
   fs0: Fs0

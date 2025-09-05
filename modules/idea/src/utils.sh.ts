@@ -1,6 +1,6 @@
-import type { IdeaModel } from "@ideanick/modules/prisma/src/generated.be/prisma/models"
 import { Route } from "@typed/route"
 import z from "zod"
+import type { IdeaModel } from "@/prisma/src/generated.be/prisma/models"
 
 export namespace Idea {
   export type Client = IdeaModel

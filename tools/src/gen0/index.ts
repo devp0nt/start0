@@ -1,9 +1,9 @@
-import { Gen0ClientsManager } from "@ideanick/tools/gen0/clientsManager"
-import { Gen0Config } from "@ideanick/tools/gen0/config"
-import { Gen0Fs } from "@ideanick/tools/gen0/fs"
-import { Gen0Logger } from "@ideanick/tools/gen0/logger"
-import { Gen0PluginsManager } from "@ideanick/tools/gen0/pluginsManager"
-import { Gen0WatchersManager } from "@ideanick/tools/gen0/watchersManager"
+import { Gen0ClientsManager } from "@/tools/gen0/clientsManager"
+import { Gen0Config } from "@/tools/gen0/config"
+import { Gen0Fs } from "@/tools/gen0/fs"
+import { Gen0Logger } from "@/tools/gen0/logger"
+import { Gen0PluginsManager } from "@/tools/gen0/pluginsManager"
+import { Gen0WatchersManager } from "@/tools/gen0/watchersManager"
 
 // TODO: fs → ffs (find existing lib)
 // TODO: В хук вотчера передавать также статы по файлу, это была папка или файл, и вообще передавать туда всё объектом

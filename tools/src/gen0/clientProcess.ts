@@ -1,9 +1,9 @@
 import { exec } from "node:child_process"
-import type { Gen0Client } from "@ideanick/tools/gen0/client"
-import { Gen0ClientProcessCtx } from "@ideanick/tools/gen0/clientProcessCtx"
-import type { Gen0Config } from "@ideanick/tools/gen0/config"
-import { Gen0Logger } from "@ideanick/tools/gen0/logger"
-import { Gen0Target } from "@ideanick/tools/gen0/target"
+import type { Gen0Client } from "@/tools/gen0/client"
+import { Gen0ClientProcessCtx } from "@/tools/gen0/clientProcessCtx"
+import type { Gen0Config } from "@/tools/gen0/config"
+import { Gen0Logger } from "@/tools/gen0/logger"
+import { Gen0Target } from "@/tools/gen0/target"
 
 export class Gen0ClientProcess {
   static logger = Gen0Logger.create("clientProcess")

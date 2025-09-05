@@ -1,5 +1,5 @@
-import { pick } from "@ideanick/modules/lib/lodash0.sh"
-import type { IdeaModel } from "@ideanick/modules/prisma/src/generated.be/prisma/models"
+import { pick } from "@/lib/lodash0.sh"
+import type { IdeaModel } from "@/prisma/src/generated.be/prisma/models"
 
 export namespace IdeaBe {
   export const toClient = (idea: IdeaModel) => {

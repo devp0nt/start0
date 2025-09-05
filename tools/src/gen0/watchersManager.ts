@@ -1,15 +1,15 @@
-import type { Gen0ClientsManager } from "@ideanick/tools/gen0/clientsManager"
-import type { Gen0Config } from "@ideanick/tools/gen0/config"
-import type { Gen0Fs } from "@ideanick/tools/gen0/fs"
-import { Gen0Logger } from "@ideanick/tools/gen0/logger"
-import type { Gen0PluginsManager } from "@ideanick/tools/gen0/pluginsManager"
-import { Gen0Utils } from "@ideanick/tools/gen0/utils"
-import type { Gen0Watcher } from "@ideanick/tools/gen0/watcher"
 import type { EventType as ParcelEventType } from "@parcel/watcher"
 import parcel from "@parcel/watcher"
 // import chokidar, { type FSWatcher as ChokidarFSWatcher, type EmitArgsWithName } from "chokidar"
 // import fs from "fs"
 import { isGitIgnored } from "globby"
+import type { Gen0ClientsManager } from "@/tools/gen0/clientsManager"
+import type { Gen0Config } from "@/tools/gen0/config"
+import type { Gen0Fs } from "@/tools/gen0/fs"
+import { Gen0Logger } from "@/tools/gen0/logger"
+import type { Gen0PluginsManager } from "@/tools/gen0/pluginsManager"
+import { Gen0Utils } from "@/tools/gen0/utils"
+import type { Gen0Watcher } from "@/tools/gen0/watcher"
 
 export class Gen0WatchersManager {
   static logger = Gen0Logger.create("watchersManager")

@@ -2,14 +2,14 @@ import fsSync from "node:fs"
 import fs from "node:fs/promises"
 import nodePath from "node:path"
 import readline from "node:readline"
-import type { Gen0Config } from "@ideanick/tools/gen0/config"
-import { Gen0File } from "@ideanick/tools/gen0/file"
-import { Gen0Logger } from "@ideanick/tools/gen0/logger"
-import { Gen0Utils } from "@ideanick/tools/gen0/utils"
 import dotenv from "dotenv"
 import { findUp, findUpSync } from "find-up"
 import { globby, globbySync } from "globby"
 import micromatch from "micromatch"
+import type { Gen0Config } from "@/tools/gen0/config"
+import { Gen0File } from "@/tools/gen0/file"
+import { Gen0Logger } from "@/tools/gen0/logger"
+import { Gen0Utils } from "@/tools/gen0/utils"
 
 // TODO: make better string | string[] → T
 

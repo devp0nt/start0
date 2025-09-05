@@ -1,10 +1,10 @@
 import nodePath from "node:path"
-import { Gen0Fs } from "@ideanick/tools/gen0/fs"
-import { Gen0Logger } from "@ideanick/tools/gen0/logger"
-import type { Gen0Plugin } from "@ideanick/tools/gen0/plugin"
-// import { Gen0Utils } from "@ideanick/tools/gen0/utils"
+// import { Gen0Utils } from "@/tools/gen0/utils"
 import { findUpSync } from "find-up"
 import { workspaceRoot } from "workspace-root"
+import { Gen0Fs } from "@/tools/gen0/fs"
+import { Gen0Logger } from "@/tools/gen0/logger"
+import type { Gen0Plugin } from "@/tools/gen0/plugin"
 
 // TODO: respect json configs
 

@@ -1,5 +1,5 @@
 import { describe, expect, expectTypeOf, it } from "bun:test"
-import { Route0 } from "@ideanick/modules/lib/route0.sh"
+import { Route0 } from "@/lib/route0.sh"
 
 describe("route0", () => {
   it("simple", () => {
