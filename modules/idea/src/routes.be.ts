@@ -10,9 +10,6 @@ export const getIdeasTrpcRoute = BackendTrpc.baseProcedure().query(async ({ ctx 
 export const getIdeaTrpcRoute = BackendTrpc.baseProcedure()
   .input(zGetIdeaInput)
   .query(async ({ ctx, input }) => {
-    ctx.prisma.idea.findUnique({
-      where: { sn: input.ideaSn },
-    })
     const idea = await ctx.prisma.idea.findUnique({
       where: { sn: input.ideaSn },
     })
