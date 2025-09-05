@@ -11,19 +11,19 @@
       "path": "../../../tools/package/tsconfig.tools.json"
     },
     {
-      "path": "../../backend/package/tsconfig.tools.json"
+      "path": "../../../apps/backend/package/tsconfig.tools.json"
     },
     {
-      "path": "../../../modules/prisma/package/tsconfig.tools.json"
+      "path": "../../../apps/site/package/tsconfig.tools.json"
     },
     {
-      "path": "../../../modules/appConfig/package/tsconfig.tools.json"
+      "path": "../../prisma/package/tsconfig.tools.json"
     },
     {
-      "path": "../../../modules/idea/package/tsconfig.tools.json"
+      "path": "../../appConfig/package/tsconfig.tools.json"
     },
     {
-      "path": "../../../modules/lib/package/tsconfig.tools.json"
+      "path": "../../idea/package/tsconfig.tools.json"
     }
   ]
 }

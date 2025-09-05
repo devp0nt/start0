@@ -1,5 +1,5 @@
 {
-  "extends": "../tsconfig.base.json",
+  "extends": "/Users/iserdmi/cc/projects/svagatron/tools/tsconfig.base.json",
   "compilerOptions": {
     "composite": true,
     "rootDir": "../src",
@@ -12,6 +12,18 @@
     },
     {
       "path": "../../apps/site/package/tsconfig.tools.json"
+    },
+    {
+      "path": "../../modules/prisma/package/tsconfig.tools.json"
+    },
+    {
+      "path": "../../modules/appConfig/package/tsconfig.tools.json"
+    },
+    {
+      "path": "../../modules/idea/package/tsconfig.tools.json"
+    },
+    {
+      "path": "../../modules/lib/package/tsconfig.tools.json"
     }
   ]
 }

@@ -1,21 +1,21 @@
 import type { Fs0 } from "@ideanick/tools/fs0"
 import type { Mono0Config } from "@ideanick/tools/mono0/config"
-import { Mono0CoreTsconfig } from "@ideanick/tools/mono0/coreTsconfig"
+import { Mono0Tsconfig } from "@ideanick/tools/mono0/tsconfig"
 
 export class Mono0CorePackage {
   name: string
   alias: string
   selfDirFs0: Fs0
   packageDirFs0: Fs0
-  localTsconfig: Mono0CoreTsconfig
-  externalTsconfigs: Mono0CoreTsconfig[] = []
+  localTsconfig: Mono0Tsconfig
+  externalTsconfigs: Array<Mono0Tsconfig> = []
 
   private constructor(input: {
     name: string
     alias: string
     selfDirFs0: Fs0
     packageDirFs0: Fs0
-    localTsconfig: Mono0CoreTsconfig
+    localTsconfig: Mono0Tsconfig
   }) {
     this.name = input.name
     this.alias = input.alias
@@ -27,10 +27,11 @@ export class Mono0CorePackage {
   static create({ config, definition }: { config: Mono0Config; definition: Mono0Config.CorePackageDefinition }) {
     const selfDirFs0 = config.fs0.create({ cwd: definition.path })
     const packageDirFs0 = selfDirFs0.create({ cwd: "./package" })
-    const localTsconfig = Mono0CoreTsconfig.create({
+    const localTsconfig = Mono0Tsconfig.create({
       ownerCorePackageName: definition.name,
       packageDirFs0,
       guestCorePackageName: null,
+      modulePackageName: null,
     })
     return new Mono0CorePackage({
       name: definition.name,
@@ -41,20 +42,21 @@ export class Mono0CorePackage {
     })
   }
 
-  addExternalTsconfig(externalTsconfig: Mono0CoreTsconfig) {
+  addExternalTsconfig(externalTsconfig: Mono0Tsconfig) {
     this.externalTsconfigs.push(externalTsconfig)
   }
 
-  createAllExternalTsconfigs({ corePackages }: { corePackages: Mono0CorePackage[] }) {
+  createCoreExternalTsconfigs({ corePackages }: { corePackages: Mono0CorePackage[] }) {
     for (const corePackage of corePackages) {
       if (corePackage.name === this.name) {
         continue
       }
       this.addExternalTsconfig(
-        Mono0CoreTsconfig.create({
+        Mono0Tsconfig.create({
           ownerCorePackageName: corePackage.name,
           packageDirFs0: corePackage.packageDirFs0,
           guestCorePackageName: this.name,
+          modulePackageName: null,
         }),
       )
     }

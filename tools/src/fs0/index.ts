@@ -5,7 +5,7 @@ import readline from "node:readline"
 import { Gen0Utils } from "@ideanick/tools/gen0/utils"
 import dotenv from "dotenv"
 import { findUp, findUpSync } from "find-up"
-import { globby, globbySync } from "globby"
+import { type Options as GlobbyOptions, globby, globbySync } from "globby"
 import micromatch from "micromatch"
 
 export class Fs0 {
@@ -138,6 +138,27 @@ export class Fs0 {
       throw new Error("Invalid input")
     })()
     const paths = globbySync(glob, { cwd, gitignore: true, absolute: true, dot: true })
+    if (!relative) {
+      return paths
+    } else if (relative === true) {
+      return paths.map((path) => this.toRel(path))
+    } else {
+      return paths.map((path) => this.toRel(path, relative))
+    }
+  }
+
+  async glob(
+    glob: string,
+    {
+      cwd = this.rootDir,
+      relative,
+      ...restOptions
+    }: {
+      cwd?: string
+      relative?: string | boolean
+    } & GlobbyOptions = {},
+  ): Promise<string[]> {
+    const paths = await globby(glob, { gitignore: true, absolute: true, dot: true, ...restOptions })
     if (!relative) {
       return paths
     } else if (relative === true) {
