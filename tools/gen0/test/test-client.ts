@@ -5,8 +5,8 @@
 
 // @gen0:start await importExportedFromFiles("~/**/route{s,}.*.ts", "TrpcRoute");
 
-import { getAppConfigTrpcRoute } from "../../../modules/appConfig/routes.be.js"
-import { getIdeasTrpcRoute, getIdeaTrpcRoute } from "../../../modules/idea/routes.be.js"
+import { getAppConfigTrpcRoute } from "../../../modules/appConfig/src/routes.be.js"
+import { getIdeasTrpcRoute, getIdeaTrpcRoute } from "../../../modules/idea/src/routes.be.js"
 import { pingTrpcRoute } from "../../../apps/backend/src/router/ping/route.trpc.js"
 // @gen0:end
 

@@ -39,6 +39,8 @@ react-native
 reuse code between site and mobile
 
 автогенератор доков и сайта плагина
+рекомендед вскод экстеншенс
+рекомендед хоткейс
 i0n, i0n route0
 zod overload
 hono response type by fn output
