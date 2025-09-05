@@ -126,6 +126,7 @@ export class Mono0Tsconfig {
     const value = this.getValue({ corePackages, modulesPackages })
     const prevValue = await this.file0.importFresh()
     if (isEqual(prevValue, value)) {
+      console.log(123)
       return
     }
     await this.file0.write(JSON.stringify(value, null, 2))
