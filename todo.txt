@@ -37,6 +37,7 @@ refine
 
 react-native
 reuse code between site and mobile
+multifile schema prisma
 
 автогенератор доков и сайта плагина
 рекомендед вскод экстеншенс

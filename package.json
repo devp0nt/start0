@@ -51,7 +51,7 @@
     }
   },
   "prisma": {
-    "schema": "./modules/prisma/schema.prisma"
+    "schema": "./modules/prisma"
   },
   "dependencies": {
     "@hono/trpc-server": "^0.4.0",
