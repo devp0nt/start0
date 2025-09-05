@@ -41,7 +41,7 @@
   },
   "workspaces": {
     "packages": [
-      "apps/*",
+      "@/*",
       "modules",
       "tools"
     ],

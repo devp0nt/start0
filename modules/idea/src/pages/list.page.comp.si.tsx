@@ -1,7 +1,7 @@
-import { SiteCtx } from "apps/site/src/lib/ctx"
-import { siteRoutes } from "apps/site/src/lib/routes"
 import { Link } from "react-router"
 import type { Idea } from "@/idea/src/utils.sh"
+import { SiteCtx } from "@/site/src/lib/ctx"
+import { siteRoutes } from "@/site/src/lib/routes"
 
 export const IdeasPage: React.FC<{
   ideas: Idea.Client[]

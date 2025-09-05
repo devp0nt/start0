@@ -1,4 +1,4 @@
-import type { Page0 } from "apps/site/src/lib/page0"
+import type { Page0 } from "@/site/src/lib/page0"
 import type { Gen0Plugin } from "@/tools/gen0/plugin"
 
 export default (async ({ fs, _ }) => {

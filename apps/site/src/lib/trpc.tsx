@@ -1,11 +1,11 @@
 import { defaultShouldDehydrateQuery, HydrationBoundary, QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { createTRPCClient, httpBatchLink, loggerLink } from "@trpc/client"
 import { createTRPCContext, createTRPCOptionsProxy, type TRPCQueryOptions } from "@trpc/tanstack-react-query"
-import { env } from "apps/site/src/lib/env.self"
 import { cache, useState } from "react"
 import superjson from "superjson"
 import type { BackendTrpcRouter } from "@/backend/router/index.trpc"
 import { RR0 } from "@/site/react-router/utils"
+import { env } from "@/site/src/lib/env.self"
 
 const makeQueryClient = () => {
   return new QueryClient({

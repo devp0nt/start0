@@ -1,5 +1,4 @@
 import { type DehydratedState, dehydrate, type QueryClient, useQuery } from "@tanstack/react-query"
-import { getQueryClient, trpc } from "apps/site/src/lib/trpc"
 import {
   unstable_createContext,
   type unstable_MiddlewareFunction,
@@ -7,6 +6,7 @@ import {
 } from "react-router"
 import { createContext, useContext, useContextSelector } from "use-context-selector"
 import type { BackendTrpcRouter } from "@/backend/router/index.trpc"
+import { getQueryClient, trpc } from "@/site/src/lib/trpc"
 
 export namespace SiteCtx {
   export type MeUser = { id: string; name: string; email: string }
