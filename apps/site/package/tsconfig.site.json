@@ -1,19 +1,20 @@
 {
-  "extends": "/Users/iserdmi/cc/projects/svagatron/apps/site/tsconfig.base.json",
+  "extends": "../tsconfig.base.json",
   "compilerOptions": {
     "composite": true,
     "rootDir": "../src",
     "outDir": "../dist/site"
   },
-  "include": [
-    "src"
-  ],
+  "include": ["src"],
   "references": [
     {
-      "path": "../../backend/package/tsconfig.site.json"
+      "path": "tsconfig.site.json"
     },
     {
-      "path": "../../../tools/package/tsconfig.site.json"
+      "path": "../../backend/package/tsconfig.backend.json"
+    },
+    {
+      "path": "../../../tools/package/tsconfig.tools.json"
     },
     {
       "path": "../../../modules/prisma/package/tsconfig.site.json"

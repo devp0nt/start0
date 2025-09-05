@@ -7,6 +7,7 @@ export class Mono0CorePackage {
   alias: string
   selfDirFs0: Fs0
   packageDirFs0: Fs0
+  baseTsconfigPath: string
   localTsconfig: Mono0Tsconfig
   externalTsconfigs: Array<Mono0Tsconfig> = []
 
@@ -14,24 +15,26 @@ export class Mono0CorePackage {
     name: string
     alias: string
     selfDirFs0: Fs0
-    packageDirFs0: Fs0
+    baseTsconfigPath: string
     localTsconfig: Mono0Tsconfig
+    packageDirFs0: Fs0
   }) {
     this.name = input.name
     this.alias = input.alias
     this.selfDirFs0 = input.selfDirFs0
     this.packageDirFs0 = input.packageDirFs0
+    this.baseTsconfigPath = input.baseTsconfigPath
     this.localTsconfig = input.localTsconfig
   }
 
   static create({ config, definition }: { config: Mono0Config; definition: Mono0Config.CorePackageDefinition }) {
     const selfDirFs0 = config.fs0.create({ cwd: definition.path })
+    const baseTsconfigPath = selfDirFs0.resolve("./tsconfig.base.json")
     const packageDirFs0 = selfDirFs0.create({ cwd: "./package" })
     const localTsconfig = Mono0Tsconfig.create({
-      ownerCorePackageName: definition.name,
+      corePackageName: definition.name,
       packageDirFs0,
-      guestCorePackageName: null,
-      modulePackageName: null,
+      type: "local",
     })
     return new Mono0CorePackage({
       name: definition.name,
@@ -39,6 +42,7 @@ export class Mono0CorePackage {
       selfDirFs0,
       packageDirFs0,
       localTsconfig,
+      baseTsconfigPath,
     })
   }
 
@@ -53,10 +57,9 @@ export class Mono0CorePackage {
       }
       this.addExternalTsconfig(
         Mono0Tsconfig.create({
-          ownerCorePackageName: corePackage.name,
+          corePackageName: corePackage.name,
           packageDirFs0: corePackage.packageDirFs0,
-          guestCorePackageName: this.name,
-          modulePackageName: null,
+          type: "external",
         }),
       )
     }

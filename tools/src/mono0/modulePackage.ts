@@ -27,9 +27,8 @@ export class Mono0ModulePackage {
     const tsconfigs = corePackages.map((corePackage) => {
       const tsconfig = Mono0Tsconfig.create({
         packageDirFs0,
-        ownerCorePackageName: null,
-        guestCorePackageName: corePackage.name,
-        modulePackageName: name,
+        corePackageName: corePackage.name,
+        type: "external",
       })
       corePackage.addExternalTsconfig(tsconfig)
       return tsconfig

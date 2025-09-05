@@ -1,22 +1,20 @@
 {
-  "extends": "/Users/iserdmi/cc/projects/svagatron/tools/tsconfig.base.json",
+  "extends": "../../../tools/tsconfig.base.json",
   "compilerOptions": {
     "composite": true,
     "rootDir": "../src",
     "outDir": "../dist/tools"
   },
-  "include": [
-    "src"
-  ],
+  "include": ["src"],
   "references": [
     {
       "path": "../../../tools/package/tsconfig.tools.json"
     },
     {
-      "path": "../../../apps/backend/package/tsconfig.tools.json"
+      "path": "../../../apps/backend/package/tsconfig.backend.json"
     },
     {
-      "path": "../../../apps/site/package/tsconfig.tools.json"
+      "path": "../../../apps/site/package/tsconfig.site.json"
     },
     {
       "path": "../../appConfig/package/tsconfig.tools.json"
