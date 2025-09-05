@@ -8,13 +8,13 @@ export class Mono0Tsconfig {
   file0: File0
   corePackageName: string
   rootBaseTsconfigPath: string
-  type: "local" | "external" | "base"
+  type: "general" | "base"
 
   private constructor(input: {
     file0: File0
     corePackageName: string
     rootBaseTsconfigPath: string
-    type: "local" | "external" | "base"
+    type: "general" | "base"
   }) {
     this.file0 = input.file0
     this.corePackageName = input.corePackageName
@@ -31,7 +31,7 @@ export class Mono0Tsconfig {
     packageDirFs0: Fs0
     corePackageName: string
     rootBaseTsconfigPath: string
-    type: "local" | "external" | "base"
+    type: "general" | "base"
   }) {
     const file0 = (() => {
       if (type === "base") {
@@ -55,7 +55,7 @@ export class Mono0Tsconfig {
       throw new Error(`Core package "${this.corePackageName}" not found`)
     }
 
-    if (this.type === "local") {
+    if (this.type === "general") {
       return {
         extends: nodePath.relative(this.file0.path.dir, corePackage.baseTsconfig.file0.path.abs),
         compilerOptions: {
@@ -65,29 +65,11 @@ export class Mono0Tsconfig {
         },
         include: ["src"],
         references: [
-          ...corePackage.externalTsconfigs.map((et) => {
-            return {
-              path: nodePath.relative(this.file0.path.dir, et.file0.path.abs),
-            }
-          }),
-        ],
-      }
-    } else if (this.type === "external") {
-      return {
-        extends: nodePath.relative(this.file0.path.dir, corePackage.baseTsconfig.file0.path.abs),
-        compilerOptions: {
-          composite: true,
-          rootDir: "../src",
-          outDir: `../dist/${corePackage.name}`,
-        },
-        include: ["src"],
-        references: [
-          { path: nodePath.relative(this.file0.path.dir, corePackage.localTsconfig.file0.path.abs) },
-          ...corePackage.externalTsconfigs
-            .filter((et) => et.file0.path.abs !== this.file0.path.abs)
-            .map((et) => {
+          ...corePackage.tsconfigs
+            .filter((t) => t.file0.path.abs !== this.file0.path.abs)
+            .map((t) => {
               return {
-                path: nodePath.relative(this.file0.path.dir, et.file0.path.abs),
+                path: nodePath.relative(this.file0.path.dir, t.file0.path.abs),
               }
             }),
         ],

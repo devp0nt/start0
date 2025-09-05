@@ -38,7 +38,7 @@ export class Mono0 {
       corePackages.push(corePackage)
     }
     for (const corePackage of corePackages) {
-      corePackage.createCoreExternalTsconfigs({ corePackages, rootBaseTsconfigPath })
+      corePackage.addTsconfigsByCorePackages({ corePackages, rootBaseTsconfigPath })
     }
 
     const modulesPackages: Mono0ModulePackage[] = []
@@ -57,12 +57,9 @@ export class Mono0 {
   static async write() {
     const mono0 = Mono0.mono0 || (await Mono0.init())
     for (const corePackage of mono0.corePackages) {
-      await corePackage.localTsconfig.write({
-        corePackages: mono0.corePackages,
-        modulesPackages: mono0.modulesPackages,
-      })
-      for (const externalTsconfig of corePackage.externalTsconfigs) {
-        await externalTsconfig.write({ corePackages: mono0.corePackages, modulesPackages: mono0.modulesPackages })
+      await corePackage.baseTsconfig.write({ corePackages: mono0.corePackages, modulesPackages: mono0.modulesPackages })
+      for (const tsconfig of corePackage.tsconfigs) {
+        await tsconfig.write({ corePackages: mono0.corePackages, modulesPackages: mono0.modulesPackages })
       }
     }
   }

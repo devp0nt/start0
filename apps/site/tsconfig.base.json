@@ -4,5 +4,6 @@
     "types": ["node", "vite/client", "bun"],
     "target": "ES2022",
     "module": "ES2022"
-  }
+  },
+  "extends": "../../tsconfig.base.json"
 }

@@ -8,15 +8,14 @@ export class Mono0CorePackage {
   selfDirFs0: Fs0
   packageDirFs0: Fs0
   baseTsconfig: Mono0Tsconfig
-  localTsconfig: Mono0Tsconfig
-  externalTsconfigs: Array<Mono0Tsconfig> = []
+  tsconfigs: Mono0Tsconfig[]
 
   private constructor(input: {
     name: string
     alias: string
     selfDirFs0: Fs0
     baseTsconfig: Mono0Tsconfig
-    localTsconfig: Mono0Tsconfig
+    tsconfigs: Mono0Tsconfig[]
     packageDirFs0: Fs0
   }) {
     this.name = input.name
@@ -24,7 +23,7 @@ export class Mono0CorePackage {
     this.selfDirFs0 = input.selfDirFs0
     this.packageDirFs0 = input.packageDirFs0
     this.baseTsconfig = input.baseTsconfig
-    this.localTsconfig = input.localTsconfig
+    this.tsconfigs = input.tsconfigs
   }
 
   static create({
@@ -44,27 +43,27 @@ export class Mono0CorePackage {
       rootBaseTsconfigPath,
       type: "base",
     })
-    const localTsconfig = Mono0Tsconfig.create({
+    const tsconfig = Mono0Tsconfig.create({
       corePackageName: definition.name,
       packageDirFs0,
       rootBaseTsconfigPath,
-      type: "local",
+      type: "general",
     })
     return new Mono0CorePackage({
       name: definition.name,
       alias: definition.alias,
       selfDirFs0,
       packageDirFs0,
-      localTsconfig,
+      tsconfigs: [tsconfig],
       baseTsconfig,
     })
   }
 
-  addExternalTsconfig(externalTsconfig: Mono0Tsconfig) {
-    this.externalTsconfigs.push(externalTsconfig)
+  addTsconfig(tsconfig: Mono0Tsconfig) {
+    this.tsconfigs.push(tsconfig)
   }
 
-  createCoreExternalTsconfigs({
+  addTsconfigsByCorePackages({
     corePackages,
     rootBaseTsconfigPath,
   }: {
@@ -75,12 +74,12 @@ export class Mono0CorePackage {
       if (corePackage.name === this.name) {
         continue
       }
-      this.addExternalTsconfig(
+      this.addTsconfig(
         Mono0Tsconfig.create({
           corePackageName: this.name,
           packageDirFs0: corePackage.packageDirFs0,
           rootBaseTsconfigPath,
-          type: "external",
+          type: "general",
         }),
       )
     }
