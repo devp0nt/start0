@@ -2,64 +2,75 @@ import fsSync from "node:fs"
 import fs from "node:fs/promises"
 import nodePath from "node:path"
 import readline from "node:readline"
-import type { Gen0Config } from "@ideanick/tools/gen0/config"
-import { Gen0File } from "@ideanick/tools/gen0/file"
-import { Gen0Logger } from "@ideanick/tools/gen0/logger"
 import { Gen0Utils } from "@ideanick/tools/gen0/utils"
 import dotenv from "dotenv"
 import { findUp, findUpSync } from "find-up"
 import { globby, globbySync } from "globby"
 import micromatch from "micromatch"
 
-// TODO: make better string | string[] → T
-
-export class Gen0Fs {
-  static logger = Gen0Logger.create("fs")
-  logger = Gen0Fs.logger
-
+export class Fs0 {
   rootDir: string
   cwd: string
 
-  private constructor(
-    input: ({ rootDir: string } | { config: Gen0Config }) &
-      ({ fileDir: string } | { filePath: string } | { cwd: string }),
-  ) {
-    if ("rootDir" in input) {
-      this.rootDir = input.rootDir
-    } else {
-      this.rootDir = input.config.rootDir
-    }
-    if ("fileDir" in input) {
+  private constructor(input: Fs0.CreateFsInput = {}) {
+    if ("fileDir" in input && input.fileDir) {
       this.cwd = input.fileDir
-    } else if ("filePath" in input) {
+    } else if ("filePath" in input && input.filePath) {
       this.cwd = nodePath.dirname(input.filePath)
-    } else {
+    } else if ("cwd" in input && input.cwd) {
       this.cwd = input.cwd
+    } else {
+      this.cwd = process.cwd()
     }
+    this.rootDir = input.rootDir || this.cwd
+    if (!this.rootDir.startsWith("/")) {
+      throw new Error("Root dir must be absolute")
+    }
+    this.cwd = nodePath.resolve(this.rootDir, this.cwd)
   }
-  static create(
-    input: ({ rootDir: string } | { config: Gen0Config }) &
-      ({ fileDir: string } | { filePath: string } | { cwd: string }),
-  ) {
-    return new Gen0Fs(input)
+  static create(input: Fs0.CreateFsInput = {}) {
+    return new Fs0(input)
+  }
+  create(input: Fs0.CreateFsInput = {}) {
+    let cwd: undefined | string
+    if ("fileDir" in input && input.fileDir) {
+      cwd = this.resolve(input.fileDir)
+    } else if ("filePath" in input && input.filePath) {
+      cwd = this.resolve(nodePath.dirname(input.filePath))
+    } else if ("cwd" in input && input.cwd) {
+      cwd = this.resolve(input.cwd)
+    }
+    const rootDir = input.rootDir || this.rootDir
+    return Fs0.create({ ...input, rootDir, cwd })
   }
 
-  async findFilesPaths(glob: Gen0Fs.PathOrPaths): Promise<string[]>
+  static isStringMatch = (str: string | undefined, search: Fs0.StringMatchInput): boolean => {
+    if (!str) return false
+    if (Array.isArray(search)) {
+      return search.some((item) => Fs0.isStringMatch(str, item))
+    } else if (typeof search === "string") {
+      return str.includes(search)
+    } else {
+      return search.test(str)
+    }
+  }
+
+  async findFilesPaths(glob: Fs0.PathOrPaths): Promise<string[]>
   async findFilesPaths({
     cwd,
     glob,
     relative,
   }: {
     cwd?: string
-    glob: Gen0Fs.PathOrPaths
+    glob: Fs0.PathOrPaths
     relative?: string | boolean
   }): Promise<string[]>
   async findFilesPaths(
     input:
-      | Gen0Fs.PathOrPaths
+      | Fs0.PathOrPaths
       | {
           cwd?: string
-          glob: Gen0Fs.PathOrPaths
+          glob: Fs0.PathOrPaths
           relative?: string | boolean
         },
   ): Promise<string[]> {
@@ -90,22 +101,22 @@ export class Gen0Fs {
     }
   }
 
-  findFilesPathsSync(glob: Gen0Fs.PathOrPaths): string[]
+  findFilesPathsSync(glob: Fs0.PathOrPaths): string[]
   findFilesPathsSync({
     cwd,
     glob,
     relative,
   }: {
     cwd?: string
-    glob: Gen0Fs.PathOrPaths
+    glob: Fs0.PathOrPaths
     relative?: string | boolean
   }): string[]
   findFilesPathsSync(
     input:
-      | Gen0Fs.PathOrPaths
+      | Fs0.PathOrPaths
       | {
           cwd?: string
-          glob: Gen0Fs.PathOrPaths
+          glob: Fs0.PathOrPaths
           relative?: string | boolean
         },
   ): string[] {
@@ -164,7 +175,7 @@ export class Gen0Fs {
     search,
   }: {
     cwd?: string
-    glob: Gen0Fs.PathOrPaths
+    glob: Fs0.PathOrPaths
     relative?: string | false
     search: Gen0Utils.Search
   }) {
@@ -193,7 +204,7 @@ export class Gen0Fs {
     search,
   }: {
     cwd?: string
-    path: Gen0Fs.PathOrPaths
+    path: Fs0.PathOrPaths
     relative?: string | false
     search: Gen0Utils.Search
   }) {
@@ -211,7 +222,7 @@ export class Gen0Fs {
     return result
   }
 
-  toAbs<T extends Gen0Fs.PathOrPaths>(path: T, relativeToAbs: string = this.cwd): T {
+  toAbs<T extends Fs0.PathOrPaths>(path: T, relativeToAbs: string = this.cwd): T {
     if (Array.isArray(path)) {
       return path.map((p) => this.toAbs(p)) as T
     }
@@ -224,9 +235,9 @@ export class Gen0Fs {
     return nodePath.resolve(relativeToAbs, pathNormalized) as T
   }
 
-  toRel<T extends Gen0Fs.PathOrPaths>(path: T, relativeTo?: string, withLeadingDot?: boolean): T
-  toRel<T extends Gen0Fs.PathOrPaths>(path: T, withLeadingDot?: boolean, relativeTo?: string): T
-  toRel<T extends Gen0Fs.PathOrPaths>(path: T, first?: any, second?: any): T {
+  toRel<T extends Fs0.PathOrPaths>(path: T, relativeTo?: string, withLeadingDot?: boolean): T
+  toRel<T extends Fs0.PathOrPaths>(path: T, withLeadingDot?: boolean, relativeTo?: string): T
+  toRel<T extends Fs0.PathOrPaths>(path: T, first?: any, second?: any): T {
     const relativeTo = typeof first === "string" ? first : typeof second === "string" ? second : this.cwd
     const withLeadingDot = typeof first === "boolean" ? first : typeof second === "boolean" ? second : true
     if (Array.isArray(path)) {
@@ -359,7 +370,7 @@ export class Gen0Fs {
     return path
   }
 
-  toPaths(path: Gen0Fs.PathOrPaths): string[] {
+  toPaths(path: Fs0.PathOrPaths): string[] {
     return Array.isArray(path) ? path.map(this.normalizePath.bind(this)) : [this.normalizePath(path)]
   }
 
@@ -387,20 +398,24 @@ export class Gen0Fs {
     return findUpSync(filename, { cwd: this.cwd })
   }
 
-  async findUpFile(filename: string): Promise<Gen0File | undefined> {
+  async findUpFile(filename: string): Promise<File0 | undefined> {
     const path = await findUp(filename, { cwd: this.cwd })
     if (!path) {
       return undefined
     }
-    return Gen0File.create({ filePath: path, fs: this })
+    return File0.create({ filePath: path, rootDir: this.rootDir })
+  }
+  static async findUpFile(filename: string, createFsInput?: Fs0.CreateFsInput) {
+    const fs0 = Fs0.create(createFsInput)
+    return await fs0.findUpFile(filename)
   }
 
-  findUpFileSync(filename: string): Gen0File | undefined {
+  findUpFileSync(filename: string): File0 | undefined {
     const path = findUpSync(filename, { cwd: this.cwd })
     if (!path) {
       return undefined
     }
-    return Gen0File.create({ filePath: path, fs: this })
+    return File0.create({ filePath: path, rootDir: this.rootDir })
   }
 
   async loadEnv(filename: string = ".env"): Promise<Record<string, string>> {
@@ -445,14 +460,66 @@ export class Gen0Fs {
     } catch {}
   }
 
-  node = fs
+  createFile0(filePath: string): File0 {
+    filePath = this.toAbs(filePath)
+    return File0.create({ filePath, rootDir: this.rootDir })
+  }
 
+  node = fs
   nodeSync = fsSync
 }
 
-export namespace Gen0Fs {
+export class File0 {
+  path: Fs0.PathParsed
+  fs0: Fs0
+
+  private constructor({ filePath, fs0 }: { filePath: string; fs0: Fs0 }) {
+    this.fs0 = fs0
+    this.path = this.fs0.parsePath(filePath)
+  }
+
+  static create({ filePath, rootDir }: { filePath: string; rootDir?: string }): File0 {
+    const fs0 = Fs0.create({
+      filePath,
+      rootDir,
+    })
+    return new File0({ filePath, fs0 })
+  }
+
+  writeSync(content: string) {
+    return this.fs0.writeFileSync(this.path.abs, content)
+  }
+
+  async write(content: string) {
+    return this.fs0.writeFile(this.path.abs, content)
+  }
+
+  readSync() {
+    return fsSync.readFileSync(this.path.abs, "utf8")
+  }
+
+  async read() {
+    return await fs.readFile(this.path.abs, "utf8")
+  }
+
+  async importFresh<T = any>(): Promise<T> {
+    return await import(`${this.path.abs}?t=${Date.now()}`)
+  }
+
+  async importFreshDefault<T = any>(): Promise<T> {
+    return (await import(`${this.path.abs}?t=${Date.now()}`).then((m) => m.default)) as T
+  }
+
+  async isContentMatch(search: Gen0Utils.Search) {
+    return await this.fs0.isContentMatch(this.path.abs, search)
+  }
+}
+
+export namespace Fs0 {
+  export type CreateFsInput = { rootDir?: string } & ({ fileDir?: string } | { filePath?: string } | { cwd?: string })
   export type Path = string
   export type Paths = string[]
   export type PathOrPaths = Path | Paths
-  export type PathParsed = ReturnType<typeof Gen0Fs.prototype.parsePath>
+  export type PathParsed = ReturnType<typeof Fs0.prototype.parsePath>
+  export type StringMatchInput = string | string[] | RegExp | RegExp[]
 }

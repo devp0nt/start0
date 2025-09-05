@@ -1,0 +1,24 @@
+{
+  "project": {
+    "name": "ideanick"
+  },
+  "packages": {
+    "core": {
+      "backend": {
+        "alias": "be",
+        "path": "./apps/backend"
+      },
+      "site": {
+        "alias": "si",
+        "path": "./apps/site"
+      },
+      "tools": {
+        "alias": "to",
+        "path": "./tools"
+      }
+    },
+    "modules": {
+      "glob": "./modules/*"
+    }
+  }
+}

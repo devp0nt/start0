@@ -20,6 +20,9 @@ import { Gen0WatchersManager } from "@ideanick/tools/gen0/watchersManager"
 // TODO: Кастомные суффиксы для комментариев gen0:start, gen0:end, gen0:silent
 // TODO: on plugin iside error not fail, just console log
 // TODO: sound on error
+// TODO: rootFs to fs
+// TODO: config scanLocalPlugins
+// TODO: config autoImportInstalledPlugins
 
 // TODO: generate react router
 // TODO: p command in watch, should also restart init commands of plugins, or somehow

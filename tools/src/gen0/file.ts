@@ -5,22 +5,33 @@ import { Gen0Fs } from "@ideanick/tools/gen0/fs"
 import { Gen0Logger } from "@ideanick/tools/gen0/logger"
 import type { Gen0Utils } from "@ideanick/tools/gen0/utils"
 
+// TODO: use File0 and Fs0
+
 export class Gen0File {
   static logger = Gen0Logger.create("file")
   logger = Gen0File.logger
 
-  config: Gen0Config
   path: Gen0Fs.PathParsed
   fs: Gen0Fs
 
-  private constructor({ filePath, config }: { filePath: string; config: Gen0Config }) {
-    this.config = config
-    this.fs = Gen0Fs.create({ config, filePath })
+  private constructor({ filePath, fs }: { filePath: string; fs: Gen0Fs }) {
+    this.fs = fs
     this.path = this.fs.parsePath(filePath)
   }
 
-  static create({ filePath, config }: { filePath: string; config: Gen0Config }) {
-    return new Gen0File({ filePath, config })
+  static create(props: { filePath: string; fs: Gen0Fs }): Gen0File
+  static create(props: { filePath: string; config: Gen0Config }): Gen0File
+  static create({ filePath, fs, config }: { filePath: string; fs?: Gen0Fs; config?: Gen0Config }) {
+    fs = (() => {
+      if (fs) {
+        return fs
+      }
+      if (config) {
+        return Gen0Fs.create({ config, filePath })
+      }
+      throw new Error("fs or config is required")
+    })()
+    return new Gen0File({ filePath, fs })
   }
 
   writeSync(content: string) {
@@ -39,8 +50,12 @@ export class Gen0File {
     return await fs.readFile(this.path.abs, "utf8")
   }
 
-  async importFresh() {
+  async importFresh<T = any>(): Promise<T> {
     return await import(`${this.path.abs}?t=${Date.now()}`)
+  }
+
+  async importFreshDefault<T = any>(): Promise<T> {
+    return (await import(`${this.path.abs}?t=${Date.now()}`).then((m) => m.default)) as T
   }
 
   async isContentMatch(search: Gen0Utils.Search) {

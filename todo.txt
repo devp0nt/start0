@@ -43,6 +43,7 @@ multifile schema prisma
 рекомендед вскод экстеншенс
 рекомендед хоткейс
 i0n, i0n route0
+rc0
 zod overload
 hono response type by fn output
 hono swagger

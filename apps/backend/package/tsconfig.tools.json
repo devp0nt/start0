@@ -1,0 +1,17 @@
+{
+  "extends": "../tsconfig.base.json",
+  "compilerOptions": {
+    "composite": true,
+    "rootDir": "../src",
+    "outDir": "../dist/tools"
+  },
+  "include": ["src"],
+  "references": [
+    {
+      "path": "../../../tools/package/tsconfig.tools.json"
+    },
+    {
+      "path": "../../site/package/tsconfig.tools.json"
+    }
+  ]
+}
