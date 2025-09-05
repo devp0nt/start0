@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
     "strict": true,
     "jsx": "react-jsx",
     "esModuleInterop": true,
@@ -9,27 +10,13 @@
     "verbatimModuleSyntax": true,
     "resolveJsonModule": true,
     "paths": {
-      "@/backend/*": [
-        "./apps/backend/src/*"
-      ],
-      "@/site/*": [
-        "./apps/site/src/*"
-      ],
-      "@/tools/*": [
-        "./tools/src/*"
-      ],
-      "@/prisma/*": [
-        "./modules/prisma/src/*"
-      ],
-      "@/appConfig/*": [
-        "./modules/appConfig/src/*"
-      ],
-      "@/idea/*": [
-        "./modules/idea/src/*"
-      ],
-      "@/lib/*": [
-        "./modules/lib/src/*"
-      ]
+      "@/backend/*": ["./apps/backend/src/*"],
+      "@/site/*": ["./apps/site/src/*"],
+      "@/tools/*": ["./tools/src/*"],
+      "@/prisma/*": ["./modules/prisma/src/*"],
+      "@/appConfig/*": ["./modules/appConfig/src/*"],
+      "@/idea/*": ["./modules/idea/src/*"],
+      "@/lib/*": ["./modules/lib/src/*"]
     }
   }
 }

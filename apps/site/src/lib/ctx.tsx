@@ -6,7 +6,7 @@ import {
 } from "react-router"
 import { createContext, useContext, useContextSelector } from "use-context-selector"
 import type { BackendTrpcRouter } from "@/backend/router/index.trpc"
-import { getQueryClient, trpc } from "@/site/src/lib/trpc"
+import { getQueryClient, trpc } from "@/site/lib/trpc"
 
 export namespace SiteCtx {
   export type MeUser = { id: string; name: string; email: string }

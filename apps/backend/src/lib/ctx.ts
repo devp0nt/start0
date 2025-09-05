@@ -3,7 +3,7 @@ import { Error0, e0s as e0sDefault } from "@/lib/error0.sh"
 import type { FnPropsKeys, NonFnProps } from "@/lib/lodash0.sh"
 import { Logger0 } from "@/lib/logger0.sh"
 import { Meta0 } from "@/lib/meta0.sh"
-import { Prisma0 } from "@/prisma/src/prisma.be"
+import { Prisma0 } from "@/prisma/prisma.be"
 
 // TODO: private constructor
 

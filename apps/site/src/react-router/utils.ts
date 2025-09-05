@@ -2,8 +2,8 @@ import { type DehydratedState, dehydrate, hydrate, type QueryClient } from "@tan
 import merge from "deepmerge"
 import { type LoaderFunctionArgs, useMatches } from "react-router"
 import { Error0 } from "@/lib/error0.sh"
-import { SiteCtx } from "@/site/src/lib/ctx"
-import { getQueryClient } from "@/site/src/lib/trpc"
+import { SiteCtx } from "@/site/lib/ctx"
+import { getQueryClient } from "@/site/lib/trpc"
 
 export namespace RR0 {
   export const createLoader = <TOutput>(fn: (props: any) => Promise<TOutput>) => {

@@ -4,8 +4,8 @@ import { createTRPCContext, createTRPCOptionsProxy, type TRPCQueryOptions } from
 import { cache, useState } from "react"
 import superjson from "superjson"
 import type { BackendTrpcRouter } from "@/backend/router/index.trpc"
+import { env } from "@/site/lib/env.self"
 import { RR0 } from "@/site/react-router/utils"
-import { env } from "@/site/src/lib/env.self"
 
 const makeQueryClient = () => {
   return new QueryClient({

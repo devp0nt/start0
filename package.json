@@ -41,9 +41,8 @@
   },
   "workspaces": {
     "packages": [
-      "@/*",
-      "modules",
-      "tools"
+      "modules/*",
+      "apps/*"
     ],
     "catalog": {
       "isbot": "^5.1.27",

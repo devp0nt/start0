@@ -108,6 +108,7 @@ export class Mono0RootTsconfig {
     }
     return {
       extends: this.rootBaseTsconfig.file0.relToDir(this.file0),
+      include: ["**/src"],
       files: [],
       references,
     }

@@ -5,8 +5,7 @@ import type { e0s as e0sDefault } from "@/lib/error0.sh"
 import type { FnPropsKeys, NonFnProps } from "@/lib/lodash0.sh"
 import type { Logger0 } from "@/lib/logger0.sh"
 import type { Meta0 } from "@/lib/meta0.sh"
-import type { Prisma0 } from "@/prisma/src/prisma.be"
-
+import type { Prisma0 } from "@/prisma/prisma.be"
 // TODO: private constructor
 
 export class HonoReqCtx {

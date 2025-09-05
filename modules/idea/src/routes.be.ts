@@ -1,5 +1,5 @@
 import { BackendTrpc } from "@/backend/lib/trpc"
-import { zGetIdeaInput } from "@/idea/src/routes.input.sh"
+import { zGetIdeaInput } from "@/idea/routes.input.sh"
 import { Error0 } from "@/lib/error0.sh"
 
 export const getIdeasTrpcRoute = BackendTrpc.baseProcedure().query(async ({ ctx }) => {
