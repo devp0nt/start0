@@ -1,1 +1,20 @@
-{}
+{
+  "compilerOptions": {
+    "strict": true,
+    "jsx": "react-jsx",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "verbatimModuleSyntax": true,
+    "paths": {
+      "@ideanick/backend/*": ["./apps/backend/src/*"],
+      "@ideanick/site/*": ["./apps/site/src/*"],
+      "@ideanick/modules/lib/*": ["./modules/lib/src/*"],
+      "@ideanick/modules/prisma/*": ["./modules/prisma/src/*"],
+      "@ideanick/modules/idea/*": ["./modules/idea/src/*"],
+      "@ideanick/modules/appConfig/*": ["./modules/appConfig/src/*"],
+      "@ideanick/tools/*": ["./tools/src/*"]
+    }
+  }
+}

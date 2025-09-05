@@ -59,7 +59,7 @@ export class Gen0ClientProcess {
         `🔴 ${client.file.path.rel} processed with errors in ${clientProcess.finishedAt.getTime() - clientProcess.startedAt.getTime()}ms`,
       )
     } else {
-      const circle = dryRun ? "🟡" : "🟢"
+      const circle = dryRun ? "⚪️" : "🟢"
       const how = dryRun ? "dry run" : "processed"
       const message = `${circle} ${client.file.path.rel} ${how} in ${clientProcess.finishedAt.getTime() - clientProcess.startedAt.getTime()}ms`
       if (dryRun) {

@@ -1,9 +1,0 @@
-{
-  "name": "@ideanick/tools",
-  "private": true,
-  "type": "module",
-  "dependencies": {},
-  "scripts": {
-    "types": "tsc --noEmit"
-  }
-}
