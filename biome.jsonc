@@ -27,7 +27,8 @@
     "enabled": true,
     "rules": {
       "nursery": {
-        "noFloatingPromises": "error"
+        "noFloatingPromises": "error",
+        "noMisusedPromises": "error"
       },
       "recommended": true,
       "style": {
