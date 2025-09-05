@@ -182,13 +182,19 @@ export class Mono0RootBaseTsconfig {
     if (isMatch(prevValue?.compilerOptions?.paths, value?.compilerOptions?.paths)) {
       return
     }
+    const prevValueCustomPaths = Object.fromEntries(
+      Object.entries(prevValue.compilerOptions?.paths || {}).filter(([key]) => !key.startsWith("@/")),
+    )
     await this.file0.write(
       JSON.stringify(
         {
           ...prevValue,
           compilerOptions: {
             ...prevValue.compilerOptions,
-            paths: value.compilerOptions.paths,
+            paths: {
+              ...prevValueCustomPaths,
+              ...value.compilerOptions.paths,
+            },
           },
         },
         null,
