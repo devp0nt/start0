@@ -1,13 +1,11 @@
 {
-  "extends": "/Users/iserdmi/cc/projects/svagatron/apps/backend/tsconfig.base.json",
+  "extends": "../../apps/backend/tsconfig.base.json",
   "compilerOptions": {
     "composite": true,
     "rootDir": "../src",
     "outDir": "../dist/backend"
   },
-  "include": [
-    "src"
-  ],
+  "include": ["src"],
   "references": [
     {
       "path": "../../apps/backend/package/tsconfig.backend.json"

@@ -1,5 +1,5 @@
 {
-  "extends": "../../../apps/site/tsconfig.site.json",
+  "extends": "../../../apps/site/tsconfig.base.json",
   "compilerOptions": {
     "composite": true,
     "rootDir": "../src",
@@ -11,10 +11,10 @@
       "path": "../../../apps/site/package/tsconfig.site.json"
     },
     {
-      "path": "../../../apps/backend/package/tsconfig.backend.json"
+      "path": "../../../apps/backend/package/tsconfig.site.json"
     },
     {
-      "path": "../../../tools/package/tsconfig.tools.json"
+      "path": "../../../tools/package/tsconfig.site.json"
     },
     {
       "path": "../../prisma/package/tsconfig.site.json"

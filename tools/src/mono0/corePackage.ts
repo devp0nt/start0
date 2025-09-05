@@ -37,13 +37,13 @@ export class Mono0CorePackage {
     rootBaseTsconfigPath: string
   }) {
     const selfDirFs0 = config.fs0.create({ cwd: definition.path })
+    const packageDirFs0 = selfDirFs0.create({ cwd: "./package" })
     const baseTsconfig = Mono0Tsconfig.create({
       corePackageName: definition.name,
-      packageDirFs0: selfDirFs0,
+      packageDirFs0,
       rootBaseTsconfigPath,
-      type: "local",
+      type: "base",
     })
-    const packageDirFs0 = selfDirFs0.create({ cwd: "./package" })
     const localTsconfig = Mono0Tsconfig.create({
       corePackageName: definition.name,
       packageDirFs0,
@@ -77,7 +77,7 @@ export class Mono0CorePackage {
       }
       this.addExternalTsconfig(
         Mono0Tsconfig.create({
-          corePackageName: corePackage.name,
+          corePackageName: this.name,
           packageDirFs0: corePackage.packageDirFs0,
           rootBaseTsconfigPath,
           type: "external",

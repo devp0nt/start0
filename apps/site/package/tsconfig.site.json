@@ -1,5 +1,5 @@
 {
-  "extends": "../tsconfig.site.json",
+  "extends": "../tsconfig.base.json",
   "compilerOptions": {
     "composite": true,
     "rootDir": "../src",
@@ -8,13 +8,10 @@
   "include": ["src"],
   "references": [
     {
-      "path": "tsconfig.site.json"
+      "path": "../../backend/package/tsconfig.site.json"
     },
     {
-      "path": "../../backend/package/tsconfig.backend.json"
-    },
-    {
-      "path": "../../../tools/package/tsconfig.tools.json"
+      "path": "../../../tools/package/tsconfig.site.json"
     },
     {
       "path": "../../../modules/prisma/package/tsconfig.site.json"

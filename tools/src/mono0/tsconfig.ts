@@ -33,7 +33,13 @@ export class Mono0Tsconfig {
     rootBaseTsconfigPath: string
     type: "local" | "external" | "base"
   }) {
-    const file0 = packageDirFs0.createFile0(`tsconfig.${corePackageName}.json`)
+    const file0 = (() => {
+      if (type === "base") {
+        return packageDirFs0.createFile0("../tsconfig.base.json")
+      } else {
+        return packageDirFs0.createFile0(`./tsconfig.${corePackageName}.json`)
+      }
+    })()
     return new Mono0Tsconfig({ file0, corePackageName, rootBaseTsconfigPath, type })
   }
 
