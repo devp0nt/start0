@@ -6,7 +6,7 @@
 
 generator client {
   provider = "prisma-client"
-  output   = "./generated.be/prisma"
+  output   = "./src/generated.be/prisma"
 }
 
 generator json {
@@ -16,8 +16,8 @@ generator json {
 }
 
 generator custom {
-  provider = "bun ./prisma/generator.be.ts"
-  output   = "./generated.be/prisma0"
+  provider = "bun ./prisma/src/generator.be.ts"
+  output   = "./src/generated.be/prisma0"
 }
 
 datasource db {
