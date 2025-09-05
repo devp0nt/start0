@@ -1,0 +1,19 @@
+{
+  "extends": "../tsconfig.base.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "composite": true,
+    "rootDir": "./src",
+    "outDir": "./dist/tools",
+    "paths": {
+      "@/backend/*": ["../../apps/backend/src/*"],
+      "@/site/*": ["../../apps/site/src/*"],
+      "@/tools/*": ["./src/*"],
+      "@/prisma/*": ["../../modules/prisma/src/*"],
+      "@/appConfig/*": ["../../modules/appConfig/src/*"],
+      "@/idea/*": ["../../modules/idea/src/*"],
+      "@/lib/*": ["../../modules/lib/src/*"]
+    }
+  },
+  "include": ["src"]
+}

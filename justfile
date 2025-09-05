@@ -1,6 +1,6 @@
 alias be := backend
 alias si := site
-alias mo := modules
+alias to := tools
 alias pmd := prisma-migrate-dev
 alias pmt := prisma-migrate-test
 alias pgc := prisma-generate-client
@@ -15,8 +15,8 @@ backend *ARGS:
 site *ARGS:
   cd ./apps/site && bun run {{ARGS}}
 
-modules *ARGS:
-  cd ./modules && bun run {{ARGS}}
+tools *ARGS:
+  cd ./tools && bun run {{ARGS}}
 
 # mega dev command
 

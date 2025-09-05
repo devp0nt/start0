@@ -1,4 +1,3 @@
-import nodePath from "node:path"
 import { isEqual, isMatch } from "lodash"
 import { File0, type Fs0 } from "@/tools/fs0"
 import type { Mono0CorePackage } from "@/tools/mono0/corePackage"
@@ -76,16 +75,20 @@ export class Mono0Tsconfig {
 
 export class Mono0RootTsconfig {
   file0: File0
+  rootBaseTsconfig: Mono0RootBaseTsconfig
 
   private constructor(input: {
     file0: File0
+    rootBaseTsconfig: Mono0RootBaseTsconfig
   }) {
     this.file0 = input.file0
+    this.rootBaseTsconfig = input.rootBaseTsconfig
   }
 
-  static create({ filePath }: { filePath: string }) {
+  static create({ filePath, rootBaseTsconfig }: { filePath: string; rootBaseTsconfig: Mono0RootBaseTsconfig }) {
     return new Mono0RootTsconfig({
       file0: File0.create({ filePath }),
+      rootBaseTsconfig,
     })
   }
 
@@ -101,6 +104,7 @@ export class Mono0RootTsconfig {
       references.push({ path: corePackage.baseTsconfig.file0.relToDir(this.file0) })
     }
     return {
+      extends: this.rootBaseTsconfig.file0.relToDir(this.file0),
       files: [],
       references,
     }
@@ -118,15 +122,7 @@ export class Mono0RootTsconfig {
     if (isEqual(prevValue, value)) {
       return
     }
-    await this.file0.write(
-      JSON.stringify(
-        {
-          value,
-        },
-        null,
-        2,
-      ),
-    )
+    await this.file0.write(JSON.stringify(value, null, 2))
   }
 }
 
@@ -152,16 +148,16 @@ export class Mono0RootBaseTsconfig {
     corePackages: Mono0CorePackage[]
     modulesPackages: Mono0ModulePackage[]
   }) {
-    const paths: Record<string, string> = {}
+    const paths: Record<string, string[]> = {}
     for (const corePackage of corePackages) {
-      paths[`@/${corePackage.name}/*`] = this.file0.fs0.toRel(
-        this.file0.fs0.resolve(corePackage.selfDirFs0.cwd, "src/*"),
-      )
+      paths[`@/${corePackage.name}/*`] = [
+        this.file0.fs0.toRel(this.file0.fs0.resolve(corePackage.selfDirFs0.cwd, "src/*")),
+      ]
     }
     for (const modulePackage of modulesPackages) {
-      paths[`@/${modulePackage.name}/*`] = this.file0.fs0.toRel(
-        this.file0.fs0.resolve(modulePackage.selfDirFs0.cwd, "src/*"),
-      )
+      paths[`@/${modulePackage.name}/*`] = [
+        this.file0.fs0.toRel(this.file0.fs0.resolve(modulePackage.selfDirFs0.cwd, "src/*")),
+      ]
     }
     return {
       compilerOptions: {

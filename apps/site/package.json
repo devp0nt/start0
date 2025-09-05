@@ -6,7 +6,7 @@
     "build": "cross-env NODE_ENV=production react-router build",
     "dev": "bun run --bun vite",
     "start": "cross-env NODE_ENV=production bun ./dist/server/index.js",
-    "types": "react-router typegen && tsc"
+    "types": "react-router typegen && tsc -p ./package/tsconfig.site.json"
   },
   "dependencies": {
     "@react-router/node": "catalog:",

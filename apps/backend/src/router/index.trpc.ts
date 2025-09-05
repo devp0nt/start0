@@ -11,10 +11,10 @@ import { pingTrpcRoute } from "./ping/route.trpc.js"
 export namespace BackendTrpcRouter {
   export const trpcRouter = BackendTrpc.createTRPCRouter({
     // @gen0:start $.imports.map(im => print(`${im.cutted}: ${im.name},`))
-    getAppConfig: getAppConfigTrpcRoute,
-    getIdeas: getIdeasTrpcRoute,
-    getIdea: getIdeaTrpcRoute,
-    ping: pingTrpcRoute,
+getAppConfig: getAppConfigTrpcRoute,
+getIdeas: getIdeasTrpcRoute,
+getIdea: getIdeaTrpcRoute,
+ping: pingTrpcRoute,
     // @gen0:end
   })
 

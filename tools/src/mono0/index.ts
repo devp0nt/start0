@@ -38,8 +38,8 @@ export class Mono0 {
 
   static async init() {
     const config = await Mono0Config.get()
-    const rootTsconfig = Mono0RootTsconfig.create({ filePath: config.fs0.resolve("./tsconfig.json") })
     const rootBaseTsconfig = Mono0RootBaseTsconfig.create({ filePath: config.fs0.resolve("./tsconfig.base.json") })
+    const rootTsconfig = Mono0RootTsconfig.create({ filePath: config.fs0.resolve("./tsconfig.json"), rootBaseTsconfig })
 
     const corePackages: Mono0CorePackage[] = []
     for (const corePackageDefinition of config.corePackagesDefinitions) {

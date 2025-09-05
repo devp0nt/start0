@@ -1,16 +1,15 @@
 {
-  "value": {
-    "files": [],
-    "references": [
-      {
-        "path": "./apps/backend/package/tsconfig.backend.json"
-      },
-      {
-        "path": "./apps/site/package/tsconfig.site.json"
-      },
-      {
-        "path": "./tools/package/tsconfig.tools.json"
-      }
-    ]
-  }
+  "extends": "./tsconfig.base.json",
+  "files": [],
+  "references": [
+    {
+      "path": "./apps/backend/package/tsconfig.backend.json"
+    },
+    {
+      "path": "./apps/site/package/tsconfig.site.json"
+    },
+    {
+      "path": "./tools/package/tsconfig.tools.json"
+    }
+  ]
 }
