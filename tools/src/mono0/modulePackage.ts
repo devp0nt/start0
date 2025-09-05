@@ -17,25 +17,15 @@ export class Mono0ModulePackage {
     this.packageDirFs0 = input.packageDirFs0
   }
 
-  static create({
-    modulePath,
-    corePackages,
-    rootBaseTsconfigPath,
-  }: {
-    modulePath: string
-    corePackages: Mono0CorePackage[]
-    rootBaseTsconfigPath: string
-  }) {
+  static create({ modulePath, corePackages }: { modulePath: string; corePackages: Mono0CorePackage[] }) {
     const selfDirFs0 = Fs0.create({ cwd: modulePath })
     const name = selfDirFs0.basename(modulePath)
     const packageDirFs0 = selfDirFs0.create({ cwd: "./package" })
     for (const corePackage of corePackages) {
       corePackage.addTsconfig(
         Mono0Tsconfig.create({
-          rootBaseTsconfigPath,
           packageDirFs0,
           corePackageName: corePackage.name,
-          type: "general",
         }),
       )
     }

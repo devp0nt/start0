@@ -9,13 +9,13 @@
     "verbatimModuleSyntax": true,
     "resolveJsonModule": true,
     "paths": {
-      "@ideanick/backend/*": ["./apps/backend/src/*"],
-      "@ideanick/site/*": ["./apps/site/src/*"],
-      "@ideanick/modules/lib/*": ["./modules/lib/src/*"],
-      "@ideanick/modules/prisma/*": ["./modules/prisma/src/*"],
-      "@ideanick/modules/idea/*": ["./modules/idea/src/*"],
-      "@ideanick/modules/appConfig/*": ["./modules/appConfig/src/*"],
-      "@ideanick/tools/*": ["./tools/src/*"]
+      "@/backend/*": "./apps/backend/src/*",
+      "@/site/*": "./apps/site/src/*",
+      "@/tools/*": "./tools/src/*",
+      "@/prisma/*": "./modules/prisma/src/*",
+      "@/appConfig/*": "./modules/appConfig/src/*",
+      "@/idea/*": "./modules/idea/src/*",
+      "@/lib/*": "./modules/lib/src/*"
     }
   }
 }

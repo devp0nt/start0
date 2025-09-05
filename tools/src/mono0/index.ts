@@ -1,12 +1,15 @@
 import { Mono0Config } from "@ideanick/tools/mono0/config"
 import { Mono0CorePackage } from "@ideanick/tools/mono0/corePackage"
 import { Mono0ModulePackage } from "@ideanick/tools/mono0/modulePackage"
+import { Mono0RootBaseTsconfig } from "@ideanick/tools/mono0/tsconfig"
 
-// TODO: update base tsconfig to extend from root baseconfig
+// TODO: root base tsconfig with paths
+// TODO: root tsconfig with references
 // TODO: filter by alias and name in files
 // TODO: remove previous tsconfig.json
 
 // TODO: package.json
+// TODO: add readfile json with comments, not JSON.parse
 
 export class Mono0 {
   static mono0: Mono0
@@ -14,31 +17,32 @@ export class Mono0 {
   config: Mono0Config
   corePackages: Mono0CorePackage[]
   modulesPackages: Mono0ModulePackage[]
-  rootBaseTsconfigPath: string
+  rootBaseTsconfig: Mono0RootBaseTsconfig
 
   private constructor(input: {
     config: Mono0Config
     corePackages: Mono0CorePackage[]
     modulesPackages: Mono0ModulePackage[]
-    rootBaseTsconfigPath: string
+    rootBaseTsconfig: Mono0RootBaseTsconfig
   }) {
     this.config = input.config
     this.corePackages = input.corePackages
     this.modulesPackages = input.modulesPackages
-    this.rootBaseTsconfigPath = input.rootBaseTsconfigPath
+    this.rootBaseTsconfig = input.rootBaseTsconfig
     Mono0.mono0 = this
   }
 
   static async init() {
     const config = await Mono0Config.get()
-    const rootBaseTsconfigPath = config.fs0.resolve("./tsconfig.base.json")
+    const rootBaseTsconfig = Mono0RootBaseTsconfig.create({ filePath: config.fs0.resolve("./tsconfig.base.json") })
+
     const corePackages: Mono0CorePackage[] = []
     for (const corePackageDefinition of config.corePackagesDefinitions) {
-      const corePackage = Mono0CorePackage.create({ config, definition: corePackageDefinition, rootBaseTsconfigPath })
+      const corePackage = Mono0CorePackage.create({ config, definition: corePackageDefinition, rootBaseTsconfig })
       corePackages.push(corePackage)
     }
     for (const corePackage of corePackages) {
-      corePackage.addTsconfigsByCorePackages({ corePackages, rootBaseTsconfigPath })
+      corePackage.addTsconfigsByCorePackages({ corePackages })
     }
 
     const modulesPackages: Mono0ModulePackage[] = []
@@ -47,17 +51,18 @@ export class Mono0 {
       const modulePackage = Mono0ModulePackage.create({
         modulePath,
         corePackages,
-        rootBaseTsconfigPath,
       })
       modulesPackages.push(modulePackage)
     }
-    return new Mono0({ config, corePackages, modulesPackages, rootBaseTsconfigPath })
+
+    return new Mono0({ config, corePackages, modulesPackages, rootBaseTsconfig })
   }
 
   static async write() {
     const mono0 = Mono0.mono0 || (await Mono0.init())
+    await mono0.rootBaseTsconfig.write({ corePackages: mono0.corePackages, modulesPackages: mono0.modulesPackages })
     for (const corePackage of mono0.corePackages) {
-      await corePackage.baseTsconfig.write({ corePackages: mono0.corePackages, modulesPackages: mono0.modulesPackages })
+      await corePackage.coreBaseTsconfig.write()
       for (const tsconfig of corePackage.tsconfigs) {
         await tsconfig.write({ corePackages: mono0.corePackages, modulesPackages: mono0.modulesPackages })
       }

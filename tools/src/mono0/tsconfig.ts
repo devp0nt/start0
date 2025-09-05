@@ -1,5 +1,5 @@
 import nodePath from "node:path"
-import type { File0, Fs0 } from "@ideanick/tools/fs0"
+import { File0, type Fs0 } from "@ideanick/tools/fs0"
 import type { Mono0CorePackage } from "@ideanick/tools/mono0/corePackage"
 import type { Mono0ModulePackage } from "@ideanick/tools/mono0/modulePackage"
 import { isEqual, isMatch } from "lodash"
@@ -7,40 +7,20 @@ import { isEqual, isMatch } from "lodash"
 export class Mono0Tsconfig {
   file0: File0
   corePackageName: string
-  rootBaseTsconfigPath: string
-  type: "general" | "base"
 
   private constructor(input: {
     file0: File0
     corePackageName: string
-    rootBaseTsconfigPath: string
-    type: "general" | "base"
   }) {
     this.file0 = input.file0
     this.corePackageName = input.corePackageName
-    this.rootBaseTsconfigPath = input.rootBaseTsconfigPath
-    this.type = input.type
   }
 
-  static create({
-    packageDirFs0,
-    corePackageName,
-    rootBaseTsconfigPath,
-    type,
-  }: {
-    packageDirFs0: Fs0
-    corePackageName: string
-    rootBaseTsconfigPath: string
-    type: "general" | "base"
-  }) {
-    const file0 = (() => {
-      if (type === "base") {
-        return packageDirFs0.createFile0("../tsconfig.base.json")
-      } else {
-        return packageDirFs0.createFile0(`./tsconfig.${corePackageName}.json`)
-      }
-    })()
-    return new Mono0Tsconfig({ file0, corePackageName, rootBaseTsconfigPath, type })
+  static create({ packageDirFs0, corePackageName }: { packageDirFs0: Fs0; corePackageName: string }) {
+    return new Mono0Tsconfig({
+      file0: packageDirFs0.createFile0(`./tsconfig.${corePackageName}.json`),
+      corePackageName,
+    })
   }
 
   getValue({
@@ -54,32 +34,27 @@ export class Mono0Tsconfig {
     if (!corePackage) {
       throw new Error(`Core package "${this.corePackageName}" not found`)
     }
+    const isSelfBaseTsconfig = corePackage.baseTsconfig.file0.path.abs === this.file0.path.abs
 
-    if (this.type === "general") {
-      return {
-        extends: nodePath.relative(this.file0.path.dir, corePackage.baseTsconfig.file0.path.abs),
-        compilerOptions: {
-          composite: true,
-          rootDir: "../src",
-          outDir: `../dist/${corePackage.name}`,
-        },
-        include: ["src"],
-        references: [
-          ...corePackage.tsconfigs
-            .filter((t) => t.file0.path.abs !== this.file0.path.abs)
-            .map((t) => {
-              return {
-                path: nodePath.relative(this.file0.path.dir, t.file0.path.abs),
-              }
-            }),
-        ],
-      }
-    } else if (this.type === "base") {
-      return {
-        extends: nodePath.relative(this.file0.path.dir, this.rootBaseTsconfigPath),
-      }
-    } else {
-      throw new Error(`Unknown state"`)
+    return {
+      extends: isSelfBaseTsconfig
+        ? this.file0.fs0.toRel(corePackage.coreBaseTsconfig.file0.path.abs)
+        : this.file0.fs0.toRel(corePackage.baseTsconfig.file0.path.abs),
+      compilerOptions: {
+        composite: true,
+        rootDir: "../src",
+        outDir: `../dist/${corePackage.name}`,
+      },
+      include: ["src"],
+      references: [
+        ...corePackage.tsconfigs
+          .filter((t) => t.file0.path.abs !== this.file0.path.abs)
+          .map((t) => {
+            return {
+              path: this.file0.fs0.toRel(t.file0.path.abs),
+            }
+          }),
+      ],
     }
   }
 
@@ -92,16 +67,124 @@ export class Mono0Tsconfig {
   }) {
     const value = this.getValue({ corePackages, modulesPackages })
     const prevValue = JSON.parse(await this.file0.read())
-    if (this.type === "base") {
-      if (isMatch(value, prevValue)) {
-        return
-      }
-      await this.file0.write(JSON.stringify({ ...prevValue, ...value }, null, 2))
-    } else {
-      if (isEqual(prevValue, value)) {
-        return
-      }
-      await this.file0.write(JSON.stringify(value, null, 2))
+    if (isEqual(prevValue, value)) {
+      return
     }
+    await this.file0.write(JSON.stringify(value, null, 2))
+  }
+}
+
+export class Mono0RootBaseTsconfig {
+  file0: File0
+
+  private constructor(input: {
+    file0: File0
+  }) {
+    this.file0 = input.file0
+  }
+
+  static create({ filePath }: { filePath: string }) {
+    return new Mono0RootBaseTsconfig({
+      file0: File0.create({ filePath }),
+    })
+  }
+
+  getPartialValue({
+    corePackages,
+    modulesPackages,
+  }: {
+    corePackages: Mono0CorePackage[]
+    modulesPackages: Mono0ModulePackage[]
+  }) {
+    const paths: Record<string, string> = {}
+    for (const corePackage of corePackages) {
+      paths[`@/${corePackage.name}/*`] = this.file0.fs0.toRel(
+        this.file0.fs0.resolve(corePackage.selfDirFs0.cwd, "src/*"),
+      )
+    }
+    for (const modulePackage of modulesPackages) {
+      paths[`@/${modulePackage.name}/*`] = this.file0.fs0.toRel(
+        this.file0.fs0.resolve(modulePackage.selfDirFs0.cwd, "src/*"),
+      )
+    }
+    return {
+      compilerOptions: {
+        paths,
+      },
+    }
+  }
+
+  async write({
+    corePackages,
+    modulesPackages,
+  }: {
+    corePackages: Mono0CorePackage[]
+    modulesPackages: Mono0ModulePackage[]
+  }) {
+    const value = this.getPartialValue({ corePackages, modulesPackages })
+    const prevValue = JSON.parse(await this.file0.read())
+    if (isMatch(prevValue?.compilerOptions?.paths, value?.compilerOptions?.paths)) {
+      return
+    }
+    await this.file0.write(
+      JSON.stringify(
+        {
+          ...prevValue,
+          compilerOptions: {
+            ...prevValue.compilerOptions,
+            paths: value.compilerOptions.paths,
+          },
+        },
+        null,
+        2,
+      ),
+    )
+  }
+}
+
+export class Mono0CoreBaseTsconfig {
+  file0: File0
+  corePackageName: string
+  rootBaseTsconfig: Mono0RootBaseTsconfig
+
+  private constructor(input: {
+    file0: File0
+    corePackageName: string
+    rootBaseTsconfig: Mono0RootBaseTsconfig
+  }) {
+    this.file0 = input.file0
+    this.corePackageName = input.corePackageName
+    this.rootBaseTsconfig = input.rootBaseTsconfig
+  }
+
+  static create({
+    selfDirFs0,
+    rootBaseTsconfig,
+    corePackageName,
+  }: {
+    selfDirFs0: Fs0
+    rootBaseTsconfig: Mono0RootBaseTsconfig
+    corePackageName: string
+  }) {
+    return new Mono0CoreBaseTsconfig({
+      file0: selfDirFs0.createFile0(`./tsconfig.base.json`),
+      corePackageName,
+      rootBaseTsconfig,
+    })
+  }
+
+  getPartialValue() {
+    return {
+      extends: this.file0.fs0.toRel(this.rootBaseTsconfig.file0.path.abs),
+    }
+  }
+
+  async write() {
+    const value = this.getPartialValue()
+    const prevValue = JSON.parse(await this.file0.read())
+    if (isMatch(prevValue, value)) {
+      return
+    }
+    await this.file0.write(JSON.stringify({ ...prevValue, ...value }, null, 2))
   }
 }
