@@ -3,10 +3,11 @@ import { Mono0CorePackage } from "@ideanick/tools/mono0/corePackage"
 import { Mono0ModulePackage } from "@ideanick/tools/mono0/modulePackage"
 import { Mono0RootBaseTsconfig } from "@ideanick/tools/mono0/tsconfig"
 
-// TODO: root base tsconfig with paths
 // TODO: root tsconfig with references
 // TODO: filter by alias and name in files
 // TODO: remove previous tsconfig.json
+// TODO: rename old files
+// TODO: fix gen0 watcher
 
 // TODO: package.json
 // TODO: add readfile json with comments, not JSON.parse
