@@ -2,34 +2,39 @@ import nodePath from "node:path"
 import type { File0, Fs0 } from "@ideanick/tools/fs0"
 import type { Mono0CorePackage } from "@ideanick/tools/mono0/corePackage"
 import type { Mono0ModulePackage } from "@ideanick/tools/mono0/modulePackage"
-import { isEqual } from "lodash"
+import { isEqual, isMatch } from "lodash"
 
 export class Mono0Tsconfig {
   file0: File0
   corePackageName: string
-  type: "local" | "external"
+  rootBaseTsconfigPath: string
+  type: "local" | "external" | "base"
 
   private constructor(input: {
     file0: File0
     corePackageName: string
-    type: "local" | "external"
+    rootBaseTsconfigPath: string
+    type: "local" | "external" | "base"
   }) {
     this.file0 = input.file0
     this.corePackageName = input.corePackageName
+    this.rootBaseTsconfigPath = input.rootBaseTsconfigPath
     this.type = input.type
   }
 
   static create({
     packageDirFs0,
     corePackageName,
+    rootBaseTsconfigPath,
     type,
   }: {
     packageDirFs0: Fs0
     corePackageName: string
-    type: "local" | "external"
+    rootBaseTsconfigPath: string
+    type: "local" | "external" | "base"
   }) {
     const file0 = packageDirFs0.createFile0(`tsconfig.${corePackageName}.json`)
-    return new Mono0Tsconfig({ file0, corePackageName, type })
+    return new Mono0Tsconfig({ file0, corePackageName, rootBaseTsconfigPath, type })
   }
 
   getValue({
@@ -46,7 +51,7 @@ export class Mono0Tsconfig {
 
     if (this.type === "local") {
       return {
-        extends: nodePath.relative(this.file0.path.dir, corePackage.baseTsconfigPath),
+        extends: nodePath.relative(this.file0.path.dir, corePackage.baseTsconfig.file0.path.abs),
         compilerOptions: {
           composite: true,
           rootDir: "../src",
@@ -63,7 +68,7 @@ export class Mono0Tsconfig {
       }
     } else if (this.type === "external") {
       return {
-        extends: nodePath.relative(this.file0.path.dir, corePackage.baseTsconfigPath),
+        extends: nodePath.relative(this.file0.path.dir, corePackage.baseTsconfig.file0.path.abs),
         compilerOptions: {
           composite: true,
           rootDir: "../src",
@@ -81,6 +86,10 @@ export class Mono0Tsconfig {
             }),
         ],
       }
+    } else if (this.type === "base") {
+      return {
+        extends: nodePath.relative(this.file0.path.dir, this.rootBaseTsconfigPath),
+      }
     } else {
       throw new Error(`Unknown state"`)
     }
@@ -95,9 +104,16 @@ export class Mono0Tsconfig {
   }) {
     const value = this.getValue({ corePackages, modulesPackages })
     const prevValue = JSON.parse(await this.file0.read())
-    if (isEqual(prevValue, value)) {
-      return
+    if (this.type === "base") {
+      if (isMatch(value, prevValue)) {
+        return
+      }
+      await this.file0.write(JSON.stringify({ ...prevValue, ...value }, null, 2))
+    } else {
+      if (isEqual(prevValue, value)) {
+        return
+      }
+      await this.file0.write(JSON.stringify(value, null, 2))
     }
-    await this.file0.write(JSON.stringify(value, null, 2))
   }
 }

@@ -7,7 +7,7 @@ export class Mono0CorePackage {
   alias: string
   selfDirFs0: Fs0
   packageDirFs0: Fs0
-  baseTsconfigPath: string
+  baseTsconfig: Mono0Tsconfig
   localTsconfig: Mono0Tsconfig
   externalTsconfigs: Array<Mono0Tsconfig> = []
 
@@ -15,7 +15,7 @@ export class Mono0CorePackage {
     name: string
     alias: string
     selfDirFs0: Fs0
-    baseTsconfigPath: string
+    baseTsconfig: Mono0Tsconfig
     localTsconfig: Mono0Tsconfig
     packageDirFs0: Fs0
   }) {
@@ -23,17 +23,31 @@ export class Mono0CorePackage {
     this.alias = input.alias
     this.selfDirFs0 = input.selfDirFs0
     this.packageDirFs0 = input.packageDirFs0
-    this.baseTsconfigPath = input.baseTsconfigPath
+    this.baseTsconfig = input.baseTsconfig
     this.localTsconfig = input.localTsconfig
   }
 
-  static create({ config, definition }: { config: Mono0Config; definition: Mono0Config.CorePackageDefinition }) {
+  static create({
+    config,
+    definition,
+    rootBaseTsconfigPath,
+  }: {
+    config: Mono0Config
+    definition: Mono0Config.CorePackageDefinition
+    rootBaseTsconfigPath: string
+  }) {
     const selfDirFs0 = config.fs0.create({ cwd: definition.path })
-    const baseTsconfigPath = selfDirFs0.resolve("./tsconfig.base.json")
+    const baseTsconfig = Mono0Tsconfig.create({
+      corePackageName: definition.name,
+      packageDirFs0: selfDirFs0,
+      rootBaseTsconfigPath,
+      type: "local",
+    })
     const packageDirFs0 = selfDirFs0.create({ cwd: "./package" })
     const localTsconfig = Mono0Tsconfig.create({
       corePackageName: definition.name,
       packageDirFs0,
+      rootBaseTsconfigPath,
       type: "local",
     })
     return new Mono0CorePackage({
@@ -42,7 +56,7 @@ export class Mono0CorePackage {
       selfDirFs0,
       packageDirFs0,
       localTsconfig,
-      baseTsconfigPath,
+      baseTsconfig,
     })
   }
 
@@ -50,7 +64,13 @@ export class Mono0CorePackage {
     this.externalTsconfigs.push(externalTsconfig)
   }
 
-  createCoreExternalTsconfigs({ corePackages }: { corePackages: Mono0CorePackage[] }) {
+  createCoreExternalTsconfigs({
+    corePackages,
+    rootBaseTsconfigPath,
+  }: {
+    corePackages: Mono0CorePackage[]
+    rootBaseTsconfigPath: string
+  }) {
     for (const corePackage of corePackages) {
       if (corePackage.name === this.name) {
         continue
@@ -59,6 +79,7 @@ export class Mono0CorePackage {
         Mono0Tsconfig.create({
           corePackageName: corePackage.name,
           packageDirFs0: corePackage.packageDirFs0,
+          rootBaseTsconfigPath,
           type: "external",
         }),
       )

@@ -1,5 +1,5 @@
 {
-  "extends": "../../../apps/backend/tsconfig.base.json",
+  "extends": "../../../apps/backend/tsconfig.backend.json",
   "compilerOptions": {
     "composite": true,
     "rootDir": "../src",
