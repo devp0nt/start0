@@ -101,7 +101,10 @@ export class Mono0RootTsconfig {
   }) {
     const references = []
     for (const corePackage of corePackages) {
-      references.push({ path: corePackage.baseTsconfig.file0.relToDir(this.file0) })
+      // references.push({ path: corePackage.baseTsconfig.file0.relToDir(this.file0) })
+      for (const tsconfig of corePackage.tsconfigs) {
+        references.push({ path: tsconfig.file0.relToDir(this.file0) })
+      }
     }
     return {
       extends: this.rootBaseTsconfig.file0.relToDir(this.file0),

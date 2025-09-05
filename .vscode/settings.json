@@ -24,5 +24,6 @@
   },
   "typescript.preferences.includePackageJsonAutoImports": "on",
   "typescript.suggest.autoImports": true,
-  "typescript.preferences.includeCompletionsForModuleExports": true
+  "typescript.preferences.includeCompletionsForModuleExports": true,
+  "typescript.tsdk": "node_modules/typescript/lib"
 }
