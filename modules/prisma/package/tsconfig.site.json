@@ -5,7 +5,9 @@
     "rootDir": "../src",
     "outDir": "../dist/site"
   },
-  "include": ["src"],
+  "include": [
+    "src"
+  ],
   "references": [
     {
       "path": "../../../apps/site/package/tsconfig.site.json"

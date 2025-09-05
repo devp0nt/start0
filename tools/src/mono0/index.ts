@@ -2,6 +2,10 @@ import { Mono0Config } from "@ideanick/tools/mono0/config"
 import { Mono0CorePackage } from "@ideanick/tools/mono0/corePackage"
 import { Mono0ModulePackage } from "@ideanick/tools/mono0/modulePackage"
 
+// TODO: filter by alias and name in files
+// TODO: remove previous packge.json
+// TODO: package.json
+
 export class Mono0 {
   static mono0: Mono0
 

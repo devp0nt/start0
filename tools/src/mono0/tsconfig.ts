@@ -2,6 +2,7 @@ import nodePath from "node:path"
 import type { File0, Fs0 } from "@ideanick/tools/fs0"
 import type { Mono0CorePackage } from "@ideanick/tools/mono0/corePackage"
 import type { Mono0ModulePackage } from "@ideanick/tools/mono0/modulePackage"
+import { isEqual } from "lodash"
 
 export class Mono0Tsconfig {
   file0: File0
@@ -123,6 +124,10 @@ export class Mono0Tsconfig {
     modulesPackages: Mono0ModulePackage[]
   }) {
     const value = this.getValue({ corePackages, modulesPackages })
+    const prevValue = await this.file0.importFresh()
+    if (isEqual(prevValue, value)) {
+      return
+    }
     await this.file0.write(JSON.stringify(value, null, 2))
   }
 }
