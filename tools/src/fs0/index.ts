@@ -519,6 +519,15 @@ export class File0 {
     return fsSync.readFileSync(this.path.abs, "utf8")
   }
 
+  relToDir(file0: File0): string
+  relToDir(fs0: Fs0): string
+  relToDir(dir: string): string
+  relToDir(input: string | File0 | Fs0) {
+    const dir = typeof input === "string" ? input : input instanceof File0 ? input.path.dir : input.cwd
+    const fs0 = this.fs0.create({ cwd: dir })
+    return fs0.toRel(this.path.abs)
+  }
+
   async read() {
     return await fs.readFile(this.path.abs, "utf8")
   }

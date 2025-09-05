@@ -38,8 +38,8 @@ export class Mono0Tsconfig {
 
     return {
       extends: isSelfBaseTsconfig
-        ? this.file0.fs0.toRel(corePackage.coreBaseTsconfig.file0.path.abs)
-        : this.file0.fs0.toRel(corePackage.baseTsconfig.file0.path.abs),
+        ? corePackage.coreBaseTsconfig.file0.relToDir(this.file0)
+        : corePackage.baseTsconfig.file0.relToDir(this.file0),
       compilerOptions: {
         composite: true,
         rootDir: "../src",
@@ -51,7 +51,7 @@ export class Mono0Tsconfig {
           .filter((t) => t.file0.path.abs !== this.file0.path.abs)
           .map((t) => {
             return {
-              path: this.file0.fs0.toRel(t.file0.path.abs),
+              path: t.file0.relToDir(this.file0),
             }
           }),
       ],
@@ -71,6 +71,62 @@ export class Mono0Tsconfig {
       return
     }
     await this.file0.write(JSON.stringify(value, null, 2))
+  }
+}
+
+export class Mono0RootTsconfig {
+  file0: File0
+
+  private constructor(input: {
+    file0: File0
+  }) {
+    this.file0 = input.file0
+  }
+
+  static create({ filePath }: { filePath: string }) {
+    return new Mono0RootTsconfig({
+      file0: File0.create({ filePath }),
+    })
+  }
+
+  getValue({
+    corePackages,
+    modulesPackages,
+  }: {
+    corePackages: Mono0CorePackage[]
+    modulesPackages: Mono0ModulePackage[]
+  }) {
+    const references = []
+    for (const corePackage of corePackages) {
+      references.push({ path: corePackage.baseTsconfig.file0.relToDir(this.file0) })
+    }
+    return {
+      files: [],
+      references,
+    }
+  }
+
+  async write({
+    corePackages,
+    modulesPackages,
+  }: {
+    corePackages: Mono0CorePackage[]
+    modulesPackages: Mono0ModulePackage[]
+  }) {
+    const value = this.getValue({ corePackages, modulesPackages })
+    const prevValue = JSON.parse(await this.file0.read())
+    if (isEqual(prevValue, value)) {
+      return
+    }
+    await this.file0.write(
+      JSON.stringify(
+        {
+          value,
+        },
+        null,
+        2,
+      ),
+    )
   }
 }
 
