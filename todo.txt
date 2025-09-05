@@ -1,4 +1,5 @@
-remove package.json from modules
+Не использовать имя проекта в путях
+убрать приписки из оригинальных файлов, из них импортировать в рядом лежащие .types.sh.ts или например siteRoutes.ex.ts
 tsconfig includes by files exts
 biome import restrictions
 
@@ -37,8 +38,9 @@ refine
 react-native
 reuse code between site and mobile
 
+автогенератор доков и сайта плагина
 i0n, i0n route0
-zen overload
+zod overload
 hono response type by fn output
 hono swagger
 

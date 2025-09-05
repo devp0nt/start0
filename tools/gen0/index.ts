@@ -5,6 +5,9 @@ import { Gen0Logger } from "@ideanick/tools/gen0/logger"
 import { Gen0PluginsManager } from "@ideanick/tools/gen0/pluginsManager"
 import { Gen0WatchersManager } from "@ideanick/tools/gen0/watchersManager"
 
+// TODO: fs → ffs (find existing lib)
+// TODO: В хук вотчера передавать также статы по файлу, это была папка или файл, и вообще передавать туда всё объектом
+// TODO: В плагин предавать логгер, который имеет свой тег
 // TODO: Переименовать инит на процесс для плагинов, и тогда всё будет консистентно
 // TODO: реакт роутер пути генерироваьт не через / а по папочкам
 // TODO: реакт роутер страницы ипортировать именованными
