@@ -15,8 +15,11 @@
     "paths": {
       "@ideanick/backend/*": ["./apps/backend/src/*"],
       "@ideanick/site/*": ["./apps/site/src/*"],
-      "@ideanick/modules/*": ["./modules/*"],
-      "@ideanick/tools/*": ["./tools/*"]
+      "@ideanick/modules/lib/*": ["./modules/lib/src/*"],
+      "@ideanick/modules/prisma/*": ["./modules/prisma/src/*"],
+      "@ideanick/modules/idea/*": ["./modules/idea/src/*"],
+      "@ideanick/modules/appConfig/*": ["./modules/appConfig/src/*"],
+      "@ideanick/tools/*": ["./tools/src/*"]
     }
   }
 }

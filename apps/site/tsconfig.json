@@ -20,7 +20,11 @@
     "paths": {
       "@ideanick/site/*": ["./apps/site/src/*"],
       "@ideanick/backend/*": ["./apps/backend/src/*"],
-      "@ideanick/modules/*": ["./modules/*"]
+      "@ideanick/tools/*": ["./tools/src/*"],
+      "@ideanick/modules/lib/*": ["./modules/lib/src/*"],
+      "@ideanick/modules/prisma/*": ["./modules/prisma/src/*"],
+      "@ideanick/modules/idea/*": ["./modules/idea/src/*"],
+      "@ideanick/modules/appConfig/*": ["./modules/appConfig/src/*"]
     },
     "esModuleInterop": true,
     "verbatimModuleSyntax": true,
