@@ -9,7 +9,7 @@
     "rootDirs": ["../../", ".", "./.react-router/types"],
     "outDir": "./dist"
   },
-  "references": [{ "path": "../backend" }],
+  "references": [{ "path": "../backend" }, { "path": "../../tools" }],
   "include": [
     "./.react-router/types/**/*",
     "./**/*",
