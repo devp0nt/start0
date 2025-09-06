@@ -3,7 +3,7 @@ import { createTRPCClient, httpBatchLink, loggerLink } from "@trpc/client"
 import { createTRPCContext, createTRPCOptionsProxy, type TRPCQueryOptions } from "@trpc/tanstack-react-query"
 import { cache, useState } from "react"
 import superjson from "superjson"
-import type { BackendTrpcRouter } from "@/backend/router/index.trpc"
+import type { BackendTrpcRouter } from "@/backend/router/index.trpc.sh"
 import { env } from "@/site/lib/env.self"
 import { RR0 } from "@/site/lib/rr0"
 

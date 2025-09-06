@@ -1,7 +1,7 @@
 import { Error0 } from "@/lib/error0.sh"
 import { SiteError } from "@/site/components/Error"
 import { RR0 } from "@/site/lib/rr0.js"
-import page from "../../../../../../modules/idea/src/pages/list.page.si.js"
+import page from "../../../../../../modules/idea/src/pages/list.page.si"
 import type { Route } from "./+types/modules-idea-src-pages-list-page-si-tsx"
 
 export const meta = RR0.createMeta(({ loaderData, params, error }: RR0.MetaArgs<Route.MetaArgs>) => {

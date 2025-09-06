@@ -5,17 +5,26 @@
     "types": ["node", "vite/client", "bun"],
     "target": "ES2022",
     "module": "ES2022",
-    // "rootDir": "../../",
-    "rootDirs": [".", "./.react-router/types"],
+    "rootDir": "../../",
+    "rootDirs": ["../../", ".", "./.react-router/types"],
     "outDir": "./dist"
   },
+  "references": [{ "path": "../backend" }],
   "include": [
     "./.react-router/types/**/*",
-    "./src/**/*",
-    "../backend/src/**/*",
-    "../../modules/**/*",
-    "../../tools/src/**/*",
-    "../../tools/src/apps0/config.json",
-    "../../tools/src/mono0/_.mono0rc.json"
-  ]
+    "./**/*",
+    "../../modules/**/*.si.*",
+    "../../modules/**/*.si/**/*",
+    "../../modules/**/*.sh.*",
+    "../../modules/**/*.sh/**/*",
+    "../backend/**/*.si.*",
+    "../backend/**/*.si/**/*",
+    "../backend/**/*.sh.*",
+    "../backend/**/*.sh/**/*",
+    "../../tools/**/*.si.*",
+    "../../tools/**/*.si/**/*",
+    "../../tools/**/*.sh.*",
+    "../../tools/**/*.sh/**/*"
+  ],
+  "exclude": ["**/dist/**/*", "**/node_modules/**/*", "./**/*.be.*", "./**/*.be/**/*", "./**/*.to.*", "./**/*.to/**/*"]
 }

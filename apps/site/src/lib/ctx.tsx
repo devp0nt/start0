@@ -5,7 +5,7 @@ import {
   type unstable_RouterContextProvider,
 } from "react-router"
 import { createContext, useContext, useContextSelector } from "use-context-selector"
-import type { BackendTrpcRouter } from "@/backend/router/index.trpc"
+import type { BackendTrpcRouter } from "@/backend/router/index.trpc.sh"
 import { getQueryClient, trpc } from "@/site/lib/trpc"
 
 export namespace SiteCtx {
