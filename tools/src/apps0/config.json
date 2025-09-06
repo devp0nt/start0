@@ -1,5 +1,5 @@
 {
-  "modulesDir": "~/modules",
+  "modulesGlob": "~/modules/*",
   "packages": {
     "backend": {
       "alias": "be",
