@@ -4,6 +4,20 @@
     // "rootDir": "../",
     "outDir": "./dist"
   },
-  "include": ["./src/**/*", "./src/**/*.json", "../modules/**/*", "../apps/backend/src/**/*", "../apps/site/src/**/*"],
-  "exclude": ["../apps/site/src/react-router/**/*"]
+  "include": [
+    "./**/*"
+    "../modules/**/*.to.*",
+    "../modules/**/*.to/**/*",
+    "../modules/**/*.sh.*",
+    "../modules/**/*.sh/**/*",
+    "../apps/backend/**/*.to.*",
+    "../apps/backend/**/*.to/**/*",
+    "../apps/backend/**/*.sh.*",
+    "../apps/backend/**/*.sh/**/*",
+    "../apps/site/**/*.to.*",
+    "../apps/site/**/*.to/**/*",
+    "../apps/site/**/*.sh.*",
+    "../apps/site/**/*.sh/**/*"
+  ],
+  "exclude": ["**/dist/**/*", "**/node_modules/**/*", "./**/*.be.*", "./**/*.be/**/*", "./**/*.si.*", "./**/*.si/**/*"]
 }

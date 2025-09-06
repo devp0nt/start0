@@ -24,7 +24,8 @@
     "../../tools/**/*.si.*",
     "../../tools/**/*.si/**/*",
     "../../tools/**/*.sh.*",
-    "../../tools/**/*.sh/**/*"
+    "../../tools/**/*.sh/**/*",
+    "../../modules/prisma/src/types.be.ts"
   ],
   "exclude": ["**/dist/**/*", "**/node_modules/**/*", "./**/*.be.*", "./**/*.be/**/*", "./**/*.to.*", "./**/*.to/**/*"]
 }

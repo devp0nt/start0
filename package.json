@@ -32,7 +32,8 @@
     "workspace-root": "^3.3.1"
   },
   "scripts": {
-    "types": "bun run --filter '*' types",
+    "types1": "bun run --filter '*' types",
+    "types": "bun run tsc --build",
     "build": "bun run --filter '*' build",
     "dev": "bun run --filter '*' dev",
     "test": "bun run --filter '*' test",
