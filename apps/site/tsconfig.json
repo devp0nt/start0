@@ -5,8 +5,8 @@
     "types": ["node", "vite/client", "bun"],
     "target": "ES2022",
     "module": "ES2022",
-    "rootDir": "../../",
-    "rootDirs": ["../../", ".", "./.react-router/types"],
+    // "rootDir": "../../",
+    "rootDirs": [".", "./.react-router/types"],
     "outDir": "./dist"
   },
   "include": [

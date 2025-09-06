@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    // "rootDir": ".",
+    "rootDir": ".",
     "composite": true,
     "strict": true,
     "jsx": "react-jsx",
@@ -19,5 +19,6 @@
       "@/idea/*": ["./modules/idea/src/*"],
       "@/lib/*": ["./modules/lib/src/*"]
     }
-  }
+  },
+  "exclude": ["**/dist/**/*", "**/node_modules/**/*"]
 }
