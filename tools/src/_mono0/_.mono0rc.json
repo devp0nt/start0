@@ -6,11 +6,13 @@
     "core": {
       "backend": {
         "alias": "be",
-        "path": "./apps/backend"
+        "path": "./apps/backend",
+        "refs": ["prisma"]
       },
       "site": {
         "alias": "si",
-        "path": "./apps/site"
+        "path": "./apps/site",
+        "refs": ["backend"]
       },
       "tools": {
         "alias": "to",
@@ -18,7 +20,9 @@
       }
     },
     "modules": {
-      "glob": "./modules/*"
+      "prisma": {
+        "path": "./modules/prisma"
+      }
     }
   }
 }

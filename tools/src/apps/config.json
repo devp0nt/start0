@@ -1,0 +1,17 @@
+{
+  "modulesDir": "~/modules",
+  "packages": {
+    "backend": {
+      "alias": "be",
+      "path": "~/apps/backend"
+    },
+    "site": {
+      "alias": "si",
+      "path": "~/apps/site"
+    },
+    "tools": {
+      "alias": "to",
+      "path": "~/tools"
+    }
+  }
+}
