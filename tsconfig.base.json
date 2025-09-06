@@ -10,8 +10,6 @@
     "moduleResolution": "Bundler",
     "verbatimModuleSyntax": true,
     "resolveJsonModule": true,
-    "declaration": true,
-    "emitDeclarationOnly": true,
     "paths": {
       "@/backend/*": ["./apps/backend/src/*"],
       "@/site/*": ["./apps/site/src/*"],
