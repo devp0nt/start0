@@ -1,6 +1,6 @@
+import type { Fs0 } from "@/tools/fs0"
 import { Gen0Client } from "@/tools/gen0/client"
 import type { Gen0Config } from "@/tools/gen0/config"
-import type { Gen0Fs } from "@/tools/gen0/fs"
 import { Gen0Logger } from "@/tools/gen0/logger"
 import type { Gen0PluginsManager } from "@/tools/gen0/pluginsManager"
 import { Gen0Target } from "@/tools/gen0/target"
@@ -11,26 +11,18 @@ export class Gen0ClientsManager {
   logger = Gen0ClientsManager.logger
 
   config: Gen0Config
-  fs: Gen0Fs
+  fs0: Fs0
   clients: Gen0Client[] = []
   pluginsManager: Gen0PluginsManager
 
-  constructor({ config, fs, pluginsManager }: { config: Gen0Config; fs: Gen0Fs; pluginsManager: Gen0PluginsManager }) {
+  constructor({ config, fs0, pluginsManager }: { config: Gen0Config; fs0: Fs0; pluginsManager: Gen0PluginsManager }) {
     this.config = config
-    this.fs = fs
+    this.fs0 = fs0
     this.pluginsManager = pluginsManager
   }
 
-  static create({
-    config,
-    fs,
-    pluginsManager,
-  }: {
-    config: Gen0Config
-    fs: Gen0Fs
-    pluginsManager: Gen0PluginsManager
-  }) {
-    return new Gen0ClientsManager({ config, fs, pluginsManager })
+  static create({ config, fs0, pluginsManager }: { config: Gen0Config; fs0: Fs0; pluginsManager: Gen0PluginsManager }) {
+    return new Gen0ClientsManager({ config, fs0, pluginsManager })
   }
 
   async add(clients: Gen0Client[], withDryRun: boolean = false) {
@@ -41,7 +33,7 @@ export class Gen0ClientsManager {
           await newClient.process({ dryRun: true })
         }
         this.clients.push(newClient)
-        this.logger.debug(`add client ${newClient.file.path.rel}`)
+        this.logger.debug(`add client ${newClient.file0.path.rel}`)
       } else {
         await this.replace(newClient, exClientIndex, withDryRun)
       }
@@ -61,11 +53,11 @@ export class Gen0ClientsManager {
     }
     await client.applySelfPlugin()
     this.clients[index] = client
-    this.logger.debug(`replace client ${client.file.path.rel}`)
+    this.logger.debug(`replace client ${client.file0.path.rel}`)
   }
 
-  async addByGlob(glob: Gen0Fs.PathOrPaths, withDryRun: boolean = false) {
-    glob = this.fs.toPaths(glob)
+  async addByGlob(glob: Fs0.PathOrPaths, withDryRun: boolean = false) {
+    glob = this.fs0.toPaths(glob)
     const clients = await this.findAndCreateManyByGlob(glob)
     return this.add(clients, withDryRun)
   }
@@ -79,10 +71,10 @@ export class Gen0ClientsManager {
     return await this.addByGlob(this.config.clientsGlob, withDryRun)
   }
 
-  removeByGlob(clientsGlob: Gen0Fs.PathOrPaths) {
+  removeByGlob(clientsGlob: Fs0.PathOrPaths) {
     const removedClients: typeof this.clients = []
     for (const client of this.clients) {
-      if (this.fs.isPathMatchGlob(client.file.path.abs, clientsGlob)) {
+      if (this.fs0.isPathMatchGlob(client.file0.path.abs, clientsGlob)) {
         removedClients.push(client)
       }
     }
@@ -92,14 +84,14 @@ export class Gen0ClientsManager {
   removeByPath(path: string) {
     const removedClients: typeof this.clients = []
     for (const client of this.clients) {
-      if (client.file.path.abs === path) {
+      if (client.file0.path.abs === path) {
         removedClients.push(client)
       }
     }
     return this.remove(removedClients)
   }
 
-  removeByName(nameSearch: Gen0Utils.Search) {
+  removeByName(nameSearch: Fs0.StringMatchInput) {
     const removedClients: typeof this.clients = []
     for (const client of this.clients) {
       if (client.isMatchName(nameSearch)) {
@@ -115,32 +107,32 @@ export class Gen0ClientsManager {
     }
     this.clients = this.clients.filter((client) => clients.every((c) => !c.isSame(client)))
     for (const client of clients) {
-      this.logger.debug(`remove client ${client.file.path.rel}`)
+      this.logger.debug(`remove client ${client.file0.path.rel}`)
     }
     return clients
   }
 
   getByPath(path: string) {
-    return this.clients.find((c) => c.file.path.abs === path)
+    return this.clients.find((c) => c.file0.path.abs === path)
   }
 
-  getByGlob(clientsGlob: Gen0Fs.PathOrPaths) {
+  getByGlob(clientsGlob: Fs0.PathOrPaths) {
     return this.clients.find((c) => c.isMatchGlob(clientsGlob))
   }
 
-  getByName(nameSearch: Gen0Utils.Search) {
+  getByName(nameSearch: Fs0.StringMatchInput) {
     return this.clients.filter((c) => c.isMatchName(nameSearch))
   }
 
   getByDir(dir: string) {
-    return this.clients.filter((c) => this.fs.isPathInDir(c.file.path.abs, dir))
+    return this.clients.filter((c) => this.fs0.isPathInDir(c.file0.path.abs, dir))
   }
 
   async processMany(clients: Gen0Client[], dryRun: boolean = false) {
     return await Promise.all(clients.map((client) => client.process({ dryRun })))
   }
 
-  async processManyByNames(name: Gen0Utils.Search, dryRun: boolean = false) {
+  async processManyByNames(name: Fs0.StringMatchInput, dryRun: boolean = false) {
     const clients = this.getByName(name)
     return await this.processMany(clients, dryRun)
   }
@@ -149,8 +141,8 @@ export class Gen0ClientsManager {
     return await this.processMany(this.clients, dryRun)
   }
 
-  async findAndCreateManyByGlob(clientsGlob: Gen0Fs.PathOrPaths) {
-    const clientsPaths = await this.fs.findFilesPathsContentMatch({
+  async findAndCreateManyByGlob(clientsGlob: Fs0.PathOrPaths) {
+    const clientsPaths = await this.fs0.findFilesPathsContentMatch({
       glob: clientsGlob,
       search: [Gen0Target.startMark, Gen0Target.silentMark],
     })
@@ -161,8 +153,8 @@ export class Gen0ClientsManager {
     )
   }
 
-  async findAndCreateManyByPath(path: Gen0Fs.PathOrPaths) {
-    const clientsPaths = await this.fs.ensureFilesPathsContentMatch({
+  async findAndCreateManyByPath(path: Fs0.PathOrPaths) {
+    const clientsPaths = await this.fs0.ensureFilesPathsContentMatch({
       path,
       search: [Gen0Target.startMark, Gen0Target.silentMark],
     })
@@ -177,7 +169,7 @@ export class Gen0ClientsManager {
     return await this.findAndCreateManyByGlob(this.config.clientsGlob)
   }
 
-  async findAndProcessManyByGlob(clientsGlob: Gen0Fs.PathOrPaths) {
+  async findAndProcessManyByGlob(clientsGlob: Fs0.PathOrPaths) {
     const clients = await this.findAndCreateManyByGlob(clientsGlob)
     return await this.processMany(clients)
   }
@@ -190,11 +182,11 @@ export class Gen0ClientsManager {
     return client1.isSame(client2)
   }
 
-  isMatchGlob(client: Gen0Client, clientsGlob: Gen0Fs.PathOrPaths) {
+  isMatchGlob(client: Gen0Client, clientsGlob: Fs0.PathOrPaths) {
     return client.isMatchGlob(clientsGlob)
   }
 
-  isMatchName(client: Gen0Client, nameSearch: Gen0Utils.Search) {
+  isMatchName(client: Gen0Client, nameSearch: Fs0.StringMatchInput) {
     return client.isMatchName(nameSearch)
   }
 

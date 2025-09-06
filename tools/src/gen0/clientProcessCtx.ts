@@ -2,8 +2,8 @@ import nodeFs from "node:fs"
 import nodePath from "node:path"
 import vm from "node:vm"
 import _ from "lodash"
+import type { Fs0 } from "@/tools/fs0"
 import type { Gen0Client } from "@/tools/gen0/client"
-import type { Gen0Fs } from "@/tools/gen0/fs"
 import { Gen0Logger } from "@/tools/gen0/logger"
 import type { Gen0Plugin } from "@/tools/gen0/plugin"
 import { Gen0Utils } from "@/tools/gen0/utils"
@@ -16,9 +16,10 @@ export class Gen0ClientProcessCtx {
   fns: Gen0ClientProcessCtx.FnsRecord
   vars: Gen0ClientProcessCtx.VarsRecord
 
-  fs: Gen0Fs
+  fs0: Fs0
+  rootFs0: Fs0
   $: Gen0ClientProcessCtx.Store = {}
-  path: Gen0Fs.PathParsed
+  path: Fs0.PathParsed
   selfPluginDefinition: Gen0Plugin.DefinitionWithName | undefined
 
   nodeFs: Gen0ClientProcessCtx.NodeFs = nodeFs
@@ -32,10 +33,11 @@ export class Gen0ClientProcessCtx {
 
   private constructor({ client }: { client: Gen0Client }) {
     this.client = client
-    this.fs = this.client.file.fs
+    this.fs0 = this.client.file0.fs0
+    this.rootFs0 = this.client.config.fs0
     this.fns = this.client.pluginsManager.getFnsRecord()
     this.vars = this.client.pluginsManager.getVarsRecord()
-    this.path = this.client.file.path
+    this.path = this.client.file0.path
   }
 
   static create({ client }: { client: Gen0Client }) {
@@ -62,7 +64,7 @@ export class Gen0ClientProcessCtx {
     this.prints = []
   }
 
-  watch(glob: Gen0Fs.PathOrPaths) {
+  watch(glob: Fs0.PathOrPaths) {
     this.selfPluginDefinition ??= { name: this.client.name }
     this.selfPluginDefinition.watchers ??= {
       watchDependentFiles: {

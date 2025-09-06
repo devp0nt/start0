@@ -1,6 +1,6 @@
+import { Fs0 } from "@/tools/fs0"
 import { Gen0ClientsManager } from "@/tools/gen0/clientsManager"
 import { Gen0Config } from "@/tools/gen0/config"
-import { Gen0Fs } from "@/tools/gen0/fs"
 import { Gen0Logger } from "@/tools/gen0/logger"
 import { Gen0PluginsManager } from "@/tools/gen0/pluginsManager"
 import { Gen0WatchersManager } from "@/tools/gen0/watchersManager"
@@ -61,23 +61,23 @@ export class Gen0 {
   pluginsManager: Gen0PluginsManager
   watchersManager: Gen0WatchersManager
   config: Gen0Config
-  fs: Gen0Fs
+  fs0: Fs0
 
   private constructor({
     config,
-    fs,
+    fs0,
     clientsManager,
     pluginsManager,
     watchersManager,
   }: {
     config: Gen0Config
-    fs: Gen0Fs
+    fs0: Fs0
     clientsManager: Gen0ClientsManager
     pluginsManager: Gen0PluginsManager
     watchersManager: Gen0WatchersManager
   }) {
     this.config = config
-    this.fs = fs
+    this.fs0 = fs0
     this.clientsManager = clientsManager
     this.pluginsManager = pluginsManager
     this.watchersManager = watchersManager
@@ -89,16 +89,16 @@ export class Gen0 {
     if (debug !== config.debug) {
       Gen0Logger.init(config.debug)
     }
-    const fs = Gen0Fs.create({ config, cwd: config.rootDir })
-    const pluginsManager = await Gen0PluginsManager.create({ fs, config })
-    const clientsManager = await Gen0ClientsManager.create({ fs, config, pluginsManager })
+    const fs0 = Fs0.create({ rootDir: config.rootDir, cwd: config.rootDir })
+    const pluginsManager = await Gen0PluginsManager.create({ fs0, config })
+    const clientsManager = await Gen0ClientsManager.create({ fs0, config, pluginsManager })
     const watchersManager = await Gen0WatchersManager.create({
-      fs,
+      fs0,
       config,
       pluginsManager,
       clientsManager,
     })
-    const gen0 = new Gen0({ config, fs, clientsManager, pluginsManager, watchersManager })
+    const gen0 = new Gen0({ config, fs0, clientsManager, pluginsManager, watchersManager })
     this.logger.debug("gen0 created")
     return gen0
   }

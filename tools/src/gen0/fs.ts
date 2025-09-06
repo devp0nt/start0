@@ -7,15 +7,15 @@
 // import { globby, globbySync } from "globby"
 // import micromatch from "micromatch"
 // import type { Gen0Config } from "@/tools/gen0/config"
-// import { Gen0File } from "@/tools/gen0/file"
+// import { File0 } from "@/tools/fs0"
 // import { Gen0Logger } from "@/tools/gen0/logger"
 // import { Gen0Utils } from "@/tools/gen0/utils"
 
 // TODO: make better string | string[] → T
 
-// export class Gen0Fs {
+// export class Fs0 {
 //   static logger = Gen0Logger.create("fs")
-//   logger = Gen0Fs.logger
+//   logger = Fs0.logger
 
 //   rootDir: string
 //   cwd: string
@@ -41,25 +41,25 @@
 //     input: ({ rootDir: string } | { config: Gen0Config }) &
 //       ({ fileDir: string } | { filePath: string } | { cwd: string }),
 //   ) {
-//     return new Gen0Fs(input)
+//     return new Fs0(input)
 //   }
 
-//   async findFilesPaths(glob: Gen0Fs.PathOrPaths): Promise<string[]>
+//   async findFilesPaths(glob: Fs0.PathOrPaths): Promise<string[]>
 //   async findFilesPaths({
 //     cwd,
 //     glob,
 //     relative,
 //   }: {
 //     cwd?: string
-//     glob: Gen0Fs.PathOrPaths
+//     glob: Fs0.PathOrPaths
 //     relative?: string | boolean
 //   }): Promise<string[]>
 //   async findFilesPaths(
 //     input:
-//       | Gen0Fs.PathOrPaths
+//       | Fs0.PathOrPaths
 //       | {
 //           cwd?: string
-//           glob: Gen0Fs.PathOrPaths
+//           glob: Fs0.PathOrPaths
 //           relative?: string | boolean
 //         },
 //   ): Promise<string[]> {
@@ -90,22 +90,22 @@
 //     }
 //   }
 
-//   findFilesPathsSync(glob: Gen0Fs.PathOrPaths): string[]
+//   findFilesPathsSync(glob: Fs0.PathOrPaths): string[]
 //   findFilesPathsSync({
 //     cwd,
 //     glob,
 //     relative,
 //   }: {
 //     cwd?: string
-//     glob: Gen0Fs.PathOrPaths
+//     glob: Fs0.PathOrPaths
 //     relative?: string | boolean
 //   }): string[]
 //   findFilesPathsSync(
 //     input:
-//       | Gen0Fs.PathOrPaths
+//       | Fs0.PathOrPaths
 //       | {
 //           cwd?: string
-//           glob: Gen0Fs.PathOrPaths
+//           glob: Fs0.PathOrPaths
 //           relative?: string | boolean
 //         },
 //   ): string[] {
@@ -164,7 +164,7 @@
 //     search,
 //   }: {
 //     cwd?: string
-//     glob: Gen0Fs.PathOrPaths
+//     glob: Fs0.PathOrPaths
 //     relative?: string | false
 //     search: Gen0Utils.Search
 //   }) {
@@ -193,7 +193,7 @@
 //     search,
 //   }: {
 //     cwd?: string
-//     path: Gen0Fs.PathOrPaths
+//     path: Fs0.PathOrPaths
 //     relative?: string | false
 //     search: Gen0Utils.Search
 //   }) {
@@ -211,7 +211,7 @@
 //     return result
 //   }
 
-//   toAbs<T extends Gen0Fs.PathOrPaths>(path: T, relativeToAbs: string = this.cwd): T {
+//   toAbs<T extends Fs0.PathOrPaths>(path: T, relativeToAbs: string = this.cwd): T {
 //     if (Array.isArray(path)) {
 //       return path.map((p) => this.toAbs(p)) as T
 //     }
@@ -224,9 +224,9 @@
 //     return nodePath.resolve(relativeToAbs, pathNormalized) as T
 //   }
 
-//   toRel<T extends Gen0Fs.PathOrPaths>(path: T, relativeTo?: string, withLeadingDot?: boolean): T
-//   toRel<T extends Gen0Fs.PathOrPaths>(path: T, withLeadingDot?: boolean, relativeTo?: string): T
-//   toRel<T extends Gen0Fs.PathOrPaths>(path: T, first?: any, second?: any): T {
+//   toRel<T extends Fs0.PathOrPaths>(path: T, relativeTo?: string, withLeadingDot?: boolean): T
+//   toRel<T extends Fs0.PathOrPaths>(path: T, withLeadingDot?: boolean, relativeTo?: string): T
+//   toRel<T extends Fs0.PathOrPaths>(path: T, first?: any, second?: any): T {
 //     const relativeTo = typeof first === "string" ? first : typeof second === "string" ? second : this.cwd
 //     const withLeadingDot = typeof first === "boolean" ? first : typeof second === "boolean" ? second : true
 //     if (Array.isArray(path)) {
@@ -359,7 +359,7 @@
 //     return path
 //   }
 
-//   toPaths(path: Gen0Fs.PathOrPaths): string[] {
+//   toPaths(path: Fs0.PathOrPaths): string[] {
 //     return Array.isArray(path) ? path.map(this.normalizePath.bind(this)) : [this.normalizePath(path)]
 //   }
 
@@ -387,20 +387,20 @@
 //     return findUpSync(filename, { cwd: this.cwd })
 //   }
 
-//   async findUpFile(filename: string): Promise<Gen0File | undefined> {
+//   async findUpFile(filename: string): Promise<File0 | undefined> {
 //     const path = await findUp(filename, { cwd: this.cwd })
 //     if (!path) {
 //       return undefined
 //     }
-//     return Gen0File.create({ filePath: path, fs: this })
+//     return File0.create({ filePath: path, fs: this })
 //   }
 
-//   findUpFileSync(filename: string): Gen0File | undefined {
+//   findUpFileSync(filename: string): File0 | undefined {
 //     const path = findUpSync(filename, { cwd: this.cwd })
 //     if (!path) {
 //       return undefined
 //     }
-//     return Gen0File.create({ filePath: path, fs: this })
+//     return File0.create({ filePath: path, fs: this })
 //   }
 
 //   async loadEnv(filename: string = ".env"): Promise<Record<string, string>> {
@@ -458,9 +458,9 @@
 //   nodeSync = fsSync
 // }
 
-// export namespace Gen0Fs {
+// export namespace Fs0 {
 //   export type Path = string
 //   export type Paths = string[]
 //   export type PathOrPaths = Path | Paths
-//   export type PathParsed = ReturnType<typeof Gen0Fs.prototype.parsePath>
+//   export type PathParsed = ReturnType<typeof Fs0.prototype.parsePath>
 // }

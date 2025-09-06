@@ -1,10 +1,10 @@
 import nodeFsSync from "node:fs"
+import type { Fs0 } from "@/tools/fs0"
 import type { Gen0ClientProcessCtx } from "@/tools/gen0/clientProcessCtx"
-import type { Gen0Fs } from "@/tools/gen0/fs"
 import type { Gen0Plugin } from "@/tools/gen0/plugin"
 
 const getConstExportNames = (ctx: Gen0ClientProcessCtx, filePath: string) => {
-  filePath = ctx.fs.toAbs(filePath)
+  filePath = ctx.fs0.toAbs(filePath)
   const content = nodeFsSync.readFileSync(filePath, "utf8")
   // Match: export const <identifier>
   const regex = /export\s+const\s+([A-Za-z0-9_$]+)/g
@@ -19,8 +19,8 @@ const getConstExportNames = (ctx: Gen0ClientProcessCtx, filePath: string) => {
 
 export const importFromFiles = (
   ctx: Gen0ClientProcessCtx,
-  glob: Gen0Fs.PathOrPaths,
-  printer: (path: Gen0Fs.PathParsed) => string,
+  glob: Fs0.PathOrPaths,
+  printer: (path: Fs0.PathParsed) => string,
   replaceExt?: string | false,
   withEmptyLine: boolean = true,
   noWatcher: boolean = false,
@@ -28,17 +28,17 @@ export const importFromFiles = (
   if (!noWatcher) {
     ctx.watch(glob)
   }
-  const paths = ctx.fs.findFilesPathsSync(glob)
+  const paths = ctx.fs0.findFilesPathsSync(glob)
   const result: { paths: string[] } = {
     paths: [],
   }
   for (let path of paths) {
     if (replaceExt) {
-      path = ctx.fs.replaceExt(path, replaceExt)
+      path = ctx.fs0.replaceExt(path, replaceExt)
     }
-    path = ctx.fs.toRel(path, ctx.fs.cwd)
+    path = ctx.fs0.toRel(path, ctx.fs0.cwd)
     result.paths.push(path)
-    ctx.print(printer(ctx.fs.parsePath(path)))
+    ctx.print(printer(ctx.fs0.parsePath(path)))
   }
   if (withEmptyLine && ctx.prints.length > 0) {
     ctx.prints.unshift("")
@@ -49,8 +49,8 @@ export const importFromFiles = (
 
 export const importAsFromFiles = (
   ctx: Gen0ClientProcessCtx,
-  glob: Gen0Fs.PathOrPaths,
-  as: (path: Gen0Fs.PathParsed) => string,
+  glob: Fs0.PathOrPaths,
+  as: (path: Fs0.PathParsed) => string,
   replaceExt?: string | false,
   withEmptyLine?: boolean,
   noWatcher: boolean = false,
@@ -58,18 +58,18 @@ export const importAsFromFiles = (
   if (!noWatcher) {
     ctx.watch(glob)
   }
-  const paths = ctx.fs.findFilesPathsSync(glob)
+  const paths = ctx.fs0.findFilesPathsSync(glob)
   const result: { paths: string[]; names: string[] } = {
     paths: [],
     names: [],
   }
   for (let path of paths) {
-    const pathParsed = ctx.fs.parsePath(path)
+    const pathParsed = ctx.fs0.parsePath(path)
     const asOutput = as(pathParsed)
     if (replaceExt) {
-      path = ctx.fs.replaceExt(path, replaceExt)
+      path = ctx.fs0.replaceExt(path, replaceExt)
     }
-    path = ctx.fs.toRel(path, ctx.fs.cwd)
+    path = ctx.fs0.toRel(path, ctx.fs0.cwd)
     result.paths.push(path)
     result.names.push(asOutput)
     ctx.print(`import ${asOutput} from "${path}"`)
@@ -84,7 +84,7 @@ export const importAsFromFiles = (
 
 export const importExportedFromFiles = (
   ctx: Gen0ClientProcessCtx,
-  glob: Gen0Fs.PathOrPaths,
+  glob: Fs0.PathOrPaths,
   exportEndsWith?: string,
   replaceExt: string | false = ".js",
   withEmptyLine: boolean = true,
@@ -93,7 +93,7 @@ export const importExportedFromFiles = (
   if (!noWatcher) {
     ctx.watch(glob)
   }
-  const paths = ctx.fs.findFilesPathsSync(glob)
+  const paths = ctx.fs0.findFilesPathsSync(glob)
   const result: {
     files: Array<{ path: string; names: string[]; cutted: string[] }>
     paths: string[]
@@ -119,9 +119,9 @@ export const importExportedFromFiles = (
       ? exportNames.map((exportName: string) => exportName.slice(0, -exportEndsWith.length))
       : exportNames
     if (replaceExt) {
-      path = ctx.fs.replaceExt(path, replaceExt)
+      path = ctx.fs0.replaceExt(path, replaceExt)
     }
-    path = ctx.fs.toRel(path, ctx.fs.cwd)
+    path = ctx.fs0.toRel(path, ctx.fs0.cwd)
     result.files.push({ path, names: exportNames, cutted: exportNamesCutted })
     result.names.push(...exportNames)
     result.cutted.push(...exportNamesCutted)

@@ -3,9 +3,9 @@ import parcel from "@parcel/watcher"
 // import chokidar, { type FSWatcher as ChokidarFSWatcher, type EmitArgsWithName } from "chokidar"
 // import fs from "fs"
 import { isGitIgnored } from "globby"
+import type { Fs0 } from "@/tools/fs0"
 import type { Gen0ClientsManager } from "@/tools/gen0/clientsManager"
 import type { Gen0Config } from "@/tools/gen0/config"
-import type { Gen0Fs } from "@/tools/gen0/fs"
 import { Gen0Logger } from "@/tools/gen0/logger"
 import type { Gen0PluginsManager } from "@/tools/gen0/pluginsManager"
 import { Gen0Utils } from "@/tools/gen0/utils"
@@ -19,7 +19,7 @@ export class Gen0WatchersManager {
   pluginsManager: Gen0PluginsManager
   clientsManager: Gen0ClientsManager
   watchGlob: string[] = []
-  fs: Gen0Fs
+  fs0: Fs0
   isGitIgnored: (path: string) => boolean = (path) => false
   // chokidarWatcher: ChokidarFSWatcher | null = null
   // bunWatcher: fs.FSWatcher | null = null
@@ -28,28 +28,29 @@ export class Gen0WatchersManager {
   constructor({
     pluginsManager,
     config,
-    fs,
+    fs0,
     clientsManager,
-  }: { pluginsManager: Gen0PluginsManager; config: Gen0Config; fs: Gen0Fs; clientsManager: Gen0ClientsManager }) {
+  }: { pluginsManager: Gen0PluginsManager; config: Gen0Config; fs0: Fs0; clientsManager: Gen0ClientsManager }) {
     this.config = config
     this.pluginsManager = pluginsManager
     this.clientsManager = clientsManager
-    this.fs = fs
+    this.fs0 = fs0
   }
 
   static async create({
     pluginsManager,
     config,
-    fs,
+    fs0,
     clientsManager,
   }: {
     pluginsManager: Gen0PluginsManager
     config: Gen0Config
-    fs: Gen0Fs
+    fs0: Fs0
     clientsManager: Gen0ClientsManager
   }) {
-    const watchersManager = new Gen0WatchersManager({ pluginsManager, config, fs, clientsManager })
+    const watchersManager = new Gen0WatchersManager({ pluginsManager, config, fs0, clientsManager })
     watchersManager.isGitIgnored = await isGitIgnored({ cwd: watchersManager.config.rootDir })
+    watchersManager.fs0 = fs0
     return watchersManager
   }
 
@@ -134,7 +135,7 @@ export class Gen0WatchersManager {
 
   async handleClientsUpdates(event: Gen0WatchersManager.EventType, path: string) {
     if (event !== "delete") {
-      if (!this.fs.isPathMatchGlob(path, this.config.clientsGlob)) {
+      if (!this.fs0.isPathMatchGlob(path, this.config.clientsGlob)) {
         return
       }
       const exClient = this.clientsManager.getByPath(path)
@@ -143,7 +144,7 @@ export class Gen0WatchersManager {
           await this.clientsManager.addByPath(path, true)
           return
         } else {
-          this.clientsManager.removeByPath(exClient.file.path.abs)
+          this.clientsManager.removeByPath(exClient.file0.path.abs)
           return
         }
       }
@@ -151,21 +152,21 @@ export class Gen0WatchersManager {
     } else {
       const exClients = this.clientsManager.getByDir(path)
       for (const exClient of exClients) {
-        this.clientsManager.removeByPath(exClient.file.path.abs)
+        this.clientsManager.removeByPath(exClient.file0.path.abs)
       }
     }
   }
 
   async handlePluginsUpdates(event: Gen0WatchersManager.EventType, path: string) {
     if (event !== "delete") {
-      if (!this.fs.isPathMatchGlob(path, this.config.pluginsGlob)) {
+      if (!this.fs0.isPathMatchGlob(path, this.config.pluginsGlob)) {
         return
       }
       const exPlugin = this.pluginsManager.getByPath(path)
       if (exPlugin) {
-        if (exPlugin.file) {
+        if (exPlugin.file0) {
           // always true here
-          const updatedPlugin = await this.pluginsManager.addByPath(exPlugin.file.path.abs)
+          const updatedPlugin = await this.pluginsManager.addByPath(exPlugin.file0.path.abs)
           await updatedPlugin.init()
         }
         return
@@ -175,8 +176,8 @@ export class Gen0WatchersManager {
     } else {
       const exPlugins = this.pluginsManager.getByDir(path)
       for (const exPlugin of exPlugins) {
-        if (exPlugin.file) {
-          await this.pluginsManager.removeByPath(exPlugin.file.path.abs)
+        if (exPlugin.file0) {
+          await this.pluginsManager.removeByPath(exPlugin.file0.path.abs)
         }
       }
     }
@@ -188,7 +189,7 @@ export class Gen0WatchersManager {
       this.config.rootDir,
       (error, events) => {
         for (const { path, type: originalEvent } of events) {
-          const pathAbs = this.fs.toAbs(path)
+          const pathAbs = this.fs0.toAbs(path)
           if (/(^|[/\\])\.git/.test(path)) return
           if (this.isGitIgnored(path)) return
 
@@ -214,7 +215,7 @@ export class Gen0WatchersManager {
           this.handleClientsUpdates(event, pathAbs)
           this.handlePluginsUpdates(event, pathAbs)
           for (const watcher of this.getWatchers()) {
-            watcher.handler({ clientsManager: this.clientsManager, fs: this.fs }, event, pathAbs)
+            watcher.handler({ clientsManager: this.clientsManager, fs0: this.fs0 }, event, pathAbs)
           }
         }
       },

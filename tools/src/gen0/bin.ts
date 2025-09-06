@@ -113,7 +113,7 @@ program
           logger.info("Processing all clients...")
           const results = await gen0.clientsManager.processAll()
           for (const result of results) {
-            logger.info(`✅ ${result.client.file.path.rel}`)
+            logger.info(`✅ ${result.client.file0.path.rel}`)
           }
         } else if (key === "c") {
           for (let i = 0; i < 10; i++) {

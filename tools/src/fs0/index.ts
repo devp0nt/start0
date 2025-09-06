@@ -168,14 +168,35 @@ export class Fs0 {
     }
   }
 
-  async isContentMatch(path: string, search: Gen0Utils.Search): Promise<boolean> {
+  globSync(
+    glob: string,
+    {
+      cwd = this.rootDir,
+      relative,
+      ...restOptions
+    }: {
+      cwd?: string
+      relative?: string | boolean
+    } & GlobbyOptions = {},
+  ): string[] {
+    const paths = globbySync(glob, { gitignore: true, absolute: true, dot: true, ...restOptions })
+    if (!relative) {
+      return paths
+    } else if (relative === true) {
+      return paths.map((path) => this.toRel(path))
+    } else {
+      return paths.map((path) => this.toRel(path, relative))
+    }
+  }
+
+  async isContentMatch(path: string, search: Fs0.StringMatchInput): Promise<boolean> {
     const pathNormalized = this.normalizePath(path)
     return new Promise((resolve, reject) => {
       const stream = fsSync.createReadStream(pathNormalized, { encoding: "utf8" })
       const rl = readline.createInterface({ input: stream })
       let found = false
       rl.on("line", (line) => {
-        if (Gen0Utils.isStringMatch(line, search)) {
+        if (Fs0.isStringMatch(line, search)) {
           found = true
           rl.close()
         }
@@ -198,7 +219,7 @@ export class Fs0 {
     cwd?: string
     glob: Fs0.PathOrPaths
     relative?: string | false
-    search: Gen0Utils.Search
+    search: Fs0.StringMatchInput
   }) {
     const allPaths = await this.findFilesPaths({
       cwd,
@@ -227,7 +248,7 @@ export class Fs0 {
     cwd?: string
     path: Fs0.PathOrPaths
     relative?: string | false
-    search: Gen0Utils.Search
+    search: Fs0.StringMatchInput
   }) {
     const allPaths = this.toPaths(path)
     const result = (
@@ -314,6 +335,14 @@ export class Fs0 {
 
   async readFile(path: string) {
     return await fs.readFile(this.normalizePath(path), "utf8")
+  }
+
+  readJsonSync<T = any>(path: string) {
+    return JSON.parse(this.readFileSync(path)) as T
+  }
+
+  async readJson<T = any>(path: string) {
+    return JSON.parse(await this.readFile(path)) as T
   }
 
   resolve(...paths: string[]): string {
@@ -540,7 +569,7 @@ export class File0 {
     return (await import(`${this.path.abs}?t=${Date.now()}`).then((m) => m.default)) as T
   }
 
-  async isContentMatch(search: Gen0Utils.Search) {
+  async isContentMatch(search: Fs0.StringMatchInput) {
     return await this.fs0.isContentMatch(this.path.abs, search)
   }
 }

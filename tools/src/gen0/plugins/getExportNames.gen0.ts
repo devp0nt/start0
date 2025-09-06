@@ -3,7 +3,7 @@ import type { Gen0ClientProcessCtx } from "@/tools/gen0/clientProcessCtx"
 import type { Gen0Plugin } from "@/tools/gen0/plugin"
 
 export const getRealExportNames = (ctx: Gen0ClientProcessCtx, filePath: string) => {
-  filePath = ctx.fs.toAbs(filePath)
+  filePath = ctx.fs0.toAbs(filePath)
   const project = new Project({
     // tsConfigFilePath: "tsconfig.json", // make sure this exists in your project
   })

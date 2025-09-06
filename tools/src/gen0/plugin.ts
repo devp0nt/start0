@@ -1,10 +1,8 @@
 import _, { uniq } from "lodash"
+import { File0, Fs0 } from "@/tools/fs0"
 import type { Gen0ClientProcessCtx } from "@/tools/gen0/clientProcessCtx"
 import type { Gen0Config } from "@/tools/gen0/config"
-import { Gen0File } from "@/tools/gen0/file"
-import type { Gen0Fs } from "@/tools/gen0/fs"
 import { Gen0Logger } from "@/tools/gen0/logger"
-import { Gen0Utils } from "@/tools/gen0/utils"
 import { Gen0Watcher } from "@/tools/gen0/watcher"
 
 // TODO: add to fns property .getPluginName()
@@ -15,8 +13,8 @@ export class Gen0Plugin {
   logger = Gen0Plugin.logger
 
   config: Gen0Config
-  file?: Gen0File
-  fs: Gen0Fs
+  file0?: File0
+  fs0: Fs0
   name: string
   fns: Gen0Plugin.FnsRecord
   vars: Gen0Plugin.VarsRecord
@@ -28,8 +26,8 @@ export class Gen0Plugin {
     name,
     fns,
     vars,
-    file,
-    fs,
+    file0,
+    fs0,
     watchers,
     onInit,
   }: {
@@ -37,14 +35,14 @@ export class Gen0Plugin {
     name: string
     fns?: Gen0Plugin.FnsRecord
     vars?: Gen0Plugin.VarsRecord
-    file?: Gen0File
-    fs: Gen0Fs
+    file0?: File0
+    fs0: Fs0
     watchers?: Gen0Watcher[]
     onInit?: () => Promise<void>
   }) {
     this.config = config
-    this.file = file
-    this.fs = fs
+    this.file0 = file0
+    this.fs0 = fs0
     this.name = name
     this.fns = fns || {}
     this.vars = vars || {}
@@ -56,14 +54,14 @@ export class Gen0Plugin {
     definition,
     config,
     name,
-    file,
-    fs,
+    file0,
+    fs0,
   }: {
     definition: Gen0Plugin.DefinitionResult
     config: Gen0Config
     name: string
-    file?: Gen0File
-    fs: Gen0Fs
+    file0?: File0
+    fs0: Fs0
   }) {
     const plugin = new Gen0Plugin({
       config,
@@ -71,8 +69,8 @@ export class Gen0Plugin {
       fns: definition.fns,
       vars: definition.vars,
       watchers: [],
-      file,
-      fs,
+      file0,
+      fs0,
       onInit: definition.init,
     })
     plugin.watchers = await plugin.createWatchersByDefinitions(definition.watchers || {})
@@ -80,10 +78,11 @@ export class Gen0Plugin {
   }
 
   static async createByFilePath({ filePath, config }: { filePath: string; config: Gen0Config }) {
-    const file = Gen0File.create({ filePath, config })
-    const imported = await file.importFresh()
+    const file0 = File0.create({ filePath, rootDir: config.rootDir })
+    const imported = await file0.importFresh()
     const definitionOrFn = imported?.default || imported
-    const definition = typeof definitionOrFn === "function" ? await definitionOrFn({ fs: file.fs, _ }) : definitionOrFn
+    const definition =
+      typeof definitionOrFn === "function" ? await definitionOrFn({ fs0: file0.fs0, _ }) : definitionOrFn
     if (!definition) {
       throw new Error(`No plugin definition found in ${filePath}`)
     }
@@ -91,8 +90,8 @@ export class Gen0Plugin {
       definition,
       config,
       name: definition.name,
-      file,
-      fs: file.fs,
+      file0,
+      fs0: file0.fs0,
     })
   }
 
@@ -100,10 +99,10 @@ export class Gen0Plugin {
     if (this.onInit) {
       try {
         await this.onInit()
-        this.logger.debug(`plugin init ${uniq([this.name, this.file?.path.rel]).filter(Boolean).join(":")} completed`)
+        this.logger.debug(`plugin init ${uniq([this.name, this.file0?.path.rel]).filter(Boolean).join(":")} completed`)
       } catch (error) {
         this.logger.error(
-          `plugin init ${uniq([this.name, this.file?.path.rel]).filter(Boolean).join(":")} failed\n`,
+          `plugin init ${uniq([this.name, this.file0?.path.rel]).filter(Boolean).join(":")} failed\n`,
           error,
         )
       }
@@ -120,28 +119,28 @@ export class Gen0Plugin {
           handler: watcherDefinition.handler,
           clientsGlob: watcherDefinition.clientsGlob,
           clientsNames: watcherDefinition.clientsNames,
-          fs: this.fs,
+          fs0: this.fs0,
         })
       }),
     )
   }
 
   isSame(plugin: Gen0Plugin) {
-    return this.file?.path.abs === plugin.file?.path.abs || this.name === plugin.name
+    return this.file0?.path.abs === plugin.file0?.path.abs || this.name === plugin.name
   }
 
-  isMatchGlob(pluginsGlob: Gen0Fs.PathOrPaths): boolean {
-    return this.file?.fs.isPathMatchGlob(this.file.path.abs, pluginsGlob) || false
+  isMatchGlob(pluginsGlob: Fs0.PathOrPaths): boolean {
+    return this.file0?.fs0.isPathMatchGlob(this.file0.path.abs, pluginsGlob) || false
   }
 
-  isMatchName(nameSearch: Gen0Utils.Search) {
-    return Gen0Utils.isStringMatch(this.name, nameSearch)
+  isMatchName(nameSearch: Fs0.StringMatchInput) {
+    return Fs0.isStringMatch(this.name, nameSearch)
   }
 
   getMeta(): Gen0Plugin.Meta {
     return {
       name: this.name,
-      ...(this.file ? { path: this.file.path.rel } : {}),
+      ...(this.file0 ? { path: this.file0.path.rel } : {}),
     }
   }
 
@@ -175,7 +174,7 @@ export namespace Gen0Plugin {
     init?: () => Promise<void>
   }
   export type DefinitionWithName = Omit<DefinitionResult, "name"> & { name: string }
-  export type DefinitionFnCtx = { fs: Gen0Fs; _: typeof _ }
+  export type DefinitionFnCtx = { fs: Fs0; _: typeof _ }
   export type DefinitionFn = (ctx: DefinitionFnCtx) => DefinitionResult | Promise<DefinitionResult>
   export type Definition = DefinitionResult | DefinitionFn
 

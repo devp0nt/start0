@@ -1,19 +1,17 @@
+import { File0, Fs0 } from "@/tools/fs0"
 import { Gen0ClientProcess } from "@/tools/gen0/clientProcess"
 import type { Gen0Config } from "@/tools/gen0/config"
-import { Gen0File } from "@/tools/gen0/file"
-import type { Gen0Fs } from "@/tools/gen0/fs"
 import { Gen0Logger } from "@/tools/gen0/logger"
 import type { Gen0Plugin } from "@/tools/gen0/plugin"
 import type { Gen0PluginsManager } from "@/tools/gen0/pluginsManager"
 import { Gen0Target } from "@/tools/gen0/target"
-import { Gen0Utils } from "@/tools/gen0/utils"
 
 export class Gen0Client {
   static logger = Gen0Logger.create("client")
   logger = Gen0Client.logger
 
   config: Gen0Config
-  file: Gen0File
+  file0: File0
   name: string
   pluginsManager: Gen0PluginsManager
   selfPlugin: Gen0Plugin | undefined
@@ -25,8 +23,8 @@ export class Gen0Client {
     pluginsManager,
   }: { filePath: string; config: Gen0Config; name?: string; pluginsManager: Gen0PluginsManager }) {
     this.config = config
-    this.file = Gen0File.create({ filePath, config })
-    this.name = name || this.file.path.rel
+    this.file0 = File0.create({ filePath, rootDir: config.rootDir })
+    this.name = name || this.file0.path.rel
     this.pluginsManager = pluginsManager
   }
 
@@ -50,33 +48,33 @@ export class Gen0Client {
   }
 
   isSame(client: Gen0Client) {
-    return this.file.path.abs === client.file.path.abs
+    return this.file0.path.abs === client.file0.path.abs
   }
 
-  isMatchGlob(clientsGlob: Gen0Fs.PathOrPaths) {
-    return this.file.fs.isPathMatchGlob(this.file.path.abs, clientsGlob)
+  isMatchGlob(clientsGlob: Fs0.PathOrPaths) {
+    return this.file0.fs0.isPathMatchGlob(this.file0.path.abs, clientsGlob)
   }
 
-  isMatchName(nameSearch: Gen0Utils.Search) {
-    const result = Gen0Utils.isStringMatch(this.name, nameSearch)
+  isMatchName(nameSearch: Fs0.StringMatchInput) {
+    const result = Fs0.isStringMatch(this.name, nameSearch)
     return result
   }
 
   hasTargets() {
-    return this.file.isContentMatch([Gen0Target.startMark, Gen0Target.silentMark])
+    return this.file0.isContentMatch([Gen0Target.startMark, Gen0Target.silentMark])
   }
 
   getMeta(): Gen0Client.Meta {
     return {
       name: this.name,
-      path: this.file.path.rel,
+      path: this.file0.path.rel,
     }
   }
 
   async replaceSelfPlugin(definition: Gen0Plugin.DefinitionWithName) {
     const plugin = await this.pluginsManager.createByDefinition(definition, {
-      fs: this.file.fs,
-      file: this.file,
+      fs0: this.file0.fs0,
+      file0: this.file0,
     })
     if (this.selfPlugin) {
       await this.pluginsManager.remove([this.selfPlugin])

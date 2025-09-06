@@ -24,7 +24,7 @@ export class Gen0ClientProcess {
     const clientProcess = new Gen0ClientProcess({ client })
     clientProcess.startedAt = new Date()
     let target = await Gen0Target.extract({ client, skipBeforeLineIndex: 0 })
-    let clientContent = await client.file.read()
+    let clientContent = await client.file0.read()
 
     const errors: Gen0ClientProcessCtx.NormalizedVmError[] = []
     while (target) {
@@ -38,7 +38,7 @@ export class Gen0ClientProcess {
       target = await Gen0Target.extract({ client, clientContent, skipBeforeLineIndex: target.outputEndLineIndex })
     }
     if (!dryRun) {
-      await client.file.write(clientContent)
+      await client.file0.write(clientContent)
     }
 
     if (clientProcess.ctx.selfPluginDefinition) {
@@ -56,12 +56,12 @@ export class Gen0ClientProcess {
         this.logger.error(error)
       }
       this.logger.error(
-        `🔴 ${client.file.path.rel} processed with errors in ${clientProcess.finishedAt.getTime() - clientProcess.startedAt.getTime()}ms`,
+        `🔴 ${client.file0.path.rel} processed with errors in ${clientProcess.finishedAt.getTime() - clientProcess.startedAt.getTime()}ms`,
       )
     } else {
       const circle = dryRun ? "⚪️" : "🟢"
       const how = dryRun ? "dry run" : "processed"
-      const message = `${circle} ${client.file.path.rel} ${how} in ${clientProcess.finishedAt.getTime() - clientProcess.startedAt.getTime()}ms`
+      const message = `${circle} ${client.file0.path.rel} ${how} in ${clientProcess.finishedAt.getTime() - clientProcess.startedAt.getTime()}ms`
       if (dryRun) {
         this.logger.info(message)
       } else {
@@ -74,7 +74,7 @@ export class Gen0ClientProcess {
   async runAfterProcessCmd({ afterProcessCmd }: { afterProcessCmd: Gen0Config.AfterProcessCmd | undefined }) {
     if (afterProcessCmd) {
       if (typeof afterProcessCmd === "function") {
-        await exec(afterProcessCmd(this.client.file.path.abs))
+        await exec(afterProcessCmd(this.client.file0.path.abs))
       } else {
         await exec(afterProcessCmd)
       }

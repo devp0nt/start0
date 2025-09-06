@@ -5,18 +5,6 @@ import { Gen0Logger } from "@/tools/gen0/logger"
 
 export namespace Gen0Utils {
   export const logger = Gen0Logger.create("utils")
-  export type Search = string | string[] | RegExp | RegExp[]
-  export const isStringMatch = (line: string | undefined, search: Search): boolean => {
-    if (!line) return false
-    if (Array.isArray(search)) {
-      return search.some((item) => Gen0Utils.isStringMatch(line, item))
-    } else if (typeof search === "string") {
-      return line.includes(search)
-    } else {
-      return search.test(line)
-    }
-  }
-
   export const toArray = <T>(value: T | T[]): T[] => {
     return Array.isArray(value) ? value : [value]
   }
