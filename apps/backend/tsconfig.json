@@ -4,12 +4,19 @@
     "outDir": "./dist"
   },
   "include": [
-    "./src/**/*",
-    "../../modules/**/*",
-    "../site/src/**/*",
-    "../../tools/src/**/*",
-    "../../tools/src/apps0/config.json",
-    "../../tools/src/mono0/_.mono0rc.json"
+    "./**/*",
+    "../../modules/**/*.be.ts",
+    "../../modules/**/*.be/**/*",
+    "../../modules/**/*.sh.ts",
+    "../../modules/**/*.sh/**/*",
+    "../site/**/*.be.ts",
+    "../site/**/*.be/**/*",
+    "../site/**/*.sh.ts",
+    "../site/**/*.sh/**/*",
+    "../../tools/**/*.be.ts",
+    "../../tools/**/*.be/**/*",
+    "../../tools/**/*.sh.ts",
+    "../../tools/**/*.sh/**/*"
   ],
-  "exclude": ["**/dist/**/*", "**/generated/**/*", "../site/src/react-router/**/*"]
+  "exclude": ["./**/*.si.ts", "./**/*.si/**/*", "./**/*.to.ts", "./**/*.to/**/*"]
 }
