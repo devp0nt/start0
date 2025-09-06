@@ -4,6 +4,7 @@
     "types": ["node", "vite/client", "bun"],
     "target": "ES2022",
     "module": "ES2022",
+    "rootDir": "../../",
     "outDir": "./dist"
   },
   "extends": "../../tsconfig.base.json"
