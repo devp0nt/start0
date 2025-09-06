@@ -3,5 +3,14 @@
   "compilerOptions": {
     "rootDir": "../../",
     "outDir": "./dist"
-  }
+  },
+  "include": [
+    "./src/**/*",
+    "../../modules/**/*",
+    "../site/src/**/*",
+    "../../tools/src/**/*",
+    "../../tools/src/apps0/config.json",
+    "../../tools/src/mono0/_.mono0rc.json"
+  ],
+  "exclude": ["**/dist/**/*", "**/generated/**/*", "../site/src/react-router/**/*"]
 }

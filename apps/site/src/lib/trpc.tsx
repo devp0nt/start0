@@ -5,7 +5,7 @@ import { cache, useState } from "react"
 import superjson from "superjson"
 import type { BackendTrpcRouter } from "@/backend/router/index.trpc"
 import { env } from "@/site/lib/env.self"
-import { RR0 } from "@/site/react-router/utils"
+import { RR0 } from "@/site/lib/rr0"
 
 const makeQueryClient = () => {
   return new QueryClient({

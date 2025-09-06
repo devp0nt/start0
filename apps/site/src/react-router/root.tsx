@@ -2,8 +2,8 @@ import { Links, Meta, Outlet, Scripts, ScrollRestoration } from "react-router"
 import { SiteError } from "@/site/components/Error"
 import { GeneralLayout } from "@/site/components/GeneralLayout"
 import { SiteCtx } from "@/site/lib/ctx"
+import { RR0 } from "@/site/lib/rr0"
 import { TRPCReactProvider } from "@/site/lib/trpc"
-import { RR0 } from "@/site/react-router/utils"
 import type { Route } from "./+types/root"
 
 export const links: Route.LinksFunction = () => [

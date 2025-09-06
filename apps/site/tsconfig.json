@@ -1,11 +1,21 @@
 {
+  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "lib": ["DOM", "DOM.Iterable", "ES2022"],
     "types": ["node", "vite/client", "bun"],
     "target": "ES2022",
     "module": "ES2022",
     "rootDir": "../../",
+    "rootDirs": ["../../", ".", "./.react-router/types"],
     "outDir": "./dist"
   },
-  "extends": "../../tsconfig.base.json"
+  "include": [
+    "./.react-router/types/**/*",
+    "./src/**/*",
+    "../backend/src/**/*",
+    "../../modules/**/*",
+    "../../tools/src/**/*",
+    "../../tools/src/apps0/config.json",
+    "../../tools/src/mono0/_.mono0rc.json"
+  ]
 }

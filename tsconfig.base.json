@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "rootDir": ".",
+    // "rootDir": ".",
     "composite": true,
     "strict": true,
     "jsx": "react-jsx",
