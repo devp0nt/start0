@@ -1,5 +1,5 @@
-layer: application
+layer: library
 language: typescript
 
 dependsOn:
-  - backend
+  - prisma
