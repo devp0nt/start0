@@ -50,6 +50,7 @@ hono swagger
 
 ---
 
+combine frontend page and backend route in one file
 dev and watcher in tmux or any
 withCtxFn
 restart frontend server on code change

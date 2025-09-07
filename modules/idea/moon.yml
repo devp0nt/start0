@@ -3,6 +3,5 @@ language: typescript
 
 dependsOn:
   - backend
-  - site
   - lib
   - prisma
