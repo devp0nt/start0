@@ -6,6 +6,7 @@ alias pmt := prisma-migrate-test
 alias pgc := prisma-generate-client
 alias t := test-root
 alias g := gen0
+alias m := moon 
 
 # forward command to app
 
@@ -71,6 +72,9 @@ gen0 *ARGS:
   bun run tools/src/gen0/bin.ts {{ARGS}}
 
 # helpers
+
+moon *ARGS:
+  bun run moon {{ARGS}}
 
 test-root *ARGS:
   bun test {{ARGS}}
