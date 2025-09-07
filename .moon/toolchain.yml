@@ -1,8 +1,8 @@
 typescript:
   syncProjectReferences: true
   syncProjectReferencesToPaths: true
-  rootOptionsConfigFileName: "tsconfig.options.json"
-  rootConfigFileName: "tsconfig.projects.json"
+  rootOptionsConfigFileName: "tsconfig.base.json"
+  rootConfigFileName: "tsconfig.json"
 
 bun:
   version: "latest"

@@ -1,12 +1,20 @@
 {
-  "extends": "../../tsconfig.options.json",
+  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "lib": ["DOM", "DOM.Iterable", "ES2022"],
     "types": ["node", "vite/client", "bun"],
     "target": "ES2022",
     "module": "ES2022",
     "rootDirs": [".", "./.react-router/types"],
-    "outDir": "./dist"
+    "outDir": "./dist",
+    "paths": {
+      "@ideanick/backend/*": ["../backend/src/*"]
+    }
   },
-  "include": ["./src/**/*", "./.react-router/types/**/*"]
+  "include": ["./src/**/*", "./.react-router/types/**/*"],
+  "references": [
+    {
+      "path": "../backend"
+    }
+  ]
 }

@@ -9,6 +9,7 @@
     "types": "rimraf dist/types && react-router typegen && tsc"
   },
   "dependencies": {
+    "@ideanick/backend": "workspace:*",
     "@react-router/node": "catalog:",
     "isbot": "catalog:"
   }
