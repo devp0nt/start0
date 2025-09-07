@@ -4,6 +4,6 @@
   "type": "module",
   "dependencies": {},
   "scripts": {
-    "types": "tsc"
+    "types": "rimraf dist && tsc"
   }
 }

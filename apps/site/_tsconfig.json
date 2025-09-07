@@ -9,10 +9,10 @@
     "rootDirs": ["../../", ".", "./.react-router/types"],
     "outDir": "./dist"
   },
-  "references": [{ "path": "../backend" }, { "path": "../../tools" }],
+  "references": [{ "path": "../backend" }],
   "include": [
-    "./.react-router/types/**/*",
     "./**/*",
+    "./.react-router/types/**/*",
     "../../modules/**/*.si.*",
     "../../modules/**/*.si/**/*",
     "../../modules/**/*.sh.*",
@@ -24,8 +24,7 @@
     "../../tools/**/*.si.*",
     "../../tools/**/*.si/**/*",
     "../../tools/**/*.sh.*",
-    "../../tools/**/*.sh/**/*",
-    "../../modules/prisma/src/types.be.ts"
+    "../../tools/**/*.sh/**/*"
   ],
   "exclude": ["**/dist/**/*", "**/node_modules/**/*", "./**/*.be.*", "./**/*.be/**/*", "./**/*.to.*", "./**/*.to/**/*"]
 }

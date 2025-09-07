@@ -4,7 +4,7 @@ import type { Gen0Plugin } from "@/tools/gen0/plugin"
 export default (async ({ fs, _ }) => {
   await fs.loadEnv(".env")
 
-  const { RRGen0 } = await fs.importFresh<typeof import("./gen0.templates")>("./gen0.templates.ts")
+  const { RRGen0 } = await fs.importFresh<typeof import("./gen0.templates.to")>("./gen0.templates.ts")
   const pagesGlob = ["~/**/*.page.si.ts{x,}", "~/apps/site/**/*.page.ts{x,}"]
   const watchGlob = [...pagesGlob, "./gen0.templates.ts"]
   const appDir = fs.resolve(".")

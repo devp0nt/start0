@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "cross-env NODE_ENV=development bun run --hot src/services/dev.ts",
     "build": "rimraf dist && cross-env NODE_ENV=production bun build src/services/* --outdir dist --target bun",
-    "types": "rimraf dist/types && tsc -p ./tsconfig.types.json",
+    "types": "rimraf dist && tsc",
     "start:api": "bun run dist/app.js",
     "start:worker": "bun run dist/app.js"
   }
