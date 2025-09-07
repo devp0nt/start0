@@ -1,5 +1,5 @@
 {
-  "name": "@ideanick/site",
+  "name": "@/site",
   "private": true,
   "type": "module",
   "scripts": {
@@ -9,7 +9,7 @@
     "types": "rimraf dist/types && react-router typegen && tsc"
   },
   "dependencies": {
-    "@ideanick/backend": "workspace:*",
+    "@/backend": "workspace:*",
     "@react-router/node": "catalog:",
     "isbot": "catalog:"
   }

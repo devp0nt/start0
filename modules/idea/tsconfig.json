@@ -3,14 +3,10 @@
   "compilerOptions": {
     "outDir": "./dist",
     "paths": {
-      "@ideanick/backend/*": [
-        "../../apps/backend/src/*"
-      ]
+      "@/backend/*": ["../../apps/backend/src/*"]
     }
   },
-  "include": [
-    "src/**/*"
-  ],
+  "include": ["src/**/*"],
   "references": [
     {
       "path": "../../apps/backend"

@@ -1,5 +1,5 @@
 {
-  "name": "@ideanick/backend",
+  "name": "@/backend",
   "private": true,
   "type": "module",
   "dependencies": {},

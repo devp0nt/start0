@@ -1,5 +1,5 @@
 {
-  "name": "@/tools",
+  "name": "@/appConfig",
   "private": true,
   "type": "module",
   "dependencies": {},

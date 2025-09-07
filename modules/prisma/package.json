@@ -1,5 +1,5 @@
 {
-  "name": "@/tools",
+  "name": "@/prisma",
   "private": true,
   "type": "module",
   "dependencies": {},

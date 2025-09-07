@@ -8,7 +8,7 @@
     "rootDirs": [".", "./.react-router/types"],
     "outDir": "./dist",
     "paths": {
-      "@ideanick/backend/*": ["../backend/src/*"]
+      "@/backend/*": ["../backend/src/*"]
     }
   },
   "include": ["./src/**/*", "./.react-router/types/**/*"],
