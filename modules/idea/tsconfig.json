@@ -3,14 +3,38 @@
   "compilerOptions": {
     "outDir": "./dist",
     "paths": {
-      "@/idea/*": ["./src/*"],
-      "@/backend/*": ["../../apps/backend/src/*"]
+      "@/idea/*": [
+        "./src/*"
+      ],
+      "@/backend/*": [
+        "../../apps/backend/src/*"
+      ],
+      "@/lib/*": [
+        "../lib/src/*"
+      ],
+      "@/prisma/*": [
+        "../prisma/src/*"
+      ],
+      "@/site/*": [
+        "../../apps/site/src/*"
+      ]
     }
   },
-  "include": ["src/**/*"],
+  "include": [
+    "src/**/*"
+  ],
   "references": [
     {
       "path": "../../apps/backend"
+    },
+    {
+      "path": "../../apps/site"
+    },
+    {
+      "path": "../lib"
+    },
+    {
+      "path": "../prisma"
     }
   ]
 }

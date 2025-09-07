@@ -3,7 +3,10 @@
   "private": true,
   "type": "module",
   "dependencies": {
-    "@/backend": "workspace:*"
+    "@/backend": "workspace:*",
+    "@/lib": "workspace:*",
+    "@/prisma": "workspace:*",
+    "@/site": "workspace:*"
   },
   "scripts": {
     "types": "rimraf dist && tsc"
