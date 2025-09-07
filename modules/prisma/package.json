@@ -2,7 +2,9 @@
   "name": "@/prisma",
   "private": true,
   "type": "module",
-  "dependencies": {},
+  "dependencies": {
+    "@/lib": "workspace:*"
+  },
   "scripts": {
     "types": "rimraf dist && tsc"
   }

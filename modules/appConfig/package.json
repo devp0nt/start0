@@ -2,7 +2,9 @@
   "name": "@/appConfig",
   "private": true,
   "type": "module",
-  "dependencies": {},
+  "dependencies": {
+    "@/backend": "workspace:*"
+  },
   "scripts": {
     "types": "rimraf dist && tsc"
   }

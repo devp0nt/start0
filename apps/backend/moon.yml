@@ -4,3 +4,6 @@ language: typescript
 dependsOn:
   - prisma
   - idea
+  - appConfig
+  - lib
+  - prisma

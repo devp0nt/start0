@@ -2,7 +2,12 @@
   "name": "@/backend",
   "private": true,
   "type": "module",
-  "dependencies": {},
+  "dependencies": {
+    "@/appConfig": "workspace:*",
+    "@/idea": "workspace:*",
+    "@/lib": "workspace:*",
+    "@/prisma": "workspace:*"
+  },
   "scripts": {
     "dev": "cross-env NODE_ENV=development bun run --hot src/services/dev.ts",
     "build": "rimraf dist && cross-env NODE_ENV=production bun build src/services/* --outdir dist --target bun",
