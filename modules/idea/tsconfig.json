@@ -3,6 +3,7 @@
   "compilerOptions": {
     "outDir": "./dist",
     "paths": {
+      "@/idea/*": ["./src/*"],
       "@/backend/*": ["../../apps/backend/src/*"]
     }
   },

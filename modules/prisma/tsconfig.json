@@ -3,14 +3,11 @@
   "compilerOptions": {
     "outDir": "./dist",
     "paths": {
-      "@/lib/*": [
-        "../lib/src/*"
-      ]
+      "@/prisma/*": ["./src/*"],
+      "@/lib/*": ["../lib/src/*"]
     }
   },
-  "include": [
-    "src/**/*"
-  ],
+  "include": ["src/**/*"],
   "references": [
     {
       "path": "../lib"

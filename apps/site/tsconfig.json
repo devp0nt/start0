@@ -8,6 +8,7 @@
     "rootDirs": [".", "./.react-router/types"],
     "outDir": "./dist",
     "paths": {
+      "@/site/*": ["./src/*"],
       "@/backend/*": ["../backend/src/*"]
     }
   },
