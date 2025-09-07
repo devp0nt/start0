@@ -1,5 +1,2 @@
 layer: library
 language: typescript
-
-dependsOn:
-  - lib

@@ -8,6 +8,9 @@
   ],
   "references": [
     {
+      "path": "../../modules/idea"
+    },
+    {
       "path": "../../modules/prisma"
     }
   ]

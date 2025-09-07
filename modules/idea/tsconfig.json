@@ -1,0 +1,19 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "paths": {
+      "@ideanick/backend/*": [
+        "../../apps/backend/src/*"
+      ]
+    }
+  },
+  "include": [
+    "src/**/*"
+  ],
+  "references": [
+    {
+      "path": "../../apps/backend"
+    }
+  ]
+}

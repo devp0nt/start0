@@ -9,6 +9,15 @@
       "path": "apps/site"
     },
     {
+      "path": "modules/appConfig"
+    },
+    {
+      "path": "modules/idea"
+    },
+    {
+      "path": "modules/lib"
+    },
+    {
       "path": "modules/prisma"
     }
   ]
