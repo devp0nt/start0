@@ -1,7 +1,10 @@
-Не использовать имя проекта в путях
-убрать приписки из оригинальных файлов, из них импортировать в рядом лежащие .types.sh.ts или например siteRoutes.ex.ts
-tsconfig includes by files exts
-biome import restrictions
+mono0 .mono0/tsconfig.*.json
+modules/{trpc,idea,...}/{backend,site,shared}
+Труборепо ген
+mono0 генератор и апдейтер темплейтов по созданным папкам
+mono0 генератор пасов в главном тсконфиге
+mono0 генератор jest file
+mono0 генератор biome restrict imports
 
 better-auth
 https://dev.to/ayoubphy/step-by-step-guide-setting-up-trpc-better-auth-prisma-and-react-router-v7-4ho
@@ -50,7 +53,7 @@ hono swagger
 
 ---
 
-combine frontend page and backend route in one file
+combine frontend page and backend route in one file → modules/idea/auto/* → modules/idea/{backend,site}/*
 dev and watcher in tmux or any
 withCtxFn
 restart frontend server on code change

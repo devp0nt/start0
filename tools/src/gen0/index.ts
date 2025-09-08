@@ -52,6 +52,7 @@ import { Gen0WatchersManager } from "@/tools/gen0/watchersManager"
 // TODO: dry run on init, or not dry run on init as arg and option
 // TODO: onInit plugin ctx shul recieve dry run
 // TODO: алерты при регенерации файлов
+// TODO: Инверсионная подсветка ген0
 
 export class Gen0 {
   static logger = Gen0Logger.create("core")
