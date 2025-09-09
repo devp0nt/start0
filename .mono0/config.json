@@ -54,7 +54,8 @@
     "backend": {
       "tsconfig": {
         "extends": "$.tsconfigs.backend"
-      }
+      },
+      "tags": ["backend"]
     },
     "site": {
       "tsconfig": {
@@ -63,12 +64,14 @@
         "types": ["node", "vite/client", "bun"],
         "target": "ES2022",
         "module": "ES2022"
-      }
+      },
+      "tags": ["site"]
     },
     "tools": {
       "tsconfig": {
         "extends": "$.tsconfigs.tools"
-      }
+      },
+      "tags": ["tools"]
     }
   }
 }

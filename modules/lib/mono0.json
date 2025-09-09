@@ -1,0 +1,6 @@
+{
+  "name": "@lib",
+  "preset": "shared",
+  "tags": ["lib"],
+  "deps": []
+}

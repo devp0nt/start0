@@ -1,4 +1,4 @@
-mono0 отдельная
+mono0 если цикл, то paths прописываем на src
 mono0 стейбл-анстейбл
 mono0 .mono0/tsconfig.*.json
 modules/{trpc,idea,...}/{backend,site,shared}

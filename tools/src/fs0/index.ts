@@ -6,7 +6,6 @@ import dotenv from "dotenv"
 import { findUp, findUpSync } from "find-up"
 import { type Options as GlobbyOptions, globby, globbySync } from "globby"
 import micromatch from "micromatch"
-import { Gen0Utils } from "@/tools/gen0/utils"
 
 export class Fs0 {
   rootDir: string
@@ -31,7 +30,7 @@ export class Fs0 {
   static create(input: Fs0.CreateFsInput = {}) {
     return new Fs0(input)
   }
-  create(input: Fs0.CreateFsInput = {}) {
+  createFs0(input: Fs0.CreateFsInput = {}) {
     let cwd: undefined | string
     if ("fileDir" in input && input.fileDir) {
       cwd = this.resolve(input.fileDir)
@@ -40,7 +39,7 @@ export class Fs0 {
     } else if ("cwd" in input && input.cwd) {
       cwd = this.resolve(input.cwd)
     }
-    const rootDir = input.rootDir || this.rootDir
+    const rootDir = this.resolve(input.rootDir || this.rootDir)
     return Fs0.create({ ...input, rootDir, cwd })
   }
 
@@ -158,7 +157,7 @@ export class Fs0 {
       relative?: string | boolean
     } & GlobbyOptions = {},
   ): Promise<string[]> {
-    const paths = await globby(glob, { gitignore: true, absolute: true, dot: true, ...restOptions })
+    const paths = await globby(glob, { gitignore: true, absolute: true, dot: true, cwd, ...restOptions })
     if (!relative) {
       return paths
     } else if (relative === true) {
@@ -179,7 +178,7 @@ export class Fs0 {
       relative?: string | boolean
     } & GlobbyOptions = {},
   ): string[] {
-    const paths = globbySync(glob, { gitignore: true, absolute: true, dot: true, ...restOptions })
+    const paths = globbySync(glob, { gitignore: true, absolute: true, dot: true, cwd, ...restOptions })
     if (!relative) {
       return paths
     } else if (relative === true) {
@@ -187,6 +186,29 @@ export class Fs0 {
     } else {
       return paths.map((path) => this.toRel(path, relative))
     }
+  }
+
+  async globFile0(
+    glob: string,
+    {
+      cwd = this.rootDir,
+      relative,
+      ...restOptions
+    }: { cwd?: string; relative?: string | boolean } & GlobbyOptions = {},
+  ): Promise<File0[]> {
+    const paths = await this.glob(glob, { cwd, relative, ...restOptions })
+    return paths.map((path) => this.createFile0(path))
+  }
+  globFile0Sync(
+    glob: string,
+    {
+      cwd = this.rootDir,
+      relative,
+      ...restOptions
+    }: { cwd?: string; relative?: string | boolean } & GlobbyOptions = {},
+  ): File0[] {
+    const paths = this.globSync(glob, { cwd, relative, ...restOptions })
+    return paths.map((path) => this.createFile0(path))
   }
 
   async isContentMatch(path: string, search: Fs0.StringMatchInput): Promise<boolean> {
@@ -440,22 +462,22 @@ export class Fs0 {
     return pathNormalized.startsWith(dirNormalized) && pathNormalized !== dirNormalized
   }
 
-  async findUp(filename: string): Promise<string | undefined> {
+  async findUp(filename: string | string[]): Promise<string | undefined> {
     return await findUp(filename, { cwd: this.cwd })
   }
 
-  findUpSync(filename: string): string | undefined {
+  findUpSync(filename: string | string[]): string | undefined {
     return findUpSync(filename, { cwd: this.cwd })
   }
 
-  async findUpFile(filename: string): Promise<File0 | undefined> {
+  async findUpFile(filename: string | string[]): Promise<File0 | undefined> {
     const path = await findUp(filename, { cwd: this.cwd })
     if (!path) {
       return undefined
     }
     return File0.create({ filePath: path, rootDir: this.rootDir })
   }
-  static async findUpFile(filename: string, createFsInput?: Fs0.CreateFsInput) {
+  static async findUpFile(filename: string | string[], createFsInput?: Fs0.CreateFsInput) {
     const fs0 = Fs0.create(createFsInput)
     return await fs0.findUpFile(filename)
   }
@@ -545,7 +567,19 @@ export class File0 {
   }
 
   readSync() {
-    return fsSync.readFileSync(this.path.abs, "utf8")
+    return this.fs0.readFileSync(this.path.abs)
+  }
+
+  async read() {
+    return await this.fs0.readFile(this.path.abs)
+  }
+
+  readJsonSync<T = any>() {
+    return this.fs0.readJsonSync(this.path.abs) as T
+  }
+
+  async readJson<T = any>() {
+    return (await this.fs0.readJson(this.path.abs)) as T
   }
 
   relToDir(file0: File0): string
@@ -553,12 +587,8 @@ export class File0 {
   relToDir(dir: string): string
   relToDir(input: string | File0 | Fs0) {
     const dir = typeof input === "string" ? input : input instanceof File0 ? input.path.dir : input.cwd
-    const fs0 = this.fs0.create({ cwd: dir })
+    const fs0 = this.fs0.createFs0({ cwd: dir })
     return fs0.toRel(this.path.abs)
-  }
-
-  async read() {
-    return await fs.readFile(this.path.abs, "utf8")
   }
 
   async importFresh<T = any>(): Promise<T> {

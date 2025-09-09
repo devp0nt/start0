@@ -1,0 +1,6 @@
+{
+  "name": "@prisma0/backend",
+  "preset": "backend",
+  "tags": ["prisma"],
+  "deps": []
+}

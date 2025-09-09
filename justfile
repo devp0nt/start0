@@ -71,6 +71,9 @@ prisma-generate-client *ARGS:
 gen0 *ARGS:
   cd ./tools && bun run src/gen0/bin.ts {{ARGS}}
 
+mono0 *ARGS:
+  cd ./tools && bun run src/mono0/bin.ts {{ARGS}}
+
 # helpers
 
 moon *ARGS:
