@@ -69,7 +69,7 @@ prisma-generate-client *ARGS:
 # tools
 
 gen0 *ARGS:
-  bun run tools/src/gen0/bin.ts {{ARGS}}
+  cd ./tools && bun run src/gen0/bin.ts {{ARGS}}
 
 # helpers
 

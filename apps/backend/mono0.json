@@ -1,0 +1,5 @@
+{
+  "name": "@backend",
+  "preset": "backend",
+  "deps": ["#backend", "#shared"]
+}

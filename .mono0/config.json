@@ -1,0 +1,74 @@
+{
+  "tsconfigs": {
+    "root": {
+      "path": "./tsconfig.json",
+      "value": {
+        "extends": "$.tsconfigs.base"
+      }
+    },
+    "base": {
+      "path": "./tsconfig.base.json",
+      "value": {
+        "compilerOptions": {
+          "rootDir": ".",
+          "composite": true,
+          "strict": true,
+          "jsx": "react-jsx",
+          "esModuleInterop": true,
+          "skipLibCheck": true,
+          "module": "ESNext",
+          "moduleResolution": "Bundler",
+          "verbatimModuleSyntax": true,
+          "resolveJsonModule": true
+        },
+        "exclude": ["$.vars.exclude"]
+      }
+    },
+    "backend": {
+      "path": "./tsconfig.backend.json",
+      "value": {
+        "extends": "$.tsconfigs.base"
+      }
+    },
+    "site": {
+      "path": "./tsconfig.site.json",
+      "value": {
+        "extends": "$.tsconfigs.base"
+      }
+    },
+    "tools": {
+      "path": "./tsconfig.tools.json",
+      "value": {
+        "extends": "$.tsconfigs.base"
+      }
+    }
+  },
+  "vars": {
+    "exclude": ["**/dist/**/*", "**/node_modules/**/*", "**/public/**/*"]
+  },
+  "settings": {
+    "autoIncludeSrc": true,
+    "autoPathSrc": true
+  },
+  "presets": {
+    "backend": {
+      "tsconfig": {
+        "extends": "$.tsconfigs.backend"
+      }
+    },
+    "site": {
+      "tsconfig": {
+        "extends": "$.tsconfigs.site",
+        "lib": ["DOM", "DOM.Iterable", "ES2022"],
+        "types": ["node", "vite/client", "bun"],
+        "target": "ES2022",
+        "module": "ES2022"
+      }
+    },
+    "tools": {
+      "tsconfig": {
+        "extends": "$.tsconfigs.tools"
+      }
+    }
+  }
+}

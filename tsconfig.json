@@ -9,6 +9,9 @@
       "path": "apps/site"
     },
     {
+      "path": "tools"
+    },
+    {
       "path": "modules/appConfig"
     },
     {

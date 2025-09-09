@@ -1,10 +1,14 @@
 {
   "extends": "../tsconfig.base.json",
   "compilerOptions": {
-    // "rootDir": "../",
-    "outDir": "./dist"
+    "rootDir": ".",
+    "outDir": "./dist",
+    "paths": {
+      "@/tools/*": ["./src/*"],
+      "@/backend/*": ["../apps/backend/src/*"],
+      "@/site/*": ["../apps/site/src/*"]
+    }
   },
-  "references": [{ "path": "../apps/backend" }, { "path": "../apps/site" }],
   "include": [
     "./**/*",
     "../modules/**/*.to.*"

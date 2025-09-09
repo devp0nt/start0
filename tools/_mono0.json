@@ -1,0 +1,5 @@
+{
+  "name": "@tools",
+  "preset": "tools",
+  "deps": ["#tools", "#shared"]
+}
