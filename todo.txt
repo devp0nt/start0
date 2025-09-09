@@ -1,10 +1,19 @@
+mono0 отдельная
+mono0 стейбл-анстейбл
 mono0 .mono0/tsconfig.*.json
 modules/{trpc,idea,...}/{backend,site,shared}
-Труборепо ген
+mono0 **/mono0.json
+mono0 референс генертор + пакейдж джейсон генератор
 mono0 генератор и апдейтер темплейтов по созданным папкам
+? mono0 автоинстал исходя из импортов в коде
+fs0 withTsconfigPath → gen0 importFromFiles
 mono0 генератор пасов в главном тсконфиге
+mono0 валдатор циклических зависимостей
+mono0 **/mono0.many.json
 mono0 генератор jest file
 mono0 генератор biome restrict imports
+other модуль для ленивых
+Всё решат полномасштабные циркулярные нпм зависимости, в то время как референсы и пасы останутся для тех случаев, где нам нужны быстрые типы
 
 better-auth
 https://dev.to/ayoubphy/step-by-step-guide-setting-up-trpc-better-auth-prisma-and-react-router-v7-4ho
