@@ -1,23 +1,24 @@
 import type { JsonValue, TsConfigJson as TsConfigJsonTypeFest } from "type-fest"
 import z from "zod"
 import { Fs0 } from "@/tools/fs0"
+import type { Mono0Tsconfig } from "@/tools/mono0/tsconfig"
 import { Mono0Unit } from "@/tools/mono0/unit"
 
 export class Mono0Config {
   rootFs0: Fs0
   configFs0: Fs0
   tsconfigs: Mono0Config.TsconfigsDefinitions
-  vars: Mono0Config.Vars
-  settings: Mono0Config.Settings
-  presets: Mono0Config.Presets
+  vars: Mono0Config.DefinitionParsed["vars"]
+  settings: Mono0Config.DefinitionParsed["settings"]
+  presets: Mono0Config.DefinitionParsed["presets"]
 
   private constructor(input: {
     rootFs0: Fs0
     configFs0: Fs0
     tsconfigs: Mono0Config.TsconfigsDefinitions
-    vars: Mono0Config.Vars
-    settings: Mono0Config.Settings
-    presets: Mono0Config.Presets
+    vars: Mono0Config.DefinitionParsed["vars"]
+    settings: Mono0Config.DefinitionParsed["settings"]
+    presets: Mono0Config.DefinitionParsed["presets"]
   }) {
     this.rootFs0 = input.rootFs0
     this.configFs0 = input.configFs0
@@ -105,10 +106,10 @@ export namespace Mono0Config {
     settings?: Partial<Settings>
     presets?: Presets
   }
-  export type TsconfigJson = TsConfigJsonTypeFest
+  export type DefinitionParsed = z.output<typeof Mono0Config.zDefinition>
   export type TsconfigDefinition = {
     path: string
-    value: TsconfigJson
+    value: Mono0Tsconfig.Json
   }
   export type TsconfigsDefinitions = Record<string, TsconfigDefinition>
   export type Var = JsonValue
@@ -116,6 +117,7 @@ export namespace Mono0Config {
   export type Settings = {
     autoIncludeSrc: boolean
     autoPathSrc: boolean
+    autoPathCycle: boolean
   }
   export type Preset = Omit<Mono0Unit.Definition, "name">
   export type Presets = Record<string, Preset>

@@ -17,6 +17,7 @@ export class Mono0 {
     const config = await Mono0Config.get()
     const rootFs0 = config.rootFs0
     const units = await Mono0.findAndCreateUnits({ rootFs0, config })
+    Mono0Unit.applyDeps({ units })
     return new Mono0({ rootFs0, config, units })
   }
 

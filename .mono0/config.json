@@ -24,6 +24,12 @@
         "exclude": ["$.vars.exclude"]
       }
     },
+    "shared": {
+      "path": "./tsconfig.shared.json",
+      "value": {
+        "extends": "$.tsconfigs.base"
+      }
+    },
     "backend": {
       "path": "./tsconfig.backend.json",
       "value": {
@@ -51,6 +57,12 @@
     "autoPathSrc": true
   },
   "presets": {
+    "shared": {
+      "tsconfig": {
+        "extends": "$.tsconfigs.shared"
+      },
+      "tags": ["shared"]
+    },
     "backend": {
       "tsconfig": {
         "extends": "$.tsconfigs.backend"
