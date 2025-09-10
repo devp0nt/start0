@@ -5,6 +5,8 @@ import { Gen0Logger } from "@/tools/gen0/logger"
 import { Gen0PluginsManager } from "@/tools/gen0/pluginsManager"
 import { Gen0WatchersManager } from "@/tools/gen0/watchersManager"
 
+// TODO: В ген0 не делать так нагло сам клиент плагином. Достаточно вотчеры добавить
+// TODO: Ген0 плагин инит и процесс раздельно
 // TODO: fs → ffs (find existing lib)
 // TODO: В хук вотчера передавать также статы по файлу, это была папка или файл, и вообще передавать туда всё объектом
 // TODO: В плагин предавать логгер, который имеет свой тег
