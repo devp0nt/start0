@@ -46,6 +46,7 @@ export class Mono0Unit {
       })
     }
     const definition = Mono0Unit.applyPresets({ definition: definitionParsed.data, config, unitConfigFile0 })
+    // TODO:ASAP create tsconfig file
     return new Mono0Unit({
       name: definition.name,
       tags: definition.tags,
@@ -157,7 +158,7 @@ export class Mono0Unit {
   static zDefinition = z.object({
     name: z.string(),
     tags: z.array(z.string()).optional().default([]),
-    tsconfig: z.record(z.string(), z.any()).optional().default({}),
+    tsconfig: Mono0Tsconfig.zDefinition.optional().default({}),
     preset: z
       .union([z.string(), z.array(z.string())])
       .optional()

@@ -3,7 +3,7 @@
     "root": {
       "path": "./tsconfig.json",
       "value": {
-        "extends": "$.tsconfigs.base"
+        "extends": "$base"
       }
     },
     "base": {
@@ -27,30 +27,33 @@
     "shared": {
       "path": "./tsconfig.shared.json",
       "value": {
-        "extends": "$.tsconfigs.base"
+        "extends": "$base"
       }
     },
     "backend": {
       "path": "./tsconfig.backend.json",
       "value": {
-        "extends": "$.tsconfigs.base"
+        "extends": "$base"
       }
     },
     "site": {
       "path": "./tsconfig.site.json",
       "value": {
-        "extends": "$.tsconfigs.base"
+        "extends": "$base"
       }
     },
     "tools": {
       "path": "./tsconfig.tools.json",
       "value": {
-        "extends": "$.tsconfigs.base"
+        "extends": "$base"
       }
     }
   },
-  "vars": {
+  "filesGroups": {
     "exclude": ["**/dist/**/*", "**/node_modules/**/*", "**/public/**/*"]
+  },
+  "unitsGroups": {
+    "backendCore": ["@prisma0/backend", "@lib"]
   },
   "settings": {
     "autoIncludeSrc": true,
@@ -59,19 +62,19 @@
   "presets": {
     "shared": {
       "tsconfig": {
-        "extends": "$.tsconfigs.shared"
+        "extends": "$shared"
       },
       "tags": ["shared"]
     },
     "backend": {
       "tsconfig": {
-        "extends": "$.tsconfigs.backend"
+        "extends": "$backend"
       },
       "tags": ["backend"]
     },
     "site": {
       "tsconfig": {
-        "extends": "$.tsconfigs.site",
+        "extends": "$site",
         "lib": ["DOM", "DOM.Iterable", "ES2022"],
         "types": ["node", "vite/client", "bun"],
         "target": "ES2022",
@@ -81,7 +84,7 @@
     },
     "tools": {
       "tsconfig": {
-        "extends": "$.tsconfigs.tools"
+        "extends": "$tools"
       },
       "tags": ["tools"]
     }
