@@ -111,12 +111,19 @@
     },
     "modules/appConfig/backend": {
       "name": "@appConfig/backend",
+      "dependencies": {
+        "@backend/core": "workspace:*",
+      },
     },
     "modules/idea/backend": {
       "name": "@idea/backend",
     },
     "modules/idea/shared": {
       "name": "@idea/shared",
+      "dependencies": {
+        "@devp0nt/route0": "workspace:*",
+        "@prisma0/backend": "workspace:*",
+      },
     },
     "modules/idea/site": {
       "name": "@idea/site",
@@ -162,7 +169,6 @@
       "name": "@devp0nt/mono0",
       "dependencies": {
         "@devp0nt/fs0": "workspace:*",
-        "@devp0nt/gen0": "workspace:*",
       },
     },
     "modules/lib/route0": {
