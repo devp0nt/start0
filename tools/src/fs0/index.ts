@@ -43,6 +43,13 @@ export class Fs0 {
     return Fs0.create({ ...input, rootDir, cwd })
   }
 
+  setRootDir(rootDir: string) {
+    this.rootDir = rootDir
+  }
+  setCwd(cwd: string) {
+    this.cwd = cwd
+  }
+
   static isStringMatch = (str: string | undefined, search: Fs0.StringMatchInput): boolean => {
     if (!str) return false
     if (Array.isArray(search)) {
@@ -465,9 +472,17 @@ export class Fs0 {
   async findUp(filename: string | string[]): Promise<string | undefined> {
     return await findUp(filename, { cwd: this.cwd })
   }
+  static async findUp(filename: string | string[], createFsInput?: Fs0.CreateFsInput) {
+    const fs0 = Fs0.create(createFsInput)
+    return await fs0.findUp(filename)
+  }
 
   findUpSync(filename: string | string[]): string | undefined {
     return findUpSync(filename, { cwd: this.cwd })
+  }
+  static findUpSync(filename: string | string[], createFsInput?: Fs0.CreateFsInput) {
+    const fs0 = Fs0.create(createFsInput)
+    return fs0.findUpSync(filename)
   }
 
   async findUpFile(filename: string | string[]): Promise<File0 | undefined> {
@@ -556,6 +571,15 @@ export class File0 {
       rootDir,
     })
     return new File0({ filePath, fs0 })
+  }
+
+  setRootDir(rootDir: string) {
+    this.fs0.setRootDir(rootDir)
+    this.path = this.fs0.parsePath(this.path.abs)
+  }
+  setCwd(cwd: string) {
+    this.fs0.setCwd(cwd)
+    this.path = this.fs0.parsePath(this.path.abs)
   }
 
   writeSync(content: string) {

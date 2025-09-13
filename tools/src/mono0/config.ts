@@ -35,11 +35,12 @@ export class Mono0Config {
     if (!configFile0) {
       throw new Error(".mono0rc.json or .mono0/config.json not found")
     }
-    const configFs0 = configFile0.fs0
     const rootFs0 =
       configFile0.path.dirname === ".mono0"
         ? configFile0.fs0.createFs0({ rootDir: "../", cwd: "../" })
         : configFile0.fs0.createFs0({ cwd: ".", rootDir: "." })
+    configFile0.setRootDir(rootFs0.rootDir)
+    const configFs0 = configFile0.fs0
 
     const configDefinitionRaw = await configFile0.importFresh()
     const configDefinitionParsed = Mono0Config.zDefinition.safeParse(configDefinitionRaw)

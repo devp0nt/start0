@@ -1,28 +1,3 @@
 {
-  "extends": "../../tsconfig.base.json",
-  "compilerOptions": {
-    "outDir": "./dist",
-    "paths": {
-      "@/backend/*": ["./src/*"],
-      "@/idea/*": ["../../modules/idea/src/*"],
-      "@/prisma/*": ["../../modules/prisma/src/*"],
-      "@/appConfig/*": ["../../modules/appConfig/src/*"],
-      "@/lib/*": ["../../modules/lib/src/*"]
-    }
-  },
-  "include": ["src/**/*"],
-  "references": [
-    {
-      "path": "../../modules/appConfig"
-    },
-    {
-      "path": "../../modules/idea"
-    },
-    {
-      "path": "../../modules/lib"
-    },
-    {
-      "path": "../../modules/prisma"
-    }
-  ]
+  "extends": "../../.mono0/tsconfig.backend.json"
 }

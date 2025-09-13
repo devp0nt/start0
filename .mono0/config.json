@@ -1,7 +1,7 @@
 {
   "tsconfigs": {
     "root": {
-      "path": "./tsconfig.json",
+      "path": "../tsconfig.json",
       "value": {
         "extends": "$base"
       }
@@ -21,7 +21,7 @@
           "verbatimModuleSyntax": true,
           "resolveJsonModule": true
         },
-        "exclude": ["$.vars.exclude"]
+        "exclude": ["$exclude"]
       }
     },
     "shared": {

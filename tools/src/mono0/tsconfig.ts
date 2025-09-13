@@ -127,7 +127,9 @@ export class Mono0Tsconfig {
     .union([Mono0Tsconfig.zValueDefinition, Mono0Tsconfig.zFullDefinition])
     .transform(
       (val) =>
-        ("path" in val || "value" in val ? { path: val.path, value: val.value } : val) as Mono0Tsconfig.FullDefinition,
+        ("path" in val || "value" in val
+          ? { path: val.path, value: val.value }
+          : { path: undefined, value: val }) as Mono0Tsconfig.FullDefinition,
     )
 
   static mergeHard(...tsconfigs: [Mono0Tsconfig.Json, ...Mono0Tsconfig.Json[]]): Mono0Tsconfig.Json {

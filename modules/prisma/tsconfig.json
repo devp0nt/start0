@@ -1,16 +1,3 @@
 {
-  "extends": "../../tsconfig.base.json",
-  "compilerOptions": {
-    "outDir": "./dist",
-    "paths": {
-      "@/prisma/*": ["./src/*"],
-      "@/lib/*": ["../lib/src/*"]
-    }
-  },
-  "include": ["src/**/*"],
-  "references": [
-    {
-      "path": "../lib"
-    }
-  ]
+  "extends": "../../.mono0/tsconfig.backend.json"
 }
