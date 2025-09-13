@@ -408,7 +408,7 @@ export class Fs0 {
 
   isDirectorySync(path: string): boolean {
     try {
-      return fsSync.statSync(this.normalizePath(path)).isDirectory()
+      return fsSync.statSync(this.toAbs(path)).isDirectory()
     } catch {
       return false
     }
@@ -416,7 +416,7 @@ export class Fs0 {
 
   async isDirectory(path: string): Promise<boolean> {
     try {
-      return (await fs.stat(this.normalizePath(path))).isDirectory()
+      return (await fs.stat(this.toAbs(path))).isDirectory()
     } catch {
       return false
     }
@@ -424,7 +424,7 @@ export class Fs0 {
 
   isFileSync(path: string): boolean {
     try {
-      return fsSync.statSync(this.normalizePath(path)).isFile()
+      return fsSync.statSync(this.toAbs(path)).isFile()
     } catch {
       return false
     }
@@ -432,7 +432,7 @@ export class Fs0 {
 
   async isFile(path: string): Promise<boolean> {
     try {
-      return (await fs.stat(this.normalizePath(path))).isFile()
+      return (await fs.stat(this.toAbs(path))).isFile()
     } catch {
       return false
     }
@@ -440,7 +440,8 @@ export class Fs0 {
 
   isExistsSync(path: string): boolean {
     try {
-      return fsSync.existsSync(this.normalizePath(path))
+      fsSync.statSync(this.toAbs(path))
+      return true
     } catch {
       return false
     }
@@ -448,7 +449,8 @@ export class Fs0 {
 
   async isExists(path: string): Promise<boolean> {
     try {
-      return await fs.exists(this.normalizePath(path))
+      await fs.stat(this.toAbs(path))
+      return true
     } catch {
       return false
     }

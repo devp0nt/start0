@@ -7,13 +7,11 @@ import { Mono0Tsconfig } from "@/tools/mono0/tsconfig"
 import { Mono0Unit } from "@/tools/mono0/unit"
 import watcherGen0 from "@/tools/mono0/watcher-gen0"
 
-// TODO: bun install on package.json change
-// TODO: workspaces in package.json
-
 // TODO: modules/{trpc,idea,...}/{backend,site,shared}
 // TODO: мэниконфиг
 // TODO: other модуль для ленивых
 // TODO: валдатор циклических зависимостей
+// TODO: валдатор одинаковых имён юнитов
 // TODO: fs0 withTsconfigPath → gen0 importFromFiles
 // TODO: mono0 генератор jest file
 

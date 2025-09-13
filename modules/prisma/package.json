@@ -1,9 +1,5 @@
 {
-  "name": "@prisma0/backend",
-  "private": true,
-  "type": "module",
   "dependencies": {},
-  "scripts": {
-    "types": "rimraf dist && tsc"
-  }
+  "name": "@prisma0/backend",
+  "private": true
 }

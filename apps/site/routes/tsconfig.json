@@ -1,0 +1,7 @@
+{
+  "extends": "../../../.mono0/tsconfig.site.json",
+  "include": ["**/*"],
+  "compilerOptions": {
+    "rootDir": "./"
+  }
+}

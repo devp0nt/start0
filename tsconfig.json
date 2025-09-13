@@ -2,9 +2,6 @@
   "extends": "./tsconfig.base.json",
   "references": [
     {
-      "path": "./apps/site/tsconfig.json"
-    },
-    {
       "path": "./apps/backend/tsconfig.json"
     },
     {
@@ -12,14 +9,21 @@
     },
     {
       "path": "./modules/prisma/tsconfig.json"
+    },
+    {
+      "path": "./apps/site/app/tsconfig.json"
+    },
+    {
+      "path": "./apps/site/routes/tsconfig.json"
     }
   ],
   "compilerOptions": {
     "paths": {
-      "@apps/site/*": ["./apps/site/src/*"],
       "@backend/*": ["./apps/backend/src/*"],
       "@lib/*": ["./modules/lib/src/*"],
-      "@prisma0/backend/*": ["./modules/prisma/src/*"]
+      "@prisma0/backend/*": ["./modules/prisma/src/*"],
+      "@site/app/*": ["./apps/site/app/src/*"],
+      "@site/routes/*": ["./apps/site/routes/*"]
     }
   }
 }

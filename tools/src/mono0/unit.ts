@@ -62,16 +62,16 @@ export class Mono0Unit {
       config,
       unitConfigFile0,
     })
-    const tsconfig = Mono0Tsconfig.create({ definition: definition.tsconfig, config, fs0: unitConfigFile0.fs0 })
+    const srcFs0 = (await unitConfigFile0.fs0.isExists("src"))
+      ? unitConfigFile0.fs0.createFs0({ cwd: "src" })
+      : unitConfigFile0.fs0
+    const tsconfig = Mono0Tsconfig.create({ definition: definition.tsconfig, config, fs0: unitConfigFile0.fs0, srcFs0 })
     const packageJson = Mono0PackageJson.create({
       name: definition.name,
       definition: definition.packageJson,
       config,
       fs0: unitConfigFile0.fs0,
     })
-    const srcFs0 = (await unitConfigFile0.fs0.isExists("src"))
-      ? unitConfigFile0.fs0.createFs0({ cwd: "src" })
-      : unitConfigFile0.fs0
     return new Mono0Unit({
       name: definition.name,
       tags: definition.tags,

@@ -1,0 +1,5 @@
+{
+  "name": "@site/routes",
+  "preset": "site",
+  "deps": []
+}

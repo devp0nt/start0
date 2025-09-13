@@ -1,3 +1,7 @@
 {
-  "extends": "../../.mono0/tsconfig.shared.json"
+  "extends": "../../.mono0/tsconfig.shared.json",
+  "include": ["src/**/*"],
+  "compilerOptions": {
+    "rootDir": "./src"
+  }
 }

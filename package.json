@@ -44,10 +44,11 @@
   },
   "workspaces": {
     "packages": [
-      "./apps/site",
       "./apps/backend",
       "./modules/lib",
-      "./modules/prisma"
+      "./modules/prisma",
+      "./apps/site/app",
+      "./apps/site/routes"
     ],
     "catalog": {
       "isbot": "^5.1.27",

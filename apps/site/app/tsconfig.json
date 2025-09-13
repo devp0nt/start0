@@ -1,5 +1,5 @@
 {
-  "extends": "../../.mono0/tsconfig.backend.json",
+  "extends": "../../../.mono0/tsconfig.site.json",
   "include": ["src/**/*"],
   "compilerOptions": {
     "rootDir": "./src"

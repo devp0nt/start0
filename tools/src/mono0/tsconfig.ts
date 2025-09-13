@@ -1,3 +1,4 @@
+import nodePath from "node:path"
 import type { TsConfigJson as TsConfigJsonTypeFest } from "type-fest"
 import z from "zod"
 import type { File0, Fs0 } from "@/tools/fs0"
@@ -9,31 +10,36 @@ export class Mono0Tsconfig {
   file0: File0
   config: Mono0Config
   value: Mono0Tsconfig.ValueDefinition
+  srcFs0: Fs0 | undefined
 
   private constructor({
     fs0,
     file0,
     config,
     value,
-  }: { fs0: Fs0; file0: File0; config: Mono0Config; value: Mono0Tsconfig.ValueDefinition }) {
+    srcFs0,
+  }: { fs0: Fs0; file0: File0; config: Mono0Config; value: Mono0Tsconfig.ValueDefinition; srcFs0?: Fs0 }) {
     this.fs0 = fs0
     this.file0 = file0
     this.config = config
     this.value = value
+    this.srcFs0 = srcFs0
   }
 
   static create({
     definition,
     config,
     fs0,
+    srcFs0,
   }: {
     definition: Mono0Tsconfig.DefinitionParsed
     config: Mono0Config
     fs0: Fs0
+    srcFs0?: Fs0
   }) {
     const file0 = definition.path ? fs0.createFile0(definition.path) : fs0.createFile0("tsconfig.json")
     const value = definition.value
-    return new Mono0Tsconfig({ fs0, file0, config, value })
+    return new Mono0Tsconfig({ fs0, file0, config, value, srcFs0 })
   }
 
   static parseValue({
@@ -41,11 +47,13 @@ export class Mono0Tsconfig {
     config,
     fs0,
     file0,
+    srcFs0,
   }: {
     value: Mono0Tsconfig.Json
     config: Mono0Config
     fs0: Fs0
     file0: File0
+    srcFs0?: Fs0
   }) {
     const result = value
     if (result.extends) {
@@ -90,6 +98,18 @@ export class Mono0Tsconfig {
       }
       result.include = parsedInclude
     }
+    if (srcFs0) {
+      const srcIncludeString = nodePath.join(fs0.toRel(srcFs0.cwd), "**/*")
+      if (!result.include?.includes(srcIncludeString)) {
+        result.include = [srcIncludeString, ...(result.include || [])]
+      }
+      if (!result.compilerOptions?.rootDir) {
+        result.compilerOptions = {
+          ...result.compilerOptions,
+          rootDir: fs0.toRel(srcFs0.cwd),
+        }
+      }
+    }
     return result
   }
 
@@ -99,6 +119,7 @@ export class Mono0Tsconfig {
       config: this.config,
       fs0: this.fs0,
       file0: this.file0,
+      srcFs0: this.srcFs0,
     })
     await this.file0.write(JSON.stringify(valueParsed, null, 2), true)
   }
@@ -118,12 +139,14 @@ export class Mono0Tsconfig {
         definition: { path: config.rootFs0.createFile0("tsconfig.json").path.rel, value: {} },
         config,
         fs0: config.rootFs0,
+        srcFs0: config.rootFs0,
       })
     const valueParsed = Mono0Tsconfig.parseValue({
       value: tsconfig.value,
       config: config,
       fs0: tsconfig.fs0,
       file0: tsconfig.file0,
+      srcFs0: tsconfig.srcFs0,
     })
     const references = units.map((unit) => ({
       path: unit.tsconfig.file0.relToDir(tsconfig.file0),

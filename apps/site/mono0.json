@@ -1,5 +1,0 @@
-{
-  "name": "@apps/site",
-  "preset": "site",
-  "deps": ["#site", "#shared"]
-}
