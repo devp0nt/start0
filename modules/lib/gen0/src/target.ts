@@ -1,5 +1,5 @@
-import type { Gen0Client } from "@/tools/gen0/client"
-import { Gen0Logger } from "@/tools/gen0/logger"
+import type { Gen0Client } from "@devp0nt/gen0/client"
+import { Gen0Logger } from "@devp0nt/gen0/logger"
 
 // TODO: respect silent mark, using tests
 export class Gen0Target {

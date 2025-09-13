@@ -135,18 +135,35 @@
     },
     "modules/lib/gen0": {
       "name": "@devp0nt/gen0",
+      "dependencies": {
+        "@devp0nt/fs0": "workspace:*",
+        "@devp0nt/lodash0": "workspace:*",
+        "@devp0nt/logger0": "workspace:*",
+        "@devp0nt/meta0": "workspace:*",
+      },
     },
     "modules/lib/lodash0": {
       "name": "@devp0nt/lodash0",
     },
     "modules/lib/logger0": {
       "name": "@devp0nt/logger0",
+      "dependencies": {
+        "@devp0nt/error0": "workspace:*",
+        "@devp0nt/meta0": "workspace:*",
+      },
     },
     "modules/lib/meta0": {
       "name": "@devp0nt/meta0",
+      "dependencies": {
+        "@devp0nt/deepmap0": "workspace:*",
+      },
     },
     "modules/lib/mono0": {
       "name": "@devp0nt/mono0",
+      "dependencies": {
+        "@devp0nt/fs0": "workspace:*",
+        "@devp0nt/gen0": "workspace:*",
+      },
     },
     "modules/lib/route0": {
       "name": "@devp0nt/route0",

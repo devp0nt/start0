@@ -1,5 +1,5 @@
 {
   "name": "@devp0nt/mono0",
   "preset": "shared",
-  "deps": []
+  "deps": ["@devp0nt/fs0"]
 }

@@ -1,6 +1,6 @@
+import type { Gen0ClientProcessCtx } from "@devp0nt/gen0/clientProcessCtx"
+import type { Gen0Plugin } from "@devp0nt/gen0/plugin"
 import { Project } from "ts-morph"
-import type { Gen0ClientProcessCtx } from "@/tools/gen0/clientProcessCtx"
-import type { Gen0Plugin } from "@/tools/gen0/plugin"
 
 export const getRealExportNames = (ctx: Gen0ClientProcessCtx, filePath: string) => {
   filePath = ctx.fs0.toAbs(filePath)

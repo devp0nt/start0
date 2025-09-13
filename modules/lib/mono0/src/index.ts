@@ -1,12 +1,12 @@
 import { execSync } from "node:child_process"
-import type { Fs0 } from "@/tools/fs0"
-import { Gen0 } from "@/tools/gen0"
-import { Mono0Config } from "@/tools/mono0/config"
-import { Mono0Logger } from "@/tools/mono0/logger"
-import { Mono0PackageJson } from "@/tools/mono0/packageJson"
-import { Mono0Tsconfig } from "@/tools/mono0/tsconfig"
-import { Mono0Unit } from "@/tools/mono0/unit"
-import watcherGen0 from "@/tools/mono0/watcher-gen0"
+import type { Fs0 } from "@devp0nt/fs0"
+import { Gen0 } from "@devp0nt/gen0"
+import { Mono0Config } from "@devp0nt/mono0/config"
+import { Mono0Logger } from "@devp0nt/mono0/logger"
+import { Mono0PackageJson } from "@devp0nt/mono0/packageJson"
+import { Mono0Tsconfig } from "@devp0nt/mono0/tsconfig"
+import { Mono0Unit } from "@devp0nt/mono0/unit"
+import watcherGen0 from "@devp0nt/mono0/watcher-gen0"
 
 // TODO: modules/{trpc,idea,...}/{backend,site,shared}
 // TODO: верный package.json export dists путь

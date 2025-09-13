@@ -1,8 +1,14 @@
 {
-  "dependencies": {},
+  "dependencies": {
+    "@devp0nt/fs0": "workspace:*",
+    "@devp0nt/gen0": "workspace:*"
+  },
   "name": "@devp0nt/mono0",
   "private": true,
   "type": "module",
+  "scripts": {
+    "echo1": "echo 1"
+  },
   "exports": {
     ".": {
       "import": "./dist/index.js",

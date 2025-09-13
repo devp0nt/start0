@@ -1,9 +1,9 @@
 import nodePath from "node:path"
+import type { File0, Fs0 } from "@devp0nt/fs0"
+import type { Mono0Config } from "@devp0nt/mono0/config"
+import type { Mono0Unit } from "@devp0nt/mono0/unit"
 import type { TsConfigJson as TsConfigJsonTypeFest } from "type-fest"
 import z from "zod"
-import type { File0, Fs0 } from "@/tools/fs0"
-import type { Mono0Config } from "@/tools/mono0/config"
-import type { Mono0Unit } from "@/tools/mono0/unit"
 
 export class Mono0Tsconfig {
   fs0: Fs0

@@ -1,5 +1,7 @@
 {
-  "dependencies": {},
+  "dependencies": {
+    "@devp0nt/deepmap0": "workspace:*"
+  },
   "name": "@devp0nt/meta0",
   "private": true,
   "exports": {

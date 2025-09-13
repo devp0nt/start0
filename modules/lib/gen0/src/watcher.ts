@@ -1,10 +1,10 @@
+import { Fs0 } from "@devp0nt/fs0"
+import type { Gen0ClientsManager } from "@devp0nt/gen0/clientsManager"
+import { Gen0Logger } from "@devp0nt/gen0/logger"
+import type { Gen0Plugin } from "@devp0nt/gen0/plugin"
+import { Gen0Utils } from "@devp0nt/gen0/utils"
+import type { Gen0WatchersManager } from "@devp0nt/gen0/watchersManager"
 import { uniq } from "lodash"
-import { Fs0 } from "@/tools/fs0"
-import type { Gen0ClientsManager } from "@/tools/gen0/clientsManager"
-import { Gen0Logger } from "@/tools/gen0/logger"
-import type { Gen0Plugin } from "@/tools/gen0/plugin"
-import { Gen0Utils } from "@/tools/gen0/utils"
-import type { Gen0WatchersManager } from "@/tools/gen0/watchersManager"
 
 export class Gen0Watcher {
   static logger = Gen0Logger.create("watcher")

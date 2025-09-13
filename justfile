@@ -6,7 +6,9 @@ alias pmt := prisma-migrate-test
 alias pgc := prisma-generate-client
 alias t := test-root
 alias g := gen0
-alias m := moon 
+alias m := mono0 
+alias gg := gen01
+alias mm := mono01 
 
 # forward command to app
 
@@ -58,21 +60,27 @@ lint *ARGS:
 # prisma commands
 
 prisma-migrate-dev *ARGS:
-  bun run --env-file=./prisma/.env prisma migrate dev {{ARGS}}
+  bun run --filter @prisma0/backend --env-file=./.env prisma migrate dev {{ARGS}}
 
 prisma-migrate-test *ARGS:
-  bun run --env-file=./prisma/.env.test prisma migrate dev {{ARGS}}
+  bun run --filter @prisma0/backend --env-file=./.env.test prisma migrate dev {{ARGS}}
 
 prisma-generate-client *ARGS:
-  bun run --env-file=./prisma/.env prisma generate client {{ARGS}}
+  bun run --filter @prisma0/backend --env-file=./.env prisma generate client {{ARGS}}
 
 # tools
 
 gen0 *ARGS:
-  cd ./tools && bun run src/gen0/bin.ts {{ARGS}}
+  bun run modules/lib/gen0/src/bin.ts {{ARGS}}
 
 mono0 *ARGS:
-  cd ./tools && bun run src/mono0/bin.ts {{ARGS}}
+  bun run modules/lib/mono0/src/bin.ts {{ARGS}}
+
+gen01 *ARGS:
+  bun run tools/src/gen0/bin.ts {{ARGS}}
+
+mono01 *ARGS:
+  bun run tools/src/mono0/bin.ts {{ARGS}}
 
 # helpers
 

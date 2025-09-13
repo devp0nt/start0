@@ -1,8 +1,8 @@
 import { describe, expect, it } from "bun:test"
+import { Error0 } from "@devp0nt/error0"
+import { Logger0 } from "@devp0nt/logger0"
+import { Meta0 } from "@devp0nt/meta0"
 import { omit } from "lodash"
-import { Error0 } from "@/lib/error0.sh"
-import { Logger0 } from "@/lib/logger0.sh"
-import { Meta0 } from "@/lib/meta0.sh"
 
 const createLoggerAndLogs = () => {
   const logs: Record<string, any>[] = []

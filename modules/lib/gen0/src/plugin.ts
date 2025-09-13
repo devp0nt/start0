@@ -1,9 +1,9 @@
+import { File0, Fs0 } from "@devp0nt/fs0"
+import type { Gen0ClientProcessCtx } from "@devp0nt/gen0/clientProcessCtx"
+import type { Gen0Config } from "@devp0nt/gen0/config"
+import { Gen0Logger } from "@devp0nt/gen0/logger"
+import { Gen0Watcher } from "@devp0nt/gen0/watcher"
 import _, { uniq } from "lodash"
-import { File0, Fs0 } from "@/tools/fs0"
-import type { Gen0ClientProcessCtx } from "@/tools/gen0/clientProcessCtx"
-import type { Gen0Config } from "@/tools/gen0/config"
-import { Gen0Logger } from "@/tools/gen0/logger"
-import { Gen0Watcher } from "@/tools/gen0/watcher"
 
 // TODO: add to fns property .getPluginName()
 // TODO: add possibility to rename plugins when use

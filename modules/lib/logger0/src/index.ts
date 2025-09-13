@@ -1,3 +1,5 @@
+import { Error0, type Error0Input } from "@devp0nt/error0"
+import { Meta0 } from "@devp0nt/meta0"
 import {
   configureSync,
   type Filter,
@@ -12,9 +14,6 @@ import {
 import debug from "debug"
 import { omit } from "lodash"
 import yaml from "yaml"
-import { Error0, type Error0Input } from "@/lib/error0.sh"
-import type { ExtractEnum } from "@/lib/lodash0.sh"
-import { Meta0 } from "@/lib/meta0.sh"
 
 // TODO: oneliner formatter
 
@@ -113,7 +112,7 @@ export class Logger0 {
     skipInit?: boolean
     sensetiveKeys?: string[]
     hideSensitiveKeys?: boolean
-    lowestLevel?: ExtractEnum<LogLevel, "error" | "fatal" | "info" | "warning" | "trace" | "debug">
+    lowestLevel?: Extract<LogLevel, "error" | "fatal" | "info" | "warning" | "trace" | "debug">
   }) => {
     if (!skipInit) {
       Logger0.init({
@@ -183,7 +182,7 @@ export class Logger0 {
     level,
   }: {
     logger0: Logger0
-    level: ExtractEnum<LogLevel, "error" | "fatal">
+    level: Extract<LogLevel, "error" | "fatal">
   }) => {
     const logBadFn: Logger0.LogBadFn = (...args: unknown[]) => {
       const error0 = args[0] instanceof Error0 ? args[0] : Error0.from(args[0])
@@ -219,7 +218,7 @@ export class Logger0 {
     level,
   }: {
     logger0: Logger0
-    level: ExtractEnum<LogLevel, "info" | "warning" | "trace" | "debug">
+    level: Extract<LogLevel, "info" | "warning" | "trace" | "debug">
   }) => {
     const logOkFn: Logger0.LogOkFn = (...args: unknown[]) => {
       const extraMeta = typeof args[0] !== "string" ? Meta0.from(args[0] as never) : Meta0.from(args[1] as never)
@@ -301,7 +300,7 @@ export class Logger0 {
     debugConfig?: string
     removeDefaultSinks?: boolean
     removeDefaultFilters?: boolean
-    lowestLevel?: ExtractEnum<LogLevel, "error" | "fatal" | "info" | "warning" | "trace" | "debug">
+    lowestLevel?: Extract<LogLevel, "error" | "fatal" | "info" | "warning" | "trace" | "debug">
   } = {}) => {
     debug.enable(debugConfig)
     const formatterHere =

@@ -5,5 +5,5 @@
     "rootDir": "./src"
   },
   "include": ["src/**/*"],
-  "references": []
+  "references": [{ "path": "../error0/tsconfig.json" }, { "path": "../meta0/tsconfig.json" }]
 }
