@@ -2,6 +2,7 @@ import type { Fs0 } from "@/tools/fs0"
 import { Gen0 } from "@/tools/gen0"
 import { Mono0Config } from "@/tools/mono0/config"
 import { Mono0Logger } from "@/tools/mono0/logger"
+import { Mono0PackageJson } from "@/tools/mono0/packageJson"
 import { Mono0Tsconfig } from "@/tools/mono0/tsconfig"
 import { Mono0Unit } from "@/tools/mono0/unit"
 import watcherGen0 from "@/tools/mono0/watcher-gen0"
@@ -55,12 +56,17 @@ export class Mono0 {
   }
 
   async sync() {
+    await Mono0Tsconfig.writeRootTsconfig({
+      tsconfig: this.config.tsconfigs.root,
+      config: this.config,
+      units: this.units,
+    })
+    await Mono0PackageJson.writeRootPackageJson({ config: this.config, units: this.units })
     for (const [tsconfigName, tsconfig] of Object.entries(this.config.tsconfigs)) {
       if (tsconfigName === "root") {
-        await Mono0Tsconfig.writeRootTsconfig({ tsconfig, config: this.config, units: this.units })
-      } else {
-        await tsconfig.write()
+        continue
       }
+      await tsconfig.write()
     }
     for (const unit of this.units) {
       await unit.writeTsconfig()

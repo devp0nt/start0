@@ -108,10 +108,17 @@ export class Mono0Tsconfig {
     config,
     units,
   }: {
-    tsconfig: Mono0Tsconfig
+    tsconfig?: Mono0Tsconfig
     config: Mono0Config
     units: Mono0Unit[]
   }) {
+    tsconfig =
+      tsconfig ||
+      Mono0Tsconfig.create({
+        definition: { path: config.rootFs0.createFile0("tsconfig.json").path.rel, value: {} },
+        config,
+        fs0: config.rootFs0,
+      })
     const valueParsed = Mono0Tsconfig.parseValue({
       value: tsconfig.value,
       config: config,

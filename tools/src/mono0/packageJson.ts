@@ -91,6 +91,20 @@ export class Mono0PackageJson {
     }
   }
 
+  static async writeRootPackageJson({ config, units }: { config: Mono0Config; units: Mono0Unit[] }) {
+    const file0 = config.rootFs0.createFile0("package.json")
+    const prevValue = await file0.readJson<Mono0PackageJson.Json>()
+    const worksapcesPackages = units.map((unit) => file0.fs0.toRel(unit.packageJson.file0.path.dir))
+    const newValue = {
+      ...prevValue,
+      workspaces: {
+        ...(prevValue.workspaces || {}),
+        packages: worksapcesPackages,
+      },
+    }
+    await file0.write(JSON.stringify(newValue, null, 2), true)
+  }
+
   static zValueDefinition = z.looseObject({
     dependencies: z.record(z.string(), z.string().optional()).optional(),
     devDependencies: z.record(z.string(), z.string().optional()).optional(),
