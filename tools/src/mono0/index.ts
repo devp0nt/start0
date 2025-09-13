@@ -46,7 +46,7 @@ export class Mono0 {
     const units = await Promise.all(
       unitsConfigsPaths.map((unitConfigPath) => Mono0Unit.create({ unitConfigPath, config })),
     )
-    return units
+    return units.sort((a, b) => a.name.localeCompare(b.name))
   }
 
   async sync() {
