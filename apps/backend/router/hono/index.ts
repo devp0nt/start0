@@ -4,7 +4,7 @@ import { helloHonoRoute } from "./hello/route.js"
 import { pingHonoRoute } from "./ping/route.js"
 // @gen0:end
 
-import type { HonoApp } from "@/backend/lib/hono"
+import type { HonoApp } from "@backend/core/lib/hono"
 
 export namespace BackendHonoRouter {
   export const apply = ({ honoApp }: { honoApp: HonoApp.AppType }) => {

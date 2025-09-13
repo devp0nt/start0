@@ -1,5 +1,6 @@
 import { HonoApp } from "@backend/core/lib/hono"
 import { BackendTrpc } from "@backend/core/lib/trpc"
+import { trpcServer } from "@hono/trpc-server"
 import type { inferRouterInputs, inferRouterOutputs } from "@trpc/server"
 
 // @gen0:start await importExportedFromFiles("~/**/route{s,}.*.ts", "TrpcRoute")
@@ -37,7 +38,7 @@ export namespace BackendTrpcRouter {
         createContext: (_opts, c: HonoApp.HonoCtx) => {
           const honoReqCtx = c.var.honoReqCtx.extend("trpc")
           const unextendable = honoReqCtx.getUnextendable()
-          return { honoReqCtx, ...unextendable } satisfies TrpcCtx
+          return { honoReqCtx, ...unextendable } satisfies BackendTrpc.TrpcCtx
         },
       }),
     )

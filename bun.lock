@@ -84,12 +84,21 @@
     },
     "apps/backend/router/hono": {
       "name": "@backend/hono-router",
+      "dependencies": {
+        "@backend/core": "workspace:*",
+      },
     },
     "apps/backend/router/trpc": {
       "name": "@backend/trpc-router",
+      "dependencies": {
+        "@backend/core": "workspace:*",
+      },
     },
     "apps/backend/services": {
       "name": "@backend/services",
+      "dependencies": {
+        "@backend/core": "workspace:*",
+      },
     },
     "apps/site/app": {
       "name": "@site/app",

@@ -1,5 +1,5 @@
 {
   "name": "@backend/services",
   "preset": "backend",
-  "deps": []
+  "deps": ["@backend/core"]
 }

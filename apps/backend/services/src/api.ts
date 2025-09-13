@@ -1,10 +1,10 @@
+import { BackendCtx } from "@backend/core/lib/ctx"
+import { HonoApp } from "@backend/core/lib/hono"
+import { BackendTrpc } from "@backend/core/lib/trpc"
+import { BackendHonoRouter } from "@backend/router/hono"
+import { BackendTrpcRouter } from "@backend/router/trpc"
 import { serve } from "bun"
 import { cors } from "hono/cors"
-import { BackendCtx } from "@/backend/lib/ctx"
-import { HonoApp } from "@/backend/lib/hono"
-import { BackendTrpc } from "@/backend/lib/trpc"
-import { BackendHonoRouter } from "@/backend/router/index.hono"
-import { BackendTrpcRouter } from "@/backend/router/index.trpc"
 
 export const startApiProcess = async () => {
   let ctx: BackendCtx | null = null

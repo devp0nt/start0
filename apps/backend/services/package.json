@@ -1,5 +1,7 @@
 {
-  "dependencies": {},
+  "dependencies": {
+    "@backend/core": "workspace:*"
+  },
   "name": "@backend/services",
   "private": true,
   "type": "module",

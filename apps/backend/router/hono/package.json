@@ -1,5 +1,7 @@
 {
-  "dependencies": {},
+  "dependencies": {
+    "@backend/core": "workspace:*"
+  },
   "name": "@backend/hono-router",
   "private": true,
   "type": "module",
