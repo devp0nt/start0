@@ -51,18 +51,22 @@ export class Gen0Plugin {
   }
 
   static async createByDefinition({
-    definition,
+    definition: definitionOrFn,
     config,
     name,
     file0,
     fs0,
   }: {
-    definition: Gen0Plugin.DefinitionResult
+    definition: Gen0Plugin.Definition
     config: Gen0Config
     name: string
     file0?: File0
     fs0: Fs0
   }) {
+    const definition = typeof definitionOrFn === "function" ? await definitionOrFn({ fs0, _ }) : definitionOrFn
+    if (!definition) {
+      throw new Error(`No plugin definition found in ${file0?.path.rel}`)
+    }
     const plugin = new Gen0Plugin({
       config,
       name,
@@ -174,7 +178,7 @@ export namespace Gen0Plugin {
     init?: () => Promise<void>
   }
   export type DefinitionWithName = Omit<DefinitionResult, "name"> & { name: string }
-  export type DefinitionFnCtx = { fs: Fs0; _: typeof _ }
+  export type DefinitionFnCtx = { fs0: Fs0; _: typeof _ }
   export type DefinitionFn = (ctx: DefinitionFnCtx) => DefinitionResult | Promise<DefinitionResult>
   export type Definition = DefinitionResult | DefinitionFn
 

@@ -1,23 +1,23 @@
 import type { Page0 } from "@/site/lib/page0"
 import type { Gen0Plugin } from "@/tools/gen0/plugin"
 
-export default (async ({ fs, _ }) => {
-  await fs.loadEnv(".env")
+export default (async ({ fs0, _ }) => {
+  await fs0.loadEnv(".env")
 
-  const { RRGen0 } = await fs.importFresh<typeof import("./gen0.templates.to")>("./gen0.templates.ts")
+  const { RRGen0 } = await fs0.importFresh<typeof import("./gen0.templates.to")>("./gen0.templates.ts")
   const pagesGlob = ["~/**/*.page.si.ts{x,}", "~/apps/site/**/*.page.ts{x,}"]
   const watchGlob = [...pagesGlob, "./gen0.templates.ts"]
-  const appDir = fs.resolve(".")
-  const generatedRoutesDir = fs.toAbs(fs.resolve(appDir, "routes/generated"))
+  const appDir = fs0.resolve(".")
+  const generatedRoutesDir = fs0.toAbs(fs0.resolve(appDir, "routes/generated"))
   const catchall = "./routes/catchall.tsx"
 
   const getHelpersByPagePath = (pagePath: string) => {
-    const pagePathRelToProjectRoot = fs.toRel(pagePath, fs.rootDir)
+    const pagePathRelToProjectRoot = fs0.toRel(pagePath, fs0.rootDir)
     const pagePathSlug = _.kebabCase(pagePathRelToProjectRoot)
-    const routeFilePath = fs.resolve(generatedRoutesDir, `${pagePathSlug}.tsx`)
-    const pagePathRelToGeneratedRoutesDir = fs.replaceExt(fs.toRel(pagePath, generatedRoutesDir), ".js")
-    const routePathRelativeToAppDir = fs.toRel(routeFilePath, appDir)
-    const routesFilePath = fs.resolve(appDir, "routes.ts")
+    const routeFilePath = fs0.resolve(generatedRoutesDir, `${pagePathSlug}.tsx`)
+    const pagePathRelToGeneratedRoutesDir = fs0.replaceExt(fs0.toRel(pagePath, generatedRoutesDir), ".js")
+    const routePathRelativeToAppDir = fs0.toRel(routeFilePath, appDir)
+    const routesFilePath = fs0.resolve(appDir, "routes.ts")
     return {
       pagePathRelToProjectRoot,
       pagePathSlug,
@@ -30,7 +30,7 @@ export default (async ({ fs, _ }) => {
 
   const generateRouteFileByPagePath = async (pagePath: string) => {
     const { routeFilePath, pagePathSlug, pagePathRelToGeneratedRoutesDir } = getHelpersByPagePath(pagePath)
-    await fs.writeFile(
+    await fs0.writeFile(
       routeFilePath,
       RRGen0.routeFileTemplate({
         pathForImport: pagePathRelToGeneratedRoutesDir,
@@ -40,30 +40,30 @@ export default (async ({ fs, _ }) => {
   }
 
   const generateAllRoutesFiles = async (pagesPaths?: string[]) => {
-    pagesPaths = pagesPaths || (await fs.findFilesPaths(pagesGlob))
+    pagesPaths = pagesPaths || (await fs0.findFilesPaths(pagesGlob))
     await Promise.all(pagesPaths.map(generateRouteFileByPagePath))
     return pagesPaths
   }
 
   const removeAllUnusedRoutesFiles = async (pagesPaths?: string[]) => {
-    pagesPaths = pagesPaths || (await fs.findFilesPaths(pagesGlob))
+    pagesPaths = pagesPaths || (await fs0.findFilesPaths(pagesGlob))
     const unuedPaths: string[] = []
-    const existsingRoutesPaths = await fs.findFilesPaths(generatedRoutesDir)
+    const existsingRoutesPaths = await fs0.findFilesPaths(generatedRoutesDir)
     const neeededRoutesPaths = pagesPaths.map((pagePath) => getHelpersByPagePath(pagePath).routeFilePath)
     for (const existingRoutePath of existsingRoutesPaths) {
       if (!neeededRoutesPaths.includes(existingRoutePath)) {
         unuedPaths.push(existingRoutePath)
       }
     }
-    await Promise.all(unuedPaths.map((p) => fs.rm(p)))
+    await Promise.all(unuedPaths.map((p) => fs0.rm(p)))
     return pagesPaths
   }
 
   const generateRoutesFile = async (pagesPaths?: string[]) => {
-    pagesPaths = pagesPaths || (await fs.findFilesPaths(pagesGlob))
+    pagesPaths = pagesPaths || (await fs0.findFilesPaths(pagesGlob))
     const input: RRInput[] = await Promise.all(
       pagesPaths.map((pagePath) =>
-        fs.importFreshDefault<Page0<any, any>>(pagePath).then(async (page) => {
+        fs0.importFreshDefault<Page0<any, any>>(pagePath).then(async (page) => {
           const { routePathRelativeToAppDir } = getHelpersByPagePath(pagePath)
           const layouts = page.layouts
           const route0Definition = page.route.getDefinition()
@@ -73,12 +73,12 @@ export default (async ({ fs, _ }) => {
     )
     const structure = buildRoutesStructure(input, catchall)
     const { routesFilePath } = getHelpersByPagePath(pagesPaths[0])
-    await fs.writeFile(routesFilePath, RRGen0.routesFileTemplate({ structure }))
+    await fs0.writeFile(routesFilePath, RRGen0.routesFileTemplate({ structure }))
     return pagesPaths
   }
 
   const clearGeneratedRoutesDir = async () => {
-    await fs.rmdir(generatedRoutesDir)
+    await fs0.rmdir(generatedRoutesDir)
   }
 
   const generateEverything = async () => {
