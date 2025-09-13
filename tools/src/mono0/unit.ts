@@ -1,15 +1,18 @@
 import z from "zod"
 import type { File0, Fs0 } from "@/tools/fs0"
 import type { Mono0Config } from "@/tools/mono0/config"
+import { Mono0PackageJson } from "@/tools/mono0/packageJson"
 import { Mono0Tsconfig } from "@/tools/mono0/tsconfig"
 
 export class Mono0Unit {
   unitConfigFile0: File0
   fs0: Fs0
+  srcFs0: Fs0
   config: Mono0Config
   name: string
   tags: string[]
   tsconfig: Mono0Tsconfig
+  packageJson: Mono0PackageJson
   presets: string[]
   depsDefs: Mono0Unit.DefinitionParsed["deps"]
   deps: Mono0Unit.Dependency[]
@@ -17,20 +20,24 @@ export class Mono0Unit {
   private constructor(input: {
     unitConfigFile0: File0
     fs0: Fs0
+    srcFs0: Fs0
     config: Mono0Config
     name: string
     tags: string[]
     tsconfig: Mono0Tsconfig
+    packageJson: Mono0PackageJson
     presets: string[]
     deps: Mono0Unit.Dependency[]
     depsDefs: Mono0Unit.DefinitionParsed["deps"]
   }) {
     this.unitConfigFile0 = input.unitConfigFile0
     this.fs0 = input.fs0
+    this.srcFs0 = input.srcFs0
     this.config = input.config
     this.name = input.name
     this.tags = input.tags
     this.tsconfig = input.tsconfig
+    this.packageJson = input.packageJson
     this.presets = input.presets
     this.deps = input.deps
     this.depsDefs = input.depsDefs
@@ -56,13 +63,24 @@ export class Mono0Unit {
       unitConfigFile0,
     })
     const tsconfig = Mono0Tsconfig.create({ definition: definition.tsconfig, config, fs0: unitConfigFile0.fs0 })
+    const packageJson = Mono0PackageJson.create({
+      name: definition.name,
+      definition: definition.packageJson,
+      config,
+      fs0: unitConfigFile0.fs0,
+    })
+    const srcFs0 = (await unitConfigFile0.fs0.isExists("src"))
+      ? unitConfigFile0.fs0.createFs0({ cwd: "src" })
+      : unitConfigFile0.fs0
     return new Mono0Unit({
       name: definition.name,
       tags: definition.tags,
       tsconfig,
+      packageJson,
       presets: definition.preset,
       unitConfigFile0,
       fs0: unitConfigFile0.fs0,
+      srcFs0,
       config,
       deps: [],
       depsDefs: definition.deps,
@@ -159,6 +177,14 @@ export class Mono0Unit {
     }
   }
 
+  async writeTsconfig() {
+    await this.tsconfig.write()
+  }
+
+  async writePackageJson() {
+    await this.packageJson.write({ deps: this.deps.map((d) => d.unit) })
+  }
+
   hasMatchByMatchParsed(m: Mono0Unit.DependencyMatchParsed) {
     const matchByName = m.name ? this.name === m.name : undefined
     const matchByTagsInclude =
@@ -203,33 +229,38 @@ export class Mono0Unit {
     return result
   }
 
-  static zDefinition = z.object({
-    name: z.string(),
-    tags: z.array(z.string()).optional().default([]),
-    tsconfig: Mono0Tsconfig.zDefinition.optional().default({ value: {} }),
-    preset: z
-      .union([z.string(), z.array(z.string())])
-      .optional()
-      .default([])
-      .transform((val) => (Array.isArray(val) ? val : [val])),
-    deps: z
-      .array(
-        z.union([
-          z.string(),
-          z.object({
-            match: z.string().transform(Mono0Unit.parseMatchString),
-            relation: z.enum(["reference", "include"]).optional().default("reference"),
-          }),
-        ]),
-      )
-      .optional()
-      .default([])
-      .transform((val) =>
-        val.map((v) =>
-          typeof v === "string" ? { match: Mono0Unit.parseMatchString(v), relation: "reference" as const } : v,
+  static zDefinition = z
+    .object({
+      name: z.string(),
+      tags: z.array(z.string()).optional().default([]),
+      tsconfig: Mono0Tsconfig.zDefinition.optional().default({ value: {} }),
+      packageJson: Mono0PackageJson.zDefinition.optional().default({ value: {} }),
+      preset: z
+        .union([z.string(), z.array(z.string())])
+        .optional()
+        .default([])
+        .transform((val) => (Array.isArray(val) ? val : [val])),
+      deps: z
+        .array(
+          z.union([
+            z.string(),
+            z.object({
+              match: z.string().transform(Mono0Unit.parseMatchString),
+              relation: z.enum(["reference", "include"]).optional().default("reference"),
+            }),
+          ]),
+        )
+        .optional()
+        .default([])
+        .transform((val) =>
+          val.map((v) =>
+            typeof v === "string" ? { match: Mono0Unit.parseMatchString(v), relation: "reference" as const } : v,
+          ),
         ),
-      ),
-  })
+    })
+    .transform((val) => ({
+      ...val,
+    }))
 
   getMeta() {
     return {

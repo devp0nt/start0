@@ -1,5 +1,6 @@
 import type { Fs0 } from "@/tools/fs0"
 import { Mono0Config } from "@/tools/mono0/config"
+import { Mono0Tsconfig } from "@/tools/mono0/tsconfig"
 import { Mono0Unit } from "@/tools/mono0/unit"
 
 // TODO: Тсконфиги, пакейджейсоны, рут тс, рут пкг, бэйз тс, мэни конфиг
@@ -48,11 +49,16 @@ export class Mono0 {
   }
 
   async sync() {
-    for (const tsconfig of Object.values(this.config.tsconfigs)) {
-      await tsconfig.write()
+    for (const [tsconfigName, tsconfig] of Object.entries(this.config.tsconfigs)) {
+      if (tsconfigName === "root") {
+        await Mono0Tsconfig.writeRootTsconfig({ tsconfig, config: this.config, units: this.units })
+      } else {
+        await tsconfig.write()
+      }
     }
     for (const unit of this.units) {
-      await unit.tsconfig.write()
+      await unit.writeTsconfig()
+      await unit.writePackageJson()
     }
   }
   static async sync({ mono0 }: { mono0?: Mono0 } = {}) {

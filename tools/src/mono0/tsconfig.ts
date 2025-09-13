@@ -2,6 +2,7 @@ import type { TsConfigJson as TsConfigJsonTypeFest } from "type-fest"
 import z from "zod"
 import type { File0, Fs0 } from "@/tools/fs0"
 import type { Mono0Config } from "@/tools/mono0/config"
+import type { Mono0Unit } from "@/tools/mono0/unit"
 
 export class Mono0Tsconfig {
   fs0: Fs0
@@ -100,6 +101,35 @@ export class Mono0Tsconfig {
       file0: this.file0,
     })
     await this.file0.write(JSON.stringify(valueParsed, null, 2))
+  }
+
+  static async writeRootTsconfig({
+    tsconfig,
+    config,
+    units,
+  }: {
+    tsconfig: Mono0Tsconfig
+    config: Mono0Config
+    units: Mono0Unit[]
+  }) {
+    const valueParsed = Mono0Tsconfig.parseValue({
+      value: tsconfig.value,
+      config: config,
+      fs0: tsconfig.fs0,
+      file0: tsconfig.file0,
+    })
+    const references = units.map((unit) => ({
+      path: unit.tsconfig.file0.relToDir(tsconfig.file0),
+    }))
+    valueParsed.references = references
+    const paths = Object.fromEntries(
+      units.map((unit) => [`${unit.name}/*`, [`${tsconfig.file0.fs0.toRel(unit.srcFs0.cwd)}/*`]]),
+    )
+    valueParsed.compilerOptions = {
+      ...valueParsed.compilerOptions,
+      paths,
+    }
+    await tsconfig.file0.write(JSON.stringify(valueParsed, null, 2))
   }
 
   static zValueDefinition = z.looseObject({

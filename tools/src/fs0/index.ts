@@ -582,6 +582,13 @@ export class File0 {
     this.path = this.fs0.parsePath(this.path.abs)
   }
 
+  isExistsSync() {
+    return this.fs0.isExistsSync(this.path.abs)
+  }
+  async isExists() {
+    return await this.fs0.isExists(this.path.abs)
+  }
+
   writeSync(content: string) {
     return this.fs0.writeFileSync(this.path.abs, content)
   }
