@@ -8,16 +8,10 @@
       "path": "./apps/backend/core/tsconfig.json"
     },
     {
-      "path": "./apps/backend/hono-router/tsconfig.json"
-    },
-    {
       "path": "./apps/backend/router/hono/tsconfig.json"
     },
     {
       "path": "./apps/backend/services/tsconfig.json"
-    },
-    {
-      "path": "./apps/backend/trpc-router/tsconfig.json"
     },
     {
       "path": "./apps/backend/router/trpc/tsconfig.json"
