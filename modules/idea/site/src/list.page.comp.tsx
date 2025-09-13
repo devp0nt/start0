@@ -1,4 +1,4 @@
-import type { Idea } from "@idea/shared/utils"
+import type { Idea } from "@idea/shared/src/utils"
 import { SiteCtx } from "@site/core/lib/ctx"
 import { siteRoutes } from "@site/core/lib/routes"
 import { Link } from "react-router"

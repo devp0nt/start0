@@ -4,9 +4,9 @@
     "outDir": "./dist",
     "declarationDir": "./dist",
     "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@idea/shared/.tsbuildinfo",
-    "rootDir": "./"
+    "rootDir": "./src"
   },
-  "include": ["**/*"],
+  "include": ["src/**/*"],
   "references": [
     {
       "path": "../../lib/route0/tsconfig.json"

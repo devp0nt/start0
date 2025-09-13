@@ -1,7 +1,7 @@
-import page from "../../../../../../modules/idea/site/view.page.js"
 import { Error0 } from "@devp0nt/error0"
 import { SiteError } from "@site/core/components/Error"
 import { RR0 } from "@site/core/lib/rr0"
+import page from "../../../../../../modules/idea/site/src/view.page.js"
 import type { Route } from "./+types/modules-idea-site-view-page-tsx"
 
 export const meta = RR0.createMeta(({ loaderData, params, error }: RR0.MetaArgs<Route.MetaArgs>) => {
@@ -34,4 +34,3 @@ const RouteComponent = RR0.createRouteComponent(
 )
 
 export default RouteComponent
-  
