@@ -1,4 +1,4 @@
-import mono0Watcher from "@/tools/mono0/watcher-gen0"
+import mono0Watcher from "./tools/src/mono0/watcher-gen0"
 
 export default {
   // afterProcessCmd: (filePath) => `bun run lint ${filePath}`,
