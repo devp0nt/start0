@@ -1,12 +1,10 @@
 {
-  "name": "@/backend",
+  "name": "@backend",
   "private": true,
   "type": "module",
   "dependencies": {
-    "@/appConfig": "workspace:*",
-    "@/idea": "workspace:*",
-    "@/lib": "workspace:*",
-    "@/prisma": "workspace:*"
+    "@lib": "workspace:*",
+    "@prisma0/backend": "workspace:*"
   },
   "scripts": {
     "dev": "cross-env NODE_ENV=development bun run --hot src/services/dev.ts",

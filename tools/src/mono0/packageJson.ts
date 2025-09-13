@@ -50,6 +50,9 @@ export class Mono0PackageJson {
 
   async getValueWithDeps({ deps }: { deps: Mono0Unit[] }) {
     const currentValue = await this.getCurrentValue()
+    currentValue.dependencies = Object.fromEntries(
+      Object.entries(currentValue.dependencies || {}).filter(([key, value]) => value !== "workspace:*"),
+    )
     const mergedValue = Mono0PackageJson.merge(currentValue, { name: this.name, ...this.value })
     if (deps.length) {
       if (!mergedValue.dependencies) {

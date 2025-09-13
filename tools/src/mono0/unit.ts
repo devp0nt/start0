@@ -229,38 +229,34 @@ export class Mono0Unit {
     return result
   }
 
-  static zDefinition = z
-    .object({
-      name: z.string(),
-      tags: z.array(z.string()).optional().default([]),
-      tsconfig: Mono0Tsconfig.zDefinition.optional().default({ value: {} }),
-      packageJson: Mono0PackageJson.zDefinition.optional().default({ value: {} }),
-      preset: z
-        .union([z.string(), z.array(z.string())])
-        .optional()
-        .default([])
-        .transform((val) => (Array.isArray(val) ? val : [val])),
-      deps: z
-        .array(
-          z.union([
-            z.string(),
-            z.object({
-              match: z.string().transform(Mono0Unit.parseMatchString),
-              relation: z.enum(["reference", "include"]).optional().default("reference"),
-            }),
-          ]),
-        )
-        .optional()
-        .default([])
-        .transform((val) =>
-          val.map((v) =>
-            typeof v === "string" ? { match: Mono0Unit.parseMatchString(v), relation: "reference" as const } : v,
-          ),
+  static zDefinition = z.object({
+    name: z.string(),
+    tags: z.array(z.string()).optional().default([]),
+    tsconfig: Mono0Tsconfig.zDefinition.optional().default({ value: {} }),
+    packageJson: Mono0PackageJson.zDefinition.optional().default({ value: {} }),
+    preset: z
+      .union([z.string(), z.array(z.string())])
+      .optional()
+      .default([])
+      .transform((val) => (Array.isArray(val) ? val : [val])),
+    deps: z
+      .array(
+        z.union([
+          z.string(),
+          z.object({
+            match: z.string().transform(Mono0Unit.parseMatchString),
+            relation: z.enum(["reference", "include"]).optional().default("reference"),
+          }),
+        ]),
+      )
+      .optional()
+      .default([])
+      .transform((val) =>
+        val.map((v) =>
+          typeof v === "string" ? { match: Mono0Unit.parseMatchString(v), relation: "reference" as const } : v,
         ),
-    })
-    .transform((val) => ({
-      ...val,
-    }))
+      ),
+  })
 
   getMeta() {
     return {

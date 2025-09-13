@@ -1,5 +1,5 @@
 {
-  "name": "@/lib",
+  "name": "@lib",
   "private": true,
   "type": "module",
   "dependencies": {},

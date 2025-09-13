@@ -1,10 +1,8 @@
 {
-  "name": "@/prisma",
+  "name": "@prisma0/backend",
   "private": true,
   "type": "module",
-  "dependencies": {
-    "@/lib": "workspace:*"
-  },
+  "dependencies": {},
   "scripts": {
     "types": "rimraf dist && tsc"
   }
