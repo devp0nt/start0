@@ -1,7 +1,7 @@
 #!/usr/bin/env bun
 
 // import * as readline from "node:readline"
-import { Gen0Logger } from "@devp0nt/gen0/logger.js"
+import { Gen0Logger } from "@devp0nt/gen0/logger"
 import { Command } from "commander"
 import { Gen0 } from "./index.js"
 

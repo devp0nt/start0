@@ -10,6 +10,9 @@
       "path": "../tsconfig.base.json",
       "value": {
         "compilerOptions": {
+          "lib": ["ESNext"],
+          "types": ["node", "bun"],
+          "target": "ESNext",
           "composite": true,
           "declaration": true,
           "declarationMap": true,
@@ -40,7 +43,13 @@
     "site": {
       "path": "./tsconfig.site.json",
       "value": {
-        "extends": "$base"
+        "extends": "$base",
+        "compilerOptions": {
+          "lib": ["DOM", "DOM.Iterable", "ES2022"],
+          "types": ["node", "bun", "vite/client"],
+          "target": "ES2022",
+          "module": "ES2022"
+        }
       }
     },
     "tools": {

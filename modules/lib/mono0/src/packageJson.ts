@@ -138,7 +138,7 @@ export class Mono0PackageJson {
       Mono0PackageJson.Json | Mono0PackageJson.ValueDefinition,
       ...(Mono0PackageJson.Json | Mono0PackageJson.ValueDefinition)[],
     ]
-  ): Mono0PackageJson.Json {
+  ): Mono0PackageJson.ValueDefinition {
     return packageJsonsValues.reduce((acc, packageJsonValue) => {
       return {
         // biome-ignore lint/performance/noAccumulatingSpread: <oh...>
