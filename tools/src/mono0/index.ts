@@ -46,4 +46,19 @@ export class Mono0 {
     )
     return units
   }
+
+  async sync() {
+    for (const tsconfig of Object.values(this.config.tsconfigs)) {
+      await tsconfig.write()
+    }
+    for (const unit of this.units) {
+      await unit.tsconfig.write()
+    }
+  }
+  static async sync({ mono0 }: { mono0?: Mono0 } = {}) {
+    if (!mono0) {
+      mono0 = await Mono0.create()
+    }
+    await mono0.sync()
+  }
 }

@@ -92,6 +92,16 @@ export class Mono0Tsconfig {
     return result
   }
 
+  async write() {
+    const valueParsed = Mono0Tsconfig.parseValue({
+      value: this.value,
+      config: this.config,
+      fs0: this.fs0,
+      file0: this.file0,
+    })
+    await this.file0.write(JSON.stringify(valueParsed, null, 2))
+  }
+
   static zValueDefinition = z.looseObject({
     extends: z.string().optional(),
     include: z.array(z.string()).optional(),

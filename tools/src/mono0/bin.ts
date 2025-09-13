@@ -56,4 +56,14 @@ program
     }),
   )
 
+program
+  .command("sync")
+  .alias("s")
+  .description("Sync files")
+  .action(
+    withMono0(async (mono0) => {
+      await mono0.sync()
+    }),
+  )
+
 program.parse()
