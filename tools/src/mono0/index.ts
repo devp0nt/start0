@@ -6,7 +6,8 @@ import { Mono0Tsconfig } from "@/tools/mono0/tsconfig"
 import { Mono0Unit } from "@/tools/mono0/unit"
 import watcherGen0 from "@/tools/mono0/watcher-gen0"
 
-// TODO: вотчер
+// TODO: bun install on package.json change
+// TODO: workspaces in package.json
 
 // TODO: modules/{trpc,idea,...}/{backend,site,shared}
 // TODO: мэниконфиг
@@ -16,6 +17,7 @@ import watcherGen0 from "@/tools/mono0/watcher-gen0"
 // TODO: mono0 генератор jest file
 
 // TODO: авто разруливание заисимостей в include, вместо refrenece
+// TODO: settings
 
 // TODO: ? mono0 генератор biome restrict imports
 // TODO: ? автоинстал зависимостей исходя из импортов в коде
@@ -78,12 +80,12 @@ export class Mono0 {
         rootDir: this.config.rootFs0.rootDir,
         pluginsGlob: [],
         clientsGlob: [],
+        debug: true,
         plugins: [watcherGen0],
       },
     })
     await gen0.init()
     const watcher = await gen0.watch()
-    this.logger.info("watcher started")
     return watcher
   }
 }

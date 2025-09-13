@@ -26,7 +26,7 @@ export class Gen0PluginsManager {
   }
 
   async createByDefinition(
-    definition: Gen0Plugin.DefinitionWithName,
+    definition: Gen0Plugin.Definition,
     rest?: {
       fs0?: Fs0
       file0?: File0
@@ -35,7 +35,6 @@ export class Gen0PluginsManager {
     return Gen0Plugin.createByDefinition({
       definition,
       config: this.config,
-      name: definition.name,
       fs0: rest?.fs0 || this.fs0,
       file0: rest?.file0,
     })
@@ -46,10 +45,10 @@ export class Gen0PluginsManager {
       const exPluginIndex = this.plugins.findIndex((exPlugin) => newPlugin.isSame(exPlugin))
       if (exPluginIndex === -1) {
         this.plugins.push(newPlugin)
-        this.logger.debug(`add plugin ${newPlugin.file0?.path.rel}`)
+        this.logger.debug(`add plugin "${newPlugin.file0?.path.rel || newPlugin.name}"`)
       } else {
         this.plugins[exPluginIndex] = newPlugin
-        this.logger.debug(`update plugin ${newPlugin.file0?.path.rel}`)
+        this.logger.debug(`update plugin "${newPlugin.file0?.path.rel || newPlugin.name}"`)
       }
       if (init) {
         await newPlugin.init()

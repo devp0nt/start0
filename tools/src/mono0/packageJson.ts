@@ -1,7 +1,10 @@
+import { execSync } from "child_process"
+import { isEqual } from "lodash"
 import type { PackageJson as PackageJsonTypeFest } from "type-fest"
 import z from "zod"
 import type { File0, Fs0 } from "@/tools/fs0"
 import type { Mono0Config } from "@/tools/mono0/config"
+import { Mono0Logger } from "@/tools/mono0/logger"
 import type { Mono0Unit } from "@/tools/mono0/unit"
 
 export class Mono0PackageJson {
@@ -10,6 +13,7 @@ export class Mono0PackageJson {
   file0: File0
   config: Mono0Config
   value: Mono0PackageJson.ValueDefinition
+  logger: Mono0Logger = Mono0Logger.create("packageJson")
 
   private constructor({
     name,
@@ -50,9 +54,16 @@ export class Mono0PackageJson {
 
   async getValueWithDeps({ deps }: { deps: Mono0Unit[] }) {
     const currentValue = await this.getCurrentValue()
+    const prevWorkspaceDeps = Object.fromEntries(
+      Object.entries(currentValue.dependencies || {}).filter(([key, value]) => value === "workspace:*"),
+    )
+    const newWorkspaceDeps: Record<string, string> = {}
+
+    // delete previous workspace deps
     currentValue.dependencies = Object.fromEntries(
       Object.entries(currentValue.dependencies || {}).filter(([key, value]) => value !== "workspace:*"),
     )
+
     const mergedValue = Mono0PackageJson.merge(currentValue, { name: this.name, ...this.value })
     if (deps.length) {
       if (!mergedValue.dependencies) {
@@ -60,14 +71,24 @@ export class Mono0PackageJson {
       }
       for (const unit of deps) {
         mergedValue.dependencies[unit.name] = "workspace:*"
+        newWorkspaceDeps[unit.name] = "workspace:*"
       }
     }
-    return mergedValue
+    const depsChanged = !isEqual(prevWorkspaceDeps, newWorkspaceDeps)
+    return { value: mergedValue, depsChanged }
   }
 
   async write({ deps }: { deps: Mono0Unit[] }) {
-    const mergedValue = await this.getValueWithDeps({ deps })
-    await this.file0.write(JSON.stringify(mergedValue, null, 2), true)
+    const { value, depsChanged } = await this.getValueWithDeps({ deps })
+    await this.file0.write(JSON.stringify(value, null, 2), true)
+    if (depsChanged && this.config.settings.installCommand) {
+      try {
+        execSync(this.config.settings.installCommand, { cwd: this.file0.fs0.cwd, stdio: "inherit" })
+        this.logger.debug(`dependencies installed for "${this.file0.path.rel}"`)
+      } catch (error) {
+        this.logger.error(`failed to install dependencies for "${this.file0.path.rel}"`, { error })
+      }
+    }
   }
 
   static zValueDefinition = z.looseObject({

@@ -73,6 +73,7 @@ program
   .action(
     withMono0(async (mono0) => {
       await mono0.watch()
+      logger.info(`watcher started`)
     }),
   )
 

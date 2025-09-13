@@ -77,12 +77,14 @@ export class Mono0Config {
     unitsSelectors: z.record(z.string(), z.array(z.string())).optional().default({}),
     settings: z
       .object({
+        installCommand: z.string().optional(),
         autoIncludeSrc: z.boolean().optional().default(true),
         autoPathSrc: z.boolean().optional().default(true),
         autoPathCycle: z.boolean().optional().default(true),
       })
       .optional()
       .default({
+        installCommand: undefined,
         autoIncludeSrc: true,
         autoPathSrc: true,
         autoPathCycle: true,
@@ -119,11 +121,7 @@ export namespace Mono0Config {
   export type FilesSelectors = Record<string, FilesSelector>
   export type UnitsSelector = string[]
   export type UnitsSelectors = Record<string, UnitsSelector>
-  export type Settings = {
-    autoIncludeSrc: boolean
-    autoPathSrc: boolean
-    autoPathCycle: boolean
-  }
+  export type Settings = z.output<typeof Mono0Config.zDefinition.shape.settings>
   export type Preset = Omit<Mono0Unit.Definition, "name">
   export type Presets = Record<string, Preset>
 }

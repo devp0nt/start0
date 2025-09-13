@@ -99,7 +99,7 @@ export class Gen0Watcher {
       if (!this.isPathMatchWatchGlob(path)) {
         return
       }
-      this.logger.info(
+      this.logger.debug(
         `watcher "${this.name}" of plugin "${uniq([this.plugin.name, this.plugin.file0?.path.rel]).filter(Boolean).join(":")}" received event "${event}" for path "${path}"`,
       )
       if (this.originalHandler) {

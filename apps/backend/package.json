@@ -3,7 +3,6 @@
   "private": true,
   "type": "module",
   "dependencies": {
-    "@lib": "workspace:*",
     "@prisma0/backend": "workspace:*"
   },
   "scripts": {

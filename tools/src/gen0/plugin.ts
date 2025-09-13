@@ -59,7 +59,7 @@ export class Gen0Plugin {
   }: {
     definition: Gen0Plugin.Definition
     config: Gen0Config
-    name: string
+    name?: string
     file0?: File0
     fs0: Fs0
   }) {
@@ -69,7 +69,7 @@ export class Gen0Plugin {
     }
     const plugin = new Gen0Plugin({
       config,
-      name,
+      name: name || definition.name || "unknown",
       fns: definition.fns,
       vars: definition.vars,
       watchers: [],
@@ -84,16 +84,10 @@ export class Gen0Plugin {
   static async createByFilePath({ filePath, config }: { filePath: string; config: Gen0Config }) {
     const file0 = File0.create({ filePath, rootDir: config.rootDir })
     const imported = await file0.importFresh()
-    const definitionOrFn = imported?.default || imported
-    const definition =
-      typeof definitionOrFn === "function" ? await definitionOrFn({ fs0: file0.fs0, _ }) : definitionOrFn
-    if (!definition) {
-      throw new Error(`No plugin definition found in ${filePath}`)
-    }
+    const definition = imported?.default || imported
     return Gen0Plugin.createByDefinition({
       definition,
       config,
-      name: definition.name,
       file0,
       fs0: file0.fs0,
     })
