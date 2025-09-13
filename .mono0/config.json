@@ -69,6 +69,7 @@
           "composite": true,
           "declaration": true,
           "declarationMap": true,
+          "declarationDir": "./dist",
           "outDir": "./dist",
           "tsBuildInfoFile": "~/node_modules/.cache/tsbuildinfo/{{name}}/.tsbuildinfo"
         }
