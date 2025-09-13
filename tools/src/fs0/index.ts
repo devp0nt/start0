@@ -1,3 +1,4 @@
+import { exec, execSync } from "node:child_process"
 import fsSync from "node:fs"
 import fs from "node:fs/promises"
 import nodePath from "node:path"
@@ -10,6 +11,7 @@ import micromatch from "micromatch"
 export class Fs0 {
   rootDir: string
   cwd: string
+  formatCommand: string | undefined
 
   private constructor(input: Fs0.CreateFsInput = {}) {
     if ("fileDir" in input && input.fileDir) {
@@ -26,6 +28,7 @@ export class Fs0 {
       throw new Error("Root dir must be absolute")
     }
     this.cwd = nodePath.resolve(this.rootDir, this.cwd)
+    this.formatCommand = input.formatCommand
   }
   static create(input: Fs0.CreateFsInput = {}) {
     return new Fs0(input)
@@ -348,14 +351,30 @@ export class Fs0 {
     return path.replace(new RegExp(`${originalExt}$`), ext)
   }
 
-  writeFileSync(path: string, content: string) {
+  writeFileSync(path: string, content: string, format: boolean = false) {
     fsSync.writeFileSync(this.normalizePath(path), content)
+    if (format) {
+      this.formatFileSync(path)
+    }
   }
 
-  async writeFile(path: string, content: string) {
+  async writeFile(path: string, content: string, format: boolean = false) {
     path = this.normalizePath(path)
     await fs.mkdir(nodePath.dirname(path), { recursive: true })
     await fs.writeFile(path, content)
+    if (format) {
+      await this.formatFile(path)
+    }
+  }
+
+  formatFileSync(path: string) {
+    path = this.normalizePath(path)
+    return Formatter0.formatSync(path, this.formatCommand, this.cwd)
+  }
+
+  async formatFile(path: string) {
+    path = this.normalizePath(path)
+    return await Formatter0.format(path, this.formatCommand, this.cwd)
   }
 
   readFileSync(path: string) {
@@ -589,12 +608,20 @@ export class File0 {
     return await this.fs0.isExists(this.path.abs)
   }
 
-  writeSync(content: string) {
-    return this.fs0.writeFileSync(this.path.abs, content)
+  writeSync(content: string, format: boolean = false) {
+    return this.fs0.writeFileSync(this.path.abs, content, format)
   }
 
-  async write(content: string) {
-    return this.fs0.writeFile(this.path.abs, content)
+  async write(content: string, format: boolean = false) {
+    return this.fs0.writeFile(this.path.abs, content, format)
+  }
+
+  formatSync() {
+    return this.fs0.formatFileSync(this.path.abs)
+  }
+
+  async format() {
+    return await this.fs0.formatFile(this.path.abs)
   }
 
   readSync() {
@@ -636,10 +663,227 @@ export class File0 {
 }
 
 export namespace Fs0 {
-  export type CreateFsInput = { rootDir?: string } & ({ fileDir?: string } | { filePath?: string } | { cwd?: string })
+  export type CreateFsInput = { rootDir?: string; formatCommand?: string } & (
+    | { fileDir?: string }
+    | { filePath?: string }
+    | { cwd?: string }
+  )
   export type Path = string
   export type Paths = string[]
   export type PathOrPaths = Path | Paths
   export type PathParsed = ReturnType<typeof Fs0.prototype.parsePath>
   export type StringMatchInput = string | string[] | RegExp | RegExp[]
+}
+
+export class Formatter0 {
+  fs0: Fs0
+  tools: Formatter0.Tool[] = []
+  biomeConfigFile0: File0 | undefined
+  eslintConfigFile0: File0 | undefined
+  prettierConfigFile0: File0 | undefined
+  command: string | undefined
+
+  static cache: Formatter0.CacheItem[] = []
+
+  private constructor({
+    tools,
+    command,
+    fs0,
+    biomeConfigFile0,
+    eslintConfigFile0,
+    prettierConfigFile0,
+  }: {
+    tools: Formatter0.Tool[]
+    command: string | undefined
+    fs0: Fs0
+    biomeConfigFile0: File0 | undefined
+    eslintConfigFile0: File0 | undefined
+    prettierConfigFile0: File0 | undefined
+  }) {
+    this.tools = tools
+    this.command = command
+    this.fs0 = fs0
+    this.biomeConfigFile0 = biomeConfigFile0
+    this.eslintConfigFile0 = eslintConfigFile0
+    this.prettierConfigFile0 = prettierConfigFile0
+  }
+
+  static async create(props?: {
+    command?: string | undefined
+    cwd?: string | undefined
+    fs0?: Fs0
+  }): Promise<Formatter0> {
+    const fs0 = props?.fs0 || Fs0.create({ cwd: props?.cwd })
+    if (props?.command) {
+      return new Formatter0({
+        tools: [],
+        command: props.command,
+        fs0,
+        biomeConfigFile0: undefined,
+        eslintConfigFile0: undefined,
+        prettierConfigFile0: undefined,
+      })
+    } else {
+      const { tools, biomeConfigFile0, eslintConfigFile0, prettierConfigFile0 } = await Formatter0.detectTools({ fs0 })
+      return new Formatter0({
+        tools,
+        command: props?.command,
+        fs0,
+        biomeConfigFile0,
+        eslintConfigFile0,
+        prettierConfigFile0,
+      })
+    }
+  }
+
+  static createByCommand(props: { command: string | undefined; cwd?: string | undefined; fs0?: Fs0 }): Formatter0 {
+    const fs0 = props?.fs0 || Fs0.create({ cwd: props?.cwd })
+    return new Formatter0({
+      tools: [],
+      command: props.command,
+      fs0,
+      biomeConfigFile0: undefined,
+      eslintConfigFile0: undefined,
+      prettierConfigFile0: undefined,
+    })
+  }
+
+  static async detectTools({ fs0 }: { fs0: Fs0 }): Promise<{
+    tools: Formatter0.Tool[]
+    biomeConfigFile0: File0 | undefined
+    eslintConfigFile0: File0 | undefined
+    prettierConfigFile0: File0 | undefined
+  }> {
+    const cwd = fs0.cwd
+    for (const cacheItem of Formatter0.cache) {
+      if (cacheItem.cwd === cwd) {
+        return cacheItem.formatter0
+      }
+    }
+    const tools: Formatter0.Tool[] = []
+
+    const biomeConfigFile0 = await fs0.findUpFile(["biome.json", "biome.jsonc"])
+    if (biomeConfigFile0) {
+      tools.push("biome")
+    }
+    const eslintConfigFile0 = await fs0.findUpFile([
+      "eslint.config.js",
+      "eslint.config.ts",
+      "eslint.config.json",
+      "eslint.config.mjs",
+      "eslint.config.cjs",
+    ])
+    if (eslintConfigFile0) {
+      tools.push("eslint")
+    }
+    const prettierConfigFile0 = await fs0.findUpFile([
+      "prettier.config.js",
+      "prettier.config.ts",
+      "prettier.config.json",
+      "prettier.config.mjs",
+      "prettier.config.cjs",
+    ])
+    if (prettierConfigFile0) {
+      tools.push("prettier")
+    }
+    return { tools, biomeConfigFile0, eslintConfigFile0, prettierConfigFile0 }
+  }
+
+  getPathsString(paths: Fs0.PathOrPaths) {
+    return Array.isArray(paths) ? paths.join(" ") : paths
+  }
+  getCustomCommand(paths: Fs0.PathOrPaths) {
+    if (!this.command) {
+      throw new Error("Command is not set")
+    }
+    if (this.command.includes("{{paths}}")) {
+      return this.command.replaceAll("{{paths}}", this.getPathsString(paths))
+    }
+    return `${this.command} ${this.getPathsString(paths)}`
+  }
+  getBiomeCommand(paths: Fs0.PathOrPaths) {
+    return `biome format --write ${this.getPathsString(paths)}`
+  }
+  getEslintCommand(paths: Fs0.PathOrPaths) {
+    return `eslint --fix ${this.getPathsString(paths)}`
+  }
+  getPrettierCommand(paths: Fs0.PathOrPaths) {
+    return `prettier --write ${this.getPathsString(paths)}`
+  }
+  getSequenceCommand(commands: string[]) {
+    return commands.join(" && ")
+  }
+  getParallelCommand(commands: string[]) {
+    return commands.join(" & ")
+  }
+  getFullSequenceCommand(paths: Fs0.PathOrPaths) {
+    if (this.command) {
+      return this.getCustomCommand(paths)
+    }
+    const commands: string[] = []
+    if (this.tools.includes("biome")) {
+      commands.push(this.getBiomeCommand(paths))
+    }
+    if (this.tools.includes("eslint")) {
+      commands.push(this.getEslintCommand(paths))
+    }
+    if (this.tools.includes("prettier")) {
+      commands.push(this.getPrettierCommand(paths))
+    }
+    return this.getSequenceCommand(commands)
+  }
+  getFullParallelCommand(paths: Fs0.PathOrPaths) {
+    if (this.command) {
+      return this.getCustomCommand(paths)
+    }
+    const commands: string[] = []
+    if (this.tools.includes("biome")) {
+      commands.push(this.getBiomeCommand(paths))
+    }
+    if (this.tools.includes("eslint")) {
+      commands.push(this.getEslintCommand(paths))
+    }
+    if (this.tools.includes("prettier")) {
+      commands.push(this.getPrettierCommand(paths))
+    }
+    return this.getParallelCommand(commands)
+  }
+
+  static formatSync(paths: Fs0.PathOrPaths, command?: string, fs0?: Fs0): ReturnType<typeof execSync>
+  static formatSync(paths: Fs0.PathOrPaths, command?: string, cwd?: string): ReturnType<typeof execSync>
+  static formatSync(paths: Fs0.PathOrPaths, command?: string, cwdOrFs0?: string | Fs0) {
+    const fs0 = cwdOrFs0 instanceof Fs0 ? cwdOrFs0 : undefined
+    const cwd = typeof cwdOrFs0 === "string" ? cwdOrFs0 : undefined
+    const formatter0 = Formatter0.createByCommand({ command, cwd, fs0 })
+    return formatter0.formatSync(paths)
+  }
+  formatSync(paths: Fs0.PathOrPaths) {
+    const command = this.getFullSequenceCommand(paths)
+    return execSync(command, { stdio: "inherit", cwd: this.fs0.cwd })
+  }
+
+  static async format(paths: Fs0.PathOrPaths, command?: string, fs0?: Fs0): Promise<ReturnType<typeof exec>>
+  static async format(paths: Fs0.PathOrPaths, command?: string, cwd?: string): Promise<ReturnType<typeof exec>>
+  static async format(
+    paths: Fs0.PathOrPaths,
+    command?: string,
+    cwdOrFs0?: string | Fs0,
+  ): Promise<ReturnType<typeof exec>> {
+    const fs0 = cwdOrFs0 instanceof Fs0 ? cwdOrFs0 : undefined
+    const cwd = typeof cwdOrFs0 === "string" ? cwdOrFs0 : undefined
+    const formatter0 = await Formatter0.create({ command, cwd, fs0 })
+    return await formatter0.format(paths)
+  }
+  async format(paths: Fs0.PathOrPaths) {
+    const command = this.getFullParallelCommand(paths)
+    return await exec(command, { cwd: this.fs0.cwd })
+  }
+}
+
+export namespace Formatter0 {
+  export type Tool = "biome" | "eslint" | "prettier"
+  export type CacheItem = {
+    cwd: string
+    formatter0: Formatter0
+  }
 }

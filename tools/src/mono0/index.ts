@@ -3,10 +3,10 @@ import { Mono0Config } from "@/tools/mono0/config"
 import { Mono0Tsconfig } from "@/tools/mono0/tsconfig"
 import { Mono0Unit } from "@/tools/mono0/unit"
 
-// TODO: force preset with package json
 // TODO: formatter
-// TODO: modules/{trpc,idea,...}/{backend,site,shared}
 // TODO: вотчер
+
+// TODO: modules/{trpc,idea,...}/{backend,site,shared}
 // TODO: мэниконфиг
 // TODO: other модуль для ленивых
 // TODO: валдатор циклических зависимостей
