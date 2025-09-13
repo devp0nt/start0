@@ -1,7 +1,7 @@
+import { BackendCtx } from "@backend/core/lib/ctx"
+import { Prisma, PrismaClient } from "@prisma0/backend/generated/prisma/client"
+import { Prisma0Models } from "@prisma0/backend/generated/prisma0/models"
 import { backOff } from "exponential-backoff"
-import { BackendCtx } from "@/backend/lib/ctx"
-import { Prisma0Models } from "@/prisma/generated.be/prisma0/models.js"
-import { Prisma, PrismaClient } from "./generated.be/prisma/client.js"
 
 // TODO: use as separate package
 // TODO: move to prisma-client not prisma-client-js
