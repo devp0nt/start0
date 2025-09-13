@@ -2,6 +2,7 @@
   "extends": "../../../.mono0/tsconfig.backend.json",
   "compilerOptions": {
     "outDir": "./dist",
+    "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@prisma0/backend/.tsbuildinfo",
     "rootDir": "./src"
   },
   "include": ["src/**/*"],

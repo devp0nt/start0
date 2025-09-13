@@ -1,7 +1,6 @@
 {
   "dependencies": {
-    "@devp0nt/fs0": "workspace:*",
-    "@devp0nt/gen0": "workspace:*"
+    "@devp0nt/fs0": "workspace:*"
   },
   "name": "@devp0nt/mono0",
   "private": true,

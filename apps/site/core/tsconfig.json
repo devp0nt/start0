@@ -2,6 +2,7 @@
   "extends": "../../../.mono0/tsconfig.site.json",
   "compilerOptions": {
     "outDir": "./dist",
+    "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@site/core/.tsbuildinfo",
     "rootDir": "./"
   },
   "include": ["**/*"],

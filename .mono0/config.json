@@ -68,7 +68,8 @@
       },
       "tsconfig": {
         "compilerOptions": {
-          "outDir": "./dist"
+          "outDir": "./dist",
+          "tsBuildInfoFile": "~/node_modules/.cache/tsbuildinfo/{{name}}/.tsbuildinfo"
         }
       }
     },

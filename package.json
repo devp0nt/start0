@@ -46,8 +46,10 @@
     "packages": [
       "./modules/appConfig/backend",
       "./apps/backend/core",
+      "./apps/backend/hono-router",
       "./apps/backend/router/hono",
       "./apps/backend/services",
+      "./apps/backend/trpc-router",
       "./apps/backend/router/trpc",
       "./modules/lib/deepmap0",
       "./modules/lib/env0",

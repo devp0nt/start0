@@ -3,6 +3,7 @@
     "lib": ["ESNext"],
     "rootDir": ".",
     "outDir": "./dist",
+    "esModuleInterop": true,
     "paths": {
       "@/tools/*": ["./src/*"],
       "@/backend/*": ["../apps/backend/src/*"],

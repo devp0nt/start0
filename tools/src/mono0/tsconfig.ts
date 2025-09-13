@@ -119,6 +119,12 @@ export class Mono0Tsconfig {
       }
     }
     result.references = references
+    // TODO:ASAP use deepmap here
+    if (result?.compilerOptions?.tsBuildInfoFile) {
+      result.compilerOptions.tsBuildInfoFile = file0.fs0.toRel(
+        file0.fs0.resolve(result.compilerOptions.tsBuildInfoFile.replace("{{name}}", unit?.name || "unknown")),
+      )
+    }
     return result
   }
 

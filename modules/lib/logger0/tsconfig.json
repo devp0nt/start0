@@ -2,8 +2,16 @@
   "extends": "../../../.mono0/tsconfig.shared.json",
   "compilerOptions": {
     "outDir": "./dist",
+    "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@devp0nt/logger0/.tsbuildinfo",
     "rootDir": "./src"
   },
   "include": ["src/**/*"],
-  "references": [{ "path": "../error0/tsconfig.json" }, { "path": "../meta0/tsconfig.json" }]
+  "references": [
+    {
+      "path": "../error0/tsconfig.json"
+    },
+    {
+      "path": "../meta0/tsconfig.json"
+    }
+  ]
 }
