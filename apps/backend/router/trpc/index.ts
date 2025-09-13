@@ -24,13 +24,7 @@ export namespace BackendTrpcRouter {
   export type Input = inferRouterInputs<TrpcRouter>
   export type Output = inferRouterOutputs<TrpcRouter>
 
-  export const applyToHonoApp = ({
-    honoApp,
-    trpcRouter,
-  }: {
-    honoApp: HonoApp.AppType
-    trpcRouter: BackendTrpcRouter.TrpcRouter
-  }) => {
+  export const applyToHonoApp = ({ honoApp }: { honoApp: HonoApp.AppType }) => {
     honoApp.use(
       "/trpc/*",
       trpcServer({

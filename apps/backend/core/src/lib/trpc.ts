@@ -1,6 +1,5 @@
 import type { HonoReqCtx } from "@backend/core/lib/ctx.hono"
 import { Error0 } from "@devp0nt/error0"
-import { trpcServer } from "@hono/trpc-server"
 import { initTRPC } from "@trpc/server"
 import superjson from "superjson"
 

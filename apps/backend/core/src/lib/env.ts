@@ -1,5 +1,3 @@
-/** biome-ignore-all lint/style/noProcessEnv: <x> */
-
 import { Env0 as E } from "@devp0nt/env0"
 import z from "zod"
 

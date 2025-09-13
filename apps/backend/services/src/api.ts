@@ -1,6 +1,5 @@
 import { BackendCtx } from "@backend/core/lib/ctx"
 import { HonoApp } from "@backend/core/lib/hono"
-import { BackendTrpc } from "@backend/core/lib/trpc"
 import { BackendHonoRouter } from "@backend/router/hono"
 import { BackendTrpcRouter } from "@backend/router/trpc"
 import { serve } from "bun"
@@ -24,10 +23,7 @@ export const startApiProcess = async () => {
     HonoApp.applyErrorHandling({ honoApp })
 
     BackendHonoRouter.apply({ honoApp })
-    BackendTrpc.applyToHonoApp({
-      honoApp,
-      trpcRouter: BackendTrpcRouter.trpcRouter,
-    })
+    BackendTrpcRouter.applyToHonoApp({ honoApp })
 
     serve({
       fetch: honoApp.fetch,
