@@ -1,5 +1,5 @@
 {
   "name": "@site/app",
   "preset": "site",
-  "deps": []
+  "deps": ["@site/core"]
 }

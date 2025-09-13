@@ -16,7 +16,7 @@ export default (({}) => ({
   init: handler,
   watchers: {
     main: {
-      watch: ["~/**/mono0.json"],
+      watch: ["~/**/mono0.json", "~/**/src"],
       handler,
     },
   },

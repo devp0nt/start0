@@ -1,6 +1,6 @@
 import { describe, expect, expectTypeOf, it } from "bun:test"
-import { Route0 } from "@/lib/route0.sh"
-import { Page0 } from "@/site/lib/page0"
+import { Route0 } from "@devp0nt/route0"
+import { Page0 } from "@site/core/lib/page0"
 
 const routeWithoutParams = Route0.create("/example")
 const routeWithParams = routeWithoutParams.extend("/:id")

@@ -48,7 +48,7 @@
       "./modules/lib",
       "./modules/prisma",
       "./apps/site/app",
-      "./apps/site/routes"
+      "./apps/site/core"
     ],
     "catalog": {
       "isbot": "^5.1.27",

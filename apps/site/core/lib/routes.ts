@@ -1,4 +1,4 @@
-import { Route0 } from "@/lib/route0.sh"
+import { Route0 } from "@devp0nt/route0"
 
 export namespace siteRoutes {
   export const base = Route0.create("/&ref")

@@ -1,7 +1,7 @@
-import type { Page0 } from "@/site/lib/page0"
-import type { Gen0Plugin } from "@/tools/gen0/plugin"
+import type { Gen0Plugin } from "@devp0nt/gen0/plugin"
+import type { Page0 } from "@site/core/lib/page0"
 
-export default (async ({ fs0, _ }) => {
+export default async ({ fs0, _ }) => {
   await fs0.loadEnv(".env")
 
   const { RRGen0 } = await fs0.importFresh<typeof import("./gen0.templates.to")>("./gen0.templates.ts")
@@ -105,7 +105,9 @@ export default (async ({ fs0, _ }) => {
       },
     },
   }
-}) satisfies Gen0Plugin.Definition
+}
+satisfies
+Gen0Plugin.Definition
 
 type RRInput = {
   routePathRelativeToAppDir: string

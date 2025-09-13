@@ -1,6 +1,6 @@
+import { Error0 } from "@devp0nt/error0"
 import { useMemo } from "react"
 import { type ErrorResponse, isRouteErrorResponse } from "react-router"
-import { Error0 } from "@/lib/error0.sh"
 
 export namespace SiteError {
   export type Type = Error0 | ErrorResponse | Error | Error0.JSON | string | unknown

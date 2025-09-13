@@ -81,14 +81,7 @@ export class Mono0PackageJson {
   async write({ deps }: { deps: Mono0Unit[] }) {
     const { value, depsChanged } = await this.getValueWithDeps({ deps })
     await this.file0.write(JSON.stringify(value, null, 2), true)
-    if (depsChanged && this.config.settings.installCommand) {
-      try {
-        execSync(this.config.settings.installCommand, { cwd: this.file0.fs0.cwd, stdio: "inherit" })
-        this.logger.debug(`dependencies installed for "${this.file0.path.rel}"`)
-      } catch (error) {
-        this.logger.error(`failed to install dependencies for "${this.file0.path.rel}"`, { error })
-      }
-    }
+    return { depsChanged }
   }
 
   static async writeRootPackageJson({ config, units }: { config: Mono0Config; units: Mono0Unit[] }) {

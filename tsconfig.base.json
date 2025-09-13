@@ -9,7 +9,15 @@
     "module": "ESNext",
     "moduleResolution": "Bundler",
     "verbatimModuleSyntax": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "paths": {
+      "@backend/*": ["./apps/backend/src/*"],
+      "@lib/*": ["./modules/lib/src/*"],
+      "@prisma0/backend/*": ["./modules/prisma/src/*"],
+      "@site/app/*": ["./apps/site/app/src/*"],
+      "@site/core/*": ["./apps/site/core/*"]
+    }
   },
-  "exclude": ["**/dist/**/*", "**/node_modules/**/*"]
+  "exclude": ["**/dist/**/*", "**/node_modules/**/*", "**/public/**/*"],
+  "references": []
 }

@@ -1,7 +1,7 @@
+import type { Route0 } from "@devp0nt/route0"
+import type { SiteCtx } from "@site/core/lib/ctx"
 import type { QueryClient } from "@tanstack/react-query"
 import type { MetaDescriptor } from "react-router"
-import type { Route0 } from "@/lib/route0.sh"
-import type { SiteCtx } from "@/site/lib/ctx"
 
 // TODO: make type Page0 normally exportable, now if Page0<any, any> everything is any
 // TODO: try return component, to preserve hotreload

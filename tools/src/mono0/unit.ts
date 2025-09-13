@@ -65,14 +65,19 @@ export class Mono0Unit {
     const srcFs0 = (await unitConfigFile0.fs0.isExists("src"))
       ? unitConfigFile0.fs0.createFs0({ cwd: "src" })
       : unitConfigFile0.fs0
-    const tsconfig = Mono0Tsconfig.create({ definition: definition.tsconfig, config, fs0: unitConfigFile0.fs0, srcFs0 })
+    const tsconfig = Mono0Tsconfig.create({
+      definition: definition.tsconfig,
+      config,
+      fs0: unitConfigFile0.fs0,
+      unit: undefined,
+    })
     const packageJson = Mono0PackageJson.create({
       name: definition.name,
       definition: definition.packageJson,
       config,
       fs0: unitConfigFile0.fs0,
     })
-    return new Mono0Unit({
+    const unit = new Mono0Unit({
       name: definition.name,
       tags: definition.tags,
       tsconfig,
@@ -85,6 +90,8 @@ export class Mono0Unit {
       deps: [],
       depsDefs: definition.deps,
     })
+    unit.tsconfig.unit = unit
+    return unit
   }
 
   static applyPresetsToDefinition({
@@ -187,7 +194,7 @@ export class Mono0Unit {
   }
 
   async writePackageJson() {
-    await this.packageJson.write({ deps: this.deps.map((d) => d.unit) })
+    return await this.packageJson.write({ deps: this.deps.map((d) => d.unit) })
   }
 
   hasMatchByMatchParsed(m: Mono0Unit.DependencyMatchParsed) {

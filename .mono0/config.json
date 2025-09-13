@@ -7,7 +7,7 @@
       }
     },
     "base": {
-      "path": "./tsconfig.base.json",
+      "path": "../tsconfig.base.json",
       "value": {
         "compilerOptions": {
           "rootDir": ".",
@@ -63,7 +63,11 @@
   "presets": {
     "force": {
       "packageJson": {
-        "private": true
+        "private": true,
+        "exports": {
+          ".": "./index.ts",
+          "./*": "./*"
+        }
       }
     },
     "shared": {

@@ -3,5 +3,9 @@
     "@prisma0/backend": "workspace:*"
   },
   "name": "@backend",
-  "private": true
+  "private": true,
+  "exports": {
+    ".": "./index.ts",
+    "./*": "./*"
+  }
 }

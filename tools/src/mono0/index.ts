@@ -1,3 +1,4 @@
+import { execSync } from "node:child_process"
 import type { Fs0 } from "@/tools/fs0"
 import { Gen0 } from "@/tools/gen0"
 import { Mono0Config } from "@/tools/mono0/config"
@@ -54,6 +55,11 @@ export class Mono0 {
   }
 
   async sync() {
+    await Mono0Tsconfig.writeBaseTsconfig({
+      tsconfig: this.config.tsconfigs.base,
+      config: this.config,
+      units: this.units,
+    })
     await Mono0Tsconfig.writeRootTsconfig({
       tsconfig: this.config.tsconfigs.root,
       config: this.config,
@@ -61,14 +67,24 @@ export class Mono0 {
     })
     await Mono0PackageJson.writeRootPackageJson({ config: this.config, units: this.units })
     for (const [tsconfigName, tsconfig] of Object.entries(this.config.tsconfigs)) {
-      if (tsconfigName === "root") {
+      if (tsconfigName === "root" || tsconfigName === "base") {
         continue
       }
       await tsconfig.write()
     }
+    let packageJsonsDepsChanged = false
     for (const unit of this.units) {
       await unit.writeTsconfig()
-      await unit.writePackageJson()
+      const { depsChanged } = await unit.writePackageJson()
+      packageJsonsDepsChanged = packageJsonsDepsChanged || depsChanged
+    }
+    if (packageJsonsDepsChanged && this.config.settings.installCommand) {
+      try {
+        execSync(this.config.settings.installCommand, { cwd: this.rootFs0.cwd, stdio: "inherit" })
+        this.logger.debug(`dependencies installed for "${this.rootFs0.cwd}"`)
+      } catch (error) {
+        this.logger.error(`failed to install dependencies for "${this.rootFs0.cwd}"`, { error })
+      }
     }
   }
   static async sync({ mono0 }: { mono0?: Mono0 } = {}) {

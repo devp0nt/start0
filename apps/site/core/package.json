@@ -1,6 +1,6 @@
 {
   "dependencies": {},
-  "name": "@prisma0/backend",
+  "name": "@site/core",
   "private": true,
   "exports": {
     ".": "./index.ts",

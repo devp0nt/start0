@@ -3,5 +3,10 @@
   "include": ["src/**/*"],
   "compilerOptions": {
     "rootDir": "./src"
-  }
+  },
+  "references": [
+    {
+      "path": "../../modules/prisma/tsconfig.json"
+    }
+  ]
 }

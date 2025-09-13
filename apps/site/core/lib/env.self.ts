@@ -1,3 +1,3 @@
-import { createEnv } from "@/site/lib/env"
+import { createEnv } from "@site/core/lib/env"
 
 export const env = createEnv(import.meta.env)

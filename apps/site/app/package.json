@@ -1,5 +1,11 @@
 {
-  "dependencies": {},
+  "dependencies": {
+    "@site/core": "workspace:*"
+  },
   "name": "@site/app",
-  "private": true
+  "private": true,
+  "exports": {
+    ".": "./index.ts",
+    "./*": "./*"
+  }
 }
