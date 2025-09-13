@@ -1,7 +1,7 @@
 import { BackendCtx } from "@backend/core/lib/ctx"
 import { HonoApp } from "@backend/core/lib/hono"
-import { BackendHonoRouter } from "@backend/router/hono"
-import { BackendTrpcRouter } from "@backend/router/trpc"
+import { BackendHonoRouter } from "@backend/hono-router"
+import { BackendTrpcRouter } from "@backend/trpc-router"
 import { serve } from "bun"
 import { cors } from "hono/cors"
 

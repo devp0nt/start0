@@ -1,4 +1,4 @@
-import { BackendCtx } from "@/backend/lib/ctx"
+import { BackendCtx } from "@backend/core/lib/ctx"
 
 export const startWorkerProcess = async () => {
   try {
