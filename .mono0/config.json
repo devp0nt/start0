@@ -82,6 +82,7 @@
         "compilerOptions": {
           "declarationDir": "./dist",
           "outDir": "./dist",
+          "mapRoot": "./dist",
           "tsBuildInfoFile": "~/node_modules/.cache/tsbuildinfo/{{name}}/.tsbuildinfo"
         }
       }
