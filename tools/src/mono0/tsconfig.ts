@@ -195,12 +195,12 @@ export class Mono0Tsconfig {
       file0: tsconfig.file0,
       unit: tsconfig.unit,
     })
-    const paths = Object.fromEntries(
-      units.map((unit) => [`${unit.name}/*`, [`${tsconfig.file0.fs0.toRel(unit.srcFs0.cwd)}/*`]]),
-    )
+    // const paths = Object.fromEntries(
+    //   units.map((unit) => [`${unit.name}/*`, [`${tsconfig.file0.fs0.toRel(unit.srcFs0.cwd)}/*`]]),
+    // )
     valueParsed.compilerOptions = {
       ...valueParsed.compilerOptions,
-      paths,
+      // paths,
     }
     await tsconfig.file0.write(JSON.stringify(valueParsed, null, 2), true)
   }
