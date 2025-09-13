@@ -1,5 +1,5 @@
+import { Error0 } from "@devp0nt/error0"
 import z from "zod"
-import { Error0 } from "@/lib/error0.sh"
 
 export namespace Env0 {
   export const create = <TZodSchema extends z.ZodObject<any>>({

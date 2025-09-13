@@ -1,7 +1,7 @@
+import { Meta0 } from "@devp0nt/meta0"
 import { type AxiosError, HttpStatusCode, isAxiosError } from "axios"
 import { get } from "lodash"
 import { ZodError } from "zod"
-import { Meta0 } from "@/lib/meta0.sh"
 
 // TODO: store tags as array from all causes
 // TODO: not use self stack if toError0
