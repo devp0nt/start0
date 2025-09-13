@@ -1,8 +1,12 @@
 tri0
-В модуле роуты тоже паковать в роутер и в общий роутер экспортировать уже его
 
 better-auth
 https://dev.to/ayoubphy/step-by-step-guide-setting-up-trpc-better-auth-prisma-and-react-router-v7-4ho
+
+local update mechanic
+public update mechanic
+
+В модуле роуты тоже паковать в роутер и в общий роутер экспортировать уже его
 
 form
 zod numer as text in form with coerce
@@ -25,9 +29,6 @@ sentry
 devops
 react-native
 
-local update mechanic
-public update mechanic
-
 ---
 
 cron/scheduler
@@ -38,7 +39,6 @@ refine
 reuse code between site and mobile
 multifile schema prisma
 
-автогенератор доков и сайта плагина
 рекомендед вскод экстеншенс
 рекомендед хоткейс
 i0n, i0n route0

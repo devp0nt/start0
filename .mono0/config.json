@@ -49,10 +49,10 @@
       }
     }
   },
-  "filesGroups": {
+  "filesSelectors": {
     "exclude": ["**/dist/**/*", "**/node_modules/**/*", "**/public/**/*"]
   },
-  "unitsGroups": {
+  "unitsSelectors": {
     "backendCore": ["@prisma0/backend", "@lib"]
   },
   "settings": {
@@ -74,11 +74,7 @@
     },
     "site": {
       "tsconfig": {
-        "extends": "$site",
-        "lib": ["DOM", "DOM.Iterable", "ES2022"],
-        "types": ["node", "vite/client", "bun"],
-        "target": "ES2022",
-        "module": "ES2022"
+        "extends": "$site"
       },
       "tags": ["site"]
     },

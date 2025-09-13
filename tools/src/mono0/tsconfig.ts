@@ -1,15 +1,98 @@
 import type { TsConfigJson as TsConfigJsonTypeFest } from "type-fest"
 import z from "zod"
-import type { File0 } from "@/tools/fs0"
+import type { File0, Fs0 } from "@/tools/fs0"
 import type { Mono0Config } from "@/tools/mono0/config"
 
 export class Mono0Tsconfig {
+  fs0: Fs0
   file0: File0
   config: Mono0Config
+  value: Mono0Tsconfig.ValueDefinition
 
-  private constructor() {}
+  private constructor({
+    fs0,
+    file0,
+    config,
+    value,
+  }: { fs0: Fs0; file0: File0; config: Mono0Config; value: Mono0Tsconfig.ValueDefinition }) {
+    this.fs0 = fs0
+    this.file0 = file0
+    this.config = config
+    this.value = value
+  }
 
-  static zDefinition = z.looseObject({
+  static create({
+    definition,
+    config,
+    fs0,
+  }: {
+    definition: Mono0Tsconfig.DefinitionParsed
+    config: Mono0Config
+    fs0: Fs0
+  }) {
+    const file0 = definition.path ? fs0.createFile0(definition.path) : fs0.createFile0("tsconfig.json")
+    const value = definition.value
+    return new Mono0Tsconfig({ fs0, file0, config, value })
+  }
+
+  static parseValue({
+    value,
+    config,
+    fs0,
+    file0,
+  }: {
+    value: Mono0Tsconfig.Json
+    config: Mono0Config
+    fs0: Fs0
+    file0: File0
+  }) {
+    const result = value
+    if (result.extends) {
+      if (result.extends.startsWith("$")) {
+        const tsconfigName = result.extends.slice(1)
+        const extendsTsconfig = config.tsconfigs[tsconfigName]
+        if (!extendsTsconfig) {
+          throw new Error(`Tsconfig "${tsconfigName}" not found in "${file0.path.rel}"`)
+        }
+        result.extends = extendsTsconfig.file0.relToDir(fs0)
+      }
+    }
+    if (result.exclude) {
+      const parsedExclude = []
+      for (const exclude of result.exclude) {
+        if (exclude.startsWith("$")) {
+          const fileSelectorName = exclude.slice(1)
+          const fileSelector = config.filesSelectors[fileSelectorName]
+          if (!fileSelector) {
+            throw new Error(`File selector "${fileSelectorName}" not found in "${file0.path.rel}"`)
+          }
+          parsedExclude.push(...fileSelector)
+        } else {
+          parsedExclude.push(exclude)
+        }
+      }
+      result.exclude = parsedExclude
+    }
+    if (result.include) {
+      const parsedInclude = []
+      for (const include of result.include) {
+        if (include.startsWith("$")) {
+          const fileSelectorName = include.slice(1)
+          const fileSelector = config.filesSelectors[fileSelectorName]
+          if (!fileSelector) {
+            throw new Error(`File selector "${fileSelectorName}" not found in "${file0.path.rel}"`)
+          }
+          parsedInclude.push(...fileSelector)
+        } else {
+          parsedInclude.push(include)
+        }
+      }
+      result.include = parsedInclude
+    }
+    return result
+  }
+
+  static zValueDefinition = z.looseObject({
     extends: z.string().optional(),
     include: z.array(z.string()).optional(),
     exclude: z.array(z.string()).optional(),
@@ -25,6 +108,18 @@ export class Mono0Tsconfig {
       .optional(),
   })
 
+  static zFullDefinition = z.object({
+    path: z.string().optional(),
+    value: Mono0Tsconfig.zValueDefinition.optional().default({}),
+  })
+
+  static zDefinition = z
+    .union([Mono0Tsconfig.zValueDefinition, Mono0Tsconfig.zFullDefinition])
+    .transform(
+      (val) =>
+        ("path" in val || "value" in val ? { path: val.path, value: val.value } : val) as Mono0Tsconfig.FullDefinition,
+    )
+
   static mergeHard(...tsconfigs: [Mono0Tsconfig.Json, ...Mono0Tsconfig.Json[]]): Mono0Tsconfig.Json {
     return tsconfigs.reduce((acc, tsconfig) => {
       return {
@@ -37,9 +132,23 @@ export class Mono0Tsconfig {
       }
     }, {} as Mono0Tsconfig.Json)
   }
+
+  getMeta() {
+    return {
+      path: this.file0.path.rel,
+      value: this.value,
+    }
+  }
 }
 
 export namespace Mono0Tsconfig {
   export type Json = Omit<TsConfigJsonTypeFest, "extends"> & { extends?: string }
-  export type Parsed = z.output<typeof Mono0Tsconfig.zDefinition>
+  // export type ValueDefinition = z.output<typeof Mono0Tsconfig.zValueDefinition>
+  export type ValueDefinition = Json
+  export type FullDefinition = {
+    path?: string
+    value: Mono0Tsconfig.ValueDefinition
+  }
+  export type Definition = ValueDefinition | FullDefinition
+  export type DefinitionParsed = z.output<typeof Mono0Tsconfig.zDefinition>
 }

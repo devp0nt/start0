@@ -1,5 +1,5 @@
 import z from "zod"
-import { File0, type Fs0 } from "@/tools/fs0"
+import type { File0, Fs0 } from "@/tools/fs0"
 import type { Mono0Config } from "@/tools/mono0/config"
 import { Mono0Tsconfig } from "@/tools/mono0/tsconfig"
 
@@ -9,7 +9,7 @@ export class Mono0Unit {
   config: Mono0Config
   name: string
   tags: string[]
-  tsconfig: Mono0Unit.TsconfigFullDefinition
+  tsconfig: Mono0Tsconfig
   presets: string[]
   depsDefs: Mono0Unit.DefinitionParsed["deps"]
   deps: Mono0Unit.Dependency[]
@@ -20,7 +20,7 @@ export class Mono0Unit {
     config: Mono0Config
     name: string
     tags: string[]
-    tsconfig: Mono0Unit.TsconfigFullDefinition
+    tsconfig: Mono0Tsconfig
     presets: string[]
     deps: Mono0Unit.Dependency[]
     depsDefs: Mono0Unit.DefinitionParsed["deps"]
@@ -45,12 +45,21 @@ export class Mono0Unit {
         cause: definitionParsed.error,
       })
     }
-    const definition = Mono0Unit.applyPresets({ definition: definitionParsed.data, config, unitConfigFile0 })
-    // TODO:ASAP create tsconfig file
+    const definitionWithAppliedPresets = Mono0Unit.applyPresetsToDefinition({
+      definition: definitionParsed.data,
+      config,
+      unitConfigFile0,
+    })
+    const definition = Mono0Unit.parseDepsDefsInDefinition({
+      definition: definitionWithAppliedPresets,
+      config,
+      unitConfigFile0,
+    })
+    const tsconfig = Mono0Tsconfig.create({ definition: definition.tsconfig, config, fs0: unitConfigFile0.fs0 })
     return new Mono0Unit({
       name: definition.name,
       tags: definition.tags,
-      tsconfig: definition.tsconfig as Mono0Unit.TsconfigFullDefinition,
+      tsconfig,
       presets: definition.preset,
       unitConfigFile0,
       fs0: unitConfigFile0.fs0,
@@ -60,7 +69,7 @@ export class Mono0Unit {
     })
   }
 
-  static applyPresets({
+  static applyPresetsToDefinition({
     definition,
     config,
     unitConfigFile0,
@@ -85,14 +94,52 @@ export class Mono0Unit {
         ...result,
         tags: [...(presetValue.tags ?? []), ...result.tags],
         deps: [...(presetValue.deps ?? []), ...result.deps],
-        tsconfig: Mono0Tsconfig.mergeHard(presetValue.tsconfig, result.tsconfig),
+        tsconfig: {
+          path: result.tsconfig.path ?? presetValue.tsconfig.path,
+          value: Mono0Tsconfig.mergeHard(presetValue.tsconfig.value, result.tsconfig.value),
+        },
         preset: presetValue.preset,
       }
     }
     if (result.preset.length > 0) {
-      return Mono0Unit.applyPresets({ definition: result, config, unitConfigFile0, level: level + 1 })
+      return Mono0Unit.applyPresetsToDefinition({ definition: result, config, unitConfigFile0, level: level + 1 })
     }
     return result
+  }
+
+  static parseDepsDefsInDefinition({
+    definition,
+    config,
+    unitConfigFile0,
+  }: {
+    definition: Mono0Unit.DefinitionParsed
+    config: Mono0Config
+    unitConfigFile0: File0
+  }): Mono0Unit.DefinitionParsed {
+    const parsedDepsDefs: Mono0Unit.DependencyDefinitionParsed[] = []
+    for (const dd of definition.deps) {
+      if (dd.match.name?.startsWith("$")) {
+        const unitSelectorName = dd.match.name.slice(1)
+        const unitsSelector = config.unitsSelectors[unitSelectorName]
+        if (!unitsSelector) {
+          throw new Error(`Unit selector "${unitSelectorName}" not found in "${unitConfigFile0.path.rel}"`)
+        }
+        const parsedDds = unitsSelector.map((match) => {
+          const matchParsed = Mono0Unit.parseMatchString(match)
+          return {
+            match: matchParsed,
+            relation: dd.relation,
+          }
+        })
+        parsedDepsDefs.push(...parsedDds)
+      } else {
+        parsedDepsDefs.push(dd)
+      }
+    }
+    return {
+      ...definition,
+      deps: parsedDepsDefs,
+    }
   }
 
   applyDeps({ units }: { units: Mono0Unit[] }) {
@@ -123,6 +170,7 @@ export class Mono0Unit {
   }
 
   hasMatchByDepsDefs(
+    // dds = deps definitions
     dds: Mono0Unit.DefinitionParsed["deps"],
   ):
     | { hasMatch: true; unit: Mono0Unit; relation: Mono0Unit.DependencyRelationType }
@@ -158,7 +206,7 @@ export class Mono0Unit {
   static zDefinition = z.object({
     name: z.string(),
     tags: z.array(z.string()).optional().default([]),
-    tsconfig: Mono0Tsconfig.zDefinition.optional().default({}),
+    tsconfig: Mono0Tsconfig.zDefinition.optional().default({ value: {} }),
     preset: z
       .union([z.string(), z.array(z.string())])
       .optional()
@@ -170,7 +218,7 @@ export class Mono0Unit {
           z.string(),
           z.object({
             match: z.string().transform(Mono0Unit.parseMatchString),
-            relation: z.enum(["reference", "source"]).optional().default("reference"),
+            relation: z.enum(["reference", "include"]).optional().default("reference"),
           }),
         ]),
       )
@@ -189,7 +237,7 @@ export class Mono0Unit {
       tags: this.tags,
       path: this.config.rootFs0.toRel(this.fs0.cwd),
       presets: this.presets,
-      tsconfig: this.tsconfig,
+      tsconfig: this.tsconfig.getMeta(),
       deps: this.deps.map((d) => d.unit.name),
     }
   }
@@ -201,16 +249,12 @@ export namespace Mono0Unit {
     preset?: string | string[]
     tags?: string[]
     deps?: DependencyDefinition[]
-    tsconfig?: TsconfigDefinition
+    tsconfig?: Mono0Tsconfig.Definition
   }
   export type DefinitionParsed = z.output<typeof Mono0Unit.zDefinition>
-  export type TsconfigFullDefinition = {
-    path: string
-    value: Mono0Tsconfig.Json
-  }
-  export type TsconfigDefinition = Mono0Tsconfig.Json | TsconfigFullDefinition
+  export type DependencyDefinitionParsed = z.output<typeof Mono0Unit.zDefinition.shape.deps>[number]
 
-  export type DependencyRelationType = "reference" | "source"
+  export type DependencyRelationType = "reference" | "include"
   export type DependencyMatchDefinition = string // tags or name
   export type DependencyMatchParsed = {
     name?: string
