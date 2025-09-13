@@ -8,26 +8,18 @@
       "path": "./modules/lib/tsconfig.json"
     },
     {
-      "path": "./apps/backend/tsconfig.json"
+      "path": "./apps/site/tsconfig.json"
     },
     {
-      "path": "./apps/site/tsconfig.json"
+      "path": "./apps/backend/tsconfig.json"
     }
   ],
   "compilerOptions": {
     "paths": {
-      "@prisma0/backend/*": [
-        "./modules/prisma/src/*"
-      ],
-      "@lib/*": [
-        "./modules/lib/src/*"
-      ],
-      "@backend/*": [
-        "./apps/backend/src/*"
-      ],
-      "@apps/site/*": [
-        "./apps/site/src/*"
-      ]
+      "@prisma0/backend/*": ["./modules/prisma/src/*"],
+      "@lib/*": ["./modules/lib/src/*"],
+      "@apps/site/*": ["./apps/site/src/*"],
+      "@backend/*": ["./apps/backend/src/*"]
     }
   }
 }

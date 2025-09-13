@@ -11,9 +11,5 @@
     "verbatimModuleSyntax": true,
     "resolveJsonModule": true
   },
-  "exclude": [
-    "**/dist/**/*",
-    "**/node_modules/**/*",
-    "**/public/**/*"
-  ]
+  "exclude": ["**/dist/**/*", "**/node_modules/**/*", "**/public/**/*"]
 }
