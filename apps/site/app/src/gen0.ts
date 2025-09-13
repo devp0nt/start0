@@ -4,8 +4,8 @@ import type { Page0 } from "@site/core/lib/page0"
 export default (async ({ fs0, _ }) => {
   await fs0.loadEnv(".env")
 
-  const { RRGen0 } = await fs0.importFresh<typeof import("./gen0.templates.to")>("./gen0.templates.ts")
-  const pagesGlob = ["~/**/*.page.si.ts{x,}", "~/apps/site/**/*.page.ts{x,}"]
+  const { RRGen0 } = await fs0.importFresh<typeof import("./gen0.templates")>("./gen0.templates.ts")
+  const pagesGlob = ["~/**/*.page.ts{x,}"]
   const watchGlob = [...pagesGlob, "./gen0.templates.ts"]
   const appDir = fs0.resolve(".")
   const generatedRoutesDir = fs0.toAbs(fs0.resolve(appDir, "routes/generated"))

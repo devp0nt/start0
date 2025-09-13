@@ -1,8 +1,8 @@
-import { Error0 } from "@/lib/error0.sh"
-import { SiteError } from "@/site/components/Error"
-import { RR0 } from "@/site/lib/rr0.js"
-import page from "../../../pages/home.page.js"
-import type { Route } from "./+types/apps-site-src-pages-home-page-tsx"
+import page from "../../../../../../modules/idea/site/list.page.js"
+import { Error0 } from "@devp0nt/error0"
+import { SiteError } from "@site/core/components/Error"
+import { RR0 } from "@site/core/lib/rr0"
+import type { Route } from "./+types/modules-idea-site-list-page-tsx"
 
 export const meta = RR0.createMeta(({ loaderData, params, error }: RR0.MetaArgs<Route.MetaArgs>) => {
   if (!loaderData) {
@@ -34,3 +34,4 @@ const RouteComponent = RR0.createRouteComponent(
 )
 
 export default RouteComponent
+  

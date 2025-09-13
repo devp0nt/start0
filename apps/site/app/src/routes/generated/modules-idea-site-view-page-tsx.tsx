@@ -1,16 +1,8 @@
-export namespace RRGen0 {
-  export const routeFileTemplate = ({
-    pathForImport,
-    selfBaseNameWitoutExt,
-  }: {
-    pathForImport: string
-    selfBaseNameWitoutExt: string
-  }) => {
-    return `import page from "${pathForImport}"
+import page from "../../../../../../modules/idea/site/view.page.js"
 import { Error0 } from "@devp0nt/error0"
 import { SiteError } from "@site/core/components/Error"
-import { RR0 } from "@/site/react-router/utils.js"
-import type { Route } from "./+types/${selfBaseNameWitoutExt}"
+import { RR0 } from "@site/core/lib/rr0"
+import type { Route } from "./+types/modules-idea-site-view-page-tsx"
 
 export const meta = RR0.createMeta(({ loaderData, params, error }: RR0.MetaArgs<Route.MetaArgs>) => {
   if (!loaderData) {
@@ -42,13 +34,4 @@ const RouteComponent = RR0.createRouteComponent(
 )
 
 export default RouteComponent
-  `
-  }
-
-  export const routesFileTemplate = ({ structure }: { structure: string }) => {
-    return `import { index, layout, type RouteConfig, route } from "@react-router/dev/routes"
-
-export default ${structure} satisfies RouteConfig
-`
-  }
-}
+  
