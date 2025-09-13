@@ -35,14 +35,3 @@ export const getConstKeys = <T extends string>(obj: Record<T, unknown>) => {
   const keys = Object.keys(obj) as T[]
   return keys as [T, ...T[]]
 }
-
-export type ExtractEnum<T extends string, U extends T> = U
-
-export type NonFnProps<T> = {
-  [K in keyof T]: T[K] extends Function ? never : K
-}
-export type NonFnPropsKeys<T> = NonFnProps<T>[keyof NonFnProps<T>]
-export type FnProps<T> = {
-  [K in keyof T]: T[K] extends Function ? K : never
-}
-export type FnPropsKeys<T> = FnProps<T>[keyof FnProps<T>]

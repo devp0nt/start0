@@ -1,7 +1,6 @@
 import { BackendCtx } from "@backend/core/lib/ctx"
 import type { Env } from "@backend/core/lib/env"
 import type { e0s as e0sDefault } from "@devp0nt/error0"
-import type { FnPropsKeys, NonFnProps } from "@devp0nt/lodash0"
 import type { Logger0 } from "@devp0nt/logger0"
 import type { Meta0 } from "@devp0nt/meta0"
 import type { Prisma0 } from "@prisma0/backend"
@@ -87,7 +86,7 @@ export class HonoReqCtx {
     return honoReqCtx
   }
 
-  getUnextendable(): HonoReqCtx.Unextendable {
+  getUnextendable() {
     return {
       backendCtx: this.backendCtx,
       honoCtx: this.honoCtx,
@@ -103,8 +102,8 @@ export class HonoReqCtx {
 }
 
 export namespace HonoReqCtx {
-  export type Props = NonFnProps<HonoReqCtx>
   export type ExtendableKeys = "meta" | "logger" | "e0s"
   export type Extendable = Pick<HonoReqCtx, ExtendableKeys>
-  export type Unextendable = Omit<HonoReqCtx, ExtendableKeys | FnPropsKeys<HonoReqCtx>>
+  export type Unextendable = ReturnType<HonoReqCtx["getUnextendable"]>
+  export type Props = Extendable & Unextendable
 }

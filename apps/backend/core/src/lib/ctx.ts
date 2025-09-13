@@ -1,6 +1,5 @@
 import { createEnv, type Env } from "@backend/core/lib/env"
 import { Error0, e0s as e0sDefault } from "@devp0nt/error0"
-import type { FnPropsKeys, NonFnProps } from "@devp0nt/lodash0"
 import { Logger0 } from "@devp0nt/logger0"
 import { Meta0 } from "@devp0nt/meta0"
 import { Prisma0 } from "@prisma0/backend"
@@ -88,6 +87,13 @@ export class BackendCtx {
     }
   }
 
+  getUnextendable() {
+    return {
+      prisma: this.prisma,
+      env: this.env,
+    }
+  }
+
   async destroy() {
     await this.prisma.$disconnect()
     this.logger.info("BackendCtx destroyed")
@@ -95,8 +101,8 @@ export class BackendCtx {
 }
 
 export namespace BackendCtx {
-  export type Props = NonFnProps<BackendCtx>
   export type ExtendableKeys = "meta" | "logger" | "e0s"
   export type Extendable = Pick<BackendCtx, ExtendableKeys>
-  export type Unextendable = Omit<BackendCtx, ExtendableKeys | FnPropsKeys<BackendCtx>>
+  export type Unextendable = ReturnType<BackendCtx["getUnextendable"]>
+  export type Props = Extendable & Unextendable
 }
