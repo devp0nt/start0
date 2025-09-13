@@ -60,6 +60,11 @@
     "autoPathSrc": true
   },
   "presets": {
+    "force": {
+      "packageJson": {
+        "private": true
+      }
+    },
     "shared": {
       "tsconfig": {
         "extends": "$shared"

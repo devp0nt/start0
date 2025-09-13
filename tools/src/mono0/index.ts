@@ -4,6 +4,7 @@ import { Mono0Tsconfig } from "@/tools/mono0/tsconfig"
 import { Mono0Unit } from "@/tools/mono0/unit"
 
 // TODO: force preset with package json
+// TODO: formatter
 // TODO: modules/{trpc,idea,...}/{backend,site,shared}
 // TODO: вотчер
 // TODO: мэниконфиг
