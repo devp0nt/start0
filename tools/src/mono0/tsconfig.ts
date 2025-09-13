@@ -100,7 +100,7 @@ export class Mono0Tsconfig {
       fs0: this.fs0,
       file0: this.file0,
     })
-    await this.file0.write(JSON.stringify(valueParsed, null, 2))
+    await this.file0.write(JSON.stringify(valueParsed, null, 2), true)
   }
 
   static async writeRootTsconfig({
@@ -129,7 +129,7 @@ export class Mono0Tsconfig {
       ...valueParsed.compilerOptions,
       paths,
     }
-    await tsconfig.file0.write(JSON.stringify(valueParsed, null, 2))
+    await tsconfig.file0.write(JSON.stringify(valueParsed, null, 2), true)
   }
 
   static zValueDefinition = z.looseObject({

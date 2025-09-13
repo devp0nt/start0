@@ -67,7 +67,7 @@ export class Mono0PackageJson {
 
   async write({ deps }: { deps: Mono0Unit[] }) {
     const mergedValue = await this.getValueWithDeps({ deps })
-    await this.file0.write(JSON.stringify(mergedValue, null, 2))
+    await this.file0.write(JSON.stringify(mergedValue, null, 2), true)
   }
 
   static zValueDefinition = z.looseObject({
