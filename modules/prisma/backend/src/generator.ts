@@ -55,7 +55,7 @@ generatorHandler({
 })
 
 const getDefaultOutputDir = () => {
-  return path.resolve(__dirname, "generated.be/prisma0")
+  return path.resolve(__dirname, "generated/prisma0")
 }
 
 const withExportNamespace = (namespace: string, lines: string[]) => {
