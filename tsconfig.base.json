@@ -6,6 +6,8 @@
     "composite": true,
     "declaration": true,
     "declarationMap": true,
+    "emitDeclarationOnly": false,
+    "noEmitOnError": false,
     "strict": true,
     "jsx": "react-jsx",
     "esModuleInterop": true,
