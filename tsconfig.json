@@ -66,6 +66,9 @@
     },
     {
       "path": "./apps/site/core/tsconfig.json"
+    },
+    {
+      "path": "./tools/tsconfig.json"
     }
   ],
   "files": []

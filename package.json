@@ -65,7 +65,8 @@
       "./modules/idea/site",
       "./modules/prisma/backend",
       "./apps/site/app",
-      "./apps/site/core"
+      "./apps/site/core",
+      "./tools"
     ],
     "catalog": {
       "isbot": "^5.1.27",

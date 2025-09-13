@@ -7,8 +7,8 @@ export namespace RRGen0 {
     selfBaseNameWitoutExt: string
   }) => {
     return `import page from "${pathForImport}"
-import { Error0 } from "@/lib/error0.sh"
-import { SiteError } from "@/site/components/Error"
+import { Error0 } from "@devp0nt/error0"
+import { SiteError } from "@site/core/components/Error"
 import { RR0 } from "@/site/react-router/utils.js"
 import type { Route } from "./+types/${selfBaseNameWitoutExt}"
 

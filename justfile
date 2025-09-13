@@ -6,9 +6,7 @@ alias pmt := prisma-migrate-test
 alias pgc := prisma-generate-client
 alias t := test-root
 alias g := gen0
-alias m := mono0 
-alias gg := gen01
-alias mm := mono01 
+alias m := mono0
 
 # forward command to app
 
@@ -75,12 +73,6 @@ gen0 *ARGS:
 
 mono0 *ARGS:
   bun run modules/lib/mono0/src/bin.ts {{ARGS}}
-
-gen01 *ARGS:
-  bun run tools/src/gen0/bin.ts {{ARGS}}
-
-mono01 *ARGS:
-  bun run tools/src/mono0/bin.ts {{ARGS}}
 
 # helpers
 

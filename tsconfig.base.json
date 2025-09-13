@@ -10,7 +10,32 @@
     "module": "ESNext",
     "moduleResolution": "Bundler",
     "verbatimModuleSyntax": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "paths": {
+      "@appConfig/backend/*": ["./modules/appConfig/backend/*"],
+      "@backend/core/*": ["./apps/backend/core/src/*"],
+      "@backend/hono-router/*": ["./apps/backend/router/hono/*"],
+      "@backend/services/*": ["./apps/backend/services/src/*"],
+      "@backend/trpc-router/*": ["./apps/backend/router/trpc/*"],
+      "@devp0nt/deepmap0/*": ["./modules/lib/deepmap0/src/*"],
+      "@devp0nt/env0/*": ["./modules/lib/env0/src/*"],
+      "@devp0nt/error0/*": ["./modules/lib/error0/src/*"],
+      "@devp0nt/fs0/*": ["./modules/lib/fs0/src/*"],
+      "@devp0nt/gen0/*": ["./modules/lib/gen0/src/*"],
+      "@devp0nt/lodash0/*": ["./modules/lib/lodash0/src/*"],
+      "@devp0nt/logger0/*": ["./modules/lib/logger0/src/*"],
+      "@devp0nt/meta0/*": ["./modules/lib/meta0/src/*"],
+      "@devp0nt/mono0/*": ["./modules/lib/mono0/src/*"],
+      "@devp0nt/route0/*": ["./modules/lib/route0/src/*"],
+      "@devp0nt/x0/*": ["./modules/lib/x/*"],
+      "@idea/backend/*": ["./modules/idea/backend/*"],
+      "@idea/shared/*": ["./modules/idea/shared/*"],
+      "@idea/site/*": ["./modules/idea/site/*"],
+      "@prisma0/backend/*": ["./modules/prisma/backend/src/*"],
+      "@site/app/*": ["./apps/site/app/src/*"],
+      "@site/core/*": ["./apps/site/core/*"],
+      "@tools/shared/*": ["./tools/src/*"]
+    }
   },
   "exclude": ["**/dist/**/*", "**/node_modules/**/*", "**/public/**/*"],
   "references": []

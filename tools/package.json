@@ -1,9 +1,16 @@
 {
-  "name": "@/tools",
+  "name": "@tools/shared",
   "private": true,
   "type": "module",
   "dependencies": {},
-  "scripts": {
-    "types": "rimraf dist && tsc"
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./*": {
+      "import": "./dist/*.js",
+      "types": "./dist/*.d.ts"
+    }
   }
 }

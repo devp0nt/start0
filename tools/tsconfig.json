@@ -1,29 +1,11 @@
 {
+  "extends": "../.mono0/tsconfig.tools.json",
   "compilerOptions": {
-    "lib": ["ESNext"],
-    "rootDir": ".",
     "outDir": "./dist",
-    "esModuleInterop": true,
-    "paths": {
-      "@/tools/*": ["./src/*"],
-      "@/backend/*": ["../apps/backend/src/*"],
-      "@/site/*": ["../apps/site/src/*"]
-    }
+    "declarationDir": "./dist",
+    "tsBuildInfoFile": "~/node_modules/.cache/tsbuildinfo/{{name}}/.tsbuildinfo",
+    "rootDir": "./src"
   },
-  "include": [
-    "./**/*",
-    "../modules/**/*.to.*"
-    // "../modules/**/*.to/**/*",
-    // "../modules/**/*.sh.*"
-    // "../modules/**/*.sh/**/*"
-    // "../apps/backend/**/*.to.*",
-    // "../apps/backend/**/*.to/**/*",
-    // "../apps/backend/**/*.sh.*",
-    // "../apps/backend/**/*.sh/**/*",
-    // "../apps/site/**/*.to.*",
-    // "../apps/site/**/*.to/**/*",
-    // "../apps/site/**/*.sh.*",
-    // "../apps/site/**/*.sh/**/*"
-  ],
-  "exclude": ["**/dist/**/*", "**/node_modules/**/*", "./**/*.be.*", "./**/*.be/**/*", "./**/*.si.*", "./**/*.si/**/*"]
+  "include": ["src/**/*"],
+  "references": []
 }

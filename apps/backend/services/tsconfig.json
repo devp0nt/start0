@@ -3,7 +3,7 @@
   "compilerOptions": {
     "outDir": "./dist",
     "declarationDir": "./dist",
-    "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@backend/services/.tsbuildinfo",
+    "tsBuildInfoFile": "~/node_modules/.cache/tsbuildinfo/{{name}}/.tsbuildinfo",
     "rootDir": "./src"
   },
   "include": ["src/**/*"],
