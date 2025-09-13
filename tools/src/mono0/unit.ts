@@ -101,7 +101,8 @@ export class Mono0Unit {
     if (level > 10) {
       throw new Error(`Preset recursion limit reached for "${unitConfigFile0.path.rel}"`)
     }
-    const presets = definition.preset
+    const forcePreset = config.presets.force
+    const presets = [...(forcePreset ? ["force"] : []), ...definition.preset]
     let result = { ...definition, preset: [] } as Mono0Unit.DefinitionParsed
     for (const presetName of presets) {
       const presetValue = config.presets[presetName]
@@ -114,7 +115,11 @@ export class Mono0Unit {
         deps: [...(presetValue.deps ?? []), ...result.deps],
         tsconfig: {
           path: result.tsconfig.path ?? presetValue.tsconfig.path,
-          value: Mono0Tsconfig.mergeHard(presetValue.tsconfig.value, result.tsconfig.value),
+          value: Mono0Tsconfig.merge(presetValue.tsconfig.value, result.tsconfig.value),
+        },
+        packageJson: {
+          path: result.packageJson.path ?? presetValue.packageJson.path,
+          value: Mono0PackageJson.merge(presetValue.packageJson.value, result.packageJson.value),
         },
         preset: presetValue.preset,
       }

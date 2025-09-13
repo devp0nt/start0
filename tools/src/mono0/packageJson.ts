@@ -71,8 +71,8 @@ export class Mono0PackageJson {
   }
 
   static zValueDefinition = z.looseObject({
-    dependencies: z.record(z.string(), z.string()).optional(),
-    devDependencies: z.record(z.string(), z.string()).optional(),
+    dependencies: z.record(z.string(), z.string().optional()).optional(),
+    devDependencies: z.record(z.string(), z.string().optional()).optional(),
   })
 
   static zFullDefinition = z.object({

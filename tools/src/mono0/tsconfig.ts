@@ -162,7 +162,7 @@ export class Mono0Tsconfig {
           : { path: undefined, value: val }) as Mono0Tsconfig.FullDefinition,
     )
 
-  static mergeHard(...tsconfigs: [Mono0Tsconfig.Json, ...Mono0Tsconfig.Json[]]): Mono0Tsconfig.Json {
+  static merge(...tsconfigs: [Mono0Tsconfig.Json, ...Mono0Tsconfig.Json[]]): Mono0Tsconfig.Json {
     return tsconfigs.reduce((acc, tsconfig) => {
       return {
         // biome-ignore lint/performance/noAccumulatingSpread: <oh...>

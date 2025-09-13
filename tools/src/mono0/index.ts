@@ -3,7 +3,7 @@ import { Mono0Config } from "@/tools/mono0/config"
 import { Mono0Tsconfig } from "@/tools/mono0/tsconfig"
 import { Mono0Unit } from "@/tools/mono0/unit"
 
-// TODO: Тсконфиги, пакейджейсоны, рут тс, рут пкг, бэйз тс, мэни конфиг
+// TODO: force preset with package json
 // TODO: modules/{trpc,idea,...}/{backend,site,shared}
 // TODO: вотчер
 // TODO: мэниконфиг
