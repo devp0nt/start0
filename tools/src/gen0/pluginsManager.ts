@@ -2,7 +2,6 @@ import type { File0, Fs0 } from "@/tools/fs0"
 import type { Gen0Config } from "@/tools/gen0/config"
 import { Gen0Logger } from "@/tools/gen0/logger"
 import { Gen0Plugin } from "@/tools/gen0/plugin"
-import type { Gen0Utils } from "@/tools/gen0/utils"
 import type { Gen0Watcher } from "@/tools/gen0/watcher"
 
 export class Gen0PluginsManager {
@@ -64,6 +63,10 @@ export class Gen0PluginsManager {
     const plugins = await this.findAndCreateManyByGlob(glob)
     return await this.add(plugins, init)
   }
+  async addPluginsByDefinitions(definitions: Gen0Plugin.DefinitionWithName[], init: boolean = false) {
+    const plugins = await Promise.all(definitions.map((definition) => this.createByDefinition(definition)))
+    return await this.add(plugins, init)
+  }
 
   async addByPath(path: string, init: boolean = false) {
     const plugin = await this.createByPath(path)
@@ -85,7 +88,9 @@ export class Gen0PluginsManager {
   }
 
   async addAll(init: boolean = false) {
-    return await this.addPluginsByGlob(this.config.pluginsGlob, init)
+    const pluginsByGlob = await this.addPluginsByGlob(this.config.pluginsGlob, init)
+    const pluginsByConfig = await this.addPluginsByDefinitions(this.config.pluginsDefinitions, init)
+    return [...pluginsByGlob, ...pluginsByConfig]
   }
 
   removeByGlob(pluginsGlob: Fs0.PathOrPaths) {

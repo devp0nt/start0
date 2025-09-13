@@ -74,7 +74,7 @@ program
   .action(
     withCleanGen0(async (gen0, options: { dryRun: boolean }) => {
       await gen0.init({ dryRun: options.dryRun })
-      await gen0.watchersManager.watchAllByParcel()
+      await gen0.watch()
       logger.info("watcher started")
 
       // const rl = readline.createInterface({

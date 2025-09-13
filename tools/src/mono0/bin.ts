@@ -66,4 +66,14 @@ program
     }),
   )
 
+program
+  .command("watch")
+  .alias("w")
+  .description("Watch")
+  .action(
+    withMono0(async (mono0) => {
+      await mono0.watch()
+    }),
+  )
+
 program.parse()

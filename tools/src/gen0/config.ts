@@ -63,9 +63,20 @@ export class Gen0Config {
     this.debug = debug
   }
 
-  static async create({ cwd }: { cwd: string }) {
-    const configPath = Gen0Config.getConfigPath({ cwd })
-    const configDefinition = await (async () => {
+  static async create({
+    cwd,
+    configPath,
+    configDefinition,
+  }: {
+    cwd: string
+    configPath?: string
+    configDefinition?: Gen0Config.Definition
+  }) {
+    configPath = Gen0Config.getConfigPath({ cwd })
+    configDefinition = await (async () => {
+      if (configDefinition) {
+        return configDefinition
+      }
       if (!configPath) {
         return {}
       }

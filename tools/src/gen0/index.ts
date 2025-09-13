@@ -86,9 +86,19 @@ export class Gen0 {
     this.watchersManager = watchersManager
   }
 
-  static async create({ cwd, debug = Gen0Config.defaultDebug }: { cwd?: string; debug?: string | boolean } = {}) {
+  static async create({
+    cwd,
+    debug = Gen0Config.defaultDebug,
+    configPath,
+    configDefinition,
+  }: {
+    cwd?: string
+    debug?: string | boolean
+    configPath?: string
+    configDefinition?: Gen0Config.Definition
+  } = {}) {
     Gen0Logger.init(debug)
-    const config = await Gen0Config.create({ cwd: cwd || process.cwd() })
+    const config = await Gen0Config.create({ cwd: cwd || process.cwd(), configPath, configDefinition })
     if (debug !== config.debug) {
       Gen0Logger.init(config.debug)
     }
@@ -111,6 +121,10 @@ export class Gen0 {
     await this.pluginsManager.addAll()
     await this.clientsManager.processAll(dryRun)
     await this.pluginsManager.initAll()
+  }
+
+  async watch() {
+    await this.watchersManager.watchAllByParcel()
   }
 }
 

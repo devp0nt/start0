@@ -1,9 +1,11 @@
 import type { Fs0 } from "@/tools/fs0"
+import { Gen0 } from "@/tools/gen0"
 import { Mono0Config } from "@/tools/mono0/config"
+import { Mono0Logger } from "@/tools/mono0/logger"
 import { Mono0Tsconfig } from "@/tools/mono0/tsconfig"
 import { Mono0Unit } from "@/tools/mono0/unit"
+import watcherGen0 from "@/tools/mono0/watcher-gen0"
 
-// TODO: formatter
 // TODO: вотчер
 
 // TODO: modules/{trpc,idea,...}/{backend,site,shared}
@@ -23,6 +25,7 @@ export class Mono0 {
   rootFs0: Fs0
   config: Mono0Config
   units: Mono0Unit[]
+  logger: Mono0Logger = Mono0Logger.create("core")
 
   private constructor({ rootFs0, config, units }: { rootFs0: Fs0; config: Mono0Config; units: Mono0Unit[] }) {
     this.rootFs0 = rootFs0
@@ -67,5 +70,20 @@ export class Mono0 {
       mono0 = await Mono0.create()
     }
     await mono0.sync()
+  }
+
+  async watch() {
+    const gen0 = await Gen0.create({
+      configDefinition: {
+        rootDir: this.config.rootFs0.rootDir,
+        pluginsGlob: [],
+        clientsGlob: [],
+        plugins: [watcherGen0],
+      },
+    })
+    await gen0.init()
+    const watcher = await gen0.watch()
+    this.logger.info("watcher started")
+    return watcher
   }
 }
