@@ -80,12 +80,11 @@
     "apps/site/app": {
       "name": "@site/app",
       "dependencies": {
-        "@react-router/node": "catalog:",
-        "isbot": "catalog:",
+        "@site/core": "workspace:*",
       },
     },
-    "apps/site/routes": {
-      "name": "@site/routes",
+    "apps/site/core": {
+      "name": "@site/core",
     },
     "modules/lib": {
       "name": "@lib",
@@ -419,7 +418,7 @@
 
     "@site/app": ["@site/app@workspace:apps/site/app"],
 
-    "@site/routes": ["@site/routes@workspace:apps/site/routes"],
+    "@site/core": ["@site/core@workspace:apps/site/core"],
 
     "@standard-schema/spec": ["@standard-schema/spec@1.0.0", "", {}, "sha512-m2bOd0f2RT9k8QJx1JN85cZYyH1RqFBdlwtkSlf4tBDYLCiiZnv1fIIwacK6cqwXavOydf0NPToMQgpKq+dVlA=="],
 

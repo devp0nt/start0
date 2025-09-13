@@ -63,7 +63,7 @@ export class Mono0Tsconfig {
         if (!extendsTsconfig) {
           throw new Error(`Tsconfig "${tsconfigName}" not found in "${file0.path.rel}"`)
         }
-        result.extends = extendsTsconfig.file0.relToDir(fs0)
+        result.extends = extendsTsconfig.file0.relToDir(file0)
       }
     }
     if (result.exclude) {

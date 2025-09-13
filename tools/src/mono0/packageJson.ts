@@ -64,7 +64,7 @@ export class Mono0PackageJson {
       Object.entries(currentValue.dependencies || {}).filter(([key, value]) => value !== "workspace:*"),
     )
 
-    const mergedValue = Mono0PackageJson.merge(currentValue, { name: this.name, ...this.value })
+    const mergedValue = Mono0PackageJson.merge(currentValue, { name: this.name || currentValue.name, ...this.value })
     if (deps.length) {
       if (!mergedValue.dependencies) {
         mergedValue.dependencies = {}
