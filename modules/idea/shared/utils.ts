@@ -1,11 +1,11 @@
-import { Route } from "@typed/route"
+import { Route0 } from "@devp0nt/route0"
+import type { IdeaModel } from "@prisma0/backend/generated/prisma/models"
 import z from "zod"
-import type { IdeaModel } from "@/prisma/generated.be/prisma/models"
 
 export namespace Idea {
   export type Client = IdeaModel
 
-  export const siteBaseRoute = Route.parse("/ideas")
+  export const siteBaseRoute = Route0.create("/ideas")
 
   export const zLog = z.object({
     date: z.string(),

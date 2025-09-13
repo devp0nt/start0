@@ -10,5 +10,9 @@
     "rootDir": "./"
   },
   "include": ["**/*"],
-  "references": []
+  "references": [
+    {
+      "path": "../../../apps/backend/core/tsconfig.json"
+    }
+  ]
 }

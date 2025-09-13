@@ -1,5 +1,8 @@
 {
-  "dependencies": {},
+  "dependencies": {
+    "@devp0nt/route0": "workspace:*",
+    "@prisma0/backend": "workspace:*"
+  },
   "name": "@idea/shared",
   "private": true,
   "type": "module",

@@ -1,5 +1,5 @@
 {
   "name": "@idea/shared",
   "preset": "shared",
-  "deps": []
+  "deps": ["@devp0nt/route0", "@prisma0/backend"]
 }
