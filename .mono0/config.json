@@ -63,7 +63,13 @@
   "presets": {
     "force": {
       "packageJson": {
-        "private": true
+        "private": true,
+        "type": "module"
+      },
+      "tsconfig": {
+        "compilerOptions": {
+          "outDir": "./dist"
+        }
       }
     },
     "shared": {

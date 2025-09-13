@@ -71,11 +71,25 @@
         "workspace-root": "^3.3.1",
       },
     },
-    "apps/backend": {
-      "name": "@backend",
+    "apps/backend/core": {
+      "name": "@backend/core",
       "dependencies": {
+        "@devp0nt/env0": "workspace:*",
+        "@devp0nt/error0": "workspace:*",
+        "@devp0nt/lodash0": "workspace:*",
+        "@devp0nt/logger0": "workspace:*",
+        "@devp0nt/meta0": "workspace:*",
         "@prisma0/backend": "workspace:*",
       },
+    },
+    "apps/backend/router/hono": {
+      "name": "@backend/hono-router",
+    },
+    "apps/backend/router/trpc": {
+      "name": "@backend/trpc-router",
+    },
+    "apps/backend/services": {
+      "name": "@backend/services",
     },
     "apps/site/app": {
       "name": "@site/app",
@@ -86,10 +100,52 @@
     "apps/site/core": {
       "name": "@site/core",
     },
-    "modules/lib": {
-      "name": "@lib",
+    "modules/appConfig/backend": {
+      "name": "@appConfig/backend",
     },
-    "modules/prisma": {
+    "modules/idea/backend": {
+      "name": "@idea/backend",
+    },
+    "modules/idea/shared": {
+      "name": "@idea/shared",
+    },
+    "modules/idea/site": {
+      "name": "@idea/site",
+    },
+    "modules/lib/deepmap0": {
+      "name": "@devp0nt/deepmap0",
+    },
+    "modules/lib/env0": {
+      "name": "@devp0nt/env0",
+    },
+    "modules/lib/error0": {
+      "name": "@devp0nt/error0",
+    },
+    "modules/lib/fs0": {
+      "name": "@devp0nt/fs0",
+    },
+    "modules/lib/gen0": {
+      "name": "@devp0nt/gen0",
+    },
+    "modules/lib/lodash0": {
+      "name": "@devp0nt/lodash0",
+    },
+    "modules/lib/logger0": {
+      "name": "@devp0nt/logger0",
+    },
+    "modules/lib/meta0": {
+      "name": "@devp0nt/meta0",
+    },
+    "modules/lib/mono0": {
+      "name": "@devp0nt/mono0",
+    },
+    "modules/lib/route0": {
+      "name": "@devp0nt/route0",
+    },
+    "modules/lib/x": {
+      "name": "@devp0nt/x0",
+    },
+    "modules/prisma/backend": {
       "name": "@prisma0/backend",
     },
   },
@@ -99,6 +155,8 @@
   },
   "packages": {
     "@ampproject/remapping": ["@ampproject/remapping@2.3.0", "", { "dependencies": { "@jridgewell/gen-mapping": "^0.3.5", "@jridgewell/trace-mapping": "^0.3.24" } }, "sha512-30iZtAPgz+LTIYoeivqYo853f02jBYSd5uGnGpkFV0M3xOt9aN73erkgYAmZU43x4VfqcnLxW9Kpg3R5LC4YYw=="],
+
+    "@appConfig/backend": ["@appConfig/backend@workspace:modules/appConfig/backend"],
 
     "@asteasolutions/zod-to-openapi": ["@asteasolutions/zod-to-openapi@8.1.0", "", { "dependencies": { "openapi3-ts": "^4.1.2" }, "peerDependencies": { "zod": "^4.0.0" } }, "sha512-tQFxVs05J/6QXXqIzj6rTRk3nj1HFs4pe+uThwE95jL5II2JfpVXkK+CqkO7aT0Do5AYqO6LDrKpleLUFXgY+g=="],
 
@@ -162,7 +220,13 @@
 
     "@babel/types": ["@babel/types@7.28.2", "", { "dependencies": { "@babel/helper-string-parser": "^7.27.1", "@babel/helper-validator-identifier": "^7.27.1" } }, "sha512-ruv7Ae4J5dUYULmeXw1gmb7rYRz57OWCPM57pHojnLq/3Z1CK2lNSLTCVjxVk1F/TZHwOZZrOWi0ur95BbLxNQ=="],
 
-    "@backend": ["@backend@workspace:apps/backend"],
+    "@backend/core": ["@backend/core@workspace:apps/backend/core"],
+
+    "@backend/hono-router": ["@backend/hono-router@workspace:apps/backend/router/hono"],
+
+    "@backend/services": ["@backend/services@workspace:apps/backend/services"],
+
+    "@backend/trpc-router": ["@backend/trpc-router@workspace:apps/backend/router/trpc"],
 
     "@biomejs/biome": ["@biomejs/biome@2.2.0", "", { "optionalDependencies": { "@biomejs/cli-darwin-arm64": "2.2.0", "@biomejs/cli-darwin-x64": "2.2.0", "@biomejs/cli-linux-arm64": "2.2.0", "@biomejs/cli-linux-arm64-musl": "2.2.0", "@biomejs/cli-linux-x64": "2.2.0", "@biomejs/cli-linux-x64-musl": "2.2.0", "@biomejs/cli-win32-arm64": "2.2.0", "@biomejs/cli-win32-x64": "2.2.0" }, "bin": { "biome": "bin/biome" } }, "sha512-3On3RSYLsX+n9KnoSgfoYlckYBoU6VRM22cw1gB4Y0OuUVSYd/O/2saOJMrA4HFfA1Ff0eacOvMN1yAAvHtzIw=="],
 
@@ -181,6 +245,28 @@
     "@biomejs/cli-win32-arm64": ["@biomejs/cli-win32-arm64@2.2.0", "", { "os": "win32", "cpu": "arm64" }, "sha512-n9a1/f2CwIDmNMNkFs+JI0ZjFnMO0jdOyGNtihgUNFnlmd84yIYY2KMTBmMV58ZlVHjgmY5Y6E1hVTnSRieggA=="],
 
     "@biomejs/cli-win32-x64": ["@biomejs/cli-win32-x64@2.2.0", "", { "os": "win32", "cpu": "x64" }, "sha512-Nawu5nHjP/zPKTIryh2AavzTc/KEg4um/MxWdXW0A6P/RZOyIpa7+QSjeXwAwX/utJGaCoXRPWtF3m5U/bB3Ww=="],
+
+    "@devp0nt/deepmap0": ["@devp0nt/deepmap0@workspace:modules/lib/deepmap0"],
+
+    "@devp0nt/env0": ["@devp0nt/env0@workspace:modules/lib/env0"],
+
+    "@devp0nt/error0": ["@devp0nt/error0@workspace:modules/lib/error0"],
+
+    "@devp0nt/fs0": ["@devp0nt/fs0@workspace:modules/lib/fs0"],
+
+    "@devp0nt/gen0": ["@devp0nt/gen0@workspace:modules/lib/gen0"],
+
+    "@devp0nt/lodash0": ["@devp0nt/lodash0@workspace:modules/lib/lodash0"],
+
+    "@devp0nt/logger0": ["@devp0nt/logger0@workspace:modules/lib/logger0"],
+
+    "@devp0nt/meta0": ["@devp0nt/meta0@workspace:modules/lib/meta0"],
+
+    "@devp0nt/mono0": ["@devp0nt/mono0@workspace:modules/lib/mono0"],
+
+    "@devp0nt/route0": ["@devp0nt/route0@workspace:modules/lib/route0"],
+
+    "@devp0nt/x0": ["@devp0nt/x0@workspace:modules/lib/x"],
 
     "@drizzle-team/brocli": ["@drizzle-team/brocli@0.11.0", "", {}, "sha512-hD3pekGiPg0WPCCGAZmusBBJsDqGUR66Y452YgQsZOnkdQ7ViEPKuyP4huUGEZQefp8g34RRodXYmJ2TbCH+tg=="],
 
@@ -250,6 +336,12 @@
 
     "@hono/zod-validator": ["@hono/zod-validator@0.7.2", "", { "peerDependencies": { "hono": ">=3.9.0", "zod": "^3.25.0 || ^4.0.0" } }, "sha512-ub5eL/NeZ4eLZawu78JpW/J+dugDAYhwqUIdp9KYScI6PZECij4Hx4UsrthlEUutqDDhPwRI0MscUfNkvn/mqQ=="],
 
+    "@idea/backend": ["@idea/backend@workspace:modules/idea/backend"],
+
+    "@idea/shared": ["@idea/shared@workspace:modules/idea/shared"],
+
+    "@idea/site": ["@idea/site@workspace:modules/idea/site"],
+
     "@isaacs/balanced-match": ["@isaacs/balanced-match@4.0.1", "", {}, "sha512-yzMTt9lEb8Gv7zRioUilSglI0c0smZ9k5D65677DLWLtWJaXIS3CqcGyUFByYKlnUj6TkjLVs54fBl6+TiGQDQ=="],
 
     "@isaacs/brace-expansion": ["@isaacs/brace-expansion@5.0.0", "", { "dependencies": { "@isaacs/balanced-match": "^4.0.1" } }, "sha512-ZT55BDLV0yv0RBm2czMiZ+SqCGO7AvmOM3G/w2xhVPH+te0aKgFjmBvGlL1dH+ql2tgGO3MVrbb3jCKyvpgnxA=="],
@@ -263,8 +355,6 @@
     "@jridgewell/sourcemap-codec": ["@jridgewell/sourcemap-codec@1.5.5", "", {}, "sha512-cYQ9310grqxueWbl+WuIUIaiUaDcj7WOq5fVhEljNVgRfOUhY9fy2zTvfoqWsnebh8Sl70VScFbICvJnLKB0Og=="],
 
     "@jridgewell/trace-mapping": ["@jridgewell/trace-mapping@0.3.30", "", { "dependencies": { "@jridgewell/resolve-uri": "^3.1.0", "@jridgewell/sourcemap-codec": "^1.4.14" } }, "sha512-GQ7Nw5G2lTu/BtHTKfXhKHok2WGetd4XYcVKGx00SjAk8GMwgJM3zr6zORiPGuOE+/vkc90KtTosSSvaCjKb2Q=="],
-
-    "@lib": ["@lib@workspace:modules/lib"],
 
     "@logtape/logtape": ["@logtape/logtape@1.0.4", "", {}, "sha512-YvNVrXIxVpnY528zoiEjX8PqTfr0UCtKXyssvaWL8AE+OByFTCooKuKMdPlm6g65YUI9fPXrHn4UnogSskABnA=="],
 
@@ -362,7 +452,7 @@
 
     "@prisma/get-platform": ["@prisma/get-platform@6.14.0", "", { "dependencies": { "@prisma/debug": "6.14.0" } }, "sha512-7VjuxKNwjnBhKfqPpMeWiHEa2sVjYzmHdl1slW6STuUCe9QnOY0OY1ljGSvz6wpG4U8DfbDqkG1yofd/1GINww=="],
 
-    "@prisma0/backend": ["@prisma0/backend@workspace:modules/prisma"],
+    "@prisma0/backend": ["@prisma0/backend@workspace:modules/prisma/backend"],
 
     "@react-router/dev": ["@react-router/dev@7.8.1", "", { "dependencies": { "@babel/core": "^7.27.7", "@babel/generator": "^7.27.5", "@babel/parser": "^7.27.7", "@babel/plugin-syntax-jsx": "^7.27.1", "@babel/preset-typescript": "^7.27.1", "@babel/traverse": "^7.27.7", "@babel/types": "^7.27.7", "@npmcli/package-json": "^4.0.1", "@react-router/node": "7.8.1", "@vitejs/plugin-rsc": "0.4.11", "arg": "^5.0.1", "babel-dead-code-elimination": "^1.0.6", "chokidar": "^4.0.0", "dedent": "^1.5.3", "es-module-lexer": "^1.3.1", "exit-hook": "2.2.1", "isbot": "^5.1.11", "jsesc": "3.0.2", "lodash": "^4.17.21", "pathe": "^1.1.2", "picocolors": "^1.1.1", "prettier": "^3.6.2", "react-refresh": "^0.14.0", "semver": "^7.3.7", "set-cookie-parser": "^2.6.0", "tinyglobby": "^0.2.14", "valibot": "^0.41.0", "vite-node": "^3.2.2" }, "peerDependencies": { "@react-router/serve": "^7.8.1", "react-router": "^7.8.1", "typescript": "^5.1.0", "vite": "^5.1.0 || ^6.0.0 || ^7.0.0", "wrangler": "^3.28.2 || ^4.0.0" }, "optionalPeers": ["@react-router/serve", "typescript", "wrangler"], "bin": { "react-router": "bin.js" } }, "sha512-ESFe7DbMvCvl7e8N7L9NmI64VJGNCc60/VX1DUZYw/jFfzA5098/6D1aUojcxyVYBbMbVTfw0xmEvD4CsJzy1Q=="],
 

@@ -1,0 +1,5 @@
+{
+  "name": "@backend/hono-router",
+  "preset": "backend",
+  "deps": []
+}

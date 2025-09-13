@@ -1,0 +1,16 @@
+{
+  "dependencies": {},
+  "name": "@devp0nt/deepmap0",
+  "private": true,
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./*": {
+      "import": "./dist/*.js",
+      "types": "./dist/*.d.ts"
+    }
+  },
+  "type": "module"
+}

@@ -13,5 +13,6 @@
       "import": "./dist/*.js",
       "types": "./dist/*.d.ts"
     }
-  }
+  },
+  "type": "module"
 }

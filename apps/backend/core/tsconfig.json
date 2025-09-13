@@ -1,0 +1,28 @@
+{
+  "extends": "../../../.mono0/tsconfig.backend.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./src"
+  },
+  "include": ["src/**/*"],
+  "references": [
+    {
+      "path": "../../../modules/lib/env0/tsconfig.json"
+    },
+    {
+      "path": "../../../modules/lib/error0/tsconfig.json"
+    },
+    {
+      "path": "../../../modules/lib/lodash0/tsconfig.json"
+    },
+    {
+      "path": "../../../modules/lib/logger0/tsconfig.json"
+    },
+    {
+      "path": "../../../modules/lib/meta0/tsconfig.json"
+    },
+    {
+      "path": "../../../modules/prisma/backend/tsconfig.json"
+    }
+  ]
+}

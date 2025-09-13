@@ -1,0 +1,23 @@
+{
+  "dependencies": {
+    "@devp0nt/env0": "workspace:*",
+    "@devp0nt/error0": "workspace:*",
+    "@devp0nt/lodash0": "workspace:*",
+    "@devp0nt/logger0": "workspace:*",
+    "@devp0nt/meta0": "workspace:*",
+    "@prisma0/backend": "workspace:*"
+  },
+  "name": "@backend/core",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./*": {
+      "import": "./dist/*.js",
+      "types": "./dist/*.d.ts"
+    }
+  }
+}

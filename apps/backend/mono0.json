@@ -1,5 +1,0 @@
-{
-  "name": "@backend",
-  "preset": "backend",
-  "deps": ["@prisma0/backend"]
-}

@@ -1,0 +1,5 @@
+{
+  "name": "@appConfig/backend",
+  "preset": "backend",
+  "deps": []
+}

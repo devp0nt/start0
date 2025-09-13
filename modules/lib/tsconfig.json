@@ -1,8 +1,0 @@
-{
-  "extends": "../../.mono0/tsconfig.shared.json",
-  "include": ["src/**/*"],
-  "compilerOptions": {
-    "rootDir": "./src"
-  },
-  "references": []
-}

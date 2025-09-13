@@ -1,0 +1,5 @@
+{
+  "name": "@idea/site",
+  "preset": "site",
+  "deps": []
+}

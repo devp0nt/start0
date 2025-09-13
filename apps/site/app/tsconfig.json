@@ -1,9 +1,10 @@
 {
   "extends": "../../../.mono0/tsconfig.site.json",
-  "include": ["src/**/*"],
   "compilerOptions": {
+    "outDir": "./dist",
     "rootDir": "./src"
   },
+  "include": ["src/**/*"],
   "references": [
     {
       "path": "../core/tsconfig.json"
