@@ -2,9 +2,6 @@
   "extends": "../../../.mono0/tsconfig.shared.json",
   "compilerOptions": {
     "outDir": "./dist",
-    "composite": true,
-    "declaration": true,
-    "declarationMap": true,
     "declarationDir": "./dist",
     "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@devp0nt/lodash0/.tsbuildinfo",
     "rootDir": "./src"
