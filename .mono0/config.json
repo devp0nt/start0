@@ -10,8 +10,6 @@
       "path": "../tsconfig.base.json",
       "value": {
         "compilerOptions": {
-          "rootDir": ".",
-          "composite": true,
           "strict": true,
           "jsx": "react-jsx",
           "esModuleInterop": true,
@@ -68,6 +66,9 @@
       },
       "tsconfig": {
         "compilerOptions": {
+          "composite": true,
+          "declaration": true,
+          "declarationMap": true,
           "outDir": "./dist",
           "tsBuildInfoFile": "~/node_modules/.cache/tsbuildinfo/{{name}}/.tsbuildinfo"
         }

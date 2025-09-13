@@ -2,6 +2,9 @@
   "extends": "../../../.mono0/tsconfig.site.json",
   "compilerOptions": {
     "outDir": "./dist",
+    "composite": true,
+    "declaration": true,
+    "declarationMap": true,
     "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@site/core/.tsbuildinfo",
     "rootDir": "./"
   },

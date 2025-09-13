@@ -1,7 +1,5 @@
 {
   "compilerOptions": {
-    "rootDir": ".",
-    "composite": true,
     "strict": true,
     "jsx": "react-jsx",
     "esModuleInterop": true,
