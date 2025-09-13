@@ -63,11 +63,7 @@
   "presets": {
     "force": {
       "packageJson": {
-        "private": true,
-        "exports": {
-          ".": "./index.ts",
-          "./*": "./*"
-        }
+        "private": true
       }
     },
     "shared": {

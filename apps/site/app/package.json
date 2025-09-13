@@ -5,7 +5,13 @@
   "name": "@site/app",
   "private": true,
   "exports": {
-    ".": "./index.ts",
-    "./*": "./*"
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./*": {
+      "import": "./dist/*.js",
+      "types": "./dist/*.d.ts"
+    }
   }
 }

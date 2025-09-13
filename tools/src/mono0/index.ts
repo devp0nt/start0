@@ -9,13 +9,14 @@ import { Mono0Unit } from "@/tools/mono0/unit"
 import watcherGen0 from "@/tools/mono0/watcher-gen0"
 
 // TODO: modules/{trpc,idea,...}/{backend,site,shared}
-// TODO: мэниконфиг
+// TODO: верный package.json export dists путь
 // TODO: other модуль для ленивых
 // TODO: валдатор циклических зависимостей
 // TODO: валдатор одинаковых имён юнитов
 // TODO: fs0 withTsconfigPath → gen0 importFromFiles
 // TODO: mono0 генератор jest file
 
+// TODO: мэниконфиг
 // TODO: авто разруливание заисимостей в include, вместо refrenece
 // TODO: settings
 

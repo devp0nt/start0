@@ -52,7 +52,7 @@ export class Mono0PackageJson {
     return await this.file0.readJson<Mono0PackageJson.Json>()
   }
 
-  async getValueWithDeps({ deps }: { deps: Mono0Unit[] }) {
+  async getNewValue({ deps }: { deps: Mono0Unit[] }) {
     const currentValue = await this.getCurrentValue()
     const prevWorkspaceDeps = Object.fromEntries(
       Object.entries(currentValue.dependencies || {}).filter(([key, value]) => value === "workspace:*"),
@@ -75,11 +75,26 @@ export class Mono0PackageJson {
       }
     }
     const depsChanged = !isEqual(prevWorkspaceDeps, newWorkspaceDeps)
+
+    if (!this.value.exports) {
+      const exports = {
+        ".": {
+          import: "./dist/index.js",
+          types: "./dist/index.d.ts",
+        },
+        "./*": {
+          import: "./dist/*.js",
+          types: "./dist/*.d.ts",
+        },
+      }
+      mergedValue.exports = exports
+    }
+
     return { value: mergedValue, depsChanged }
   }
 
   async write({ deps }: { deps: Mono0Unit[] }) {
-    const { value, depsChanged } = await this.getValueWithDeps({ deps })
+    const { value, depsChanged } = await this.getNewValue({ deps })
     await this.file0.write(JSON.stringify(value, null, 2), true)
     return { depsChanged }
   }
@@ -101,6 +116,7 @@ export class Mono0PackageJson {
   static zValueDefinition = z.looseObject({
     dependencies: z.record(z.string(), z.string().optional()).optional(),
     devDependencies: z.record(z.string(), z.string().optional()).optional(),
+    exports: z.record(z.string(), z.record(z.string(), z.string()).optional()).optional(),
   })
 
   static zFullDefinition = z.object({
