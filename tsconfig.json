@@ -59,7 +59,7 @@
       "path": "./modules/idea/site/tsconfig.json"
     },
     {
-      "path": "./modules/prisma/backend/tsconfig.json"
+      "path": "./modules/prisma0/backend/tsconfig.json"
     },
     {
       "path": "./apps/site/app/tsconfig.json"

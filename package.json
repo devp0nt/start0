@@ -64,7 +64,7 @@
       "./modules/idea/backend",
       "./modules/idea/shared",
       "./modules/idea/site",
-      "./modules/prisma/backend",
+      "./modules/prisma0/backend",
       "./apps/site/app",
       "./apps/site/core",
       "./tools"
