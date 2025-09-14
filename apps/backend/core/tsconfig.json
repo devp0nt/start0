@@ -12,7 +12,13 @@
     "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@backend/core/.tsbuildinfo",
     "rootDir": "./src",
     "paths": {
-      "@backend/core/*": ["./src/*"]
+      "@backend/core/*": ["./src/*"],
+      "@devp0nt/env0/*": ["../../../modules/lib/env0/src/*"],
+      "@devp0nt/error0/*": ["../../../modules/lib/error0/src/*"],
+      "@devp0nt/lodash0/*": ["../../../modules/lib/lodash0/src/*"],
+      "@devp0nt/logger0/*": ["../../../modules/lib/logger0/src/*"],
+      "@devp0nt/meta0/*": ["../../../modules/lib/meta0/src/*"],
+      "@prisma0/backend/*": ["../../../modules/prisma/backend/src/*"]
     }
   },
   "include": ["src/**/*"],

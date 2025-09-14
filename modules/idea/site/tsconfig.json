@@ -12,11 +12,16 @@
     "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@idea/site/.tsbuildinfo",
     "rootDir": "./src",
     "paths": {
-      "@idea/site/*": ["./src/*"]
+      "@idea/site/*": ["./src/*"],
+      "@idea/shared/*": ["../shared/src/*"],
+      "@site/core/*": ["../../../apps/site/core/src/*"]
     }
   },
   "include": ["src/**/*"],
   "references": [
+    {
+      "path": "../shared/tsconfig.json"
+    },
     {
       "path": "../../../apps/site/core/tsconfig.json"
     }

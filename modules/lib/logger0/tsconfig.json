@@ -12,7 +12,9 @@
     "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@devp0nt/logger0/.tsbuildinfo",
     "rootDir": "./src",
     "paths": {
-      "@devp0nt/logger0/*": ["./src/*"]
+      "@devp0nt/logger0/*": ["./src/*"],
+      "@devp0nt/error0/*": ["../error0/src/*"],
+      "@devp0nt/meta0/*": ["../meta0/src/*"]
     }
   },
   "include": ["src/**/*"],

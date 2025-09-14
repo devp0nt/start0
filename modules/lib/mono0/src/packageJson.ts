@@ -1,4 +1,3 @@
-import nodePath from "node:path"
 import type { File0, Fs0 } from "@devp0nt/fs0"
 import { isEqual } from "lodash"
 import type { PackageJson as PackageJsonTypeFest } from "type-fest"
@@ -64,7 +63,7 @@ export class Mono0PackageJson {
     return await this.file0.readJson<Mono0PackageJson.Json>()
   }
 
-  async getNewValue({ deps }: { deps: Mono0Unit[] }) {
+  async getNewValue() {
     const currentValue = await this.getCurrentValue()
     const prevWorkspaceDeps = Object.fromEntries(
       Object.entries(currentValue.dependencies || {}).filter(([key, value]) => value === "workspace:*"),
@@ -77,13 +76,14 @@ export class Mono0PackageJson {
     )
 
     const mergedValue = Mono0PackageJson.merge(currentValue, { name: this.name || currentValue.name, ...this.value })
-    if (deps.length) {
+    const unit = this.unit
+    if (unit?.deps.length) {
       if (!mergedValue.dependencies) {
         mergedValue.dependencies = {}
       }
-      for (const unit of deps) {
-        mergedValue.dependencies[unit.name] = "workspace:*"
-        newWorkspaceDeps[unit.name] = "workspace:*"
+      for (const dep of unit.deps) {
+        mergedValue.dependencies[dep.unit.name] = "workspace:*"
+        newWorkspaceDeps[dep.unit.name] = "workspace:*"
       }
     }
     const depsChanged = !isEqual(prevWorkspaceDeps, newWorkspaceDeps)
@@ -107,14 +107,15 @@ export class Mono0PackageJson {
       //     },
       //   },
       // }
-      const unit = this.unit
       if (unit) {
         const dirsPaths = unit.dirsPaths.map((dirPath) => ({
-          relToPkg: this.file0.fs0.toRel(dirPath, true),
-          relToSrc: unit.srcFs0.toRel(dirPath, true),
+          // relToPkgDist: this.file0.fs0.toRel(dirPath.replace(unit.srcFs0.cwd, unit.distFs0.cwd), true),
+          // relToDist: unit.distFs0.toRel(dirPath.replace(unit.srcFs0.cwd, unit.distFs0.cwd), true),
+          relToPkg: this.file0.fs0.toRel(unit.getPathInDistByPathInSrc(dirPath), true),
+          relToDist: unit.distFs0.toRel(unit.getPathInDistByPathInSrc(dirPath), true),
         }))
-        const exts = [".ts", ".tsx"]
-        const srcPath = this.file0.fs0.toRel(unit.srcFs0.cwd, true)
+
+        const distPath = this.file0.fs0.toRel(unit.distFs0.cwd, true)
         // replace more then 1 slah with one slash
         const fixSlahes = (path: string) => path.replace(/\/+/g, "/")
         // const exports = {
@@ -133,13 +134,17 @@ export class Mono0PackageJson {
         //   ),
         // }
         const exports = {
-          ".": {
-            import: fixSlahes(`${srcPath}/index.ts`),
-            types: fixSlahes(`${srcPath}/index.ts`),
-          },
+          ...(unit.indexFile0
+            ? {
+                ".": {
+                  import: fixSlahes(`${distPath}/${unit.indexFile0.path.basename}.js`),
+                  types: fixSlahes(`${distPath}/${unit.indexFile0.path.basename}.d.ts`),
+                },
+              }
+            : {}),
           ...Object.fromEntries(
             dirsPaths.map((dirPath) => [
-              fixSlahes(`${dirPath.relToSrc}/*`),
+              fixSlahes(`${dirPath.relToDist}/*`),
               {
                 import: fixSlahes(`${dirPath.relToPkg}/*`),
                 types: fixSlahes(`${dirPath.relToPkg}/*`),
@@ -154,8 +159,8 @@ export class Mono0PackageJson {
     return { value: mergedValue, depsChanged }
   }
 
-  async write({ deps }: { deps: Mono0Unit[] }) {
-    const { value, depsChanged } = await this.getNewValue({ deps })
+  async write() {
+    const { value, depsChanged } = await this.getNewValue()
     await this.file0.write(JSON.stringify(value, null, 2), true)
     return { depsChanged }
   }
@@ -220,10 +225,10 @@ export class Mono0PackageJson {
     }, {} as any)
   }
 
-  getMeta() {
+  async getMeta() {
     return {
       path: this.file0.path.rel,
-      value: this.value,
+      value: (await this.getNewValue()).value,
     }
   }
 }

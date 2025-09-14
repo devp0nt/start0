@@ -12,7 +12,8 @@
     "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@devp0nt/meta0/.tsbuildinfo",
     "rootDir": "./src",
     "paths": {
-      "@devp0nt/meta0/*": ["./src/*"]
+      "@devp0nt/meta0/*": ["./src/*"],
+      "@devp0nt/deepmap0/*": ["../deepmap0/src/*"]
     }
   },
   "include": ["src/**/*"],

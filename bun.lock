@@ -129,6 +129,7 @@
     "modules/idea/site": {
       "name": "@idea/site",
       "dependencies": {
+        "@idea/shared": "workspace:*",
         "@site/core": "workspace:*",
       },
     },

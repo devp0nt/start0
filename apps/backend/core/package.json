@@ -11,13 +11,9 @@
   "private": true,
   "type": "module",
   "exports": {
-    ".": {
-      "import": "./src/index.ts",
-      "types": "./src/index.ts"
-    },
     "./lib/*": {
-      "import": "./src/lib/*",
-      "types": "./src/lib/*"
+      "import": "./dist/lib/*",
+      "types": "./dist/lib/*"
     }
   }
 }

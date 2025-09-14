@@ -5,6 +5,7 @@ import { Gen0Logger } from "./logger"
 import { Gen0PluginsManager } from "./pluginsManager"
 import { Gen0WatchersManager } from "./watchersManager"
 
+// TODO: plugin watcher can change self watching files, like mono0 wants
 // TODO: self watch client always
 // TODO: В ген0 не делать так нагло сам клиент плагином. Достаточно вотчеры добавить
 // TODO: Ген0 плагин инит и процесс раздельно

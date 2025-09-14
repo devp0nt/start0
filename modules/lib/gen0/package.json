@@ -9,20 +9,20 @@
   "type": "module",
   "exports": {
     ".": {
-      "import": "./src/index.ts",
-      "types": "./src/index.ts"
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
     },
     "./*": {
-      "import": "./src/*",
-      "types": "./src/*"
+      "import": "./dist/*",
+      "types": "./dist/*"
     },
     "./plugins/*": {
-      "import": "./src/plugins/*",
-      "types": "./src/plugins/*"
+      "import": "./dist/plugins/*",
+      "types": "./dist/plugins/*"
     },
     "./test/*": {
-      "import": "./src/test/*",
-      "types": "./src/test/*"
+      "import": "./dist/test/*",
+      "types": "./dist/test/*"
     }
   }
 }

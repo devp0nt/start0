@@ -3,17 +3,13 @@
   "name": "@site/core",
   "private": true,
   "exports": {
-    ".": {
-      "import": "./src/index.ts",
-      "types": "./src/index.ts"
+    "./lib/*": {
+      "import": "./dist/lib/*",
+      "types": "./dist/lib/*"
     },
     "./components/*": {
-      "import": "./src/components/*",
-      "types": "./src/components/*"
-    },
-    "./lib/*": {
-      "import": "./src/lib/*",
-      "types": "./src/lib/*"
+      "import": "./dist/components/*",
+      "types": "./dist/components/*"
     }
   },
   "type": "module"

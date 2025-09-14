@@ -1,5 +1,5 @@
 {
   "name": "@idea/site",
   "preset": "site",
-  "deps": ["@site/core"]
+  "deps": ["@site/core", "@idea/shared"]
 }

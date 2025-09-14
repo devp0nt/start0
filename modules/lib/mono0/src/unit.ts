@@ -10,6 +10,8 @@ export class Mono0Unit {
   unitConfigFile0: File0
   fs0: Fs0
   srcFs0: Fs0
+  distFs0: Fs0
+  indexFile0: File0 | undefined
   config: Mono0Config
   name: string
   tags: string[]
@@ -28,6 +30,8 @@ export class Mono0Unit {
     unitConfigFile0: File0
     fs0: Fs0
     srcFs0: Fs0
+    distFs0: Fs0
+    indexFile0: File0 | undefined
     config: Mono0Config
     name: string
     tags: string[]
@@ -42,6 +46,8 @@ export class Mono0Unit {
     this.unitConfigFile0 = input.unitConfigFile0
     this.fs0 = input.fs0
     this.srcFs0 = input.srcFs0
+    this.distFs0 = input.distFs0
+    this.indexFile0 = input.indexFile0
     this.config = input.config
     this.name = input.name
     this.tags = input.tags
@@ -97,6 +103,10 @@ export class Mono0Unit {
       unitConfigFile0,
       fs0: unitConfigFile0.fs0,
       srcFs0,
+      // will be overrided below
+      distFs0: srcFs0,
+      // will be overrided below
+      indexFile0: undefined,
       config,
       deps: [],
       depsDefs: definition.deps,
@@ -106,6 +116,9 @@ export class Mono0Unit {
     unit.tsconfig.unit = unit
     unit.packageJson.unit = unit
     const tsconfigValue = unit.tsconfig.parseValue()
+    const outDir = tsconfigValue.compilerOptions?.outDir || "./dist"
+    const distFs0 = unit.tsconfig.file0.fs0.createFs0({ cwd: outDir })
+    unit.distFs0 = distFs0
     const includeGlob = tsconfigValue.include ?? []
     const exclude = tsconfigValue.exclude ?? []
     const excludeGlob = exclude.map((e) => `!${e}`)
@@ -113,6 +126,17 @@ export class Mono0Unit {
     unit.filesPaths = filesPaths
     const dirsPaths = [...new Set(filesPaths.map((filePath) => nodePath.dirname(filePath)))]
     unit.dirsPaths = dirsPaths
+    const indexFile0 = await (async () => {
+      const exts = [".ts", ".tsx", ".js", ".jsx"]
+      for (const ext of exts) {
+        const exists = await srcFs0.isExists(`index${ext}`)
+        if (exists) {
+          return srcFs0.createFile0(`index${ext}`)
+        }
+      }
+      return undefined
+    })()
+    unit.indexFile0 = indexFile0
     return unit
   }
 
@@ -216,7 +240,7 @@ export class Mono0Unit {
   }
 
   async writePackageJson() {
-    return await this.packageJson.write({ deps: this.deps.map((d) => d.unit) })
+    return await this.packageJson.write()
   }
 
   hasMatchByMatchParsed(m: Mono0Unit.DependencyMatchParsed) {
@@ -376,13 +400,21 @@ export class Mono0Unit {
     return absFilePath
   }
 
-  getMeta() {
+  getPathInDistByPathInSrc(absPathInSrc: string) {
+    const distDir = this.distFs0.cwd
+    const srcDir = this.srcFs0.cwd
+    const pathInDist = absPathInSrc.replace(srcDir, distDir)
+    return pathInDist
+  }
+
+  async getMeta() {
     return {
       name: this.name,
       tags: this.tags,
       path: this.config.rootFs0.toRel(this.fs0.cwd),
       presets: this.presets,
       tsconfig: this.tsconfig.getMeta(),
+      packageJson: await this.packageJson.getMeta(),
       deps: this.deps.map((d) => d.unit.name),
       filesPaths: this.filesPaths,
     }

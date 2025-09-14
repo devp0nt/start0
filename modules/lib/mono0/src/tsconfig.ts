@@ -120,11 +120,18 @@ export class Mono0Tsconfig {
     }
     result.references = references
     if (unit) {
+      // result.compilerOptions = {
+      //   ...(result.compilerOptions || {}),
+      //   paths: {
+      //     ...(result.compilerOptions?.paths || {}),
+      //     [`${unit.name}/*`]: [`${fs0.toRel(unit.srcFs0.cwd)}/*`],
+      //   },
+      // }
       result.compilerOptions = {
         ...(result.compilerOptions || {}),
         paths: {
-          ...(result.compilerOptions?.paths || {}),
           [`${unit.name}/*`]: [`${fs0.toRel(unit.srcFs0.cwd)}/*`],
+          ...Object.fromEntries(unit.deps.map((d) => [`${d.unit.name}/*`, [`${fs0.toRel(d.unit.srcFs0.cwd)}/*`]])),
         },
       }
     }
@@ -213,6 +220,7 @@ export class Mono0Tsconfig {
       file0: tsconfig.file0,
       unit: tsconfig.unit,
     })
+    // we set it individually per each unit
     // const paths = Object.fromEntries(
     //   units.map((unit) => [`${unit.name}/*`, [`${tsconfig.file0.fs0.toRel(unit.srcFs0.cwd)}/*`]]),
     // )
