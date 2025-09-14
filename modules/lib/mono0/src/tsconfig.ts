@@ -131,7 +131,12 @@ export class Mono0Tsconfig {
         ...(result.compilerOptions || {}),
         paths: {
           [`${unit.name}/*`]: [`${fs0.toRel(unit.srcFs0.cwd)}/*`],
-          ...Object.fromEntries(unit.deps.map((d) => [`${d.unit.name}/*`, [`${fs0.toRel(d.unit.srcFs0.cwd)}/*`]])),
+          ...Object.fromEntries(
+            unit.deps.flatMap((d) => [
+              [`${d.unit.name}/*`, [`${fs0.toRel(d.unit.srcFs0.cwd)}/*`]],
+              ...(d.unit.indexFile0 ? [[`${d.unit.name}`, [`${fs0.toRel(d.unit.indexFile0.path.abs)}`]]] : []),
+            ]),
+          ),
         },
       }
     }

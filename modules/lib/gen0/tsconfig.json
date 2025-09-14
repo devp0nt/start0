@@ -14,8 +14,11 @@
     "paths": {
       "@devp0nt/gen0/*": ["./src/*"],
       "@devp0nt/fs0/*": ["../fs0/src/*"],
+      "@devp0nt/fs0": ["../fs0/src/index.ts"],
       "@devp0nt/lodash0/*": ["../lodash0/src/*"],
-      "@devp0nt/meta0/*": ["../meta0/src/*"]
+      "@devp0nt/lodash0": ["../lodash0/src/index.ts"],
+      "@devp0nt/meta0/*": ["../meta0/src/*"],
+      "@devp0nt/meta0": ["../meta0/src/index.ts"]
     }
   },
   "include": ["src/**/*"],

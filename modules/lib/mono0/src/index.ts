@@ -8,6 +8,8 @@ import { Mono0Tsconfig } from "./tsconfig"
 import { Mono0Unit } from "./unit"
 import watcherGen0 from "./watcher-gen0"
 
+// TODO: mono0 run --filter X command
+// TODO: build sequntially
 // TODO: modules/{trpc,idea,...}/{backend,site,shared}
 // TODO: mono0.getFilePathWithPackageName + gen0 importFromFiles
 // TODO: мэниконфиг
@@ -15,7 +17,6 @@ import watcherGen0 from "./watcher-gen0"
 // TODO: other модуль для ленивых
 // TODO: валдатор циклических зависимостей
 // TODO: валдатор одинаковых имён юнитов
-// TODO: mono0 run --filter X command
 
 // TODO: авто разруливание заисимостей в include, вместо refrenece
 // TODO: верный package.json export dists путь при include не src, а что-то родительское

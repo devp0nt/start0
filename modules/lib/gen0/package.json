@@ -16,13 +16,13 @@
       "import": "./dist/*",
       "types": "./dist/*"
     },
-    "./test/*": {
-      "import": "./dist/test/*",
-      "types": "./dist/test/*"
-    },
     "./plugins/*": {
       "import": "./dist/plugins/*",
       "types": "./dist/plugins/*"
+    },
+    "./test/*": {
+      "import": "./dist/test/*",
+      "types": "./dist/test/*"
     }
   }
 }
