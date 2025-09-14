@@ -1,9 +1,8 @@
 {
   "extends": "../../../.mono0/tsconfig.shared.json",
+  "exclude": ["**/dist/**/*", "**/node_modules/**/*", "**/public/**/*"],
   "compilerOptions": {
     "outDir": "./dist",
-    "declarationDir": "./dist",
-    "mapRoot": "./dist",
     "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@devp0nt/deepmap0/.tsbuildinfo",
     "rootDir": "./src"
   },

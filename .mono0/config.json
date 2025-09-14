@@ -26,8 +26,7 @@
           "moduleResolution": "Bundler",
           "verbatimModuleSyntax": true,
           "resolveJsonModule": true
-        },
-        "exclude": ["$exclude"]
+        }
       }
     },
     "shared": {
@@ -80,11 +79,10 @@
       },
       "tsconfig": {
         "compilerOptions": {
-          "declarationDir": "./dist",
           "outDir": "./dist",
-          "mapRoot": "./dist",
           "tsBuildInfoFile": "~/node_modules/.cache/tsbuildinfo/{{name}}/.tsbuildinfo"
-        }
+        },
+        "exclude": ["$exclude"]
       }
     },
     "shared": {

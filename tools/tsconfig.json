@@ -1,9 +1,8 @@
 {
   "extends": "../.mono0/tsconfig.tools.json",
+  "exclude": ["**/dist/**/*", "**/node_modules/**/*", "**/public/**/*"],
   "compilerOptions": {
     "outDir": "./dist",
-    "declarationDir": "./dist",
-    "mapRoot": "./dist",
     "tsBuildInfoFile": "../node_modules/.cache/tsbuildinfo/@tools/shared/.tsbuildinfo",
     "rootDir": "./src"
   },
