@@ -19,6 +19,9 @@
   "include": ["src/**/*", ".react-router/types/**/*"],
   "references": [
     {
+      "path": "../../../modules/lib/env0/tsconfig.json"
+    },
+    {
       "path": "../../../modules/lib/gen0/tsconfig.json"
     },
     {

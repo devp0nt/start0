@@ -9,8 +9,20 @@
       "types": "./src/index.ts"
     },
     "./*": {
-      "import": "./src/*",
-      "types": "./src/*"
+      "import": [
+        "./src/*.ts",
+        "./src/*.tsx",
+        "./src/*.js",
+        "./src/*.jsx",
+        "./src/*.json"
+      ],
+      "types": [
+        "./src/*.ts",
+        "./src/*.tsx",
+        "./src/*.js",
+        "./src/*.jsx",
+        "./src/*.json"
+      ]
     }
   }
 }

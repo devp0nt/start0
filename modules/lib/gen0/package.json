@@ -13,16 +13,52 @@
       "types": "./src/index.ts"
     },
     "./*": {
-      "import": "./src/*",
-      "types": "./src/*"
+      "import": [
+        "./src/*.ts",
+        "./src/*.tsx",
+        "./src/*.js",
+        "./src/*.jsx",
+        "./src/*.json"
+      ],
+      "types": [
+        "./src/*.ts",
+        "./src/*.tsx",
+        "./src/*.js",
+        "./src/*.jsx",
+        "./src/*.json"
+      ]
     },
     "./plugins/*": {
-      "import": "./src/plugins/*",
-      "types": "./src/plugins/*"
+      "import": [
+        "./src/plugins/*.ts",
+        "./src/plugins/*.tsx",
+        "./src/plugins/*.js",
+        "./src/plugins/*.jsx",
+        "./src/plugins/*.json"
+      ],
+      "types": [
+        "./src/plugins/*.ts",
+        "./src/plugins/*.tsx",
+        "./src/plugins/*.js",
+        "./src/plugins/*.jsx",
+        "./src/plugins/*.json"
+      ]
     },
     "./test/*": {
-      "import": "./src/test/*",
-      "types": "./src/test/*"
+      "import": [
+        "./src/test/*.ts",
+        "./src/test/*.tsx",
+        "./src/test/*.js",
+        "./src/test/*.jsx",
+        "./src/test/*.json"
+      ],
+      "types": [
+        "./src/test/*.ts",
+        "./src/test/*.tsx",
+        "./src/test/*.js",
+        "./src/test/*.jsx",
+        "./src/test/*.json"
+      ]
     }
   }
 }

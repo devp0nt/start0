@@ -11,16 +11,52 @@
       "types": "./src/index.ts"
     },
     "./*": {
-      "import": "./src/*",
-      "types": "./src/*"
+      "import": [
+        "./src/*.ts",
+        "./src/*.tsx",
+        "./src/*.js",
+        "./src/*.jsx",
+        "./src/*.json"
+      ],
+      "types": [
+        "./src/*.ts",
+        "./src/*.tsx",
+        "./src/*.js",
+        "./src/*.jsx",
+        "./src/*.json"
+      ]
     },
     "./hello/*": {
-      "import": "./src/hello/*",
-      "types": "./src/hello/*"
+      "import": [
+        "./src/hello/*.ts",
+        "./src/hello/*.tsx",
+        "./src/hello/*.js",
+        "./src/hello/*.jsx",
+        "./src/hello/*.json"
+      ],
+      "types": [
+        "./src/hello/*.ts",
+        "./src/hello/*.tsx",
+        "./src/hello/*.js",
+        "./src/hello/*.jsx",
+        "./src/hello/*.json"
+      ]
     },
     "./ping/*": {
-      "import": "./src/ping/*",
-      "types": "./src/ping/*"
+      "import": [
+        "./src/ping/*.ts",
+        "./src/ping/*.tsx",
+        "./src/ping/*.js",
+        "./src/ping/*.jsx",
+        "./src/ping/*.json"
+      ],
+      "types": [
+        "./src/ping/*.ts",
+        "./src/ping/*.tsx",
+        "./src/ping/*.js",
+        "./src/ping/*.jsx",
+        "./src/ping/*.json"
+      ]
     }
   }
 }
