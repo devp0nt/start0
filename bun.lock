@@ -185,6 +185,7 @@
     "modules/prisma/backend": {
       "name": "@prisma0/backend",
       "dependencies": {
+        "@devp0nt/env0": "workspace:*",
         "@idea/shared": "workspace:*",
       },
     },

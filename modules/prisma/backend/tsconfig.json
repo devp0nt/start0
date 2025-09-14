@@ -13,11 +13,16 @@
     "rootDir": "./src",
     "paths": {
       "@prisma0/backend/*": ["./src/*"],
+      "@devp0nt/env0/*": ["../../lib/env0/src/*"],
+      "@devp0nt/env0": ["../../lib/env0/src/index.ts"],
       "@idea/shared/*": ["../../idea/shared/src/*"]
     }
   },
   "include": ["src/**/*"],
   "references": [
+    {
+      "path": "../../lib/env0/tsconfig.json"
+    },
     {
       "path": "../../idea/shared/tsconfig.json"
     }

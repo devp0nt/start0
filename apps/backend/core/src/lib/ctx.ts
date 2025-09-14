@@ -48,7 +48,11 @@ export class BackendCtx {
     this.meta = meta
     this.logger = logger
     this.e0s = e0s
-    this.prisma = Prisma0.createClient({ ctx: this })
+    this.prisma = Prisma0.createClient({
+      tri0: this,
+      isTestNodeEnv: env.isTestNodeEnv,
+      isLocalHostEnv: env.isLocalHostEnv,
+    })
   }
 
   static async create({ meta }: { meta: Meta0.Meta0OrValueTypeNullish }) {

@@ -1,5 +1,4 @@
-// TODO: resolve circular deps here, tri0
-import { BackendCtx } from "@backend/core/lib/ctx"
+// TODO:ASAP resolve circular deps here, tri0
 import { Prisma, PrismaClient } from "@prisma0/backend/generated/prisma/client"
 import { Prisma0Models } from "@prisma0/backend/generated/prisma0/models"
 import { backOff } from "exponential-backoff"
@@ -7,9 +6,18 @@ import { backOff } from "exponential-backoff"
 // TODO: use as separate package
 // TODO: move to prisma-client not prisma-client-js
 
+type Tri0 = any
 export namespace Prisma0 {
-  export const createClient = ({ ctx }: { ctx: BackendCtx }) => {
-    const { logger } = BackendCtx.extendExtendable(ctx, {
+  export const createClient = ({
+    tri0,
+    isTestNodeEnv,
+    isLocalHostEnv,
+  }: {
+    tri0: Tri0
+    isTestNodeEnv: boolean
+    isLocalHostEnv: boolean
+  }) => {
+    const { logger } = tri0.extendExtendable({
       tagPrefix: "prisma",
     })
     const prismaOriginal = new PrismaClient({
@@ -36,7 +44,7 @@ export namespace Prisma0 {
         message: "Successfull prisma request",
         prismaDurationMs: e.duration,
         prismaQuery: e.query,
-        prismaParams: ctx.env.isLocalHostEnv ? e.params : "***",
+        prismaParams: isLocalHostEnv ? e.params : "***",
       })
     })
     prismaOriginal.$on("info", (e) => {
@@ -47,16 +55,16 @@ export namespace Prisma0 {
     })
 
     const prismaExtended = prismaOriginal
-      .$extends(getFakeTimersExtension({ ctx }))
-      .$extends(getHighLoggingExtension({ ctx }))
+      .$extends(getFakeTimersExtension({ isTestNodeEnv }))
+      .$extends(getHighLoggingExtension({ isLocalHostEnv, tri0 }))
       .$extends(retryTransactionsExtension)
 
     return prismaExtended
   }
 
-  const getFakeTimersExtension = ({ ctx }: { ctx: BackendCtx }) =>
+  const getFakeTimersExtension = ({ isTestNodeEnv }: { isTestNodeEnv: boolean }) =>
     Prisma.defineExtension((prisma) =>
-      !ctx.env.isTestNodeEnv
+      !isTestNodeEnv
         ? prisma
         : prisma.$extends({
             query: {
@@ -96,7 +104,7 @@ export namespace Prisma0 {
           }),
     )
 
-  const getHighLoggingExtension = ({ ctx }: { ctx: BackendCtx }) =>
+  const getHighLoggingExtension = ({ isLocalHostEnv, tri0 }: { isLocalHostEnv: boolean; tri0: Tri0 }) =>
     Prisma.defineExtension((prisma) =>
       prisma.$extends({
         query: {
@@ -107,26 +115,26 @@ export namespace Prisma0 {
               try {
                 const result = await query(args)
                 const durationMs = performance.now() - startedAt
-                ctx.logger.info({
+                tri0.logger.info({
                   tag: "high",
                   message: "Successfull request",
                   prismaDurationMs: durationMs,
                   other: {
                     prismaModel: model,
                     prismaOperation: operation,
-                    prismaArgs: ctx.env.isLocalHostEnv ? args : "***",
+                    prismaArgs: isLocalHostEnv ? args : "***",
                   },
                 })
                 return result
               } catch (error) {
                 const durationMs = performance.now() - startedAt
-                ctx.logger.error({
+                tri0.logger.error({
                   tag: "high",
                   error,
                   meta: {
                     model,
                     operation,
-                    args: ctx.env.isLocalHostEnv ? args : "***",
+                    args: isLocalHostEnv ? args : "***",
                     durationMs,
                   },
                 })
