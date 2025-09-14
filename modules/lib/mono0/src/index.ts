@@ -8,22 +8,31 @@ import { Mono0Tsconfig } from "./tsconfig"
 import { Mono0Unit } from "./unit"
 import watcherGen0 from "./watcher-gen0"
 
+// TODO: packaheJsons in config, name, scripts
+// TODO: tsconfigs as record
+// TODO: Освободить от особых значений рут и бэйз конфиг, всё решать сеттинги
+// TODO: В билд конфиг добавляем срц пас только на срц
+// TODO: preset cold: tag #cold, do not add paths to tsconfig, by filtering
+
+// TODO: onPackageJsonDepsChangedCommand, not installCommand
+// TODO: onPackageJsonDepsChangedCommand, not installCommand
+
+// TODO: tsconfigBuild where I disbale all paths so original dist wil be used
 // TODO: mono0 run --filter X command
-// TODO: https://www.npmjs.com/package/tsc-esm-fix
-// TODO: https://www.npmjs.com/package/tsc-watch
-// TODO: tsc-esm-fix to watcher
-// TODO: build sequntially
-// TODO: modules/{trpc,idea,...}/{backend,site,shared}
-// TODO: mono0.getFilePathWithPackageName + gen0 importFromFiles
-// TODO: мэниконфиг
+// TODO: build sequntially or fix build script, noEmitOnError: true
+
+// TODO: ? мэниконфиг
+// TODO: ? https://www.npmjs.com/package/tsc-esm-fix
+// TODO: ? https://www.npmjs.com/package/tsc-watch
+// TODO: ? tsc-esm-fix to watcher
 
 // TODO: other модуль для ленивых
 // TODO: валдатор циклических зависимостей
 // TODO: валдатор одинаковых имён юнитов
+// TODO: валдатор одинаковых путей файлов
 
 // TODO: авто разруливание заисимостей в include, вместо refrenece
 // TODO: верный package.json export dists путь при include не src, а что-то родительское
-// TODO: settings
 
 // TODO: ? mono0 генератор biome restrict imports
 // TODO: ? автоинстал зависимостей исходя из импортов в коде

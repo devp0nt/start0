@@ -9,6 +9,9 @@ import { type Options as GlobbyOptions, globby, globbySync } from "globby"
 import { createJiti } from "jiti"
 import micromatch from "micromatch"
 
+// TODO: При импорте файла через джити находить ближайший тсконфиг и тянуть из него paths чтобы разрезолвить алиасы абсолютно, и вообще вторым аргументом любые настройкли джити
+// TODO: убрать importDefualt, путсь черехз настройки управляется
+
 export class Fs0 {
   rootDir: string
   cwd: string

@@ -171,7 +171,7 @@ export class Mono0Tsconfig {
       }
     }
 
-    // TODO:ASAP use deepmap here
+    // TODO:ASAP use deepmap here, and use placheolders setting
     if (result?.compilerOptions?.tsBuildInfoFile && unit?.name) {
       result.compilerOptions.tsBuildInfoFile = file0.fs0.toRel(
         file0.fs0.resolve(result.compilerOptions.tsBuildInfoFile.replace("{{name}}", unit.name)),

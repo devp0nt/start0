@@ -1,4 +1,5 @@
 // TODO:ASAP resolve circular deps here, tri0
+// TODO:ASAP fix react router starting
 import { Prisma, PrismaClient } from "@prisma0/backend/generated/prisma/client"
 import { Prisma0Models } from "@prisma0/backend/generated/prisma0/models"
 import { backOff } from "exponential-backoff"
