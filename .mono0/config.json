@@ -20,7 +20,8 @@
           "module": "ESNext",
           "moduleResolution": "Bundler",
           "verbatimModuleSyntax": true,
-          "resolveJsonModule": true
+          "resolveJsonModule": true,
+          "allowImportingTsExtensions": true
         }
       }
     },
