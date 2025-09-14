@@ -12,9 +12,7 @@
     "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@idea/shared/.tsbuildinfo",
     "rootDir": "./src",
     "paths": {
-      "@idea/shared/*": ["./src/*"],
-      "@devp0nt/route0/*": ["../../lib/route0/src/*"],
-      "@devp0nt/route0": ["../../lib/route0/src/index.ts"]
+      "@idea/shared/*": ["./src/*"]
     }
   },
   "include": ["src/**/*"],

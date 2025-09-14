@@ -14,20 +14,20 @@
   },
   "exports": {
     "./*": {
-      "import": "./dist/*.js",
-      "types": "./dist/*.d.ts"
+      "import": "./src/*",
+      "types": "./src/*"
     },
     "./pages/*": {
-      "import": "./dist/pages/*.js",
-      "types": "./dist/pages/*.d.ts"
+      "import": "./src/pages/*",
+      "types": "./src/pages/*"
     },
     "./routes/*": {
-      "import": "./dist/routes/*.js",
-      "types": "./dist/routes/*.d.ts"
+      "import": "./src/routes/*",
+      "types": "./src/routes/*"
     },
     "./routes/generated/*": {
-      "import": "./dist/routes/generated/*.js",
-      "types": "./dist/routes/generated/*.d.ts"
+      "import": "./src/routes/generated/*",
+      "types": "./src/routes/generated/*"
     }
   },
   "type": "module"

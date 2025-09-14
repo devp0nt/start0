@@ -67,7 +67,7 @@
   "presets": {
     "force": {
       "settings": {
-        "addSelfSrcPathToTsconfig": false,
+        "addSelfSrcPathToTsconfig": true,
         "addPathsToTsconfigOfAllUnits": false,
         "addPathsToTsconfigOfDependentUnits": false,
         "addExportsToPackageJsonFromDistDir": false,

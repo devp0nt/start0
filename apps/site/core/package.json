@@ -7,12 +7,12 @@
   "private": true,
   "exports": {
     "./components/*": {
-      "import": "./dist/components/*.js",
-      "types": "./dist/components/*.d.ts"
+      "import": "./src/components/*",
+      "types": "./src/components/*"
     },
     "./lib/*": {
-      "import": "./dist/lib/*.js",
-      "types": "./dist/lib/*.d.ts"
+      "import": "./src/lib/*",
+      "types": "./src/lib/*"
     }
   },
   "type": "module"

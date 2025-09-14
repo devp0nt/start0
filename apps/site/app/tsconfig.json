@@ -13,11 +13,7 @@
     "rootDir": "./",
     "rootDirs": ["./src", "./.react-router/types"],
     "paths": {
-      "@site/app/*": ["./src/*"],
-      "@devp0nt/gen0/*": ["../../../modules/lib/gen0/src/*"],
-      "@devp0nt/gen0": ["../../../modules/lib/gen0/src/index.ts"],
-      "@idea/site/*": ["../../../modules/idea/site/src/*"],
-      "@site/core/*": ["../core/src/*"]
+      "@site/app/*": ["./src/*"]
     }
   },
   "include": ["src/**/*", ".react-router/types/**/*"],

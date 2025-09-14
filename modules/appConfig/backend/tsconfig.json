@@ -12,8 +12,7 @@
     "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@appConfig/backend/.tsbuildinfo",
     "rootDir": "./src",
     "paths": {
-      "@appConfig/backend/*": ["./src/*"],
-      "@backend/core/*": ["../../../apps/backend/core/src/*"]
+      "@appConfig/backend/*": ["./src/*"]
     }
   },
   "include": ["src/**/*"],

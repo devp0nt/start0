@@ -88,8 +88,6 @@ export class Mono0PackageJson {
     }
     const depsChanged = !isEqual(prevWorkspaceDeps, newWorkspaceDeps)
 
-    console.log(29384723894729384, unit?.settings)
-
     if (unit?.settings.addExportsToPackageJsonFromDistDir) {
       const dirsPaths = unit.dirsPaths.map((dirPath) => ({
         relToPkg: this.file0.fs0.toRel(unit.getPathInDistByPathInSrc(dirPath), true),

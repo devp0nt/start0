@@ -12,8 +12,7 @@
     "tsBuildInfoFile": "../../../../node_modules/.cache/tsbuildinfo/@backend/trpc-router/.tsbuildinfo",
     "rootDir": "./src",
     "paths": {
-      "@backend/trpc-router/*": ["./src/*"],
-      "@backend/core/*": ["../../core/src/*"]
+      "@backend/trpc-router/*": ["./src/*"]
     }
   },
   "include": ["src/**/*"],

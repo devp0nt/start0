@@ -7,8 +7,8 @@
   "type": "module",
   "exports": {
     "./*": {
-      "import": "./dist/*.js",
-      "types": "./dist/*.d.ts"
+      "import": "./src/*",
+      "types": "./src/*"
     }
   }
 }
