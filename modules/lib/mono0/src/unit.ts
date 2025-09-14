@@ -123,9 +123,9 @@ export class Mono0Unit {
     const exclude = tsconfigValue.exclude ?? []
     const excludeGlob = exclude.map((e) => `!${e}`)
     const filesPaths = await unit.tsconfig.file0.fs0.glob([...includeGlob, ...excludeGlob])
-    unit.filesPaths = filesPaths
+    unit.filesPaths = filesPaths.sort()
     const dirsPaths = [...new Set(filesPaths.map((filePath) => nodePath.dirname(filePath)))]
-    unit.dirsPaths = dirsPaths
+    unit.dirsPaths = dirsPaths.sort()
     const indexFile0 = await (async () => {
       const exts = [".ts", ".tsx", ".js", ".jsx"]
       for (const ext of exts) {
