@@ -69,10 +69,10 @@ prisma-generate-client *ARGS:
 # tools
 
 gen0 *ARGS:
-  bun run modules/lib/gen0/src/bin.ts {{ARGS}}
+  cd ./modules/lib/gen0 && bun run src/bin.ts {{ARGS}}
 
 mono0 *ARGS:
-  bun run modules/lib/mono0/src/bin.ts {{ARGS}}
+  cd ./modules/lib/mono0 && bun run src/bin.ts {{ARGS}}
 
 # helpers
 

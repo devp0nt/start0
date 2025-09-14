@@ -10,15 +10,18 @@
     "noEmitOnError": false,
     "declarationDir": "./dist",
     "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@idea/shared/.tsbuildinfo",
-    "rootDir": "./src"
+    "rootDir": "./src",
+    "paths": {
+      "@idea/shared/*": ["./src/*"]
+    }
   },
   "include": ["src/**/*"],
   "references": [
     {
-      "path": "../../lib/route0/tsconfig.json"
+      "path": "../../prisma/backend/tsconfig.json"
     },
     {
-      "path": "../../prisma/backend/tsconfig.json"
+      "path": "../../lib/route0/tsconfig.json"
     }
   ]
 }

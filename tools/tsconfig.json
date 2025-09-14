@@ -10,7 +10,10 @@
     "noEmitOnError": false,
     "declarationDir": "./dist",
     "tsBuildInfoFile": "../node_modules/.cache/tsbuildinfo/@tools/shared/.tsbuildinfo",
-    "rootDir": "./src"
+    "rootDir": "./src",
+    "paths": {
+      "@tools/shared/*": ["./src/*"]
+    }
   },
   "include": ["src/**/*"],
   "references": []

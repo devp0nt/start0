@@ -1,9 +1,9 @@
 {
   "dependencies": {
-    "@devp0nt/fs0": "workspace:*",
     "@devp0nt/lodash0": "workspace:*",
+    "@devp0nt/meta0": "workspace:*",
     "@devp0nt/logger0": "workspace:*",
-    "@devp0nt/meta0": "workspace:*"
+    "@devp0nt/fs0": "workspace:*"
   },
   "name": "@devp0nt/gen0",
   "private": true,

@@ -10,7 +10,10 @@
     "noEmitOnError": false,
     "declarationDir": "./dist",
     "tsBuildInfoFile": "../../../../node_modules/.cache/tsbuildinfo/@backend/hono-router/.tsbuildinfo",
-    "rootDir": "./src"
+    "rootDir": "./src",
+    "paths": {
+      "@backend/hono-router/*": ["./src/*"]
+    }
   },
   "include": ["src/**/*"],
   "references": [

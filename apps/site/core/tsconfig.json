@@ -10,7 +10,10 @@
     "noEmitOnError": false,
     "declarationDir": "./dist",
     "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@site/core/.tsbuildinfo",
-    "rootDir": "./src"
+    "rootDir": "./src",
+    "paths": {
+      "@site/core/*": ["./src/*"]
+    }
   },
   "include": ["src/**/*"],
   "references": []

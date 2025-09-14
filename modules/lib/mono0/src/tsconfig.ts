@@ -119,6 +119,15 @@ export class Mono0Tsconfig {
       }
     }
     result.references = references
+    if (unit) {
+      result.compilerOptions = {
+        ...(result.compilerOptions || {}),
+        paths: {
+          ...(result.compilerOptions?.paths || {}),
+          [`${unit.name}/*`]: [`${fs0.toRel(unit.srcFs0.cwd)}/*`],
+        },
+      }
+    }
     // TODO:ASAP use deepmap here
     if (result?.compilerOptions?.tsBuildInfoFile) {
       result.compilerOptions.tsBuildInfoFile = file0.fs0.toRel(

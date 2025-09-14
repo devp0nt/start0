@@ -10,15 +10,18 @@
     "noEmitOnError": false,
     "declarationDir": "./dist",
     "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@devp0nt/logger0/.tsbuildinfo",
-    "rootDir": "./src"
+    "rootDir": "./src",
+    "paths": {
+      "@devp0nt/logger0/*": ["./src/*"]
+    }
   },
   "include": ["src/**/*"],
   "references": [
     {
-      "path": "../error0/tsconfig.json"
+      "path": "../meta0/tsconfig.json"
     },
     {
-      "path": "../meta0/tsconfig.json"
+      "path": "../error0/tsconfig.json"
     }
   ]
 }
