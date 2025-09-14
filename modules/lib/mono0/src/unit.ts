@@ -411,19 +411,7 @@ export class Mono0Unit {
       .optional()
       .default([])
       .transform((val) => (Array.isArray(val) ? val : [val])),
-    settings: z
-      .object({
-        addSelfSrcPathToTsconfig: z.boolean().optional(),
-        addPathsToTsconfigOfAllUnits: z.boolean().optional(),
-        addPathsToTsconfigOfDependentUnits: z.boolean().optional(),
-        addExportsToPackageJsonFromDistDir: z.boolean().optional(),
-        addExportsToPackageJsonFromSrcDir: z.boolean().optional(),
-        addExportsToPackageJsonFromSrcDirExts: z.union([z.literal(false), z.array(z.string())]).optional(),
-        removeExportsFromPackageJson: z.boolean().optional(),
-        addReferencesToTsconfigOfDependentUnits: z.boolean().optional(),
-      })
-      .optional()
-      .default({}),
+    settings: z.object({}).optional().default({}),
     deps: z
       .array(
         z.union([

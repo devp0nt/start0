@@ -252,10 +252,53 @@ export class Mono0Tsconfig {
 
   static zDefinitionSettings = z
     .object({
-      addPathsToTsconfigOfAllUnits: z.boolean().optional(),
+      addSelfSrcToPaths: z.boolean().optional(),
+      addUnitsSrcToPaths: z
+        .union([
+          z.boolean(),
+          z.string(),
+          z.object({
+            scope: z.enum(["all", "deps"]).optional().default("all"),
+            match: z.string().optional(),
+          }),
+        ])
+        .optional(),
+      addUnitsDistToPaths: z
+        .union([
+          z.boolean(),
+          z.string(),
+          z.object({
+            scope: z.enum(["all", "deps"]).optional().default("all"),
+            match: z.string().optional(),
+          }),
+        ])
+        .optional(),
+      addDepsAsReferences: z.boolean().optional(),
+      addDeepDepsAsReferences: z.boolean().optional(),
     })
     .optional()
     .default({})
+    .transform((val) => {
+      return {
+        ...val,
+        addUnitsSrcToPaths:
+          val.addUnitsSrcToPaths === false
+            ? false
+            : val.addUnitsSrcToPaths === true
+              ? { scope: "all", match: undefined }
+              : typeof val.addUnitsSrcToPaths === "string"
+                ? { scope: "all", match: val.addUnitsSrcToPaths }
+                : val.addUnitsSrcToPaths,
+        addUnitsDistToPaths:
+          val.addUnitsDistToPaths === false
+            ? false
+            : val.addUnitsDistToPaths === true
+              ? { scope: "all", match: undefined }
+              : typeof val.addUnitsDistToPaths === "string"
+                ? { scope: "all", match: val.addUnitsDistToPaths }
+                : val.addUnitsDistToPaths,
+      }
+    })
 
   static zFullDefinition = z.object({
     path: z.string().optional().default("tsconfig.json"),

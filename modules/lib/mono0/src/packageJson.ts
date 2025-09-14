@@ -184,10 +184,52 @@ export class Mono0PackageJson {
 
   static zSettings = z
     .object({
-      addWorkspacesToPackageJson: z.union([z.literal(false), z.string()]).optional(),
+      addWorkspaces: z.union([z.boolean(), z.string()]).optional(),
+      addExportsFromDist: z
+        .union([
+          z.boolean(),
+          z.object({
+            index: z.boolean().default(true),
+            dirs: z.boolean().default(true),
+            import: z.union([z.boolean(), z.array(z.string())]).default(true),
+            require: z.union([z.boolean(), z.array(z.string())]).default(true),
+            types: z.union([z.boolean(), z.array(z.string())]).default(true),
+          }),
+        ])
+        .optional(),
+      addExportsFromSrc: z
+        .union([
+          z.boolean(),
+          z.object({
+            index: z.boolean().default(true),
+            dirs: z.boolean().default(true),
+            import: z.union([z.boolean(), z.array(z.string())]).default(true),
+            require: z.union([z.boolean(), z.array(z.string())]).default(true),
+            types: z.union([z.boolean(), z.array(z.string())]).default(true),
+          }),
+        ])
+        .optional(),
+      removeExports: z.boolean().optional(),
     })
     .optional()
     .default({})
+    .transform((val) => {
+      return {
+        ...val,
+        addExportsFromDist:
+          val.addExportsFromDist === false
+            ? false
+            : val.addExportsFromDist === true
+              ? { index: true, dirs: true, import: true, require: true, types: true }
+              : val.addExportsFromDist,
+        addExportsFromSrc:
+          val.addExportsFromSrc === false
+            ? false
+            : val.addExportsFromSrc === true
+              ? { index: true, dirs: true, import: true, require: true, types: true }
+              : val.addExportsFromSrc,
+      }
+    })
 
   static zValueDefinition = z.looseObject({
     name: z.string().optional(),
@@ -199,6 +241,7 @@ export class Mono0PackageJson {
         z.record(z.string(), z.union([z.string(), z.record(z.string(), z.string()), z.array(z.string())])).optional(),
       )
       .optional(),
+    scripts: z.record(z.string(), z.string().nullable()).optional(),
   })
 
   static zFullDefinition = z.object({
@@ -232,6 +275,15 @@ export class Mono0PackageJson {
           : {}),
         ...(acc.devDependencies || packageJsonValue.devDependencies
           ? { devDependencies: { ...acc.devDependencies, ...packageJsonValue.devDependencies } }
+          : {}),
+        ...(acc.scripts || packageJsonValue.scripts
+          ? {
+              scripts: Object.fromEntries(
+                Object.entries({ ...acc.scripts, ...packageJsonValue.scripts }).filter(
+                  ([key, value]) => value !== null,
+                ),
+              ),
+            }
           : {}),
       }
     }, {} as any)
