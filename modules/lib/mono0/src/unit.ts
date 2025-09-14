@@ -395,6 +395,7 @@ export class Mono0Unit {
         addPathsToTsconfigOfDependentUnits: z.boolean().optional(),
         addExportsToPackageJsonFromDistDir: z.boolean().optional(),
         addExportsToPackageJsonFromSrcDir: z.boolean().optional(),
+        removeExportsFromPackageJson: z.boolean().optional(),
         addReferencesToTsconfigOfDependentUnits: z.boolean().optional(),
       })
       .optional()
@@ -406,6 +407,7 @@ export class Mono0Unit {
           addPathsToTsconfigOfDependentUnits: val.addPathsToTsconfigOfDependentUnits ?? false,
           addExportsToPackageJsonFromDistDir: val.addExportsToPackageJsonFromDistDir ?? false,
           addExportsToPackageJsonFromSrcDir: val.addExportsToPackageJsonFromSrcDir ?? false,
+          removeExportsFromPackageJson: val.removeExportsFromPackageJson ?? false,
           addReferencesToTsconfigOfDependentUnits: val.addReferencesToTsconfigOfDependentUnits ?? true,
         }
       }),

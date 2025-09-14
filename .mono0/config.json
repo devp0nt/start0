@@ -63,8 +63,13 @@
   },
   "settings": {
     "installCommand": "bun install",
-    "autoIncludeSrc": true,
-    "autoPathSrc": true
+    "addSelfSrcPathToTsconfig": false,
+    "addPathsToTsconfigOfAllUnits": false,
+    "addPathsToTsconfigOfDependentUnits": false,
+    "addExportsToPackageJsonFromDistDir": false,
+    "addExportsToPackageJsonFromSrcDir": false,
+    "removeExportsFromPackageJson": true,
+    "addReferencesToTsconfigOfDependentUnits": true
   },
   "presets": {
     "force": {

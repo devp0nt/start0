@@ -31,6 +31,16 @@ const withMono0 = <T extends any[]>(action: (mono0: Mono0, ...args: T) => Promis
 // commands
 
 program
+  .command("ping")
+  .alias("p")
+  .description("Ping")
+  .action(
+    withMono0(async (mono0) => {
+      logger.info("pong")
+    }),
+  )
+
+program
   .command("config")
   .alias("c")
   .description("Show config")

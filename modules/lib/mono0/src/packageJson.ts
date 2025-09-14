@@ -147,6 +147,10 @@ export class Mono0PackageJson {
       mergedValue.exports = exports
     }
 
+    if (unit?.settings.removeExportsFromPackageJson) {
+      mergedValue.exports = {}
+    }
+
     return { value: mergedValue, depsChanged }
   }
 
