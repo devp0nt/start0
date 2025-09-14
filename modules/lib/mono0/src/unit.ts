@@ -298,7 +298,7 @@ export class Mono0Unit {
     return { hasMatch: false, unit: undefined, relation: undefined }
   }
 
-  filterUnits({ units, match }: { units: Mono0Unit[]; match: string | undefined }) {
+  static filterUnits({ units, match }: { units: Mono0Unit[]; match: string | undefined }) {
     if (!match) {
       return units
     }

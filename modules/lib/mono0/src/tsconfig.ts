@@ -1,10 +1,11 @@
 import nodePath from "node:path"
 import type { File0, Fs0 } from "@devp0nt/fs0"
+import { uniqBy } from "lodash"
 import type { TsConfigJson as TsConfigJsonTypeFest } from "type-fest"
 import z from "zod"
 import type { Mono0Config } from "./config"
-import type { Mono0Unit } from "./unit"
-import { omit } from "./utils"
+import { Mono0Unit } from "./unit"
+import { omit, replacePlaceholdersDeep } from "./utils"
 
 export class Mono0Tsconfig {
   fs0: Fs0
@@ -80,6 +81,7 @@ export class Mono0Tsconfig {
     config,
     fs0,
     file0,
+    settings,
     unit,
     units,
     generalTsconfigs,
@@ -88,11 +90,13 @@ export class Mono0Tsconfig {
     config: Mono0Config
     fs0: Fs0
     file0: File0
+    settings: Mono0Tsconfig.Settings
     unit?: Mono0Unit
     units: Mono0Unit[]
     generalTsconfigs: Mono0Tsconfig[]
   }) {
     const result = value
+
     if (result.extends) {
       if (result.extends.startsWith("$")) {
         const tsconfigName = result.extends.slice(1)
@@ -103,6 +107,7 @@ export class Mono0Tsconfig {
         result.extends = extendsTsconfig.file0.relToDir(file0)
       }
     }
+
     if (result.exclude) {
       const parsedExclude = []
       for (const exclude of result.exclude) {
@@ -119,6 +124,7 @@ export class Mono0Tsconfig {
       }
       result.exclude = parsedExclude
     }
+
     if (result.include) {
       const parsedInclude = []
       for (const include of result.include) {
@@ -135,34 +141,42 @@ export class Mono0Tsconfig {
       }
       result.include = parsedInclude
     }
-    if (unit) {
-      const srcIncludeString = nodePath.join(fs0.toRel(unit.srcFs0.cwd, true), "**/*")
-      if (!result.include?.includes(srcIncludeString)) {
-        result.include = [srcIncludeString, ...(result.include || [])]
-      }
-      if (!result.compilerOptions?.rootDir) {
-        result.compilerOptions = {
-          ...result.compilerOptions,
-          rootDir: fs0.toRel(unit.srcFs0.cwd, true),
-        }
+
+    // if (unit) {
+    //   const srcIncludeString = nodePath.join(fs0.toRel(unit.srcFs0.cwd, true), "**/*")
+    //   if (!result.include?.includes(srcIncludeString)) {
+    //     result.include = [srcIncludeString, ...(result.include || [])]
+    //   }
+    //   if (!result.compilerOptions?.rootDir) {
+    //     result.compilerOptions = {
+    //       ...result.compilerOptions,
+    //       rootDir: fs0.toRel(unit.srcFs0.cwd, true),
+    //     }
+    //   }
+    // }
+
+    if (unit && settings.setSrcAsRootDir) {
+      const srcRootDir = fs0.toRel(unit.srcFs0.cwd, true)
+      result.compilerOptions = {
+        ...result.compilerOptions,
+        rootDir: srcRootDir,
       }
     }
 
-    // TODO:ASAP add all references
-    // const references = units.map((unit) => ({
-    //   path: unit.tsconfig.file0.relToDir(tsconfig.file0),
-    // }))
+    if (unit && settings.addSrcToInclude) {
+      const srcRootDir = fs0.toRel(unit.srcFs0.cwd, true)
+      const srcIncludeString = nodePath.join(srcRootDir, "**/*")
+      result.include = [srcIncludeString, ...(result.include || [])]
+    }
 
-    const references = []
-    if (unit?.settings.addReferencesToTsconfigOfDependentUnits) {
-      for (const dep of unit.deps) {
-        references.push({
-          path: dep.unit.tsconfig.file0.relToDir(file0),
-        })
+    if (unit && settings.clearPaths) {
+      result.compilerOptions = {
+        ...result.compilerOptions,
+        paths: {},
       }
     }
-    result.references = references
-    if (unit?.settings.addSelfSrcPathToTsconfig) {
+
+    if (unit && settings.addSelfSrcToPaths) {
       result.compilerOptions = {
         ...(result.compilerOptions || {}),
         paths: {
@@ -171,41 +185,84 @@ export class Mono0Tsconfig {
         },
       }
     }
-    if (unit?.settings.addPathsToTsconfigOfDependentUnits) {
-      result.compilerOptions = {
-        ...(result.compilerOptions || {}),
-        paths: {
-          ...(result.compilerOptions?.paths || {}),
-          ...Object.fromEntries(
-            unit.deps.flatMap((d) => [
-              [`${d.unit.name}/*`, [`${fs0.toRel(d.unit.srcFs0.cwd)}/*`]],
-              ...(d.unit.indexFile0 ? [[`${d.unit.name}`, [`${fs0.toRel(d.unit.indexFile0.path.abs)}`]]] : []),
-            ]),
-          ),
-        },
-      }
+
+    if (settings.clearReferences) {
+      result.references = []
     }
-    if (unit?.settings.addPathsToTsconfigOfAllUnits) {
+
+    if (unit && settings.addDepsAsReferences) {
+      result.references = [
+        ...(result.references || []),
+        ...unit.deps.map((dep) => ({
+          path: dep.unit.tsconfig.file0.relToDir(file0),
+        })),
+      ]
+    }
+
+    if (unit && settings.addDeepDepsAsReferences) {
+      result.references = uniqBy(
+        [
+          ...(result.references || []),
+          ...unit.deps.flatMap((dep) =>
+            dep.unit.deps.map((d) => ({
+              path: d.unit.tsconfig.file0.relToDir(file0),
+            })),
+          ),
+        ],
+        "path",
+      )
+    }
+
+    if (settings.addUnitsSrcToPaths) {
+      const addUnitsSrcToPaths = settings.addUnitsSrcToPaths
+      const scope = addUnitsSrcToPaths.scope
+      const unitsScoped = scope === "all" ? units : unit?.deps.map((dep) => dep.unit) || []
+      const match = addUnitsSrcToPaths.match
+      const unitsFiltered = Mono0Unit.filterUnits({ units: unitsScoped, match })
       result.compilerOptions = {
         ...(result.compilerOptions || {}),
         paths: {
           ...(result.compilerOptions?.paths || {}),
           ...Object.fromEntries(
-            units.flatMap((d) => [
+            unitsFiltered.flatMap((d) => [
               [`${d.name}/*`, [`${fs0.toRel(d.srcFs0.cwd)}/*`]],
-              ...(d.indexFile0 ? [[`${d.name}`, [`${fs0.toRel(d.indexFile0.path.abs)}`]]] : []),
+              ...(addUnitsSrcToPaths.index && d.indexFile0
+                ? [[`${d.name}`, [`${fs0.toRel(d.indexFile0.path.abs)}`]]]
+                : []),
             ]),
           ),
         },
       }
     }
 
-    // TODO:ASAP use deepmap here, and use placheolders setting
-    if (result?.compilerOptions?.tsBuildInfoFile && unit?.name) {
-      result.compilerOptions.tsBuildInfoFile = file0.fs0.toRel(
-        file0.fs0.resolve(result.compilerOptions.tsBuildInfoFile.replace("{{name}}", unit.name)),
-      )
+    if (settings.addUnitsDistToPaths) {
+      const addUnitsDistToPaths = settings.addUnitsDistToPaths
+      const scope = addUnitsDistToPaths.scope
+      const unitsScoped = scope === "all" ? units : unit?.deps.map((dep) => dep.unit) || []
+      const match = addUnitsDistToPaths.match
+      const unitsFiltered = Mono0Unit.filterUnits({ units: unitsScoped, match })
+      result.compilerOptions = {
+        ...(result.compilerOptions || {}),
+        paths: {
+          ...(result.compilerOptions?.paths || {}),
+          ...Object.fromEntries(
+            unitsFiltered.flatMap((d) => [
+              [`${d.name}/*`, [`${fs0.toRel(d.distFs0.cwd)}/*`]],
+              ...(addUnitsDistToPaths.index && d.indexFile0
+                ? [[`${d.name}`, [fs0.replaceExt(`${fs0.toRel(d.indexFile0.path.abs)}`, "js")]]]
+                : []),
+            ]),
+          ),
+        },
+      }
     }
+
+    replacePlaceholdersDeep(result, {
+      name: unit?.name || "unknown",
+      srcDir: fs0.toRel(unit?.srcFs0.cwd || ""),
+      distDir: fs0.toRel(unit?.distFs0.cwd || ""),
+    })
+
     return result
   }
   parseValue({ units }: { units: Mono0Unit[] }) {
@@ -214,6 +271,7 @@ export class Mono0Tsconfig {
       config: this.config,
       fs0: this.fs0,
       file0: this.file0,
+      settings: this.settings,
       unit: this.unit,
       units,
       generalTsconfigs: this.generalTsconfigs,
@@ -226,6 +284,7 @@ export class Mono0Tsconfig {
       config: this.config,
       fs0: this.fs0,
       file0: this.file0,
+      settings: this.settings,
       unit: this.unit,
       units,
       generalTsconfigs: this.generalTsconfigs,
@@ -251,14 +310,21 @@ export class Mono0Tsconfig {
 
   static zDefinitionSettings = z
     .object({
+      setSrcAsRootDir: z.boolean().optional(),
+      addSrcToInclude: z.boolean().optional(),
+      clearPaths: z.boolean().optional(),
       addSelfSrcToPaths: z.boolean().optional(),
       addUnitsSrcToPaths: z
         .union([
           z.boolean(),
           z.string(),
           z.object({
-            scope: z.enum(["all", "deps"]).optional().default("all"),
+            scope: z
+              .enum(["all", "deps"])
+              .optional()
+              .default("all" as const),
             match: z.string().optional(),
+            index: z.boolean().optional().default(true),
           }),
         ])
         .optional(),
@@ -267,11 +333,16 @@ export class Mono0Tsconfig {
           z.boolean(),
           z.string(),
           z.object({
-            scope: z.enum(["all", "deps"]).optional().default("all"),
+            scope: z
+              .enum(["all", "deps"])
+              .optional()
+              .default("all" as const),
             match: z.string().optional(),
+            index: z.boolean().optional().default(true),
           }),
         ])
         .optional(),
+      clearReferences: z.boolean().optional(),
       addDepsAsReferences: z.boolean().optional(),
       addDeepDepsAsReferences: z.boolean().optional(),
     })
@@ -284,17 +355,17 @@ export class Mono0Tsconfig {
           val.addUnitsSrcToPaths === false
             ? (false as const)
             : val.addUnitsSrcToPaths === true
-              ? { scope: "all", match: undefined }
+              ? { scope: "all" as const, match: undefined, index: true }
               : typeof val.addUnitsSrcToPaths === "string"
-                ? { scope: "all", match: val.addUnitsSrcToPaths }
+                ? { scope: "all" as const, match: val.addUnitsSrcToPaths, index: true }
                 : val.addUnitsSrcToPaths,
         addUnitsDistToPaths:
           val.addUnitsDistToPaths === false
             ? (false as const)
             : val.addUnitsDistToPaths === true
-              ? { scope: "all", match: undefined }
+              ? { scope: "all" as const, match: undefined, index: true }
               : typeof val.addUnitsDistToPaths === "string"
-                ? { scope: "all", match: val.addUnitsDistToPaths }
+                ? { scope: "all" as const, match: val.addUnitsDistToPaths, index: true }
                 : val.addUnitsDistToPaths,
       }
     })
