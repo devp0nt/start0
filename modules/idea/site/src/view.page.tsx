@@ -3,7 +3,7 @@ import { Page0 } from "@site/core/lib/page0"
 import { siteRoutes } from "@site/core/lib/routes"
 import { trpc } from "@site/core/lib/trpc"
 
-export default Page0.route(siteRoutes.ideaView)
+const page = Page0.route(siteRoutes.ideaView)
   .loader(async ({ qc, params }) => {
     return await qc.fetchQuery(trpc.getIdea.queryOptions({ ideaSn: params.sn }))
   })
@@ -20,3 +20,5 @@ export default Page0.route(siteRoutes.ideaView)
       </div>
     )
   })
+
+export default page
