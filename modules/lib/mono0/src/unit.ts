@@ -104,11 +104,6 @@ export class Mono0Unit {
       name: "core",
       fs0: unitConfigFile0.fs0,
       unit: undefined,
-      settings: {
-        addPathsToTsconfigOfAllUnits:
-          definition.tsconfig.settings?.addPathsToTsconfigOfAllUnits ??
-          definition.settings.addPathsToTsconfigOfAllUnits,
-      },
     })
     const packageJson = Mono0PackageJson.create({
       name: definition.name,
@@ -204,6 +199,10 @@ export class Mono0Unit {
         },
         packageJson: {
           path: result.packageJson.path ?? presetValue.packageJson.path,
+          settings: {
+            ...(presetValue.packageJson.settings ?? {}),
+            ...(result.packageJson.settings ?? {}),
+          },
           value: Mono0PackageJson.merge(presetValue.packageJson.value, result.packageJson.value),
         },
         preset: presetValue.preset,

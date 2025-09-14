@@ -108,7 +108,7 @@ export namespace Mono0Config {
     presets?: Presets
   }
   export type DefinitionParsed = z.output<typeof Mono0Config.zDefinition>
-  export type TsconfigsDefinitions = Record<string, Mono0Tsconfig.FullDefinition>
+  export type TsconfigsDefinitions = Record<string, Mono0Tsconfig.FullDefinitionParsed>
   export type Tsconfigs = Record<string, Mono0Tsconfig>
   export type PackageJsonDefinition = Mono0PackageJson.FullDefinition | Mono0PackageJson.ValueDefinition
   export type FilesSelector = string[]

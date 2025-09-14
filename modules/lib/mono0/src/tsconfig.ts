@@ -14,7 +14,7 @@ export class Mono0Tsconfig {
   unit: Mono0Unit | undefined
   name: string
   generalTsconfigs: Mono0Tsconfig[]
-  settings: Mono0Tsconfig.DefinitionSettings
+  settings: Mono0Tsconfig.Settings
 
   private constructor({
     fs0,
@@ -32,7 +32,7 @@ export class Mono0Tsconfig {
     value: Mono0Tsconfig.ValueDefinition
     unit?: Mono0Unit
     name: string
-    settings?: Mono0Tsconfig.DefinitionSettings
+    settings: Mono0Tsconfig.Settings
     generalTsconfigs: Mono0Tsconfig[]
   }) {
     this.fs0 = fs0
@@ -41,7 +41,7 @@ export class Mono0Tsconfig {
     this.value = value
     this.unit = unit
     this.name = name
-    this.settings = Mono0Tsconfig.zDefinitionSettings.parse(settings)
+    this.settings = settings
     this.generalTsconfigs = generalTsconfigs
   }
 
@@ -50,7 +50,6 @@ export class Mono0Tsconfig {
     config,
     fs0,
     unit,
-    settings,
     name,
     generalTsconfigs,
   }: {
@@ -58,13 +57,12 @@ export class Mono0Tsconfig {
     config: Mono0Config
     fs0: Fs0
     unit?: Mono0Unit
-    settings?: Mono0Tsconfig.DefinitionSettings
     name: string
     generalTsconfigs: Mono0Tsconfig[]
   }) {
     const file0 = definition.path ? fs0.createFile0(definition.path) : fs0.createFile0("tsconfig.json")
     const value = definition.value
-    return new Mono0Tsconfig({ fs0, file0, config, value, unit, settings, name, generalTsconfigs })
+    return new Mono0Tsconfig({ fs0, file0, config, value, unit, settings: definition.settings, name, generalTsconfigs })
   }
 
   static createGeneralsByConfig(config: Mono0Config) {
@@ -312,8 +310,8 @@ export class Mono0Tsconfig {
     .transform(
       (val) =>
         ("path" in val || "value" in val
-          ? { path: val.path, value: val.value }
-          : { path: "tsconfig.json", value: val }) as Mono0Tsconfig.FullDefinition,
+          ? { path: val.path, value: val.value, settings: val.settings }
+          : { path: "tsconfig.json", value: val, settings: {} }) as Mono0Tsconfig.FullDefinitionParsed,
     )
 
   static definitionDefault = {

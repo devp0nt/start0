@@ -82,6 +82,13 @@
         }
       },
       "tsconfig": {
+        "settings": {
+          "addSelfSrcToPaths": false,
+          "addUnitsSrcToPaths": false,
+          "addUnitsDistToPaths": false,
+          "addDepsAsReferences": false,
+          "addDeepDepsAsReferences": false
+        },
         "value": {
           "compilerOptions": {
             "composite": true,
