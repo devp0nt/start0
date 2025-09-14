@@ -299,6 +299,14 @@ export class Mono0Unit {
     return { hasMatch: false, unit: undefined, relation: undefined }
   }
 
+  filterUnits({ units, match }: { units: Mono0Unit[]; match: string | undefined }) {
+    if (!match) {
+      return units
+    }
+    const matchParsed = Mono0Unit.parseMatchString(match)
+    return units.filter((unit) => unit.hasMatchByMatchParsed(matchParsed))
+  }
+
   // #backend,#lib,!#site
   static parseMatchString(match: string): Mono0Unit.DependencyMatchParsed {
     const result = {
@@ -404,8 +412,8 @@ export class Mono0Unit {
   static zDefinition = z.object({
     name: z.string(),
     tags: z.array(z.string()).optional().default([]),
-    tsconfig: Mono0Tsconfig.zDefinition.optional().default({ value: {}, path: "tsconfig.json", settings: {} }),
-    packageJson: Mono0PackageJson.zDefinition.optional().default({ value: {}, path: "package.json", settings: {} }),
+    tsconfig: Mono0Tsconfig.zDefinition.optional().default(Mono0Tsconfig.definitionDefault),
+    packageJson: Mono0PackageJson.zDefinition.optional().default(Mono0PackageJson.definitionDefault),
     preset: z
       .union([z.string(), z.array(z.string())])
       .optional()
@@ -475,7 +483,7 @@ export namespace Mono0Unit {
   export type DefinitionParsed = z.output<typeof Mono0Unit.zDefinition>
   export type DependencyDefinitionParsed = z.output<typeof Mono0Unit.zDefinition.shape.deps>[number]
 
-  export type DefinitionSettings = z.output<typeof Mono0Unit.zDefinition.shape.settings>
+  export type DefinitionSettings = Record<never, never> // z.output<typeof Mono0Unit.zDefinition.shape.settings>
   export type DependencyRelationType = "reference" | "include" | "none"
   export type DependencyMatchDefinition = string // tags or name
   export type DependencyMatchParsed = {

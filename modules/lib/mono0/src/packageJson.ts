@@ -216,18 +216,26 @@ export class Mono0PackageJson {
     .transform((val) => {
       return {
         ...val,
-        addExportsFromDist:
-          val.addExportsFromDist === false
-            ? false
-            : val.addExportsFromDist === true
-              ? { index: true, dirs: true, import: true, require: true, types: true }
-              : val.addExportsFromDist,
-        addExportsFromSrc:
-          val.addExportsFromSrc === false
-            ? false
-            : val.addExportsFromSrc === true
-              ? { index: true, dirs: true, import: true, require: true, types: true }
-              : val.addExportsFromSrc,
+        ...(val.addExportsFromDist === undefined
+          ? {}
+          : {
+              addExportsFromDist:
+                val.addExportsFromDist === false
+                  ? false
+                  : val.addExportsFromDist === true
+                    ? { index: true, dirs: true, import: true, require: true, types: true }
+                    : val.addExportsFromDist,
+            }),
+        ...(val.addExportsFromSrc === undefined
+          ? {}
+          : {
+              addExportsFromSrc:
+                val.addExportsFromSrc === false
+                  ? false
+                  : val.addExportsFromSrc === true
+                    ? { index: true, dirs: true, import: true, require: true, types: true }
+                    : val.addExportsFromSrc,
+            }),
       }
     })
 
@@ -258,6 +266,12 @@ export class Mono0PackageJson {
           ? { path: val.path, value: val.value }
           : { path: "package.json", value: val }) as Mono0PackageJson.FullDefinition,
     )
+
+  static definitionDefault = {
+    path: "package.json",
+    value: {},
+    settings: {},
+  } satisfies Mono0PackageJson.FullDefinition
 
   static merge(
     ...packageJsonsValues: [

@@ -315,6 +315,12 @@ export class Mono0Tsconfig {
           : { path: "tsconfig.json", value: val }) as Mono0Tsconfig.FullDefinition,
     )
 
+  static definitionDefault = {
+    path: "tsconfig.json",
+    value: {},
+    settings: {},
+  } satisfies Mono0Tsconfig.FullDefinition
+
   static merge(...tsconfigs: [Mono0Tsconfig.Json, ...Mono0Tsconfig.Json[]]): Mono0Tsconfig.Json {
     return tsconfigs.reduce((acc, tsconfig) => {
       return {

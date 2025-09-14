@@ -70,7 +70,7 @@ export class Mono0Config {
   }
 
   static zDefinition = z.object({
-    packageJson: Mono0PackageJson.zDefinition.optional().default({ value: {}, path: "package.json", settings: {} }),
+    packageJson: Mono0PackageJson.zDefinition.optional().default(Mono0PackageJson.definitionDefault),
     tsconfigs: z.record(z.string(), Mono0Tsconfig.zDefinition).optional().default({}),
     filesSelectors: z.record(z.string(), z.array(z.string())).optional().default({}),
     unitsSelectors: z.record(z.string(), z.array(z.string())).optional().default({}),
