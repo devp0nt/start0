@@ -1,4 +1,5 @@
 {
+  // TODO: forbide uneccessary ! or ? and ifs
   // TODO: biome restrict imports
   // TODO: biome rules
   // TODO: biome hotkeys

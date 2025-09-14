@@ -1,16 +1,24 @@
 import type { File0, Fs0 } from "@devp0nt/fs0"
-import { isEqual } from "lodash"
+import { isEqual, omit as lodashOmit, set } from "lodash-es"
 import type { PackageJson as PackageJsonTypeFest } from "type-fest"
 import z from "zod"
 import type { Mono0Config } from "./config"
 import { Mono0Logger } from "./logger"
 import type { Mono0Unit } from "./unit"
 
+export const omit = <TObject extends Record<string, unknown>, TKeys extends keyof TObject>(
+  obj: TObject,
+  keys: TKeys[],
+): Omit<TObject, TKeys> => {
+  return lodashOmit(obj, keys)
+}
+
 export class Mono0PackageJson {
   name?: string
   fs0: Fs0
   file0: File0
   config: Mono0Config
+  settings: Mono0PackageJson.Settings
   value: Mono0PackageJson.ValueDefinition
   logger: Mono0Logger = Mono0Logger.create("packageJson")
   unit?: Mono0Unit
@@ -20,6 +28,7 @@ export class Mono0PackageJson {
     fs0,
     file0,
     config,
+    settings,
     value,
     unit,
   }: {
@@ -27,6 +36,7 @@ export class Mono0PackageJson {
     fs0: Fs0
     file0: File0
     config: Mono0Config
+    settings: Mono0PackageJson.Settings
     value: Mono0PackageJson.ValueDefinition
     unit?: Mono0Unit
   }) {
@@ -34,6 +44,7 @@ export class Mono0PackageJson {
     this.fs0 = fs0
     this.file0 = file0
     this.config = config
+    this.settings = settings
     this.value = value
     this.unit = unit
   }
@@ -51,9 +62,17 @@ export class Mono0PackageJson {
     fs0: Fs0
     unit?: Mono0Unit
   }) {
-    const file0 = definition.path ? fs0.createFile0(definition.path) : fs0.createFile0("package.json")
+    const file0 = fs0.createFile0(definition.path)
     const value = definition.value
-    return new Mono0PackageJson({ name: name || definition.value.name, fs0, file0, config, value, unit })
+    return new Mono0PackageJson({
+      name: name || definition.value.name,
+      fs0,
+      file0,
+      config,
+      settings: definition.settings,
+      value,
+      unit,
+    })
   }
 
   async getCurrentValue() {
@@ -65,112 +84,172 @@ export class Mono0PackageJson {
 
   async getNewValue({ units }: { units: Mono0Unit[] }) {
     const currentValue = await this.getCurrentValue()
-    const prevWorkspaceDeps = Object.fromEntries(
-      Object.entries(currentValue.dependencies || {}).filter(([key, value]) => value === "workspace:*"),
-    )
-    const newWorkspaceDeps: Record<string, string> = {}
-
-    // delete previous workspace deps
-    currentValue.dependencies = Object.fromEntries(
-      Object.entries(currentValue.dependencies || {}).filter(([key, value]) => value !== "workspace:*"),
-    )
+    const prevDeps = currentValue.dependencies || {}
+    const prevDevDeps = currentValue.devDependencies || {}
 
     const mergedValue = Mono0PackageJson.merge(currentValue, { name: this.name || currentValue.name, ...this.value })
+
+    if (this.settings.clearWorkspaces) {
+      const pathToClear = this.settings.clearWorkspaces
+      delete mergedValue[pathToClear]
+    }
+
+    if (this.settings.addWorkspaces) {
+      const worksapcesPackages = units.map((unit) => this.file0.fs0.toRel(unit.packageJson.file0.path.dir))
+      const pathToAdd = this.settings.addWorkspaces
+      set(mergedValue, pathToAdd, worksapcesPackages)
+    }
+
+    if (this.settings.clearWorkspaceDeps) {
+      currentValue.dependencies = Object.fromEntries(
+        Object.entries(currentValue.dependencies || {}).filter(([key, value]) => value !== "workspace:*"),
+      )
+    }
+
     const unit = this.unit
-    if (unit?.deps.length) {
+
+    if (this.settings.addWorkspaceDeps && unit?.deps.length) {
       if (!mergedValue.dependencies) {
         mergedValue.dependencies = {}
       }
       for (const dep of unit.deps) {
         mergedValue.dependencies[dep.unit.name] = "workspace:*"
-        newWorkspaceDeps[dep.unit.name] = "workspace:*"
       }
     }
-    const depsChanged = !isEqual(prevWorkspaceDeps, newWorkspaceDeps)
 
-    if (unit?.settings.addExportsToPackageJsonFromDistDir) {
+    const newDeps = mergedValue.dependencies
+    const newDevDeps = mergedValue.devDependencies
+    const depsChanged = !isEqual(prevDeps, newDeps) || !isEqual(prevDevDeps, newDevDeps)
+
+    if (this.settings.clearExports) {
+      mergedValue.exports = {}
+    }
+
+    const fixSlahes = (path: string) => path.replace(/\/+/g, "/")
+    const toExportsValue = (dir: string, basename: string, exts: string[]) => {
+      exts = (exts.length ? exts : ["js"]).map((ext) => ext.replace(/^\./, ""))
+      if (exts.length === 1) {
+        return fixSlahes(`${dir}/${basename}.${exts[0]}`)
+      }
+      return exts.map((ext) => fixSlahes(`${dir}/${basename}.${ext}`))
+    }
+
+    if (this.settings.addExportsFromDist && unit) {
+      const addExportsFromDist = this.settings.addExportsFromDist
       const dirsPaths = unit.dirsPaths.map((dirPath) => ({
         relToPkg: this.file0.fs0.toRel(unit.getPathInDistByPathInSrc(dirPath), true),
         relToDist: unit.distFs0.toRel(unit.getPathInDistByPathInSrc(dirPath), true),
       }))
       const distPath = this.file0.fs0.toRel(unit.distFs0.cwd, true)
-      const fixSlahes = (path: string) => path.replace(/\/+/g, "/")
       const exports = {
-        ...(unit.indexFile0
+        ...(unit.indexFile0 && addExportsFromDist.index
           ? {
               ".": {
-                import: fixSlahes(`${distPath}/${unit.indexFile0.path.basename}.js`),
-                types: fixSlahes(`${distPath}/${unit.indexFile0.path.basename}.d.ts`),
+                ...(addExportsFromDist.import
+                  ? {
+                      import: toExportsValue(distPath, unit.indexFile0.path.basename, addExportsFromDist.import),
+                    }
+                  : {}),
+                ...(addExportsFromDist.types
+                  ? {
+                      types: toExportsValue(distPath, unit.indexFile0.path.basename, addExportsFromDist.types),
+                    }
+                  : {}),
+                ...(addExportsFromDist.require
+                  ? {
+                      require: toExportsValue(distPath, unit.indexFile0.path.basename, addExportsFromDist.require),
+                    }
+                  : {}),
               },
             }
           : {}),
-        ...Object.fromEntries(
-          dirsPaths.map((dirPath) => [
-            fixSlahes(`${dirPath.relToDist}/*`),
-            {
-              import: fixSlahes(`${dirPath.relToPkg}/*.js`),
-              types: fixSlahes(`${dirPath.relToPkg}/*.d.ts`),
-            },
-          ]),
-        ),
+        ...(addExportsFromDist.dirs
+          ? {
+              ...Object.fromEntries(
+                dirsPaths.map((dirPath) => [
+                  fixSlahes(`${dirPath.relToDist}/*`),
+                  {
+                    ...(addExportsFromDist.import
+                      ? {
+                          import: toExportsValue(dirPath.relToPkg, "*", addExportsFromDist.import),
+                        }
+                      : {}),
+                    ...(addExportsFromDist.types
+                      ? {
+                          types: toExportsValue(dirPath.relToPkg, "*", addExportsFromDist.types),
+                        }
+                      : {}),
+                    ...(addExportsFromDist.require
+                      ? {
+                          require: toExportsValue(dirPath.relToPkg, "*", addExportsFromDist.require),
+                        }
+                      : {}),
+                  },
+                ]),
+              ),
+            }
+          : {}),
       }
       mergedValue.exports = exports
     }
 
-    // TODO:ASAP
-    // const file0 = config.rootFs0.createFile0("package.json")
-    // const prevValue = await file0.readJson<Mono0PackageJson.Json>()
-    // const worksapcesPackages = units.map((unit) => file0.fs0.toRel(unit.packageJson.file0.path.dir))
-    // const newValue = {
-    //   ...prevValue,
-    //   workspaces: {
-    //     ...(prevValue.workspaces || {}),
-    //     packages: worksapcesPackages,
-    //   },
-    // }
-    // await file0.write(JSON.stringify(newValue, null, 2), true)
-
-    if (unit?.settings.addExportsToPackageJsonFromSrcDir) {
+    if (this.settings.addExportsFromSrc && unit) {
+      const addExportsFromSrc = this.settings.addExportsFromSrc
       const dirsPaths = unit.dirsPaths.map((dirPath) => ({
         relToPkg: this.file0.fs0.toRel(dirPath, true),
         relToSrc: unit.srcFs0.toRel(dirPath, true),
       }))
       const srcPath = this.file0.fs0.toRel(unit.srcFs0.cwd, true)
-      const fixSlahes = (path: string) => path.replace(/\/+/g, "/")
-      const exts =
-        Array.isArray(unit.settings.addExportsToPackageJsonFromSrcDirExts) &&
-        unit.settings.addExportsToPackageJsonFromSrcDirExts.length
-          ? unit.settings.addExportsToPackageJsonFromSrcDirExts.map((ext) => ext.replace(/^\./, ""))
-          : undefined
       const exports = {
-        ...(unit.indexFile0
+        ...(unit.indexFile0 && addExportsFromSrc.index
           ? {
               ".": {
-                import: fixSlahes(`${srcPath}/${unit.indexFile0.path.name}`),
-                types: fixSlahes(`${srcPath}/${unit.indexFile0.path.name}`),
+                ...(addExportsFromSrc.import
+                  ? {
+                      import: toExportsValue(srcPath, unit.indexFile0.path.basename, addExportsFromSrc.import),
+                    }
+                  : {}),
+                ...(addExportsFromSrc.types
+                  ? {
+                      types: toExportsValue(srcPath, unit.indexFile0.path.basename, addExportsFromSrc.types),
+                    }
+                  : {}),
+                ...(addExportsFromSrc.require
+                  ? {
+                      require: toExportsValue(srcPath, unit.indexFile0.path.basename, addExportsFromSrc.require),
+                    }
+                  : {}),
               },
             }
           : {}),
-        ...Object.fromEntries(
-          dirsPaths.map((dirPath) => [
-            fixSlahes(`${dirPath.relToSrc}/*`),
-            {
-              import: !exts
-                ? fixSlahes(`${dirPath.relToPkg}/*`)
-                : exts.map((ext) => fixSlahes(`${dirPath.relToPkg}/*.${ext}`)),
-              types: !exts
-                ? fixSlahes(`${dirPath.relToPkg}/*`)
-                : exts.map((ext) => fixSlahes(`${dirPath.relToPkg}/*.${ext}`)),
-            },
-          ]),
-        ),
+        ...(addExportsFromSrc.dirs
+          ? {
+              ...Object.fromEntries(
+                dirsPaths.map((dirPath) => [
+                  fixSlahes(`${dirPath.relToSrc}/*`),
+                  {
+                    ...(addExportsFromSrc.import
+                      ? {
+                          import: toExportsValue(dirPath.relToPkg, "*", addExportsFromSrc.import),
+                        }
+                      : {}),
+                    ...(addExportsFromSrc.types
+                      ? {
+                          types: toExportsValue(dirPath.relToPkg, "*", addExportsFromSrc.types),
+                        }
+                      : {}),
+                    ...(addExportsFromSrc.require
+                      ? {
+                          require: toExportsValue(dirPath.relToPkg, "*", addExportsFromSrc.require),
+                        }
+                      : {}),
+                  },
+                ]),
+              ),
+            }
+          : {}),
       }
-
       mergedValue.exports = exports
-    }
-
-    if (unit?.settings.removeExportsFromPackageJson) {
-      mergedValue.exports = {}
     }
 
     return { value: mergedValue, depsChanged }
@@ -184,7 +263,11 @@ export class Mono0PackageJson {
 
   static zSettings = z
     .object({
+      clearWorkspaces: z.union([z.boolean(), z.string()]).optional(),
       addWorkspaces: z.union([z.boolean(), z.string()]).optional(),
+      clearExports: z.boolean().optional(),
+      clearWorkspaceDeps: z.boolean().optional(),
+      addWorkspaceDeps: z.boolean().optional(),
       addExportsFromDist: z
         .union([
           z.boolean(),
@@ -192,7 +275,7 @@ export class Mono0PackageJson {
             index: z.boolean().default(true),
             dirs: z.boolean().default(true),
             import: z.union([z.boolean(), z.array(z.string())]).default(true),
-            require: z.union([z.boolean(), z.array(z.string())]).default(true),
+            require: z.union([z.boolean(), z.array(z.string())]).default(false),
             types: z.union([z.boolean(), z.array(z.string())]).default(true),
           }),
         ])
@@ -204,37 +287,68 @@ export class Mono0PackageJson {
             index: z.boolean().default(true),
             dirs: z.boolean().default(true),
             import: z.union([z.boolean(), z.array(z.string())]).default(true),
-            require: z.union([z.boolean(), z.array(z.string())]).default(true),
+            require: z.union([z.boolean(), z.array(z.string())]).default(false),
             types: z.union([z.boolean(), z.array(z.string())]).default(true),
           }),
         ])
         .optional(),
-      removeExports: z.boolean().optional(),
     })
     .optional()
     .default({})
     .transform((val) => {
       return {
-        ...val,
+        ...omit(val, ["addExportsFromDist", "addExportsFromSrc", "clearWorkspaces", "addWorkspaces"]),
+        ...(val.clearWorkspaces === undefined
+          ? {}
+          : {
+              clearWorkspaces:
+                val.clearWorkspaces === true
+                  ? "workspaces"
+                  : val.clearWorkspaces === false
+                    ? (false as const)
+                    : val.clearWorkspaces,
+            }),
+        ...(val.addWorkspaces === undefined
+          ? {}
+          : {
+              addWorkspaces:
+                val.addWorkspaces === true
+                  ? "workspaces"
+                  : val.addWorkspaces === false
+                    ? (false as const)
+                    : val.addWorkspaces,
+            }),
         ...(val.addExportsFromDist === undefined
           ? {}
           : {
               addExportsFromDist:
                 val.addExportsFromDist === false
-                  ? false
+                  ? (false as const)
                   : val.addExportsFromDist === true
-                    ? { index: true, dirs: true, import: true, require: true, types: true }
-                    : val.addExportsFromDist,
+                    ? { index: true, dirs: true, import: [".js"], require: false as const, types: [".d.ts"] }
+                    : {
+                        index: val.addExportsFromDist.index,
+                        dirs: val.addExportsFromDist.dirs,
+                        import: val.addExportsFromDist.import === true ? [".js"] : val.addExportsFromDist.import,
+                        require: val.addExportsFromDist.require === true ? [".js"] : val.addExportsFromDist.require,
+                        types: val.addExportsFromDist.types === true ? [".d.ts"] : val.addExportsFromDist.types,
+                      },
             }),
         ...(val.addExportsFromSrc === undefined
           ? {}
           : {
               addExportsFromSrc:
                 val.addExportsFromSrc === false
-                  ? false
+                  ? (false as const)
                   : val.addExportsFromSrc === true
-                    ? { index: true, dirs: true, import: true, require: true, types: true }
-                    : val.addExportsFromSrc,
+                    ? { index: true, dirs: true, import: [".js"], require: false as const, types: [".d.ts"] }
+                    : {
+                        index: val.addExportsFromSrc.index,
+                        dirs: val.addExportsFromSrc.dirs,
+                        import: val.addExportsFromSrc.import === true ? [".js"] : val.addExportsFromSrc.import,
+                        require: val.addExportsFromSrc.require === true ? [".cjs"] : val.addExportsFromSrc.require,
+                        types: val.addExportsFromSrc.types === true ? [".d.ts"] : val.addExportsFromSrc.types,
+                      },
             }),
       }
     })
@@ -264,7 +378,7 @@ export class Mono0PackageJson {
       (val) =>
         ("path" in val || "value" in val
           ? { path: val.path, value: val.value }
-          : { path: "package.json", value: val }) as Mono0PackageJson.FullDefinition,
+          : { path: "package.json", value: val }) as Mono0PackageJson.FullDefinitionParsed,
     )
 
   static definitionDefault = {
@@ -315,12 +429,14 @@ export namespace Mono0PackageJson {
   export type Json = PackageJsonTypeFest
   export type ValueDefinition = z.output<typeof Mono0PackageJson.zValueDefinition>
   // export type ValueDefinition = Json
+  export type SettingsDefinition = Partial<z.input<typeof Mono0PackageJson.zSettings>>
   export type Settings = z.output<typeof Mono0PackageJson.zSettings>
   export type FullDefinition = {
     path: string
     value: Mono0PackageJson.ValueDefinition
-    settings: Mono0PackageJson.Settings
+    settings: Mono0PackageJson.SettingsDefinition
   }
+  export type FullDefinitionParsed = z.output<typeof Mono0PackageJson.zFullDefinition>
   export type Definition = ValueDefinition | Partial<FullDefinition>
   export type DefinitionParsed = z.output<typeof Mono0PackageJson.zDefinition>
 }
