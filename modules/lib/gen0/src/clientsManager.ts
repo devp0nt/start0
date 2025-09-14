@@ -1,9 +1,9 @@
 import type { Fs0 } from "@devp0nt/fs0"
-import { Gen0Client } from "@devp0nt/gen0/client"
-import type { Gen0Config } from "@devp0nt/gen0/config"
-import { Gen0Logger } from "@devp0nt/gen0/logger"
-import type { Gen0PluginsManager } from "@devp0nt/gen0/pluginsManager"
-import { Gen0Target } from "@devp0nt/gen0/target"
+import { Gen0Client } from "./client"
+import type { Gen0Config } from "./config"
+import { Gen0Logger } from "./logger"
+import type { Gen0PluginsManager } from "./pluginsManager"
+import { Gen0Target } from "./target"
 
 export class Gen0ClientsManager {
   static logger = Gen0Logger.create("clientsManager")

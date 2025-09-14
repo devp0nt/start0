@@ -1,7 +1,7 @@
 import nodePath from "node:path"
-import { Gen0Logger } from "@devp0nt/gen0/logger"
 import { globby } from "globby"
 import { globifyGitIgnoreFile } from "globify-gitignore"
+import { Gen0Logger } from "./logger"
 
 export namespace Gen0Utils {
   export const logger = Gen0Logger.create("utils")

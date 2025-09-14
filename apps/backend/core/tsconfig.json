@@ -18,10 +18,13 @@
   "include": ["src/**/*"],
   "references": [
     {
+      "path": "../../../modules/prisma/backend/tsconfig.json"
+    },
+    {
       "path": "../../../modules/lib/lodash0/tsconfig.json"
     },
     {
-      "path": "../../../modules/prisma/backend/tsconfig.json"
+      "path": "../../../modules/lib/env0/tsconfig.json"
     },
     {
       "path": "../../../modules/lib/logger0/tsconfig.json"
@@ -31,9 +34,6 @@
     },
     {
       "path": "../../../modules/lib/error0/tsconfig.json"
-    },
-    {
-      "path": "../../../modules/lib/env0/tsconfig.json"
     }
   ]
 }

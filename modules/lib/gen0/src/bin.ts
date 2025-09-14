@@ -1,9 +1,9 @@
 #!/usr/bin/env bun
 
-// import * as readline from "node:readline"
-import { Gen0Logger } from "@devp0nt/gen0/logger"
 import { Command } from "commander"
-import { Gen0 } from "./index.js"
+import { Gen0 } from "./index"
+// import * as readline from "node:readline"
+import { Gen0Logger } from "./logger"
 
 const program = new Command()
 program.name("gen0").description("A code generation tool").version("1.0.0")

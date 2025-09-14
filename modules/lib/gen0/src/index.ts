@@ -1,9 +1,9 @@
 import { Fs0 } from "@devp0nt/fs0"
-import { Gen0ClientsManager } from "@devp0nt/gen0/clientsManager"
-import { Gen0Config } from "@devp0nt/gen0/config"
-import { Gen0Logger } from "@devp0nt/gen0/logger"
-import { Gen0PluginsManager } from "@devp0nt/gen0/pluginsManager"
-import { Gen0WatchersManager } from "@devp0nt/gen0/watchersManager"
+import { Gen0ClientsManager } from "./clientsManager"
+import { Gen0Config } from "./config"
+import { Gen0Logger } from "./logger"
+import { Gen0PluginsManager } from "./pluginsManager"
+import { Gen0WatchersManager } from "./watchersManager"
 
 // TODO: В ген0 не делать так нагло сам клиент плагином. Достаточно вотчеры добавить
 // TODO: Ген0 плагин инит и процесс раздельно

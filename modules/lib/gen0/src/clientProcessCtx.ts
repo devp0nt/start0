@@ -2,11 +2,11 @@ import nodeFs from "node:fs"
 import nodePath from "node:path"
 import vm from "node:vm"
 import type { Fs0 } from "@devp0nt/fs0"
-import type { Gen0Client } from "@devp0nt/gen0/client"
-import { Gen0Logger } from "@devp0nt/gen0/logger"
-import type { Gen0Plugin } from "@devp0nt/gen0/plugin"
-import { Gen0Utils } from "@devp0nt/gen0/utils"
 import _ from "lodash"
+import type { Gen0Client } from "./client"
+import { Gen0Logger } from "./logger"
+import type { Gen0Plugin } from "./plugin"
+import { Gen0Utils } from "./utils"
 
 export class Gen0ClientProcessCtx {
   static logger = Gen0Logger.create("clientProcessCtx")

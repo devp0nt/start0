@@ -1,9 +1,9 @@
 import nodePath from "node:path"
 import { Fs0 } from "@devp0nt/fs0"
-import { Gen0Logger } from "@devp0nt/gen0/logger"
-import type { Gen0Plugin } from "@devp0nt/gen0/plugin"
 import { findUpSync } from "find-up"
 import { workspaceRoot } from "workspace-root"
+import { Gen0Logger } from "./logger"
+import type { Gen0Plugin } from "./plugin"
 
 // TODO: respect json configs
 

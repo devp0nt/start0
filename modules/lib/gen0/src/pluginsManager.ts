@@ -1,8 +1,8 @@
 import type { File0, Fs0 } from "@devp0nt/fs0"
-import type { Gen0Config } from "@devp0nt/gen0/config"
-import { Gen0Logger } from "@devp0nt/gen0/logger"
-import { Gen0Plugin } from "@devp0nt/gen0/plugin"
-import type { Gen0Watcher } from "@devp0nt/gen0/watcher"
+import type { Gen0Config } from "./config"
+import { Gen0Logger } from "./logger"
+import { Gen0Plugin } from "./plugin"
+import type { Gen0Watcher } from "./watcher"
 
 export class Gen0PluginsManager {
   static logger = Gen0Logger.create("pluginsManager")
