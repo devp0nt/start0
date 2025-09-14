@@ -68,7 +68,7 @@ export class Mono0Tsconfig {
 
   static createGeneralsByConfig(config: Mono0Config) {
     const generalTsconfigs = Object.entries(config.tsconfigs).map(([key, value]) =>
-      Mono0Tsconfig.create({ definition: value, config, fs0: config.rootFs0, name: key, generalTsconfigs: [] }),
+      Mono0Tsconfig.create({ definition: value, config, fs0: config.configFs0, name: key, generalTsconfigs: [] }),
     )
     for (const generalTsconfig of generalTsconfigs) {
       generalTsconfig.generalTsconfigs = generalTsconfigs
@@ -383,17 +383,14 @@ export class Mono0Tsconfig {
     .transform(
       (val) =>
         ("path" in val || "value" in val
-          ? { path: val.path, value: val.value, settings: val.settings }
+          ? { path: val.path || "tsconfig.json", value: val.value, settings: val.settings || {} }
           : { path: "tsconfig.json", value: val, settings: {} }) as Mono0Tsconfig.FullDefinitionParsed,
     )
 
   static definitionDefault = {
     path: "tsconfig.json",
     value: {},
-    settings: {
-      addUnitsSrcToPaths: false,
-      addUnitsDistToPaths: false,
-    },
+    settings: {},
   } satisfies Mono0Tsconfig.FullDefinition
 
   static merge(...tsconfigs: [Mono0Tsconfig.Json, ...Mono0Tsconfig.Json[]]): Mono0Tsconfig.Json {

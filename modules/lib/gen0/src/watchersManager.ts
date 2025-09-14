@@ -104,7 +104,7 @@ export class Gen0WatchersManager {
   // async watchAllByNative() {
   //   this.bunWatcher = fs.watch(this.config.rootDir, { recursive: true }, (originalEvent, path) => {
   //     if (!path) return
-  //     console.log(originalEvent, path)
+  //     console.info(originalEvent, path)
   //     const pathAbs = this.fs.toAbs(path)
   //     if (/(^|[/\\])\.git/.test(path)) return
   //     if (this.isGitIgnored(path)) return

@@ -7,7 +7,7 @@ export default {
       watch: ["**/*.test.txt", "!**/bad.test.txt"],
       clientsGlob: "./test-client.ts",
       handler: (ctx, event, path) => {
-        // console.log("1000zxczxczxcxzxc", event, path, "xxxxx")
+        // console.info("1000zxczxczxcxzxc", event, path, "xxxxx")
       },
     },
   },

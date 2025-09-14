@@ -372,8 +372,8 @@ export class Mono0PackageJson {
     .transform(
       (val) =>
         ("path" in val || "value" in val
-          ? { path: val.path, value: val.value }
-          : { path: "package.json", value: val }) as Mono0PackageJson.FullDefinitionParsed,
+          ? { path: val.path || "package.json", value: val.value, settings: val.settings || {} }
+          : { path: "package.json", value: val, settings: {} }) as Mono0PackageJson.FullDefinitionParsed,
     )
 
   static definitionDefault = {

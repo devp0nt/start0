@@ -57,7 +57,7 @@ program
     withMono0(async (mono0) => {
       logger.info(
         JSON.stringify(
-          mono0.generalTsconfigs.map((tsconfig) => tsconfig.getMeta({ units: mono0.units })),
+          await Promise.all(mono0.generalTsconfigs.map((tsconfig) => tsconfig.getMeta({ units: mono0.units }))),
           null,
           2,
         ),

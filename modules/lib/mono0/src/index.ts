@@ -71,7 +71,11 @@ export class Mono0 {
   static async getCreateParams() {
     const config = await Mono0Config.get()
     const generalTsconfigs = Mono0Tsconfig.createGeneralsByConfig(config)
-    const generalPackageJson = Mono0PackageJson.create({ definition: config.packageJson, config, fs0: config.rootFs0 })
+    const generalPackageJson = Mono0PackageJson.create({
+      definition: config.packageJson,
+      config,
+      fs0: config.configFs0,
+    })
     const rootFs0 = config.rootFs0
     const units = await Mono0Unit.findAndCreateUnits({ rootFs0, config, generalTsconfigs })
     return { config, generalTsconfigs, generalPackageJson, rootFs0, units }

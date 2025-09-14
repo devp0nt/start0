@@ -8,7 +8,7 @@ export class Mono0Config {
   rootFs0: Fs0
   configFs0: Fs0
   tsconfigs: Mono0Config.TsconfigsDefinitions
-  packageJson: Mono0PackageJson.FullDefinition
+  packageJson: Mono0PackageJson.FullDefinitionParsed
   filesSelectors: Mono0Config.DefinitionParsed["filesSelectors"]
   unitsSelectors: Mono0Config.DefinitionParsed["unitsSelectors"]
   settings: Mono0Config.DefinitionParsed["settings"]
@@ -18,7 +18,7 @@ export class Mono0Config {
     rootFs0: Fs0
     configFs0: Fs0
     tsconfigs: Mono0Config.TsconfigsDefinitions
-    packageJson: Mono0PackageJson.FullDefinition
+    packageJson: Mono0PackageJson.FullDefinitionParsed
     filesSelectors: Mono0Config.DefinitionParsed["filesSelectors"]
     unitsSelectors: Mono0Config.DefinitionParsed["unitsSelectors"]
     settings: Mono0Config.DefinitionParsed["settings"]
