@@ -20,6 +20,7 @@ export class Mono0Unit {
   presets: string[]
   depsDefs: Mono0Unit.DefinitionParsed["deps"]
   deps: Mono0Unit.Dependency[]
+  settings: Mono0Unit.DefinitionSettings
   filesPaths: string[]
   dirsPaths: string[]
 
@@ -40,6 +41,7 @@ export class Mono0Unit {
     presets: string[]
     deps: Mono0Unit.Dependency[]
     depsDefs: Mono0Unit.DefinitionParsed["deps"]
+    settings: Mono0Unit.DefinitionSettings
     filesPaths: string[]
     dirsPaths: string[]
   }) {
@@ -56,6 +58,7 @@ export class Mono0Unit {
     this.presets = input.presets
     this.deps = input.deps
     this.depsDefs = input.depsDefs
+    this.settings = input.settings
     this.filesPaths = input.filesPaths
     this.dirsPaths = input.dirsPaths
   }
@@ -87,6 +90,11 @@ export class Mono0Unit {
       config,
       fs0: unitConfigFile0.fs0,
       unit: undefined,
+      settings: {
+        addPathsToTsconfigOfAllUnits:
+          definition.tsconfig.settings?.addPathsToTsconfigOfAllUnits ??
+          definition.settings.addPathsToTsconfigOfAllUnits,
+      },
     })
     const packageJson = Mono0PackageJson.create({
       name: definition.name,
@@ -110,6 +118,7 @@ export class Mono0Unit {
       config,
       deps: [],
       depsDefs: definition.deps,
+      settings: definition.settings,
       filesPaths: [],
       dirsPaths: [],
     })
@@ -166,8 +175,16 @@ export class Mono0Unit {
         ...result,
         tags: [...(presetValue.tags ?? []), ...result.tags],
         deps: [...(presetValue.deps ?? []), ...result.deps],
+        settings: {
+          ...(presetValue.settings ?? {}),
+          ...(result.settings ?? {}),
+        },
         tsconfig: {
           path: result.tsconfig.path ?? presetValue.tsconfig.path,
+          settings: {
+            ...(presetValue.tsconfig.settings ?? {}),
+            ...(result.tsconfig.settings ?? {}),
+          },
           value: Mono0Tsconfig.merge(presetValue.tsconfig.value, result.tsconfig.value),
         },
         packageJson: {
@@ -371,6 +388,27 @@ export class Mono0Unit {
       .optional()
       .default([])
       .transform((val) => (Array.isArray(val) ? val : [val])),
+    settings: z
+      .object({
+        addSelfSrcPathToTsconfig: z.boolean().optional(),
+        addPathsToTsconfigOfAllUnits: z.boolean().optional(),
+        addPathsToTsconfigOfDependentUnits: z.boolean().optional(),
+        addExportsToPackageJsonFromDistDir: z.boolean().optional(),
+        addExportsToPackageJsonFromSrcDir: z.boolean().optional(),
+        addReferencesToTsconfigOfDependentUnits: z.boolean().optional(),
+      })
+      .optional()
+      .default({})
+      .transform((val) => {
+        return {
+          addSelfSrcPathToTsconfig: val.addSelfSrcPathToTsconfig ?? false,
+          addPathsToTsconfigOfAllUnits: val.addPathsToTsconfigOfAllUnits ?? false,
+          addPathsToTsconfigOfDependentUnits: val.addPathsToTsconfigOfDependentUnits ?? false,
+          addExportsToPackageJsonFromDistDir: val.addExportsToPackageJsonFromDistDir ?? false,
+          addExportsToPackageJsonFromSrcDir: val.addExportsToPackageJsonFromSrcDir ?? false,
+          addReferencesToTsconfigOfDependentUnits: val.addReferencesToTsconfigOfDependentUnits ?? true,
+        }
+      }),
     deps: z
       .array(
         z.union([
@@ -413,6 +451,7 @@ export class Mono0Unit {
       tags: this.tags,
       path: this.config.rootFs0.toRel(this.fs0.cwd),
       presets: this.presets,
+      settings: this.settings,
       tsconfig: this.tsconfig.getMeta({ units }),
       packageJson: await this.packageJson.getMeta(),
       deps: this.deps.map((d) => d.unit.name),
@@ -427,11 +466,13 @@ export namespace Mono0Unit {
     preset?: string | string[]
     tags?: string[]
     deps?: DependencyDefinition[]
+    settings?: Partial<DefinitionSettings>
     tsconfig?: Mono0Tsconfig.Definition
   }
   export type DefinitionParsed = z.output<typeof Mono0Unit.zDefinition>
   export type DependencyDefinitionParsed = z.output<typeof Mono0Unit.zDefinition.shape.deps>[number]
 
+  export type DefinitionSettings = z.output<typeof Mono0Unit.zDefinition.shape.settings>
   export type DependencyRelationType = "reference" | "include"
   export type DependencyMatchDefinition = string // tags or name
   export type DependencyMatchParsed = {

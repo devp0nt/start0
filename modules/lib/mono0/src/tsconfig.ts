@@ -11,6 +11,7 @@ export class Mono0Tsconfig {
   config: Mono0Config
   value: Mono0Tsconfig.ValueDefinition
   unit: Mono0Unit | undefined
+  settings: Mono0Tsconfig.DefinitionSettings
 
   private constructor({
     fs0,
@@ -18,12 +19,21 @@ export class Mono0Tsconfig {
     config,
     value,
     unit,
-  }: { fs0: Fs0; file0: File0; config: Mono0Config; value: Mono0Tsconfig.ValueDefinition; unit?: Mono0Unit }) {
+    settings,
+  }: {
+    fs0: Fs0
+    file0: File0
+    config: Mono0Config
+    value: Mono0Tsconfig.ValueDefinition
+    unit?: Mono0Unit
+    settings?: Mono0Tsconfig.DefinitionSettings
+  }) {
     this.fs0 = fs0
     this.file0 = file0
     this.config = config
     this.value = value
     this.unit = unit
+    this.settings = Mono0Tsconfig.zDefinitionSettings.parse(settings)
   }
 
   static create({
@@ -31,15 +41,17 @@ export class Mono0Tsconfig {
     config,
     fs0,
     unit,
+    settings,
   }: {
     definition: Mono0Tsconfig.DefinitionParsed
     config: Mono0Config
     fs0: Fs0
     unit?: Mono0Unit
+    settings?: Mono0Tsconfig.DefinitionSettings
   }) {
     const file0 = definition.path ? fs0.createFile0(definition.path) : fs0.createFile0("tsconfig.json")
     const value = definition.value
-    return new Mono0Tsconfig({ fs0, file0, config, value, unit })
+    return new Mono0Tsconfig({ fs0, file0, config, value, unit, settings })
   }
 
   static parseValue({
@@ -101,19 +113,19 @@ export class Mono0Tsconfig {
       result.include = parsedInclude
     }
     if (unit) {
-      const srcIncludeString = nodePath.join(fs0.toRel(unit.srcFs0.cwd), "**/*")
+      const srcIncludeString = nodePath.join(fs0.toRel(unit.srcFs0.cwd, true), "**/*")
       if (!result.include?.includes(srcIncludeString)) {
         result.include = [srcIncludeString, ...(result.include || [])]
       }
       if (!result.compilerOptions?.rootDir) {
         result.compilerOptions = {
           ...result.compilerOptions,
-          rootDir: fs0.toRel(unit.srcFs0.cwd),
+          rootDir: fs0.toRel(unit.srcFs0.cwd, true),
         }
       }
     }
     const references = []
-    if (unit) {
+    if (unit?.settings.addReferencesToTsconfigOfDependentUnits) {
       for (const dep of unit.deps) {
         references.push({
           path: dep.unit.tsconfig.file0.relToDir(file0),
@@ -121,18 +133,20 @@ export class Mono0Tsconfig {
       }
     }
     result.references = references
-    if (unit) {
-      // result.compilerOptions = {
-      //   ...(result.compilerOptions || {}),
-      //   paths: {
-      //     ...(result.compilerOptions?.paths || {}),
-      //     [`${unit.name}/*`]: [`${fs0.toRel(unit.srcFs0.cwd)}/*`],
-      //   },
-      // }
+    if (unit?.settings.addSelfSrcPathToTsconfig) {
       result.compilerOptions = {
         ...(result.compilerOptions || {}),
         paths: {
+          ...(result.compilerOptions?.paths || {}),
           [`${unit.name}/*`]: [`${fs0.toRel(unit.srcFs0.cwd)}/*`],
+        },
+      }
+    }
+    if (unit?.settings.addPathsToTsconfigOfDependentUnits) {
+      result.compilerOptions = {
+        ...(result.compilerOptions || {}),
+        paths: {
+          ...(result.compilerOptions?.paths || {}),
           ...Object.fromEntries(
             unit.deps.flatMap((d) => [
               [`${d.unit.name}/*`, [`${fs0.toRel(d.unit.srcFs0.cwd)}/*`]],
@@ -141,18 +155,22 @@ export class Mono0Tsconfig {
           ),
         },
       }
-      // result.compilerOptions = {
-      //   ...(result.compilerOptions || {}),
-      //   paths: {
-      //     ...Object.fromEntries(
-      //       units.flatMap((d) => [
-      //         [`${d.name}/*`, [`${fs0.toRel(d.srcFs0.cwd)}/*`]],
-      //         ...(d.indexFile0 ? [[`${d.name}`, [`${fs0.toRel(d.indexFile0.path.abs)}`]]] : []),
-      //       ]),
-      //     ),
-      //   },
-      // }
     }
+    if (unit?.settings.addPathsToTsconfigOfAllUnits) {
+      result.compilerOptions = {
+        ...(result.compilerOptions || {}),
+        paths: {
+          ...(result.compilerOptions?.paths || {}),
+          ...Object.fromEntries(
+            units.flatMap((d) => [
+              [`${d.name}/*`, [`${fs0.toRel(d.srcFs0.cwd)}/*`]],
+              ...(d.indexFile0 ? [[`${d.name}`, [`${fs0.toRel(d.indexFile0.path.abs)}`]]] : []),
+            ]),
+          ),
+        },
+      }
+    }
+
     // TODO:ASAP use deepmap here
     if (result?.compilerOptions?.tsBuildInfoFile && unit?.name) {
       result.compilerOptions.tsBuildInfoFile = file0.fs0.toRel(
@@ -188,10 +206,12 @@ export class Mono0Tsconfig {
     tsconfig,
     config,
     units,
+    settings,
   }: {
     tsconfig?: Mono0Tsconfig
     config: Mono0Config
     units: Mono0Unit[]
+    settings?: Mono0Tsconfig.DefinitionSettings
   }) {
     tsconfig =
       tsconfig ||
@@ -200,6 +220,7 @@ export class Mono0Tsconfig {
         config,
         fs0: config.rootFs0,
         unit: undefined,
+        settings,
       })
     const valueParsed = Mono0Tsconfig.parseValue({
       value: tsconfig.value,
@@ -221,10 +242,12 @@ export class Mono0Tsconfig {
     tsconfig,
     config,
     units,
+    settings,
   }: {
     tsconfig?: Mono0Tsconfig
     config: Mono0Config
     units: Mono0Unit[]
+    settings?: Mono0Tsconfig.DefinitionSettings
   }) {
     tsconfig =
       tsconfig ||
@@ -233,6 +256,7 @@ export class Mono0Tsconfig {
         config,
         fs0: config.rootFs0,
         unit: undefined,
+        settings,
       })
     const valueParsed = Mono0Tsconfig.parseValue({
       value: tsconfig.value,
@@ -269,8 +293,21 @@ export class Mono0Tsconfig {
       .optional(),
   })
 
+  static zDefinitionSettings = z
+    .object({
+      addPathsToTsconfigOfAllUnits: z.boolean().optional(),
+    })
+    .optional()
+    .default({})
+    .transform((val) => {
+      return {
+        addPathsToTsconfigOfAllUnits: val.addPathsToTsconfigOfAllUnits ?? false,
+      }
+    })
+
   static zFullDefinition = z.object({
     path: z.string().optional(),
+    settings: Mono0Tsconfig.zDefinitionSettings,
     value: Mono0Tsconfig.zValueDefinition.optional().default({}),
   })
 
@@ -308,9 +345,11 @@ export namespace Mono0Tsconfig {
   export type Json = Omit<TsConfigJsonTypeFest, "extends"> & { extends?: string }
   // export type ValueDefinition = z.output<typeof Mono0Tsconfig.zValueDefinition>
   export type ValueDefinition = Json
+  export type DefinitionSettings = z.output<typeof Mono0Tsconfig.zDefinitionSettings>
   export type FullDefinition = {
     path?: string
     value: Mono0Tsconfig.ValueDefinition
+    settings?: Partial<DefinitionSettings>
   }
   export type Definition = ValueDefinition | FullDefinition
   export type DefinitionParsed = z.output<typeof Mono0Tsconfig.zDefinition>

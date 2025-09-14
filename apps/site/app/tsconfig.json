@@ -10,7 +10,8 @@
     "noEmitOnError": false,
     "declarationDir": "./dist",
     "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@site/app/.tsbuildinfo",
-    "rootDir": "./src",
+    "rootDir": "./",
+    "rootDirs": ["./src", "./.react-router/types"],
     "paths": {
       "@site/app/*": ["./src/*"],
       "@devp0nt/gen0/*": ["../../../modules/lib/gen0/src/*"],
@@ -20,7 +21,6 @@
     }
   },
   "include": ["src/**/*", ".react-router/types/**/*"],
-  "rootDirs": ["./src", "./.react-router/types"],
   "references": [
     {
       "path": "../../../modules/lib/gen0/tsconfig.json"

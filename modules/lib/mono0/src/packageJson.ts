@@ -88,72 +88,63 @@ export class Mono0PackageJson {
     }
     const depsChanged = !isEqual(prevWorkspaceDeps, newWorkspaceDeps)
 
-    if (!this.value.exports) {
-      // const exports = {
-      //   ".": {
-      //     import: "./dist/index.js",
-      //     types: "./dist/index.d.ts",
-      //     development: {
-      //       import: "./src/index.ts",
-      //       types: "./src/index.ts",
-      //     },
-      //   },
-      //   "./*": {
-      //     import: "./dist/*.js",
-      //     types: "./dist/*.d.ts",
-      //     development: {
-      //       import: "./src/*.ts",
-      //       types: "./src/*.ts",
-      //     },
-      //   },
-      // }
-      if (unit) {
-        const dirsPaths = unit.dirsPaths.map((dirPath) => ({
-          // relToPkgDist: this.file0.fs0.toRel(dirPath.replace(unit.srcFs0.cwd, unit.distFs0.cwd), true),
-          // relToDist: unit.distFs0.toRel(dirPath.replace(unit.srcFs0.cwd, unit.distFs0.cwd), true),
-          relToPkg: this.file0.fs0.toRel(unit.getPathInDistByPathInSrc(dirPath), true),
-          relToDist: unit.distFs0.toRel(unit.getPathInDistByPathInSrc(dirPath), true),
-        }))
-
-        const distPath = this.file0.fs0.toRel(unit.distFs0.cwd, true)
-        // replace more then 1 slah with one slash
-        const fixSlahes = (path: string) => path.replace(/\/+/g, "/")
-        // const exports = {
-        //   ".": {
-        //     import: exts.map((ext) => fixSlahes(`./${srcPath}/index${ext}`)),
-        //     types: exts.map((ext) => fixSlahes(`./${srcPath}/index${ext}`)),
-        //   },
-        //   ...Object.fromEntries(
-        //     dirsPaths.map((dirPath) => [
-        //       fixSlahes(`./${dirPath.relToSrc}/*`),
-        //       {
-        //         import: exts.map((ext) => fixSlahes(`./${dirPath.relToPkg}/*${ext}`)),
-        //         types: exts.map((ext) => fixSlahes(`./${dirPath.relToPkg}/*${ext}`)),
-        //       },
-        //     ]),
-        //   ),
-        // }
-        const exports = {
-          ...(unit.indexFile0
-            ? {
-                ".": {
-                  import: fixSlahes(`${distPath}/${unit.indexFile0.path.basename}.js`),
-                  types: fixSlahes(`${distPath}/${unit.indexFile0.path.basename}.d.ts`),
-                },
-              }
-            : {}),
-          ...Object.fromEntries(
-            dirsPaths.map((dirPath) => [
-              fixSlahes(`${dirPath.relToDist}/*`),
-              {
-                import: fixSlahes(`${dirPath.relToPkg}/*.js`),
-                types: fixSlahes(`${dirPath.relToPkg}/*.d.ts`),
+    if (unit?.settings.addExportsToPackageJsonFromDistDir) {
+      const dirsPaths = unit.dirsPaths.map((dirPath) => ({
+        relToPkg: this.file0.fs0.toRel(unit.getPathInDistByPathInSrc(dirPath), true),
+        relToDist: unit.distFs0.toRel(unit.getPathInDistByPathInSrc(dirPath), true),
+      }))
+      const distPath = this.file0.fs0.toRel(unit.distFs0.cwd, true)
+      const fixSlahes = (path: string) => path.replace(/\/+/g, "/")
+      const exports = {
+        ...(unit.indexFile0
+          ? {
+              ".": {
+                import: fixSlahes(`${distPath}/${unit.indexFile0.path.basename}.js`),
+                types: fixSlahes(`${distPath}/${unit.indexFile0.path.basename}.d.ts`),
               },
-            ]),
-          ),
-        }
-        mergedValue.exports = exports
+            }
+          : {}),
+        ...Object.fromEntries(
+          dirsPaths.map((dirPath) => [
+            fixSlahes(`${dirPath.relToDist}/*`),
+            {
+              import: fixSlahes(`${dirPath.relToPkg}/*.js`),
+              types: fixSlahes(`${dirPath.relToPkg}/*.d.ts`),
+            },
+          ]),
+        ),
       }
+      mergedValue.exports = exports
+    }
+
+    if (unit?.settings.addExportsToPackageJsonFromDistDir) {
+      const dirsPaths = unit.dirsPaths.map((dirPath) => ({
+        relToPkg: this.file0.fs0.toRel(dirPath, true),
+        relToSrc: unit.srcFs0.toRel(dirPath, true),
+      }))
+      const srcPath = this.file0.fs0.toRel(unit.srcFs0.cwd, true)
+      const fixSlahes = (path: string) => path.replace(/\/+/g, "/")
+      const exports = {
+        ...(unit.indexFile0
+          ? {
+              ".": {
+                import: fixSlahes(`${srcPath}/${unit.indexFile0.path.name}`),
+                types: fixSlahes(`${srcPath}/${unit.indexFile0.path.name}`),
+              },
+            }
+          : {}),
+        ...Object.fromEntries(
+          dirsPaths.map((dirPath) => [
+            fixSlahes(`${dirPath.relToSrc}/*`),
+            {
+              import: fixSlahes(`${dirPath.relToPkg}/*`),
+              types: fixSlahes(`${dirPath.relToPkg}/*`),
+            },
+          ]),
+        ),
+      }
+
+      mergedValue.exports = exports
     }
 
     return { value: mergedValue, depsChanged }

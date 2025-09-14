@@ -4,6 +4,9 @@
   "deps": ["@site/core", "@devp0nt/gen0", "#site"],
   "tsconfig": {
     "include": ["src/**/*", ".react-router/types/**/*"],
-    "rootDirs": ["./src", "./.react-router/types"]
+    "compilerOptions": {
+      "rootDir": "./",
+      "rootDirs": ["./src", "./.react-router/types"]
+    }
   }
 }

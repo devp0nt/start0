@@ -78,17 +78,9 @@ export class Mono0Config {
     settings: z
       .object({
         installCommand: z.string().optional(),
-        autoIncludeSrc: z.boolean().optional().default(true),
-        autoPathSrc: z.boolean().optional().default(true),
-        autoPathCycle: z.boolean().optional().default(true),
       })
       .optional()
-      .default({
-        installCommand: undefined,
-        autoIncludeSrc: true,
-        autoPathSrc: true,
-        autoPathCycle: true,
-      }),
+      .default({}),
     presets: z
       .record(z.string(), Mono0Unit.zDefinition.omit({ name: true }))
       .optional()
