@@ -430,7 +430,7 @@ export class Mono0Unit {
           z.string(),
           z.object({
             match: z.string().transform(Mono0Unit.parseMatchString),
-            relation: z.enum(["reference", "include"]).optional().default("reference"),
+            relation: z.enum(["reference", "include", "none"]).optional().default("reference"),
           }),
         ]),
       )
@@ -488,7 +488,7 @@ export namespace Mono0Unit {
   export type DependencyDefinitionParsed = z.output<typeof Mono0Unit.zDefinition.shape.deps>[number]
 
   export type DefinitionSettings = z.output<typeof Mono0Unit.zDefinition.shape.settings>
-  export type DependencyRelationType = "reference" | "include"
+  export type DependencyRelationType = "reference" | "include" | "none"
   export type DependencyMatchDefinition = string // tags or name
   export type DependencyMatchParsed = {
     name?: string
