@@ -1,7 +1,7 @@
 import { Fs0 } from "@devp0nt/fs0"
-import { Mono0Tsconfig } from "@devp0nt/mono0/tsconfig"
-import { Mono0Unit } from "@devp0nt/mono0/unit"
 import z from "zod"
+import { Mono0Tsconfig } from "./tsconfig"
+import { Mono0Unit } from "./unit"
 
 export class Mono0Config {
   rootFs0: Fs0

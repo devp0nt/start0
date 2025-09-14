@@ -1,5 +1,5 @@
 import type { Gen0Plugin } from "@devp0nt/gen0/plugin"
-import { Mono0 } from "@devp0nt/mono0/index"
+import { Mono0 } from "./index"
 
 const handler = async () => {
   const mono0 = await Mono0.create()

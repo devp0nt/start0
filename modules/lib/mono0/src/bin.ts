@@ -1,9 +1,9 @@
 #!/usr/bin/env bun
 
-import { Mono0 } from "@devp0nt/mono0/index"
-// import * as readline from "node:readline"
-import { Mono0Logger } from "@devp0nt/mono0/logger"
 import { Command } from "commander"
+import { Mono0 } from "./index"
+// import * as readline from "node:readline"
+import { Mono0Logger } from "./logger"
 
 const program = new Command()
 program.name("mono0").description("A monorepo manager tool").version("1.0.0")

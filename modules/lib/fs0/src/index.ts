@@ -159,7 +159,7 @@ export class Fs0 {
   async glob(
     glob: string | string[],
     {
-      cwd = this.rootDir,
+      cwd = this.cwd,
       relative,
       ...restOptions
     }: {
@@ -180,7 +180,7 @@ export class Fs0 {
   globSync(
     glob: string | string[],
     {
-      cwd = this.rootDir,
+      cwd = this.cwd,
       relative,
       ...restOptions
     }: {
@@ -200,22 +200,14 @@ export class Fs0 {
 
   async globFile0(
     glob: string,
-    {
-      cwd = this.rootDir,
-      relative,
-      ...restOptions
-    }: { cwd?: string; relative?: string | boolean } & GlobbyOptions = {},
+    { cwd = this.cwd, relative, ...restOptions }: { cwd?: string; relative?: string | boolean } & GlobbyOptions = {},
   ): Promise<File0[]> {
     const paths = await this.glob(glob, { cwd, relative, ...restOptions })
     return paths.map((path) => this.createFile0(path))
   }
   globFile0Sync(
     glob: string,
-    {
-      cwd = this.rootDir,
-      relative,
-      ...restOptions
-    }: { cwd?: string; relative?: string | boolean } & GlobbyOptions = {},
+    { cwd = this.cwd, relative, ...restOptions }: { cwd?: string; relative?: string | boolean } & GlobbyOptions = {},
   ): File0[] {
     const paths = this.globSync(glob, { cwd, relative, ...restOptions })
     return paths.map((path) => this.createFile0(path))
@@ -243,7 +235,7 @@ export class Fs0 {
   }
 
   async findFilesPathsContentMatch({
-    cwd = this.rootDir,
+    cwd = this.cwd,
     glob,
     relative,
     search,
@@ -272,7 +264,7 @@ export class Fs0 {
   }
 
   async ensureFilesPathsContentMatch({
-    cwd = this.rootDir,
+    cwd = this.cwd,
     path,
     relative,
     search,

@@ -1,8 +1,8 @@
 {
   "dependencies": {
+    "@devp0nt/lodash0": "workspace:*",
     "@prisma0/backend": "workspace:*",
     "@devp0nt/logger0": "workspace:*",
-    "@devp0nt/lodash0": "workspace:*",
     "@devp0nt/meta0": "workspace:*",
     "@devp0nt/error0": "workspace:*",
     "@devp0nt/env0": "workspace:*"

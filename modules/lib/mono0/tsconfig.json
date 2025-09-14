@@ -15,13 +15,13 @@
       "@devp0nt/mono0/*": ["./src/*"]
     }
   },
+  "include": ["src/**/*"],
   "references": [
     {
-      "path": "../fs0/tsconfig.json"
+      "path": "../gen0/tsconfig.json"
     },
     {
-      "path": "../gen0/tsconfig.json"
+      "path": "../fs0/tsconfig.json"
     }
-  ],
-  "include": ["src/**/*"]
+  ]
 }

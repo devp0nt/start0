@@ -15,6 +15,7 @@
       "@idea/shared/*": ["./src/*"]
     }
   },
+  "include": ["src/**/*"],
   "references": [
     {
       "path": "../../prisma/backend/tsconfig.json"
@@ -22,6 +23,5 @@
     {
       "path": "../../lib/route0/tsconfig.json"
     }
-  ],
-  "include": ["src/**/*"]
+  ]
 }

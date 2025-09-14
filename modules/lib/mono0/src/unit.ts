@@ -1,9 +1,9 @@
 import type { File0, Fs0 } from "@devp0nt/fs0"
-import type { Mono0Config } from "@devp0nt/mono0/config"
-import { Mono0Logger } from "@devp0nt/mono0/logger"
-import { Mono0PackageJson } from "@devp0nt/mono0/packageJson"
-import { Mono0Tsconfig } from "@devp0nt/mono0/tsconfig"
 import z from "zod"
+import type { Mono0Config } from "./config"
+import { Mono0Logger } from "./logger"
+import { Mono0PackageJson } from "./packageJson"
+import { Mono0Tsconfig } from "./tsconfig"
 
 export class Mono0Unit {
   unitConfigFile0: File0
@@ -84,11 +84,6 @@ export class Mono0Unit {
       config,
       fs0: unitConfigFile0.fs0,
     })
-    const tsconfigValue = tsconfig.parseValue()
-    const includeGlob = tsconfigValue.include ?? []
-    const exclude = tsconfigValue.exclude ?? []
-    const excludeGlob = exclude.map((e) => `!${e}`)
-    const filesPaths = await tsconfig.file0.fs0.glob([...includeGlob, ...excludeGlob])
     const unit = new Mono0Unit({
       name: definition.name,
       tags: definition.tags,
@@ -101,9 +96,16 @@ export class Mono0Unit {
       config,
       deps: [],
       depsDefs: definition.deps,
-      filesPaths,
+      filesPaths: [],
     })
     unit.tsconfig.unit = unit
+    const tsconfigValue = unit.tsconfig.parseValue()
+    const includeGlob = tsconfigValue.include ?? []
+    const exclude = tsconfigValue.exclude ?? []
+    const excludeGlob = exclude.map((e) => `!${e}`)
+    const filesPaths = await unit.tsconfig.file0.fs0.glob([...includeGlob, ...excludeGlob])
+    console.dir({ includeGlob, excludeGlob, tsconfigValue, filesPaths }, { depth: null })
+    unit.filesPaths = filesPaths
     return unit
   }
 

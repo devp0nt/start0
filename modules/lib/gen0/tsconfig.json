@@ -15,6 +15,7 @@
       "@devp0nt/gen0/*": ["./src/*"]
     }
   },
+  "include": ["src/**/*"],
   "references": [
     {
       "path": "../lodash0/tsconfig.json"
@@ -25,6 +26,5 @@
     {
       "path": "../fs0/tsconfig.json"
     }
-  ],
-  "include": ["src/**/*"]
+  ]
 }

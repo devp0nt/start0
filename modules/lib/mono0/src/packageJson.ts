@@ -1,11 +1,10 @@
 import type { File0, Fs0 } from "@devp0nt/fs0"
-import type { Mono0Config } from "@devp0nt/mono0/config"
-import { Mono0Logger } from "@devp0nt/mono0/logger"
-import type { Mono0Unit } from "@devp0nt/mono0/unit"
-import { execSync } from "child_process"
 import { isEqual } from "lodash"
 import type { PackageJson as PackageJsonTypeFest } from "type-fest"
 import z from "zod"
+import type { Mono0Config } from "./config"
+import { Mono0Logger } from "./logger"
+import type { Mono0Unit } from "./unit"
 
 export class Mono0PackageJson {
   name: string

@@ -15,6 +15,6 @@
       "@devp0nt/x0/*": ["./src/*"]
     }
   },
-  "references": [],
-  "include": ["src/**/*"]
+  "include": ["src/**/*"],
+  "references": []
 }

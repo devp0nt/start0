@@ -1,12 +1,12 @@
 import { execSync } from "node:child_process"
 import type { Fs0 } from "@devp0nt/fs0"
 import { Gen0 } from "@devp0nt/gen0"
-import { Mono0Config } from "@devp0nt/mono0/config"
-import { Mono0Logger } from "@devp0nt/mono0/logger"
-import { Mono0PackageJson } from "@devp0nt/mono0/packageJson"
-import { Mono0Tsconfig } from "@devp0nt/mono0/tsconfig"
-import { Mono0Unit } from "@devp0nt/mono0/unit"
-import watcherGen0 from "@devp0nt/mono0/watcher-gen0"
+import { Mono0Config } from "./config"
+import { Mono0Logger } from "./logger"
+import { Mono0PackageJson } from "./packageJson"
+import { Mono0Tsconfig } from "./tsconfig"
+import { Mono0Unit } from "./unit"
+import watcherGen0 from "./watcher-gen0"
 
 // TODO: modules/{trpc,idea,...}/{backend,site,shared}
 // TODO: mono0.getFilePathWithPackageName + gen0 importFromFiles

@@ -5,9 +5,9 @@ import type { inferRouterInputs, inferRouterOutputs } from "@trpc/server"
 
 // @gen0:start await importExportedFromFiles("~/**/route{s,}.ts", "TrpcRoute")
 
-import { getAppConfigTrpcRoute } from "../../../../modules/appConfig/backend/routes.js"
-import { getIdeasTrpcRoute, getIdeaTrpcRoute } from "../../../../modules/idea/backend/routes.js"
-import { pingTrpcRoute } from "./ping/route.js"
+import { getAppConfigTrpcRoute } from "../../../../../modules/appConfig/backend/src/routes.js"
+import { getIdeasTrpcRoute, getIdeaTrpcRoute } from "../../../../../modules/idea/backend/src/routes.js"
+import { pingTrpcRoute } from "../ping/route.js"
 // @gen0:end
 
 export namespace BackendTrpcRouter {
