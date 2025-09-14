@@ -260,9 +260,9 @@ export class Mono0PackageJson {
     .object({
       clearWorkspaces: z.union([z.boolean(), z.string()]).optional(),
       addWorkspaces: z.union([z.boolean(), z.string()]).optional(),
-      clearExports: z.boolean().optional(),
       clearWorkspaceDeps: z.boolean().optional(),
       addWorkspaceDeps: z.boolean().optional(),
+      clearExports: z.boolean().optional(),
       addExportsFromDist: z
         .union([
           z.boolean(),

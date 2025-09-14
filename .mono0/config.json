@@ -1,4 +1,21 @@
 {
+  "packageJson": {
+    "path": "../package.json",
+    "settings": {
+      "clearWorkspaces": "workspaces.papackages",
+      "addWorkspaces": "workspaces.packages",
+      "clearWorkspaceDeps": false,
+      "addWorkspaceDeps": false,
+      "clearExports": false,
+      "addExportsFromDist": false,
+      "addExportsFromSrc": false
+    },
+    "value": {
+      "name": "ideanick",
+      "private": true,
+      "type": "module"
+    }
+  },
   "tsconfigs": {
     "root": {
       "path": "../tsconfig.json",
@@ -70,10 +87,10 @@
         "settings": {
           "clearWorkspaces": false,
           "addWorkspaces": false,
-          "clearExports": false,
-          "clearWorkspaceDeps": false,
-          "addWorkspaceDeps": false,
-          "addExportsFromDist": false,
+          "clearWorkspaceDeps": true,
+          "addWorkspaceDeps": true,
+          "clearExports": true,
+          "addExportsFromDist": true,
           "addExportsFromSrc": false
         },
         "value": {
@@ -83,14 +100,14 @@
       },
       "tsconfig": {
         "settings": {
-          "clearPaths": false,
-          "setSrcAsRootDir": false,
-          "addSrcToInclude": false,
-          "addSelfSrcToPaths": false,
-          "addUnitsSrcToPaths": false,
+          "clearPaths": true,
+          "setSrcAsRootDir": true,
+          "addSrcToInclude": true,
+          "addSelfSrcToPaths": true,
+          "addUnitsSrcToPaths": true,
           "addUnitsDistToPaths": false,
-          "clearReferences": false,
-          "addDepsAsReferences": false,
+          "clearReferences": true,
+          "addDepsAsReferences": true,
           "addDeepDepsAsReferences": false
         },
         "value": {

@@ -4,7 +4,7 @@ import { uniqBy } from "lodash"
 import type { TsConfigJson as TsConfigJsonTypeFest } from "type-fest"
 import z from "zod"
 import type { Mono0Config } from "./config"
-import { Mono0Unit } from "./unit"
+import type { Mono0Unit } from "./unit"
 import { omit, replacePlaceholdersDeep } from "./utils"
 
 export class Mono0Tsconfig {
@@ -76,7 +76,7 @@ export class Mono0Tsconfig {
     return generalTsconfigs
   }
 
-  static parseValue({
+  static async parseValue({
     value,
     config,
     fs0,
@@ -218,7 +218,8 @@ export class Mono0Tsconfig {
       const scope = addUnitsSrcToPaths.scope
       const unitsScoped = scope === "all" ? units : unit?.deps.map((dep) => dep.unit) || []
       const match = addUnitsSrcToPaths.match
-      const unitsFiltered = Mono0Unit.filterUnits({ units: unitsScoped, match })
+      const { Mono0Unit: Mono0UnitClass } = await import("./unit")
+      const unitsFiltered = Mono0UnitClass.filterUnits({ units: unitsScoped, match })
       result.compilerOptions = {
         ...(result.compilerOptions || {}),
         paths: {
@@ -240,7 +241,8 @@ export class Mono0Tsconfig {
       const scope = addUnitsDistToPaths.scope
       const unitsScoped = scope === "all" ? units : unit?.deps.map((dep) => dep.unit) || []
       const match = addUnitsDistToPaths.match
-      const unitsFiltered = Mono0Unit.filterUnits({ units: unitsScoped, match })
+      const { Mono0Unit: Mono0UnitClass } = await import("./unit")
+      const unitsFiltered = Mono0UnitClass.filterUnits({ units: unitsScoped, match })
       result.compilerOptions = {
         ...(result.compilerOptions || {}),
         paths: {
@@ -265,8 +267,8 @@ export class Mono0Tsconfig {
 
     return result
   }
-  parseValue({ units }: { units: Mono0Unit[] }) {
-    return Mono0Tsconfig.parseValue({
+  async parseValue({ units }: { units: Mono0Unit[] }) {
+    return await Mono0Tsconfig.parseValue({
       value: this.value,
       config: this.config,
       fs0: this.fs0,
@@ -279,7 +281,7 @@ export class Mono0Tsconfig {
   }
 
   async write({ units }: { units: Mono0Unit[] }) {
-    const valueParsed = Mono0Tsconfig.parseValue({
+    const valueParsed = await Mono0Tsconfig.parseValue({
       value: this.value,
       config: this.config,
       fs0: this.fs0,
@@ -388,7 +390,10 @@ export class Mono0Tsconfig {
   static definitionDefault = {
     path: "tsconfig.json",
     value: {},
-    settings: {},
+    settings: {
+      addUnitsSrcToPaths: false,
+      addUnitsDistToPaths: false,
+    },
   } satisfies Mono0Tsconfig.FullDefinition
 
   static merge(...tsconfigs: [Mono0Tsconfig.Json, ...Mono0Tsconfig.Json[]]): Mono0Tsconfig.Json {
@@ -404,10 +409,10 @@ export class Mono0Tsconfig {
     }, {} as Mono0Tsconfig.Json)
   }
 
-  getMeta({ units }: { units: Mono0Unit[] }) {
+  async getMeta({ units }: { units: Mono0Unit[] }) {
     return {
       path: this.file0.path.rel,
-      value: this.parseValue({ units }),
+      value: await this.parseValue({ units }),
     }
   }
 }

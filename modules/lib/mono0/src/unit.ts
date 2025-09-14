@@ -134,7 +134,7 @@ export class Mono0Unit {
     })
     unit.tsconfig.unit = unit
     unit.packageJson.unit = unit
-    const tsconfigValue = unit.tsconfig.parseValue({ units: [] })
+    const tsconfigValue = await unit.tsconfig.parseValue({ units: [] })
     const outDir = tsconfigValue.compilerOptions?.outDir || "./dist"
     const distFs0 = unit.tsconfig.file0.fs0.createFs0({ cwd: outDir })
     unit.distFs0 = distFs0
@@ -462,7 +462,7 @@ export class Mono0Unit {
       path: this.config.rootFs0.toRel(this.fs0.cwd),
       presets: this.presets,
       settings: this.settings,
-      tsconfig: this.tsconfig.getMeta({ units }),
+      tsconfig: await this.tsconfig.getMeta({ units }),
       packageJson: await this.packageJson.getMeta({ units }),
       deps: this.deps.map((d) => d.unit.name),
       filesPaths: this.filesPaths,
