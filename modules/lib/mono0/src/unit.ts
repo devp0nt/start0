@@ -115,7 +115,7 @@ export class Mono0Unit {
     })
     unit.tsconfig.unit = unit
     unit.packageJson.unit = unit
-    const tsconfigValue = unit.tsconfig.parseValue()
+    const tsconfigValue = unit.tsconfig.parseValue({ units: [] })
     const outDir = tsconfigValue.compilerOptions?.outDir || "./dist"
     const distFs0 = unit.tsconfig.file0.fs0.createFs0({ cwd: outDir })
     unit.distFs0 = distFs0
