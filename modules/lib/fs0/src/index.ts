@@ -6,6 +6,7 @@ import readline from "node:readline"
 import dotenv from "dotenv"
 import { findUp, findUpSync } from "find-up"
 import { type Options as GlobbyOptions, globby, globbySync } from "globby"
+import { createJiti } from "jiti"
 import micromatch from "micromatch"
 
 export class Fs0 {
@@ -538,6 +539,18 @@ export class Fs0 {
     return (await import(`${path}?t=${Date.now()}`).then((m) => m.default)) as T
   }
 
+  async importFresh1<T = any>(path: string, alias?: Record<string, string>): Promise<T> {
+    path = this.toAbs(path)
+    const jiti = createJiti(import.meta.url, { alias })
+    return await jiti.import(`${path}?t=${Date.now()}`)
+  }
+
+  async importFreshDefault1<T = any>(path: string, alias?: Record<string, string>): Promise<T> {
+    path = this.toAbs(path)
+    const jiti = createJiti(import.meta.url, { alias })
+    return (await jiti.import(`${path}?t=${Date.now()}`, { default: true, ...alias })) as T
+  }
+
   async rm(path: string) {
     try {
       await fs.rm(path)
@@ -651,6 +664,16 @@ export class File0 {
 
   async importFreshDefault<T = any>(): Promise<T> {
     return (await import(`${this.path.abs}?t=${Date.now()}`).then((m) => m.default)) as T
+  }
+
+  async importFresh1<T = any>(alias?: Record<string, string>): Promise<T> {
+    const jiti = createJiti(import.meta.url, { alias })
+    return await jiti.import(`${this.path.abs}?t=${Date.now()}`)
+  }
+
+  async importFreshDefault1<T = any>(alias?: Record<string, string>): Promise<T> {
+    const jiti = createJiti(import.meta.url, { alias })
+    return (await jiti.import(`${this.path.abs}?t=${Date.now()}`, { default: true })) as T
   }
 
   async isContentMatch(search: Fs0.StringMatchInput) {

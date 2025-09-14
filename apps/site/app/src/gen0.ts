@@ -63,12 +63,15 @@ export default (async ({ fs0, _ }) => {
     pagesPaths = pagesPaths || (await fs0.findFilesPaths(pagesGlob))
     const input: RRInput[] = await Promise.all(
       pagesPaths.map((pagePath) =>
-        fs0.importFreshDefault<Page0<any, any>>(pagePath).then(async (page) => {
-          const { routePathRelativeToAppDir } = getHelpersByPagePath(pagePath)
-          const layouts = page.layouts
-          const route0Definition = page.route.getDefinition()
-          return { routePathRelativeToAppDir, layouts, route0Definition }
-        }),
+        fs0
+          // .importFreshDefault1<Page0<any, any>>(pagePath, { "@site/core/*": "../../apps/site/core/*" })
+          .importFreshDefault<Page0<any, any>>(pagePath)
+          .then(async (page) => {
+            const { routePathRelativeToAppDir } = getHelpersByPagePath(pagePath)
+            const layouts = page.layouts
+            const route0Definition = page.route.getDefinition()
+            return { routePathRelativeToAppDir, layouts, route0Definition }
+          }),
       ),
     )
     const structure = buildRoutesStructure(input, catchall)
