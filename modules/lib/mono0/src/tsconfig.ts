@@ -48,12 +48,14 @@ export class Mono0Tsconfig {
     fs0,
     file0,
     unit,
+    units,
   }: {
     value: Mono0Tsconfig.Json
     config: Mono0Config
     fs0: Fs0
     file0: File0
     unit?: Mono0Unit
+    units: Mono0Unit[]
   }) {
     const result = value
     if (result.extends) {
@@ -127,14 +129,25 @@ export class Mono0Tsconfig {
       //     [`${unit.name}/*`]: [`${fs0.toRel(unit.srcFs0.cwd)}/*`],
       //   },
       // }
+      // result.compilerOptions = {
+      //   ...(result.compilerOptions || {}),
+      //   paths: {
+      //     [`${unit.name}/*`]: [`${fs0.toRel(unit.srcFs0.cwd)}/*`],
+      //     ...Object.fromEntries(
+      //       unit.deps.flatMap((d) => [
+      //         [`${d.unit.name}/*`, [`${fs0.toRel(d.unit.srcFs0.cwd)}/*`]],
+      //         ...(d.unit.indexFile0 ? [[`${d.unit.name}`, [`${fs0.toRel(d.unit.indexFile0.path.abs)}`]]] : []),
+      //       ]),
+      //     ),
+      //   },
+      // }
       result.compilerOptions = {
         ...(result.compilerOptions || {}),
         paths: {
-          [`${unit.name}/*`]: [`${fs0.toRel(unit.srcFs0.cwd)}/*`],
           ...Object.fromEntries(
-            unit.deps.flatMap((d) => [
-              [`${d.unit.name}/*`, [`${fs0.toRel(d.unit.srcFs0.cwd)}/*`]],
-              ...(d.unit.indexFile0 ? [[`${d.unit.name}`, [`${fs0.toRel(d.unit.indexFile0.path.abs)}`]]] : []),
+            units.flatMap((d) => [
+              [`${d.name}/*`, [`${fs0.toRel(d.srcFs0.cwd)}/*`]],
+              ...(d.indexFile0 ? [[`${d.name}`, [`${fs0.toRel(d.indexFile0.path.abs)}`]]] : []),
             ]),
           ),
         },
@@ -148,23 +161,25 @@ export class Mono0Tsconfig {
     }
     return result
   }
-  parseValue() {
+  parseValue({ units }: { units: Mono0Unit[] }) {
     return Mono0Tsconfig.parseValue({
       value: this.value,
       config: this.config,
       fs0: this.fs0,
       file0: this.file0,
       unit: this.unit,
+      units,
     })
   }
 
-  async write() {
+  async write({ units }: { units: Mono0Unit[] }) {
     const valueParsed = Mono0Tsconfig.parseValue({
       value: this.value,
       config: this.config,
       fs0: this.fs0,
       file0: this.file0,
       unit: this.unit,
+      units,
     })
     await this.file0.write(JSON.stringify(valueParsed, null, 2), true)
   }
@@ -192,6 +207,7 @@ export class Mono0Tsconfig {
       fs0: tsconfig.fs0,
       file0: tsconfig.file0,
       unit: tsconfig.unit,
+      units,
     })
     const references = units.map((unit) => ({
       path: unit.tsconfig.file0.relToDir(tsconfig.file0),
@@ -224,6 +240,7 @@ export class Mono0Tsconfig {
       fs0: tsconfig.fs0,
       file0: tsconfig.file0,
       unit: tsconfig.unit,
+      units,
     })
     // we set it individually per each unit
     // const paths = Object.fromEntries(
@@ -279,10 +296,10 @@ export class Mono0Tsconfig {
     }, {} as Mono0Tsconfig.Json)
   }
 
-  getMeta() {
+  getMeta({ units }: { units: Mono0Unit[] }) {
     return {
       path: this.file0.path.rel,
-      value: this.parseValue(),
+      value: this.parseValue({ units }),
     }
   }
 }

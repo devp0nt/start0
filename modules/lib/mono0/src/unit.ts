@@ -235,8 +235,8 @@ export class Mono0Unit {
     }
   }
 
-  async writeTsconfig() {
-    await this.tsconfig.write()
+  async writeTsconfig({ units }: { units: Mono0Unit[] }) {
+    await this.tsconfig.write({ units })
   }
 
   async writePackageJson() {
@@ -407,13 +407,13 @@ export class Mono0Unit {
     return pathInDist
   }
 
-  async getMeta() {
+  async getMeta({ units }: { units: Mono0Unit[] }) {
     return {
       name: this.name,
       tags: this.tags,
       path: this.config.rootFs0.toRel(this.fs0.cwd),
       presets: this.presets,
-      tsconfig: this.tsconfig.getMeta(),
+      tsconfig: this.tsconfig.getMeta({ units }),
       packageJson: await this.packageJson.getMeta(),
       deps: this.deps.map((d) => d.unit.name),
       filesPaths: this.filesPaths,

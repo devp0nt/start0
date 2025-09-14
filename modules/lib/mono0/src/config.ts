@@ -95,9 +95,11 @@ export class Mono0Config {
       .default({}),
   })
 
-  getMeta() {
+  getMeta({ units }: { units: Mono0Unit[] }) {
     return {
-      tsconfigs: Object.fromEntries(Object.entries(this.tsconfigs).map(([key, tsconfig]) => [key, tsconfig.getMeta()])),
+      tsconfigs: Object.fromEntries(
+        Object.entries(this.tsconfigs).map(([key, tsconfig]) => [key, tsconfig.getMeta({ units })]),
+      ),
       filesSelectors: this.filesSelectors,
       unitsSelectors: this.unitsSelectors,
       settings: this.settings,

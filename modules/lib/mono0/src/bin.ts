@@ -46,7 +46,9 @@ program
   .description("Show units")
   .action(
     withMono0(async (mono0) => {
-      logger.info(JSON.stringify(await Promise.all(mono0.units.map((unit) => unit.getMeta())), null, 2))
+      logger.info(
+        JSON.stringify(await Promise.all(mono0.units.map((unit) => unit.getMeta({ units: mono0.units }))), null, 2),
+      )
     }),
   )
 

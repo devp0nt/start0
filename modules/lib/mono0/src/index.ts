@@ -61,11 +61,11 @@ export class Mono0 {
       if (tsconfigName === "root" || tsconfigName === "base") {
         continue
       }
-      await tsconfig.write()
+      await tsconfig.write({ units: this.units })
     }
     let packageJsonsDepsChanged = false
     for (const unit of this.units) {
-      await unit.writeTsconfig()
+      await unit.writeTsconfig({ units: this.units })
       const { depsChanged } = await unit.writePackageJson()
       packageJsonsDepsChanged = packageJsonsDepsChanged || depsChanged
     }
