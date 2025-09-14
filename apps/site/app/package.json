@@ -20,6 +20,10 @@
       "import": "./dist/*.js",
       "types": "./dist/*.d.ts"
     },
+    "./components/*": {
+      "import": "./dist/components/*.js",
+      "types": "./dist/components/*.d.ts"
+    },
     "./pages/*": {
       "import": "./dist/pages/*.js",
       "types": "./dist/pages/*.d.ts"
