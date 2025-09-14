@@ -58,13 +58,13 @@ lint *ARGS:
 # prisma commands
 
 prisma-migrate-dev *ARGS:
-  bun run --filter @prisma0/backend --env-file=./.env prisma migrate dev {{ARGS}}
+  cd ./modules/prisma0/backend && bun run --env-file=./.env prisma migrate dev {{ARGS}}
 
 prisma-migrate-test *ARGS:
-  bun run --filter @prisma0/backend --env-file=./.env.test prisma migrate dev {{ARGS}}
+  cd ./modules/prisma0/backend && bun run --env-file=./.env.test prisma migrate dev {{ARGS}}
 
 prisma-generate-client *ARGS:
-  bun run --filter @prisma0/backend --env-file=./.env prisma generate client {{ARGS}}
+  cd ./modules/prisma0/backend && bun run --env-file=./.env prisma generate client {{ARGS}}
 
 # tools
 

@@ -17,7 +17,7 @@ export namespace Prisma0 {
     isTestNodeEnv: boolean
     isLocalHostEnv: boolean
   }) => {
-    const { logger } = tri0.extendExtendable({
+    const { logger } = tri0.extend({
       tagPrefix: "prisma",
     })
     const prismaOriginal = new PrismaClient({

@@ -120,7 +120,7 @@ export const importExportedFromFiles = (
       ? exportNames.map((exportName: string) => exportName.slice(0, -exportEndsWith.length))
       : exportNames
     let path = pathResolver(file0)
-    if (replaceExt) {
+    if (replaceExt !== undefined && replaceExt !== false) {
       path = ctx.fs0.replaceExt(path, replaceExt)
     }
     result.files.push({ path, names: exportNames, cutted: exportNamesCutted })

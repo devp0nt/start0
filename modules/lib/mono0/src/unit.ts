@@ -394,7 +394,7 @@ export class Mono0Unit {
     for (const unit of units) {
       if (unit.filesPaths.includes(absFilePath)) {
         const relFilePath = unit.srcFs0.toRel(absFilePath)
-        return `${unit.name}/${relFilePath}`
+        return nodePath.join(unit.name, relFilePath)
       }
     }
     return absFilePath

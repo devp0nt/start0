@@ -13,6 +13,10 @@
     "./*": {
       "import": "./dist/*.js",
       "types": "./dist/*.d.ts"
+    },
+    "./ping/*": {
+      "import": "./dist/ping/*.js",
+      "types": "./dist/ping/*.d.ts"
     }
   }
 }

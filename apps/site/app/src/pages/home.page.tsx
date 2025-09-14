@@ -4,7 +4,7 @@ import { siteRoutes } from "@site/core/lib/routes"
 import { trpc, useTRPC } from "@site/core/lib/trpc"
 import { useQuery } from "@tanstack/react-query"
 
-export default Page0.route(siteRoutes.home)
+const page = Page0.route(siteRoutes.home)
   .loader(async ({ qc }) => {
     return await qc.fetchQuery(trpc.ping.queryOptions())
   })
@@ -21,3 +21,5 @@ export default Page0.route(siteRoutes.home)
       </div>
     )
   })
+
+export default page

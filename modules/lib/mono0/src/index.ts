@@ -45,6 +45,13 @@ export class Mono0 {
     return new Mono0({ rootFs0, config, units })
   }
 
+  async refresh() {
+    this.config = await Mono0Config.get()
+    this.rootFs0 = this.config.rootFs0
+    this.units = await Mono0Unit.findAndCreateUnits({ rootFs0: this.rootFs0, config: this.config })
+    return this
+  }
+
   async sync() {
     await Mono0Tsconfig.writeBaseTsconfig({
       tsconfig: this.config.tsconfigs.base,

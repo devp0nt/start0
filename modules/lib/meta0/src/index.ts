@@ -10,6 +10,8 @@ import z from "zod"
 // TODO: meta0#extend
 
 export class Meta0 {
+  public readonly __I_AM_META_0: true = true
+
   private value: Readonly<Meta0.ValueType>
   private parent: Meta0 | undefined
 
@@ -84,6 +86,10 @@ export class Meta0 {
     if (input instanceof Meta0) {
       return input
     }
+    if (typeof input === "object" && input !== null && "__I_AM_META_0" in input && input.__I_AM_META_0) {
+      // TODO:ASAP HOW?????
+      return input as never as Meta0
+    }
     return new Meta0({ input: input })
   }
 
@@ -135,7 +141,8 @@ export class Meta0 {
       if (Meta0.isPrimitive(value)) {
         return value
       }
-      return "__NOT_PRIMITIVE__"
+      // return "__NOT_PRIMITIVE__"
+      return value
     })
   }
 
