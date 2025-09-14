@@ -5,6 +5,9 @@
   "name": "@backend/services",
   "private": true,
   "type": "module",
+  "scripts": {
+    "dev": "bun src/dev.ts --watch"
+  },
   "exports": {
     "./*": {
       "import": "./dist/*",
