@@ -11,7 +11,7 @@
     "declarationDir": "./dist",
     "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@site/app/.tsbuildinfo",
     "rootDir": "./",
-    "rootDirs": ["./src", "./.react-router/types"],
+    "rootDirs": ["./", "./.react-router/types"],
     "paths": {
       "@site/app/*": ["./src/*"],
       "@devp0nt/env0/*": ["../../../modules/lib/env0/src/*"],

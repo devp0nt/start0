@@ -6,7 +6,7 @@
     "include": ["src/**/*", ".react-router/types/**/*"],
     "compilerOptions": {
       "rootDir": "./",
-      "rootDirs": ["./src", "./.react-router/types"]
+      "rootDirs": ["./", "./.react-router/types"]
     }
   }
 }
