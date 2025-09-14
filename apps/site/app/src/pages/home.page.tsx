@@ -20,6 +20,7 @@ const page = Page0.route(siteRoutes.home)
         <pre>{JSON.stringify({ dataFromLoader, dataFromClient }, null, 2)}</pre>
       </div>
     )
-  })
+    // TODO: why it is needed?
+  }) satisfies Page0<any, any>
 
 export default page

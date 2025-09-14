@@ -6,6 +6,12 @@
   },
   "name": "@site/app",
   "private": true,
+  "scripts": {
+    "build": "react-router build",
+    "dev": "react-router dev",
+    "start": "react-router-serve ./dist/server/index.js",
+    "typecheck": "react-router typegen && tsc"
+  },
   "exports": {
     "./*": {
       "import": "./dist/*.js",

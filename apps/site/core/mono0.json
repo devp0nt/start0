@@ -1,5 +1,5 @@
 {
   "name": "@site/core",
   "preset": "site",
-  "deps": []
+  "deps": ["@backend/trpc-router", "@devp0nt/route0"]
 }

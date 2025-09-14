@@ -19,7 +19,8 @@
       "@site/core/*": ["../core/src/*"]
     }
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", ".react-router/types/**/*"],
+  "rootDirs": ["./src", "./.react-router/types"],
   "references": [
     {
       "path": "../../../modules/lib/gen0/tsconfig.json"

@@ -8,6 +8,7 @@ import { Mono0Tsconfig } from "./tsconfig"
 import { Mono0Unit } from "./unit"
 import watcherGen0 from "./watcher-gen0"
 
+// TODO: should force js extension? ...
 // TODO: mono0 run --filter X command
 // TODO: build sequntially
 // TODO: modules/{trpc,idea,...}/{backend,site,shared}
