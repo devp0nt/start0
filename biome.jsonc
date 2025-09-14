@@ -38,6 +38,12 @@
       "correctness": {
         "noEmptyPattern": "off",
         "noUnusedFunctionParameters": "off",
+        "noUndeclaredVariables": "error",
+        "useImportExtensions": {
+          "options": {
+            "forceJsExtensions": true
+          }
+        },
         "noConstructorReturn": "off"
       },
       "complexity": {
