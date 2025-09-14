@@ -18,10 +18,10 @@
   "include": ["src/**/*"],
   "references": [
     {
-      "path": "../../prisma/backend/tsconfig.json"
+      "path": "../../lib/route0/tsconfig.json"
     },
     {
-      "path": "../../lib/route0/tsconfig.json"
+      "path": "../../prisma/backend/tsconfig.json"
     }
   ]
 }

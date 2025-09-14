@@ -69,10 +69,10 @@ prisma-generate-client *ARGS:
 # tools
 
 gen0 *ARGS:
-  cd ./modules/lib/gen0 && bun --tsconfig-override ./tsconfig.json src/bin.ts {{ARGS}}
+  cd ./modules/lib/gen0 && NODE_OPTIONS="--conditions=development" bun src/bin.ts {{ARGS}}
 
 mono0 *ARGS:
-  cd ./modules/lib/mono0 && bun --tsconfig-override ./tsconfig.json src/bin.ts {{ARGS}}
+  cd ./modules/lib/mono0 && NODE_OPTIONS="--conditions=development" bun src/bin.ts {{ARGS}}
 
 # helpers
 

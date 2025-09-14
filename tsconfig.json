@@ -11,22 +11,7 @@
       "path": "./apps/backend/core/tsconfig.json"
     },
     {
-      "path": "./apps/site/app/tsconfig.json"
-    },
-    {
-      "path": "./modules/idea/shared/tsconfig.json"
-    },
-    {
-      "path": "./modules/idea/backend/tsconfig.json"
-    },
-    {
       "path": "./modules/appConfig/backend/tsconfig.json"
-    },
-    {
-      "path": "./modules/prisma/backend/tsconfig.json"
-    },
-    {
-      "path": "./apps/site/core/tsconfig.json"
     },
     {
       "path": "./modules/lib/lodash0/tsconfig.json"
@@ -35,19 +20,10 @@
       "path": "./modules/lib/mono0/tsconfig.json"
     },
     {
-      "path": "./modules/idea/site/tsconfig.json"
-    },
-    {
-      "path": "./modules/lib/gen0/tsconfig.json"
-    },
-    {
-      "path": "./modules/lib/x/tsconfig.json"
-    },
-    {
-      "path": "./modules/lib/env0/tsconfig.json"
-    },
-    {
       "path": "./modules/lib/logger0/tsconfig.json"
+    },
+    {
+      "path": "./modules/lib/deepmap0/tsconfig.json"
     },
     {
       "path": "./modules/lib/meta0/tsconfig.json"
@@ -56,13 +32,37 @@
       "path": "./modules/lib/error0/tsconfig.json"
     },
     {
-      "path": "./modules/lib/deepmap0/tsconfig.json"
+      "path": "./modules/lib/env0/tsconfig.json"
+    },
+    {
+      "path": "./modules/lib/gen0/tsconfig.json"
+    },
+    {
+      "path": "./modules/lib/x/tsconfig.json"
     },
     {
       "path": "./modules/lib/fs0/tsconfig.json"
     },
     {
       "path": "./modules/lib/route0/tsconfig.json"
+    },
+    {
+      "path": "./modules/prisma/backend/tsconfig.json"
+    },
+    {
+      "path": "./apps/site/core/tsconfig.json"
+    },
+    {
+      "path": "./apps/site/app/tsconfig.json"
+    },
+    {
+      "path": "./modules/idea/backend/tsconfig.json"
+    },
+    {
+      "path": "./modules/idea/shared/tsconfig.json"
+    },
+    {
+      "path": "./modules/idea/site/tsconfig.json"
     },
     {
       "path": "./apps/backend/router/trpc/tsconfig.json"

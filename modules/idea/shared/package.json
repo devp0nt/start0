@@ -1,7 +1,7 @@
 {
   "dependencies": {
-    "@prisma0/backend": "workspace:*",
-    "@devp0nt/route0": "workspace:*"
+    "@devp0nt/route0": "workspace:*",
+    "@prisma0/backend": "workspace:*"
   },
   "name": "@idea/shared",
   "private": true,
