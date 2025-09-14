@@ -80,6 +80,7 @@
       "tsconfig": {
         "compilerOptions": {
           "outDir": "./dist",
+          "declarationDir": "./dist",
           "tsBuildInfoFile": "~/node_modules/.cache/tsbuildinfo/{{name}}/.tsbuildinfo"
         },
         "exclude": ["$exclude"]

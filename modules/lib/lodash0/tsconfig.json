@@ -3,6 +3,7 @@
   "exclude": ["**/dist/**/*", "**/node_modules/**/*", "**/public/**/*"],
   "compilerOptions": {
     "outDir": "./dist",
+    "declarationDir": "./dist",
     "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@devp0nt/lodash0/.tsbuildinfo",
     "rootDir": "./src"
   },
