@@ -8,8 +8,10 @@ import { Mono0Tsconfig } from "./tsconfig"
 import { Mono0Unit } from "./unit"
 import watcherGen0 from "./watcher-gen0"
 
-// TODO: should force js extension? ...
 // TODO: mono0 run --filter X command
+// TODO: https://www.npmjs.com/package/tsc-esm-fix
+// TODO: https://www.npmjs.com/package/tsc-watch
+// TODO: tsc-esm-fix to watcher
 // TODO: build sequntially
 // TODO: modules/{trpc,idea,...}/{backend,site,shared}
 // TODO: mono0.getFilePathWithPackageName + gen0 importFromFiles
