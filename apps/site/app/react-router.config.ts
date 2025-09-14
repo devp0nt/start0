@@ -6,5 +6,7 @@ export default {
   ssr: true,
   buildDirectory: "dist",
   appDirectory: "src",
-  future: {},
+  future: {
+    v8_middleware: true,
+  },
 } satisfies Config

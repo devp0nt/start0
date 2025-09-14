@@ -19,7 +19,7 @@ export const links: Route.LinksFunction = () => [
   },
 ]
 
-export const unstable_middleware = [SiteCtx.rrMiddleware]
+export const middleware = [SiteCtx.rrMiddleware]
 
 // keep this loader to hydrate query client with siteCtx
 // so on page error, we still have siteCtx
