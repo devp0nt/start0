@@ -104,7 +104,6 @@ export class Mono0Unit {
     const exclude = tsconfigValue.exclude ?? []
     const excludeGlob = exclude.map((e) => `!${e}`)
     const filesPaths = await unit.tsconfig.file0.fs0.glob([...includeGlob, ...excludeGlob])
-    console.dir({ includeGlob, excludeGlob, tsconfigValue, filesPaths }, { depth: null })
     unit.filesPaths = filesPaths
     return unit
   }
