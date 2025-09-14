@@ -11,20 +11,8 @@
   },
   "exports": {
     "./*": {
-      "import": [
-        "./src/*.ts",
-        "./src/*.tsx",
-        "./src/*.js",
-        "./src/*.jsx",
-        "./src/*.json"
-      ],
-      "types": [
-        "./src/*.ts",
-        "./src/*.tsx",
-        "./src/*.js",
-        "./src/*.jsx",
-        "./src/*.json"
-      ]
+      "import": "./dist/*.js",
+      "types": "./dist/*.d.ts"
     }
   }
 }

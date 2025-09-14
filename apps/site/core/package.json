@@ -7,36 +7,12 @@
   "private": true,
   "exports": {
     "./components/*": {
-      "import": [
-        "./src/components/*.ts",
-        "./src/components/*.tsx",
-        "./src/components/*.js",
-        "./src/components/*.jsx",
-        "./src/components/*.json"
-      ],
-      "types": [
-        "./src/components/*.ts",
-        "./src/components/*.tsx",
-        "./src/components/*.js",
-        "./src/components/*.jsx",
-        "./src/components/*.json"
-      ]
+      "import": "./dist/components/*.js",
+      "types": "./dist/components/*.d.ts"
     },
     "./lib/*": {
-      "import": [
-        "./src/lib/*.ts",
-        "./src/lib/*.tsx",
-        "./src/lib/*.js",
-        "./src/lib/*.jsx",
-        "./src/lib/*.json"
-      ],
-      "types": [
-        "./src/lib/*.ts",
-        "./src/lib/*.tsx",
-        "./src/lib/*.js",
-        "./src/lib/*.jsx",
-        "./src/lib/*.json"
-      ]
+      "import": "./dist/lib/*.js",
+      "types": "./dist/lib/*.d.ts"
     }
   },
   "type": "module"

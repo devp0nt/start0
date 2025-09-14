@@ -69,9 +69,9 @@
       "settings": {
         "addSelfSrcPathToTsconfig": true,
         "addPathsToTsconfigOfAllUnits": false,
-        "addPathsToTsconfigOfDependentUnits": false,
-        "addExportsToPackageJsonFromDistDir": false,
-        "addExportsToPackageJsonFromSrcDir": true,
+        "addPathsToTsconfigOfDependentUnits": true,
+        "addExportsToPackageJsonFromDistDir": true,
+        "addExportsToPackageJsonFromSrcDir": false,
         "addExportsToPackageJsonFromSrcDirExts": false,
         "removeExportsFromPackageJson": false,
         "addReferencesToTsconfigOfDependentUnits": true

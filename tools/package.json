@@ -5,24 +5,12 @@
   "dependencies": {},
   "exports": {
     ".": {
-      "import": "./src/index.ts",
-      "types": "./src/index.ts"
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
     },
     "./*": {
-      "import": [
-        "./src/*.ts",
-        "./src/*.tsx",
-        "./src/*.js",
-        "./src/*.jsx",
-        "./src/*.json"
-      ],
-      "types": [
-        "./src/*.ts",
-        "./src/*.tsx",
-        "./src/*.js",
-        "./src/*.jsx",
-        "./src/*.json"
-      ]
+      "import": "./dist/*.js",
+      "types": "./dist/*.d.ts"
     }
   }
 }

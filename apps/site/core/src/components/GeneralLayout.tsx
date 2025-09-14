@@ -103,7 +103,7 @@ export const GeneralLayout = ({ children }: { children?: React.ReactNode }) => {
   )
 }
 
-GeneralLayout.path = "@site/core/components/GeneralLayout.tsx"
+GeneralLayout.path = "../../core/src/components/GeneralLayout.tsx"
 export default function Layout() {
   return (
     <GeneralLayout>

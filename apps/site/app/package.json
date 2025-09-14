@@ -11,74 +11,26 @@
   "private": true,
   "scripts": {
     "build": "react-router build",
-    "dev": "react-router dev",
+    "dev": "bun run react-router dev",
     "start": "react-router-serve ./dist/server/index.js",
     "typecheck": "react-router typegen && tsc"
   },
   "exports": {
     "./*": {
-      "import": [
-        "./src/*.ts",
-        "./src/*.tsx",
-        "./src/*.js",
-        "./src/*.jsx",
-        "./src/*.json"
-      ],
-      "types": [
-        "./src/*.ts",
-        "./src/*.tsx",
-        "./src/*.js",
-        "./src/*.jsx",
-        "./src/*.json"
-      ]
+      "import": "./dist/*.js",
+      "types": "./dist/*.d.ts"
     },
     "./pages/*": {
-      "import": [
-        "./src/pages/*.ts",
-        "./src/pages/*.tsx",
-        "./src/pages/*.js",
-        "./src/pages/*.jsx",
-        "./src/pages/*.json"
-      ],
-      "types": [
-        "./src/pages/*.ts",
-        "./src/pages/*.tsx",
-        "./src/pages/*.js",
-        "./src/pages/*.jsx",
-        "./src/pages/*.json"
-      ]
+      "import": "./dist/pages/*.js",
+      "types": "./dist/pages/*.d.ts"
     },
     "./routes/*": {
-      "import": [
-        "./src/routes/*.ts",
-        "./src/routes/*.tsx",
-        "./src/routes/*.js",
-        "./src/routes/*.jsx",
-        "./src/routes/*.json"
-      ],
-      "types": [
-        "./src/routes/*.ts",
-        "./src/routes/*.tsx",
-        "./src/routes/*.js",
-        "./src/routes/*.jsx",
-        "./src/routes/*.json"
-      ]
+      "import": "./dist/routes/*.js",
+      "types": "./dist/routes/*.d.ts"
     },
     "./routes/generated/*": {
-      "import": [
-        "./src/routes/generated/*.ts",
-        "./src/routes/generated/*.tsx",
-        "./src/routes/generated/*.js",
-        "./src/routes/generated/*.jsx",
-        "./src/routes/generated/*.json"
-      ],
-      "types": [
-        "./src/routes/generated/*.ts",
-        "./src/routes/generated/*.tsx",
-        "./src/routes/generated/*.js",
-        "./src/routes/generated/*.jsx",
-        "./src/routes/generated/*.json"
-      ]
+      "import": "./dist/routes/generated/*.js",
+      "types": "./dist/routes/generated/*.d.ts"
     }
   },
   "type": "module"

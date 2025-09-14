@@ -12,7 +12,11 @@
     "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@idea/backend/.tsbuildinfo",
     "rootDir": "./src",
     "paths": {
-      "@idea/backend/*": ["./src/*"]
+      "@idea/backend/*": ["./src/*"],
+      "@backend/core/*": ["../../../apps/backend/core/src/*"],
+      "@idea/shared/*": ["../shared/src/*"],
+      "@prisma0/backend/*": ["../../prisma0/backend/src/*"],
+      "@prisma0/backend": ["../../prisma0/backend/src/index.ts"]
     }
   },
   "include": ["src/**/*"],

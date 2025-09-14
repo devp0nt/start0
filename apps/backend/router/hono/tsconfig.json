@@ -12,7 +12,8 @@
     "tsBuildInfoFile": "../../../../node_modules/.cache/tsbuildinfo/@backend/hono-router/.tsbuildinfo",
     "rootDir": "./src",
     "paths": {
-      "@backend/hono-router/*": ["./src/*"]
+      "@backend/hono-router/*": ["./src/*"],
+      "@backend/core/*": ["../../core/src/*"]
     }
   },
   "include": ["src/**/*"],
