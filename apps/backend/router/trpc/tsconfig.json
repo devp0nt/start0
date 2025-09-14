@@ -3,6 +3,11 @@
   "exclude": ["**/dist/**/*", "**/node_modules/**/*", "**/public/**/*"],
   "compilerOptions": {
     "outDir": "./dist",
+    "composite": true,
+    "declaration": true,
+    "declarationMap": true,
+    "emitDeclarationOnly": false,
+    "noEmitOnError": false,
     "declarationDir": "./dist",
     "tsBuildInfoFile": "../../../../node_modules/.cache/tsbuildinfo/@backend/trpc-router/.tsbuildinfo",
     "rootDir": "./src"

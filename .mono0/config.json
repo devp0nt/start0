@@ -13,11 +13,6 @@
           "lib": ["ESNext"],
           "types": ["node", "bun"],
           "target": "ESNext",
-          "composite": true,
-          "declaration": true,
-          "declarationMap": true,
-          "emitDeclarationOnly": false,
-          "noEmitOnError": false,
           "strict": true,
           "jsx": "react-jsx",
           "esModuleInterop": true,
@@ -79,6 +74,11 @@
       },
       "tsconfig": {
         "compilerOptions": {
+          "composite": true,
+          "declaration": true,
+          "declarationMap": true,
+          "emitDeclarationOnly": false,
+          "noEmitOnError": false,
           "outDir": "./dist",
           "declarationDir": "./dist",
           "tsBuildInfoFile": "~/node_modules/.cache/tsbuildinfo/{{name}}/.tsbuildinfo"
