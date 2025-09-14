@@ -62,17 +62,19 @@
     "backendCore": ["@prisma0/backend", "@lib"]
   },
   "settings": {
-    "installCommand": "bun install",
-    "addSelfSrcPathToTsconfig": false,
-    "addPathsToTsconfigOfAllUnits": false,
-    "addPathsToTsconfigOfDependentUnits": false,
-    "addExportsToPackageJsonFromDistDir": false,
-    "addExportsToPackageJsonFromSrcDir": false,
-    "removeExportsFromPackageJson": true,
-    "addReferencesToTsconfigOfDependentUnits": true
+    "installCommand": "bun install"
   },
   "presets": {
     "force": {
+      "settings": {
+        "addSelfSrcPathToTsconfig": false,
+        "addPathsToTsconfigOfAllUnits": false,
+        "addPathsToTsconfigOfDependentUnits": false,
+        "addExportsToPackageJsonFromDistDir": false,
+        "addExportsToPackageJsonFromSrcDir": false,
+        "removeExportsFromPackageJson": true,
+        "addReferencesToTsconfigOfDependentUnits": true
+      },
       "packageJson": {
         "private": true,
         "type": "module"

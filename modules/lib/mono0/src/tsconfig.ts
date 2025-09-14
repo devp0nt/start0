@@ -299,11 +299,6 @@ export class Mono0Tsconfig {
     })
     .optional()
     .default({})
-    .transform((val) => {
-      return {
-        addPathsToTsconfigOfAllUnits: val.addPathsToTsconfigOfAllUnits ?? false,
-      }
-    })
 
   static zFullDefinition = z.object({
     path: z.string().optional(),

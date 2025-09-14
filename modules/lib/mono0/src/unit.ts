@@ -399,18 +399,7 @@ export class Mono0Unit {
         addReferencesToTsconfigOfDependentUnits: z.boolean().optional(),
       })
       .optional()
-      .default({})
-      .transform((val) => {
-        return {
-          addSelfSrcPathToTsconfig: val.addSelfSrcPathToTsconfig ?? false,
-          addPathsToTsconfigOfAllUnits: val.addPathsToTsconfigOfAllUnits ?? false,
-          addPathsToTsconfigOfDependentUnits: val.addPathsToTsconfigOfDependentUnits ?? false,
-          addExportsToPackageJsonFromDistDir: val.addExportsToPackageJsonFromDistDir ?? false,
-          addExportsToPackageJsonFromSrcDir: val.addExportsToPackageJsonFromSrcDir ?? false,
-          removeExportsFromPackageJson: val.removeExportsFromPackageJson ?? false,
-          addReferencesToTsconfigOfDependentUnits: val.addReferencesToTsconfigOfDependentUnits ?? true,
-        }
-      }),
+      .default({}),
     deps: z
       .array(
         z.union([
