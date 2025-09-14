@@ -1,8 +1,8 @@
 import { deepMap } from "@devp0nt/deepmap0"
-import { assign, isArray, isPlainObject } from "lodash"
-import cloneDeep from "lodash/cloneDeep"
 import omit from "lodash/omit.js"
 import pick from "lodash/pick.js"
+import { assign, isArray, isPlainObject } from "lodash-es"
+import cloneDeep from "lodash-es/cloneDeep.js"
 import z from "zod"
 
 // TODO: many parents

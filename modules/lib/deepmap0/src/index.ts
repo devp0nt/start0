@@ -1,6 +1,6 @@
-import cloneDeep from "lodash/cloneDeep.js"
-import isArray from "lodash/isArray.js"
-import isObject from "lodash/isObject.js"
+import cloneDeep from "lodash-es/cloneDeep.js"
+import isArray from "lodash-es/isArray.js"
+import isObject from "lodash-es/isObject.js"
 
 // TODO: add path array
 // TODO: add path array

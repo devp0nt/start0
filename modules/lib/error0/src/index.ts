@@ -1,6 +1,6 @@
 import { Meta0 } from "@devp0nt/meta0"
 import { type AxiosError, HttpStatusCode, isAxiosError } from "axios"
-import { get } from "lodash"
+import { get } from "lodash-es"
 import { ZodError } from "zod"
 
 // TODO: store tags as array from all causes
