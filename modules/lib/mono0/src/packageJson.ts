@@ -1,3 +1,4 @@
+import nodePath from "node:path"
 import type { File0, Fs0 } from "@devp0nt/fs0"
 import { isEqual } from "lodash"
 import type { PackageJson as PackageJsonTypeFest } from "type-fest"
@@ -13,6 +14,7 @@ export class Mono0PackageJson {
   config: Mono0Config
   value: Mono0PackageJson.ValueDefinition
   logger: Mono0Logger = Mono0Logger.create("packageJson")
+  unit?: Mono0Unit
 
   private constructor({
     name,
@@ -20,12 +22,21 @@ export class Mono0PackageJson {
     file0,
     config,
     value,
-  }: { name: string; fs0: Fs0; file0: File0; config: Mono0Config; value: Mono0PackageJson.ValueDefinition }) {
+    unit,
+  }: {
+    name: string
+    fs0: Fs0
+    file0: File0
+    config: Mono0Config
+    value: Mono0PackageJson.ValueDefinition
+    unit?: Mono0Unit
+  }) {
     this.name = name
     this.fs0 = fs0
     this.file0 = file0
     this.config = config
     this.value = value
+    this.unit = unit
   }
 
   static create({
@@ -33,15 +44,17 @@ export class Mono0PackageJson {
     definition,
     config,
     fs0,
+    unit,
   }: {
     name: string
     definition: Mono0PackageJson.DefinitionParsed
     config: Mono0Config
     fs0: Fs0
+    unit?: Mono0Unit
   }) {
     const file0 = definition.path ? fs0.createFile0(definition.path) : fs0.createFile0("package.json")
     const value = definition.value
-    return new Mono0PackageJson({ name, fs0, file0, config, value })
+    return new Mono0PackageJson({ name, fs0, file0, config, value, unit })
   }
 
   async getCurrentValue() {
@@ -76,25 +89,51 @@ export class Mono0PackageJson {
     const depsChanged = !isEqual(prevWorkspaceDeps, newWorkspaceDeps)
 
     if (!this.value.exports) {
-      const exports = {
-        ".": {
-          import: "./dist/index.js",
-          types: "./dist/index.d.ts",
-          development: {
-            import: "./src/index.ts",
-            types: "./src/index.ts",
+      // const exports = {
+      //   ".": {
+      //     import: "./dist/index.js",
+      //     types: "./dist/index.d.ts",
+      //     development: {
+      //       import: "./src/index.ts",
+      //       types: "./src/index.ts",
+      //     },
+      //   },
+      //   "./*": {
+      //     import: "./dist/*.js",
+      //     types: "./dist/*.d.ts",
+      //     development: {
+      //       import: "./src/*.ts",
+      //       types: "./src/*.ts",
+      //     },
+      //   },
+      // }
+      const unit = this.unit
+      if (unit) {
+        const dirsPaths = unit.dirsPaths.map((dirPath) => ({
+          relToPkg: this.file0.fs0.toRel(dirPath, true),
+          relToSrc: unit.srcFs0.toRel(dirPath, true),
+        }))
+        const exts = [".ts", ".tsx"]
+        const srcPath = this.file0.fs0.toRel(unit.srcFs0.cwd, true)
+        // replace more then 1 slah with one slash
+        const fixSlahes = (path: string) => path.replace(/\/+/g, "/")
+        const exports = {
+          ".": {
+            import: exts.map((ext) => fixSlahes(`${srcPath}/index${ext}`)),
+            types: exts.map((ext) => fixSlahes(`${srcPath}/index${ext}`)),
           },
-        },
-        "./*": {
-          import: "./dist/*.js",
-          types: "./dist/*.d.ts",
-          development: {
-            import: "./src/*.ts",
-            types: "./src/*.ts",
-          },
-        },
+          ...Object.fromEntries(
+            dirsPaths.map((dirPath) => [
+              nodePath.join(dirPath.relToSrc, "*"),
+              {
+                import: exts.map((ext) => fixSlahes(`${dirPath.relToPkg}/*${ext}`)),
+                types: exts.map((ext) => fixSlahes(`${dirPath.relToPkg}/*${ext}`)),
+              },
+            ]),
+          ),
+        }
+        mergedValue.exports = exports
       }
-      mergedValue.exports = exports
     }
 
     return { value: mergedValue, depsChanged }
@@ -124,7 +163,10 @@ export class Mono0PackageJson {
     dependencies: z.record(z.string(), z.string().optional()).optional(),
     devDependencies: z.record(z.string(), z.string().optional()).optional(),
     exports: z
-      .record(z.string(), z.record(z.string(), z.union([z.string(), z.record(z.string(), z.string())])).optional())
+      .record(
+        z.string(),
+        z.record(z.string(), z.union([z.string(), z.record(z.string(), z.string()), z.array(z.string())])).optional(),
+      )
       .optional(),
   })
 

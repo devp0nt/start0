@@ -1,3 +1,4 @@
+import nodePath from "node:path"
 import type { File0, Fs0 } from "@devp0nt/fs0"
 import z from "zod"
 import type { Mono0Config } from "./config"
@@ -18,6 +19,7 @@ export class Mono0Unit {
   depsDefs: Mono0Unit.DefinitionParsed["deps"]
   deps: Mono0Unit.Dependency[]
   filesPaths: string[]
+  dirsPaths: string[]
 
   static logger: Mono0Logger = Mono0Logger.create("unit")
   logger: Mono0Logger = Mono0Unit.logger
@@ -35,6 +37,7 @@ export class Mono0Unit {
     deps: Mono0Unit.Dependency[]
     depsDefs: Mono0Unit.DefinitionParsed["deps"]
     filesPaths: string[]
+    dirsPaths: string[]
   }) {
     this.unitConfigFile0 = input.unitConfigFile0
     this.fs0 = input.fs0
@@ -48,6 +51,7 @@ export class Mono0Unit {
     this.deps = input.deps
     this.depsDefs = input.depsDefs
     this.filesPaths = input.filesPaths
+    this.dirsPaths = input.dirsPaths
   }
 
   static async create({ unitConfigPath, config }: { unitConfigPath: string; config: Mono0Config }) {
@@ -97,14 +101,18 @@ export class Mono0Unit {
       deps: [],
       depsDefs: definition.deps,
       filesPaths: [],
+      dirsPaths: [],
     })
     unit.tsconfig.unit = unit
+    unit.packageJson.unit = unit
     const tsconfigValue = unit.tsconfig.parseValue()
     const includeGlob = tsconfigValue.include ?? []
     const exclude = tsconfigValue.exclude ?? []
     const excludeGlob = exclude.map((e) => `!${e}`)
     const filesPaths = await unit.tsconfig.file0.fs0.glob([...includeGlob, ...excludeGlob])
     unit.filesPaths = filesPaths
+    const dirsPaths = [...new Set(filesPaths.map((filePath) => nodePath.dirname(filePath)))]
+    unit.dirsPaths = dirsPaths
     return unit
   }
 
@@ -357,6 +365,16 @@ export class Mono0Unit {
         ),
       ),
   })
+
+  static getFilePathRelativeToPackageName({ absFilePath, units }: { absFilePath: string; units: Mono0Unit[] }) {
+    for (const unit of units) {
+      if (unit.filesPaths.includes(absFilePath)) {
+        const relFilePath = unit.srcFs0.toRel(absFilePath)
+        return `${unit.name}/${relFilePath}`
+      }
+    }
+    return absFilePath
+  }
 
   getMeta() {
     return {

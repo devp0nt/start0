@@ -105,7 +105,7 @@ export default (async ({ fs0, _ }) => {
       },
     },
   }
-}) satisfies Gen0Plugin.Definition
+}) as Gen0Plugin.Definition
 
 type RRInput = {
   routePathRelativeToAppDir: string

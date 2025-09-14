@@ -2,9 +2,9 @@ import type { BackendTrpcRouter } from "@backend/trpc-router"
 import { getQueryClient, trpc } from "@site/core/lib/trpc"
 import { type DehydratedState, dehydrate, type QueryClient, useQuery } from "@tanstack/react-query"
 import {
-  unstable_createContext,
-  type unstable_MiddlewareFunction,
-  type unstable_RouterContextProvider,
+  createContext as createReactRouterContext,
+  type MiddlewareFunction,
+  type RouterContextProvider,
 } from "react-router"
 import { createContext, useContext, useContextSelector } from "use-context-selector"
 
@@ -66,7 +66,7 @@ export namespace SiteCtx {
   export const useMe = () => useContextSelector(ReactContext, (ctx) => ctx.me)
   export const useAppConfig = () => useContextSelector(ReactContext, (ctx) => ctx.appConfig)
 
-  const rrContext = unstable_createContext<{
+  const rrContext = createReactRouterContext<{
     siteCtx: Ctx | null
     dehydratedState: DehydratedState | null
   }>({
@@ -74,7 +74,7 @@ export namespace SiteCtx {
     dehydratedState: null,
   })
 
-  export const rrMiddleware: unstable_MiddlewareFunction = async ({ context }) => {
+  export const rrMiddleware: MiddlewareFunction = async ({ context }) => {
     const qc = getQueryClient()
     const { siteCtx } = await SiteCtx.loader({ qc })
     context.set(rrContext, {
@@ -83,7 +83,7 @@ export namespace SiteCtx {
     })
   }
 
-  export const rrGetFromContextOrThrow = ({ context }: { context: Readonly<unstable_RouterContextProvider> }) => {
+  export const rrGetFromContextOrThrow = ({ context }: { context: Readonly<RouterContextProvider> }) => {
     const result = context.get(rrContext)
     if (!result) {
       throw new Error("siteCtx holder not found in react router context")

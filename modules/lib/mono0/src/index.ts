@@ -84,6 +84,10 @@ export class Mono0 {
     await mono0.sync()
   }
 
+  getFilePathRelativeToPackageName(absFilePath: string) {
+    return Mono0Unit.getFilePathRelativeToPackageName({ absFilePath, units: this.units })
+  }
+
   async watch() {
     const gen0 = await Gen0.create({
       configDefinition: {

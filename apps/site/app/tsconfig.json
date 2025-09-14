@@ -18,6 +18,9 @@
   "include": ["src/**/*"],
   "references": [
     {
+      "path": "../../../modules/lib/gen0/tsconfig.json"
+    },
+    {
       "path": "../core/tsconfig.json"
     }
   ]

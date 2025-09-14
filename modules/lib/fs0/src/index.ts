@@ -199,14 +199,14 @@ export class Fs0 {
   }
 
   async globFile0(
-    glob: string,
+    glob: string | string[],
     { cwd = this.cwd, relative, ...restOptions }: { cwd?: string; relative?: string | boolean } & GlobbyOptions = {},
   ): Promise<File0[]> {
     const paths = await this.glob(glob, { cwd, relative, ...restOptions })
     return paths.map((path) => this.createFile0(path))
   }
   globFile0Sync(
-    glob: string,
+    glob: string | string[],
     { cwd = this.cwd, relative, ...restOptions }: { cwd?: string; relative?: string | boolean } & GlobbyOptions = {},
   ): File0[] {
     const paths = this.globSync(glob, { cwd, relative, ...restOptions })

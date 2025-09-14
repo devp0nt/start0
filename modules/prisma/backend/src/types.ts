@@ -1,4 +1,4 @@
-import type { Idea } from "@/idea/utils.sh"
+import type { Idea } from "@idea/shared/utils"
 
 // This file must be a module, so we include an empty export.
 // export {}

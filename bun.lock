@@ -104,6 +104,7 @@
     "apps/site/app": {
       "name": "@site/app",
       "dependencies": {
+        "@devp0nt/gen0": "workspace:*",
         "@site/core": "workspace:*",
       },
     },
@@ -128,6 +129,9 @@
     },
     "modules/idea/site": {
       "name": "@idea/site",
+      "dependencies": {
+        "@site/core": "workspace:*",
+      },
     },
     "modules/lib/deepmap0": {
       "name": "@devp0nt/deepmap0",
@@ -168,6 +172,7 @@
     "modules/lib/mono0": {
       "name": "@devp0nt/mono0",
       "dependencies": {
+        "@devp0nt/fs0": "workspace:*",
         "@devp0nt/gen0": "workspace:*",
       },
     },
@@ -179,6 +184,9 @@
     },
     "modules/prisma/backend": {
       "name": "@prisma0/backend",
+      "dependencies": {
+        "@idea/shared": "workspace:*",
+      },
     },
     "tools": {
       "name": "@tools/shared",

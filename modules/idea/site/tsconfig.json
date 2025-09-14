@@ -16,5 +16,9 @@
     }
   },
   "include": ["src/**/*"],
-  "references": []
+  "references": [
+    {
+      "path": "../../../apps/site/core/tsconfig.json"
+    }
+  ]
 }

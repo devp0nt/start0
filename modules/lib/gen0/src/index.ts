@@ -5,6 +5,7 @@ import { Gen0Logger } from "./logger"
 import { Gen0PluginsManager } from "./pluginsManager"
 import { Gen0WatchersManager } from "./watchersManager"
 
+// TODO: self watch client always
 // TODO: В ген0 не делать так нагло сам клиент плагином. Достаточно вотчеры добавить
 // TODO: Ген0 плагин инит и процесс раздельно
 // TODO: fs → ffs (find existing lib)

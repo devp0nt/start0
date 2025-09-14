@@ -4,19 +4,11 @@ import { trpcServer } from "@hono/trpc-server"
 import type { inferRouterInputs, inferRouterOutputs } from "@trpc/server"
 
 // @gen0:start await importExportedFromFiles("~/**/route{s,}.ts", "TrpcRoute")
-
-import { getAppConfigTrpcRoute } from "../../../../../modules/appConfig/backend/src/routes.js"
-import { getIdeasTrpcRoute, getIdeaTrpcRoute } from "../../../../../modules/idea/backend/src/routes.js"
-import { pingTrpcRoute } from "../ping/route.js"
 // @gen0:end
 
 export namespace BackendTrpcRouter {
   export const trpcRouter = BackendTrpc.createTRPCRouter({
     // @gen0:start $.imports.map(im => print(`${im.cutted}: ${im.name},`))
-getAppConfig: getAppConfigTrpcRoute,
-getIdeas: getIdeasTrpcRoute,
-getIdea: getIdeaTrpcRoute,
-ping: pingTrpcRoute,
     // @gen0:end
   })
 

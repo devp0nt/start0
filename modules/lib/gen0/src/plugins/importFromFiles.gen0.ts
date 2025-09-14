@@ -1,5 +1,5 @@
 import nodeFsSync from "node:fs"
-import type { Fs0 } from "@devp0nt/fs0"
+import type { File0, Fs0 } from "@devp0nt/fs0"
 import type { Gen0ClientProcessCtx } from "@devp0nt/gen0/clientProcessCtx"
 import type { Gen0Plugin } from "@devp0nt/gen0/plugin"
 
@@ -86,14 +86,15 @@ export const importExportedFromFiles = (
   ctx: Gen0ClientProcessCtx,
   glob: Fs0.PathOrPaths,
   exportEndsWith?: string,
-  replaceExt: string | false = ".js",
+  pathResolver: (file0: File0) => string = (file0: File0) => file0.path.rel,
+  replaceExt: string | false = "",
   withEmptyLine: boolean = true,
   noWatcher: boolean = false,
 ) => {
   if (!noWatcher) {
     ctx.watch(glob)
   }
-  const paths = ctx.fs0.findFilesPathsSync(glob)
+  const file0s = ctx.fs0.globFile0Sync(glob)
   const result: {
     files: Array<{ path: string; names: string[]; cutted: string[] }>
     paths: string[]
@@ -107,8 +108,8 @@ export const importExportedFromFiles = (
     cutted: [],
     imports: [],
   }
-  for (let path of paths) {
-    let exportNames = getConstExportNames(ctx, path)
+  for (const file0 of file0s) {
+    let exportNames = getConstExportNames(ctx, file0.path.abs)
     if (exportEndsWith) {
       exportNames = exportNames.filter((exportName: string) => exportName.endsWith(exportEndsWith))
     }
@@ -118,10 +119,10 @@ export const importExportedFromFiles = (
     const exportNamesCutted = exportEndsWith
       ? exportNames.map((exportName: string) => exportName.slice(0, -exportEndsWith.length))
       : exportNames
+    let path = pathResolver(file0)
     if (replaceExt) {
       path = ctx.fs0.replaceExt(path, replaceExt)
     }
-    path = ctx.fs0.toRel(path, ctx.fs0.cwd)
     result.files.push({ path, names: exportNames, cutted: exportNamesCutted })
     result.names.push(...exportNames)
     result.cutted.push(...exportNamesCutted)
