@@ -269,6 +269,7 @@ export class Mono0Unit {
   }
 
   static sortFromIndependentToDependent({ units }: { units: Mono0Unit[] }) {
+    units = units.sort((a, b) => a.name.localeCompare(b.name))
     // Build adjacency list (deps graph)
     const graph = new Map<Mono0Unit, Mono0Unit[]>()
     const indegree = new Map<Mono0Unit, number>()

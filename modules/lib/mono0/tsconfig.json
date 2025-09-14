@@ -18,10 +18,10 @@
   "include": ["src/**/*"],
   "references": [
     {
-      "path": "../gen0/tsconfig.json"
+      "path": "../fs0/tsconfig.json"
     },
     {
-      "path": "../fs0/tsconfig.json"
+      "path": "../gen0/tsconfig.json"
     }
   ]
 }

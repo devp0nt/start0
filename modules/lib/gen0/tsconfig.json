@@ -18,13 +18,13 @@
   "include": ["src/**/*"],
   "references": [
     {
+      "path": "../fs0/tsconfig.json"
+    },
+    {
       "path": "../lodash0/tsconfig.json"
     },
     {
       "path": "../meta0/tsconfig.json"
-    },
-    {
-      "path": "../fs0/tsconfig.json"
     }
   ]
 }
