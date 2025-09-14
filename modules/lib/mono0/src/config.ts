@@ -1,4 +1,5 @@
 import { Fs0 } from "@devp0nt/fs0"
+import { Mono0PackageJson } from "@devp0nt/mono0/packageJson"
 import z from "zod"
 import { Mono0Tsconfig } from "./tsconfig"
 import { Mono0Unit } from "./unit"
@@ -6,7 +7,8 @@ import { Mono0Unit } from "./unit"
 export class Mono0Config {
   rootFs0: Fs0
   configFs0: Fs0
-  tsconfigs: Mono0Config.Tsconfigs
+  tsconfigs: Mono0Config.TsconfigsDefinitions
+  packageJson: Mono0PackageJson.FullDefinition
   filesSelectors: Mono0Config.DefinitionParsed["filesSelectors"]
   unitsSelectors: Mono0Config.DefinitionParsed["unitsSelectors"]
   settings: Mono0Config.DefinitionParsed["settings"]
@@ -15,7 +17,8 @@ export class Mono0Config {
   private constructor(input: {
     rootFs0: Fs0
     configFs0: Fs0
-    tsconfigs: Mono0Config.Tsconfigs
+    tsconfigs: Mono0Config.TsconfigsDefinitions
+    packageJson: Mono0PackageJson.FullDefinition
     filesSelectors: Mono0Config.DefinitionParsed["filesSelectors"]
     unitsSelectors: Mono0Config.DefinitionParsed["unitsSelectors"]
     settings: Mono0Config.DefinitionParsed["settings"]
@@ -24,6 +27,7 @@ export class Mono0Config {
     this.rootFs0 = input.rootFs0
     this.configFs0 = input.configFs0
     this.tsconfigs = input.tsconfigs
+    this.packageJson = input.packageJson
     this.filesSelectors = input.filesSelectors
     this.unitsSelectors = input.unitsSelectors
     this.settings = input.settings
@@ -54,30 +58,25 @@ export class Mono0Config {
     const config = new Mono0Config({
       rootFs0,
       configFs0,
-      tsconfigs: {},
+      tsconfigs: configDefinition.tsconfigs,
+      packageJson: configDefinition.packageJson,
       filesSelectors: configDefinition.filesSelectors,
       unitsSelectors: configDefinition.unitsSelectors,
       settings: configDefinition.settings,
       presets: configDefinition.presets,
     })
 
-    const tsconfigs = Object.fromEntries(
-      Object.entries(configDefinition.tsconfigs).map(([key, value]) => {
-        return [key, Mono0Tsconfig.create({ definition: value, config, fs0: configFile0.fs0 })]
-      }),
-    )
-    config.tsconfigs = tsconfigs
-
     return config
   }
 
   static zDefinition = z.object({
+    packageJson: Mono0PackageJson.zDefinition.optional().default({ value: {}, path: "package.json", settings: {} }),
     tsconfigs: z.record(z.string(), Mono0Tsconfig.zDefinition).optional().default({}),
     filesSelectors: z.record(z.string(), z.array(z.string())).optional().default({}),
     unitsSelectors: z.record(z.string(), z.array(z.string())).optional().default({}),
     settings: z
       .object({
-        installCommand: z.string().optional(),
+        onPackageJsonsDepsChangedCommand: z.string().optional(),
       })
       .optional()
       .default({}),
@@ -89,9 +88,8 @@ export class Mono0Config {
 
   getMeta({ units }: { units: Mono0Unit[] }) {
     return {
-      tsconfigs: Object.fromEntries(
-        Object.entries(this.tsconfigs).map(([key, tsconfig]) => [key, tsconfig.getMeta({ units })]),
-      ),
+      tsconfigs: this.tsconfigs,
+      packageJson: this.packageJson,
       filesSelectors: this.filesSelectors,
       unitsSelectors: this.unitsSelectors,
       settings: this.settings,
@@ -102,6 +100,7 @@ export class Mono0Config {
 
 export namespace Mono0Config {
   export type Definition = {
+    packageJson?: PackageJsonDefinition
     tsconfigs?: TsconfigsDefinitions
     filesSelectors?: FilesSelectors
     unitsSelectors?: UnitsSelectors
@@ -111,6 +110,7 @@ export namespace Mono0Config {
   export type DefinitionParsed = z.output<typeof Mono0Config.zDefinition>
   export type TsconfigsDefinitions = Record<string, Mono0Tsconfig.FullDefinition>
   export type Tsconfigs = Record<string, Mono0Tsconfig>
+  export type PackageJsonDefinition = Mono0PackageJson.FullDefinition | Mono0PackageJson.ValueDefinition
   export type FilesSelector = string[]
   export type FilesSelectors = Record<string, FilesSelector>
   export type UnitsSelector = string[]

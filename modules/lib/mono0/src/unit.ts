@@ -13,6 +13,7 @@ export class Mono0Unit {
   distFs0: Fs0
   indexFile0: File0 | undefined
   config: Mono0Config
+  generalTsconfigs: Mono0Tsconfig[]
   name: string
   tags: string[]
   tsconfig: Mono0Tsconfig
@@ -34,6 +35,7 @@ export class Mono0Unit {
     distFs0: Fs0
     indexFile0: File0 | undefined
     config: Mono0Config
+    generalTsconfigs: Mono0Tsconfig[]
     name: string
     tags: string[]
     tsconfig: Mono0Tsconfig
@@ -51,6 +53,7 @@ export class Mono0Unit {
     this.distFs0 = input.distFs0
     this.indexFile0 = input.indexFile0
     this.config = input.config
+    this.generalTsconfigs = input.generalTsconfigs
     this.name = input.name
     this.tags = input.tags
     this.tsconfig = input.tsconfig
@@ -63,7 +66,15 @@ export class Mono0Unit {
     this.dirsPaths = input.dirsPaths
   }
 
-  static async create({ unitConfigPath, config }: { unitConfigPath: string; config: Mono0Config }) {
+  static async create({
+    unitConfigPath,
+    config,
+    generalTsconfigs,
+  }: {
+    unitConfigPath: string
+    config: Mono0Config
+    generalTsconfigs: Mono0Tsconfig[]
+  }) {
     const unitConfigFile0 = config.rootFs0.createFile0(unitConfigPath)
     const definitionRaw = await unitConfigFile0.readJson<Mono0Unit.Definition>()
     const definitionParsed = Mono0Unit.zDefinition.safeParse(definitionRaw)
@@ -88,6 +99,9 @@ export class Mono0Unit {
     const tsconfig = Mono0Tsconfig.create({
       definition: definition.tsconfig,
       config,
+      generalTsconfigs,
+      // TODO:ASAP use record key
+      name: "core",
       fs0: unitConfigFile0.fs0,
       unit: undefined,
       settings: {
@@ -111,6 +125,7 @@ export class Mono0Unit {
       unitConfigFile0,
       fs0: unitConfigFile0.fs0,
       srcFs0,
+      generalTsconfigs,
       // will be overrided below
       distFs0: srcFs0,
       // will be overrided below
@@ -256,8 +271,8 @@ export class Mono0Unit {
     await this.tsconfig.write({ units })
   }
 
-  async writePackageJson() {
-    return await this.packageJson.write()
+  async writePackageJson({ units }: { units: Mono0Unit[] }) {
+    return await this.packageJson.write({ units })
   }
 
   hasMatchByMatchParsed(m: Mono0Unit.DependencyMatchParsed) {
@@ -304,13 +319,21 @@ export class Mono0Unit {
     return result
   }
 
-  static async findAndCreateUnits({ rootFs0, config }: { rootFs0: Fs0; config: Mono0Config }) {
+  static async findAndCreateUnits({
+    rootFs0,
+    config,
+    generalTsconfigs,
+  }: {
+    rootFs0: Fs0
+    config: Mono0Config
+    generalTsconfigs: Mono0Tsconfig[]
+  }) {
     const unitsConfigsPaths = await rootFs0.glob("**/mono0.json")
     if (!unitsConfigsPaths.length) {
       return []
     }
     const unitsUnsorted = await Promise.all(
-      unitsConfigsPaths.map((unitConfigPath) => Mono0Unit.create({ unitConfigPath, config })),
+      unitsConfigsPaths.map((unitConfigPath) => Mono0Unit.create({ unitConfigPath, config, generalTsconfigs })),
     )
     const units = Mono0Unit.sortFromIndependentToDependent({ units: unitsUnsorted })
     await Mono0Unit.applyDeps({ units })
@@ -381,8 +404,8 @@ export class Mono0Unit {
   static zDefinition = z.object({
     name: z.string(),
     tags: z.array(z.string()).optional().default([]),
-    tsconfig: Mono0Tsconfig.zDefinition.optional().default({ value: {} }),
-    packageJson: Mono0PackageJson.zDefinition.optional().default({ value: {} }),
+    tsconfig: Mono0Tsconfig.zDefinition.optional().default({ value: {}, path: "tsconfig.json", settings: {} }),
+    packageJson: Mono0PackageJson.zDefinition.optional().default({ value: {}, path: "package.json", settings: {} }),
     preset: z
       .union([z.string(), z.array(z.string())])
       .optional()
@@ -445,7 +468,7 @@ export class Mono0Unit {
       presets: this.presets,
       settings: this.settings,
       tsconfig: this.tsconfig.getMeta({ units }),
-      packageJson: await this.packageJson.getMeta(),
+      packageJson: await this.packageJson.getMeta({ units }),
       deps: this.deps.map((d) => d.unit.name),
       filesPaths: this.filesPaths,
     }

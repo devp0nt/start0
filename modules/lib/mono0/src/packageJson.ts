@@ -7,7 +7,7 @@ import { Mono0Logger } from "./logger"
 import type { Mono0Unit } from "./unit"
 
 export class Mono0PackageJson {
-  name: string
+  name?: string
   fs0: Fs0
   file0: File0
   config: Mono0Config
@@ -23,7 +23,7 @@ export class Mono0PackageJson {
     value,
     unit,
   }: {
-    name: string
+    name?: string
     fs0: Fs0
     file0: File0
     config: Mono0Config
@@ -45,7 +45,7 @@ export class Mono0PackageJson {
     fs0,
     unit,
   }: {
-    name: string
+    name?: string
     definition: Mono0PackageJson.DefinitionParsed
     config: Mono0Config
     fs0: Fs0
@@ -53,7 +53,7 @@ export class Mono0PackageJson {
   }) {
     const file0 = definition.path ? fs0.createFile0(definition.path) : fs0.createFile0("package.json")
     const value = definition.value
-    return new Mono0PackageJson({ name, fs0, file0, config, value, unit })
+    return new Mono0PackageJson({ name: name || definition.value.name, fs0, file0, config, value, unit })
   }
 
   async getCurrentValue() {
@@ -63,7 +63,7 @@ export class Mono0PackageJson {
     return await this.file0.readJson<Mono0PackageJson.Json>()
   }
 
-  async getNewValue() {
+  async getNewValue({ units }: { units: Mono0Unit[] }) {
     const currentValue = await this.getCurrentValue()
     const prevWorkspaceDeps = Object.fromEntries(
       Object.entries(currentValue.dependencies || {}).filter(([key, value]) => value === "workspace:*"),
@@ -117,6 +117,19 @@ export class Mono0PackageJson {
       mergedValue.exports = exports
     }
 
+    // TODO:ASAP
+    // const file0 = config.rootFs0.createFile0("package.json")
+    // const prevValue = await file0.readJson<Mono0PackageJson.Json>()
+    // const worksapcesPackages = units.map((unit) => file0.fs0.toRel(unit.packageJson.file0.path.dir))
+    // const newValue = {
+    //   ...prevValue,
+    //   workspaces: {
+    //     ...(prevValue.workspaces || {}),
+    //     packages: worksapcesPackages,
+    //   },
+    // }
+    // await file0.write(JSON.stringify(newValue, null, 2), true)
+
     if (unit?.settings.addExportsToPackageJsonFromSrcDir) {
       const dirsPaths = unit.dirsPaths.map((dirPath) => ({
         relToPkg: this.file0.fs0.toRel(dirPath, true),
@@ -163,27 +176,21 @@ export class Mono0PackageJson {
     return { value: mergedValue, depsChanged }
   }
 
-  async write() {
-    const { value, depsChanged } = await this.getNewValue()
+  async write({ units }: { units: Mono0Unit[] }) {
+    const { value, depsChanged } = await this.getNewValue({ units })
     await this.file0.write(JSON.stringify(value, null, 2), true)
     return { depsChanged }
   }
 
-  static async writeRootPackageJson({ config, units }: { config: Mono0Config; units: Mono0Unit[] }) {
-    const file0 = config.rootFs0.createFile0("package.json")
-    const prevValue = await file0.readJson<Mono0PackageJson.Json>()
-    const worksapcesPackages = units.map((unit) => file0.fs0.toRel(unit.packageJson.file0.path.dir))
-    const newValue = {
-      ...prevValue,
-      workspaces: {
-        ...(prevValue.workspaces || {}),
-        packages: worksapcesPackages,
-      },
-    }
-    await file0.write(JSON.stringify(newValue, null, 2), true)
-  }
+  static zSettings = z
+    .object({
+      addWorkspacesToPackageJson: z.union([z.literal(false), z.string()]).optional(),
+    })
+    .optional()
+    .default({})
 
   static zValueDefinition = z.looseObject({
+    name: z.string().optional(),
     dependencies: z.record(z.string(), z.string().optional()).optional(),
     devDependencies: z.record(z.string(), z.string().optional()).optional(),
     exports: z
@@ -195,8 +202,9 @@ export class Mono0PackageJson {
   })
 
   static zFullDefinition = z.object({
-    path: z.string().optional(),
+    path: z.string().optional().default("package.json"),
     value: Mono0PackageJson.zValueDefinition.optional().default({}),
+    settings: Mono0PackageJson.zSettings,
   })
 
   static zDefinition = z
@@ -205,7 +213,7 @@ export class Mono0PackageJson {
       (val) =>
         ("path" in val || "value" in val
           ? { path: val.path, value: val.value }
-          : { path: undefined, value: val }) as Mono0PackageJson.FullDefinition,
+          : { path: "package.json", value: val }) as Mono0PackageJson.FullDefinition,
     )
 
   static merge(
@@ -229,10 +237,10 @@ export class Mono0PackageJson {
     }, {} as any)
   }
 
-  async getMeta() {
+  async getMeta({ units }: { units: Mono0Unit[] }) {
     return {
       path: this.file0.path.rel,
-      value: (await this.getNewValue()).value,
+      value: (await this.getNewValue({ units })).value,
     }
   }
 }
@@ -241,10 +249,12 @@ export namespace Mono0PackageJson {
   export type Json = PackageJsonTypeFest
   export type ValueDefinition = z.output<typeof Mono0PackageJson.zValueDefinition>
   // export type ValueDefinition = Json
+  export type Settings = z.output<typeof Mono0PackageJson.zSettings>
   export type FullDefinition = {
-    path?: string
+    path: string
     value: Mono0PackageJson.ValueDefinition
+    settings: Mono0PackageJson.Settings
   }
-  export type Definition = ValueDefinition | FullDefinition
+  export type Definition = ValueDefinition | Partial<FullDefinition>
   export type DefinitionParsed = z.output<typeof Mono0PackageJson.zDefinition>
 }

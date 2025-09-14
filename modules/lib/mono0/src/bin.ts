@@ -32,7 +32,6 @@ const withMono0 = <T extends any[]>(action: (mono0: Mono0, ...args: T) => Promis
 
 program
   .command("ping")
-  .alias("p")
   .description("Ping")
   .action(
     withMono0(async (mono0) => {
@@ -47,6 +46,32 @@ program
   .action(
     withMono0(async (mono0) => {
       logger.info(JSON.stringify(mono0.config.getMeta({ units: mono0.units }), null, 2))
+    }),
+  )
+
+program
+  .command("tsconfigs")
+  .alias("t")
+  .description("Show config")
+  .action(
+    withMono0(async (mono0) => {
+      logger.info(
+        JSON.stringify(
+          mono0.generalTsconfigs.map((tsconfig) => tsconfig.getMeta({ units: mono0.units })),
+          null,
+          2,
+        ),
+      )
+    }),
+  )
+
+program
+  .command("packageJson")
+  .alias("p")
+  .description("Show config")
+  .action(
+    withMono0(async (mono0) => {
+      logger.info(JSON.stringify(await mono0.generalPackageJson.getMeta({ units: mono0.units }), null, 2))
     }),
   )
 

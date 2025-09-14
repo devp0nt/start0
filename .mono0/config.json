@@ -62,7 +62,7 @@
     "backendCore": ["@prisma0/backend", "@lib"]
   },
   "settings": {
-    "installCommand": "bun install"
+    "onPackageJsonsDepsChangedCommand": "bun install"
   },
   "presets": {
     "force": {

@@ -16,8 +16,6 @@ import watcherGen0 from "./watcher-gen0"
 // TODO: В билд конфиг добавляем срц пас только на срц
 // TODO: preset cold: tag #cold, do not add paths to tsconfig, by filtering
 
-// TODO: onPackageJsonDepsChangedCommand, not installCommand
-
 // TODO: tsconfigBuild where I disbale all paths so original dist wil be used
 // TODO: mono0 run --filter X command
 // TODO: build sequntially or fix build script, noEmitOnError: true
@@ -42,57 +40,80 @@ import watcherGen0 from "./watcher-gen0"
 
 export class Mono0 {
   rootFs0: Fs0
+  generalTsconfigs: Mono0Tsconfig[]
+  generalPackageJson: Mono0PackageJson
   config: Mono0Config
   units: Mono0Unit[]
   logger: Mono0Logger = Mono0Logger.create("core")
 
-  private constructor({ rootFs0, config, units }: { rootFs0: Fs0; config: Mono0Config; units: Mono0Unit[] }) {
+  private constructor({
+    rootFs0,
+    config,
+    units,
+    generalTsconfigs,
+    generalPackageJson,
+  }: {
+    rootFs0: Fs0
+    config: Mono0Config
+    units: Mono0Unit[]
+    generalTsconfigs: Mono0Tsconfig[]
+    generalPackageJson: Mono0PackageJson
+  }) {
     this.rootFs0 = rootFs0
     this.config = config
     this.units = units
+    this.generalTsconfigs = generalTsconfigs
+    this.generalPackageJson = generalPackageJson
+  }
+
+  static async getCreateParams() {
+    const config = await Mono0Config.get()
+    const generalTsconfigs = Mono0Tsconfig.createGeneralsByConfig(config)
+    const generalPackageJson = Mono0PackageJson.create({ definition: config.packageJson, config, fs0: config.rootFs0 })
+    const rootFs0 = config.rootFs0
+    const units = await Mono0Unit.findAndCreateUnits({ rootFs0, config, generalTsconfigs })
+    return { config, generalTsconfigs, generalPackageJson, rootFs0, units }
   }
 
   static async create() {
-    const config = await Mono0Config.get()
-    const rootFs0 = config.rootFs0
-    const units = await Mono0Unit.findAndCreateUnits({ rootFs0, config })
-    return new Mono0({ rootFs0, config, units })
+    const { config, generalTsconfigs, generalPackageJson, rootFs0, units } = await Mono0.getCreateParams()
+    return new Mono0({ rootFs0, config, units, generalTsconfigs, generalPackageJson })
   }
 
   async refresh() {
-    this.config = await Mono0Config.get()
-    this.rootFs0 = this.config.rootFs0
-    this.units = await Mono0Unit.findAndCreateUnits({ rootFs0: this.rootFs0, config: this.config })
+    const { config, generalTsconfigs, generalPackageJson, rootFs0, units } = await Mono0.getCreateParams()
+    this.config = config
+    this.generalTsconfigs = generalTsconfigs
+    this.generalPackageJson = generalPackageJson
+    this.rootFs0 = rootFs0
+    this.units = units
     return this
   }
 
   async sync() {
-    await Mono0Tsconfig.writeBaseTsconfig({
-      tsconfig: this.config.tsconfigs.base,
-      config: this.config,
-      units: this.units,
-    })
-    await Mono0Tsconfig.writeRootTsconfig({
-      tsconfig: this.config.tsconfigs.root,
-      config: this.config,
-      units: this.units,
-    })
-    await Mono0PackageJson.writeRootPackageJson({ config: this.config, units: this.units })
-    for (const [tsconfigName, tsconfig] of Object.entries(this.config.tsconfigs)) {
-      if (tsconfigName === "root" || tsconfigName === "base") {
-        continue
-      }
+    // await Mono0Tsconfig.writeBaseTsconfig({
+    //   tsconfig: this.config.tsconfigs.base,
+    //   config: this.config,
+    //   units: this.units,
+    // })
+    // await Mono0Tsconfig.writeRootTsconfig({
+    //   tsconfig: this.config.tsconfigs.root,
+    //   config: this.config,
+    //   units: this.units,
+    // })
+    // await Mono0PackageJson.writeRootPackageJson({ config: this.config, units: this.units })
+    for (const tsconfig of this.generalTsconfigs) {
       await tsconfig.write({ units: this.units })
     }
     let packageJsonsDepsChanged = false
     for (const unit of this.units) {
       await unit.writeTsconfig({ units: this.units })
-      const { depsChanged } = await unit.writePackageJson()
+      const { depsChanged } = await unit.writePackageJson({ units: this.units })
       packageJsonsDepsChanged = packageJsonsDepsChanged || depsChanged
     }
-    if (packageJsonsDepsChanged && this.config.settings.installCommand) {
+    if (packageJsonsDepsChanged && this.config.settings.onPackageJsonsDepsChangedCommand) {
       try {
-        execSync(this.config.settings.installCommand, { cwd: this.rootFs0.cwd, stdio: "inherit" })
+        execSync(this.config.settings.onPackageJsonsDepsChangedCommand, { cwd: this.rootFs0.cwd, stdio: "inherit" })
         this.logger.debug(`dependencies installed for "${this.rootFs0.cwd}"`)
       } catch (error) {
         this.logger.error(`failed to install dependencies for "${this.rootFs0.cwd}"`, { error })
