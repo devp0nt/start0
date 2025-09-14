@@ -1,5 +1,5 @@
 {
   "name": "@idea/site",
   "preset": "site",
-  "deps": ["@site/core", "@idea/shared"]
+  "deps": ["@site/core", "@idea/shared", "@devp0nt/route0"]
 }

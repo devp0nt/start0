@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@devp0nt/route0": "workspace:*",
     "@idea/shared": "workspace:*",
     "@site/core": "workspace:*"
   },

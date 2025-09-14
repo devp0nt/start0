@@ -14,13 +14,13 @@
       "import": "./dist/*",
       "types": "./dist/*"
     },
-    "./hello/*": {
-      "import": "./dist/hello/*",
-      "types": "./dist/hello/*"
-    },
     "./ping/*": {
       "import": "./dist/ping/*",
       "types": "./dist/ping/*"
+    },
+    "./hello/*": {
+      "import": "./dist/hello/*",
+      "types": "./dist/hello/*"
     }
   }
 }

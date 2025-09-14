@@ -4,7 +4,7 @@ import { siteRoutes } from "@site/core/lib/routes"
 import { trpc } from "@site/core/lib/trpc"
 import { IdeasPage } from "./list.page.comp"
 
-export default Page0.route(siteRoutes.ideasList)
+const page = Page0.route(siteRoutes.ideasList)
   .loader(async ({ qc }) => {
     return await qc.fetchQuery(trpc.getIdeas.queryOptions())
   })
@@ -13,3 +13,5 @@ export default Page0.route(siteRoutes.ideasList)
   .component(({ loaderData: { ideas } }) => {
     return <IdeasPage ideas={ideas} />
   })
+
+export default page
