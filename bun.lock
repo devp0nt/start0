@@ -119,6 +119,10 @@
     },
     "modules/idea/backend": {
       "name": "@idea/backend",
+      "dependencies": {
+        "@backend/core": "workspace:*",
+        "@idea/shared": "workspace:*",
+      },
     },
     "modules/idea/shared": {
       "name": "@idea/shared",

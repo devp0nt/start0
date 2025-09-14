@@ -1,5 +1,8 @@
 {
-  "dependencies": {},
+  "dependencies": {
+    "@backend/core": "workspace:*",
+    "@idea/shared": "workspace:*"
+  },
   "name": "@idea/backend",
   "private": true,
   "type": "module",

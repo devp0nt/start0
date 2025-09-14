@@ -12,9 +12,18 @@
     "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@idea/backend/.tsbuildinfo",
     "rootDir": "./src",
     "paths": {
-      "@idea/backend/*": ["./src/*"]
+      "@idea/backend/*": ["./src/*"],
+      "@backend/core/*": ["../../../apps/backend/core/src/*"],
+      "@idea/shared/*": ["../shared/src/*"]
     }
   },
   "include": ["src/**/*"],
-  "references": []
+  "references": [
+    {
+      "path": "../../../apps/backend/core/tsconfig.json"
+    },
+    {
+      "path": "../shared/tsconfig.json"
+    }
+  ]
 }

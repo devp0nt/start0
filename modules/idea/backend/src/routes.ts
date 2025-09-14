@@ -1,6 +1,6 @@
 import { BackendTrpc } from "@backend/core/lib/trpc"
 import { Error0 } from "@devp0nt/error0"
-import { zGetIdeaInput } from "@idea/shared/src/routes.input"
+import { zGetIdeaInput } from "@idea/shared/routes.input"
 
 export const getIdeasTrpcRoute = BackendTrpc.baseProcedure().query(async ({ ctx }) => {
   const ideas = await ctx.prisma.idea.findMany()

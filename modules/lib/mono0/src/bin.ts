@@ -36,7 +36,7 @@ program
   .description("Show config")
   .action(
     withMono0(async (mono0) => {
-      logger.info(JSON.stringify(mono0.config.getMeta(), null, 2))
+      logger.info(JSON.stringify(mono0.config.getMeta({ units: mono0.units }), null, 2))
     }),
   )
 

@@ -1,5 +1,5 @@
 {
   "name": "@idea/backend",
   "preset": "backend",
-  "deps": []
+  "deps": ["@idea/shared", "@backend/core"]
 }
