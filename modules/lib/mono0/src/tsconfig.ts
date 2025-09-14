@@ -4,6 +4,7 @@ import type { TsConfigJson as TsConfigJsonTypeFest } from "type-fest"
 import z from "zod"
 import type { Mono0Config } from "./config"
 import type { Mono0Unit } from "./unit"
+import { omit } from "./utils"
 
 export class Mono0Tsconfig {
   fs0: Fs0
@@ -280,10 +281,10 @@ export class Mono0Tsconfig {
     .default({})
     .transform((val) => {
       return {
-        ...val,
+        ...omit(val, ["addUnitsSrcToPaths", "addUnitsDistToPaths"]),
         addUnitsSrcToPaths:
           val.addUnitsSrcToPaths === false
-            ? false
+            ? (false as const)
             : val.addUnitsSrcToPaths === true
               ? { scope: "all", match: undefined }
               : typeof val.addUnitsSrcToPaths === "string"
@@ -291,7 +292,7 @@ export class Mono0Tsconfig {
                 : val.addUnitsSrcToPaths,
         addUnitsDistToPaths:
           val.addUnitsDistToPaths === false
-            ? false
+            ? (false as const)
             : val.addUnitsDistToPaths === true
               ? { scope: "all", match: undefined }
               : typeof val.addUnitsDistToPaths === "string"
@@ -346,12 +347,14 @@ export namespace Mono0Tsconfig {
   export type Json = Omit<TsConfigJsonTypeFest, "extends"> & { extends?: string }
   // export type ValueDefinition = z.output<typeof Mono0Tsconfig.zValueDefinition>
   export type ValueDefinition = Json
-  export type DefinitionSettings = z.output<typeof Mono0Tsconfig.zDefinitionSettings>
+  export type DefinitionSettings = Partial<z.input<typeof Mono0Tsconfig.zDefinitionSettings>>
+  export type Settings = z.output<typeof Mono0Tsconfig.zDefinitionSettings>
   export type FullDefinition = {
     path: string
     value: Mono0Tsconfig.ValueDefinition
-    settings: Partial<DefinitionSettings>
+    settings: Mono0Tsconfig.DefinitionSettings
   }
+  export type FullDefinitionParsed = z.output<typeof Mono0Tsconfig.zFullDefinition>
   export type Definition = ValueDefinition | Partial<FullDefinition>
   export type DefinitionParsed = z.output<typeof Mono0Tsconfig.zDefinition>
 }

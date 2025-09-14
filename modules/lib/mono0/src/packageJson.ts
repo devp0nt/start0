@@ -1,17 +1,12 @@
 import type { File0, Fs0 } from "@devp0nt/fs0"
-import { isEqual, omit as lodashOmit, set } from "lodash-es"
+import isEqual from "lodash-es/isEqual.js"
+import set from "lodash-es/set.js"
 import type { PackageJson as PackageJsonTypeFest } from "type-fest"
 import z from "zod"
 import type { Mono0Config } from "./config"
 import { Mono0Logger } from "./logger"
 import type { Mono0Unit } from "./unit"
-
-export const omit = <TObject extends Record<string, unknown>, TKeys extends keyof TObject>(
-  obj: TObject,
-  keys: TKeys[],
-): Omit<TObject, TKeys> => {
-  return lodashOmit(obj, keys)
-}
+import { omit } from "./utils"
 
 export class Mono0PackageJson {
   name?: string

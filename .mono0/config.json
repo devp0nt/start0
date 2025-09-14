@@ -66,32 +66,35 @@
   },
   "presets": {
     "force": {
-      "settings": {
-        "addSelfSrcPathToTsconfig": true,
-        "addPathsToTsconfigOfAllUnits": false,
-        "addPathsToTsconfigOfDependentUnits": true,
-        "addExportsToPackageJsonFromDistDir": true,
-        "addExportsToPackageJsonFromSrcDir": false,
-        "addExportsToPackageJsonFromSrcDirExts": false,
-        "removeExportsFromPackageJson": false,
-        "addReferencesToTsconfigOfDependentUnits": true
-      },
       "packageJson": {
-        "private": true,
-        "type": "module"
+        "settings": {
+          "clearWorkspaces": false,
+          "addWorkspaces": false,
+          "clearExports": false,
+          "clearWorkspaceDeps": false,
+          "addWorkspaceDeps": false,
+          "addExportsFromDist": false,
+          "addExportsFromSrc": false
+        },
+        "value": {
+          "private": true,
+          "type": "module"
+        }
       },
       "tsconfig": {
-        "compilerOptions": {
-          "composite": true,
-          "declaration": true,
-          "declarationMap": true,
-          "emitDeclarationOnly": false,
-          "noEmitOnError": false,
-          "outDir": "./dist",
-          "declarationDir": "./dist",
-          "tsBuildInfoFile": "~/node_modules/.cache/tsbuildinfo/{{name}}/.tsbuildinfo"
-        },
-        "exclude": ["$exclude"]
+        "value": {
+          "compilerOptions": {
+            "composite": true,
+            "declaration": true,
+            "declarationMap": true,
+            "emitDeclarationOnly": false,
+            "noEmitOnError": false,
+            "outDir": "./dist",
+            "declarationDir": "./dist",
+            "tsBuildInfoFile": "~/node_modules/.cache/tsbuildinfo/{{name}}/.tsbuildinfo"
+          },
+          "exclude": ["$exclude"]
+        }
       }
     },
     "shared": {
