@@ -15,6 +15,6 @@
       "@devp0nt/error0/*": ["./src/*"]
     }
   },
-  "include": ["src/**/*"],
-  "references": []
+  "references": [],
+  "include": ["src/**/*"]
 }

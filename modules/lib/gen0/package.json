@@ -2,7 +2,6 @@
   "dependencies": {
     "@devp0nt/lodash0": "workspace:*",
     "@devp0nt/meta0": "workspace:*",
-    "@devp0nt/logger0": "workspace:*",
     "@devp0nt/fs0": "workspace:*"
   },
   "name": "@devp0nt/gen0",
@@ -11,11 +10,19 @@
   "exports": {
     ".": {
       "import": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "types": "./dist/index.d.ts",
+      "development": {
+        "import": "./src/index.ts",
+        "types": "./src/index.ts"
+      }
     },
     "./*": {
       "import": "./dist/*.js",
-      "types": "./dist/*.d.ts"
+      "types": "./dist/*.d.ts",
+      "development": {
+        "import": "./src/*.ts",
+        "types": "./src/*.ts"
+      }
     }
   }
 }

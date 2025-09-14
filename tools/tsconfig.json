@@ -15,6 +15,6 @@
       "@tools/shared/*": ["./src/*"]
     }
   },
-  "include": ["src/**/*"],
-  "references": []
+  "references": [],
+  "include": ["src/**/*"]
 }

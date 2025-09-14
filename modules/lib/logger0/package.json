@@ -8,11 +8,19 @@
   "exports": {
     ".": {
       "import": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "types": "./dist/index.d.ts",
+      "development": {
+        "import": "./src/index.ts",
+        "types": "./src/index.ts"
+      }
     },
     "./*": {
       "import": "./dist/*.js",
-      "types": "./dist/*.d.ts"
+      "types": "./dist/*.d.ts",
+      "development": {
+        "import": "./src/*.ts",
+        "types": "./src/*.ts"
+      }
     }
   },
   "type": "module"

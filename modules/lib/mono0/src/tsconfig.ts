@@ -129,9 +129,9 @@ export class Mono0Tsconfig {
       }
     }
     // TODO:ASAP use deepmap here
-    if (result?.compilerOptions?.tsBuildInfoFile) {
+    if (result?.compilerOptions?.tsBuildInfoFile && unit?.name) {
       result.compilerOptions.tsBuildInfoFile = file0.fs0.toRel(
-        file0.fs0.resolve(result.compilerOptions.tsBuildInfoFile.replace("{{name}}", unit?.name || "unknown")),
+        file0.fs0.resolve(result.compilerOptions.tsBuildInfoFile.replace("{{name}}", unit.name)),
       )
     }
     return result
@@ -269,7 +269,7 @@ export class Mono0Tsconfig {
   getMeta() {
     return {
       path: this.file0.path.rel,
-      value: this.value,
+      value: this.parseValue(),
     }
   }
 }

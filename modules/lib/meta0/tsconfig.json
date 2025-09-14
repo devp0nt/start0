@@ -15,10 +15,10 @@
       "@devp0nt/meta0/*": ["./src/*"]
     }
   },
-  "include": ["src/**/*"],
   "references": [
     {
       "path": "../deepmap0/tsconfig.json"
     }
-  ]
+  ],
+  "include": ["src/**/*"]
 }

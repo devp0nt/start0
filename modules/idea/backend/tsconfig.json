@@ -15,6 +15,6 @@
       "@idea/backend/*": ["./src/*"]
     }
   },
-  "include": ["src/**/*"],
-  "references": []
+  "references": [],
+  "include": ["src/**/*"]
 }

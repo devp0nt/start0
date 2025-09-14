@@ -15,6 +15,6 @@
       "@prisma0/backend/*": ["./src/*"]
     }
   },
-  "include": ["src/**/*"],
-  "references": []
+  "references": [],
+  "include": ["src/**/*"]
 }

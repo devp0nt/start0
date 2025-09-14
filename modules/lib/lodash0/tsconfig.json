@@ -15,6 +15,6 @@
       "@devp0nt/lodash0/*": ["./src/*"]
     }
   },
-  "include": ["src/**/*"],
-  "references": []
+  "references": [],
+  "include": ["src/**/*"]
 }

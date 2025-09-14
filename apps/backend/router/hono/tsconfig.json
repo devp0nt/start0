@@ -15,10 +15,10 @@
       "@backend/hono-router/*": ["./src/*"]
     }
   },
-  "include": ["src/**/*"],
   "references": [
     {
       "path": "../../core/tsconfig.json"
     }
-  ]
+  ],
+  "include": ["src/**/*"]
 }

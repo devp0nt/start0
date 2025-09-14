@@ -15,10 +15,10 @@
       "@appConfig/backend/*": ["./src/*"]
     }
   },
-  "include": ["src/**/*"],
   "references": [
     {
       "path": "../../../apps/backend/core/tsconfig.json"
     }
-  ]
+  ],
+  "include": ["src/**/*"]
 }

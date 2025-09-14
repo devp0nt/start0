@@ -15,6 +15,6 @@
       "@devp0nt/deepmap0/*": ["./src/*"]
     }
   },
-  "include": ["src/**/*"],
-  "references": []
+  "references": [],
+  "include": ["src/**/*"]
 }

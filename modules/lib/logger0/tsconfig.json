@@ -15,7 +15,6 @@
       "@devp0nt/logger0/*": ["./src/*"]
     }
   },
-  "include": ["src/**/*"],
   "references": [
     {
       "path": "../meta0/tsconfig.json"
@@ -23,5 +22,6 @@
     {
       "path": "../error0/tsconfig.json"
     }
-  ]
+  ],
+  "include": ["src/**/*"]
 }
