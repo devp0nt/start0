@@ -124,9 +124,11 @@ export class Mono0PackageJson {
       }))
       const srcPath = this.file0.fs0.toRel(unit.srcFs0.cwd, true)
       const fixSlahes = (path: string) => path.replace(/\/+/g, "/")
-      const exts = unit.settings.addExportsToPackageJsonFromSrcDirExts?.length
-        ? unit.settings.addExportsToPackageJsonFromSrcDirExts.map((ext) => ext.replace(/^\./, ""))
-        : undefined
+      const exts =
+        Array.isArray(unit.settings.addExportsToPackageJsonFromSrcDirExts) &&
+        unit.settings.addExportsToPackageJsonFromSrcDirExts.length
+          ? unit.settings.addExportsToPackageJsonFromSrcDirExts.map((ext) => ext.replace(/^\./, ""))
+          : undefined
       const exports = {
         ...(unit.indexFile0
           ? {

@@ -395,7 +395,7 @@ export class Mono0Unit {
         addPathsToTsconfigOfDependentUnits: z.boolean().optional(),
         addExportsToPackageJsonFromDistDir: z.boolean().optional(),
         addExportsToPackageJsonFromSrcDir: z.boolean().optional(),
-        addExportsToPackageJsonFromSrcDirExts: z.array(z.string()).optional(),
+        addExportsToPackageJsonFromSrcDirExts: z.union([z.literal(false), z.array(z.string())]).optional(),
         removeExportsFromPackageJson: z.boolean().optional(),
         addReferencesToTsconfigOfDependentUnits: z.boolean().optional(),
       })
