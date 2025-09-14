@@ -71,8 +71,8 @@
         "addPathsToTsconfigOfAllUnits": false,
         "addPathsToTsconfigOfDependentUnits": false,
         "addExportsToPackageJsonFromDistDir": false,
-        "addExportsToPackageJsonFromSrcDir": false,
-        "removeExportsFromPackageJson": true,
+        "addExportsToPackageJsonFromSrcDir": true,
+        "removeExportsFromPackageJson": false,
         "addReferencesToTsconfigOfDependentUnits": true
       },
       "packageJson": {

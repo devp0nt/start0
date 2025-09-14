@@ -119,7 +119,7 @@ export class Mono0PackageJson {
       mergedValue.exports = exports
     }
 
-    if (unit?.settings.addExportsToPackageJsonFromDistDir) {
+    if (unit?.settings.addExportsToPackageJsonFromSrcDir) {
       const dirsPaths = unit.dirsPaths.map((dirPath) => ({
         relToPkg: this.file0.fs0.toRel(dirPath, true),
         relToSrc: unit.srcFs0.toRel(dirPath, true),
