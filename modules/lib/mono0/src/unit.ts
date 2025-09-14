@@ -1,5 +1,6 @@
 import type { File0, Fs0 } from "@devp0nt/fs0"
 import type { Mono0Config } from "@devp0nt/mono0/config"
+import { Mono0Logger } from "@devp0nt/mono0/logger"
 import { Mono0PackageJson } from "@devp0nt/mono0/packageJson"
 import { Mono0Tsconfig } from "@devp0nt/mono0/tsconfig"
 import z from "zod"
@@ -16,6 +17,9 @@ export class Mono0Unit {
   presets: string[]
   depsDefs: Mono0Unit.DefinitionParsed["deps"]
   deps: Mono0Unit.Dependency[]
+
+  static logger: Mono0Logger = Mono0Logger.create("unit")
+  logger: Mono0Logger = Mono0Unit.logger
 
   private constructor(input: {
     unitConfigFile0: File0
@@ -238,6 +242,79 @@ export class Mono0Unit {
         result.name = part
       }
     }
+    return result
+  }
+
+  static async findAndCreateUnits({ rootFs0, config }: { rootFs0: Fs0; config: Mono0Config }) {
+    const unitsConfigsPaths = await rootFs0.glob("**/mono0.json")
+    if (!unitsConfigsPaths.length) {
+      return []
+    }
+    const unitsUnsorted = await Promise.all(
+      unitsConfigsPaths.map((unitConfigPath) => Mono0Unit.create({ unitConfigPath, config })),
+    )
+    const units = Mono0Unit.sortFromIndependentToDependent({ units: unitsUnsorted })
+    await Mono0Unit.applyDeps({ units })
+    return units
+  }
+
+  static sortFromIndependentToDependent({ units }: { units: Mono0Unit[] }) {
+    // Build adjacency list (deps graph)
+    const graph = new Map<Mono0Unit, Mono0Unit[]>()
+    const indegree = new Map<Mono0Unit, number>()
+
+    for (const unit of units) {
+      graph.set(unit, [])
+      indegree.set(unit, 0)
+    }
+
+    for (const unit of units) {
+      for (const dep of unit.deps) {
+        // unit depends on dep.unit → edge: dep.unit → unit
+        // graph.get(dep.unit)!.push(unit)
+        const neighbors = graph.get(dep.unit)
+        if (!neighbors) {
+          // impossible error
+          throw new Error(`Unit "${unit.name}" depends on unit "${dep.unit.name}" that is not in the graph`)
+        }
+        neighbors.push(unit)
+        indegree.set(unit, (indegree.get(unit) ?? 0) + 1)
+      }
+    }
+
+    // Kahn’s algorithm
+    const queue: Mono0Unit[] = []
+    for (const [unit, deg] of indegree) {
+      if (deg === 0) queue.push(unit)
+    }
+
+    const result: Mono0Unit[] = []
+    while (queue.length > 0) {
+      const current = queue.shift()
+      if (!current) {
+        // impossible error
+        throw new Error("Queue is empty")
+      }
+      result.push(current)
+
+      for (const neighbor of graph.get(current) ?? []) {
+        const neighborIndegree = indegree.get(neighbor)
+        if (!neighborIndegree) {
+          // impossible error
+          throw new Error(`Unit "${current.name}" depends on unit "${neighbor.name}" that is not in the indegree map`)
+        }
+        indegree.set(neighbor, neighborIndegree - 1)
+        if (indegree.get(neighbor) === 0) {
+          queue.push(neighbor)
+        }
+      }
+    }
+
+    if (result.length !== units.length) {
+      this.logger.error("🔴 Cyclic dependency detected between units")
+      return result
+    }
+
     return result
   }
 

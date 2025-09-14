@@ -56,9 +56,6 @@
       "path": "./modules/idea/shared/tsconfig.json"
     },
     {
-      "path": "./modules/idea/site/tsconfig.json"
-    },
-    {
       "path": "./modules/prisma/backend/tsconfig.json"
     },
     {
@@ -66,6 +63,9 @@
     },
     {
       "path": "./apps/site/core/tsconfig.json"
+    },
+    {
+      "path": "./modules/idea/site/tsconfig.json"
     },
     {
       "path": "./tools/tsconfig.json"
