@@ -19,9 +19,6 @@
   "references": [
     {
       "path": "../../lib/route0/tsconfig.json"
-    },
-    {
-      "path": "../../prisma/backend/tsconfig.json"
     }
   ]
 }

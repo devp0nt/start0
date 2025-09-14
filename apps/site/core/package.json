@@ -4,34 +4,16 @@
   "private": true,
   "exports": {
     ".": {
-      "import": [
-        "src/index.ts",
-        "src/index.tsx"
-      ],
-      "types": [
-        "src/index.ts",
-        "src/index.tsx"
-      ]
+      "import": "./src/index.ts",
+      "types": "./src/index.ts"
     },
-    "components/*": {
-      "import": [
-        "src/components/*.ts",
-        "src/components/*.tsx"
-      ],
-      "types": [
-        "src/components/*.ts",
-        "src/components/*.tsx"
-      ]
+    "./components/*": {
+      "import": "./src/components/*",
+      "types": "./src/components/*"
     },
-    "lib/*": {
-      "import": [
-        "src/lib/*.ts",
-        "src/lib/*.tsx"
-      ],
-      "types": [
-        "src/lib/*.ts",
-        "src/lib/*.tsx"
-      ]
+    "./lib/*": {
+      "import": "./src/lib/*",
+      "types": "./src/lib/*"
     }
   },
   "type": "module"

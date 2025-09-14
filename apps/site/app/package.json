@@ -7,54 +7,24 @@
   "private": true,
   "exports": {
     ".": {
-      "import": [
-        "src/index.ts",
-        "src/index.tsx"
-      ],
-      "types": [
-        "src/index.ts",
-        "src/index.tsx"
-      ]
+      "import": "./src/index.ts",
+      "types": "./src/index.ts"
     },
-    "*": {
-      "import": [
-        "src/*.ts",
-        "src/*.tsx"
-      ],
-      "types": [
-        "src/*.ts",
-        "src/*.tsx"
-      ]
+    "./*": {
+      "import": "./src/*",
+      "types": "./src/*"
     },
-    "pages/*": {
-      "import": [
-        "src/pages/*.ts",
-        "src/pages/*.tsx"
-      ],
-      "types": [
-        "src/pages/*.ts",
-        "src/pages/*.tsx"
-      ]
+    "./pages/*": {
+      "import": "./src/pages/*",
+      "types": "./src/pages/*"
     },
-    "routes/*": {
-      "import": [
-        "src/routes/*.ts",
-        "src/routes/*.tsx"
-      ],
-      "types": [
-        "src/routes/*.ts",
-        "src/routes/*.tsx"
-      ]
+    "./routes/*": {
+      "import": "./src/routes/*",
+      "types": "./src/routes/*"
     },
-    "routes/generated/*": {
-      "import": [
-        "src/routes/generated/*.ts",
-        "src/routes/generated/*.tsx"
-      ],
-      "types": [
-        "src/routes/generated/*.ts",
-        "src/routes/generated/*.tsx"
-      ]
+    "./routes/generated/*": {
+      "import": "./src/routes/generated/*",
+      "types": "./src/routes/generated/*"
     }
   },
   "type": "module"

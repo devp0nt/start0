@@ -117,17 +117,32 @@ export class Mono0PackageJson {
         const srcPath = this.file0.fs0.toRel(unit.srcFs0.cwd, true)
         // replace more then 1 slah with one slash
         const fixSlahes = (path: string) => path.replace(/\/+/g, "/")
+        // const exports = {
+        //   ".": {
+        //     import: exts.map((ext) => fixSlahes(`./${srcPath}/index${ext}`)),
+        //     types: exts.map((ext) => fixSlahes(`./${srcPath}/index${ext}`)),
+        //   },
+        //   ...Object.fromEntries(
+        //     dirsPaths.map((dirPath) => [
+        //       fixSlahes(`./${dirPath.relToSrc}/*`),
+        //       {
+        //         import: exts.map((ext) => fixSlahes(`./${dirPath.relToPkg}/*${ext}`)),
+        //         types: exts.map((ext) => fixSlahes(`./${dirPath.relToPkg}/*${ext}`)),
+        //       },
+        //     ]),
+        //   ),
+        // }
         const exports = {
           ".": {
-            import: exts.map((ext) => fixSlahes(`${srcPath}/index${ext}`)),
-            types: exts.map((ext) => fixSlahes(`${srcPath}/index${ext}`)),
+            import: fixSlahes(`${srcPath}/index.ts`),
+            types: fixSlahes(`${srcPath}/index.ts`),
           },
           ...Object.fromEntries(
             dirsPaths.map((dirPath) => [
-              nodePath.join(dirPath.relToSrc, "*"),
+              fixSlahes(`${dirPath.relToSrc}/*`),
               {
-                import: exts.map((ext) => fixSlahes(`${dirPath.relToPkg}/*${ext}`)),
-                types: exts.map((ext) => fixSlahes(`${dirPath.relToPkg}/*${ext}`)),
+                import: fixSlahes(`${dirPath.relToPkg}/*`),
+                types: fixSlahes(`${dirPath.relToPkg}/*`),
               },
             ]),
           ),

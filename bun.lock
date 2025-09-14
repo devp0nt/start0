@@ -124,7 +124,6 @@
       "name": "@idea/shared",
       "dependencies": {
         "@devp0nt/route0": "workspace:*",
-        "@prisma0/backend": "workspace:*",
       },
     },
     "modules/idea/site": {
