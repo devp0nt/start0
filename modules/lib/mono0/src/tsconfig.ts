@@ -1,11 +1,12 @@
-import nodePath from "node:path"
 import type { File0, Fs0 } from "@devp0nt/fs0"
-import { uniqBy } from "lodash"
+import cloneDeep from "lodash-es/cloneDeep.js"
+import uniq from "lodash-es/uniq.js"
+import uniqBy from "lodash-es/uniqBy.js"
 import type { TsConfigJson as TsConfigJsonTypeFest } from "type-fest"
 import z from "zod"
 import type { Mono0Config } from "./config"
 import type { Mono0Unit } from "./unit"
-import { omit, replacePlaceholdersDeep } from "./utils"
+import { fixSlahes, omit, replacePlaceholdersDeep } from "./utils"
 
 export class Mono0Tsconfig {
   fs0: Fs0
@@ -95,7 +96,7 @@ export class Mono0Tsconfig {
     units: Mono0Unit[]
     generalTsconfigs: Mono0Tsconfig[]
   }) {
-    const result = value
+    const result = cloneDeep(value)
 
     if (result.extends) {
       if (result.extends.startsWith("$")) {
@@ -122,7 +123,7 @@ export class Mono0Tsconfig {
           parsedExclude.push(exclude)
         }
       }
-      result.exclude = parsedExclude
+      result.exclude = uniq(parsedExclude)
     }
 
     if (result.include) {
@@ -139,7 +140,7 @@ export class Mono0Tsconfig {
           parsedInclude.push(include)
         }
       }
-      result.include = parsedInclude
+      result.include = uniq(parsedInclude)
     }
 
     // if (unit) {
@@ -165,7 +166,7 @@ export class Mono0Tsconfig {
 
     if (unit && settings.addSrcToInclude) {
       const srcRootDir = fs0.toRel(unit.srcFs0.cwd, true)
-      const srcIncludeString = nodePath.join(srcRootDir, "**/*")
+      const srcIncludeString = fixSlahes(`${srcRootDir}/**/*`)
       result.include = [srcIncludeString, ...(result.include || [])]
     }
 

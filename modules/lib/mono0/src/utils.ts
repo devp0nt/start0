@@ -21,3 +21,5 @@ export const replacePlaceholdersDeep = <TObject extends Record<string, unknown>>
   Object.assign(obj, result)
   return obj
 }
+
+export const fixSlahes = (path: string) => path.replace(/\/+/g, "/")

@@ -6,7 +6,7 @@ import z from "zod"
 import type { Mono0Config } from "./config"
 import { Mono0Logger } from "./logger"
 import type { Mono0Unit } from "./unit"
-import { omit } from "./utils"
+import { fixSlahes, omit } from "./utils"
 
 export class Mono0PackageJson {
   name?: string
@@ -120,7 +120,6 @@ export class Mono0PackageJson {
       mergedValue.exports = {}
     }
 
-    const fixSlahes = (path: string) => path.replace(/\/+/g, "/")
     const toExportsValue = (dir: string, basename: string, exts: string[]) => {
       exts = (exts.length ? exts : ["js"]).map((ext) => ext.replace(/^\./, ""))
       if (exts.length === 1) {
