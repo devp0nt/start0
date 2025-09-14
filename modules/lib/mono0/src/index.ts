@@ -11,10 +11,11 @@ import watcherGen0 from "./watcher-gen0"
 // TODO: packaheJsons in config, name, scripts
 // TODO: tsconfigs as record
 // TODO: Освободить от особых значений рут и бэйз конфиг, всё решать сеттинги
+// TODO: addDependenciesReferencesToSelfReferences
+// TODO: addPathsToDist
 // TODO: В билд конфиг добавляем срц пас только на срц
 // TODO: preset cold: tag #cold, do not add paths to tsconfig, by filtering
 
-// TODO: onPackageJsonDepsChangedCommand, not installCommand
 // TODO: onPackageJsonDepsChangedCommand, not installCommand
 
 // TODO: tsconfigBuild where I disbale all paths so original dist wil be used
@@ -32,6 +33,7 @@ import watcherGen0 from "./watcher-gen0"
 // TODO: валдатор одинаковых путей файлов
 
 // TODO: авто разруливание заисимостей в include, вместо refrenece
+// TODO: и поэтому собственный билд через tsup, сначала одну билдим, потом другую, потом первую с референсами, потом вторую с референсами
 // TODO: верный package.json export dists путь при include не src, а что-то родительское
 
 // TODO: ? mono0 генератор biome restrict imports
