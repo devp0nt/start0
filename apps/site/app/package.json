@@ -1,5 +1,7 @@
 {
   "dependencies": {
+    "@react-router/node": "catalog:",
+    "isbot": "^5",
     "@devp0nt/env0": "workspace:*",
     "@devp0nt/gen0": "workspace:*",
     "@idea/site": "workspace:*",

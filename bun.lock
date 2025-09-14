@@ -110,7 +110,9 @@
         "@devp0nt/env0": "workspace:*",
         "@devp0nt/gen0": "workspace:*",
         "@idea/site": "workspace:*",
+        "@react-router/node": "catalog:",
         "@site/core": "workspace:*",
+        "isbot": "^5",
       },
     },
     "apps/site/core": {
