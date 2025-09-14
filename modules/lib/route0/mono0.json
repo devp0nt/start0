@@ -1,5 +1,10 @@
 {
   "name": "@devp0nt/route0",
   "preset": "shared",
-  "deps": []
+  "deps": [],
+  "tsconfig": {
+    "compilerOptions": {
+      "lib": ["ES2022", "DOM"]
+    }
+  }
 }

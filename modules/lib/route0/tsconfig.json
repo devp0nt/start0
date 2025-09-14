@@ -10,6 +10,7 @@
     "noEmitOnError": false,
     "declarationDir": "./dist",
     "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@devp0nt/route0/.tsbuildinfo",
+    "lib": ["ES2022", "DOM"],
     "rootDir": "./src",
     "paths": {
       "@devp0nt/route0/*": ["./src/*"]

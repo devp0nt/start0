@@ -3,13 +3,13 @@
   "name": "@site/core",
   "private": true,
   "exports": {
-    "./lib/*": {
-      "import": "./dist/lib/*",
-      "types": "./dist/lib/*"
-    },
     "./components/*": {
       "import": "./dist/components/*",
       "types": "./dist/components/*"
+    },
+    "./lib/*": {
+      "import": "./dist/lib/*",
+      "types": "./dist/lib/*"
     }
   },
   "type": "module"

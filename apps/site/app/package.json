@@ -10,13 +10,13 @@
       "import": "./dist/*",
       "types": "./dist/*"
     },
-    "./pages/*": {
-      "import": "./dist/pages/*",
-      "types": "./dist/pages/*"
-    },
     "./routes/*": {
       "import": "./dist/routes/*",
       "types": "./dist/routes/*"
+    },
+    "./pages/*": {
+      "import": "./dist/pages/*",
+      "types": "./dist/pages/*"
     },
     "./routes/generated/*": {
       "import": "./dist/routes/generated/*",
