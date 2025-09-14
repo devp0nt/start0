@@ -124,6 +124,7 @@ export class Mono0PackageJson {
       }))
       const srcPath = this.file0.fs0.toRel(unit.srcFs0.cwd, true)
       const fixSlahes = (path: string) => path.replace(/\/+/g, "/")
+      const exts = unit.settings.addExportsToPackageJsonFromSrcDirExts?.map((ext) => ext.replace(/^\./, ""))
       const exports = {
         ...(unit.indexFile0
           ? {
@@ -137,8 +138,12 @@ export class Mono0PackageJson {
           dirsPaths.map((dirPath) => [
             fixSlahes(`${dirPath.relToSrc}/*`),
             {
-              import: fixSlahes(`${dirPath.relToPkg}/*`),
-              types: fixSlahes(`${dirPath.relToPkg}/*`),
+              import: !exts
+                ? fixSlahes(`${dirPath.relToPkg}/*`)
+                : exts.map((ext) => fixSlahes(`${dirPath.relToPkg}/*.${ext}`)),
+              types: !exts
+                ? fixSlahes(`${dirPath.relToPkg}/*`)
+                : exts.map((ext) => fixSlahes(`${dirPath.relToPkg}/*.${ext}`)),
             },
           ]),
         ),

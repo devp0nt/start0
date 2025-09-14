@@ -12,8 +12,18 @@
   "type": "module",
   "exports": {
     "./lib/*": {
-      "import": "./src/lib/*",
-      "types": "./src/lib/*"
+      "import": [
+        "./src/lib/*.ts",
+        "./src/lib/*.tsx",
+        "./src/lib/*.jsx",
+        "./src/lib/*.js"
+      ],
+      "types": [
+        "./src/lib/*.ts",
+        "./src/lib/*.tsx",
+        "./src/lib/*.jsx",
+        "./src/lib/*.js"
+      ]
     }
   }
 }
