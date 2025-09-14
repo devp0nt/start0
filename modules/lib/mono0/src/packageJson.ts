@@ -146,8 +146,8 @@ export class Mono0PackageJson {
             dirsPaths.map((dirPath) => [
               fixSlahes(`${dirPath.relToDist}/*`),
               {
-                import: fixSlahes(`${dirPath.relToPkg}/*`),
-                types: fixSlahes(`${dirPath.relToPkg}/*`),
+                import: fixSlahes(`${dirPath.relToPkg}/*.js`),
+                types: fixSlahes(`${dirPath.relToPkg}/*.d.ts`),
               },
             ]),
           ),

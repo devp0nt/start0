@@ -12,8 +12,8 @@
   "type": "module",
   "exports": {
     "./lib/*": {
-      "import": "./dist/lib/*",
-      "types": "./dist/lib/*"
+      "import": "./dist/lib/*.js",
+      "types": "./dist/lib/*.d.ts"
     }
   }
 }

@@ -8,20 +8,20 @@
   "private": true,
   "exports": {
     "./*": {
-      "import": "./dist/*",
-      "types": "./dist/*"
+      "import": "./dist/*.js",
+      "types": "./dist/*.d.ts"
     },
     "./pages/*": {
-      "import": "./dist/pages/*",
-      "types": "./dist/pages/*"
+      "import": "./dist/pages/*.js",
+      "types": "./dist/pages/*.d.ts"
     },
     "./routes/*": {
-      "import": "./dist/routes/*",
-      "types": "./dist/routes/*"
+      "import": "./dist/routes/*.js",
+      "types": "./dist/routes/*.d.ts"
     },
     "./routes/generated/*": {
-      "import": "./dist/routes/generated/*",
-      "types": "./dist/routes/generated/*"
+      "import": "./dist/routes/generated/*.js",
+      "types": "./dist/routes/generated/*.d.ts"
     }
   },
   "type": "module"

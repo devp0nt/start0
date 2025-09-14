@@ -13,16 +13,16 @@
       "types": "./dist/index.d.ts"
     },
     "./*": {
-      "import": "./dist/*",
-      "types": "./dist/*"
+      "import": "./dist/*.js",
+      "types": "./dist/*.d.ts"
     },
     "./plugins/*": {
-      "import": "./dist/plugins/*",
-      "types": "./dist/plugins/*"
+      "import": "./dist/plugins/*.js",
+      "types": "./dist/plugins/*.d.ts"
     },
     "./test/*": {
-      "import": "./dist/test/*",
-      "types": "./dist/test/*"
+      "import": "./dist/test/*.js",
+      "types": "./dist/test/*.d.ts"
     }
   }
 }

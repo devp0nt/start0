@@ -11,16 +11,16 @@
       "types": "./dist/index.d.ts"
     },
     "./*": {
-      "import": "./dist/*",
-      "types": "./dist/*"
+      "import": "./dist/*.js",
+      "types": "./dist/*.d.ts"
     },
     "./hello/*": {
-      "import": "./dist/hello/*",
-      "types": "./dist/hello/*"
+      "import": "./dist/hello/*.js",
+      "types": "./dist/hello/*.d.ts"
     },
     "./ping/*": {
-      "import": "./dist/ping/*",
-      "types": "./dist/ping/*"
+      "import": "./dist/ping/*.js",
+      "types": "./dist/ping/*.d.ts"
     }
   }
 }

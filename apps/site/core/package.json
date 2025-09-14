@@ -4,12 +4,12 @@
   "private": true,
   "exports": {
     "./components/*": {
-      "import": "./dist/components/*",
-      "types": "./dist/components/*"
+      "import": "./dist/components/*.js",
+      "types": "./dist/components/*.d.ts"
     },
     "./lib/*": {
-      "import": "./dist/lib/*",
-      "types": "./dist/lib/*"
+      "import": "./dist/lib/*.js",
+      "types": "./dist/lib/*.d.ts"
     }
   },
   "type": "module"
