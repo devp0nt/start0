@@ -10,10 +10,10 @@
   "name": "@site/app",
   "private": true,
   "scripts": {
-    "build": "react-router build",
-    "dev": "bun run react-router dev",
-    "start": "react-router-serve ./dist/server/index.js",
-    "typecheck": "react-router typegen && tsc"
+    "build": "cross-env NODE_ENV=production react-router build",
+    "dev": "cross-env NODE_ENV=development bun run --bun vite",
+    "start": "cross-env NODE_ENV=production bun ./dist/server/index.js",
+    "types": "rimraf dist && react-router typegen && tsc"
   },
   "exports": {
     "./*": {
