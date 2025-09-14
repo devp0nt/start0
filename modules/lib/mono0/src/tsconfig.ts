@@ -129,29 +129,29 @@ export class Mono0Tsconfig {
       //     [`${unit.name}/*`]: [`${fs0.toRel(unit.srcFs0.cwd)}/*`],
       //   },
       // }
-      // result.compilerOptions = {
-      //   ...(result.compilerOptions || {}),
-      //   paths: {
-      //     [`${unit.name}/*`]: [`${fs0.toRel(unit.srcFs0.cwd)}/*`],
-      //     ...Object.fromEntries(
-      //       unit.deps.flatMap((d) => [
-      //         [`${d.unit.name}/*`, [`${fs0.toRel(d.unit.srcFs0.cwd)}/*`]],
-      //         ...(d.unit.indexFile0 ? [[`${d.unit.name}`, [`${fs0.toRel(d.unit.indexFile0.path.abs)}`]]] : []),
-      //       ]),
-      //     ),
-      //   },
-      // }
       result.compilerOptions = {
         ...(result.compilerOptions || {}),
         paths: {
+          [`${unit.name}/*`]: [`${fs0.toRel(unit.srcFs0.cwd)}/*`],
           ...Object.fromEntries(
-            units.flatMap((d) => [
-              [`${d.name}/*`, [`${fs0.toRel(d.srcFs0.cwd)}/*`]],
-              ...(d.indexFile0 ? [[`${d.name}`, [`${fs0.toRel(d.indexFile0.path.abs)}`]]] : []),
+            unit.deps.flatMap((d) => [
+              [`${d.unit.name}/*`, [`${fs0.toRel(d.unit.srcFs0.cwd)}/*`]],
+              ...(d.unit.indexFile0 ? [[`${d.unit.name}`, [`${fs0.toRel(d.unit.indexFile0.path.abs)}`]]] : []),
             ]),
           ),
         },
       }
+      // result.compilerOptions = {
+      //   ...(result.compilerOptions || {}),
+      //   paths: {
+      //     ...Object.fromEntries(
+      //       units.flatMap((d) => [
+      //         [`${d.name}/*`, [`${fs0.toRel(d.srcFs0.cwd)}/*`]],
+      //         ...(d.indexFile0 ? [[`${d.name}`, [`${fs0.toRel(d.indexFile0.path.abs)}`]]] : []),
+      //       ]),
+      //     ),
+      //   },
+      // }
     }
     // TODO:ASAP use deepmap here
     if (result?.compilerOptions?.tsBuildInfoFile && unit?.name) {
