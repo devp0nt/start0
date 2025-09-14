@@ -15,6 +15,7 @@
       "@site/app/*": ["./src/*"],
       "@devp0nt/gen0/*": ["../../../modules/lib/gen0/src/*"],
       "@devp0nt/gen0": ["../../../modules/lib/gen0/src/index.ts"],
+      "@idea/site/*": ["../../../modules/idea/site/src/*"],
       "@site/core/*": ["../core/src/*"]
     }
   },
@@ -22,6 +23,9 @@
   "references": [
     {
       "path": "../../../modules/lib/gen0/tsconfig.json"
+    },
+    {
+      "path": "../../../modules/idea/site/tsconfig.json"
     },
     {
       "path": "../core/tsconfig.json"

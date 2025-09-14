@@ -1,7 +1,8 @@
 {
   "dependencies": {
     "@backend/core": "workspace:*",
-    "@idea/shared": "workspace:*"
+    "@idea/shared": "workspace:*",
+    "@prisma0/backend": "workspace:*"
   },
   "name": "@idea/backend",
   "private": true,

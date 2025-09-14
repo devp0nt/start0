@@ -14,7 +14,9 @@
     "paths": {
       "@idea/backend/*": ["./src/*"],
       "@backend/core/*": ["../../../apps/backend/core/src/*"],
-      "@idea/shared/*": ["../shared/src/*"]
+      "@idea/shared/*": ["../shared/src/*"],
+      "@prisma0/backend/*": ["../../prisma/backend/src/*"],
+      "@prisma0/backend": ["../../prisma/backend/src/index.ts"]
     }
   },
   "include": ["src/**/*"],
@@ -24,6 +26,9 @@
     },
     {
       "path": "../shared/tsconfig.json"
+    },
+    {
+      "path": "../../prisma/backend/tsconfig.json"
     }
   ]
 }
