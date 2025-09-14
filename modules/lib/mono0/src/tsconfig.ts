@@ -295,6 +295,22 @@ export class Mono0Tsconfig {
     await this.file0.write(JSON.stringify(valueParsed, null, 2), true)
   }
 
+  static mergeSettings(
+    ...settings: [
+      Mono0Tsconfig.Settings | Mono0Tsconfig.DefinitionSettings,
+      ...Array<Mono0Tsconfig.Settings | Mono0Tsconfig.DefinitionSettings>,
+    ]
+  ): Mono0Tsconfig.Settings {
+    const filteredSettings = settings.filter(Boolean) as Array<
+      Mono0Tsconfig.Settings | NonNullable<Mono0Tsconfig.DefinitionSettings>
+    >
+    return filteredSettings.reduce<Mono0Tsconfig.Settings>((acc, setting) => {
+      const parsedSetting = Mono0Tsconfig.zDefinitionSettings.parse(setting)
+      // biome-ignore lint/performance/noAccumulatingSpread: <x>
+      return { ...acc, ...parsedSetting }
+    }, {} as Mono0Tsconfig.Settings)
+  }
+
   static zValueDefinition = z.looseObject({
     extends: z.string().optional(),
     include: z.array(z.string()).optional(),

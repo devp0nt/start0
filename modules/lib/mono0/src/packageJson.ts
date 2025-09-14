@@ -1,4 +1,5 @@
 import type { File0, Fs0 } from "@devp0nt/fs0"
+import { Mono0Tsconfig } from "@devp0nt/mono0/tsconfig"
 import isEqual from "lodash-es/isEqual.js"
 import set from "lodash-es/set.js"
 import type { PackageJson as PackageJsonTypeFest } from "type-fest"
@@ -255,7 +256,23 @@ export class Mono0PackageJson {
     return { depsChanged }
   }
 
-  static zSettings = z
+  static mergeSettings(
+    ...settings: [
+      Mono0PackageJson.Settings | Mono0PackageJson.DefinitionSettings,
+      ...Array<Mono0PackageJson.Settings | Mono0PackageJson.DefinitionSettings>,
+    ]
+  ): Mono0PackageJson.Settings {
+    const filteredSettings = settings.filter(Boolean) as Array<
+      Mono0PackageJson.Settings | NonNullable<Mono0PackageJson.DefinitionSettings>
+    >
+    return filteredSettings.reduce<Mono0PackageJson.Settings>((acc, setting) => {
+      const parsedSetting = Mono0PackageJson.zDefinitionSettings.parse(setting)
+      // biome-ignore lint/performance/noAccumulatingSpread: <x>
+      return { ...acc, ...parsedSetting }
+    }, {} as Mono0PackageJson.Settings)
+  }
+
+  static zDefinitionSettings = z
     .object({
       clearWorkspaces: z.union([z.boolean(), z.string()]).optional(),
       addWorkspaces: z.union([z.boolean(), z.string()]).optional(),
@@ -363,7 +380,7 @@ export class Mono0PackageJson {
   static zFullDefinition = z.object({
     path: z.string().optional().default("package.json"),
     value: Mono0PackageJson.zValueDefinition.optional().default({}),
-    settings: Mono0PackageJson.zSettings,
+    settings: Mono0PackageJson.zDefinitionSettings,
   })
 
   static zDefinition = z
@@ -423,12 +440,12 @@ export namespace Mono0PackageJson {
   export type Json = PackageJsonTypeFest
   export type ValueDefinition = z.output<typeof Mono0PackageJson.zValueDefinition>
   // export type ValueDefinition = Json
-  export type SettingsDefinition = Partial<z.input<typeof Mono0PackageJson.zSettings>>
-  export type Settings = z.output<typeof Mono0PackageJson.zSettings>
+  export type DefinitionSettings = Partial<z.input<typeof Mono0PackageJson.zDefinitionSettings>>
+  export type Settings = z.output<typeof Mono0PackageJson.zDefinitionSettings>
   export type FullDefinition = {
     path: string
     value: Mono0PackageJson.ValueDefinition
-    settings: Mono0PackageJson.SettingsDefinition
+    settings: Mono0PackageJson.DefinitionSettings
   }
   export type FullDefinitionParsed = z.output<typeof Mono0PackageJson.zFullDefinition>
   export type Definition = ValueDefinition | Partial<FullDefinition>

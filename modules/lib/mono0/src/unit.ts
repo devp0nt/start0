@@ -177,7 +177,7 @@ export class Mono0Unit {
     const forcePreset = config.presets.force
     const presets = [...(forcePreset ? ["force"] : []), ...definition.preset]
     let result = { ...definition, preset: [] } as Mono0Unit.DefinitionParsed
-    for (const presetName of presets) {
+    for (const presetName of presets.reverse()) {
       const presetValue = config.presets[presetName]
       if (!presetValue) {
         throw new Error(`Preset "${presetName}" not found in "${unitConfigFile0.path.rel}"`)
@@ -186,24 +186,15 @@ export class Mono0Unit {
         ...result,
         tags: [...(presetValue.tags ?? []), ...result.tags],
         deps: [...(presetValue.deps ?? []), ...result.deps],
-        settings: {
-          ...(presetValue.settings ?? {}),
-          ...(result.settings ?? {}),
-        },
+        settings: Mono0Unit.mergeSettings(presetValue.settings, result.settings),
         tsconfig: {
           path: result.tsconfig.path ?? presetValue.tsconfig.path,
-          settings: {
-            ...(presetValue.tsconfig.settings ?? {}),
-            ...(result.tsconfig.settings ?? {}),
-          },
+          settings: Mono0Tsconfig.mergeSettings(presetValue.tsconfig.settings, result.tsconfig.settings),
           value: Mono0Tsconfig.merge(presetValue.tsconfig.value, result.tsconfig.value),
         },
         packageJson: {
           path: result.packageJson.path ?? presetValue.packageJson.path,
-          settings: {
-            ...(presetValue.packageJson.settings ?? {}),
-            ...(result.packageJson.settings ?? {}),
-          },
+          settings: Mono0PackageJson.mergeSettings(presetValue.packageJson.settings, result.packageJson.settings),
           value: Mono0PackageJson.merge(presetValue.packageJson.value, result.packageJson.value),
         },
         preset: presetValue.preset,
@@ -409,6 +400,24 @@ export class Mono0Unit {
     return result
   }
 
+  static mergeSettings(
+    ...settings: [
+      Mono0Unit.Settings | Mono0Unit.DefinitionSettings,
+      ...Array<Mono0Unit.Settings | Mono0Unit.DefinitionSettings>,
+    ]
+  ): Mono0Unit.Settings {
+    const filteredSettings = settings.filter(Boolean) as Array<
+      Mono0Unit.Settings | NonNullable<Mono0Unit.DefinitionSettings>
+    >
+    return filteredSettings.reduce<Mono0Unit.Settings>((acc, setting) => {
+      const parsedSetting = Mono0Unit.zDefinitionSettings.parse(setting)
+      // biome-ignore lint/performance/noAccumulatingSpread: <x>
+      return { ...acc, ...parsedSetting }
+    }, {} as Mono0Unit.Settings)
+  }
+
+  static zDefinitionSettings = z.object({})
+
   static zDefinition = z.object({
     name: z.string(),
     tags: z.array(z.string()).optional().default([]),
@@ -419,7 +428,7 @@ export class Mono0Unit {
       .optional()
       .default([])
       .transform((val) => (Array.isArray(val) ? val : [val])),
-    settings: z.object({}).optional().default({}),
+    settings: Mono0Unit.zDefinitionSettings.optional().default({}),
     deps: z
       .array(
         z.union([
@@ -501,7 +510,8 @@ export namespace Mono0Unit {
   export type DefinitionParsed = z.output<typeof Mono0Unit.zDefinition>
   export type DependencyDefinitionParsed = z.output<typeof Mono0Unit.zDefinition.shape.deps>[number]
 
-  export type DefinitionSettings = Record<never, never> // z.output<typeof Mono0Unit.zDefinition.shape.settings>
+  export type Settings = Record<never, never> // Partial<z.input<typeof Mono0Unit.zDefinitionSettings>>
+  export type DefinitionSettings = Record<never, never> // z.output<typeof Mono0Unit.zDefinitionSettings>
   export type DependencyRelationType = "reference" | "include" | "none"
   export type DependencyMatchDefinition = string // tags or name
   export type DependencyMatchParsed = {
