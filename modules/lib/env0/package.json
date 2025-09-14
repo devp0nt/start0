@@ -1,5 +1,7 @@
 {
-  "dependencies": {},
+  "dependencies": {
+    "@devp0nt/error0": "workspace:*"
+  },
   "name": "@devp0nt/env0",
   "private": true,
   "exports": {

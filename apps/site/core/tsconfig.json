@@ -12,6 +12,7 @@
     "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@site/core/.tsbuildinfo",
     "rootDir": "./src",
     "paths": {
+      "@site/core/*": ["./src/*"],
       "@appConfig/backend/*": ["../../../modules/appConfig/backend/src/*"],
       "@backend/core/*": ["../../backend/core/src/*"],
       "@backend/hono-router/*": ["../../backend/router/hono/src/*"],
@@ -47,7 +48,6 @@
       "@prisma0/backend/*": ["../../../modules/prisma/backend/src/*"],
       "@prisma0/backend": ["../../../modules/prisma/backend/src/index.ts"],
       "@site/app/*": ["../app/src/*"],
-      "@site/core/*": ["./src/*"],
       "@tools/shared/*": ["../../../tools/src/*"],
       "@tools/shared": ["../../../tools/src/index.ts"]
     }

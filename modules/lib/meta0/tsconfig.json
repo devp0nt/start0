@@ -12,6 +12,7 @@
     "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@devp0nt/meta0/.tsbuildinfo",
     "rootDir": "./src",
     "paths": {
+      "@devp0nt/meta0/*": ["./src/*"],
       "@appConfig/backend/*": ["../../appConfig/backend/src/*"],
       "@backend/core/*": ["../../../apps/backend/core/src/*"],
       "@backend/hono-router/*": ["../../../apps/backend/router/hono/src/*"],
@@ -33,7 +34,6 @@
       "@devp0nt/lodash0": ["../lodash0/src/index.ts"],
       "@devp0nt/logger0/*": ["../logger0/src/*"],
       "@devp0nt/logger0": ["../logger0/src/index.ts"],
-      "@devp0nt/meta0/*": ["./src/*"],
       "@devp0nt/meta0": ["./src/index.ts"],
       "@devp0nt/mono0/*": ["../mono0/src/*"],
       "@devp0nt/mono0": ["../mono0/src/index.ts"],

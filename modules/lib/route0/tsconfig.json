@@ -13,6 +13,7 @@
     "lib": ["ES2022", "DOM"],
     "rootDir": "./src",
     "paths": {
+      "@devp0nt/route0/*": ["./src/*"],
       "@appConfig/backend/*": ["../../appConfig/backend/src/*"],
       "@backend/core/*": ["../../../apps/backend/core/src/*"],
       "@backend/hono-router/*": ["../../../apps/backend/router/hono/src/*"],
@@ -38,7 +39,6 @@
       "@devp0nt/meta0": ["../meta0/src/index.ts"],
       "@devp0nt/mono0/*": ["../mono0/src/*"],
       "@devp0nt/mono0": ["../mono0/src/index.ts"],
-      "@devp0nt/route0/*": ["./src/*"],
       "@devp0nt/route0": ["./src/index.ts"],
       "@devp0nt/x0/*": ["../x/src/*"],
       "@devp0nt/x0": ["../x/src/index.ts"],

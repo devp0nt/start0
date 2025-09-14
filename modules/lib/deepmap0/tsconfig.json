@@ -12,6 +12,7 @@
     "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@devp0nt/deepmap0/.tsbuildinfo",
     "rootDir": "./src",
     "paths": {
+      "@devp0nt/deepmap0/*": ["./src/*"],
       "@appConfig/backend/*": ["../../appConfig/backend/src/*"],
       "@backend/core/*": ["../../../apps/backend/core/src/*"],
       "@backend/hono-router/*": ["../../../apps/backend/router/hono/src/*"],
@@ -19,7 +20,6 @@
       "@backend/services/*": ["../../../apps/backend/services/src/*"],
       "@backend/trpc-router/*": ["../../../apps/backend/router/trpc/src/*"],
       "@backend/trpc-router": ["../../../apps/backend/router/trpc/src/index.ts"],
-      "@devp0nt/deepmap0/*": ["./src/*"],
       "@devp0nt/deepmap0": ["./src/index.ts"],
       "@devp0nt/env0/*": ["../env0/src/*"],
       "@devp0nt/env0": ["../env0/src/index.ts"],
