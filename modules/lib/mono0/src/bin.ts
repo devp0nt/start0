@@ -1,5 +1,6 @@
 #!/usr/bin/env bun
 
+import { Mono0Unit } from "@devp0nt/mono0/unit"
 import { Command } from "commander"
 import { Mono0 } from "./index"
 // import * as readline from "node:readline"
@@ -79,11 +80,12 @@ program
   .command("untis")
   .alias("u")
   .description("Show units")
+  .argument("[match]", "Match units")
+  .argument("[pickKeys]", "Pick meta keys")
   .action(
-    withMono0(async (mono0) => {
-      logger.info(
-        JSON.stringify(await Promise.all(mono0.units.map((unit) => unit.getMeta({ units: mono0.units }))), null, 2),
-      )
+    withMono0(async (mono0, match: string | undefined, pickKeysString: string | undefined) => {
+      const pickKeys = pickKeysString ? pickKeysString.split(",") : undefined
+      logger.info(JSON.stringify(await Mono0Unit.getMetaAll({ units: mono0.units, match, pickKeys }), null, 2))
     }),
   )
 

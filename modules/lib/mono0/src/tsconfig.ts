@@ -354,22 +354,30 @@ export class Mono0Tsconfig {
     .transform((val) => {
       return {
         ...omit(val, ["addUnitsSrcToPaths", "addUnitsDistToPaths"]),
-        addUnitsSrcToPaths:
-          val.addUnitsSrcToPaths === false
-            ? (false as const)
-            : val.addUnitsSrcToPaths === true
-              ? { scope: "all" as const, match: undefined, index: true }
-              : typeof val.addUnitsSrcToPaths === "string"
-                ? { scope: "all" as const, match: val.addUnitsSrcToPaths, index: true }
-                : val.addUnitsSrcToPaths,
-        addUnitsDistToPaths:
-          val.addUnitsDistToPaths === false
-            ? (false as const)
-            : val.addUnitsDistToPaths === true
-              ? { scope: "all" as const, match: undefined, index: true }
-              : typeof val.addUnitsDistToPaths === "string"
-                ? { scope: "all" as const, match: val.addUnitsDistToPaths, index: true }
-                : val.addUnitsDistToPaths,
+        ...(val.addUnitsSrcToPaths === undefined
+          ? {}
+          : {
+              addUnitsSrcToPaths:
+                val.addUnitsSrcToPaths === false
+                  ? (false as const)
+                  : val.addUnitsSrcToPaths === true
+                    ? { scope: "all" as const, match: undefined, index: true }
+                    : typeof val.addUnitsSrcToPaths === "string"
+                      ? { scope: "all" as const, match: val.addUnitsSrcToPaths, index: true }
+                      : val.addUnitsSrcToPaths,
+            }),
+        ...(val.addUnitsDistToPaths === undefined
+          ? {}
+          : {
+              addUnitsDistToPaths:
+                val.addUnitsDistToPaths === false
+                  ? (false as const)
+                  : val.addUnitsDistToPaths === true
+                    ? { scope: "all" as const, match: undefined, index: true }
+                    : typeof val.addUnitsDistToPaths === "string"
+                      ? { scope: "all" as const, match: val.addUnitsDistToPaths, index: true }
+                      : val.addUnitsDistToPaths,
+            }),
       }
     })
 

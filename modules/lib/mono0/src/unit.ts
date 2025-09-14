@@ -1,5 +1,6 @@
 import nodePath from "node:path"
 import type { File0, Fs0 } from "@devp0nt/fs0"
+import pick from "lodash-es/pick.js"
 import z from "zod"
 import type { Mono0Config } from "./config"
 import { Mono0Logger } from "./logger"
@@ -455,8 +456,8 @@ export class Mono0Unit {
     return pathInDist
   }
 
-  async getMeta({ units }: { units: Mono0Unit[] }) {
-    return {
+  async getMeta({ units, pickKeys }: { units: Mono0Unit[]; pickKeys?: string[] }) {
+    const result = {
       name: this.name,
       tags: this.tags,
       path: this.config.rootFs0.toRel(this.fs0.cwd),
@@ -466,7 +467,25 @@ export class Mono0Unit {
       packageJson: await this.packageJson.getMeta({ units }),
       deps: this.deps.map((d) => d.unit.name),
       filesPaths: this.filesPaths,
+      dirsPaths: this.dirsPaths,
     }
+    if (pickKeys) {
+      return pick(result, pickKeys)
+    }
+    return result
+  }
+
+  static getMetaAll({
+    units,
+    match,
+    pickKeys,
+  }: {
+    units: Mono0Unit[]
+    match?: string
+    pickKeys: string[] | undefined
+  }) {
+    const unitsFiltered = Mono0Unit.filterUnits({ units, match })
+    return Promise.all(unitsFiltered.map((unit) => unit.getMeta({ units: unitsFiltered, pickKeys })))
   }
 }
 
