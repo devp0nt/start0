@@ -157,7 +157,7 @@ export class Fs0 {
   }
 
   async glob(
-    glob: string,
+    glob: string | string[],
     {
       cwd = this.rootDir,
       relative,
@@ -178,7 +178,7 @@ export class Fs0 {
   }
 
   globSync(
-    glob: string,
+    glob: string | string[],
     {
       cwd = this.rootDir,
       relative,

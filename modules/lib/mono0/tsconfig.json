@@ -19,6 +19,9 @@
   "references": [
     {
       "path": "../fs0/tsconfig.json"
+    },
+    {
+      "path": "../gen0/tsconfig.json"
     }
   ]
 }

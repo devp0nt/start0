@@ -81,10 +81,18 @@ export class Mono0PackageJson {
         ".": {
           import: "./dist/index.js",
           types: "./dist/index.d.ts",
+          development: {
+            import: "./src/index.ts",
+            types: "./src/index.ts",
+          },
         },
         "./*": {
           import: "./dist/*.js",
           types: "./dist/*.d.ts",
+          development: {
+            import: "./src/*.ts",
+            types: "./src/*.ts",
+          },
         },
       }
       mergedValue.exports = exports
@@ -116,7 +124,9 @@ export class Mono0PackageJson {
   static zValueDefinition = z.looseObject({
     dependencies: z.record(z.string(), z.string().optional()).optional(),
     devDependencies: z.record(z.string(), z.string().optional()).optional(),
-    exports: z.record(z.string(), z.record(z.string(), z.string()).optional()).optional(),
+    exports: z
+      .record(z.string(), z.record(z.string(), z.union([z.string(), z.record(z.string(), z.string())])).optional())
+      .optional(),
   })
 
   static zFullDefinition = z.object({

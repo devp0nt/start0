@@ -170,6 +170,7 @@
       "name": "@devp0nt/mono0",
       "dependencies": {
         "@devp0nt/fs0": "workspace:*",
+        "@devp0nt/gen0": "workspace:*",
       },
     },
     "modules/lib/route0": {

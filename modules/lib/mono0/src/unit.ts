@@ -17,6 +17,7 @@ export class Mono0Unit {
   presets: string[]
   depsDefs: Mono0Unit.DefinitionParsed["deps"]
   deps: Mono0Unit.Dependency[]
+  filesPaths: string[]
 
   static logger: Mono0Logger = Mono0Logger.create("unit")
   logger: Mono0Logger = Mono0Unit.logger
@@ -33,6 +34,7 @@ export class Mono0Unit {
     presets: string[]
     deps: Mono0Unit.Dependency[]
     depsDefs: Mono0Unit.DefinitionParsed["deps"]
+    filesPaths: string[]
   }) {
     this.unitConfigFile0 = input.unitConfigFile0
     this.fs0 = input.fs0
@@ -45,6 +47,7 @@ export class Mono0Unit {
     this.presets = input.presets
     this.deps = input.deps
     this.depsDefs = input.depsDefs
+    this.filesPaths = input.filesPaths
   }
 
   static async create({ unitConfigPath, config }: { unitConfigPath: string; config: Mono0Config }) {
@@ -81,6 +84,11 @@ export class Mono0Unit {
       config,
       fs0: unitConfigFile0.fs0,
     })
+    const tsconfigValue = tsconfig.parseValue()
+    const includeGlob = tsconfigValue.include ?? []
+    const exclude = tsconfigValue.exclude ?? []
+    const excludeGlob = exclude.map((e) => `!${e}`)
+    const filesPaths = await tsconfig.file0.fs0.glob([...includeGlob, ...excludeGlob])
     const unit = new Mono0Unit({
       name: definition.name,
       tags: definition.tags,
@@ -93,6 +101,7 @@ export class Mono0Unit {
       config,
       deps: [],
       depsDefs: definition.deps,
+      filesPaths,
     })
     unit.tsconfig.unit = unit
     return unit
@@ -355,6 +364,7 @@ export class Mono0Unit {
       presets: this.presets,
       tsconfig: this.tsconfig.getMeta(),
       deps: this.deps.map((d) => d.unit.name),
+      filesPaths: this.filesPaths,
     }
   }
 }

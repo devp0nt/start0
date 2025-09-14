@@ -136,6 +136,15 @@ export class Mono0Tsconfig {
     }
     return result
   }
+  parseValue() {
+    return Mono0Tsconfig.parseValue({
+      value: this.value,
+      config: this.config,
+      fs0: this.fs0,
+      file0: this.file0,
+      unit: this.unit,
+    })
+  }
 
   async write() {
     const valueParsed = Mono0Tsconfig.parseValue({

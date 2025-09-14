@@ -9,17 +9,16 @@ import { Mono0Unit } from "@devp0nt/mono0/unit"
 import watcherGen0 from "@devp0nt/mono0/watcher-gen0"
 
 // TODO: modules/{trpc,idea,...}/{backend,site,shared}
-// TODO: why .d.ts and .js?
 // TODO: mono0.getFilePathWithPackageName + gen0 importFromFiles
-// TODO: верный package.json export dists путь
+// TODO: мэниконфиг
 
 // TODO: other модуль для ленивых
 // TODO: валдатор циклических зависимостей
 // TODO: валдатор одинаковых имён юнитов
 // TODO: mono0 run --filter X command
 
-// TODO: мэниконфиг
 // TODO: авто разруливание заисимостей в include, вместо refrenece
+// TODO: верный package.json export dists путь при include не src, а что-то родительское
 // TODO: settings
 
 // TODO: ? mono0 генератор biome restrict imports
