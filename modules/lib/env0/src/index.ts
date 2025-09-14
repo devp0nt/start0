@@ -1,15 +1,15 @@
 import { Error0 } from "@devp0nt/error0"
 import z from "zod"
 
-export namespace Env0 {
-  export const create = <TZodSchema extends z.ZodObject<any>>({
+export class Env0 {
+  static create = <TZodSchema extends z.ZodObject<any>>({
     schema: schemaOrFn,
     source,
   }: {
-    schema: TZodSchema | ((helpers: Helpers) => TZodSchema)
+    schema: TZodSchema | ((helpers: Env0.Helpers) => TZodSchema)
     source: Record<string, unknown>
   }) => {
-    const helpers = getHelpers(source)
+    const helpers = this.getHelpers(source)
     const schema = typeof schemaOrFn === "function" ? schemaOrFn(helpers) : schemaOrFn
     const parseResult = schema.safeParse(source)
     if (!parseResult.success) {
@@ -33,39 +33,39 @@ export namespace Env0 {
     }
   }
 
-  export const zNodeEnv = z.enum(["development", "production", "test"])
-  export const zHostEnv = z.enum(["local", "dev", "stage", "prod"])
-  export const zString = z.string().trim().min(1)
-  export const zStringOptional = z.union([
+  static zNodeEnv = z.enum(["development", "production", "test"])
+  static zHostEnv = z.enum(["local", "dev", "stage", "prod"])
+  static zString = z.string().trim().min(1)
+  static zStringOptional = z.union([
     z.literal(undefined).transform(() => undefined),
     z
       .string()
       .trim()
       .transform((val) => val || undefined),
   ])
-  export const zBoolean = z.union([
-    zString
+  static zBoolean = z.union([
+    this.zString
       .refine((val) => ["true", "false", "1", "0"].includes(val), `Should be: 'true' | 'false' | '1' | '0' | boolean`)
       .transform((val) => val === "true" || val === "1"),
     z.boolean(),
   ])
-  export const zBooleanOptional = z.union([
+  static zBooleanOptional = z.union([
     z.literal("").transform(() => undefined),
     z.literal(undefined).transform(() => undefined),
-    zBoolean,
+    this.zBoolean,
   ])
-  export const zNumber = z.union([
-    zString.refine((val) => !Number.isNaN(Number(val)), "Should be a number").transform(Number),
+  static zNumber = z.union([
+    this.zString.refine((val) => !Number.isNaN(Number(val)), "Should be a number").transform(Number),
     z.number(),
   ])
-  export const zNumberOptional = z.union([z.literal("").transform(() => undefined), z.literal(undefined), zNumber])
-  export const zInt = z.union([
-    zString.refine((val) => Number.isInteger(Number(val)), "Should be integer").transform(Number),
+  static zNumberOptional = z.union([z.literal("").transform(() => undefined), z.literal(undefined), this.zNumber])
+  static zInt = z.union([
+    this.zString.refine((val) => Number.isInteger(Number(val)), "Should be integer").transform(Number),
     z.number().int(),
   ])
-  export const zIntOptional = z.union([z.literal("").transform(() => undefined), z.literal(undefined), zInt])
+  static zIntOptional = z.union([z.literal("").transform(() => undefined), z.literal(undefined), this.zInt])
 
-  const getHelpers = (source: Record<string, unknown>) => {
+  static getHelpers = (source: Record<string, unknown>) => {
     return {
       optionalOnLocalHostEnv: <T extends z.ZodTypeAny>(value: T) => {
         if (source.HOST_ENV !== "local") {
@@ -93,5 +93,9 @@ export namespace Env0 {
       },
     }
   }
-  type Helpers = ReturnType<typeof getHelpers>
+}
+
+export namespace Env0 {
+  export type Helpers = ReturnType<typeof Env0.getHelpers>
+  export type Type = ReturnType<typeof Env0.create>
 }
