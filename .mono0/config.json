@@ -1,4 +1,14 @@
 {
+  "filesSelectors": {
+    "exclude": ["**/dist/**/*", "**/node_modules/**/*", "**/public/**/*"],
+    "test": ["**/test/**/*", "**/*.test.*"]
+  },
+  "unitsSelectors": {
+    "backendCore": ["@prisma0/backend", "@lib"]
+  },
+  "settings": {
+    "onPackageJsonsDepsChangedCommand": "bun install"
+  },
   "packageJson": {
     "path": "../package.json",
     "settings": {
@@ -50,7 +60,8 @@
           "moduleResolution": "Bundler",
           "verbatimModuleSyntax": true,
           "resolveJsonModule": true
-        }
+        },
+        "exclude": ["$exclude"]
       }
     },
     "shared": {
@@ -83,15 +94,6 @@
         "extends": "$base"
       }
     }
-  },
-  "filesSelectors": {
-    "exclude": ["**/dist/**/*", "**/node_modules/**/*", "**/public/**/*"]
-  },
-  "unitsSelectors": {
-    "backendCore": ["@prisma0/backend", "@lib"]
-  },
-  "settings": {
-    "onPackageJsonsDepsChangedCommand": "bun install"
   },
   "presets": {
     "force": {
@@ -148,6 +150,7 @@
           },
           "value": {
             "extends": "$core",
+            "exclude": ["$exclude", "$test"],
             "compilerOptions": {}
           }
         }

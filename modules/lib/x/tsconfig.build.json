@@ -1,5 +1,6 @@
 {
   "extends": "./tsconfig.json",
+  "exclude": ["**/dist/**/*", "**/node_modules/**/*", "**/public/**/*", "**/test/**/*", "**/*.test.*"],
   "compilerOptions": {
     "paths": {
       "@devp0nt/x0/*": ["./src/*"]

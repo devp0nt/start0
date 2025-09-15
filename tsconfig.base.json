@@ -1,4 +1,5 @@
 {
+  "exclude": ["**/dist/**/*", "**/node_modules/**/*", "**/public/**/*"],
   "compilerOptions": {
     "target": "ESNext",
     "module": "ESNext",
