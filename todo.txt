@@ -1,7 +1,4 @@
 tri0
-tmux0
-gen0 multiline comments
-
 better-auth
 https://dev.to/ayoubphy/step-by-step-guide-setting-up-trpc-better-auth-prisma-and-react-router-v7-4ho
 
@@ -59,4 +56,5 @@ restart frontend server on code change
 gen0 syntax and autocompletion
 error0, meta0, route0 → library
 
+tmux0
 remove old
