@@ -2,7 +2,16 @@
   "name": "@site/core",
   "private": true,
   "type": "module",
-  "exports": {},
+  "exports": {
+    "./components/*": {
+      "import": "./dist/components/*.js",
+      "types": "./dist/components/*.d.ts"
+    },
+    "./lib/*": {
+      "import": "./dist/lib/*.js",
+      "types": "./dist/lib/*.d.ts"
+    }
+  },
   "scripts": {
     "types": "tsc --noEmit",
     "build:pkg": "tsc --build"

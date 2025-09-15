@@ -145,14 +145,16 @@ export class Mono0Unit {
       tsconfig.unit = unit
     }
     unit.packageJson.unit = unit
-    const tsconfigValue = await unit.tsconfigs[0].getNewValue({ units: [] })
+    const tsconfigCore = unit.tsconfigs.find((t) => t.name === "core")
+    const tsconfig = tsconfigCore || unit.tsconfigs[0]
+    const { value: tsconfigValue } = await tsconfig.getNewValue({ units: [] })
     const outDir = tsconfigValue.compilerOptions?.outDir || "./dist"
-    const distFs0 = unit.tsconfigs[0].file0.fs0.createFs0({ cwd: outDir })
+    const distFs0 = tsconfig.file0.fs0.createFs0({ cwd: outDir })
     unit.distFs0 = distFs0
     const includeGlob = tsconfigValue.include ?? []
     const exclude = tsconfigValue.exclude ?? []
     const excludeGlob = exclude.map((e) => `!${e}`)
-    const filesPaths = await unit.tsconfigs[0].file0.fs0.glob([...includeGlob, ...excludeGlob])
+    const filesPaths = await tsconfig.file0.fs0.glob([...includeGlob, ...excludeGlob])
     unit.filesPaths = filesPaths.sort()
     const dirsPaths = [...new Set(filesPaths.map((filePath) => nodePath.dirname(filePath)))]
     unit.dirsPaths = dirsPaths.sort()

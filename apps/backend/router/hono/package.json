@@ -6,6 +6,18 @@
     ".": {
       "import": "./dist/index.js",
       "types": "./dist/index.d.ts"
+    },
+    "./*": {
+      "import": "./dist/*.js",
+      "types": "./dist/*.d.ts"
+    },
+    "./hello/*": {
+      "import": "./dist/hello/*.js",
+      "types": "./dist/hello/*.d.ts"
+    },
+    "./ping/*": {
+      "import": "./dist/ping/*.js",
+      "types": "./dist/ping/*.d.ts"
     }
   },
   "scripts": {
