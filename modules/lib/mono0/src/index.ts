@@ -8,12 +8,15 @@ import { Mono0Tsconfig } from "./tsconfig"
 import { Mono0Unit } from "./unit"
 import watcherGen0 from "./watcher-gen0"
 
-// TODO: gix jest commands
+// TODO: Инклюд дист в пасы для колдов, и тогда вообще никому не нужно ничего экспортить из пакейдж джейсона
+// TODO: Реагировать только на появление и удаление файлов и папок
 
 // TODO: ? мэниконфиг
 // TODO: ? https://www.npmjs.com/package/tsc-esm-fix
 // TODO: ? https://www.npmjs.com/package/tsc-watch
 // TODO: ? tsc-esm-fix to watcher
+
+// TODO: - excludeDeps для исключений
 
 // TODO: опицональный packageJson
 // TODO: ? опицональный tsconfig
@@ -28,6 +31,8 @@ import watcherGen0 from "./watcher-gen0"
 // TODO: авто разруливание заисимостей в include, вместо refrenece
 // TODO: верный package.json export dists путь при include не src, а что-то родительское
 // TOOD: Тсконфиг может быть анконтроллед, тогда просто берётся его значение из пути
+
+// TODO: Указание файлов и темплейтов для них
 
 // TODO: ? mono0 генератор biome restrict imports
 // TODO: ? автоинстал зависимостей исходя из импортов в коде
