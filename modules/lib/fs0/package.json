@@ -16,5 +16,7 @@
     "types": "tsc --noEmit",
     "build:pkg": "tsc --build"
   },
-  "dependencies": {}
+  "dependencies": {
+    "@devp0nt/deepmap0": "workspace:*"
+  }
 }

@@ -169,6 +169,9 @@
     },
     "modules/lib/fs0": {
       "name": "@devp0nt/fs0",
+      "dependencies": {
+        "@devp0nt/deepmap0": "workspace:*",
+      },
     },
     "modules/lib/gen0": {
       "name": "@devp0nt/gen0",

@@ -441,11 +441,11 @@ export class Fs0 {
   }
 
   readJsonSync<T = any>(path: string) {
-    return CommentJson.parse(this.readFileSync(path)) as T
+    return CommentJson.parse(this.readFileSync(path), null, true) as T
   }
 
   async readJson<T = any>(path: string) {
-    return CommentJson.parse(await this.readFile(path)) as T
+    return CommentJson.parse(await this.readFile(path), null, true) as T
   }
 
   resolve(...paths: string[]): string {

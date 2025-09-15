@@ -44,18 +44,18 @@
         "addUnitsAsReferences": { "tsconfig": "$core" }
       }
     },
-    "rootBuild": {
-      "path": "../tsconfig.build.json",
-      "value": {
-        "extends": "$base",
-        "compilerOptions": {
-          "tsBuildInfoFile": "~/node_modules/.cache/tsbuildinfo/root-build/.tsbuildinfo"
-        }
-      },
-      "settings": {
-        "addUnitsAsReferences": { "tsconfig": "$build" }
-      }
-    },
+    // "rootBuild": {
+    //   "path": "../tsconfig.build.json",
+    //   "value": {
+    //     "extends": "$base",
+    //     "compilerOptions": {
+    //       "tsBuildInfoFile": "~/node_modules/.cache/tsbuildinfo/root-build/.tsbuildinfo"
+    //     }
+    //   },
+    //   "settings": {
+    //     "addUnitsAsReferences": { "tsconfig": "$build" }
+    //   }
+    // },
     "base": {
       "path": "../tsconfig.base.json",
       "value": {

@@ -35,9 +35,12 @@ export class Mono0Config {
   }
 
   static async get({ cwd }: { cwd?: string } = {}) {
-    const configFile0 = await Fs0.findUpFile([".mono0rc.json", ".mono0/config.json"], { cwd })
+    const configFile0 = await Fs0.findUpFile(
+      [".mono0rc.json", ".mono0rc.jsonc", ".mono0/config.json", ".mono0/config.jsonc"],
+      { cwd },
+    )
     if (!configFile0) {
-      throw new Error(".mono0rc.json or .mono0/config.json not found")
+      throw new Error(".mono0rc.json{,c} or .mono0/config.json{,c} not found")
     }
     const rootFs0 =
       configFile0.path.dirname === ".mono0"
@@ -46,7 +49,7 @@ export class Mono0Config {
     configFile0.setRootDir(rootFs0.rootDir)
     const configFs0 = configFile0.fs0
 
-    const configDefinitionRaw = await configFile0.importFresh()
+    const configDefinitionRaw = await configFile0.readJson()
     const configDefinitionParsed = Mono0Config.zDefinition.safeParse(configDefinitionRaw)
     if (!configDefinitionParsed.success) {
       throw new Error("Invalid config file", {
