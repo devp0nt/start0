@@ -13,7 +13,7 @@ export class Gen0Config {
 
   static configFilesNames = [".gen0rc.mjs", ".gen0rc.ts", ".gen0rc.js"]
   static defaultPluginsGlob: Fs0.PathOrPaths = ["**/{*.gen0,gen0}.{ts,tsx,js,jsx,mjs}"]
-  static defaultClientsGlob: Fs0.PathOrPaths = ["**/*.{ts,tsx,js,jsx,mjs,json}"]
+  static defaultClientsGlob: Fs0.PathOrPaths = ["**/*.{ts,tsx,js,jsx,mjs,json,jsonc}", "**/jestfile"]
   static defaultDebug: string | boolean = false
 
   fs0: Fs0

@@ -50,6 +50,9 @@
       "path": "./modules/lib/route0/tsconfig.json"
     },
     {
+      "path": "./modules/lib/tmux0/tsconfig.json"
+    },
+    {
       "path": "./modules/lib/x/tsconfig.json"
     },
     {

@@ -4,7 +4,6 @@ alias to := tools
 alias pmd := prisma-migrate-dev
 alias pmt := prisma-migrate-test
 alias pgc := prisma-generate-client
-alias t := test-root
 alias g := gen0
 alias m := mono0
 
@@ -39,6 +38,8 @@ dev:
   tmux resize-pane -t 2 -y "$(($(tmux display -p '#{window_height}') * 30 / 100))"
 
   tmux attach -t dev-ideanick
+# @gen0:start generateTmuxCommands({ layout: "00000\n12333", commands: ["just backend dev", "just site dev", "just gen0 watch", "just mono0 watch"] })
+# @gen0:end
 
 # bun commands mirror
 

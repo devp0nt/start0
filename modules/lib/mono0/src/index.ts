@@ -8,9 +8,8 @@ import { Mono0Tsconfig } from "./tsconfig"
 import { Mono0Unit } from "./unit"
 import watcherGen0 from "./watcher-gen0"
 
-// TODO: tsconfigBuild where I disbale all paths so original dist wil be used
 // TODO: mono0 run --filter X command
-// TODO: build sequntially or fix build script, noEmitOnError: true
+// TODO: gix jest commands
 
 // TODO: ? мэниконфиг
 // TODO: ? https://www.npmjs.com/package/tsc-esm-fix

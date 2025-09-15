@@ -1,0 +1,22 @@
+{
+  "name": "@devp0nt/tmux0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./*": {
+      "import": "./dist/*.js",
+      "types": "./dist/*.d.ts"
+    }
+  },
+  "scripts": {
+    "types": "tsc --noEmit",
+    "build:m": "tsc --build"
+  },
+  "dependencies": {
+    "@devp0nt/gen0": "workspace:*"
+  }
+}
