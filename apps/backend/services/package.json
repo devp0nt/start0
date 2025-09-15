@@ -12,7 +12,7 @@
     "dev1": "bun --tsconfig-override tsconfig.json src/dev.ts --watch",
     "dev": "NODE_ENV=development bun src/dev.ts --watch",
     "types": "tsc --noEmit",
-    "build:pkg": "tsc --build"
+    "build:m": "tsc --build"
   },
   "dependencies": {
     "@backend/core": "workspace:*"

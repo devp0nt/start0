@@ -14,7 +14,7 @@
   },
   "scripts": {
     "types": "tsc --noEmit",
-    "build:pkg": "tsc --build"
+    "build:m": "tsc --build"
   },
   "dependencies": {}
 }

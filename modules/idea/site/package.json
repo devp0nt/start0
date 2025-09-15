@@ -10,7 +10,7 @@
   },
   "scripts": {
     "types": "tsc --noEmit",
-    "build:pkg": "tsc --build"
+    "build:m": "tsc --build"
   },
   "dependencies": {
     "@devp0nt/route0": "workspace:*",

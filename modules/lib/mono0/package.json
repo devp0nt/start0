@@ -15,7 +15,7 @@
   "scripts": {
     "echo1": "echo 1",
     "types": "tsc --noEmit",
-    "build:pkg": "tsc --build"
+    "build:m": "tsc --build"
   },
   "dependencies": {
     "@devp0nt/fs0": "workspace:*",

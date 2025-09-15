@@ -26,8 +26,8 @@
       "type": "module",
       "scripts": {
         "types": "tsc --noEmit",
-        "build:pkg": "tsc --build",
-        "typecheck": null
+        "build:m": "tsc --build",
+        "watch:m": "tsc --build --watch"
       }
     }
   },
@@ -120,8 +120,7 @@
           "type": "module",
           "scripts": {
             "types": "tsc --noEmit",
-            "build:pkg": "tsc --build",
-            "typecheck": null
+            "build:m": "tsc --build"
           }
         }
       },

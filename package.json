@@ -3,14 +3,12 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "types1": "bun run --filter '*' types",
     "types": "tsc --noEmit",
-    "build": "bun run --filter '*' build",
-    "dev": "bun run --filter '*' dev",
-    "test": "bun run --filter '*' test",
     "lint": "biome check --write",
+    "test": "bun test",
     "prepare": "husky",
-    "build:pkg": "tsc --build"
+    "build:m": "tsc --build",
+    "watch:m": "tsc --build --watch"
   },
   "dependencies": {
     "@hono/trpc-server": "^0.4.0",

@@ -8,9 +8,6 @@ import { Mono0Tsconfig } from "./tsconfig"
 import { Mono0Unit } from "./unit"
 import watcherGen0 from "./watcher-gen0"
 
-// TODO: deepDeps filter
-// TODO: preset cold: tag #cold, do not add paths to tsconfig, by filtering
-
 // TODO: tsconfigBuild where I disbale all paths so original dist wil be used
 // TODO: mono0 run --filter X command
 // TODO: build sequntially or fix build script, noEmitOnError: true

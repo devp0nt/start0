@@ -33,7 +33,7 @@
     "dev": "cross-env NODE_ENV=development bun run --bun vite",
     "start": "cross-env NODE_ENV=production bun ./dist/server/index.js",
     "types": "tsc --noEmit",
-    "build:pkg": "tsc --build"
+    "build:m": "tsc --build"
   },
   "dependencies": {
     "@react-router/node": "catalog:",
