@@ -2,32 +2,7 @@
   "name": "@site/app",
   "private": true,
   "type": "module",
-  "exports": {
-    "./../*": {
-      "import": "./*.js",
-      "types": "./*.d.ts"
-    },
-    "./*": {
-      "import": "./dist/*.js",
-      "types": "./dist/*.d.ts"
-    },
-    "./components/*": {
-      "import": "./dist/components/*.js",
-      "types": "./dist/components/*.d.ts"
-    },
-    "./pages/*": {
-      "import": "./dist/pages/*.js",
-      "types": "./dist/pages/*.d.ts"
-    },
-    "./routes/*": {
-      "import": "./dist/routes/*.js",
-      "types": "./dist/routes/*.d.ts"
-    },
-    "./routes/generated/*": {
-      "import": "./dist/routes/generated/*.js",
-      "types": "./dist/routes/generated/*.d.ts"
-    }
-  },
+  "exports": {},
   "scripts": {
     "build": "cross-env NODE_ENV=production react-router build",
     "dev": "cross-env NODE_ENV=development bun run --bun vite",

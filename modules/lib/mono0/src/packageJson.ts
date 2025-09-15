@@ -257,11 +257,16 @@ export class Mono0PackageJson {
       delete mergedValue.scripts?.[key]
     }
 
-    return { value: mergedValue, depsChanged }
+    const valueChanged = !isEqual(currentValue, mergedValue)
+
+    return { value: mergedValue, depsChanged, valueChanged }
   }
 
   async write({ units }: { units: Mono0Unit[] }) {
-    const { value, depsChanged } = await this.getNewValue({ units })
+    const { value, depsChanged, valueChanged } = await this.getNewValue({ units })
+    if (!valueChanged && !depsChanged) {
+      return { depsChanged, valueChanged, value }
+    }
     const sort = [
       "name",
       "version",
@@ -305,7 +310,7 @@ export class Mono0PackageJson {
       "packageManager",
     ]
     await this.file0.writeJson(value, sort, true)
-    return { depsChanged }
+    return { depsChanged, valueChanged, value }
   }
 
   static mergeSettings(

@@ -2,12 +2,7 @@
   "name": "@idea/site",
   "private": true,
   "type": "module",
-  "exports": {
-    "./*": {
-      "import": "./dist/*.js",
-      "types": "./dist/*.d.ts"
-    }
-  },
+  "exports": {},
   "scripts": {
     "types": "tsc --noEmit",
     "build:pkg": "tsc --build"

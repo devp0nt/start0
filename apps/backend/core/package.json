@@ -2,12 +2,7 @@
   "name": "@backend/core",
   "private": true,
   "type": "module",
-  "exports": {
-    "./lib/*": {
-      "import": "./dist/lib/*.js",
-      "types": "./dist/lib/*.d.ts"
-    }
-  },
+  "exports": {},
   "scripts": {
     "types": "tsc --noEmit",
     "build:pkg": "tsc --build"

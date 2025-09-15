@@ -1,5 +1,6 @@
 import type { File0, Fs0 } from "@devp0nt/fs0"
 import cloneDeep from "lodash-es/cloneDeep.js"
+import isEqual from "lodash-es/isEqual"
 import uniq from "lodash-es/uniq.js"
 import uniqBy from "lodash-es/uniqBy.js"
 import type { TsConfigJson as TsConfigJsonTypeFest } from "type-fest"
@@ -77,25 +78,17 @@ export class Mono0Tsconfig {
     return generalTsconfigs
   }
 
-  static async parseValue({
-    value,
-    config,
-    fs0,
-    file0,
-    settings,
-    unit,
-    units,
-    generalTsconfigs,
-  }: {
-    value: Mono0Tsconfig.Json
-    config: Mono0Config
-    fs0: Fs0
-    file0: File0
-    settings: Mono0Tsconfig.Settings
-    unit?: Mono0Unit
-    units: Mono0Unit[]
-    generalTsconfigs: Mono0Tsconfig[]
-  }) {
+  async getCurrentValue() {
+    if (!(await this.file0.isExists())) {
+      return {} as Mono0Tsconfig.Json
+    }
+    return await this.file0.readJson<Mono0Tsconfig.Json>()
+  }
+
+  async getNewValue({ units }: { units: Mono0Unit[] }) {
+    const { value, config, fs0, file0, settings, unit, generalTsconfigs } = this
+    const currentValue = await this.getCurrentValue()
+
     const result = cloneDeep(value)
 
     if (result.extends) {
@@ -264,32 +257,18 @@ export class Mono0Tsconfig {
       distDir: fs0.toRel(unit?.distFs0.cwd || ""),
     })
 
-    return result
-  }
-  async parseValue({ units }: { units: Mono0Unit[] }) {
-    return await Mono0Tsconfig.parseValue({
-      value: this.value,
-      config: this.config,
-      fs0: this.fs0,
-      file0: this.file0,
-      settings: this.settings,
-      unit: this.unit,
-      units,
-      generalTsconfigs: this.generalTsconfigs,
-    })
+    const valueChanged = !isEqual(currentValue, result)
+
+    return { value: result, valueChanged }
   }
 
   async write({ units }: { units: Mono0Unit[] }) {
-    const valueParsed = await Mono0Tsconfig.parseValue({
-      value: this.value,
-      config: this.config,
-      fs0: this.fs0,
-      file0: this.file0,
-      settings: this.settings,
-      unit: this.unit,
-      units,
-      generalTsconfigs: this.generalTsconfigs,
-    })
+    const { value, valueChanged } = await this.getNewValue({ units })
+
+    if (!valueChanged) {
+      return { valueChanged, value }
+    }
+
     const coreSort = ["extends", "files", "include", "exclude", "compilerOptions", "references"]
     const compilerOptionsSort = [
       "incremental",
@@ -377,7 +356,8 @@ export class Mono0Tsconfig {
       "assumeChangesOnlyAffectDirectDependencies",
     ]
     const sort = [...coreSort, ...compilerOptionsSort.map((k) => `compilerOptions.${k}`)]
-    await this.file0.writeJson(valueParsed, sort, true)
+    await this.file0.writeJson(value, sort, true)
+    return { valueChanged, value }
   }
 
   static mergeSettings(
@@ -568,7 +548,7 @@ export class Mono0Tsconfig {
     return {
       path: this.file0.path.rel,
       name: this.name,
-      value: await this.parseValue({ units }),
+      value: await this.getNewValue({ units }),
     }
   }
 

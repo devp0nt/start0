@@ -6,18 +6,6 @@
     ".": {
       "import": "./dist/index.js",
       "types": "./dist/index.d.ts"
-    },
-    "./*": {
-      "import": "./dist/*.js",
-      "types": "./dist/*.d.ts"
-    },
-    "./plugins/*": {
-      "import": "./dist/plugins/*.js",
-      "types": "./dist/plugins/*.d.ts"
-    },
-    "./test/*": {
-      "import": "./dist/test/*.js",
-      "types": "./dist/test/*.d.ts"
     }
   },
   "scripts": {
