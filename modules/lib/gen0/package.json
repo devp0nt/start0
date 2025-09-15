@@ -25,7 +25,6 @@
     "build:m": "tsc --build"
   },
   "dependencies": {
-    "@devp0nt/fs0": "workspace:*",
     "@devp0nt/lodash0": "workspace:*",
     "@devp0nt/meta0": "workspace:*"
   }
