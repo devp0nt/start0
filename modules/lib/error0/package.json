@@ -1,4 +1,5 @@
 {
+  "name": "@devp0nt/error0",
   "private": true,
   "type": "module",
   "exports": {
@@ -13,6 +14,5 @@
   },
   "dependencies": {
     "@devp0nt/meta0": "workspace:*"
-  },
-  "name": "@devp0nt/error0"
+  }
 }

@@ -1,4 +1,5 @@
 {
+  "name": "@appConfig/backend",
   "private": true,
   "type": "module",
   "exports": {
@@ -9,6 +10,5 @@
   },
   "dependencies": {
     "@backend/core": "workspace:*"
-  },
-  "name": "@appConfig/backend"
+  }
 }

@@ -1,4 +1,5 @@
 {
+  "name": "@devp0nt/deepmap0",
   "private": true,
   "type": "module",
   "exports": {
@@ -11,6 +12,5 @@
       "types": "./dist/*.d.ts"
     }
   },
-  "dependencies": {},
-  "name": "@devp0nt/deepmap0"
+  "dependencies": {}
 }

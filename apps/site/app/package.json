@@ -1,4 +1,5 @@
 {
+  "name": "@site/app",
   "private": true,
   "type": "module",
   "exports": {
@@ -36,6 +37,5 @@
     "@devp0nt/gen0": "workspace:*",
     "@idea/site": "workspace:*",
     "@site/core": "workspace:*"
-  },
-  "name": "@site/app"
+  }
 }

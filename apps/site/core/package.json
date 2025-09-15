@@ -1,4 +1,5 @@
 {
+  "name": "@site/core",
   "private": true,
   "type": "module",
   "exports": {
@@ -14,6 +15,5 @@
   "dependencies": {
     "@backend/trpc-router": "workspace:*",
     "@devp0nt/route0": "workspace:*"
-  },
-  "name": "@site/core"
+  }
 }

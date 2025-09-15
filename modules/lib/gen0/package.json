@@ -1,4 +1,5 @@
 {
+  "name": "@devp0nt/gen0",
   "private": true,
   "type": "module",
   "exports": {
@@ -23,6 +24,5 @@
     "@devp0nt/fs0": "workspace:*",
     "@devp0nt/lodash0": "workspace:*",
     "@devp0nt/meta0": "workspace:*"
-  },
-  "name": "@devp0nt/gen0"
+  }
 }

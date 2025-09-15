@@ -1,14 +1,10 @@
 {
+  "extends": "../../../.mono0/tsconfig.backend.json",
+  "include": ["./src/**/*"],
+  "exclude": ["**/dist/**/*", "**/node_modules/**/*", "**/public/**/*"],
   "compilerOptions": {
     "composite": true,
-    "declaration": true,
-    "declarationMap": true,
-    "emitDeclarationOnly": false,
-    "noEmitOnError": false,
-    "outDir": "./dist",
-    "declarationDir": "./dist",
     "tsBuildInfoFile": "~/node_modules/.cache/tsbuildinfo/@backend/core/.tsbuildinfo",
-    "rootDir": "./src",
     "paths": {
       "@backend/core/*": ["./src/*"],
       "@devp0nt/env0/*": ["../../../modules/lib/env0/src/*"],
@@ -23,11 +19,15 @@
       "@devp0nt/meta0": ["../../../modules/lib/meta0/src/index.ts"],
       "@prisma0/backend/*": ["../../../modules/prisma0/backend/src/*"],
       "@prisma0/backend": ["../../../modules/prisma0/backend/src/index.ts"]
-    }
+    },
+    "rootDir": "./src",
+    "declaration": true,
+    "declarationMap": true,
+    "emitDeclarationOnly": false,
+    "outDir": "./dist",
+    "noEmitOnError": false,
+    "declarationDir": "./dist"
   },
-  "exclude": ["**/dist/**/*", "**/node_modules/**/*", "**/public/**/*"],
-  "extends": "../../../.mono0/tsconfig.backend.json",
-  "include": ["./src/**/*"],
   "references": [
     {
       "path": "../../../modules/lib/env0/tsconfig.json"

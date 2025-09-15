@@ -1,25 +1,25 @@
 {
+  "extends": "../../../.mono0/tsconfig.shared.json",
+  "include": ["./src/**/*"],
+  "exclude": ["**/dist/**/*", "**/node_modules/**/*", "**/public/**/*"],
   "compilerOptions": {
     "composite": true,
-    "declaration": true,
-    "declarationMap": true,
-    "emitDeclarationOnly": false,
-    "noEmitOnError": false,
-    "outDir": "./dist",
-    "declarationDir": "./dist",
     "tsBuildInfoFile": "~/node_modules/.cache/tsbuildinfo/@devp0nt/logger0/.tsbuildinfo",
-    "rootDir": "./src",
     "paths": {
       "@devp0nt/logger0/*": ["./src/*"],
       "@devp0nt/error0/*": ["../error0/src/*"],
       "@devp0nt/error0": ["../error0/src/index.ts"],
       "@devp0nt/meta0/*": ["../meta0/src/*"],
       "@devp0nt/meta0": ["../meta0/src/index.ts"]
-    }
+    },
+    "rootDir": "./src",
+    "declaration": true,
+    "declarationMap": true,
+    "emitDeclarationOnly": false,
+    "outDir": "./dist",
+    "noEmitOnError": false,
+    "declarationDir": "./dist"
   },
-  "exclude": ["**/dist/**/*", "**/node_modules/**/*", "**/public/**/*"],
-  "extends": "../../../.mono0/tsconfig.shared.json",
-  "include": ["./src/**/*"],
   "references": [
     {
       "path": "../error0/tsconfig.json"

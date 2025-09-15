@@ -1,25 +1,25 @@
 {
+  "extends": "../../../.mono0/tsconfig.site.json",
+  "include": ["./src/**/*"],
+  "exclude": ["**/dist/**/*", "**/node_modules/**/*", "**/public/**/*"],
   "compilerOptions": {
     "composite": true,
-    "declaration": true,
-    "declarationMap": true,
-    "emitDeclarationOnly": false,
-    "noEmitOnError": false,
-    "outDir": "./dist",
-    "declarationDir": "./dist",
     "tsBuildInfoFile": "~/node_modules/.cache/tsbuildinfo/@site/core/.tsbuildinfo",
-    "rootDir": "./src",
     "paths": {
       "@site/core/*": ["./src/*"],
       "@backend/trpc-router/*": ["../../backend/router/trpc/src/*"],
       "@backend/trpc-router": ["../../backend/router/trpc/src/index.ts"],
       "@devp0nt/route0/*": ["../../../modules/lib/route0/src/*"],
       "@devp0nt/route0": ["../../../modules/lib/route0/src/index.ts"]
-    }
+    },
+    "rootDir": "./src",
+    "declaration": true,
+    "declarationMap": true,
+    "emitDeclarationOnly": false,
+    "outDir": "./dist",
+    "noEmitOnError": false,
+    "declarationDir": "./dist"
   },
-  "exclude": ["**/dist/**/*", "**/node_modules/**/*", "**/public/**/*"],
-  "extends": "../../../.mono0/tsconfig.site.json",
-  "include": ["./src/**/*"],
   "references": [
     {
       "path": "../../backend/router/trpc/tsconfig.json"

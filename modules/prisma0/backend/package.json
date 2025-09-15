@@ -1,4 +1,5 @@
 {
+  "name": "@prisma0/backend",
   "private": true,
   "type": "module",
   "exports": {
@@ -14,6 +15,5 @@
   "dependencies": {
     "@devp0nt/env0": "workspace:*",
     "@idea/shared": "workspace:*"
-  },
-  "name": "@prisma0/backend"
+  }
 }

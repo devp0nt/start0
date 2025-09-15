@@ -1,25 +1,25 @@
 {
+  "extends": "../../../.mono0/tsconfig.site.json",
+  "include": ["./src/**/*"],
+  "exclude": ["**/dist/**/*", "**/node_modules/**/*", "**/public/**/*"],
   "compilerOptions": {
     "composite": true,
-    "declaration": true,
-    "declarationMap": true,
-    "emitDeclarationOnly": false,
-    "noEmitOnError": false,
-    "outDir": "./dist",
-    "declarationDir": "./dist",
     "tsBuildInfoFile": "~/node_modules/.cache/tsbuildinfo/@idea/site/.tsbuildinfo",
-    "rootDir": "./src",
     "paths": {
       "@idea/site/*": ["./src/*"],
       "@devp0nt/route0/*": ["../../lib/route0/src/*"],
       "@devp0nt/route0": ["../../lib/route0/src/index.ts"],
       "@idea/shared/*": ["../shared/src/*"],
       "@site/core/*": ["../../../apps/site/core/src/*"]
-    }
+    },
+    "rootDir": "./src",
+    "declaration": true,
+    "declarationMap": true,
+    "emitDeclarationOnly": false,
+    "outDir": "./dist",
+    "noEmitOnError": false,
+    "declarationDir": "./dist"
   },
-  "exclude": ["**/dist/**/*", "**/node_modules/**/*", "**/public/**/*"],
-  "extends": "../../../.mono0/tsconfig.site.json",
-  "include": ["./src/**/*"],
   "references": [
     {
       "path": "../../lib/route0/tsconfig.json"

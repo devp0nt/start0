@@ -1,4 +1,5 @@
 {
+  "name": "@idea/shared",
   "private": true,
   "type": "module",
   "exports": {
@@ -9,6 +10,5 @@
   },
   "dependencies": {
     "@devp0nt/route0": "workspace:*"
-  },
-  "name": "@idea/shared"
+  }
 }

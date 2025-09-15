@@ -1,15 +1,15 @@
 {
   "compilerOptions": {
-    "lib": ["ESNext"],
-    "types": ["node", "bun"],
     "target": "ESNext",
-    "strict": true,
-    "jsx": "react-jsx",
-    "esModuleInterop": true,
-    "skipLibCheck": true,
     "module": "ESNext",
+    "lib": ["ESNext"],
+    "jsx": "react-jsx",
+    "resolveJsonModule": true,
+    "types": ["node", "bun"],
     "moduleResolution": "Bundler",
+    "esModuleInterop": true,
     "verbatimModuleSyntax": true,
-    "resolveJsonModule": true
+    "skipLibCheck": true,
+    "strict": true
   }
 }
