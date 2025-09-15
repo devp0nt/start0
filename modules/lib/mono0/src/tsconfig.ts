@@ -101,7 +101,10 @@ export class Mono0Tsconfig {
     if (result.extends) {
       if (result.extends.startsWith("$")) {
         const tsconfigName = result.extends.slice(1)
-        const extendsTsconfig = generalTsconfigs.find((tsconfig) => tsconfig.name === tsconfigName)
+        const unitTsconfigs = unit?.tsconfigs || []
+        const extendsTsconfig = [...unitTsconfigs, ...generalTsconfigs].find(
+          (tsconfig) => tsconfig.name === tsconfigName,
+        )
         if (!extendsTsconfig) {
           throw new Error(`Tsconfig "${tsconfigName}" not found in "${file0.path.rel}"`)
         }
@@ -379,8 +382,8 @@ export class Mono0Tsconfig {
 
   static mergeSettings(
     ...settings: [
-      Mono0Tsconfig.Settings | Mono0Tsconfig.DefinitionSettings,
-      ...Array<Mono0Tsconfig.Settings | Mono0Tsconfig.DefinitionSettings>,
+      Mono0Tsconfig.Settings | Mono0Tsconfig.DefinitionSettings | undefined,
+      ...Array<Mono0Tsconfig.Settings | Mono0Tsconfig.DefinitionSettings | undefined>,
     ]
   ): Mono0Tsconfig.Settings {
     const filteredSettings = settings.filter(Boolean) as Array<
@@ -545,8 +548,11 @@ export class Mono0Tsconfig {
     settings: {},
   } satisfies Mono0Tsconfig.FullDefinition
 
-  static mergeValue(...tsconfigs: [Mono0Tsconfig.Json, ...Mono0Tsconfig.Json[]]): Mono0Tsconfig.Json {
-    return tsconfigs.reduce((acc, tsconfig) => {
+  static mergeValue(
+    ...tsconfigs: [Mono0Tsconfig.Json | undefined, ...Array<Mono0Tsconfig.Json | undefined>]
+  ): Mono0Tsconfig.Json {
+    const tsconfigsFiltered = tsconfigs.filter(Boolean) as Array<Mono0Tsconfig.Json>
+    return tsconfigsFiltered.reduce((acc, tsconfig) => {
       return {
         // biome-ignore lint/performance/noAccumulatingSpread: <oh...>
         ...acc,
@@ -561,6 +567,7 @@ export class Mono0Tsconfig {
   async getMeta({ units }: { units: Mono0Unit[] }) {
     return {
       path: this.file0.path.rel,
+      name: this.name,
       value: await this.parseValue({ units }),
     }
   }
