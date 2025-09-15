@@ -4,7 +4,7 @@
     "": {
       "name": "ideanick",
       "dependencies": {
-        "@devp0nt/fs0": "^1.0.3",
+        "@devp0nt/fs0": "^1.0.7",
         "@hono/trpc-server": "^0.4.0",
         "@hono/zod-openapi": "^1.1.0",
         "@logtape/logtape": "^1.0.4",
@@ -200,6 +200,12 @@
     "modules/lib/route0": {
       "name": "@devp0nt/route0",
     },
+    "modules/lib/tmux0": {
+      "name": "@devp0nt/tmux0",
+      "dependencies": {
+        "@devp0nt/gen0": "workspace:*",
+      },
+    },
     "modules/lib/x": {
       "name": "@devp0nt/x0",
     },
@@ -315,7 +321,7 @@
 
     "@devp0nt/error0": ["@devp0nt/error0@workspace:modules/lib/error0"],
 
-    "@devp0nt/fs0": ["@devp0nt/fs0@1.0.3", "", { "dependencies": { "comment-json": "^4.2.5", "dotenv": "^17.2.2", "find-up": "^7.0.0", "globby": "^14.1.0", "is-glob": "^4.0.3", "jiti": "^2.5.1", "lodash": "^4.17.21", "micromatch": "^4.0.8" } }, "sha512-dR01IZ1QpYlUWjMzM953+BQsGt+BakqS1BJojXdsbqUGSMCKng7ULkKk6mxo/746Ae7FetlS8K8V1yjZ+G4JTQ=="],
+    "@devp0nt/fs0": ["@devp0nt/fs0@1.0.7", "", { "dependencies": { "comment-json": "^4.2.5", "dotenv": "^17.2.2", "find-up": "^7.0.0", "globby": "^14.1.0", "is-glob": "^4.0.3", "jiti": "^2.5.1", "lodash": "^4.17.21", "micromatch": "^4.0.8" } }, "sha512-aKmsF7EdTlGYEGnoCmYcblzm8sp35Py29nNH7gu2JJ5X4FtSJxbIkOCUd26J0ekdjA2L9wKMISnB0rrU1NV8Xw=="],
 
     "@devp0nt/gen0": ["@devp0nt/gen0@workspace:modules/lib/gen0"],
 
@@ -328,6 +334,8 @@
     "@devp0nt/mono0": ["@devp0nt/mono0@workspace:modules/lib/mono0"],
 
     "@devp0nt/route0": ["@devp0nt/route0@workspace:modules/lib/route0"],
+
+    "@devp0nt/tmux0": ["@devp0nt/tmux0@workspace:modules/lib/tmux0"],
 
     "@devp0nt/x0": ["@devp0nt/x0@workspace:modules/lib/x"],
 

@@ -28,7 +28,7 @@ export const importFromFiles = (
   if (!noWatcher) {
     ctx.watch(glob)
   }
-  const paths = ctx.fs0.findFilesPathsSync(glob)
+  const paths = ctx.fs0.globSync(glob)
   const result: { paths: string[] } = {
     paths: [],
   }
@@ -58,7 +58,7 @@ export const importAsFromFiles = (
   if (!noWatcher) {
     ctx.watch(glob)
   }
-  const paths = ctx.fs0.findFilesPathsSync(glob)
+  const paths = ctx.fs0.globSync(glob)
   const result: { paths: string[]; names: string[] } = {
     paths: [],
     names: [],

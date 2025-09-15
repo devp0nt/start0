@@ -58,7 +58,7 @@ export class Gen0PluginsManager {
   }
 
   async addPluginsByGlob(glob: Fs0.PathOrPaths, init: boolean = false) {
-    glob = this.fs0.toPaths(glob)
+    glob = this.fs0.toPathsAbs(glob)
     const plugins = await this.findAndCreateManyByGlob(glob)
     return await this.add(plugins, init)
   }
@@ -147,9 +147,7 @@ export class Gen0PluginsManager {
   }
 
   async findAndCreateManyByGlob(pluginsGlob: Fs0.PathOrPaths) {
-    const pluginsPaths = await this.fs0.findFilesPaths({
-      glob: pluginsGlob,
-    })
+    const pluginsPaths = await this.fs0.glob(pluginsGlob)
     return await Promise.all(
       pluginsPaths.map((filePath) => Gen0Plugin.createByFilePath({ filePath, config: this.config })),
     )

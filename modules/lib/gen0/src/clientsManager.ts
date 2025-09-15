@@ -56,7 +56,7 @@ export class Gen0ClientsManager {
   }
 
   async addByGlob(glob: Fs0.PathOrPaths, withDryRun: boolean = false) {
-    glob = this.fs0.toPaths(glob)
+    glob = this.fs0.toPathsAbs(glob)
     const clients = await this.findAndCreateManyByGlob(glob)
     return this.add(clients, withDryRun)
   }
@@ -141,10 +141,7 @@ export class Gen0ClientsManager {
   }
 
   async findAndCreateManyByGlob(clientsGlob: Fs0.PathOrPaths) {
-    const clientsPaths = await this.fs0.findFilesPathsContentMatch({
-      glob: clientsGlob,
-      search: [Gen0Target.startMark, Gen0Target.silentMark],
-    })
+    const clientsPaths = await this.fs0.globContentMatch(clientsGlob, [Gen0Target.startMark, Gen0Target.silentMark])
     return await Promise.all(
       clientsPaths.map((filePath) =>
         Gen0Client.create({ filePath, config: this.config, pluginsManager: this.pluginsManager }),
@@ -153,10 +150,7 @@ export class Gen0ClientsManager {
   }
 
   async findAndCreateManyByPath(path: Fs0.PathOrPaths) {
-    const clientsPaths = await this.fs0.ensureFilesPathsContentMatch({
-      path,
-      search: [Gen0Target.startMark, Gen0Target.silentMark],
-    })
+    const clientsPaths = await this.fs0.ensureFilesContentMatch(path, [Gen0Target.startMark, Gen0Target.silentMark])
     return await Promise.all(
       clientsPaths.map((filePath) =>
         Gen0Client.create({ filePath, config: this.config, pluginsManager: this.pluginsManager }),

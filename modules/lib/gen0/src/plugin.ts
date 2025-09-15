@@ -83,8 +83,7 @@ export class Gen0Plugin {
 
   static async createByFilePath({ filePath, config }: { filePath: string; config: Gen0Config }) {
     const file0 = File0.create({ filePath, rootDir: config.rootDir })
-    const imported = await file0.importFresh()
-    const definition = imported?.default || imported
+    const definition = await file0.import({ moduleCache: false, default: true })
     return Gen0Plugin.createByDefinition({
       definition,
       config,

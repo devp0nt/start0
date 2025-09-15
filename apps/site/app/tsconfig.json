@@ -15,8 +15,6 @@
       "@site/core/*": ["../core/src/*"],
       "@devp0nt/error0": ["../../../modules/lib/error0/src/index.ts"],
       "@devp0nt/error0/*": ["../../../modules/lib/error0/src/*"],
-      "@devp0nt/fs0": ["../../../modules/lib/fs0/src/index.ts"],
-      "@devp0nt/fs0/*": ["../../../modules/lib/fs0/src/*"],
       "@devp0nt/lodash0": ["../../../modules/lib/lodash0/src/index.ts"],
       "@devp0nt/lodash0/*": ["../../../modules/lib/lodash0/src/*"],
       "@devp0nt/meta0": ["../../../modules/lib/meta0/src/index.ts"],
@@ -51,9 +49,6 @@
     },
     {
       "path": "../../../modules/lib/error0/tsconfig.json"
-    },
-    {
-      "path": "../../../modules/lib/fs0/tsconfig.json"
     },
     {
       "path": "../../../modules/lib/lodash0/tsconfig.json"

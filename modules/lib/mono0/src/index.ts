@@ -132,12 +132,23 @@ export class Mono0 {
 
   async execParallel(commandParts: string[], match: string) {
     const units = Mono0Unit.filterUnits({ units: this.units, match })
+    if (units.length === 0) {
+      throw new Error(`No units found for match "${match}"`)
+    }
+
+    if (units.length === 1) {
+      return await this.execSequential(commandParts, match)
+    }
+
+    const [cmd, ...args] = commandParts
+    for (const unit of units) {
+      this.logger.info(`${this.rootFs0.toRel(unit.fs0.cwd)} $ ${cmd} ${args.join(' ')}`)
+    }
 
     await Promise.all(
       units.map(
         (unit) =>
           new Promise<void>((resolve, reject) => {
-            const [cmd, ...args] = commandParts
             const child = spawn(cmd, args, {
               cwd: unit.fs0.cwd,
               stdio: 'inherit', // live output
@@ -154,9 +165,13 @@ export class Mono0 {
 
   async execSequential(commandParts: string[], match: string) {
     const units = Mono0Unit.filterUnits({ units: this.units, match })
+    if (units.length === 0) {
+      throw new Error(`No units found for match "${match}"`)
+    }
 
     for (const unit of units) {
       const [cmd, ...args] = commandParts
+      this.logger.info(`${this.rootFs0.toRel(unit.fs0.cwd)} $ ${cmd} ${args.join(' ')}`)
 
       await new Promise<void>((resolve, reject) => {
         const child = spawn(cmd, args, {

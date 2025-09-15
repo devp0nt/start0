@@ -9,8 +9,6 @@
       "@devp0nt/tmux0/*": ["./src/*"],
       "@devp0nt/gen0": ["../gen0/src/index.ts"],
       "@devp0nt/gen0/*": ["../gen0/src/*"],
-      "@devp0nt/fs0": ["../fs0/src/index.ts"],
-      "@devp0nt/fs0/*": ["../fs0/src/*"],
       "@devp0nt/lodash0": ["../lodash0/src/index.ts"],
       "@devp0nt/lodash0/*": ["../lodash0/src/*"],
       "@devp0nt/meta0": ["../meta0/src/index.ts"],
@@ -27,9 +25,6 @@
   "references": [
     {
       "path": "../gen0/tsconfig.json"
-    },
-    {
-      "path": "../fs0/tsconfig.json"
     },
     {
       "path": "../lodash0/tsconfig.json"

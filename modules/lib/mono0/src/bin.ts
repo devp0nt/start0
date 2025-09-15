@@ -45,18 +45,17 @@ program
   .command('exec')
   .alias('e')
   .description('Exec')
-  .argument('<match>', 'Match')
   .argument('<command...>', 'Command')
-  .option('-p, --parallel', 'Parallel')
+  .option('-m, --match <search>', 'Match', '**')
+  .option('-s, --sequential', 'Sequential', false)
   .passThroughOptions() // 👈 makes Commander stop interpreting options
   .action(
-    withMono0(async (mono0, match: string, commandParts: string[], options: { parallel: boolean }) => {
+    withMono0(async (mono0, commandParts: string[], options: { match: string; sequential: boolean }) => {
       const [cmd, ...args] = commandParts
-
-      if (options.parallel) {
-        await mono0.execParallel([cmd, ...args], match)
+      if (options.sequential) {
+        await mono0.execSequential([cmd, ...args], options.match)
       } else {
-        await mono0.execSequential([cmd, ...args], match)
+        await mono0.execParallel([cmd, ...args], options.match)
       }
     }),
   )

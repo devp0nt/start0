@@ -29,9 +29,6 @@
       "path": "./modules/lib/error0/tsconfig.json"
     },
     {
-      "path": "./modules/lib/fs0/tsconfig.json"
-    },
-    {
       "path": "./modules/lib/gen0/tsconfig.json"
     },
     {

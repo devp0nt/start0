@@ -35,7 +35,7 @@ export class Mono0Config {
   }
 
   static async get({ cwd }: { cwd?: string } = {}) {
-    const configFile0 = await Fs0.findUpFile(
+    const configFile0 = await Fs0.findUpFile0(
       ['.mono0rc.json', '.mono0rc.jsonc', '.mono0/config.json', '.mono0/config.jsonc'],
       { cwd },
     )

@@ -4,7 +4,7 @@ import type { Page0 } from '@site/core/lib/page0'
 export default (async ({ fs0, _ }) => {
   await fs0.loadEnv('.env')
 
-  const { RRGen0 } = await fs0.importFresh<typeof import('./gen0.templates')>('./gen0.templates.ts')
+  const { RRGen0 } = await fs0.import<typeof import('./gen0.templates')>('./gen0.templates.ts', { moduleCache: false })
   const pagesGlob = ['~/**/*.page.ts{x,}']
   const watchGlob = [...pagesGlob, './gen0.templates.ts']
   const appDir = fs0.resolve('.')
@@ -41,16 +41,16 @@ export default (async ({ fs0, _ }) => {
 
   const generateAllRoutesFiles = async (pagesPaths?: string[]) => {
     // biome-ignore lint/nursery/noUnnecessaryConditions: <biome bug>
-    pagesPaths = pagesPaths || (await fs0.findFilesPaths(pagesGlob))
+    pagesPaths = pagesPaths || (await fs0.glob(pagesGlob))
     await Promise.all(pagesPaths.map(generateRouteFileByPagePath))
     return pagesPaths
   }
 
   const removeAllUnusedRoutesFiles = async (pagesPaths?: string[]) => {
     // biome-ignore lint/nursery/noUnnecessaryConditions: <biome bug>
-    pagesPaths = pagesPaths || (await fs0.findFilesPaths(pagesGlob))
+    pagesPaths = pagesPaths || (await fs0.glob(pagesGlob))
     const unuedPaths: string[] = []
-    const existsingRoutesPaths = await fs0.findFilesPaths(generatedRoutesDir)
+    const existsingRoutesPaths = await fs0.glob(generatedRoutesDir)
     const neeededRoutesPaths = pagesPaths.map((pagePath) => getHelpersByPagePath(pagePath).routeFilePath)
     for (const existingRoutePath of existsingRoutesPaths) {
       if (!neeededRoutesPaths.includes(existingRoutePath)) {
@@ -63,13 +63,13 @@ export default (async ({ fs0, _ }) => {
 
   const generateRoutesFile = async (pagesPaths?: string[]) => {
     // biome-ignore lint/nursery/noUnnecessaryConditions: <biome bug>
-    pagesPaths = pagesPaths || (await fs0.findFilesPaths(pagesGlob))
+    pagesPaths = pagesPaths || (await fs0.glob(pagesGlob))
     const input: RRInput[] = await Promise.all(
       pagesPaths.map((pagePath) =>
         fs0
           // .importFreshDefault1<Page0<any, any>>(pagePath, { "@site/core/*": "../../apps/site/core/*" })
-          .importFreshDefault<Page0<any, any>>(pagePath)
-          .then(async (page) => {
+          .import<{ default: Page0<any, any> }>(pagePath, { default: true })
+          .then(async ({ default: page }) => {
             const { routePathRelativeToAppDir } = getHelpersByPagePath(pagePath)
             const layouts = page.layouts
             const route0Definition = page.route.getDefinition()

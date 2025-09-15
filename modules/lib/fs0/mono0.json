@@ -1,5 +1,0 @@
-{
-  "name": "@devp0nt/fs0",
-  "preset": "shared",
-  "deps": ["@devp0nt/deepmap0"]
-}

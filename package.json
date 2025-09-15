@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "types": "tsc --noEmit",
+    "types": "bun run --filter='*' types",
     "lint": "biome check --write",
     "test": "bun test",
     "prepare": "husky",
@@ -11,7 +11,7 @@
     "watch:m": "tsc --build --watch"
   },
   "dependencies": {
-    "@devp0nt/fs0": "^1.0.3",
+    "@devp0nt/fs0": "^1.0.7",
     "@hono/trpc-server": "^0.4.0",
     "@hono/zod-openapi": "^1.1.0",
     "@logtape/logtape": "^1.0.4",
@@ -100,6 +100,7 @@
       "./modules/lib/meta0",
       "./modules/lib/mono0",
       "./modules/lib/route0",
+      "./modules/lib/tmux0",
       "./modules/lib/x",
       "./modules/idea/backend",
       "./modules/idea/shared",

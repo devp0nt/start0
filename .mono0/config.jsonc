@@ -25,7 +25,7 @@
       "private": true,
       "type": "module",
       "scripts": {
-        "types": "tsc --noEmit",
+        "types": "bun run --filter='*' types",
         "build:m": "tsc --build",
         "watch:m": "tsc --build --watch"
       }

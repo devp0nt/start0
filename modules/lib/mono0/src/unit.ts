@@ -1,5 +1,5 @@
 import nodePath from 'node:path'
-import type { File0, Fs0 } from '@devp0nt/fs0'
+import { type File0, Fs0 } from '@devp0nt/fs0'
 import pick from 'lodash-es/pick.js'
 import z from 'zod'
 import type { Mono0Config } from './config'
@@ -271,7 +271,7 @@ export class Mono0Unit {
   }
 
   hasMatchByMatchParsed(m: Mono0Unit.DependencyMatchParsed) {
-    const matchByName = m.name ? this.name === m.name : undefined
+    const matchByName = m.name ? Fs0.isStringMatch(this.name, m.name) : undefined
     const matchByTagsInclude =
       m.tagsInclude.length > 0 ? m.tagsInclude.every((tag) => this.tags.includes(tag)) : undefined
     const matchByTagsExclude =
