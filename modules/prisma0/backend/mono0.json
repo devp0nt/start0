@@ -1,6 +1,6 @@
 {
   "name": "@prisma0/backend",
-  "preset": "backend",
+  "preset": ["cold", "backend"],
   "tags": ["prisma"],
   "deps": ["@idea/shared", "@devp0nt/env0"]
 }

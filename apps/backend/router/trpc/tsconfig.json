@@ -17,9 +17,7 @@
       "@devp0nt/logger0": ["../../../../modules/lib/logger0/src/index.ts"],
       "@devp0nt/logger0/*": ["../../../../modules/lib/logger0/src/*"],
       "@devp0nt/meta0": ["../../../../modules/lib/meta0/src/index.ts"],
-      "@devp0nt/meta0/*": ["../../../../modules/lib/meta0/src/*"],
-      "@prisma0/backend": ["../../../../modules/prisma0/backend/src/index.ts"],
-      "@prisma0/backend/*": ["../../../../modules/prisma0/backend/src/*"]
+      "@devp0nt/meta0/*": ["../../../../modules/lib/meta0/src/*"]
     },
     "rootDir": "./src",
     "declaration": true,
