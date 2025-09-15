@@ -1,7 +1,7 @@
 import type { File0, Fs0 } from "@devp0nt/fs0"
-import { Mono0Tsconfig } from "@devp0nt/mono0/tsconfig"
 import isEqual from "lodash-es/isEqual.js"
 import set from "lodash-es/set.js"
+import uniq from "lodash-es/uniq.js"
 import type { PackageJson as PackageJsonTypeFest } from "type-fest"
 import z from "zod"
 import type { Mono0Config } from "./config"
@@ -255,7 +255,49 @@ export class Mono0PackageJson {
 
   async write({ units }: { units: Mono0Unit[] }) {
     const { value, depsChanged } = await this.getNewValue({ units })
-    await this.file0.writeJson(value, true)
+    const sort = [
+      "name",
+      "version",
+      "private",
+      "description",
+      "keywords",
+      "license",
+      "author",
+      "contributors",
+      "funding",
+      "homepage",
+      "repository",
+      "bugs",
+      "type",
+      "sideEffects",
+      "main",
+      "module",
+      "types",
+      "typings",
+      "exports",
+      "files",
+      "bin",
+      "man",
+      "directories",
+      "scripts",
+      "config",
+      "dependencies",
+      "peerDependencies",
+      "peerDependenciesMeta",
+      "optionalDependencies",
+      "devDependencies",
+      "bundleDependencies",
+      "bundledDependencies",
+      "engines",
+      "engineStrict",
+      "os",
+      "cpu",
+      "publishConfig",
+      "overrides",
+      "resolutions",
+      "packageManager",
+    ]
+    await this.file0.writeJson(value, sort, true)
     return { depsChanged }
   }
 

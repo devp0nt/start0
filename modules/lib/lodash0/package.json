@@ -1,7 +1,6 @@
 {
-  "dependencies": {},
-  "name": "@devp0nt/lodash0",
   "private": true,
+  "type": "module",
   "exports": {
     ".": {
       "import": "./dist/index.js",
@@ -12,5 +11,6 @@
       "types": "./dist/*.d.ts"
     }
   },
-  "type": "module"
+  "dependencies": {},
+  "name": "@devp0nt/lodash0"
 }

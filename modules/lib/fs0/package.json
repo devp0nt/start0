@@ -1,6 +1,4 @@
 {
-  "dependencies": {},
-  "name": "@devp0nt/fs0",
   "private": true,
   "type": "module",
   "exports": {
@@ -12,5 +10,7 @@
       "import": "./dist/*.js",
       "types": "./dist/*.d.ts"
     }
-  }
+  },
+  "dependencies": {},
+  "name": "@devp0nt/fs0"
 }

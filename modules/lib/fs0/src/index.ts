@@ -8,6 +8,7 @@ import dotenv from "dotenv"
 import { findUp, findUpSync } from "find-up"
 import { type Options as GlobbyOptions, globby, globbySync } from "globby"
 import { createJiti } from "jiti"
+import uniq from "lodash-es/uniq.js"
 import micromatch from "micromatch"
 
 // TODO: При импорте файла через джити находить ближайший тсконфиг и тянуть из него paths чтобы разрезолвить алиасы абсолютно, и вообще вторым аргументом любые настройкли джити
@@ -376,7 +377,7 @@ export class Fs0 {
       : sort === true
         ? CommentJson.assign({}, content, Object.keys(content as {}).sort())
         : Array.isArray(sort)
-          ? CommentJson.assign({}, content, sort)
+          ? CommentJson.assign({}, content, uniq([...sort, ...Object.keys(content as {})]))
           : CommentJson.assign({}, content, sort(content))
     this.writeFileSync(path, CommentJson.stringify(sortedContent, null, 2), format)
   }
@@ -391,7 +392,7 @@ export class Fs0 {
       : sort === true
         ? CommentJson.assign({}, content, Object.keys(content as {}).sort())
         : Array.isArray(sort)
-          ? CommentJson.assign({}, content, sort)
+          ? CommentJson.assign({}, content, uniq([...sort, ...Object.keys(content as {})]))
           : CommentJson.assign({}, content, sort(content))
     await this.writeFile(path, CommentJson.stringify(sortedContent, null, 2), format)
   }

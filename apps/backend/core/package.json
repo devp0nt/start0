@@ -1,4 +1,12 @@
 {
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./lib/*": {
+      "import": "./dist/lib/*.js",
+      "types": "./dist/lib/*.d.ts"
+    }
+  },
   "dependencies": {
     "@devp0nt/env0": "workspace:*",
     "@devp0nt/error0": "workspace:*",
@@ -7,13 +15,5 @@
     "@devp0nt/meta0": "workspace:*",
     "@prisma0/backend": "workspace:*"
   },
-  "name": "@backend/core",
-  "private": true,
-  "type": "module",
-  "exports": {
-    "./lib/*": {
-      "import": "./dist/lib/*.js",
-      "types": "./dist/lib/*.d.ts"
-    }
-  }
+  "name": "@backend/core"
 }

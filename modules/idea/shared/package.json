@@ -1,8 +1,4 @@
 {
-  "dependencies": {
-    "@devp0nt/route0": "workspace:*"
-  },
-  "name": "@idea/shared",
   "private": true,
   "type": "module",
   "exports": {
@@ -10,5 +6,9 @@
       "import": "./dist/*.js",
       "types": "./dist/*.d.ts"
     }
-  }
+  },
+  "dependencies": {
+    "@devp0nt/route0": "workspace:*"
+  },
+  "name": "@idea/shared"
 }

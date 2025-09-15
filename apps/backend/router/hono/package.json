@@ -1,8 +1,4 @@
 {
-  "dependencies": {
-    "@backend/core": "workspace:*"
-  },
-  "name": "@backend/hono-router",
   "private": true,
   "type": "module",
   "exports": {
@@ -22,5 +18,9 @@
       "import": "./dist/ping/*.js",
       "types": "./dist/ping/*.d.ts"
     }
-  }
+  },
+  "dependencies": {
+    "@backend/core": "workspace:*"
+  },
+  "name": "@backend/hono-router"
 }

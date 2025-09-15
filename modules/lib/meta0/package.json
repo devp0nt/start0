@@ -1,9 +1,6 @@
 {
-  "dependencies": {
-    "@devp0nt/deepmap0": "workspace:*"
-  },
-  "name": "@devp0nt/meta0",
   "private": true,
+  "type": "module",
   "exports": {
     ".": {
       "import": "./dist/index.js",
@@ -14,5 +11,8 @@
       "types": "./dist/*.d.ts"
     }
   },
-  "type": "module"
+  "dependencies": {
+    "@devp0nt/deepmap0": "workspace:*"
+  },
+  "name": "@devp0nt/meta0"
 }

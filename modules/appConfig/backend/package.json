@@ -1,8 +1,4 @@
 {
-  "dependencies": {
-    "@backend/core": "workspace:*"
-  },
-  "name": "@appConfig/backend",
   "private": true,
   "type": "module",
   "exports": {
@@ -10,5 +6,9 @@
       "import": "./dist/*.js",
       "types": "./dist/*.d.ts"
     }
-  }
+  },
+  "dependencies": {
+    "@backend/core": "workspace:*"
+  },
+  "name": "@appConfig/backend"
 }

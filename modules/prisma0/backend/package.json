@@ -1,10 +1,6 @@
 {
-  "dependencies": {
-    "@devp0nt/env0": "workspace:*",
-    "@idea/shared": "workspace:*"
-  },
-  "name": "@prisma0/backend",
   "private": true,
+  "type": "module",
   "exports": {
     ".": {
       "import": "./dist/index.js",
@@ -15,5 +11,9 @@
       "types": "./dist/*.d.ts"
     }
   },
-  "type": "module"
+  "dependencies": {
+    "@devp0nt/env0": "workspace:*",
+    "@idea/shared": "workspace:*"
+  },
+  "name": "@prisma0/backend"
 }

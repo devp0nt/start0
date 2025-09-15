@@ -1,10 +1,6 @@
 {
-  "dependencies": {
-    "@backend/trpc-router": "workspace:*",
-    "@devp0nt/route0": "workspace:*"
-  },
-  "name": "@site/core",
   "private": true,
+  "type": "module",
   "exports": {
     "./components/*": {
       "import": "./dist/components/*.js",
@@ -15,5 +11,9 @@
       "types": "./dist/lib/*.d.ts"
     }
   },
-  "type": "module"
+  "dependencies": {
+    "@backend/trpc-router": "workspace:*",
+    "@devp0nt/route0": "workspace:*"
+  },
+  "name": "@site/core"
 }

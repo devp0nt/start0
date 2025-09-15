@@ -1,8 +1,6 @@
 {
-  "name": "@tools/shared",
   "private": true,
   "type": "module",
-  "dependencies": {},
   "exports": {
     ".": {
       "import": "./dist/index.js",
@@ -12,5 +10,7 @@
       "import": "./dist/*.js",
       "types": "./dist/*.d.ts"
     }
-  }
+  },
+  "dependencies": {},
+  "name": "@tools/shared"
 }

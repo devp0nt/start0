@@ -1,18 +1,18 @@
 {
-  "dependencies": {
-    "@backend/core": "workspace:*"
-  },
-  "name": "@backend/services",
   "private": true,
   "type": "module",
-  "scripts": {
-    "dev1": "bun --tsconfig-override tsconfig.json src/dev.ts --watch",
-    "dev": "NODE_ENV=development bun src/dev.ts --watch"
-  },
   "exports": {
     "./*": {
       "import": "./dist/*.js",
       "types": "./dist/*.d.ts"
     }
-  }
+  },
+  "scripts": {
+    "dev1": "bun --tsconfig-override tsconfig.json src/dev.ts --watch",
+    "dev": "NODE_ENV=development bun src/dev.ts --watch"
+  },
+  "dependencies": {
+    "@backend/core": "workspace:*"
+  },
+  "name": "@backend/services"
 }

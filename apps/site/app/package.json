@@ -1,20 +1,6 @@
 {
-  "dependencies": {
-    "@react-router/node": "catalog:",
-    "isbot": "^5",
-    "@devp0nt/env0": "workspace:*",
-    "@devp0nt/gen0": "workspace:*",
-    "@idea/site": "workspace:*",
-    "@site/core": "workspace:*"
-  },
-  "name": "@site/app",
   "private": true,
-  "scripts": {
-    "build": "cross-env NODE_ENV=production react-router build",
-    "dev": "cross-env NODE_ENV=development bun run --bun vite",
-    "start": "cross-env NODE_ENV=production bun ./dist/server/index.js",
-    "types": "rimraf dist && react-router typegen && tsc"
-  },
+  "type": "module",
   "exports": {
     "./*": {
       "import": "./dist/*.js",
@@ -37,5 +23,19 @@
       "types": "./dist/routes/generated/*.d.ts"
     }
   },
-  "type": "module"
+  "scripts": {
+    "build": "cross-env NODE_ENV=production react-router build",
+    "dev": "cross-env NODE_ENV=development bun run --bun vite",
+    "start": "cross-env NODE_ENV=production bun ./dist/server/index.js",
+    "types": "rimraf dist && react-router typegen && tsc"
+  },
+  "dependencies": {
+    "@react-router/node": "catalog:",
+    "isbot": "^5",
+    "@devp0nt/env0": "workspace:*",
+    "@devp0nt/gen0": "workspace:*",
+    "@idea/site": "workspace:*",
+    "@site/core": "workspace:*"
+  },
+  "name": "@site/app"
 }
