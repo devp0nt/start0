@@ -10,13 +10,13 @@ alias m := mono0
 # forward command to app
 
 backend *ARGS:
-  cd ./apps/backend && bun run {{ARGS}}
+  just mono0 exec @backend/services bun run {{ARGS}}
 
 site *ARGS:
-  cd ./apps/site && bun run {{ARGS}}
+  just mono0 exec @site/app bun run {{ARGS}}
 
 tools *ARGS:
-  cd ./tools && bun run {{ARGS}}
+  just mono0 exec @tools/shared bun run {{ARGS}}
 
 # mega dev command
 
@@ -56,13 +56,13 @@ watch *ARGS:
 # prisma commands
 
 prisma-migrate-dev *ARGS:
-  cd ./modules/prisma0/backend && bun run --env-file=./.env prisma migrate dev {{ARGS}}
+  just mono0 exec @prisma0/backend bun run --env-file=./.env prisma migrate dev {{ARGS}}
 
 prisma-migrate-test *ARGS:
-  cd ./modules/prisma0/backend && bun run --env-file=./.env.test prisma migrate dev {{ARGS}}
+  just mono0 exec @prisma0/backend bun run --env-file=./.env.test prisma migrate dev {{ARGS}}
 
 prisma-generate-client *ARGS:
-  cd ./modules/prisma0/backend && bun run --env-file=./.env prisma generate client {{ARGS}}
+  just mono0 exec @prisma0/backend bun run --env-file=./.env prisma generate client {{ARGS}}
 
 # tools
 

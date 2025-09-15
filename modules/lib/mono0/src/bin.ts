@@ -7,6 +7,7 @@ import { Mono0 } from "./index"
 import { Mono0Logger } from "./logger"
 
 const program = new Command()
+program.enablePositionalOptions()
 program.name("mono0").description("A monorepo manager tool").version("1.0.0")
 
 // helpers
@@ -46,14 +47,16 @@ program
   .description("Exec")
   .argument("<match>", "Match")
   .argument("<command...>", "Command")
-  .option("-s, --sequential", "Sequential")
+  .option("-p, --parallel", "Parallel")
+  .passThroughOptions() // 👈 makes Commander stop interpreting options
   .action(
-    withMono0(async (mono0, match: string, commandParts: string[], options: { sequential: boolean }) => {
-      const command = commandParts.join(" ")
-      if (options.sequential) {
-        await mono0.execSequential(command, match)
+    withMono0(async (mono0, match: string, commandParts: string[], options: { parallel: boolean }) => {
+      const [cmd, ...args] = commandParts
+
+      if (options.parallel) {
+        await mono0.execParallel([cmd, ...args], match)
       } else {
-        await mono0.execParallel(command, match)
+        await mono0.execSequential([cmd, ...args], match)
       }
     }),
   )

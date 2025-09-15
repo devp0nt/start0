@@ -8,7 +8,6 @@ import { Mono0Tsconfig } from "./tsconfig"
 import { Mono0Unit } from "./unit"
 import watcherGen0 from "./watcher-gen0"
 
-// TODO: mono0 run --filter X command
 // TODO: gix jest commands
 
 // TODO: ? мэниконфиг
@@ -121,33 +120,46 @@ export class Mono0 {
     return Mono0Unit.getFilePathRelativeToPackageName({ absFilePath, units: this.units })
   }
 
-  async execSequential(command: string | string[], match?: string) {
+  async execParallel(commandParts: string[], match: string) {
     const units = Mono0Unit.filterUnits({ units: this.units, match })
-    const commandStr = Array.isArray(command) ? command.join(" ") : command
-    for (const unit of units) {
-      execSync(commandStr, { cwd: unit.fs0.cwd, stdio: "inherit" })
-    }
-  }
 
-  async execParallel(command: string | string[], match: string) {
-    const units = Mono0Unit.filterUnits({ units: this.units, match })
-    const commandArr = Array.isArray(command) ? command : [command]
     await Promise.all(
       units.map(
         (unit) =>
           new Promise<void>((resolve, reject) => {
-            const child = spawn(commandArr[0], commandArr.slice(1), {
+            const [cmd, ...args] = commandParts
+            const child = spawn(cmd, args, {
               cwd: unit.fs0.cwd,
-              stdio: "inherit", // pipes output directly
-              shell: true, // so it works with normal shell commands
+              stdio: "inherit", // live output
             })
+
             child.on("exit", (code) => {
               if (code === 0) resolve()
-              else reject(new Error(`${command} failed in ${unit.fs0.cwd} with code ${code}`))
+              else reject(new Error(`${cmd} failed in ${unit.fs0.cwd} with code ${code}`))
             })
           }),
       ),
     )
+  }
+
+  async execSequential(commandParts: string[], match: string) {
+    const units = Mono0Unit.filterUnits({ units: this.units, match })
+
+    for (const unit of units) {
+      const [cmd, ...args] = commandParts
+
+      await new Promise<void>((resolve, reject) => {
+        const child = spawn(cmd, args, {
+          cwd: unit.fs0.cwd,
+          stdio: "inherit", // интерактивный режим
+        })
+
+        child.on("exit", (code) => {
+          if (code === 0) resolve()
+          else reject(new Error(`${cmd} failed in ${unit.fs0.cwd} with code ${code}`))
+        })
+      })
+    }
   }
 
   async watch() {
