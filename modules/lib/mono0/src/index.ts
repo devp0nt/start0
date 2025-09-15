@@ -8,11 +8,7 @@ import { Mono0Tsconfig } from "./tsconfig"
 import { Mono0Unit } from "./unit"
 import watcherGen0 from "./watcher-gen0"
 
-// TODO: packaheJsons in config, name, scripts
 // TODO: tsconfigs as record
-// TODO: Освободить от особых значений рут и бэйз конфиг, всё решать сеттинги
-// TODO: addDependenciesReferencesToSelfReferences
-// TODO: addPathsToDist
 // TODO: В билд конфиг добавляем срц пас только на срц
 // TODO: preset cold: tag #cold, do not add paths to tsconfig, by filtering
 
