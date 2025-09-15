@@ -15,7 +15,7 @@
       "@site/core/*": ["../core/src/*"]
     },
     "rootDirs": ["./", "./.react-router/types"],
-    "rootDir": "./src",
+    "rootDir": "./",
     "declaration": true,
     "declarationMap": true,
     "emitDeclarationOnly": false,

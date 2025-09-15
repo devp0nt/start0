@@ -143,7 +143,7 @@ export class Mono0Tsconfig {
       result.include = uniq(parsedInclude)
     }
 
-    if (unit && settings.setSrcAsRootDir) {
+    if (unit && settings.setSrcAsRootDir && !result.compilerOptions?.rootDir) {
       const srcRootDir = fs0.toRel(unit.srcFs0.cwd, true)
       result.compilerOptions = {
         ...result.compilerOptions,
