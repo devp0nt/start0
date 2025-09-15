@@ -3,6 +3,7 @@ import fsSync from "node:fs"
 import fs from "node:fs/promises"
 import nodePath from "node:path"
 import readline from "node:readline"
+import CommentJson from "comment-json"
 import dotenv from "dotenv"
 import { findUp, findUpSync } from "find-up"
 import { type Options as GlobbyOptions, globby, globbySync } from "globby"
@@ -355,7 +356,6 @@ export class Fs0 {
       this.formatFileSync(path)
     }
   }
-
   async writeFile(path: string, content: string, format: boolean = false) {
     path = this.normalizePath(path)
     await fs.mkdir(nodePath.dirname(path), { recursive: true })
@@ -363,6 +363,37 @@ export class Fs0 {
     if (format) {
       await this.formatFile(path)
     }
+  }
+
+  writeJsonSync<T>(
+    path: string,
+    content: T,
+    sort: boolean | string[] | ((content: T) => string[]) = false,
+    format: boolean = false,
+  ) {
+    const sortedContent = !sort
+      ? content
+      : sort === true
+        ? CommentJson.assign({}, content, Object.keys(content as {}).sort())
+        : Array.isArray(sort)
+          ? CommentJson.assign({}, content, sort)
+          : CommentJson.assign({}, content, sort(content))
+    this.writeFileSync(path, CommentJson.stringify(sortedContent, null, 2), format)
+  }
+  async writeJson<T>(
+    path: string,
+    content: T,
+    sort: boolean | string[] | ((content: T) => string[]) = false,
+    format: boolean = false,
+  ) {
+    const sortedContent = !sort
+      ? content
+      : sort === true
+        ? CommentJson.assign({}, content, Object.keys(content as {}).sort())
+        : Array.isArray(sort)
+          ? CommentJson.assign({}, content, sort)
+          : CommentJson.assign({}, content, sort(content))
+    await this.writeFile(path, CommentJson.stringify(sortedContent, null, 2), format)
   }
 
   formatFileSync(path: string) {
@@ -384,11 +415,11 @@ export class Fs0 {
   }
 
   readJsonSync<T = any>(path: string) {
-    return JSON.parse(this.readFileSync(path)) as T
+    return CommentJson.parse(this.readFileSync(path)) as T
   }
 
   async readJson<T = any>(path: string) {
-    return JSON.parse(await this.readFile(path)) as T
+    return CommentJson.parse(await this.readFile(path)) as T
   }
 
   resolve(...paths: string[]): string {
@@ -626,6 +657,17 @@ export class File0 {
 
   async write(content: string, format: boolean = false) {
     return this.fs0.writeFile(this.path.abs, content, format)
+  }
+
+  writeJsonSync<T>(content: T, sort: boolean | string[] | ((content: T) => string[]) = false, format: boolean = false) {
+    return this.fs0.writeJsonSync(this.path.abs, content, sort, format)
+  }
+  async writeJson<T>(
+    content: T,
+    sort: boolean | string[] | ((content: T) => string[]) = false,
+    format: boolean = false,
+  ) {
+    return await this.fs0.writeJson(this.path.abs, content, sort, format)
   }
 
   formatSync() {

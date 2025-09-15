@@ -180,7 +180,6 @@ export class Mono0Tsconfig {
     }
 
     if (settings.addUnitsAsReferences) {
-      console.log("addUnitsAsReferences", settings.addUnitsAsReferences)
       const addUnitsAsReferences = settings.addUnitsAsReferences
       const scope = addUnitsAsReferences.scope
       const unitsScoped = scope === "all" ? units : unit?.deps.map((dep) => dep.unit) || []
@@ -296,7 +295,7 @@ export class Mono0Tsconfig {
       units,
       generalTsconfigs: this.generalTsconfigs,
     })
-    await this.file0.write(JSON.stringify(valueParsed, null, 2), true)
+    await this.file0.writeJson(valueParsed, true, true)
   }
 
   static mergeSettings(
@@ -432,18 +431,16 @@ export class Mono0Tsconfig {
     value: Mono0Tsconfig.zValueDefinition.optional().default({}),
   })
 
-  static zDefinition = z
-    .union([Mono0Tsconfig.zValueDefinition, Mono0Tsconfig.zFullDefinition])
-    .transform(
-      (val) =>
-        ("path" in val || "value" in val
-          ? {
-              path: val.path || "tsconfig.json",
-              value: val.value,
-              settings: Mono0Tsconfig.zDefinitionSettings.parse(val.settings) || {},
-            }
-          : { path: "tsconfig.json", value: val, settings: {} }) as Mono0Tsconfig.FullDefinitionParsed,
-    )
+  static zDefinition = z.union([Mono0Tsconfig.zValueDefinition, Mono0Tsconfig.zFullDefinition]).transform(
+    (val) =>
+      ("path" in val || "value" in val
+        ? {
+            path: val.path || "tsconfig.json",
+            value: val.value,
+            settings: Mono0Tsconfig.zDefinitionSettings.parse(val.settings) || {},
+          }
+        : { path: "tsconfig.json", value: val, settings: {} }) as Mono0Tsconfig.FullDefinitionParsed,
+  )
 
   static definitionDefault = {
     path: "tsconfig.json",

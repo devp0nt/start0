@@ -255,7 +255,7 @@ export class Mono0PackageJson {
 
   async write({ units }: { units: Mono0Unit[] }) {
     const { value, depsChanged } = await this.getNewValue({ units })
-    await this.file0.write(JSON.stringify(value, null, 2), true)
+    await this.file0.writeJson(value, true)
     return { depsChanged }
   }
 
@@ -386,18 +386,16 @@ export class Mono0PackageJson {
     settings: Mono0PackageJson.zDefinitionSettings,
   })
 
-  static zDefinition = z
-    .union([Mono0PackageJson.zValueDefinition, Mono0PackageJson.zFullDefinition])
-    .transform(
-      (val) =>
-        ("path" in val || "value" in val
-          ? {
-              path: val.path || "package.json",
-              value: val.value,
-              settings: Mono0PackageJson.zDefinitionSettings.parse(val.settings) || {},
-            }
-          : { path: "package.json", value: val, settings: {} }) as Mono0PackageJson.FullDefinitionParsed,
-    )
+  static zDefinition = z.union([Mono0PackageJson.zValueDefinition, Mono0PackageJson.zFullDefinition]).transform(
+    (val) =>
+      ("path" in val || "value" in val
+        ? {
+            path: val.path || "package.json",
+            value: val.value,
+            settings: Mono0PackageJson.zDefinitionSettings.parse(val.settings) || {},
+          }
+        : { path: "package.json", value: val, settings: {} }) as Mono0PackageJson.FullDefinitionParsed,
+  )
 
   static definitionDefault = {
     path: "package.json",
