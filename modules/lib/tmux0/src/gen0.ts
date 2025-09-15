@@ -5,9 +5,17 @@ import { type GenerateConfig, generateTmuxCommands } from "./index"
 export default {
   name: "tmux0",
   fns: {
-    generateTmuxCommands: (ctx: Gen0ClientProcessCtx, config: GenerateConfig) => {
+    generateTmuxCommands: (
+      ctx: Gen0ClientProcessCtx,
+      config: GenerateConfig,
+      indent: string = "",
+      prepend: string = "",
+    ) => {
       const cmds = generateTmuxCommands(config)
-      cmds.map(ctx.print)
+      if (prepend) {
+        ctx.print(prepend)
+      }
+      cmds.map((cmd) => ctx.print(`${indent}${cmd}`))
     },
   },
 } satisfies Gen0Plugin.DefinitionResult

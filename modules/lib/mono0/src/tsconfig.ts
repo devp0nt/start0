@@ -6,7 +6,7 @@ import uniqBy from "lodash-es/uniqBy.js"
 import type { TsConfigJson as TsConfigJsonTypeFest } from "type-fest"
 import z from "zod"
 import type { Mono0Config } from "./config"
-import { Mono0Unit } from "./unit"
+import type { Mono0Unit } from "./unit"
 import { fixSlahes, omit, replacePlaceholdersAndPathsDeep } from "./utils"
 
 export class Mono0Tsconfig {
@@ -187,7 +187,7 @@ export class Mono0Tsconfig {
       const unitsFiltered = Mono0UnitClass.filterUnits({ units: unitsScoped, match })
       const unitsDeps = !addUnitsAsReferences.deepDeps
         ? []
-        : Mono0Unit.filterUnits({
+        : Mono0UnitClass.filterUnits({
             units: unitsFiltered.flatMap((d) => d.deps.map((dep) => dep.unit)),
             match: addUnitsAsReferences.deepDeps === true ? undefined : addUnitsAsReferences.deepDeps,
           })
@@ -215,7 +215,7 @@ export class Mono0Tsconfig {
       const unitsFiltered = Mono0UnitClass.filterUnits({ units: unitsScoped, match })
       const unitsDeps = !addUnitsSrcToPaths.deepDeps
         ? []
-        : Mono0Unit.filterUnits({
+        : Mono0UnitClass.filterUnits({
             units: unitsFiltered.flatMap((d) => d.deps.map((dep) => dep.unit)),
             match: addUnitsSrcToPaths.deepDeps === true ? undefined : addUnitsSrcToPaths.deepDeps,
           })
@@ -245,7 +245,7 @@ export class Mono0Tsconfig {
       const unitsFiltered = Mono0UnitClass.filterUnits({ units: unitsScoped, match })
       const unitsDeps = !addUnitsDistToPaths.deepDeps
         ? []
-        : Mono0Unit.filterUnits({
+        : Mono0UnitClass.filterUnits({
             units: unitsFiltered.flatMap((d) => d.deps.map((dep) => dep.unit)),
             match: addUnitsDistToPaths.deepDeps === true ? undefined : addUnitsDistToPaths.deepDeps,
           })

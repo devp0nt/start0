@@ -26,20 +26,18 @@ dev:
 
   tmux split-window -v
   tmux split-window -t 0 -h
-  tmux split-window -t 0 -h
+  tmux split-window -t 2 -h
 
   tmux send-keys -t 0 "just backend dev" Enter
   tmux send-keys -t 1 "just site dev" Enter
   tmux send-keys -t 2 "just gen0 watch" Enter
-  tmux send-keys -t 3 "just mono0 watch" Enter
+  tmux send-keys -t 3 "just watch" Enter
 
   tmux resize-pane -t 0 -x "$(($(tmux display -p '#{window_width}') * 50 / 100))"
   tmux resize-pane -t 1 -x "$(($(tmux display -p '#{window_width}') * 50 / 100))"
   tmux resize-pane -t 2 -y "$(($(tmux display -p '#{window_height}') * 30 / 100))"
 
   tmux attach -t dev-ideanick
-# @gen0:start generateTmuxCommands({ layout: "00000\n12333", commands: ["just backend dev", "just site dev", "just gen0 watch", "just mono0 watch"] })
-# @gen0:end
 
 # bun commands mirror
 
@@ -51,6 +49,9 @@ test *ARGS:
 
 lint *ARGS:
   bun run lint {{ARGS}}
+
+watch *ARGS:
+  bun run watch:m {{ARGS}}
 
 # prisma commands
 

@@ -41,6 +41,24 @@ program
   )
 
 program
+  .command("exec")
+  .alias("e")
+  .description("Exec")
+  .argument("<match>", "Match")
+  .argument("<command...>", "Command")
+  .option("-s, --sequential", "Sequential")
+  .action(
+    withMono0(async (mono0, match: string, commandParts: string[], options: { sequential: boolean }) => {
+      const command = commandParts.join(" ")
+      if (options.sequential) {
+        await mono0.execSequential(command, match)
+      } else {
+        await mono0.execParallel(command, match)
+      }
+    }),
+  )
+
+program
   .command("config")
   .alias("c")
   .description("Show config")

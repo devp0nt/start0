@@ -1,4 +1,4 @@
-import { execSync } from "node:child_process"
+import { execSync, spawn } from "node:child_process"
 import type { Fs0 } from "@devp0nt/fs0"
 import { Gen0 } from "@devp0nt/gen0"
 import { Mono0Config } from "./config"
@@ -119,6 +119,35 @@ export class Mono0 {
 
   getFilePathRelativeToPackageName(absFilePath: string) {
     return Mono0Unit.getFilePathRelativeToPackageName({ absFilePath, units: this.units })
+  }
+
+  async execSequential(command: string | string[], match?: string) {
+    const units = Mono0Unit.filterUnits({ units: this.units, match })
+    const commandStr = Array.isArray(command) ? command.join(" ") : command
+    for (const unit of units) {
+      execSync(commandStr, { cwd: unit.fs0.cwd, stdio: "inherit" })
+    }
+  }
+
+  async execParallel(command: string | string[], match: string) {
+    const units = Mono0Unit.filterUnits({ units: this.units, match })
+    const commandArr = Array.isArray(command) ? command : [command]
+    await Promise.all(
+      units.map(
+        (unit) =>
+          new Promise<void>((resolve, reject) => {
+            const child = spawn(commandArr[0], commandArr.slice(1), {
+              cwd: unit.fs0.cwd,
+              stdio: "inherit", // pipes output directly
+              shell: true, // so it works with normal shell commands
+            })
+            child.on("exit", (code) => {
+              if (code === 0) resolve()
+              else reject(new Error(`${command} failed in ${unit.fs0.cwd} with code ${code}`))
+            })
+          }),
+      ),
+    )
   }
 
   async watch() {
