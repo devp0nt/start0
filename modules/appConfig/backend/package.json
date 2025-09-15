@@ -9,7 +9,8 @@
     }
   },
   "scripts": {
-    "typecheck": "tsc --noEmit"
+    "types": "tsc --noEmit",
+    "build:pkg": "tsc --build"
   },
   "dependencies": {
     "@backend/core": "workspace:*"

@@ -250,6 +250,13 @@ export class Mono0PackageJson {
       mergedValue.exports = exports
     }
 
+    const scriptsKeysToDelete = Object.entries(mergedValue.scripts || {})
+      .filter(([key, value]) => value === null)
+      .map(([key]) => key)
+    for (const key of scriptsKeysToDelete) {
+      delete mergedValue.scripts?.[key]
+    }
+
     return { value: mergedValue, depsChanged }
   }
 
@@ -445,13 +452,38 @@ export class Mono0PackageJson {
     settings: {},
   } satisfies Mono0PackageJson.FullDefinition
 
+  static mergeDefinitions(
+    ...packageJsonsDefinitions: [
+      Mono0PackageJson.Definition | undefined,
+      ...Array<Mono0PackageJson.Definition | undefined>,
+    ]
+  ): Mono0PackageJson.FullDefinitionParsed {
+    const packageJsonsDefinitionsFiltered = packageJsonsDefinitions.filter(Boolean) as Array<
+      NonNullable<Mono0PackageJson.Definition>
+    >
+    return packageJsonsDefinitionsFiltered.reduce<Mono0PackageJson.FullDefinitionParsed>(
+      (acc, packageJsonDefinition) => {
+        const parsedPackageJsonDefinition = Mono0PackageJson.zDefinition.parse(packageJsonDefinition)
+        return {
+          path: parsedPackageJsonDefinition.path ?? acc.path,
+          settings: Mono0PackageJson.mergeSettings(parsedPackageJsonDefinition.settings, acc.settings),
+          value: Mono0PackageJson.mergeValue(parsedPackageJsonDefinition.value, acc.value),
+        }
+      },
+      {} as Mono0PackageJson.FullDefinitionParsed,
+    )
+  }
+
   static mergeValue(
     ...packageJsonsValues: [
-      Mono0PackageJson.Json | Mono0PackageJson.ValueDefinition,
-      ...(Mono0PackageJson.Json | Mono0PackageJson.ValueDefinition)[],
+      Mono0PackageJson.Json | Mono0PackageJson.ValueDefinition | undefined,
+      ...Array<Mono0PackageJson.Json | Mono0PackageJson.ValueDefinition | undefined>,
     ]
   ): Mono0PackageJson.ValueDefinition {
-    return packageJsonsValues.reduce((acc, packageJsonValue) => {
+    const packageJsonsValuesFiltered = packageJsonsValues.filter(Boolean) as Array<
+      NonNullable<Mono0PackageJson.Json | Mono0PackageJson.ValueDefinition>
+    >
+    return packageJsonsValuesFiltered.reduce((acc, packageJsonValue) => {
       return {
         // biome-ignore lint/performance/noAccumulatingSpread: <oh...>
         ...acc,
@@ -463,13 +495,7 @@ export class Mono0PackageJson {
           ? { devDependencies: { ...acc.devDependencies, ...packageJsonValue.devDependencies } }
           : {}),
         ...(acc.scripts || packageJsonValue.scripts
-          ? {
-              scripts: Object.fromEntries(
-                Object.entries({ ...acc.scripts, ...packageJsonValue.scripts }).filter(
-                  ([key, value]) => value !== null,
-                ),
-              ),
-            }
+          ? { scripts: { ...acc.scripts, ...packageJsonValue.scripts } }
           : {}),
       }
     }, {} as any)

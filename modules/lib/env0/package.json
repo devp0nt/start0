@@ -13,7 +13,8 @@
     }
   },
   "scripts": {
-    "typecheck": "tsc --noEmit"
+    "types": "tsc --noEmit",
+    "build:pkg": "tsc --build"
   },
   "dependencies": {
     "@devp0nt/error0": "workspace:*"

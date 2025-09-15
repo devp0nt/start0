@@ -197,17 +197,8 @@ export class Mono0Unit {
         tags: [...(presetValue.tags ?? []), ...result.tags],
         deps: [...(presetValue.deps ?? []), ...result.deps],
         settings: Mono0Unit.mergeSettings(presetValue.settings, result.settings),
-        // tsconfig: {
-        //   path: result.tsconfig.path ?? presetValue.tsconfig.path,
-        //   settings: Mono0Tsconfig.mergeSettings(presetValue.tsconfig.settings, result.tsconfig.settings),
-        //   value: Mono0Tsconfig.mergeValue(presetValue.tsconfig.value, result.tsconfig.value),
-        // },
         tsconfigs: Mono0Tsconfig.mergeRecordsOfDefinitions(presetValue.tsconfigs, result.tsconfigs),
-        packageJson: {
-          path: result.packageJson.path ?? presetValue.packageJson.path,
-          settings: Mono0PackageJson.mergeSettings(presetValue.packageJson.settings, result.packageJson.settings),
-          value: Mono0PackageJson.mergeValue(presetValue.packageJson.value, result.packageJson.value),
-        },
+        packageJson: Mono0PackageJson.mergeDefinitions(presetValue.packageJson, result.packageJson),
         preset: presetValue.preset,
       }
     }

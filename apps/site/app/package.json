@@ -28,8 +28,8 @@
     "build": "cross-env NODE_ENV=production react-router build",
     "dev": "cross-env NODE_ENV=development bun run --bun vite",
     "start": "cross-env NODE_ENV=production bun ./dist/server/index.js",
-    "types": "rimraf dist && react-router typegen && tsc",
-    "typecheck": "tsc --noEmit"
+    "types": "tsc --noEmit",
+    "build:pkg": "tsc --build"
   },
   "dependencies": {
     "@react-router/node": "catalog:",

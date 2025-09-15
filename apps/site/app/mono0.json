@@ -8,5 +8,10 @@
       "rootDir": "./",
       "rootDirs": ["./", "./.react-router/types"]
     }
+  },
+  "packageJson": {
+    "scripts": {
+      "types": "rimraf dist && react-router typegen && tsc"
+    }
   }
 }

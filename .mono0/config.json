@@ -25,7 +25,9 @@
       "private": true,
       "type": "module",
       "scripts": {
-        "typecheck": "tsc --noEmit"
+        "types": "tsc --noEmit",
+        "build:pkg": "tsc --build",
+        "typecheck": null
       }
     }
   },
@@ -114,7 +116,9 @@
           "private": true,
           "type": "module",
           "scripts": {
-            "typecheck": "tsc --noEmit"
+            "types": "tsc --noEmit",
+            "build:pkg": "tsc --build",
+            "typecheck": null
           }
         }
       },
