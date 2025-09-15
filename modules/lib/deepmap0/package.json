@@ -12,5 +12,8 @@
       "types": "./dist/*.d.ts"
     }
   },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
   "dependencies": {}
 }

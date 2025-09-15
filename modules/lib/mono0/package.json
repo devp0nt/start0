@@ -13,7 +13,8 @@
     }
   },
   "scripts": {
-    "echo1": "echo 1"
+    "echo1": "echo 1",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@devp0nt/fs0": "workspace:*",

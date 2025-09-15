@@ -12,6 +12,9 @@
       "types": "./dist/lib/*.d.ts"
     }
   },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
   "dependencies": {
     "@backend/trpc-router": "workspace:*",
     "@devp0nt/route0": "workspace:*"

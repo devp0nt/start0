@@ -12,6 +12,9 @@
       "types": "./dist/*.d.ts"
     }
   },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
   "dependencies": {
     "@devp0nt/deepmap0": "workspace:*"
   }

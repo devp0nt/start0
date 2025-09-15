@@ -98,7 +98,10 @@
         },
         "value": {
           "private": true,
-          "type": "module"
+          "type": "module",
+          "scripts": {
+            "typecheck": "tsc --noEmit"
+          }
         }
       },
       "tsconfig": {

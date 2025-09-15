@@ -8,6 +8,9 @@
       "types": "./dist/*.d.ts"
     }
   },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
   "dependencies": {
     "@devp0nt/route0": "workspace:*",
     "@idea/shared": "workspace:*",

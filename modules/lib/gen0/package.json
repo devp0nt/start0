@@ -20,6 +20,9 @@
       "types": "./dist/test/*.d.ts"
     }
   },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
   "dependencies": {
     "@devp0nt/fs0": "workspace:*",
     "@devp0nt/lodash0": "workspace:*",

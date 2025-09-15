@@ -16,6 +16,9 @@
       "types": "./dist/ping/*.d.ts"
     }
   },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
   "dependencies": {
     "@backend/core": "workspace:*"
   }

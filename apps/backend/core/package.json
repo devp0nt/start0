@@ -8,6 +8,9 @@
       "types": "./dist/lib/*.d.ts"
     }
   },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
   "dependencies": {
     "@devp0nt/env0": "workspace:*",
     "@devp0nt/error0": "workspace:*",
