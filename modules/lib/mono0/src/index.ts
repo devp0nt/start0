@@ -8,8 +8,6 @@ import { Mono0Tsconfig } from "./tsconfig"
 import { Mono0Unit } from "./unit"
 import watcherGen0 from "./watcher-gen0"
 
-// TODO: tsconfigs as record
-// TODO: В билд конфиг добавляем срц пас только на срц
 // TODO: preset cold: tag #cold, do not add paths to tsconfig, by filtering
 
 // TODO: tsconfigBuild where I disbale all paths so original dist wil be used
@@ -93,17 +91,7 @@ export class Mono0 {
   }
 
   async sync() {
-    // await Mono0Tsconfig.writeBaseTsconfig({
-    //   tsconfig: this.config.tsconfigs.base,
-    //   config: this.config,
-    //   units: this.units,
-    // })
-    // await Mono0Tsconfig.writeRootTsconfig({
-    //   tsconfig: this.config.tsconfigs.root,
-    //   config: this.config,
-    //   units: this.units,
-    // })
-    // await Mono0PackageJson.writeRootPackageJson({ config: this.config, units: this.units })
+    await this.generalPackageJson.write({ units: this.units })
     for (const tsconfig of this.generalTsconfigs) {
       await tsconfig.write({ units: this.units })
     }

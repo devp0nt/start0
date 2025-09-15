@@ -23,7 +23,10 @@
     "value": {
       "name": "ideanick",
       "private": true,
-      "type": "module"
+      "type": "module",
+      "scripts": {
+        "typecheck": "tsc --noEmit"
+      }
     }
   },
   "tsconfigs": {
