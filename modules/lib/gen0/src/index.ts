@@ -1,9 +1,9 @@
-import { Fs0 } from "@devp0nt/fs0"
-import { Gen0ClientsManager } from "./clientsManager"
-import { Gen0Config } from "./config"
-import { Gen0Logger } from "./logger"
-import { Gen0PluginsManager } from "./pluginsManager"
-import { Gen0WatchersManager } from "./watchersManager"
+import { Fs0 } from '@devp0nt/fs0'
+import { Gen0ClientsManager } from './clientsManager'
+import { Gen0Config } from './config'
+import { Gen0Logger } from './logger'
+import { Gen0PluginsManager } from './pluginsManager'
+import { Gen0WatchersManager } from './watchersManager'
 
 // TODO: plugin watcher can change self watching files, like mono0 wants
 // TODO: self watch client always
@@ -59,7 +59,7 @@ import { Gen0WatchersManager } from "./watchersManager"
 // TODO: Инверсионная подсветка ген0
 
 export class Gen0 {
-  static logger = Gen0Logger.create("core")
+  static logger = Gen0Logger.create('core')
   logger = Gen0.logger
 
   clientsManager: Gen0ClientsManager
@@ -114,7 +114,7 @@ export class Gen0 {
       clientsManager,
     })
     const gen0 = new Gen0({ config, fs0, clientsManager, pluginsManager, watchersManager })
-    this.logger.debug("gen0 created")
+    this.logger.debug('gen0 created')
     return gen0
   }
 

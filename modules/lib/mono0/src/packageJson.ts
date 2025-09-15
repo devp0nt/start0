@@ -1,13 +1,12 @@
-import type { File0, Fs0 } from "@devp0nt/fs0"
-import isEqual from "lodash-es/isEqual.js"
-import set from "lodash-es/set.js"
-import uniq from "lodash-es/uniq.js"
-import type { PackageJson as PackageJsonTypeFest } from "type-fest"
-import z from "zod"
-import type { Mono0Config } from "./config"
-import { Mono0Logger } from "./logger"
-import type { Mono0Unit } from "./unit"
-import { fixSlahes, omit } from "./utils"
+import type { File0, Fs0 } from '@devp0nt/fs0'
+import isEqual from 'lodash-es/isEqual.js'
+import set from 'lodash-es/set.js'
+import type { PackageJson as PackageJsonTypeFest } from 'type-fest'
+import z from 'zod'
+import type { Mono0Config } from './config'
+import { Mono0Logger } from './logger'
+import type { Mono0Unit } from './unit'
+import { fixSlahes, omit } from './utils'
 
 export class Mono0PackageJson {
   name?: string
@@ -16,7 +15,7 @@ export class Mono0PackageJson {
   config: Mono0Config
   settings: Mono0PackageJson.Settings
   value: Mono0PackageJson.ValueDefinition
-  logger: Mono0Logger = Mono0Logger.create("packageJson")
+  logger: Mono0Logger = Mono0Logger.create('packageJson')
   unit?: Mono0Unit
 
   private constructor({
@@ -58,7 +57,7 @@ export class Mono0PackageJson {
     fs0: Fs0
     unit?: Mono0Unit
   }) {
-    const file0 = definition.path ? fs0.createFile0(definition.path) : fs0.createFile0("package.json")
+    const file0 = definition.path ? fs0.createFile0(definition.path) : fs0.createFile0('package.json')
     const value = definition.value
     return new Mono0PackageJson({
       name: name || definition.value.name,
@@ -101,7 +100,7 @@ export class Mono0PackageJson {
 
     if (this.settings.clearWorkspaceDeps) {
       currentValue.dependencies = Object.fromEntries(
-        Object.entries(currentValue.dependencies || {}).filter(([key, value]) => value !== "workspace:*"),
+        Object.entries(currentValue.dependencies || {}).filter(([key, value]) => value !== 'workspace:*'),
       )
     }
 
@@ -112,7 +111,7 @@ export class Mono0PackageJson {
         mergedValue.dependencies = {}
       }
       for (const dep of unit.deps) {
-        mergedValue.dependencies[dep.unit.name] = "workspace:*"
+        mergedValue.dependencies[dep.unit.name] = 'workspace:*'
       }
     }
 
@@ -125,7 +124,7 @@ export class Mono0PackageJson {
     }
 
     const toExportsValue = (dir: string, basename: string, exts: string[]) => {
-      exts = (exts.length ? exts : ["js"]).map((ext) => ext.replace(/^\./, ""))
+      exts = (exts.length ? exts : ['js']).map((ext) => ext.replace(/^\./, ''))
       if (exts.length === 1) {
         return fixSlahes(`${dir}/${basename}.${exts[0]}`)
       }
@@ -142,7 +141,7 @@ export class Mono0PackageJson {
       const exports = {
         ...(unit.indexFile0 && addExportsFromDist.index
           ? {
-              ".": {
+              '.': {
                 ...(addExportsFromDist.import
                   ? {
                       import: toExportsValue(distPath, unit.indexFile0.path.basename, addExportsFromDist.import),
@@ -169,17 +168,17 @@ export class Mono0PackageJson {
                   {
                     ...(addExportsFromDist.import
                       ? {
-                          import: toExportsValue(dirPath.relToPkg, "*", addExportsFromDist.import),
+                          import: toExportsValue(dirPath.relToPkg, '*', addExportsFromDist.import),
                         }
                       : {}),
                     ...(addExportsFromDist.types
                       ? {
-                          types: toExportsValue(dirPath.relToPkg, "*", addExportsFromDist.types),
+                          types: toExportsValue(dirPath.relToPkg, '*', addExportsFromDist.types),
                         }
                       : {}),
                     ...(addExportsFromDist.require
                       ? {
-                          require: toExportsValue(dirPath.relToPkg, "*", addExportsFromDist.require),
+                          require: toExportsValue(dirPath.relToPkg, '*', addExportsFromDist.require),
                         }
                       : {}),
                   },
@@ -201,7 +200,7 @@ export class Mono0PackageJson {
       const exports = {
         ...(unit.indexFile0 && addExportsFromSrc.index
           ? {
-              ".": {
+              '.': {
                 ...(addExportsFromSrc.import
                   ? {
                       import: toExportsValue(srcPath, unit.indexFile0.path.basename, addExportsFromSrc.import),
@@ -228,17 +227,17 @@ export class Mono0PackageJson {
                   {
                     ...(addExportsFromSrc.import
                       ? {
-                          import: toExportsValue(dirPath.relToPkg, "*", addExportsFromSrc.import),
+                          import: toExportsValue(dirPath.relToPkg, '*', addExportsFromSrc.import),
                         }
                       : {}),
                     ...(addExportsFromSrc.types
                       ? {
-                          types: toExportsValue(dirPath.relToPkg, "*", addExportsFromSrc.types),
+                          types: toExportsValue(dirPath.relToPkg, '*', addExportsFromSrc.types),
                         }
                       : {}),
                     ...(addExportsFromSrc.require
                       ? {
-                          require: toExportsValue(dirPath.relToPkg, "*", addExportsFromSrc.require),
+                          require: toExportsValue(dirPath.relToPkg, '*', addExportsFromSrc.require),
                         }
                       : {}),
                   },
@@ -268,46 +267,46 @@ export class Mono0PackageJson {
       return { depsChanged, valueChanged, value }
     }
     const sort = [
-      "name",
-      "version",
-      "private",
-      "description",
-      "keywords",
-      "license",
-      "author",
-      "contributors",
-      "funding",
-      "homepage",
-      "repository",
-      "bugs",
-      "type",
-      "sideEffects",
-      "main",
-      "module",
-      "types",
-      "typings",
-      "exports",
-      "files",
-      "bin",
-      "man",
-      "directories",
-      "scripts",
-      "config",
-      "dependencies",
-      "peerDependencies",
-      "peerDependenciesMeta",
-      "optionalDependencies",
-      "devDependencies",
-      "bundleDependencies",
-      "bundledDependencies",
-      "engines",
-      "engineStrict",
-      "os",
-      "cpu",
-      "publishConfig",
-      "overrides",
-      "resolutions",
-      "packageManager",
+      'name',
+      'version',
+      'private',
+      'description',
+      'keywords',
+      'license',
+      'author',
+      'contributors',
+      'funding',
+      'homepage',
+      'repository',
+      'bugs',
+      'type',
+      'sideEffects',
+      'main',
+      'module',
+      'types',
+      'typings',
+      'exports',
+      'files',
+      'bin',
+      'man',
+      'directories',
+      'scripts',
+      'config',
+      'dependencies',
+      'peerDependencies',
+      'peerDependenciesMeta',
+      'optionalDependencies',
+      'devDependencies',
+      'bundleDependencies',
+      'bundledDependencies',
+      'engines',
+      'engineStrict',
+      'os',
+      'cpu',
+      'publishConfig',
+      'overrides',
+      'resolutions',
+      'packageManager',
     ]
     await this.file0.writeJson(value, sort, true)
     return { depsChanged, valueChanged, value }
@@ -365,13 +364,13 @@ export class Mono0PackageJson {
     .default({})
     .transform((val) => {
       return {
-        ...omit(val, ["addExportsFromDist", "addExportsFromSrc", "clearWorkspaces", "addWorkspaces"]),
+        ...omit(val, ['addExportsFromDist', 'addExportsFromSrc', 'clearWorkspaces', 'addWorkspaces']),
         ...(val.clearWorkspaces === undefined
           ? {}
           : {
               clearWorkspaces:
                 val.clearWorkspaces === true
-                  ? "workspaces"
+                  ? 'workspaces'
                   : val.clearWorkspaces === false
                     ? (false as const)
                     : val.clearWorkspaces,
@@ -381,7 +380,7 @@ export class Mono0PackageJson {
           : {
               addWorkspaces:
                 val.addWorkspaces === true
-                  ? "workspaces"
+                  ? 'workspaces'
                   : val.addWorkspaces === false
                     ? (false as const)
                     : val.addWorkspaces,
@@ -393,13 +392,13 @@ export class Mono0PackageJson {
                 val.addExportsFromDist === false
                   ? (false as const)
                   : val.addExportsFromDist === true
-                    ? { index: true, dirs: true, import: [".js"], require: false as const, types: [".d.ts"] }
+                    ? { index: true, dirs: true, import: ['.js'], require: false as const, types: ['.d.ts'] }
                     : {
                         index: val.addExportsFromDist.index,
                         dirs: val.addExportsFromDist.dirs,
-                        import: val.addExportsFromDist.import === true ? [".js"] : val.addExportsFromDist.import,
-                        require: val.addExportsFromDist.require === true ? [".js"] : val.addExportsFromDist.require,
-                        types: val.addExportsFromDist.types === true ? [".d.ts"] : val.addExportsFromDist.types,
+                        import: val.addExportsFromDist.import === true ? ['.js'] : val.addExportsFromDist.import,
+                        require: val.addExportsFromDist.require === true ? ['.js'] : val.addExportsFromDist.require,
+                        types: val.addExportsFromDist.types === true ? ['.d.ts'] : val.addExportsFromDist.types,
                       },
             }),
         ...(val.addExportsFromSrc === undefined
@@ -409,13 +408,13 @@ export class Mono0PackageJson {
                 val.addExportsFromSrc === false
                   ? (false as const)
                   : val.addExportsFromSrc === true
-                    ? { index: true, dirs: true, import: [".js"], require: false as const, types: [".d.ts"] }
+                    ? { index: true, dirs: true, import: ['.js'], require: false as const, types: ['.d.ts'] }
                     : {
                         index: val.addExportsFromSrc.index,
                         dirs: val.addExportsFromSrc.dirs,
-                        import: val.addExportsFromSrc.import === true ? [".js"] : val.addExportsFromSrc.import,
-                        require: val.addExportsFromSrc.require === true ? [".cjs"] : val.addExportsFromSrc.require,
-                        types: val.addExportsFromSrc.types === true ? [".d.ts"] : val.addExportsFromSrc.types,
+                        import: val.addExportsFromSrc.import === true ? ['.js'] : val.addExportsFromSrc.import,
+                        require: val.addExportsFromSrc.require === true ? ['.cjs'] : val.addExportsFromSrc.require,
+                        types: val.addExportsFromSrc.types === true ? ['.d.ts'] : val.addExportsFromSrc.types,
                       },
             }),
       }
@@ -442,7 +441,7 @@ export class Mono0PackageJson {
 
   static zDefinition = z.union([Mono0PackageJson.zValueDefinition, Mono0PackageJson.zFullDefinition]).transform(
     (val) =>
-      ("path" in val || "value" in val
+      ('path' in val || 'value' in val
         ? {
             path: val.path,
             value: val.value,
@@ -452,7 +451,7 @@ export class Mono0PackageJson {
   )
 
   static definitionDefault = {
-    path: "package.json",
+    path: 'package.json',
     value: {},
     settings: {},
   } satisfies Mono0PackageJson.FullDefinition

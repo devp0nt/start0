@@ -1,6 +1,6 @@
-import cloneDeep from "lodash-es/cloneDeep.js"
-import isArray from "lodash-es/isArray.js"
-import isObject from "lodash-es/isObject.js"
+import cloneDeep from 'lodash-es/cloneDeep.js'
+import isArray from 'lodash-es/isArray.js'
+import isObject from 'lodash-es/isObject.js'
 
 // TODO: add path array
 // TODO: add path array
@@ -21,15 +21,15 @@ const recursion = ({
   pathStartsWith: string
   parentKey: string
 }): Value => {
-  if (["object", "function", "symbol"].includes(typeof input) && input !== null && seens.length) {
+  if (['object', 'function', 'symbol'].includes(typeof input) && input !== null && seens.length) {
     if (seens.every((seen) => seen.has(input))) {
-      return "!!!CIRCULAR!!!"
+      return '!!!CIRCULAR!!!'
     } else {
       seens.find((seen) => !seen.has(input))?.add(input)
     }
   }
   const result = replaceFn({
-    path: pathStartsWith.replace(/\.$/, ""),
+    path: pathStartsWith.replace(/\.$/, ''),
     key: parentKey,
     value: input,
   })
@@ -81,8 +81,8 @@ export const deepMap = <T = Value>(
     input: clonedInput,
     replaceFn,
     seens,
-    pathStartsWith: "",
-    parentKey: "",
+    pathStartsWith: '',
+    parentKey: '',
   })
   return mappedObject as T
 }

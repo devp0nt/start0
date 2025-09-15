@@ -1,15 +1,15 @@
-import nodeFs from "node:fs"
-import nodePath from "node:path"
-import vm from "node:vm"
-import type { Fs0 } from "@devp0nt/fs0"
-import _ from "lodash"
-import type { Gen0Client } from "./client"
-import { Gen0Logger } from "./logger"
-import type { Gen0Plugin } from "./plugin"
-import { Gen0Utils } from "./utils"
+import nodeFs from 'node:fs'
+import nodePath from 'node:path'
+import vm from 'node:vm'
+import type { Fs0 } from '@devp0nt/fs0'
+import _ from 'lodash'
+import type { Gen0Client } from './client'
+import { Gen0Logger } from './logger'
+import type { Gen0Plugin } from './plugin'
+import { Gen0Utils } from './utils'
 
 export class Gen0ClientProcessCtx {
-  static logger = Gen0Logger.create("clientProcessCtx")
+  static logger = Gen0Logger.create('clientProcessCtx')
   logger = Gen0ClientProcessCtx.logger
 
   client: Gen0Client
@@ -57,7 +57,7 @@ export class Gen0ClientProcessCtx {
   }
 
   getPrinted() {
-    return this.prints.join("\n")
+    return this.prints.join('\n')
   }
 
   clearPrints() {
@@ -137,7 +137,7 @@ export class Gen0ClientProcessCtx {
 
     // Fns override (bind if function)
     for (const [key, value] of Object.entries(this.fns)) {
-      ctx[key] = typeof value === "function" ? value.bind(this, this) : value
+      ctx[key] = typeof value === 'function' ? value.bind(this, this) : value
     }
 
     for (const [key, value] of Object.entries(this)) {
@@ -157,20 +157,20 @@ export class Gen0ClientProcessCtx {
     if (error instanceof Error) {
       return error
     }
-    if (typeof error !== "object" || error === null) {
-      const e = new Error("Unknown terrible error")
+    if (typeof error !== 'object' || error === null) {
+      const e = new Error('Unknown terrible error')
       ;(e as any).stack = this.path.abs
       return e
     }
     // const message = "message" in error && typeof error.message === "string" ? error.message : "Unknown error"
-    const stack = "stack" in error && typeof error.stack === "string" ? error.stack : undefined
+    const stack = 'stack' in error && typeof error.stack === 'string' ? error.stack : undefined
     const normalizedStack = stack
-      ?.split("\n")
+      ?.split('\n')
       .map((line) => {
-        return line.replace("evalmachine.<anonymous>", `${this.path.abs}`)
+        return line.replace('evalmachine.<anonymous>', `${this.path.abs}`)
         // .replace("file:///:", `${this.path.abs}:`)
       })
-      .join("\n")
+      .join('\n')
     ;(error as any).stack = normalizedStack
     return error as Error
   }

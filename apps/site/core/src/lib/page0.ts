@@ -1,7 +1,7 @@
-import type { Route0 } from "@devp0nt/route0"
-import type { SiteCtx } from "@site/core/lib/ctx"
-import type { QueryClient } from "@tanstack/react-query"
-import type { MetaDescriptor } from "react-router"
+import type { Route0 } from '@devp0nt/route0'
+import type { SiteCtx } from '@site/core/lib/ctx'
+import type { QueryClient } from '@tanstack/react-query'
+import type { MetaDescriptor } from 'react-router'
 
 // TODO: make type Page0 normally exportable, now if Page0<any, any> everything is any
 // TODO: try return component, to preserve hotreload
@@ -13,7 +13,7 @@ import type { MetaDescriptor } from "react-router"
 // TODO: title exact or suffix or prefix
 
 export class Page0<TRoute extends Page0.Route, TLoader extends Page0.Loader<TRoute> | undefined> {
-  static titleSuffix = " | ideanick"
+  static titleSuffix = ' | ideanick'
 
   public readonly route: TRoute
   public readonly loader: TLoader
@@ -54,7 +54,7 @@ export class Page0<TRoute extends Page0.Route, TLoader extends Page0.Loader<TRou
   }
 
   private static normalizeLayoutSingleInput(layoutsInputSingle: Page0.LayoutsInputSingle): string {
-    if (typeof layoutsInputSingle === "string") {
+    if (typeof layoutsInputSingle === 'string') {
       return layoutsInputSingle
     }
     return layoutsInputSingle.path
@@ -71,10 +71,10 @@ export class Page0<TRoute extends Page0.Route, TLoader extends Page0.Loader<TRou
   }
 
   private static titleOutputToValue(titleOutput: Page0.TitleOutput): string {
-    if (typeof titleOutput === "string") {
+    if (typeof titleOutput === 'string') {
       return titleOutput
     }
-    if (typeof titleOutput === "object" && "value" in titleOutput) {
+    if (typeof titleOutput === 'object' && 'value' in titleOutput) {
       const { value, exact } = titleOutput
       if (exact) {
         return value
@@ -103,7 +103,7 @@ export class Page0<TRoute extends Page0.Route, TLoader extends Page0.Loader<TRou
         result.push(...this.metaOriginal(props))
       }
       if (this.titleOriginal) {
-        if (typeof this.titleOriginal === "function") {
+        if (typeof this.titleOriginal === 'function') {
           result.push(...Page0.titleOutputToMetaDescriptors(this.titleOriginal(props)))
         } else {
           result.push(...Page0.titleOutputToMetaDescriptors(this.titleOriginal))

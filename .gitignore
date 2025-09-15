@@ -5,6 +5,3 @@ dist
 **/dist
 .env*
 secrets
-# moon
-.moon/cache
-.moon/docker

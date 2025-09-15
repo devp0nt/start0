@@ -1,11 +1,11 @@
-import type { BackendTrpcRouter } from "@backend/trpc-router"
-import { env } from "@site/core/lib/env.self"
-import { RR0 } from "@site/core/lib/rr0"
-import { defaultShouldDehydrateQuery, HydrationBoundary, QueryClient, QueryClientProvider } from "@tanstack/react-query"
-import { createTRPCClient, httpBatchLink, loggerLink } from "@trpc/client"
-import { createTRPCContext, createTRPCOptionsProxy, type TRPCQueryOptions } from "@trpc/tanstack-react-query"
-import { cache, useState } from "react"
-import superjson from "superjson"
+import type { BackendTrpcRouter } from '@backend/trpc-router'
+import { env } from '@site/core/lib/env.self'
+import { RR0 } from '@site/core/lib/rr0'
+import { defaultShouldDehydrateQuery, HydrationBoundary, QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { createTRPCClient, httpBatchLink, loggerLink } from '@trpc/client'
+import { createTRPCContext, createTRPCOptionsProxy, type TRPCQueryOptions } from '@trpc/tanstack-react-query'
+import { cache, useState } from 'react'
+import superjson from 'superjson'
 
 const makeQueryClient = () => {
   return new QueryClient({
@@ -15,7 +15,7 @@ const makeQueryClient = () => {
       },
       dehydrate: {
         serializeData: superjson.serialize,
-        shouldDehydrateQuery: (query) => defaultShouldDehydrateQuery(query) || query.state.status === "pending",
+        shouldDehydrateQuery: (query) => defaultShouldDehydrateQuery(query) || query.state.status === 'pending',
       },
       hydrate: {
         deserializeData: superjson.deserialize,
@@ -26,7 +26,7 @@ const makeQueryClient = () => {
 
 let browserQueryClient: QueryClient | undefined
 export const getQueryClient = cache(() => {
-  if (typeof window === "undefined") return makeQueryClient()
+  if (typeof window === 'undefined') return makeQueryClient()
   browserQueryClient ??= makeQueryClient()
   return browserQueryClient
 })
@@ -42,7 +42,7 @@ const HydrateClient = ({ children }: { children: React.ReactNode }) => {
 
 export const prefetch = <T extends ReturnType<TRPCQueryOptions<any>>>(queryOptions: T) => {
   const queryClient = getQueryClient()
-  if (queryOptions.queryKey[1]?.type === "infinite") {
+  if (queryOptions.queryKey[1]?.type === 'infinite') {
     void queryClient.prefetchInfiniteQuery(queryOptions as never)
   } else {
     void queryClient.prefetchQuery(queryOptions)
@@ -53,7 +53,7 @@ const links = [
   loggerLink({
     enabled: (op) =>
       // process.env.NODE_ENV === "development" ||
-      op.direction === "down" && op.result instanceof Error,
+      op.direction === 'down' && op.result instanceof Error,
   }),
   httpBatchLink({
     transformer: superjson,

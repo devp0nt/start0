@@ -1,27 +1,27 @@
-import type { HonoApp } from "@backend/core/lib/hono"
-import z from "zod"
+import type { HonoApp } from '@backend/core/lib/hono'
+import z from 'zod'
 
-export const pingHonoRoute = ({ honoApp }: { honoApp: HonoApp.AppType }): ReturnType<HonoApp.AppType["openapi"]> =>
+export const pingHonoRoute = ({ honoApp }: { honoApp: HonoApp.AppType }): ReturnType<HonoApp.AppType['openapi']> =>
   honoApp.openapi(
     {
-      method: "get",
-      path: "/ping",
+      method: 'get',
+      path: '/ping',
       responses: {
         200: {
           content: {
-            "application/json": {
+            'application/json': {
               schema: z.object({
                 message: z.string(),
               }),
             },
           },
-          description: "Success",
+          description: 'Success',
         },
       },
     },
     (c) => {
       return c.json({
-        message: "pong",
+        message: 'pong',
       })
     },
   )

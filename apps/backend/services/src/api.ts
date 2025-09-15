@@ -1,17 +1,17 @@
-import { BackendCtx } from "@backend/core/lib/ctx"
-import { HonoApp } from "@backend/core/lib/hono"
-import { BackendHonoRouter } from "@backend/hono-router"
-import { BackendTrpcRouter } from "@backend/trpc-router"
-import { serve } from "bun"
-import { cors } from "hono/cors"
+import { BackendCtx } from '@backend/core/lib/ctx'
+import { HonoApp } from '@backend/core/lib/hono'
+import { BackendHonoRouter } from '@backend/hono-router'
+import { BackendTrpcRouter } from '@backend/trpc-router'
+import { serve } from 'bun'
+import { cors } from 'hono/cors'
 
 export const startApiProcess = async () => {
   let ctx: BackendCtx | null = null
   try {
     ctx = await BackendCtx.create({
       meta: {
-        service: "backend-api",
-        tagPrefix: "backend",
+        service: 'backend-api',
+        tagPrefix: 'backend',
       },
     })
     const { honoApp } = HonoApp.create({
@@ -38,10 +38,10 @@ export const startApiProcess = async () => {
       // biome-ignore lint/suspicious/noConsole: <fallback to native logger>
       console.dir(
         {
-          level: "error",
-          message: e.message || "Unknown error",
-          service: "backend-api",
-          tag: "backend:fatality",
+          level: 'error',
+          message: e.message || 'Unknown error',
+          service: 'backend-api',
+          tag: 'backend:fatality',
           meta: e.meta,
         },
         { depth: null },

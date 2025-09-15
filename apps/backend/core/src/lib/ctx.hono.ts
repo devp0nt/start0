@@ -1,10 +1,10 @@
-import { BackendCtx } from "@backend/core/lib/ctx"
-import type { Env } from "@backend/core/lib/env"
-import type { e0s as e0sDefault } from "@devp0nt/error0"
-import type { Logger0 } from "@devp0nt/logger0"
-import type { Meta0 } from "@devp0nt/meta0"
-import type { Prisma0 } from "@prisma0/backend"
-import type { Context as HonoContext } from "hono"
+import { BackendCtx } from '@backend/core/lib/ctx'
+import type { Env } from '@backend/core/lib/env'
+import type { e0s as e0sDefault } from '@devp0nt/error0'
+import type { Logger0 } from '@devp0nt/logger0'
+import type { Meta0 } from '@devp0nt/meta0'
+import type { Prisma0 } from '@prisma0/backend'
+import type { Context as HonoContext } from 'hono'
 // TODO: private constructor
 
 export class HonoReqCtx {
@@ -16,7 +16,7 @@ export class HonoReqCtx {
   env: Env
 
   // own props
-  req: HonoContext["req"]
+  req: HonoContext['req']
   honoCtx: HonoContext
   backendCtx: BackendCtx
 
@@ -97,13 +97,13 @@ export class HonoReqCtx {
   }
 
   async destroy() {
-    this.logger.info("HonoReqCtx destroyed")
+    this.logger.info('HonoReqCtx destroyed')
   }
 }
 
 export namespace HonoReqCtx {
-  export type ExtendableKeys = "meta" | "logger" | "e0s"
+  export type ExtendableKeys = 'meta' | 'logger' | 'e0s'
   export type Extendable = Pick<HonoReqCtx, ExtendableKeys>
-  export type Unextendable = ReturnType<HonoReqCtx["getUnextendable"]>
+  export type Unextendable = ReturnType<HonoReqCtx['getUnextendable']>
   export type Props = Extendable & Unextendable
 }

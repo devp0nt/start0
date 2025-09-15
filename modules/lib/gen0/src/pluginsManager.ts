@@ -1,11 +1,11 @@
-import type { File0, Fs0 } from "@devp0nt/fs0"
-import type { Gen0Config } from "./config"
-import { Gen0Logger } from "./logger"
-import { Gen0Plugin } from "./plugin"
-import type { Gen0Watcher } from "./watcher"
+import type { File0, Fs0 } from '@devp0nt/fs0'
+import type { Gen0Config } from './config'
+import { Gen0Logger } from './logger'
+import { Gen0Plugin } from './plugin'
+import type { Gen0Watcher } from './watcher'
 
 export class Gen0PluginsManager {
-  static logger = Gen0Logger.create("pluginsManager")
+  static logger = Gen0Logger.create('pluginsManager')
   logger = Gen0PluginsManager.logger
 
   config: Gen0Config

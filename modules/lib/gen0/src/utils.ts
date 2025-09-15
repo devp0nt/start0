@@ -1,15 +1,15 @@
-import nodePath from "node:path"
-import { globby } from "globby"
-import { globifyGitIgnoreFile } from "globify-gitignore"
-import { Gen0Logger } from "./logger"
+import nodePath from 'node:path'
+import { globby } from 'globby'
+import { globifyGitIgnoreFile } from 'globify-gitignore'
+import { Gen0Logger } from './logger'
 
 export namespace Gen0Utils {
-  export const logger = Gen0Logger.create("utils")
+  export const logger = Gen0Logger.create('utils')
   export const toArray = <T>(value: T | T[]): T[] => {
     return Array.isArray(value) ? value : [value]
   }
   export const getGitignoreGlob = async (cwd: string, reverse: boolean = false): Promise<string[]> => {
-    const gitignoreFilesPaths = await globby("**/.gitignore", {
+    const gitignoreFilesPaths = await globby('**/.gitignore', {
       cwd,
       gitignore: true,
       absolute: true,

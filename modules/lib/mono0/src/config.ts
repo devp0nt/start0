@@ -1,28 +1,28 @@
-import { Fs0 } from "@devp0nt/fs0"
-import { Mono0PackageJson } from "@devp0nt/mono0/packageJson"
-import z from "zod"
-import { Mono0Tsconfig } from "./tsconfig"
-import { Mono0Unit } from "./unit"
+import { Fs0 } from '@devp0nt/fs0'
+import { Mono0PackageJson } from '@devp0nt/mono0/packageJson'
+import z from 'zod'
+import { Mono0Tsconfig } from './tsconfig'
+import { Mono0Unit } from './unit'
 
 export class Mono0Config {
   rootFs0: Fs0
   configFs0: Fs0
   tsconfigs: Mono0Config.TsconfigsDefinitions
   packageJson: Mono0PackageJson.FullDefinitionParsed
-  filesSelectors: Mono0Config.DefinitionParsed["filesSelectors"]
-  unitsSelectors: Mono0Config.DefinitionParsed["unitsSelectors"]
-  settings: Mono0Config.DefinitionParsed["settings"]
-  presets: Mono0Config.DefinitionParsed["presets"]
+  filesSelectors: Mono0Config.DefinitionParsed['filesSelectors']
+  unitsSelectors: Mono0Config.DefinitionParsed['unitsSelectors']
+  settings: Mono0Config.DefinitionParsed['settings']
+  presets: Mono0Config.DefinitionParsed['presets']
 
   private constructor(input: {
     rootFs0: Fs0
     configFs0: Fs0
     tsconfigs: Mono0Config.TsconfigsDefinitions
     packageJson: Mono0PackageJson.FullDefinitionParsed
-    filesSelectors: Mono0Config.DefinitionParsed["filesSelectors"]
-    unitsSelectors: Mono0Config.DefinitionParsed["unitsSelectors"]
-    settings: Mono0Config.DefinitionParsed["settings"]
-    presets: Mono0Config.DefinitionParsed["presets"]
+    filesSelectors: Mono0Config.DefinitionParsed['filesSelectors']
+    unitsSelectors: Mono0Config.DefinitionParsed['unitsSelectors']
+    settings: Mono0Config.DefinitionParsed['settings']
+    presets: Mono0Config.DefinitionParsed['presets']
   }) {
     this.rootFs0 = input.rootFs0
     this.configFs0 = input.configFs0
@@ -36,23 +36,23 @@ export class Mono0Config {
 
   static async get({ cwd }: { cwd?: string } = {}) {
     const configFile0 = await Fs0.findUpFile(
-      [".mono0rc.json", ".mono0rc.jsonc", ".mono0/config.json", ".mono0/config.jsonc"],
+      ['.mono0rc.json', '.mono0rc.jsonc', '.mono0/config.json', '.mono0/config.jsonc'],
       { cwd },
     )
     if (!configFile0) {
-      throw new Error(".mono0rc.json{,c} or .mono0/config.json{,c} not found")
+      throw new Error('.mono0rc.json{,c} or .mono0/config.json{,c} not found')
     }
     const rootFs0 =
-      configFile0.path.dirname === ".mono0"
-        ? configFile0.fs0.createFs0({ rootDir: "../", cwd: "../" })
-        : configFile0.fs0.createFs0({ cwd: ".", rootDir: "." })
+      configFile0.path.dirname === '.mono0'
+        ? configFile0.fs0.createFs0({ rootDir: '../', cwd: '../' })
+        : configFile0.fs0.createFs0({ cwd: '.', rootDir: '.' })
     configFile0.setRootDir(rootFs0.rootDir)
     const configFs0 = configFile0.fs0
 
     const configDefinitionRaw = await configFile0.readJson()
     const configDefinitionParsed = Mono0Config.zDefinition.safeParse(configDefinitionRaw)
     if (!configDefinitionParsed.success) {
-      throw new Error("Invalid config file", {
+      throw new Error('Invalid config file', {
         cause: configDefinitionParsed.error,
       })
     }
@@ -116,6 +116,6 @@ export namespace Mono0Config {
   export type UnitsSelector = string[]
   export type UnitsSelectors = Record<string, UnitsSelector>
   export type Settings = z.output<typeof Mono0Config.zDefinition.shape.settings>
-  export type Preset = Omit<Mono0Unit.Definition, "name">
+  export type Preset = Omit<Mono0Unit.Definition, 'name'>
   export type Presets = Record<string, Preset>
 }

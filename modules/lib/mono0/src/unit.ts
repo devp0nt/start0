@@ -1,12 +1,12 @@
-import nodePath from "node:path"
-import type { File0, Fs0 } from "@devp0nt/fs0"
-import pick from "lodash-es/pick.js"
-import z from "zod"
-import type { Mono0Config } from "./config"
-import { Mono0Logger } from "./logger"
-import { Mono0PackageJson } from "./packageJson"
-import { Mono0Tsconfig } from "./tsconfig"
-import { omit } from "./utils"
+import nodePath from 'node:path'
+import type { File0, Fs0 } from '@devp0nt/fs0'
+import pick from 'lodash-es/pick.js'
+import z from 'zod'
+import type { Mono0Config } from './config'
+import { Mono0Logger } from './logger'
+import { Mono0PackageJson } from './packageJson'
+import { Mono0Tsconfig } from './tsconfig'
+import { omit } from './utils'
 
 export class Mono0Unit {
   unitConfigFile0: File0
@@ -22,13 +22,13 @@ export class Mono0Unit {
   tsconfigs: Mono0Tsconfig[]
   packageJson: Mono0PackageJson
   presets: string[]
-  depsDefs: Mono0Unit.DefinitionParsed["deps"]
+  depsDefs: Mono0Unit.DefinitionParsed['deps']
   deps: Mono0Unit.Dependency[]
   settings: Mono0Unit.DefinitionSettings
   filesPaths: string[]
   dirsPaths: string[]
 
-  static logger: Mono0Logger = Mono0Logger.create("unit")
+  static logger: Mono0Logger = Mono0Logger.create('unit')
   logger: Mono0Logger = Mono0Unit.logger
 
   private constructor(input: {
@@ -46,7 +46,7 @@ export class Mono0Unit {
     packageJson: Mono0PackageJson
     presets: string[]
     deps: Mono0Unit.Dependency[]
-    depsDefs: Mono0Unit.DefinitionParsed["deps"]
+    depsDefs: Mono0Unit.DefinitionParsed['deps']
     settings: Mono0Unit.DefinitionSettings
     filesPaths: string[]
     dirsPaths: string[]
@@ -98,8 +98,8 @@ export class Mono0Unit {
       config,
       unitConfigFile0,
     })
-    const srcFs0 = (await unitConfigFile0.fs0.isExists("src"))
-      ? unitConfigFile0.fs0.createFs0({ cwd: "src" })
+    const srcFs0 = (await unitConfigFile0.fs0.isExists('src'))
+      ? unitConfigFile0.fs0.createFs0({ cwd: 'src' })
       : unitConfigFile0.fs0
     const tsconfigs: Mono0Tsconfig[] = Object.entries(definition.tsconfigs).map(([name, tsconfigDefinition]) =>
       Mono0Tsconfig.create({
@@ -117,7 +117,7 @@ export class Mono0Unit {
       config,
       fs0: unitConfigFile0.fs0,
     })
-    const packageJsonName = config.packageJson.value.name ?? "unknown"
+    const packageJsonName = config.packageJson.value.name ?? 'unknown'
     const name = definition.name ?? `@${packageJsonName}/${unitConfigFile0.path.dirname}`
     const unit = new Mono0Unit({
       name,
@@ -145,10 +145,10 @@ export class Mono0Unit {
       tsconfig.unit = unit
     }
     unit.packageJson.unit = unit
-    const tsconfigCore = unit.tsconfigs.find((t) => t.name === "core")
+    const tsconfigCore = unit.tsconfigs.find((t) => t.name === 'core')
     const tsconfig = tsconfigCore || unit.tsconfigs[0]
     const { value: tsconfigValue } = await tsconfig.getNewValue({ units: [] })
-    const outDir = tsconfigValue.compilerOptions?.outDir || "./dist"
+    const outDir = tsconfigValue.compilerOptions?.outDir || './dist'
     const distFs0 = tsconfig.file0.fs0.createFs0({ cwd: outDir })
     unit.distFs0 = distFs0
     const includeGlob = tsconfigValue.include ?? []
@@ -159,7 +159,7 @@ export class Mono0Unit {
     const dirsPaths = [...new Set(filesPaths.map((filePath) => nodePath.dirname(filePath)))]
     unit.dirsPaths = dirsPaths.sort()
     const indexFile0 = await (async () => {
-      const exts = [".ts", ".tsx", ".js", ".jsx"]
+      const exts = ['.ts', '.tsx', '.js', '.jsx']
       for (const ext of exts) {
         const exists = await srcFs0.isExists(`index${ext}`)
         if (exists) {
@@ -187,7 +187,7 @@ export class Mono0Unit {
       throw new Error(`Preset recursion limit reached for "${unitConfigFile0.path.rel}"`)
     }
     const forcePreset = config.presets.force
-    const presets = [...(forcePreset ? ["force"] : []), ...definition.preset]
+    const presets = [...(forcePreset ? ['force'] : []), ...definition.preset]
     let result = { ...definition, preset: [] } as Mono0Unit.DefinitionParsed
     for (const presetName of presets.reverse()) {
       const presetValue = config.presets[presetName]
@@ -221,7 +221,7 @@ export class Mono0Unit {
   }): Mono0Unit.DefinitionParsed {
     const parsedDepsDefs: Mono0Unit.DependencyDefinitionParsed[] = []
     for (const dd of definition.deps) {
-      if (dd.match.name?.startsWith("$")) {
+      if (dd.match.name?.startsWith('$')) {
         const unitSelectorName = dd.match.name.slice(1)
         const unitsSelector = config.unitsSelectors[unitSelectorName]
         if (!unitsSelector) {
@@ -282,7 +282,7 @@ export class Mono0Unit {
 
   hasMatchByDepsDefs(
     // dds = deps definitions
-    dds: Mono0Unit.DefinitionParsed["deps"],
+    dds: Mono0Unit.DefinitionParsed['deps'],
   ):
     | { hasMatch: true; unit: Mono0Unit; relation: Mono0Unit.DependencyRelationType }
     | { hasMatch: false; unit: undefined; relation: undefined } {
@@ -309,11 +309,11 @@ export class Mono0Unit {
       tagsInclude: [],
       tagsExclude: [],
     } as Mono0Unit.DependencyMatchParsed
-    const parts = match.split(",")
+    const parts = match.split(',')
     for (const part of parts) {
-      if (part.startsWith("#")) {
+      if (part.startsWith('#')) {
         result.tagsInclude.push(part.slice(1))
-      } else if (part.startsWith("!")) {
+      } else if (part.startsWith('!')) {
         result.tagsExclude.push(part.slice(2))
       } else {
         result.name = part
@@ -331,7 +331,7 @@ export class Mono0Unit {
     config: Mono0Config
     generalTsconfigs: Mono0Tsconfig[]
   }) {
-    const unitsConfigsPaths = await rootFs0.glob("**/mono0.json")
+    const unitsConfigsPaths = await rootFs0.glob('**/mono0.json')
     if (!unitsConfigsPaths.length) {
       return []
     }
@@ -379,7 +379,7 @@ export class Mono0Unit {
       const current = queue.shift()
       if (!current) {
         // impossible error
-        throw new Error("Queue is empty")
+        throw new Error('Queue is empty')
       }
       result.push(current)
 
@@ -397,7 +397,7 @@ export class Mono0Unit {
     }
 
     if (result.length !== units.length) {
-      this.logger.error("🔴 Cyclic dependency detected between units")
+      this.logger.error('🔴 Cyclic dependency detected between units')
       return result
     }
 
@@ -428,7 +428,7 @@ export class Mono0Unit {
         z.string(),
         z.object({
           match: z.string().transform(Mono0Unit.parseMatchString),
-          relation: z.enum(["reference", "include", "none"]).optional().default("reference"),
+          relation: z.enum(['reference', 'include', 'none']).optional().default('reference'),
         }),
       ]),
     )
@@ -436,7 +436,7 @@ export class Mono0Unit {
     .default([])
     .transform((val) =>
       val.map((v) =>
-        typeof v === "string" ? { match: Mono0Unit.parseMatchString(v), relation: "reference" as const } : v,
+        typeof v === 'string' ? { match: Mono0Unit.parseMatchString(v), relation: 'reference' as const } : v,
       ),
     )
 
@@ -469,7 +469,7 @@ export class Mono0Unit {
         )
       }
       return {
-        ...omit(val, ["tsconfig", "tsconfigs"]),
+        ...omit(val, ['tsconfig', 'tsconfigs']),
         tsconfigs,
       }
     })
@@ -538,7 +538,7 @@ export namespace Mono0Unit {
 
   export type Settings = Record<never, never> // Partial<z.input<typeof Mono0Unit.zDefinitionSettings>>
   export type DefinitionSettings = Record<never, never> // z.output<typeof Mono0Unit.zDefinitionSettings>
-  export type DependencyRelationType = "reference" | "include" | "none"
+  export type DependencyRelationType = 'reference' | 'include' | 'none'
   export type DependencyMatchDefinition = string // tags or name
   export type DependencyMatchParsed = {
     name?: string

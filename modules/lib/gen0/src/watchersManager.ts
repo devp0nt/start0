@@ -1,18 +1,18 @@
-import type { Fs0 } from "@devp0nt/fs0"
-import type { EventType as ParcelEventType } from "@parcel/watcher"
-import parcel from "@parcel/watcher"
+import type { Fs0 } from '@devp0nt/fs0'
+import type { EventType as ParcelEventType } from '@parcel/watcher'
+import parcel from '@parcel/watcher'
 // import chokidar, { type FSWatcher as ChokidarFSWatcher, type EmitArgsWithName } from "chokidar"
 // import fs from "fs"
-import { isGitIgnored } from "globby"
-import type { Gen0ClientsManager } from "./clientsManager"
-import type { Gen0Config } from "./config"
-import { Gen0Logger } from "./logger"
-import type { Gen0PluginsManager } from "./pluginsManager"
-import { Gen0Utils } from "./utils"
-import type { Gen0Watcher } from "./watcher"
+import { isGitIgnored } from 'globby'
+import type { Gen0ClientsManager } from './clientsManager'
+import type { Gen0Config } from './config'
+import { Gen0Logger } from './logger'
+import type { Gen0PluginsManager } from './pluginsManager'
+import { Gen0Utils } from './utils'
+import type { Gen0Watcher } from './watcher'
 
 export class Gen0WatchersManager {
-  static logger = Gen0Logger.create("watchersManager")
+  static logger = Gen0Logger.create('watchersManager')
   logger = Gen0WatchersManager.logger
 
   config: Gen0Config
@@ -134,7 +134,7 @@ export class Gen0WatchersManager {
   // }
 
   async handleClientsUpdates(event: Gen0WatchersManager.EventType, path: string) {
-    if (event !== "delete") {
+    if (event !== 'delete') {
       if (!this.fs0.isPathMatchGlob(path, this.config.clientsGlob)) {
         return
       }
@@ -158,7 +158,7 @@ export class Gen0WatchersManager {
   }
 
   async handlePluginsUpdates(event: Gen0WatchersManager.EventType, path: string) {
-    if (event !== "delete") {
+    if (event !== 'delete') {
       if (!this.fs0.isPathMatchGlob(path, this.config.pluginsGlob)) {
         return
       }
@@ -220,7 +220,7 @@ export class Gen0WatchersManager {
         }
       },
       {
-        ignore: [".git/**/*", ...gitignoreGlob],
+        ignore: ['.git/**/*', ...gitignoreGlob],
       },
     )
     return this.parcelWatcher

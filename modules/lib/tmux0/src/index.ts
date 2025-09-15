@@ -5,15 +5,15 @@ export type GenerateConfig = {
 }
 
 export function generateTmuxCommands(cfg: GenerateConfig): string[] {
-  const session = cfg.session ?? "dev"
+  const session = cfg.session ?? 'dev'
   const raw = cfg.layout
-    .split("\n")
+    .split('\n')
     .map((l) => l.trim())
     .filter(Boolean)
 
-  if (!raw.length) throw new Error("Empty layout.")
+  if (!raw.length) throw new Error('Empty layout.')
   const width = raw[0].length
-  if (!raw.every((r) => r.length === width)) throw new Error("All layout rows must have equal length.")
+  if (!raw.every((r) => r.length === width)) throw new Error('All layout rows must have equal length.')
   ensureRectangles(raw)
 
   // Collect pane ids (digits only)

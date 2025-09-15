@@ -31,12 +31,12 @@ export class Route0<
     this.queryDefinition = Route0._getQueryDefinitionByRouteDefinition(definition) as TQueryDefinition
 
     const { baseUrl } = config
-    if (baseUrl && typeof baseUrl === "string" && baseUrl.length) {
+    if (baseUrl && typeof baseUrl === 'string' && baseUrl.length) {
       this.baseUrl = baseUrl
-    } else if (typeof window !== "undefined" && window?.location?.origin) {
+    } else if (typeof window !== 'undefined' && window?.location?.origin) {
       this.baseUrl = window.location.origin
     } else {
-      this.baseUrl = "https://example.com"
+      this.baseUrl = 'https://example.com'
     }
   }
 
@@ -57,7 +57,7 @@ export class Route0<
     const proxy = new Proxy(callable, {
       get(_target, prop, receiver) {
         const value = (original as any)[prop]
-        if (typeof value === "function") {
+        if (typeof value === 'function') {
           return value.bind(original)
         }
         return value
@@ -75,8 +75,8 @@ export class Route0<
   }
 
   private static _splitPathDefinitionAndQueryTailDefinition(pathOriginalDefinition: string) {
-    const i = pathOriginalDefinition.indexOf("&")
-    if (i === -1) return { pathDefinition: pathOriginalDefinition, queryTailDefinition: "" }
+    const i = pathOriginalDefinition.indexOf('&')
+    if (i === -1) return { pathDefinition: pathOriginalDefinition, queryTailDefinition: '' }
     return {
       pathDefinition: pathOriginalDefinition.slice(0, i),
       queryTailDefinition: pathOriginalDefinition.slice(i),
@@ -84,7 +84,7 @@ export class Route0<
   }
 
   private static _getAbsPath(baseUrl: string, pathWithQuery: string) {
-    return new URL(pathWithQuery, baseUrl).toString().replace(/\/$/, "")
+    return new URL(pathWithQuery, baseUrl).toString().replace(/\/$/, '')
   }
 
   private static _getPathDefinitionByOriginalDefinition<TPathOriginalDefinition extends string>(
@@ -110,7 +110,7 @@ export class Route0<
     if (!queryTailDefinition) {
       return {} as Route0._QueryDefinition<TPathOriginalDefinition>
     }
-    const keys = queryTailDefinition.split("&").map(Boolean)
+    const keys = queryTailDefinition.split('&').map(Boolean)
     const queryDefinition = Object.fromEntries(keys.map((k) => [k, true]))
     return queryDefinition as Route0._QueryDefinition<TPathOriginalDefinition>
   }
@@ -141,7 +141,7 @@ export class Route0<
     )
     const { pathDefinition: suffixPathDefinition, queryTailDefinition: suffixQueryTailDefinition } =
       Route0._splitPathDefinitionAndQueryTailDefinition(suffixDefinition)
-    const pathDefinition = `${parentPathDefinition}/${suffixPathDefinition}`.replace(/\/{2,}/g, "/")
+    const pathDefinition = `${parentPathDefinition}/${suffixPathDefinition}`.replace(/\/{2,}/g, '/')
     const pathOriginalDefinition =
       `${pathDefinition}${suffixQueryTailDefinition}` as Route0._RoutePathOriginalDefinitionExtended<
         TPathOriginalDefinition,
@@ -209,12 +209,12 @@ export class Route0<
         return { queryInput: {}, paramsInput: {}, absInput: false }
       }
       const input = args[0]
-      if (typeof input !== "object" || input === null) {
+      if (typeof input !== 'object' || input === null) {
         // throw new Error("Invalid get route input: expected object")
         return { queryInput: {}, paramsInput: {}, absInput: false }
       }
       const { query, abs, ...params } = input
-      return { queryInput: query || {}, paramsInput: params || {}, absInput: abs ?? false }
+      return { queryInput: query || {}, paramsInput: params, absInput: abs ?? false }
     })()
 
     // validate params
@@ -223,18 +223,18 @@ export class Route0<
     const notProvidedKeys = neededParamsKeys.filter((k) => !providedParamsKeys.includes(k))
     if (notProvidedKeys.length) {
       // throw new Error(`Missing params: not defined keys ${notProvidedKeys.map((k) => `"${k}"`).join(", ")}.`)
-      Object.assign(paramsInput, Object.fromEntries(notProvidedKeys.map((k) => [k, "undefined"])))
+      Object.assign(paramsInput, Object.fromEntries(notProvidedKeys.map((k) => [k, 'undefined'])))
     }
 
     // create url
     let url = String(this.pathDefinition)
     // replace params
-    url = url.replace(/:([A-Za-z0-9_]+)/g, (_m, k) => encodeURIComponent(String(paramsInput?.[k] ?? "")))
+    url = url.replace(/:([A-Za-z0-9_]+)/g, (_m, k) => encodeURIComponent(String(paramsInput?.[k] ?? '')))
     // query params
     const queryInputStringified = Object.fromEntries(Object.entries(queryInput).map(([k, v]) => [k, String(v)]))
-    url = [url, new URLSearchParams(queryInputStringified).toString()].filter(Boolean).join("?")
+    url = [url, new URLSearchParams(queryInputStringified).toString()].filter(Boolean).join('?')
     // dedupe slashes
-    url = url.replace(/\/{2,}/g, "/")
+    url = url.replace(/\/{2,}/g, '/')
     // absolute
     url = absInput ? Route0._getAbsPath(this.baseUrl, url) : url
 
@@ -251,24 +251,24 @@ export class Route0<
 }
 
 export namespace Route0 {
-  export type Callable<T extends Route0<any, any, any, any>> = T & T["get"]
+  export type Callable<T extends Route0<any, any, any, any>> = T & T['get']
   export type RouteConfigInput = {
     baseUrl?: string
   }
   export type Params<TRoute0 extends Route0<any, any, any, any>> = {
-    [K in keyof TRoute0["paramsDefinition"]]: string
+    [K in keyof TRoute0['paramsDefinition']]: string
   }
   export type Query<TRoute0 extends Route0<any, any, any, any>> = Partial<
     {
-      [K in keyof TRoute0["queryDefinition"]]: string | undefined
+      [K in keyof TRoute0['queryDefinition']]: string | undefined
     } & Record<string, string | undefined>
   >
 
   export type _TrimQueryTailDefinition<S extends string> = S extends `${infer P}&${string}` ? P : S
-  export type _QueryTailDefinitionWithoutFirstAmp<S extends string> = S extends `${string}&${infer T}` ? T : ""
-  export type _QueryTailDefinitionWithFirstAmp<S extends string> = S extends `${string}&${infer T}` ? `&${T}` : ""
+  export type _QueryTailDefinitionWithoutFirstAmp<S extends string> = S extends `${string}&${infer T}` ? T : ''
+  export type _QueryTailDefinitionWithFirstAmp<S extends string> = S extends `${string}&${infer T}` ? `&${T}` : ''
   export type _AmpSplit<S extends string> = S extends `${infer A}&${infer B}` ? A | _AmpSplit<B> : S
-  export type _NonEmpty<T> = [T] extends ["" | never] ? never : T
+  export type _NonEmpty<T> = [T] extends ['' | never] ? never : T
   export type _ExtractPathParams<S extends string> = S extends `${string}:${infer After}`
     ? After extends `${infer Name}/${infer Rest}`
       ? Name | _ExtractPathParams<`/${Rest}`>
@@ -284,13 +284,13 @@ export namespace Route0 {
   export type _JoinPath<Parent extends string, Suffix extends string> = _DedupeSlashes<
     Route0._PathDefinition<Parent> extends infer A extends string
       ? _PathDefinition<Suffix> extends infer B extends string
-        ? A extends ""
-          ? B extends ""
-            ? ""
+        ? A extends ''
+          ? B extends ''
+            ? ''
             : B extends `/${string}`
               ? B
               : `/${B}`
-          : B extends ""
+          : B extends ''
             ? A
             : A extends `${string}/`
               ? `${A}${B}`

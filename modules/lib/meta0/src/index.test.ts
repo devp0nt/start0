@@ -1,18 +1,18 @@
-import { describe, expect, it } from "bun:test"
-import { Meta0 } from "./index"
+import { describe, expect, it } from 'bun:test'
+import { Meta0 } from './index'
 
-describe("meta0", () => {
-  it("simple", () => {
+describe('meta0', () => {
+  it('simple', () => {
     const meta0 = Meta0.create()
     expect(meta0).toBeInstanceOf(Meta0)
     expect(meta0.getValue()).toMatchInlineSnapshot(`{}`)
   })
 
-  it("full", () => {
+  it('full', () => {
     const meta0 = Meta0.create({
       reqDurationMs: 1,
-      userId: "user1",
-      ideaId: "idea1",
+      userId: 'user1',
+      ideaId: 'idea1',
       other: {
         x: 1,
       },
@@ -29,15 +29,15 @@ describe("meta0", () => {
     `)
   })
 
-  it("mergeValues", () => {
+  it('mergeValues', () => {
     const result = Meta0.mergeValues(
       {
         reqDurationMs: 1,
-        userId: "user1",
+        userId: 'user1',
       },
       {
         reqDurationMs: 2,
-        ideaId: "idea2",
+        ideaId: 'idea2',
         other: {
           x: 4,
         },
@@ -45,7 +45,7 @@ describe("meta0", () => {
       {},
       {
         reqDurationMs: 3,
-        ideaId: "idea3",
+        ideaId: 'idea3',
         other: {
           x: 1,
         },
@@ -63,14 +63,14 @@ describe("meta0", () => {
     `)
   })
 
-  it("#assign", () => {
+  it('#assign', () => {
     const meta0 = Meta0.create({
       reqDurationMs: 1,
-      userId: "user1",
+      userId: 'user1',
     })
     meta0.assign({
       reqDurationMs: 2,
-      ideaId: "idea2",
+      ideaId: 'idea2',
       other: {
         x: 4,
       },
@@ -87,7 +87,7 @@ describe("meta0", () => {
     `)
   })
 
-  it("extend", () => {
+  it('extend', () => {
     const meta0 = Meta0.create({
       a: 1,
     })
@@ -123,7 +123,7 @@ describe("meta0", () => {
     `)
   })
 
-  it("getValueWithDeepReplacedValues", () => {
+  it('getValueWithDeepReplacedValues', () => {
     const meta0 = Meta0.create({
       a: 1,
       b: 2,
@@ -132,7 +132,7 @@ describe("meta0", () => {
         a: 2,
       },
     })
-    expect(meta0.getValueWithDeepReplacedValues(["a"])).toMatchInlineSnapshot(`
+    expect(meta0.getValueWithDeepReplacedValues(['a'])).toMatchInlineSnapshot(`
       {
         "a": "*******",
         "b": 2,

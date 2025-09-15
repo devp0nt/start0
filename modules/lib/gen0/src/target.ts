@@ -1,17 +1,17 @@
-import type { Gen0Client } from "./client"
-import { Gen0Logger } from "./logger"
+import type { Gen0Client } from './client'
+import { Gen0Logger } from './logger'
 
 // TODO: respect silent mark, using tests
 export class Gen0Target {
-  static logger = Gen0Logger.create("target")
+  static logger = Gen0Logger.create('target')
   logger = Gen0Target.logger
 
-  static inlineCommentStartMarks = ["//", "#"]
-  static blockCommentStartMarks = ["/*"]
-  static blockCommentEndMarks = ["*/"]
-  static startMark = "@gen0:start"
-  static endMark = "@gen0:end"
-  static silentMark = "@gen0:silent"
+  static inlineCommentStartMarks = ['//', '#']
+  static blockCommentStartMarks = ['/*']
+  static blockCommentEndMarks = ['*/']
+  static startMark = '@gen0:start'
+  static endMark = '@gen0:end'
+  static silentMark = '@gen0:silent'
 
   client: Gen0Client
   startLineIndex: number
@@ -45,13 +45,13 @@ export class Gen0Target {
 
   async getClientContentFilled({ outputContent, clientContent }: { outputContent: string; clientContent?: string }) {
     const srcContent = clientContent || (await this.client.file0.read())
-    const srcLines = srcContent.split("\n")
-    if (outputContent.trim() === "") {
+    const srcLines = srcContent.split('\n')
+    if (outputContent.trim() === '') {
       srcLines.splice(this.outputStartLineIndex, this.outputEndLineIndex - this.outputStartLineIndex)
     } else {
       srcLines.splice(this.outputStartLineIndex, this.outputEndLineIndex - this.outputStartLineIndex, outputContent)
     }
-    const newSrcContent = srcLines.join("\n")
+    const newSrcContent = srcLines.join('\n')
     return newSrcContent
   }
 
@@ -116,7 +116,7 @@ export class Gen0Target {
     }
 
     clientContent = clientContent || (await client.file0.read())
-    const srcLines = clientContent.split("\n")
+    const srcLines = clientContent.split('\n')
     const startLineIndex = findLineIndex(srcLines, (line) => line.includes(startMark), skipBeforeLineIndex)
     if (startLineIndex === -1) {
       return null
@@ -135,10 +135,10 @@ export class Gen0Target {
     const startLineContentTrimmedBeforeStartString = startLine.substring(0, startLine.indexOf(startMark)).trim()
     const commentType = (() => {
       if (inlineCommentStartMarks.some((mark) => startLineContentTrimmedBeforeStartString === mark)) {
-        return "inline" as const
+        return 'inline' as const
       }
       if (blockCommentStartMarks.some((mark) => startLineContentTrimmedBeforeStartString === mark)) {
-        return "block" as const
+        return 'block' as const
       }
       return null
       // throw new Error(
@@ -151,13 +151,13 @@ export class Gen0Target {
 
     const outputEndLineIndex = endLineIndex
     const { scriptContent, outputStartLineIndex } = (() => {
-      if (commentType === "inline") {
+      if (commentType === 'inline') {
         const scriptStartPosInLine = startLine.indexOf(startMark) + startMark.length
         const scriptContent = startLine.substring(scriptStartPosInLine)
         const outputStartLineIndex = startLineIndex + 1
         return { scriptContent, outputStartLineIndex }
       } else {
-        const skipBeforeIndex = srcLines.slice(0, startLineIndex).join("\n").length
+        const skipBeforeIndex = srcLines.slice(0, startLineIndex).join('\n').length
         const scriptStartPosInFile = clientContent.indexOf(startMark, skipBeforeIndex) + startMark.length
         const blockCommentEndMarkPosInFile = (() => {
           for (const blockCommentEndMark of blockCommentEndMarks) {
@@ -167,22 +167,22 @@ export class Gen0Target {
             }
           }
           throw new Error(
-            `Expecting "${blockCommentEndMarks.join(" or ")}" in file ${client.file0.path.abs} after "${startMark}" in line ${startLineIndex + 1}`,
+            `Expecting "${blockCommentEndMarks.join(' or ')}" in file ${client.file0.path.abs} after "${startMark}" in line ${startLineIndex + 1}`,
           )
         })()
         const endPosInFile = clientContent.indexOf(endMark, skipBeforeIndex)
         if (blockCommentEndMarkPosInFile > endPosInFile) {
           throw new Error(
-            `Expecting block comment end mark "${blockCommentEndMarks.join(" or ")}" in file ${client.file0.path.abs} after "${startMark}" adter line ${startLineIndex} before "${endMark}"`,
+            `Expecting block comment end mark "${blockCommentEndMarks.join(' or ')}" in file ${client.file0.path.abs} after "${startMark}" adter line ${startLineIndex} before "${endMark}"`,
           )
         }
         const scriptEndPosInFile = blockCommentEndMarkPosInFile
         const scriptContent = clientContent.substring(scriptStartPosInFile, scriptEndPosInFile)
-        const outputStartLineIndex = clientContent.slice(0, blockCommentEndMarkPosInFile).split("\n").length + 1
+        const outputStartLineIndex = clientContent.slice(0, blockCommentEndMarkPosInFile).split('\n').length + 1
         return { scriptContent, outputStartLineIndex }
       }
     })()
-    const outputContent = srcLines.slice(outputStartLineIndex, outputEndLineIndex).join("\n")
+    const outputContent = srcLines.slice(outputStartLineIndex, outputEndLineIndex).join('\n')
 
     return new Gen0Target({
       startLineIndex,

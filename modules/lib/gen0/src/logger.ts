@@ -1,8 +1,8 @@
 /** biome-ignore-all lint/suspicious/noConsole: it is loggger */
-import debugUtil from "debug"
+import debugUtil from 'debug'
 
 export class Gen0Logger {
-  static rootTag = "gen0"
+  static rootTag = 'gen0'
   static debug: boolean | string = false
   selfTag: string
 
@@ -13,12 +13,12 @@ export class Gen0Logger {
   static init(debug: boolean | string = false) {
     const normalizedDebug =
       debug === false
-        ? ""
-        : typeof debug === "string"
+        ? ''
+        : typeof debug === 'string'
           ? debug
-              .split(",")
+              .split(',')
               .map((tag) => `gen0:${tag}`)
-              .join(",")
+              .join(',')
           : `gen0:*`
     debugUtil.enable(normalizedDebug)
     Gen0Logger.debug = debug

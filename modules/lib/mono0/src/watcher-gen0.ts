@@ -1,5 +1,5 @@
-import type { Gen0Plugin } from "@devp0nt/gen0/plugin"
-import { Mono0 } from "./index"
+import type { Gen0Plugin } from '@devp0nt/gen0/plugin'
+import { Mono0 } from './index'
 
 export default (async ({}) => {
   const mono0 = await Mono0.create()
@@ -14,11 +14,11 @@ export default (async ({}) => {
   }
 
   return {
-    name: "mono0",
+    name: 'mono0',
     init: handler,
     watchers: {
       main: {
-        watch: ["~/**/mono0.json{,c}", "~/**/src", "~/.mono0rc.json{,c}", "~/.mono0/config.json{,c}"],
+        watch: ['~/**/mono0.json{,c}', '~/**/src', '~/.mono0rc.json{,c}', '~/.mono0/config.json{,c}'],
         handler: async () => {
           await mono0.refresh()
           await handler()

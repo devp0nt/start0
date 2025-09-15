@@ -1,19 +1,19 @@
-import nodePath from "node:path"
-import { Fs0 } from "@devp0nt/fs0"
-import { findUpSync } from "find-up"
-import { workspaceRoot } from "workspace-root"
-import { Gen0Logger } from "./logger"
-import type { Gen0Plugin } from "./plugin"
+import nodePath from 'node:path'
+import { Fs0 } from '@devp0nt/fs0'
+import { findUpSync } from 'find-up'
+import { workspaceRoot } from 'workspace-root'
+import { Gen0Logger } from './logger'
+import type { Gen0Plugin } from './plugin'
 
 // TODO: respect json configs
 
 export class Gen0Config {
-  static logger = Gen0Logger.create("config")
+  static logger = Gen0Logger.create('config')
   logger = Gen0Config.logger
 
-  static configFilesNames = [".gen0rc.mjs", ".gen0rc.ts", ".gen0rc.js"]
-  static defaultPluginsGlob: Fs0.PathOrPaths = ["**/{*.gen0,gen0}.{ts,tsx,js,jsx,mjs}"]
-  static defaultClientsGlob: Fs0.PathOrPaths = ["**/*.{ts,tsx,js,jsx,mjs,json,jsonc}", "**/justfile"]
+  static configFilesNames = ['.gen0rc.mjs', '.gen0rc.ts', '.gen0rc.js']
+  static defaultPluginsGlob: Fs0.PathOrPaths = ['**/{*.gen0,gen0}.{ts,tsx,js,jsx,mjs}']
+  static defaultClientsGlob: Fs0.PathOrPaths = ['**/*.{ts,tsx,js,jsx,mjs,json,jsonc}', '**/justfile']
   static defaultDebug: string | boolean = false
 
   fs0: Fs0
@@ -86,7 +86,7 @@ export class Gen0Config {
       (configPath && nodePath.dirname(configPath)) ||
       (await Gen0Config.getWorkspaceRootDir({ cwd }))
     if (!rootDir) {
-      throw new Error("Project root dir not found")
+      throw new Error('Project root dir not found')
     }
     const fs0 = Fs0.create({ rootDir, cwd: rootDir })
     const {

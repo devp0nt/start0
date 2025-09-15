@@ -1,9 +1,9 @@
-import { deepMap } from "@devp0nt/deepmap0"
-import omit from "lodash/omit.js"
-import pick from "lodash/pick.js"
-import { assign, isArray, isPlainObject } from "lodash-es"
-import cloneDeep from "lodash-es/cloneDeep.js"
-import z from "zod"
+import { deepMap } from '@devp0nt/deepmap0'
+import omit from 'lodash/omit.js'
+import pick from 'lodash/pick.js'
+import { assign, isArray, isPlainObject } from 'lodash-es'
+import cloneDeep from 'lodash-es/cloneDeep.js'
+import z from 'zod'
 
 // TODO: many parents
 // TODO: assign = add self as parent, and all next as parents also
@@ -65,7 +65,7 @@ export class Meta0 {
     return Meta0.from(input).getValue()
   }
 
-  getValueWithDeepReplacedValues(keys: string[], replaceValue = "*******"): Meta0.ValueType {
+  getValueWithDeepReplacedValues(keys: string[], replaceValue = '*******'): Meta0.ValueType {
     return deepMap(this.getValue(), ({ key, value }) => {
       if (keys.includes(key)) {
         return replaceValue
@@ -86,7 +86,7 @@ export class Meta0 {
     if (input instanceof Meta0) {
       return input
     }
-    if (typeof input === "object" && input !== null && "__I_AM_META_0" in input && input.__I_AM_META_0) {
+    if (typeof input === 'object' && input !== null && '__I_AM_META_0' in input && input.__I_AM_META_0) {
       // TODO:ASAP HOW?????
       return input as never as Meta0
     }
@@ -125,9 +125,9 @@ export class Meta0 {
 
   private static isPrimitive(value: unknown) {
     return (
-      typeof value === "number" ||
-      typeof value === "string" ||
-      typeof value === "boolean" ||
+      typeof value === 'number' ||
+      typeof value === 'string' ||
+      typeof value === 'boolean' ||
       value === undefined ||
       value === null
     )
@@ -148,14 +148,14 @@ export class Meta0 {
 
   updateTagPrefix({ extend, replace }: { extend?: string; replace?: string }): void {
     const newBaseTagPrefix = replace || this.value.tagPrefix
-    const newTagPrefix = [newBaseTagPrefix, extend].filter(Boolean).join(":")
+    const newTagPrefix = [newBaseTagPrefix, extend].filter(Boolean).join(':')
     this.assign({
       tagPrefix: newTagPrefix,
     })
   }
 
   getFinalTag(providedTag?: string): string | undefined {
-    return [this.value.tagPrefix, providedTag || this.value.tag].filter(Boolean).join(":") || undefined
+    return [this.value.tagPrefix, providedTag || this.value.tag].filter(Boolean).join(':') || undefined
   }
   static getFinalTag(input: Meta0.Meta0OrValueTypeNullish, providedTag?: string): string | undefined {
     return Meta0.from(input).getFinalTag(providedTag)
@@ -163,7 +163,7 @@ export class Meta0 {
 
   getFinalTagParts(): string[] {
     const finalTag = this.getFinalTag()
-    return finalTag ? finalTag.split(":") : []
+    return finalTag ? finalTag.split(':') : []
   }
 }
 

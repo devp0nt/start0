@@ -1,12 +1,12 @@
-import { BackendCtx } from "@backend/core/lib/ctx"
+import { BackendCtx } from '@backend/core/lib/ctx'
 
 export const startWorkerProcess = async () => {
   try {
     // biome-ignore lint/correctness/noUnusedVariables: <x>
     const ctx = await BackendCtx.create({
       meta: {
-        service: "backend-worker",
-        tagPrefix: "backend",
+        service: 'backend-worker',
+        tagPrefix: 'backend',
       },
     })
     // const handleWorker = () => {
@@ -17,9 +17,9 @@ export const startWorkerProcess = async () => {
   } catch (e: any) {
     // biome-ignore lint/suspicious/noConsole: <fallback to native logger>
     console.error({
-      message: e.message || "Unknown error",
-      service: "backend-worker",
-      tag: "backend:fatality",
+      message: e.message || 'Unknown error',
+      service: 'backend-worker',
+      tag: 'backend:fatality',
     })
     process.exit(1)
   }

@@ -1,2 +1,2 @@
-import Layout from "@site/core/components/GeneralLayout"
+import Layout from '@site/core/components/GeneralLayout'
 export default Layout

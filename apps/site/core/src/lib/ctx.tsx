@@ -1,18 +1,18 @@
-import type { BackendTrpcRouter } from "@backend/trpc-router"
-import { getQueryClient, trpc } from "@site/core/lib/trpc"
-import { type DehydratedState, dehydrate, type QueryClient, useQuery } from "@tanstack/react-query"
+import type { BackendTrpcRouter } from '@backend/trpc-router'
+import { getQueryClient, trpc } from '@site/core/lib/trpc'
+import { type DehydratedState, dehydrate, type QueryClient, useQuery } from '@tanstack/react-query'
 import {
   createContext as createReactRouterContext,
   type MiddlewareFunction,
   type RouterContextProvider,
-} from "react-router"
-import { createContext, useContext, useContextSelector } from "use-context-selector"
+} from 'react-router'
+import { createContext, useContext, useContextSelector } from 'use-context-selector'
 
 export namespace SiteCtx {
   export type MeUser = { id: string; name: string; email: string }
   export type MeAdmin = { id: string; name: string; phone: string }
   export type Me = { user: MeUser | null; admin: MeAdmin | null }
-  export type AppConfig = BackendTrpcRouter.Output["getAppConfig"]["appConfig"]
+  export type AppConfig = BackendTrpcRouter.Output['getAppConfig']['appConfig']
   export type Ctx = {
     me: Me
     appConfig: AppConfig
@@ -86,14 +86,14 @@ export namespace SiteCtx {
   export const rrGetFromContextOrThrow = ({ context }: { context: Readonly<RouterContextProvider> }) => {
     const result = context.get(rrContext)
     if (!result) {
-      throw new Error("siteCtx holder not found in react router context")
+      throw new Error('siteCtx holder not found in react router context')
     }
     const { siteCtx, dehydratedState } = result
     if (!siteCtx) {
-      throw new Error("siteCtx holder found in react router context, but siteCtx is null")
+      throw new Error('siteCtx holder found in react router context, but siteCtx is null')
     }
     if (!dehydratedState) {
-      throw new Error("siteCtx holder found in react router context, but dehydratedState is null")
+      throw new Error('siteCtx holder found in react router context, but dehydratedState is null')
     }
     return {
       siteCtx,

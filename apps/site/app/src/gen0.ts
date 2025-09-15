@@ -1,23 +1,23 @@
-import type { Gen0Plugin } from "@devp0nt/gen0/plugin"
-import type { Page0 } from "@site/core/lib/page0"
+import type { Gen0Plugin } from '@devp0nt/gen0/plugin'
+import type { Page0 } from '@site/core/lib/page0'
 
 export default (async ({ fs0, _ }) => {
-  await fs0.loadEnv(".env")
+  await fs0.loadEnv('.env')
 
-  const { RRGen0 } = await fs0.importFresh<typeof import("./gen0.templates")>("./gen0.templates.ts")
-  const pagesGlob = ["~/**/*.page.ts{x,}"]
-  const watchGlob = [...pagesGlob, "./gen0.templates.ts"]
-  const appDir = fs0.resolve(".")
-  const generatedRoutesDir = fs0.toAbs(fs0.resolve(appDir, "routes/generated"))
-  const catchall = "./routes/catchall.tsx"
+  const { RRGen0 } = await fs0.importFresh<typeof import('./gen0.templates')>('./gen0.templates.ts')
+  const pagesGlob = ['~/**/*.page.ts{x,}']
+  const watchGlob = [...pagesGlob, './gen0.templates.ts']
+  const appDir = fs0.resolve('.')
+  const generatedRoutesDir = fs0.toAbs(fs0.resolve(appDir, 'routes/generated'))
+  const catchall = './routes/catchall.tsx'
 
   const getHelpersByPagePath = (pagePath: string) => {
     const pagePathRelToProjectRoot = fs0.toRel(pagePath, fs0.rootDir)
     const pagePathSlug = _.kebabCase(pagePathRelToProjectRoot)
     const routeFilePath = fs0.resolve(generatedRoutesDir, `${pagePathSlug}.tsx`)
-    const pagePathRelToGeneratedRoutesDir = fs0.replaceExt(fs0.toRel(pagePath, generatedRoutesDir), ".js")
+    const pagePathRelToGeneratedRoutesDir = fs0.replaceExt(fs0.toRel(pagePath, generatedRoutesDir), '.js')
     const routePathRelativeToAppDir = fs0.toRel(routeFilePath, appDir)
-    const routesFilePath = fs0.resolve(appDir, "routes.ts")
+    const routesFilePath = fs0.resolve(appDir, 'routes.ts')
     return {
       pagePathRelToProjectRoot,
       pagePathSlug,
@@ -40,12 +40,14 @@ export default (async ({ fs0, _ }) => {
   }
 
   const generateAllRoutesFiles = async (pagesPaths?: string[]) => {
+    // biome-ignore lint/nursery/noUnnecessaryConditions: <biome bug>
     pagesPaths = pagesPaths || (await fs0.findFilesPaths(pagesGlob))
     await Promise.all(pagesPaths.map(generateRouteFileByPagePath))
     return pagesPaths
   }
 
   const removeAllUnusedRoutesFiles = async (pagesPaths?: string[]) => {
+    // biome-ignore lint/nursery/noUnnecessaryConditions: <biome bug>
     pagesPaths = pagesPaths || (await fs0.findFilesPaths(pagesGlob))
     const unuedPaths: string[] = []
     const existsingRoutesPaths = await fs0.findFilesPaths(generatedRoutesDir)
@@ -60,6 +62,7 @@ export default (async ({ fs0, _ }) => {
   }
 
   const generateRoutesFile = async (pagesPaths?: string[]) => {
+    // biome-ignore lint/nursery/noUnnecessaryConditions: <biome bug>
     pagesPaths = pagesPaths || (await fs0.findFilesPaths(pagesGlob))
     const input: RRInput[] = await Promise.all(
       pagesPaths.map((pagePath) =>
@@ -91,7 +94,7 @@ export default (async ({ fs0, _ }) => {
   }
 
   return {
-    name: "reactRouter",
+    name: 'reactRouter',
     init: async () => {
       await generateEverything()
     },
@@ -99,7 +102,7 @@ export default (async ({ fs0, _ }) => {
       createRouteByPage: {
         watch: watchGlob,
         handler: async (ctx, event, path) => {
-          if (event !== "delete") {
+          if (event !== 'delete') {
             await generateRouteFileByPagePath(path)
           }
           const pagesPaths = await generateRoutesFile()
@@ -117,18 +120,18 @@ type RRInput = {
 }
 
 type RRNode =
-  | { type: "layout"; layoutPath: string; children: RRNode[] }
-  | { type: "index"; componentPath: string }
-  | { type: "route"; path: string; componentPath: string }
+  | { type: 'layout'; layoutPath: string; children: RRNode[] }
+  | { type: 'index'; componentPath: string }
+  | { type: 'route'; path: string; componentPath: string }
 
 // --- core builder that returns only the array DSL as a string ---
 function buildRoutesStructure(data: RRInput[], catchallPath: string): string {
   const root: RRNode[] = []
 
   const findOrCreateLayout = (level: RRNode[], layoutPath: string): RRNode => {
-    let node = level.find((n) => n.type === "layout" && (n as any).layoutPath === layoutPath) as RRNode | undefined
+    let node = level.find((n) => n.type === 'layout' && (n as any).layoutPath === layoutPath) as RRNode | undefined
     if (!node) {
-      node = { type: "layout", layoutPath, children: [] }
+      node = { type: 'layout', layoutPath, children: [] }
       level.push(node)
     }
     return node
@@ -137,16 +140,16 @@ function buildRoutesStructure(data: RRInput[], catchallPath: string): string {
   for (const item of data) {
     let level = root
     for (const layoutPath of item.layouts || []) {
-      const layoutNode = findOrCreateLayout(level, layoutPath) as Extract<RRNode, { type: "layout" }>
+      const layoutNode = findOrCreateLayout(level, layoutPath) as Extract<RRNode, { type: 'layout' }>
       level = layoutNode.children
     }
 
-    if (item.route0Definition === "/") {
-      level.push({ type: "index", componentPath: item.routePathRelativeToAppDir })
+    if (item.route0Definition === '/') {
+      level.push({ type: 'index', componentPath: item.routePathRelativeToAppDir })
     } else {
       level.push({
-        type: "route",
-        path: item.route0Definition.replace(/^\//, ""),
+        type: 'route',
+        path: item.route0Definition.replace(/^\//, ''),
         componentPath: item.routePathRelativeToAppDir,
       })
     }
@@ -156,13 +159,13 @@ function buildRoutesStructure(data: RRInput[], catchallPath: string): string {
   const sortNodes = (nodes: RRNode[]) => {
     const order = { layout: 0, index: 1, route: 2 } as const
     nodes.sort((a, b) => order[a.type] - order[b.type])
-    for (const n of nodes) if (n.type === "layout") sortNodes(n.children)
+    for (const n of nodes) if (n.type === 'layout') sortNodes(n.children)
   }
   sortNodes(root)
 
   // Stringify to DSL, appending a generated catchall as the last entry of each array
   const q = (s: string) => JSON.stringify(s)
-  const indentUnit = "  "
+  const indentUnit = '  '
   let catchallCounter = 0
 
   const makeCatchallLine = (pad: string) =>
@@ -171,10 +174,10 @@ function buildRoutesStructure(data: RRInput[], catchallPath: string): string {
   const printNodes = (nodes: RRNode[], indent = 0): string => {
     const pad = indentUnit.repeat(indent)
     const lines: string[] = nodes.map((n) => {
-      if (n.type === "index") {
+      if (n.type === 'index') {
         return `${pad}${indentUnit}index(${q(n.componentPath)})`
       }
-      if (n.type === "route") {
+      if (n.type === 'route') {
         return `${pad}${indentUnit}route(${q(n.path)}, ${q(n.componentPath)})`
       }
       // layout
@@ -185,7 +188,7 @@ function buildRoutesStructure(data: RRInput[], catchallPath: string): string {
     // Always append the catchall as the final element of this array
     lines.push(makeCatchallLine(pad))
 
-    return `[\n${lines.join(",\n")}\n${pad}]`
+    return `[\n${lines.join(',\n')}\n${pad}]`
   }
 
   return printNodes(root, 0)

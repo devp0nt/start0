@@ -1,13 +1,15 @@
-import { execSync, spawn } from "node:child_process"
-import type { Fs0 } from "@devp0nt/fs0"
-import { Gen0 } from "@devp0nt/gen0"
-import { Mono0Config } from "./config"
-import { Mono0Logger } from "./logger"
-import { Mono0PackageJson } from "./packageJson"
-import { Mono0Tsconfig } from "./tsconfig"
-import { Mono0Unit } from "./unit"
-import watcherGen0 from "./watcher-gen0"
+import { execSync, spawn } from 'node:child_process'
+import type { Fs0 } from '@devp0nt/fs0'
+import { Gen0 } from '@devp0nt/gen0'
+import { Mono0Config } from './config'
+import { Mono0Logger } from './logger'
+import { Mono0PackageJson } from './packageJson'
+import { Mono0Tsconfig } from './tsconfig'
+import { Mono0Unit } from './unit'
+import watcherGen0 from './watcher-gen0'
 
+// TODO: В конфиге иметь глобальные плейсхолдеры
+// TODO: Переименовать моны на Джейсон си
 // TODO: Инклюд дист в пасы для колдов, и тогда вообще никому не нужно ничего экспортить из пакейдж джейсона
 // TODO: Реагировать только на появление и удаление файлов и папок
 
@@ -44,7 +46,7 @@ export class Mono0 {
   generalPackageJson: Mono0PackageJson
   config: Mono0Config
   units: Mono0Unit[]
-  logger: Mono0Logger = Mono0Logger.create("core")
+  logger: Mono0Logger = Mono0Logger.create('core')
 
   private constructor({
     rootFs0,
@@ -103,11 +105,13 @@ export class Mono0 {
     for (const unit of this.units) {
       await unit.writeTsconfigs({ units: this.units })
       const { depsChanged } = await unit.writePackageJson({ units: this.units })
+      // biome-ignore lint/nursery/noUnnecessaryConditions: <biome bug>
       packageJsonsDepsChanged = packageJsonsDepsChanged || depsChanged
     }
+    // biome-ignore lint/nursery/noUnnecessaryConditions: <biome bug>
     if (packageJsonsDepsChanged && this.config.settings.onPackageJsonsDepsChangedCommand) {
       try {
-        execSync(this.config.settings.onPackageJsonsDepsChangedCommand, { cwd: this.rootFs0.cwd, stdio: "inherit" })
+        execSync(this.config.settings.onPackageJsonsDepsChangedCommand, { cwd: this.rootFs0.cwd, stdio: 'inherit' })
         this.logger.debug(`dependencies installed for "${this.rootFs0.cwd}"`)
       } catch (error) {
         this.logger.error(`failed to install dependencies for "${this.rootFs0.cwd}"`, { error })
@@ -135,10 +139,10 @@ export class Mono0 {
             const [cmd, ...args] = commandParts
             const child = spawn(cmd, args, {
               cwd: unit.fs0.cwd,
-              stdio: "inherit", // live output
+              stdio: 'inherit', // live output
             })
 
-            child.on("exit", (code) => {
+            child.on('exit', (code) => {
               if (code === 0) resolve()
               else reject(new Error(`${cmd} failed in ${unit.fs0.cwd} with code ${code}`))
             })
@@ -156,10 +160,10 @@ export class Mono0 {
       await new Promise<void>((resolve, reject) => {
         const child = spawn(cmd, args, {
           cwd: unit.fs0.cwd,
-          stdio: "inherit", // интерактивный режим
+          stdio: 'inherit', // интерактивный режим
         })
 
-        child.on("exit", (code) => {
+        child.on('exit', (code) => {
           if (code === 0) resolve()
           else reject(new Error(`${cmd} failed in ${unit.fs0.cwd} with code ${code}`))
         })

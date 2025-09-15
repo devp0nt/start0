@@ -1,14 +1,14 @@
-import { mkdirSync, writeFileSync } from "node:fs"
-import path from "node:path"
-import { type GeneratorOptions, generatorHandler } from "@prisma/generator-helper"
-import { isMatch, lowerFirst } from "lodash"
+import { mkdirSync, writeFileSync } from 'node:fs'
+import path from 'node:path'
+import { type GeneratorOptions, generatorHandler } from '@prisma/generator-helper'
+import { isMatch, lowerFirst } from 'lodash'
 
 const __dirname = path.dirname(new URL(import.meta.url).pathname)
 
 generatorHandler({
   onManifest: (props) => ({
     defaultOutput: getDefaultOutputDir(),
-    prettyName: "Prisma0 Generator",
+    prettyName: 'Prisma0 Generator',
   }),
   onGenerate: async (options) => {
     const modelsOutputParts: string[] = []
@@ -23,12 +23,12 @@ generatorHandler({
 
     const modelsNamesWithCreatedAtNow = options.dmmf.datamodel.models
       .filter((m) => {
-        const createdAtField = m.fields.find((f) => f.name === "createdAt")
+        const createdAtField = m.fields.find((f) => f.name === 'createdAt')
         if (!createdAtField) return false
         return isMatch(createdAtField, {
-          type: "DateTime",
+          type: 'DateTime',
           default: {
-            name: "now",
+            name: 'now',
             args: [],
           },
         })
@@ -39,10 +39,10 @@ generatorHandler({
 
     const modelsNamesWithUpdatedAt = options.dmmf.datamodel.models
       .filter((m) => {
-        const updatedAtField = m.fields.find((f) => f.name === "updatedAt")
+        const updatedAtField = m.fields.find((f) => f.name === 'updatedAt')
         if (!updatedAtField) return false
         return isMatch(updatedAtField, {
-          type: "DateTime",
+          type: 'DateTime',
           isUpdatedAt: true,
         })
       })
@@ -50,16 +50,16 @@ generatorHandler({
     const modelsNamesWithUpdatedAtTs = `export const namesWithUpdatedAt = ["${modelsNamesWithUpdatedAt.join('", "')}"];`
     modelsOutputParts.push(modelsNamesWithUpdatedAtTs)
 
-    writeOutputContent(options, [["models.ts", withExportNamespace("Prisma0Models", modelsOutputParts)]])
+    writeOutputContent(options, [['models.ts', withExportNamespace('Prisma0Models', modelsOutputParts)]])
   },
 })
 
 const getDefaultOutputDir = () => {
-  return path.resolve(__dirname, "generated/prisma0")
+  return path.resolve(__dirname, 'generated/prisma0')
 }
 
 const withExportNamespace = (namespace: string, lines: string[]) => {
-  return [`export namespace ${namespace} {`, ...lines.map((line) => `  ${line}`), `}`].join("\n")
+  return [`export namespace ${namespace} {`, ...lines.map((line) => `  ${line}`), `}`].join('\n')
 }
 
 const writeOutputContent = (options: GeneratorOptions, input: Array<[string, string]>) => {

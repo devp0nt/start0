@@ -1,14 +1,14 @@
-import { describe, expect, it } from "bun:test"
-import { Error0 } from "@devp0nt/error0"
-import { Logger0 } from "@devp0nt/logger0"
-import { Meta0 } from "@devp0nt/meta0"
-import { omit } from "lodash"
+import { describe, expect, it } from 'bun:test'
+import { Error0 } from '@devp0nt/error0'
+import { Logger0 } from '@devp0nt/logger0'
+import { Meta0 } from '@devp0nt/meta0'
+import { omit } from 'lodash'
 
 const createLoggerAndLogs = () => {
   const logs: Record<string, any>[] = []
-  Logger0.rootTagPrefix = "test"
+  Logger0.rootTagPrefix = 'test'
   const meta = Meta0.create({
-    tagPrefix: "nested",
+    tagPrefix: 'nested',
   })
   const logger0 = Logger0.create({
     meta,
@@ -17,9 +17,9 @@ const createLoggerAndLogs = () => {
       variable: (record) => {
         const log = JSON.parse(Logger0.jsonFormatter(record))
         logs.unshift({
-          ...omit(log, ["timestamp"]),
+          ...omit(log, ['timestamp']),
           meta: {
-            ...omit(log.meta, ["stack"]),
+            ...omit(log.meta, ['stack']),
           },
         })
       },
@@ -28,10 +28,10 @@ const createLoggerAndLogs = () => {
   return { logger0, logs }
 }
 
-describe("logger0", () => {
-  it("info", () => {
+describe('logger0', () => {
+  it('info', () => {
     const { logger0, logs } = createLoggerAndLogs()
-    logger0.info("Hello, world!")
+    logger0.info('Hello, world!')
     expect(logs[0]).toMatchInlineSnapshot(`
       {
         "level": "info",
@@ -42,9 +42,9 @@ describe("logger0", () => {
     `)
   })
 
-  it("error", () => {
+  it('error', () => {
     const { logger0, logs } = createLoggerAndLogs()
-    logger0.error(new Error("my message"))
+    logger0.error(new Error('my message'))
     expect(logs[0]).toMatchInlineSnapshot(`
       {
         "level": "error",
@@ -57,15 +57,15 @@ describe("logger0", () => {
     `)
   })
 
-  it("error0 instance", () => {
+  it('error0 instance', () => {
     const { logger0, logs } = createLoggerAndLogs()
     logger0.error(
-      new Error0("my message", {
+      new Error0('my message', {
         expected: true,
-        tag: "tag1",
+        tag: 'tag1',
         meta: {
-          tag: "tag2",
-          userId: "user1",
+          tag: 'tag2',
+          userId: 'user1',
         },
       }),
     )
@@ -82,11 +82,11 @@ describe("logger0", () => {
     `)
   })
 
-  it("info meta value", () => {
+  it('info meta value', () => {
     const { logger0, logs } = createLoggerAndLogs()
-    logger0.info("xxx", {
-      message: "my message",
-      userId: "user1",
+    logger0.info('xxx', {
+      message: 'my message',
+      userId: 'user1',
     })
     expect(logs[0]).toMatchInlineSnapshot(`
       {
@@ -100,13 +100,13 @@ describe("logger0", () => {
     `)
   })
 
-  it("info meta instance", () => {
+  it('info meta instance', () => {
     const { logger0, logs } = createLoggerAndLogs()
     const meta = Meta0.create({
-      message: "my message",
-      userId: "user1",
+      message: 'my message',
+      userId: 'user1',
     })
-    logger0.info("xxx", meta)
+    logger0.info('xxx', meta)
     expect(logs[0]).toMatchInlineSnapshot(`
       {
         "level": "info",
@@ -119,12 +119,12 @@ describe("logger0", () => {
     `)
   })
 
-  it("default meta", () => {
+  it('default meta', () => {
     const { logger0, logs } = createLoggerAndLogs()
     logger0.meta.assign({
-      userId: "user1",
+      userId: 'user1',
     })
-    logger0.info("xxx")
+    logger0.info('xxx')
     expect(logs[0]).toMatchInlineSnapshot(`
       {
         "level": "info",
@@ -136,9 +136,9 @@ describe("logger0", () => {
       }
     `)
     logger0.meta.assign({
-      ideaId: "idea1",
+      ideaId: 'idea1',
     })
-    logger0.info("xxx")
+    logger0.info('xxx')
     expect(logs[0]).toMatchInlineSnapshot(`
       {
         "level": "info",
@@ -152,10 +152,10 @@ describe("logger0", () => {
     `)
   })
 
-  it("child logger", () => {
+  it('child logger', () => {
     const { logger0, logs } = createLoggerAndLogs()
-    const childLogger = logger0.extend("child")
-    childLogger.info("xxx")
+    const childLogger = logger0.extend('child')
+    childLogger.info('xxx')
     expect(logs[0]).toMatchInlineSnapshot(`
       {
         "level": "info",

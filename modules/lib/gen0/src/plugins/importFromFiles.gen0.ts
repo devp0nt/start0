@@ -1,11 +1,11 @@
-import nodeFsSync from "node:fs"
-import type { File0, Fs0 } from "@devp0nt/fs0"
-import type { Gen0ClientProcessCtx } from "@devp0nt/gen0/clientProcessCtx"
-import type { Gen0Plugin } from "@devp0nt/gen0/plugin"
+import nodeFsSync from 'node:fs'
+import type { File0, Fs0 } from '@devp0nt/fs0'
+import type { Gen0ClientProcessCtx } from '@devp0nt/gen0/clientProcessCtx'
+import type { Gen0Plugin } from '@devp0nt/gen0/plugin'
 
 const getConstExportNames = (ctx: Gen0ClientProcessCtx, filePath: string) => {
   filePath = ctx.fs0.toAbs(filePath)
-  const content = nodeFsSync.readFileSync(filePath, "utf8")
+  const content = nodeFsSync.readFileSync(filePath, 'utf8')
   // Match: export const <identifier>
   const regex = /export\s+const\s+([A-Za-z0-9_$]+)/g
   const matches: string[] = []
@@ -41,7 +41,7 @@ export const importFromFiles = (
     ctx.print(printer(ctx.fs0.parsePath(path)))
   }
   if (withEmptyLine && ctx.prints.length > 0) {
-    ctx.prints.unshift("")
+    ctx.prints.unshift('')
   }
   ctx.$.paths = result.paths
   return result
@@ -75,7 +75,7 @@ export const importAsFromFiles = (
     ctx.print(`import ${asOutput} from "${path}"`)
   }
   if (withEmptyLine && ctx.prints.length > 0) {
-    ctx.prints.unshift("")
+    ctx.prints.unshift('')
   }
   ctx.$.paths = result.paths
   ctx.$.names = result.names
@@ -87,7 +87,7 @@ export const importExportedFromFiles = (
   glob: Fs0.PathOrPaths,
   exportEndsWith?: string,
   pathResolver: (file0: File0) => string = (file0: File0) => file0.path.rel,
-  replaceExt: string | false = "",
+  replaceExt: string | false = '',
   withEmptyLine: boolean = true,
   noWatcher: boolean = false,
 ) => {
@@ -130,10 +130,10 @@ export const importExportedFromFiles = (
     for (let i = 0; i < exportNames.length; i++) {
       result.imports.push({ path, name: exportNames[i], cutted: exportNamesCutted[i] })
     }
-    ctx.print(`import { ${exportNames.join(", ")} } from "${path}"`)
+    ctx.print(`import { ${exportNames.join(', ')} } from "${path}"`)
   }
   if (withEmptyLine && ctx.prints.length > 0) {
-    ctx.prints.unshift("")
+    ctx.prints.unshift('')
   }
   ctx.$.files = result.files
   ctx.$.names = result.names
@@ -144,7 +144,7 @@ export const importExportedFromFiles = (
 }
 
 export default {
-  name: "importFromFiles",
+  name: 'importFromFiles',
   fns: {
     importFromFiles,
     importAsFromFiles,

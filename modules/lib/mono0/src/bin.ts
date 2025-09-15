@@ -1,18 +1,18 @@
 #!/usr/bin/env bun
 
-import { Mono0Unit } from "@devp0nt/mono0/unit"
-import { Command } from "commander"
-import { Mono0 } from "./index"
+import { Mono0Unit } from '@devp0nt/mono0/unit'
+import { Command } from 'commander'
+import { Mono0 } from './index'
 // import * as readline from "node:readline"
-import { Mono0Logger } from "./logger"
+import { Mono0Logger } from './logger'
 
 const program = new Command()
 program.enablePositionalOptions()
-program.name("mono0").description("A monorepo manager tool").version("1.0.0")
+program.name('mono0').description('A monorepo manager tool').version('1.0.0')
 
 // helpers
 
-const logger = Mono0Logger.create("bin")
+const logger = Mono0Logger.create('bin')
 
 const withErrorWrapper = <T extends any[]>(action: (...args: T) => Promise<void>) => {
   return async (...args: T) => {
@@ -33,21 +33,21 @@ const withMono0 = <T extends any[]>(action: (mono0: Mono0, ...args: T) => Promis
 // commands
 
 program
-  .command("ping")
-  .description("Ping")
+  .command('ping')
+  .description('Ping')
   .action(
     withMono0(async (mono0) => {
-      logger.info("pong")
+      logger.info('pong')
     }),
   )
 
 program
-  .command("exec")
-  .alias("e")
-  .description("Exec")
-  .argument("<match>", "Match")
-  .argument("<command...>", "Command")
-  .option("-p, --parallel", "Parallel")
+  .command('exec')
+  .alias('e')
+  .description('Exec')
+  .argument('<match>', 'Match')
+  .argument('<command...>', 'Command')
+  .option('-p, --parallel', 'Parallel')
   .passThroughOptions() // 👈 makes Commander stop interpreting options
   .action(
     withMono0(async (mono0, match: string, commandParts: string[], options: { parallel: boolean }) => {
@@ -62,9 +62,9 @@ program
   )
 
 program
-  .command("config")
-  .alias("c")
-  .description("Show config")
+  .command('config')
+  .alias('c')
+  .description('Show config')
   .action(
     withMono0(async (mono0) => {
       logger.info(JSON.stringify(mono0.config.getMeta({ units: mono0.units }), null, 2))
@@ -72,9 +72,9 @@ program
   )
 
 program
-  .command("tsconfigs")
-  .alias("t")
-  .description("Show config")
+  .command('tsconfigs')
+  .alias('t')
+  .description('Show config')
   .action(
     withMono0(async (mono0) => {
       logger.info(
@@ -88,9 +88,9 @@ program
   )
 
 program
-  .command("packageJson")
-  .alias("p")
-  .description("Show config")
+  .command('packageJson')
+  .alias('p')
+  .description('Show config')
   .action(
     withMono0(async (mono0) => {
       logger.info(JSON.stringify(await mono0.generalPackageJson.getMeta({ units: mono0.units }), null, 2))
@@ -98,22 +98,22 @@ program
   )
 
 program
-  .command("untis")
-  .alias("u")
-  .description("Show units")
-  .argument("[match]", "Match units")
-  .argument("[pickKeys]", "Pick meta keys")
+  .command('untis')
+  .alias('u')
+  .description('Show units')
+  .argument('[match]', 'Match units')
+  .argument('[pickKeys]', 'Pick meta keys')
   .action(
     withMono0(async (mono0, match: string | undefined, pickKeysString: string | undefined) => {
-      const pickKeys = pickKeysString ? pickKeysString.split(",") : undefined
+      const pickKeys = pickKeysString ? pickKeysString.split(',') : undefined
       logger.info(JSON.stringify(await Mono0Unit.getMetaAll({ units: mono0.units, match, pickKeys }), null, 2))
     }),
   )
 
 program
-  .command("sync")
-  .alias("s")
-  .description("Sync files")
+  .command('sync')
+  .alias('s')
+  .description('Sync files')
   .action(
     withMono0(async (mono0) => {
       await mono0.sync()
@@ -121,9 +121,9 @@ program
   )
 
 program
-  .command("watch")
-  .alias("w")
-  .description("Watch")
+  .command('watch')
+  .alias('w')
+  .description('Watch')
   .action(
     withMono0(async (mono0) => {
       await mono0.watch()

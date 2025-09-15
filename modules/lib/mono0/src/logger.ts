@@ -1,8 +1,8 @@
 /** biome-ignore-all lint/suspicious/noConsole: it is loggger */
-import debugUtil from "debug"
+import debugUtil from 'debug'
 
 export class Mono0Logger {
-  static rootTag = "mono0"
+  static rootTag = 'mono0'
   static debug: boolean | string = false
   selfTag: string
 
@@ -13,12 +13,12 @@ export class Mono0Logger {
   static init(debug: boolean | string = false) {
     const normalizedDebug =
       debug === false
-        ? ""
-        : typeof debug === "string"
+        ? ''
+        : typeof debug === 'string'
           ? debug
-              .split(",")
+              .split(',')
               .map((tag) => `mono0:${tag}`)
-              .join(",")
+              .join(',')
           : `mono0:*`
     debugUtil.enable(normalizedDebug)
     Mono0Logger.debug = debug

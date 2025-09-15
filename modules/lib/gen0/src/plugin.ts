@@ -1,15 +1,15 @@
-import { File0, Fs0 } from "@devp0nt/fs0"
-import _, { uniq } from "lodash"
-import type { Gen0ClientProcessCtx } from "./clientProcessCtx"
-import type { Gen0Config } from "./config"
-import { Gen0Logger } from "./logger"
-import { Gen0Watcher } from "./watcher"
+import { File0, Fs0 } from '@devp0nt/fs0'
+import _, { uniq } from 'lodash'
+import type { Gen0ClientProcessCtx } from './clientProcessCtx'
+import type { Gen0Config } from './config'
+import { Gen0Logger } from './logger'
+import { Gen0Watcher } from './watcher'
 
 // TODO: add to fns property .getPluginName()
 // TODO: add possibility to rename plugins when use
 
 export class Gen0Plugin {
-  static logger = Gen0Logger.create("plugin")
+  static logger = Gen0Logger.create('plugin')
   logger = Gen0Plugin.logger
 
   config: Gen0Config
@@ -63,13 +63,13 @@ export class Gen0Plugin {
     file0?: File0
     fs0: Fs0
   }) {
-    const definition = typeof definitionOrFn === "function" ? await definitionOrFn({ fs0, _ }) : definitionOrFn
+    const definition = typeof definitionOrFn === 'function' ? await definitionOrFn({ fs0, _ }) : definitionOrFn
     if (!definition) {
       throw new Error(`No plugin definition found in ${file0?.path.rel}`)
     }
     const plugin = new Gen0Plugin({
       config,
-      name: name || definition.name || "unknown",
+      name: name || definition.name || 'unknown',
       fns: definition.fns,
       vars: definition.vars,
       watchers: [],
@@ -97,10 +97,10 @@ export class Gen0Plugin {
     if (this.onInit) {
       try {
         await this.onInit()
-        this.logger.debug(`plugin init ${uniq([this.name, this.file0?.path.rel]).filter(Boolean).join(":")} completed`)
+        this.logger.debug(`plugin init ${uniq([this.name, this.file0?.path.rel]).filter(Boolean).join(':')} completed`)
       } catch (error) {
         this.logger.error(
-          `plugin init ${uniq([this.name, this.file0?.path.rel]).filter(Boolean).join(":")} failed\n`,
+          `plugin init ${uniq([this.name, this.file0?.path.rel]).filter(Boolean).join(':')} failed\n`,
           error,
         )
       }
@@ -171,7 +171,7 @@ export namespace Gen0Plugin {
     watchers?: Gen0Plugin.WatchersDefinitionsRecord
     init?: () => Promise<void>
   }
-  export type DefinitionWithName = Omit<DefinitionResult, "name"> & { name: string }
+  export type DefinitionWithName = Omit<DefinitionResult, 'name'> & { name: string }
   export type DefinitionFnCtx = { fs0: Fs0; _: typeof _ }
   export type DefinitionFn = (ctx: DefinitionFnCtx) => DefinitionResult | Promise<DefinitionResult>
   export type Definition = DefinitionResult | DefinitionFn

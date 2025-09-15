@@ -1,9 +1,9 @@
-import type { BackendCtx } from "@backend/core/lib/ctx"
-import { HonoReqCtx } from "@backend/core/lib/ctx.hono"
-import { Error0 } from "@devp0nt/error0"
-import { OpenAPIHono } from "@hono/zod-openapi"
-import type { Context as HonoContext } from "hono"
-import { getConnInfo } from "hono/bun"
+import type { BackendCtx } from '@backend/core/lib/ctx'
+import { HonoReqCtx } from '@backend/core/lib/ctx.hono'
+import { Error0 } from '@devp0nt/error0'
+import { OpenAPIHono } from '@hono/zod-openapi'
+import type { Context as HonoContext } from 'hono'
+import { getConnInfo } from 'hono/bun'
 
 export namespace HonoApp {
   type HonoCtxInput = {
@@ -18,7 +18,7 @@ export namespace HonoApp {
         backendCtx,
         honoCtx,
       })
-      honoCtx.set("honoReqCtx", honoReqCtx)
+      honoCtx.set('honoReqCtx', honoReqCtx)
       const unextendable = honoReqCtx.getUnextendable()
       for (const [key, value] of Object.entries(unextendable)) {
         honoCtx.set(key as keyof HonoReqCtx.Unextendable, value)
@@ -34,13 +34,13 @@ export namespace HonoApp {
       const connInfo = getConnInfo(c)
       c.var.honoReqCtx.meta.assign({
         ip: connInfo.remote.address,
-        userAgent: c.req.header("User-Agent"),
+        userAgent: c.req.header('User-Agent'),
         reqMethod: c.req.method,
         reqPath: c.req.path,
       })
 
-      const { logger } = c.var.honoReqCtx.extend("hono:req")
-      if (c.req.path.startsWith("/trpc")) {
+      const { logger } = c.var.honoReqCtx.extend('hono:req')
+      if (c.req.path.startsWith('/trpc')) {
         await next()
         return
       }
@@ -48,12 +48,12 @@ export namespace HonoApp {
       try {
         await next()
         logger.info({
-          message: "Hono request finished with success",
+          message: 'Hono request finished with success',
           reqDurationMs: performance.now() - reqStartedAt,
         })
       } catch (error) {
         logger.error(error, {
-          message: "Hono request finished with error",
+          message: 'Hono request finished with error',
           reqDurationMs: performance.now() - reqStartedAt,
         })
         throw error
@@ -67,5 +67,5 @@ export namespace HonoApp {
     })
   }
 
-  export type AppType = ReturnType<typeof create>["honoApp"]
+  export type AppType = ReturnType<typeof create>['honoApp']
 }

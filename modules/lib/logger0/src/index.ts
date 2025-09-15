@@ -1,5 +1,5 @@
-import { Error0, type Error0Input } from "@devp0nt/error0"
-import { Meta0 } from "@devp0nt/meta0"
+import { Error0, type Error0Input } from '@devp0nt/error0'
+import { Meta0 } from '@devp0nt/meta0'
 import {
   configureSync,
   type Filter,
@@ -10,36 +10,36 @@ import {
   type LogLevel,
   type LogRecord,
   type Sink,
-} from "@logtape/logtape"
-import debug from "debug"
-import { omit } from "lodash"
-import yaml from "yaml"
+} from '@logtape/logtape'
+import debug from 'debug'
+import { omit } from 'lodash'
+import yaml from 'yaml'
 
 // TODO: oneliner formatter
 
 export class Logger0 {
-  static rootTagPrefix = "ideanick"
+  static rootTagPrefix = 'ideanick'
 
   sensetiveKeys = [
-    "imageUrl",
-    "imagesUrls",
-    "email",
-    "oldEmail",
-    "newEmail",
-    "phone",
-    "oldPhone",
-    "newPhone",
-    "password",
-    "newPassword",
-    "oldPassword",
-    "token",
-    "apiKey",
-    "verifcationCode",
-    "signature",
-    "signedUrl",
-    "apiSecret",
-    "apiKey",
-    "secret",
+    'imageUrl',
+    'imagesUrls',
+    'email',
+    'oldEmail',
+    'newEmail',
+    'phone',
+    'oldPhone',
+    'newPhone',
+    'password',
+    'newPassword',
+    'oldPassword',
+    'token',
+    'apiKey',
+    'verifcationCode',
+    'signature',
+    'signedUrl',
+    'apiSecret',
+    'apiKey',
+    'secret',
   ]
   hideSensitiveKeys = true
 
@@ -69,20 +69,20 @@ export class Logger0 {
     hideSensitiveKeys?: boolean
   }) {
     this.original = loggerOriginal
-    this.error = Logger0.createLogBadFn({ logger0: this, level: "error" })
-    this.fatal = Logger0.createLogBadFn({ logger0: this, level: "fatal" })
-    this.info = Logger0.createLogOkFn({ logger0: this, level: "info" })
+    this.error = Logger0.createLogBadFn({ logger0: this, level: 'error' })
+    this.fatal = Logger0.createLogBadFn({ logger0: this, level: 'fatal' })
+    this.info = Logger0.createLogOkFn({ logger0: this, level: 'info' })
     this.warning = Logger0.createLogOkFn({
       logger0: this,
-      level: "warning",
+      level: 'warning',
     })
     this.trace = Logger0.createLogOkFn({
       logger0: this,
-      level: "trace",
+      level: 'trace',
     })
     this.debug = Logger0.createLogOkFn({
       logger0: this,
-      level: "debug",
+      level: 'debug',
     })
     this.meta = Meta0.from(meta)
     this.sensetiveKeys = sensetiveKeys || this.sensetiveKeys
@@ -112,7 +112,7 @@ export class Logger0 {
     skipInit?: boolean
     sensetiveKeys?: string[]
     hideSensitiveKeys?: boolean
-    lowestLevel?: Extract<LogLevel, "error" | "fatal" | "info" | "warning" | "trace" | "debug">
+    lowestLevel?: Extract<LogLevel, 'error' | 'fatal' | 'info' | 'warning' | 'trace' | 'debug'>
   }) => {
     if (!skipInit) {
       Logger0.init({
@@ -146,7 +146,7 @@ export class Logger0 {
         },
   ) => {
     const { replaceTagPrefix, extendTagPrefix, extendMeta, replaceMeta } = (() => {
-      if (typeof input === "string") {
+      if (typeof input === 'string') {
         return {
           extendTagPrefix: input,
         }
@@ -182,12 +182,12 @@ export class Logger0 {
     level,
   }: {
     logger0: Logger0
-    level: Extract<LogLevel, "error" | "fatal">
+    level: Extract<LogLevel, 'error' | 'fatal'>
   }) => {
     const logBadFn: Logger0.LogBadFn = (...args: unknown[]) => {
       const error0 = args[0] instanceof Error0 ? args[0] : Error0.from(args[0])
       const extraMeta =
-        typeof args[1] === "object" && args[1] !== null ? Meta0.from(args[1] as Meta0.ValueType) : Meta0.from({})
+        typeof args[1] === 'object' && args[1] !== null ? Meta0.from(args[1] as Meta0.ValueType) : Meta0.from({})
       const message = error0.message
       const meta = Meta0.extend(
         logger0.meta,
@@ -218,10 +218,10 @@ export class Logger0 {
     level,
   }: {
     logger0: Logger0
-    level: Extract<LogLevel, "info" | "warning" | "trace" | "debug">
+    level: Extract<LogLevel, 'info' | 'warning' | 'trace' | 'debug'>
   }) => {
     const logOkFn: Logger0.LogOkFn = (...args: unknown[]) => {
-      const extraMeta = typeof args[0] !== "string" ? Meta0.from(args[0] as never) : Meta0.from(args[1] as never)
+      const extraMeta = typeof args[0] !== 'string' ? Meta0.from(args[0] as never) : Meta0.from(args[1] as never)
       const meta = Meta0.extend(logger0.meta, extraMeta)
       const metaWithHiddenSensetive = logger0.hideSensitiveKeys
         ? Logger0.hideSensitiveKeys({
@@ -229,7 +229,7 @@ export class Logger0 {
             sensetiveKeys: logger0.sensetiveKeys,
           })
         : meta.getValue()
-      const message = (typeof args[0] === "string" ? args[0] : meta.getValue().message) || "Unknown message"
+      const message = (typeof args[0] === 'string' ? args[0] : meta.getValue().message) || 'Unknown message'
       logger0.original[level](message, metaWithHiddenSensetive)
     }
     return logOkFn
@@ -238,7 +238,7 @@ export class Logger0 {
   private static logRecordToTag(record: LogRecord, withRootTagPrefix: boolean) {
     const finalTagByProperties = Meta0.getFinalTag(record.properties)
     return (
-      [withRootTagPrefix ? this.rootTagPrefix : null, finalTagByProperties].filter(Boolean).join(":") || "unknownTag"
+      [withRootTagPrefix ? this.rootTagPrefix : null, finalTagByProperties].filter(Boolean).join(':') || 'unknownTag'
     )
   }
 
@@ -249,10 +249,10 @@ export class Logger0 {
       ...record,
       category: [Logger0.logRecordToTag(record, false)],
     })
-    const visibleProperties = omit(record.properties, ["tag", "tagPrefix", "message"])
+    const visibleProperties = omit(record.properties, ['tag', 'tagPrefix', 'message'])
     const yamlProperties =
-      Object.keys(visibleProperties).length > 0 ? yaml.stringify(visibleProperties) + "\n" : undefined
-    return [line, yamlProperties].join("")
+      Object.keys(visibleProperties).length > 0 ? yaml.stringify(visibleProperties) + '\n' : undefined
+    return [line, yamlProperties].join('')
   }
 
   static jsonFormatter = (record: LogRecord): string => {
@@ -260,14 +260,14 @@ export class Logger0 {
     return JSON.stringify({
       timestamp: new Date(record.timestamp).toISOString(),
       level: record.level,
-      message: meta.message || record.message.join(", "),
+      message: meta.message || record.message.join(', '),
       tag: Logger0.logRecordToTag(record, true),
-      meta: omit(meta, ["tag", "tagPrefix", "message"]),
+      meta: omit(meta, ['tag', 'tagPrefix', 'message']),
     })
   }
 
   static justMessageFormatter = (record: LogRecord): string => {
-    return record.message.join(", ")
+    return record.message.join(', ')
   }
 
   static filterByDebug: Filter = (record) => {
@@ -286,13 +286,13 @@ export class Logger0 {
   }
 
   static init = ({
-    formatter = "json",
+    formatter = 'json',
     debugConfig = `${Logger0.rootTagPrefix}:*`,
     sinks = {},
     filters = {},
     removeDefaultSinks = false,
     removeDefaultFilters = false,
-    lowestLevel = "debug",
+    lowestLevel = 'debug',
   }: {
     formatter?: Logger0.FormatterProp
     filters?: Record<string, Filter>
@@ -300,15 +300,15 @@ export class Logger0 {
     debugConfig?: string
     removeDefaultSinks?: boolean
     removeDefaultFilters?: boolean
-    lowestLevel?: Extract<LogLevel, "error" | "fatal" | "info" | "warning" | "trace" | "debug">
+    lowestLevel?: Extract<LogLevel, 'error' | 'fatal' | 'info' | 'warning' | 'trace' | 'debug'>
   } = {}) => {
     debug.enable(debugConfig)
     const formatterHere =
-      formatter === "pretty"
+      formatter === 'pretty'
         ? Logger0.prettyFormatter
-        : formatter === "json"
+        : formatter === 'json'
           ? Logger0.jsonFormatter
-          : formatter === "justMessage"
+          : formatter === 'justMessage'
             ? Logger0.justMessageFormatter
             : formatter
     sinks = removeDefaultSinks
@@ -337,8 +337,8 @@ export class Logger0 {
           filters: filtersKeys,
         },
         {
-          category: ["logtape", "meta"],
-          lowestLevel: "warning",
+          category: ['logtape', 'meta'],
+          lowestLevel: 'warning',
           sinks: sinksKeys,
           filters: filtersKeys,
         },
@@ -348,7 +348,7 @@ export class Logger0 {
 }
 
 export namespace Logger0 {
-  export type FormatterPreset = "pretty" | "json" | "justMessage"
+  export type FormatterPreset = 'pretty' | 'json' | 'justMessage'
   export type FormatterProp = FormatterPreset | ((record: LogRecord) => string)
 
   export type LogOkFn = {

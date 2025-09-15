@@ -1,16 +1,16 @@
 #!/usr/bin/env bun
 
-import { Command } from "commander"
-import { Gen0 } from "./index"
+import { Command } from 'commander'
+import { Gen0 } from './index'
 // import * as readline from "node:readline"
-import { Gen0Logger } from "./logger"
+import { Gen0Logger } from './logger'
 
 const program = new Command()
-program.name("gen0").description("A code generation tool").version("1.0.0")
+program.name('gen0').description('A code generation tool').version('1.0.0')
 
 // helpers
 
-const logger = Gen0Logger.create("bin")
+const logger = Gen0Logger.create('bin')
 
 const withErrorWrapper = <T extends any[]>(action: (...args: T) => Promise<void>) => {
   return async (...args: T) => {
@@ -34,21 +34,21 @@ const withGen0 = <T extends any[]>(action: (gen0: Gen0, ...args: T) => Promise<v
     await action(gen0, ...args)
   })
 }
-const withDryGen0 = <T extends any[]>(action: (gen0: Gen0, ...args: T) => Promise<void>) => {
-  return withErrorWrapper(async (...args: T) => {
-    const gen0 = await Gen0.create()
-    await gen0.init({ dryRun: true })
-    await action(gen0, ...args)
-  })
-}
+// const withDryGen0 = <T extends any[]>(action: (gen0: Gen0, ...args: T) => Promise<void>) => {
+//   return withErrorWrapper(async (...args: T) => {
+//     const gen0 = await Gen0.create()
+//     await gen0.init({ dryRun: true })
+//     await action(gen0, ...args)
+//   })
+// }
 
 // commands
 
 program
-  .command("process-clients")
-  .alias("p")
-  .description("Process clients files")
-  .argument("[glob]", "Glob to the files to process (optional)")
+  .command('process-clients')
+  .alias('p')
+  .description('Process clients files')
+  .argument('[glob]', 'Glob to the files to process (optional)')
   .action(
     withGen0(async (gen0, glob?: string) => {
       if (glob) {
@@ -66,16 +66,16 @@ program
   )
 
 program
-  .command("watch")
-  .alias("w")
-  .description("Watch")
+  .command('watch')
+  .alias('w')
+  .description('Watch')
   // option to process all clients on start
-  .option("--dry-run, -d", "Dry run will not write to files on init", false)
+  .option('--dry-run, -d', 'Dry run will not write to files on init', false)
   .action(
     withCleanGen0(async (gen0, options: { dryRun: boolean }) => {
       await gen0.init({ dryRun: options.dryRun })
       await gen0.watch()
-      logger.info("watcher started")
+      logger.info('watcher started')
 
       // const rl = readline.createInterface({
       //   input: process.stdin,
@@ -101,48 +101,48 @@ program
       // })
       process.stdin.setRawMode(true)
       process.stdin.resume()
-      process.stdin.setEncoding("utf8")
+      process.stdin.setEncoding('utf8')
 
-      process.stdin.on("data", async (key: string) => {
+      process.stdin.on('data', async (key: string) => {
         // handle ctrl+c
-        if (key === "\u0003") {
-          logger.info("Exiting...")
+        if (key === '\u0003') {
+          logger.info('Exiting...')
           process.exit(0)
         }
-        if (key === "p") {
-          logger.info("Processing all clients...")
+        if (key === 'p') {
+          logger.info('Processing all clients...')
           const results = await gen0.clientsManager.processAll()
           for (const result of results) {
             logger.info(`✅ ${result.client.file0.path.rel}`)
           }
-        } else if (key === "c") {
+        } else if (key === 'c') {
           for (let i = 0; i < 10; i++) {
-            logger.info("")
+            logger.info('')
           }
-        } else if (key === "r") {
-          logger.info("Restarting current command...")
+        } else if (key === 'r') {
+          logger.info('Restarting current command...')
           process.exit(0)
-        } else if (key === "q") {
-          logger.info("Exiting...")
+        } else if (key === 'q') {
+          logger.info('Exiting...')
           process.exit(0)
-        } else if (key === "h") {
-          logger.info("Available keys:")
-          logger.info("  p - Process all clients")
-          logger.info("  r - Restart currne command")
-          logger.info("  c - Add a lot of empty lines")
-          logger.info("  q - Quit")
-          logger.info("  h - Help")
+        } else if (key === 'h') {
+          logger.info('Available keys:')
+          logger.info('  p - Process all clients')
+          logger.info('  r - Restart currne command')
+          logger.info('  c - Add a lot of empty lines')
+          logger.info('  q - Quit')
+          logger.info('  h - Help')
         }
       })
     }),
   )
 
-const getCommand = program.command("get").alias("g").description("Get various information from gen0")
+const getCommand = program.command('get').alias('g').description('Get various information from gen0')
 
 getCommand
-  .command("all")
-  .alias("a")
-  .description("Show all gen0 info")
+  .command('all')
+  .alias('a')
+  .description('Show all gen0 info')
   .action(
     withGen0(async (gen0) => {
       logger.info(
@@ -162,9 +162,9 @@ getCommand
   )
 
 getCommand
-  .command("clients")
-  .alias("c")
-  .description("Show clients")
+  .command('clients')
+  .alias('c')
+  .description('Show clients')
   .action(
     withGen0(async (gen0) => {
       logger.info(JSON.stringify(gen0.clientsManager.getClientsMeta(), null, 2))
@@ -172,9 +172,9 @@ getCommand
   )
 
 getCommand
-  .command("plugins")
-  .alias("p")
-  .description("Show plugins")
+  .command('plugins')
+  .alias('p')
+  .description('Show plugins')
   .action(
     withGen0(async (gen0) => {
       logger.info(JSON.stringify(gen0.pluginsManager.getPluginsMeta(), null, 2))
@@ -182,9 +182,9 @@ getCommand
   )
 
 getCommand
-  .command("fns")
-  .alias("f")
-  .description("Show functions")
+  .command('fns')
+  .alias('f')
+  .description('Show functions')
   .action(
     withGen0(async (gen0) => {
       logger.info(JSON.stringify(gen0.pluginsManager.getFnsMeta(), null, 2))
@@ -192,9 +192,9 @@ getCommand
   )
 
 getCommand
-  .command("vars")
-  .alias("v")
-  .description("Show variables")
+  .command('vars')
+  .alias('v')
+  .description('Show variables')
   .action(
     withGen0(async (gen0) => {
       logger.info(JSON.stringify(gen0.pluginsManager.getVarsMeta(), null, 2))
@@ -202,9 +202,9 @@ getCommand
   )
 
 getCommand
-  .command("vars-values")
-  .alias("vv")
-  .description("Show variables with values")
+  .command('vars-values')
+  .alias('vv')
+  .description('Show variables with values')
   .action(
     withGen0(async (gen0) => {
       logger.info(JSON.stringify(gen0.pluginsManager.getVarsWithMeta(), null, 2))
@@ -212,9 +212,9 @@ getCommand
   )
 
 getCommand
-  .command("watchers")
-  .alias("w")
-  .description("Show watchers")
+  .command('watchers')
+  .alias('w')
+  .description('Show watchers')
   .action(
     withGen0(async (gen0) => {
       logger.info(JSON.stringify(gen0.watchersManager.getAllWatchersOriginalMeta(), null, 2))
@@ -222,9 +222,9 @@ getCommand
   )
 
 getCommand
-  .command("watchers-real")
-  .alias("ww")
-  .description("Show watchers real meta")
+  .command('watchers-real')
+  .alias('ww')
+  .description('Show watchers real meta')
   .action(
     withGen0(async (gen0) => {
       logger.info(JSON.stringify(gen0.watchersManager.getAllWatchersRealMeta(), null, 2))

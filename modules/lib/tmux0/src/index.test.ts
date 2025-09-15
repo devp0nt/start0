@@ -1,13 +1,13 @@
-import { describe, expect, it } from "bun:test"
-import { generateTmuxCommands } from "./index"
+import { describe, expect, it } from 'bun:test'
+import { generateTmuxCommands } from './index'
 
-describe("generateTmuxCommands", () => {
-  it("simple", () => {
+describe('generateTmuxCommands', () => {
+  it('simple', () => {
     expect(
       generateTmuxCommands({
         layout: `00000
 12333`,
-        commands: ["just backend dev", "just site dev", "just gen0 watch", "just mono0 watch"],
+        commands: ['just backend dev', 'just site dev', 'just gen0 watch', 'just mono0 watch'],
       }),
     ).toMatchInlineSnapshot(`
       [

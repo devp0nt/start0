@@ -1,8 +1,8 @@
-import { createEnv, type Env } from "@backend/core/lib/env"
-import { Error0, e0s as e0sDefault } from "@devp0nt/error0"
-import { Logger0 } from "@devp0nt/logger0"
-import { Meta0 } from "@devp0nt/meta0"
-import { Prisma0 } from "@prisma0/backend"
+import { createEnv, type Env } from '@backend/core/lib/env'
+import { Error0, e0s as e0sDefault } from '@devp0nt/error0'
+import { Logger0 } from '@devp0nt/logger0'
+import { Meta0 } from '@devp0nt/meta0'
+import { Prisma0 } from '@prisma0/backend'
 
 // TODO: private constructor
 
@@ -32,7 +32,7 @@ export class BackendCtx {
 
     const meta = Meta0.from(providedMeta)
     meta.assign({
-      tagPrefix: meta.getValue().tagPrefix || "backend",
+      tagPrefix: meta.getValue().tagPrefix || 'backend',
     })
     // biome-ignore lint/style/noProcessEnv: <x>
     const env = createEnv(process.env)
@@ -42,7 +42,7 @@ export class BackendCtx {
     const logger = Logger0.create({
       debugConfig: env.DEBUG,
       meta,
-      formatter: env.isProductionNodeEnv ? "json" : "pretty",
+      formatter: env.isProductionNodeEnv ? 'json' : 'pretty',
     })
     this.env = env
     this.meta = meta
@@ -74,7 +74,7 @@ export class BackendCtx {
   static extendExtendable(extendable: BackendCtx.Extendable, tagPrefix: string): BackendCtx.Extendable
   static extendExtendable(extendable: BackendCtx.Extendable, metaOrTagPrefix: any): BackendCtx.Extendable {
     const meta =
-      typeof metaOrTagPrefix === "string"
+      typeof metaOrTagPrefix === 'string'
         ? { tagPrefix: metaOrTagPrefix }
         : (metaOrTagPrefix as Meta0.Meta0OrValueTypeNullish)
     const extendedMeta = extendable.meta.extend(meta)
@@ -100,13 +100,13 @@ export class BackendCtx {
 
   async destroy() {
     await this.prisma.$disconnect()
-    this.logger.info("BackendCtx destroyed")
+    this.logger.info('BackendCtx destroyed')
   }
 }
 
 export namespace BackendCtx {
-  export type ExtendableKeys = "meta" | "logger" | "e0s"
+  export type ExtendableKeys = 'meta' | 'logger' | 'e0s'
   export type Extendable = Pick<BackendCtx, ExtendableKeys>
-  export type Unextendable = ReturnType<BackendCtx["getUnextendable"]>
+  export type Unextendable = ReturnType<BackendCtx['getUnextendable']>
   export type Props = Extendable & Unextendable
 }

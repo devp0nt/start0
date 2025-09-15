@@ -1,7 +1,7 @@
-import type { HonoReqCtx } from "@backend/core/lib/ctx.hono"
-import { Error0 } from "@devp0nt/error0"
-import { initTRPC } from "@trpc/server"
-import superjson from "superjson"
+import type { HonoReqCtx } from '@backend/core/lib/ctx.hono'
+import { Error0 } from '@devp0nt/error0'
+import { initTRPC } from '@trpc/server'
+import superjson from 'superjson'
 
 export namespace BackendTrpc {
   export type TrpcCtx = { honoReqCtx: HonoReqCtx } & HonoReqCtx.Unextendable
@@ -35,17 +35,17 @@ export namespace BackendTrpc {
       trpcReqPath: path,
       trpcReqType: type,
     })
-    const { logger } = ctx.honoReqCtx.extend("trpc:req")
+    const { logger } = ctx.honoReqCtx.extend('trpc:req')
     const reqStartedAt = performance.now()
     const result = await next({ ctx })
     if (result.ok) {
       logger.info({
-        message: "Successful trpc request",
+        message: 'Successful trpc request',
         reqDurationMs: performance.now() - reqStartedAt,
       })
     } else {
       logger.error(result.error.cause || result.error, {
-        message: "Failed trpc request",
+        message: 'Failed trpc request',
         reqDurationMs: performance.now() - reqStartedAt,
       })
     }

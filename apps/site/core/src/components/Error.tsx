@@ -1,6 +1,6 @@
-import { Error0 } from "@devp0nt/error0"
-import { useMemo } from "react"
-import { type ErrorResponse, isRouteErrorResponse } from "react-router"
+import { Error0 } from '@devp0nt/error0'
+import { useMemo } from 'react'
+import { type ErrorResponse, isRouteErrorResponse } from 'react-router'
 
 export namespace SiteError {
   export type Type = Error0 | ErrorResponse | Error | Error0.JSON | string | unknown
@@ -12,7 +12,7 @@ export namespace SiteError {
   export const CleanComponent = ({ message, desc, stack }: { message: string; desc?: string; stack?: string }) => {
     return (
       <main className="pt-16 p-4 container mx-auto">
-        <h1>{message || "Unknown error"}</h1>
+        <h1>{message || 'Unknown error'}</h1>
         {desc && <p>{desc}</p>}
         {stack && (
           <pre className="w-full p-4 overflow-x-auto">

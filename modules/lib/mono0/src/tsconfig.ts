@@ -1,13 +1,12 @@
-import type { File0, Fs0 } from "@devp0nt/fs0"
-import cloneDeep from "lodash-es/cloneDeep.js"
-import isEqual from "lodash-es/isEqual"
-import uniq from "lodash-es/uniq.js"
-import uniqBy from "lodash-es/uniqBy.js"
-import type { TsConfigJson as TsConfigJsonTypeFest } from "type-fest"
-import z from "zod"
-import type { Mono0Config } from "./config"
-import type { Mono0Unit } from "./unit"
-import { fixSlahes, omit, replacePlaceholdersAndPathsDeep } from "./utils"
+import type { File0, Fs0 } from '@devp0nt/fs0'
+import cloneDeep from 'lodash-es/cloneDeep.js'
+import isEqual from 'lodash-es/isEqual'
+import uniq from 'lodash-es/uniq.js'
+import type { TsConfigJson as TsConfigJsonTypeFest } from 'type-fest'
+import z from 'zod'
+import type { Mono0Config } from './config'
+import type { Mono0Unit } from './unit'
+import { fixSlahes, omit, replacePlaceholdersAndPathsDeep } from './utils'
 
 export class Mono0Tsconfig {
   fs0: Fs0
@@ -63,7 +62,7 @@ export class Mono0Tsconfig {
     name: string
     generalTsconfigs: Mono0Tsconfig[]
   }) {
-    const file0 = definition.path ? fs0.createFile0(definition.path) : fs0.createFile0("tsconfig.json")
+    const file0 = definition.path ? fs0.createFile0(definition.path) : fs0.createFile0('tsconfig.json')
     const value = definition.value
     return new Mono0Tsconfig({ fs0, file0, config, value, unit, settings: definition.settings, name, generalTsconfigs })
   }
@@ -92,7 +91,7 @@ export class Mono0Tsconfig {
     const result = cloneDeep(value)
 
     if (result.extends) {
-      if (result.extends.startsWith("$")) {
+      if (result.extends.startsWith('$')) {
         const tsconfigName = result.extends.slice(1)
         const unitTsconfigs = unit?.tsconfigs || []
         const extendsTsconfig = [...unitTsconfigs, ...generalTsconfigs].find(
@@ -108,7 +107,7 @@ export class Mono0Tsconfig {
     if (result.exclude) {
       const parsedExclude = []
       for (const exclude of result.exclude) {
-        if (exclude.startsWith("$")) {
+        if (exclude.startsWith('$')) {
           const fileSelectorName = exclude.slice(1)
           const fileSelector = config.filesSelectors[fileSelectorName]
           if (!fileSelector) {
@@ -125,7 +124,7 @@ export class Mono0Tsconfig {
     if (result.include) {
       const parsedInclude = []
       for (const include of result.include) {
-        if (include.startsWith("$")) {
+        if (include.startsWith('$')) {
           const fileSelectorName = include.slice(1)
           const fileSelector = config.filesSelectors[fileSelectorName]
           if (!fileSelector) {
@@ -178,12 +177,12 @@ export class Mono0Tsconfig {
     if (settings.addUnitsAsReferences) {
       const addUnitsAsReferences = settings.addUnitsAsReferences
       const scope = addUnitsAsReferences.scope
-      const unitsScoped = scope === "all" ? units : unit?.deps.map((dep) => dep.unit) || []
+      const unitsScoped = scope === 'all' ? units : unit?.deps.map((dep) => dep.unit) || []
       const match = addUnitsAsReferences.match
-      const tsconfigName = addUnitsAsReferences.tsconfig.startsWith("$")
+      const tsconfigName = addUnitsAsReferences.tsconfig.startsWith('$')
         ? addUnitsAsReferences.tsconfig.slice(1)
         : addUnitsAsReferences.tsconfig
-      const { Mono0Unit: Mono0UnitClass } = await import("./unit")
+      const { Mono0Unit: Mono0UnitClass } = await import('./unit')
       const unitsFiltered = Mono0UnitClass.filterUnits({ units: unitsScoped, match })
       const unitsDeps = !addUnitsAsReferences.deepDeps
         ? []
@@ -209,9 +208,9 @@ export class Mono0Tsconfig {
     if (settings.addUnitsSrcToPaths) {
       const addUnitsSrcToPaths = settings.addUnitsSrcToPaths
       const scope = addUnitsSrcToPaths.scope
-      const unitsScoped = scope === "all" ? units : unit?.deps.map((dep) => dep.unit) || []
+      const unitsScoped = scope === 'all' ? units : unit?.deps.map((dep) => dep.unit) || []
       const match = addUnitsSrcToPaths.match
-      const { Mono0Unit: Mono0UnitClass } = await import("./unit")
+      const { Mono0Unit: Mono0UnitClass } = await import('./unit')
       const unitsFiltered = Mono0UnitClass.filterUnits({ units: unitsScoped, match })
       const unitsDeps = !addUnitsSrcToPaths.deepDeps
         ? []
@@ -239,9 +238,9 @@ export class Mono0Tsconfig {
     if (settings.addUnitsDistToPaths) {
       const addUnitsDistToPaths = settings.addUnitsDistToPaths
       const scope = addUnitsDistToPaths.scope
-      const unitsScoped = scope === "all" ? units : unit?.deps.map((dep) => dep.unit) || []
+      const unitsScoped = scope === 'all' ? units : unit?.deps.map((dep) => dep.unit) || []
       const match = addUnitsDistToPaths.match
-      const { Mono0Unit: Mono0UnitClass } = await import("./unit")
+      const { Mono0Unit: Mono0UnitClass } = await import('./unit')
       const unitsFiltered = Mono0UnitClass.filterUnits({ units: unitsScoped, match })
       const unitsDeps = !addUnitsDistToPaths.deepDeps
         ? []
@@ -257,7 +256,7 @@ export class Mono0Tsconfig {
           ...Object.fromEntries(
             unitsCombined.flatMap((d) => [
               ...(addUnitsDistToPaths.index && d.indexFile0
-                ? [[`${d.name}`, [fs0.replaceExt(`${fs0.toRel(d.indexFile0.path.abs)}`, "js")]]]
+                ? [[`${d.name}`, [fs0.replaceExt(`${fs0.toRel(d.indexFile0.path.abs)}`, 'js')]]]
                 : []),
               [`${d.name}/*`, [`${fs0.toRel(d.distFs0.cwd)}/*`]],
             ]),
@@ -269,9 +268,9 @@ export class Mono0Tsconfig {
     replacePlaceholdersAndPathsDeep(
       result,
       {
-        name: unit?.name || "unknown",
-        srcDir: fs0.toRel(unit?.srcFs0.cwd || ""),
-        distDir: fs0.toRel(unit?.distFs0.cwd || ""),
+        name: unit?.name || 'unknown',
+        srcDir: fs0.toRel(unit?.srcFs0.cwd || ''),
+        distDir: fs0.toRel(unit?.distFs0.cwd || ''),
       },
       file0.fs0,
     )
@@ -288,91 +287,91 @@ export class Mono0Tsconfig {
       return { valueChanged, value }
     }
 
-    const coreSort = ["extends", "files", "include", "exclude", "compilerOptions", "references"]
+    const coreSort = ['extends', 'files', 'include', 'exclude', 'compilerOptions', 'references']
     const compilerOptionsSort = [
-      "incremental",
-      "composite",
-      "tsBuildInfoFile",
-      "disableSourceOfProjectReferenceRedirect",
-      "disableSolutionSearching",
-      "disableReferencedProjectLoad",
-      "target",
-      "module",
-      "lib",
-      "jsx",
-      "experimentalDecorators",
-      "emitDecoratorMetadata",
-      "jsxFactory",
-      "jsxFragmentFactory",
-      "jsxImportSource",
-      "reactNamespace",
-      "noLib",
-      "useDefineForClassFields",
-      "moduleDetection",
-      "resolveJsonModule",
-      "baseUrl",
-      "paths",
-      "rootDirs",
-      "rootDir",
-      "typeRoots",
-      "types",
-      "allowUmdGlobalAccess",
-      "moduleResolution",
-      "resolvePackageJsonExports",
-      "resolvePackageJsonImports",
-      "customConditions",
-      "preserveSymlinks",
-      "allowImportingTsExtensions",
-      "noResolve",
-      "traceResolution",
-      "esModuleInterop",
-      "allowSyntheticDefaultImports",
-      "isolatedModules",
-      "verbatimModuleSyntax",
-      "moduleSuffixes",
-      "resolvePackageJsonMain",
-      "declaration",
-      "declarationMap",
-      "emitDeclarationOnly",
-      "sourceMap",
-      "inlineSourceMap",
-      "inlineSources",
-      "outFile",
-      "outDir",
-      "removeComments",
-      "noEmit",
-      "noEmitHelpers",
-      "noEmitOnError",
-      "importsNotUsedAsValues",
-      "downlevelIteration",
-      "importHelpers",
-      "preserveConstEnums",
-      "preserveValueImports",
-      "skipLibCheck",
-      "skipDefaultLibCheck",
-      "stripInternal",
-      "strict",
-      "strictBindCallApply",
-      "strictFunctionTypes",
-      "strictNullChecks",
-      "strictPropertyInitialization",
-      "noImplicitAny",
-      "noImplicitThis",
-      "useUnknownInCatchVariables",
-      "alwaysStrict",
-      "noFallthroughCasesInSwitch",
-      "noUncheckedIndexedAccess",
-      "noImplicitOverride",
-      "noImplicitReturns",
-      "noPropertyAccessFromIndexSignature",
-      "exactOptionalPropertyTypes",
-      "forceConsistentCasingInFileNames",
-      "allowJs",
-      "checkJs",
-      "maxNodeModuleJsDepth",
-      "plugins",
-      "watchOptions",
-      "assumeChangesOnlyAffectDirectDependencies",
+      'incremental',
+      'composite',
+      'tsBuildInfoFile',
+      'disableSourceOfProjectReferenceRedirect',
+      'disableSolutionSearching',
+      'disableReferencedProjectLoad',
+      'target',
+      'module',
+      'lib',
+      'jsx',
+      'experimentalDecorators',
+      'emitDecoratorMetadata',
+      'jsxFactory',
+      'jsxFragmentFactory',
+      'jsxImportSource',
+      'reactNamespace',
+      'noLib',
+      'useDefineForClassFields',
+      'moduleDetection',
+      'resolveJsonModule',
+      'baseUrl',
+      'paths',
+      'rootDirs',
+      'rootDir',
+      'typeRoots',
+      'types',
+      'allowUmdGlobalAccess',
+      'moduleResolution',
+      'resolvePackageJsonExports',
+      'resolvePackageJsonImports',
+      'customConditions',
+      'preserveSymlinks',
+      'allowImportingTsExtensions',
+      'noResolve',
+      'traceResolution',
+      'esModuleInterop',
+      'allowSyntheticDefaultImports',
+      'isolatedModules',
+      'verbatimModuleSyntax',
+      'moduleSuffixes',
+      'resolvePackageJsonMain',
+      'declaration',
+      'declarationMap',
+      'emitDeclarationOnly',
+      'sourceMap',
+      'inlineSourceMap',
+      'inlineSources',
+      'outFile',
+      'outDir',
+      'removeComments',
+      'noEmit',
+      'noEmitHelpers',
+      'noEmitOnError',
+      'importsNotUsedAsValues',
+      'downlevelIteration',
+      'importHelpers',
+      'preserveConstEnums',
+      'preserveValueImports',
+      'skipLibCheck',
+      'skipDefaultLibCheck',
+      'stripInternal',
+      'strict',
+      'strictBindCallApply',
+      'strictFunctionTypes',
+      'strictNullChecks',
+      'strictPropertyInitialization',
+      'noImplicitAny',
+      'noImplicitThis',
+      'useUnknownInCatchVariables',
+      'alwaysStrict',
+      'noFallthroughCasesInSwitch',
+      'noUncheckedIndexedAccess',
+      'noImplicitOverride',
+      'noImplicitReturns',
+      'noPropertyAccessFromIndexSignature',
+      'exactOptionalPropertyTypes',
+      'forceConsistentCasingInFileNames',
+      'allowJs',
+      'checkJs',
+      'maxNodeModuleJsDepth',
+      'plugins',
+      'watchOptions',
+      'assumeChangesOnlyAffectDirectDependencies',
     ]
     const sort = [...coreSort, ...compilerOptionsSort.map((k) => `compilerOptions.${k}`)]
     await this.file0.writeJson(value, sort, true)
@@ -439,9 +438,9 @@ export class Mono0Tsconfig {
           z.string(),
           z.object({
             scope: z
-              .enum(["all", "deps"])
+              .enum(['all', 'deps'])
               .optional()
-              .default("all" as const),
+              .default('all' as const),
             match: z.string().optional(),
             index: z.boolean().optional().default(true),
             deepDeps: z.union([z.boolean(), z.string()]).optional().default(false),
@@ -454,9 +453,9 @@ export class Mono0Tsconfig {
           z.string(),
           z.object({
             scope: z
-              .enum(["all", "deps"])
+              .enum(['all', 'deps'])
               .optional()
-              .default("all" as const),
+              .default('all' as const),
             match: z.string().optional(),
             index: z.boolean().optional().default(true),
             deepDeps: z.union([z.boolean(), z.string()]).optional().default(false),
@@ -470,11 +469,11 @@ export class Mono0Tsconfig {
           z.string(),
           z.object({
             scope: z
-              .enum(["all", "deps"])
+              .enum(['all', 'deps'])
               .optional()
-              .default("all" as const),
+              .default('all' as const),
             match: z.string().optional(),
-            tsconfig: z.string().optional().default("$core"),
+            tsconfig: z.string().optional().default('$core'),
             deepDeps: z.union([z.boolean(), z.string()]).optional().default(false),
           }),
         ])
@@ -484,7 +483,7 @@ export class Mono0Tsconfig {
     .default({})
     .transform((val) => {
       return {
-        ...omit(val, ["addUnitsSrcToPaths", "addUnitsDistToPaths", "addUnitsAsReferences"]),
+        ...omit(val, ['addUnitsSrcToPaths', 'addUnitsDistToPaths', 'addUnitsAsReferences']),
         ...(val.addUnitsSrcToPaths === undefined
           ? {}
           : {
@@ -492,9 +491,9 @@ export class Mono0Tsconfig {
                 val.addUnitsSrcToPaths === false
                   ? (false as const)
                   : val.addUnitsSrcToPaths === true
-                    ? { scope: "all" as const, match: undefined, index: true, deepDeps: false }
-                    : typeof val.addUnitsSrcToPaths === "string"
-                      ? { scope: "all" as const, match: val.addUnitsSrcToPaths, index: true, deepDeps: false }
+                    ? { scope: 'all' as const, match: undefined, index: true, deepDeps: false }
+                    : typeof val.addUnitsSrcToPaths === 'string'
+                      ? { scope: 'all' as const, match: val.addUnitsSrcToPaths, index: true, deepDeps: false }
                       : val.addUnitsSrcToPaths,
             }),
         ...(val.addUnitsDistToPaths === undefined
@@ -504,9 +503,9 @@ export class Mono0Tsconfig {
                 val.addUnitsDistToPaths === false
                   ? (false as const)
                   : val.addUnitsDistToPaths === true
-                    ? { scope: "all" as const, match: undefined, index: true, deepDeps: false }
-                    : typeof val.addUnitsDistToPaths === "string"
-                      ? { scope: "all" as const, match: val.addUnitsDistToPaths, index: true, deepDeps: false }
+                    ? { scope: 'all' as const, match: undefined, index: true, deepDeps: false }
+                    : typeof val.addUnitsDistToPaths === 'string'
+                      ? { scope: 'all' as const, match: val.addUnitsDistToPaths, index: true, deepDeps: false }
                       : val.addUnitsDistToPaths,
             }),
         ...(val.addUnitsAsReferences === undefined
@@ -516,9 +515,9 @@ export class Mono0Tsconfig {
                 val.addUnitsAsReferences === false
                   ? (false as const)
                   : val.addUnitsAsReferences === true
-                    ? { scope: "all" as const, match: undefined, deepDeps: false, tsconfig: "$core" }
-                    : typeof val.addUnitsAsReferences === "string"
-                      ? { scope: "all" as const, match: val.addUnitsAsReferences, deepDeps: false, tsconfig: "$core" }
+                    ? { scope: 'all' as const, match: undefined, deepDeps: false, tsconfig: '$core' }
+                    : typeof val.addUnitsAsReferences === 'string'
+                      ? { scope: 'all' as const, match: val.addUnitsAsReferences, deepDeps: false, tsconfig: '$core' }
                       : val.addUnitsAsReferences,
             }),
       }
@@ -532,7 +531,7 @@ export class Mono0Tsconfig {
 
   static zDefinition = z.union([Mono0Tsconfig.zValueDefinition, Mono0Tsconfig.zFullDefinition]).transform(
     (val) =>
-      ("path" in val || "value" in val
+      ('path' in val || 'value' in val
         ? {
             path: val.path,
             value: val.value,
@@ -542,7 +541,7 @@ export class Mono0Tsconfig {
   )
 
   static definitionDefault = {
-    path: "tsconfig.json",
+    path: 'tsconfig.json',
     value: {},
     settings: {},
   } satisfies Mono0Tsconfig.FullDefinition
@@ -577,7 +576,7 @@ export class Mono0Tsconfig {
 }
 
 export namespace Mono0Tsconfig {
-  export type Json = Omit<TsConfigJsonTypeFest, "extends"> & { extends?: string }
+  export type Json = Omit<TsConfigJsonTypeFest, 'extends'> & { extends?: string }
   // export type ValueDefinition = z.output<typeof Mono0Tsconfig.zValueDefinition>
   export type ValueDefinition = Json
   export type DefinitionSettings = Partial<z.input<typeof Mono0Tsconfig.zDefinitionSettings>>

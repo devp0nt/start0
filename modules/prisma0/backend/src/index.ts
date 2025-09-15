@@ -1,7 +1,7 @@
 // TODO:ASAP resolve circular deps here, tri0
-import { Prisma, PrismaClient } from "@prisma0/backend/generated/prisma/client"
-import { Prisma0Models } from "@prisma0/backend/generated/prisma0/models"
-import { backOff } from "exponential-backoff"
+import { Prisma, PrismaClient } from '@prisma0/backend/generated/prisma/client'
+import { Prisma0Models } from '@prisma0/backend/generated/prisma0/models'
+import { backOff } from 'exponential-backoff'
 
 // TODO: use as separate package
 // TODO: move to prisma-client not prisma-client-js
@@ -18,7 +18,7 @@ export namespace Prisma0 {
     isLocalHostEnv: boolean
   }) => {
     const { logger } = tri0.extend({
-      tagPrefix: "prisma",
+      tagPrefix: 'prisma',
     })
     const prismaOriginal = new PrismaClient({
       transactionOptions: {
@@ -28,28 +28,28 @@ export namespace Prisma0 {
       },
       log: [
         {
-          emit: "event",
-          level: "query",
+          emit: 'event',
+          level: 'query',
         },
         {
-          emit: "event",
-          level: "info",
+          emit: 'event',
+          level: 'info',
         },
       ],
     })
 
-    prismaOriginal.$on("query", (e) => {
+    prismaOriginal.$on('query', (e) => {
       logger.info({
-        tag: "low:query",
-        message: "Successfull prisma request",
+        tag: 'low:query',
+        message: 'Successfull prisma request',
         prismaDurationMs: e.duration,
         prismaQuery: e.query,
-        prismaParams: isLocalHostEnv ? e.params : "***",
+        prismaParams: isLocalHostEnv ? e.params : '***',
       })
     })
-    prismaOriginal.$on("info", (e) => {
+    prismaOriginal.$on('info', (e) => {
       logger.info({
-        tag: "low:info",
+        tag: 'low:info',
         message: e.message,
       })
     })
@@ -116,25 +116,25 @@ export namespace Prisma0 {
                 const result = await query(args)
                 const durationMs = performance.now() - startedAt
                 tri0.logger.info({
-                  tag: "high",
-                  message: "Successfull request",
+                  tag: 'high',
+                  message: 'Successfull request',
                   prismaDurationMs: durationMs,
                   other: {
                     prismaModel: model,
                     prismaOperation: operation,
-                    prismaArgs: isLocalHostEnv ? args : "***",
+                    prismaArgs: isLocalHostEnv ? args : '***',
                   },
                 })
                 return result
               } catch (error) {
                 const durationMs = performance.now() - startedAt
                 tri0.logger.error({
-                  tag: "high",
+                  tag: 'high',
                   error,
                   meta: {
                     model,
                     operation,
-                    args: isLocalHostEnv ? args : "***",
+                    args: isLocalHostEnv ? args : '***',
                     durationMs,
                   },
                 })
@@ -160,15 +160,15 @@ export namespace Prisma0 {
               const code = normalCode || secretCode
               // Retry the transaction only if the error was due to a write conflict or deadlock
               // See: https://www.prisma.io/docs/reference/api-reference/error-reference#p2034
-              const isTransactionErrorCode = code === "P2034" || code === "25P02"
+              const isTransactionErrorCode = code === 'P2034' || code === '25P02'
               return isTransactionErrorCode
             },
-            jitter: "none",
+            jitter: 'none',
             numOfAttempts: 6,
             timeMultiple: 2,
           })
         },
-      } as { $transaction: (typeof prisma)["$transaction"] },
+      } as { $transaction: (typeof prisma)['$transaction'] },
     }),
   )
 

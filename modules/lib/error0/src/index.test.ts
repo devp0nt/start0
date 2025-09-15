@@ -1,7 +1,7 @@
-import { describe, expect, it } from "bun:test"
-import { type AxiosError, isAxiosError } from "axios"
-import z, { ZodError } from "zod"
-import { Error0, e0s } from "."
+import { describe, expect, it } from 'bun:test'
+import { type AxiosError, isAxiosError } from 'axios'
+import z, { ZodError } from 'zod'
+import { Error0, e0s } from '.'
 
 // TODO: test expected
 
@@ -12,12 +12,12 @@ const fixStack = (stack: string | undefined) => {
   // at <anonymous> (/Users/iserdmi/cc/projects/svagatron/modules/lib/error0.test.ts:103:25)
   // >>
   // at <anonymous> (...)
-  const lines = stack.split("\n")
+  const lines = stack.split('\n')
   const fixedLines = lines.map((line) => {
-    const withoutPath = line.replace(/\(.*\)$/, "(...)")
+    const withoutPath = line.replace(/\(.*\)$/, '(...)')
     return withoutPath
   })
-  return fixedLines.join("\n")
+  return fixedLines.join('\n')
 }
 
 const toJSON = (error: Error0) => {
@@ -26,9 +26,9 @@ const toJSON = (error: Error0) => {
   return result
 }
 
-describe("error0", () => {
-  it("simple", () => {
-    const error0 = new Error0("test")
+describe('error0', () => {
+  it('simple', () => {
+    const error0 = new Error0('test')
     expect(error0).toBeInstanceOf(Error0)
     expect(error0).toMatchInlineSnapshot(`[Error0: test]`)
     expect(toJSON(error0)).toMatchInlineSnapshot(`
@@ -51,18 +51,18 @@ describe("error0", () => {
     `)
   })
 
-  it("full", () => {
+  it('full', () => {
     const input = {
-      message: "my message",
-      tag: "tag1",
-      code: "code1",
+      message: 'my message',
+      tag: 'tag1',
+      code: 'code1',
       httpStatus: 400,
       expected: true,
-      clientMessage: "human message 1",
-      cause: new Error("original message"),
+      clientMessage: 'human message 1',
+      cause: new Error('original message'),
       meta: {
         reqDurationMs: 1,
-        userId: "user1",
+        userId: 'user1',
       },
     }
     const error1 = new Error0(input)
@@ -94,9 +94,9 @@ describe("error0", () => {
     `)
   })
 
-  it("cause error default", () => {
-    const errorDefault = new Error("original message")
-    const error0 = new Error0("my message", { cause: errorDefault })
+  it('cause error default', () => {
+    const errorDefault = new Error('original message')
+    const error0 = new Error0('my message', { cause: errorDefault })
     expect(error0).toBeInstanceOf(Error0)
     expect(error0).toMatchInlineSnapshot(`[Error0: my message]`)
     expect(toJSON(error0)).toMatchInlineSnapshot(`
@@ -122,8 +122,8 @@ describe("error0", () => {
     `)
   })
 
-  it("cause strange thing", () => {
-    const error0 = new Error0("my message", { cause: "strange thing" })
+  it('cause strange thing', () => {
+    const error0 = new Error0('my message', { cause: 'strange thing' })
     expect(error0).toMatchInlineSnapshot(`[Error0: my message]`)
     expect(toJSON(error0)).toMatchInlineSnapshot(`
       {
@@ -145,22 +145,22 @@ describe("error0", () => {
     `)
   })
 
-  it("floats and overrides", () => {
-    const error01 = new Error0("first", {
-      tag: "tag1",
-      clientMessage: "human message 1",
+  it('floats and overrides', () => {
+    const error01 = new Error0('first', {
+      tag: 'tag1',
+      clientMessage: 'human message 1',
       meta: {
         reqDurationMs: 1,
-        userId: "user1",
+        userId: 'user1',
       },
     })
-    const error02 = new Error0("second", {
-      tag: "tag2",
-      code: "code2",
+    const error02 = new Error0('second', {
+      tag: 'tag2',
+      code: 'code2',
       cause: error01,
       meta: {
         reqDurationMs: 1,
-        ideaId: "idea1",
+        ideaId: 'idea1',
         other: {
           x: 1,
         },
@@ -197,7 +197,7 @@ describe("error0", () => {
     `)
   })
 
-  it("unknown error", () => {
+  it('unknown error', () => {
     const error0 = new Error0({})
     expect(toJSON(error0)).toMatchInlineSnapshot(`
       {
@@ -217,8 +217,8 @@ describe("error0", () => {
         "tag": undefined,
       }
     `)
-    const error1 = new Error0("test")
-    expect(error1.message).toBe("test")
+    const error1 = new Error0('test')
+    expect(error1.message).toBe('test')
     const error2 = new Error0({ cause: error1 })
     expect(toJSON(error2)).toMatchInlineSnapshot(`
       {
@@ -250,8 +250,8 @@ describe("error0", () => {
     `)
   })
 
-  it("input error default", () => {
-    const errorDefault = new Error("default error")
+  it('input error default', () => {
+    const errorDefault = new Error('default error')
     const error0 = new Error0(errorDefault)
     expect(toJSON(error0)).toMatchInlineSnapshot(`
       {
@@ -283,8 +283,8 @@ describe("error0", () => {
     `)
   })
 
-  it("input error0 itself", () => {
-    const error = new Error0("error0 error")
+  it('input error0 itself', () => {
+    const error = new Error0('error0 error')
     const error0 = new Error0(error)
     expect(toJSON(error0)).toMatchInlineSnapshot(`
       {
@@ -316,16 +316,16 @@ describe("error0", () => {
     `)
   })
 
-  it("keep stack trace", () => {
-    const errorDefault = new Error("default error")
-    const error01 = new Error0("first", {
-      tag: "tag1",
-      clientMessage: "human message 1",
+  it('keep stack trace', () => {
+    const errorDefault = new Error('default error')
+    const error01 = new Error0('first', {
+      tag: 'tag1',
+      clientMessage: 'human message 1',
       cause: errorDefault,
     })
-    const error02 = new Error0("second", {
-      tag: "tag2",
-      code: "code2",
+    const error02 = new Error0('second', {
+      tag: 'tag2',
+      code: 'code2',
       cause: error01,
     })
     expect(fixStack(errorDefault.stack)).toMatchInlineSnapshot(`
@@ -351,7 +351,7 @@ describe("error0", () => {
     `)
   })
 
-  it("expected", () => {
+  it('expected', () => {
     const error0 = new Error0({
       expected: true,
     })
@@ -387,8 +387,8 @@ describe("error0", () => {
     expect(error6.expected).toBe(false)
   })
 
-  it("extends self", () => {
-    const error7 = new e0s.Expected("expected error")
+  it('extends self', () => {
+    const error7 = new e0s.Expected('expected error')
     expect(e0s.Expected.defaultExpected).toBe(true)
     expect(error7.expected).toBe(true)
     expect(error7).toBeInstanceOf(e0s.Expected)
@@ -413,14 +413,14 @@ describe("error0", () => {
     `)
   })
 
-  it("extend collection", () => {
+  it('extend collection', () => {
     const e0s1 = Error0.extendCollection(e0s, {
-      defaultMessage: "nested error",
+      defaultMessage: 'nested error',
       defaultMeta: {
-        tagPrefix: "nested",
+        tagPrefix: 'nested',
       },
     })
-    const error0 = new e0s1.Default("nested error")
+    const error0 = new e0s1.Default('nested error')
     expect(error0).toBeInstanceOf(e0s1.Default)
     expect(error0).toBeInstanceOf(e0s.Default)
     expect(error0).toBeInstanceOf(Error0)
@@ -445,7 +445,7 @@ describe("error0", () => {
       }
     `)
 
-    const error02 = new e0s1.Expected("nested error 1")
+    const error02 = new e0s1.Expected('nested error 1')
     expect(error02).toBeInstanceOf(e0s1.Expected)
     expect(error02).toBeInstanceOf(e0s.Expected)
     expect(error02).toBeInstanceOf(Error0)
@@ -472,21 +472,21 @@ describe("error0", () => {
     `)
   })
 
-  it("cause zod error", () => {
-    const zodError = z.object({ x: z.number() }).safeParse("test").error
+  it('cause zod error', () => {
+    const zodError = z.object({ x: z.number() }).safeParse('test').error
     if (!zodError) {
-      throw new Error("zodError is undefined")
+      throw new Error('zodError is undefined')
     }
     expect(zodError).toBeInstanceOf(ZodError)
     const error0 = new Error0(zodError)
     expect(error0.zodError).toBe(zodError)
-    expect(error0.message).toBe("Unknown error")
+    expect(error0.message).toBe('Unknown error')
   })
 
-  it("from zod error", () => {
-    const zodError = z.object({ x: z.number() }).safeParse("test").error
+  it('from zod error', () => {
+    const zodError = z.object({ x: z.number() }).safeParse('test').error
     if (!zodError) {
-      throw new Error("zodError is undefined")
+      throw new Error('zodError is undefined')
     }
     expect(zodError).toBeInstanceOf(ZodError)
     const error0 = Error0.from(zodError)
@@ -503,34 +503,34 @@ describe("error0", () => {
     `)
   })
 
-  it("from axios error", async () => {
+  it('from axios error', async () => {
     function makeFakeAxiosError(): AxiosError {
       return {
         isAxiosError: true,
-        name: "AxiosError",
-        message: "Request failed with status code 400",
+        name: 'AxiosError',
+        message: 'Request failed with status code 400',
         config: {}, // can be empty for test
         toJSON: () => ({}),
         response: {
           status: 400,
-          statusText: "Bad Request",
+          statusText: 'Bad Request',
           headers: {},
           config: {},
           data: {
-            error: "Invalid input",
-            details: ["Field X is required"],
+            error: 'Invalid input',
+            details: ['Field X is required'],
           },
         },
       } as AxiosError
     }
     const axiosError = makeFakeAxiosError()
     if (!axiosError) {
-      throw new Error("axiosError is undefined")
+      throw new Error('axiosError is undefined')
     }
     expect(isAxiosError(axiosError)).toBe(true)
     const error0 = Error0.from(axiosError)
     expect(error0.axiosError).toBe(axiosError)
-    expect(error0.message).toBe("Axios Error")
+    expect(error0.message).toBe('Axios Error')
     expect(error0.meta).toMatchInlineSnapshot(`
       {
         "axiosData": "{"error":"Invalid input","details":["Field X is required"]}",

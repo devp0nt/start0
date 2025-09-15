@@ -1,12 +1,12 @@
-import { exec } from "node:child_process"
-import type { Gen0Client } from "./client"
-import { Gen0ClientProcessCtx } from "./clientProcessCtx"
-import type { Gen0Config } from "./config"
-import { Gen0Logger } from "./logger"
-import { Gen0Target } from "./target"
+import { exec } from 'node:child_process'
+import type { Gen0Client } from './client'
+import { Gen0ClientProcessCtx } from './clientProcessCtx'
+import type { Gen0Config } from './config'
+import { Gen0Logger } from './logger'
+import { Gen0Target } from './target'
 
 export class Gen0ClientProcess {
-  static logger = Gen0Logger.create("clientProcess")
+  static logger = Gen0Logger.create('clientProcess')
   logger = Gen0ClientProcess.logger
 
   ctx: Gen0ClientProcessCtx
@@ -59,8 +59,8 @@ export class Gen0ClientProcess {
         `🔴 ${client.file0.path.rel} processed with errors in ${clientProcess.finishedAt.getTime() - clientProcess.startedAt.getTime()}ms`,
       )
     } else {
-      const circle = dryRun ? "⚪️" : "🟢"
-      const how = dryRun ? "dry run" : "processed"
+      const circle = dryRun ? '⚪️' : '🟢'
+      const how = dryRun ? 'dry run' : 'processed'
       const message = `${circle} ${client.file0.path.rel} ${how} in ${clientProcess.finishedAt.getTime() - clientProcess.startedAt.getTime()}ms`
       if (dryRun) {
         this.logger.info(message)
@@ -73,7 +73,7 @@ export class Gen0ClientProcess {
 
   async runAfterProcessCmd({ afterProcessCmd }: { afterProcessCmd: Gen0Config.AfterProcessCmd | undefined }) {
     if (afterProcessCmd) {
-      if (typeof afterProcessCmd === "function") {
+      if (typeof afterProcessCmd === 'function') {
         await exec(afterProcessCmd(this.client.file0.path.abs))
       } else {
         await exec(afterProcessCmd)

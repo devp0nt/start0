@@ -1,61 +1,61 @@
-import { NavLink, Outlet, useNavigation } from "react-router"
+import { NavLink, Outlet, useNavigation } from 'react-router'
 
 const layoutStyles = {
-  display: "flex",
-  minHeight: "100vh",
+  display: 'flex',
+  minHeight: '100vh',
   fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
 }
 
 const sidebarStyles = {
-  width: "250px",
-  backgroundColor: "#1a1a1a",
-  color: "white",
-  padding: "20px",
-  boxShadow: "2px 0 5px rgba(0,0,0,0.1)",
+  width: '250px',
+  backgroundColor: '#1a1a1a',
+  color: 'white',
+  padding: '20px',
+  boxShadow: '2px 0 5px rgba(0,0,0,0.1)',
 }
 
 const mainContentStyles = {
   flex: 1,
-  padding: "20px",
-  backgroundColor: "#f5f5f5",
+  padding: '20px',
+  backgroundColor: '#f5f5f5',
 }
 
 const navStyles = {
-  marginTop: "40px",
+  marginTop: '40px',
 }
 
 const navLinkStyles = {
-  display: "block",
-  padding: "12px 16px",
-  marginBottom: "8px",
-  color: "#e0e0e0",
-  textDecoration: "none",
-  borderRadius: "6px",
-  transition: "all 0.2s ease",
-  cursor: "pointer",
+  display: 'block',
+  padding: '12px 16px',
+  marginBottom: '8px',
+  color: '#e0e0e0',
+  textDecoration: 'none',
+  borderRadius: '6px',
+  transition: 'all 0.2s ease',
+  cursor: 'pointer',
 }
 
 const activeNavLinkStyles = {
   ...navLinkStyles,
-  backgroundColor: "#3b82f6",
-  color: "white",
+  backgroundColor: '#3b82f6',
+  color: 'white',
 }
 
 const pendingNavLinkStyles = {
   ...navLinkStyles,
-  color: "red",
+  color: 'red',
 }
 
 const transitionNavLinkStyles = {
   ...navLinkStyles,
-  color: "blue",
+  color: 'blue',
 }
 
 const logoStyles = {
-  fontSize: "24px",
-  fontWeight: "bold",
-  marginBottom: "20px",
-  color: "#3b82f6",
+  fontSize: '24px',
+  fontWeight: 'bold',
+  marginBottom: '20px',
+  color: '#3b82f6',
 }
 
 export const GeneralLayout = ({ children }: { children?: React.ReactNode }) => {
@@ -103,7 +103,7 @@ export const GeneralLayout = ({ children }: { children?: React.ReactNode }) => {
   )
 }
 
-GeneralLayout.path = "./components/GeneralLayout.tsx"
+GeneralLayout.path = './components/GeneralLayout.tsx'
 export default function Layout() {
   return (
     <GeneralLayout>

@@ -1,24 +1,24 @@
-import { Fs0 } from "@devp0nt/fs0"
-import { uniq } from "lodash"
-import type { Gen0ClientsManager } from "./clientsManager"
-import { Gen0Logger } from "./logger"
-import type { Gen0Plugin } from "./plugin"
-import { Gen0Utils } from "./utils"
-import type { Gen0WatchersManager } from "./watchersManager"
+import { Fs0 } from '@devp0nt/fs0'
+import { uniq } from 'lodash'
+import type { Gen0ClientsManager } from './clientsManager'
+import { Gen0Logger } from './logger'
+import type { Gen0Plugin } from './plugin'
+import { Gen0Utils } from './utils'
+import type { Gen0WatchersManager } from './watchersManager'
 
 export class Gen0Watcher {
-  static logger = Gen0Logger.create("watcher")
+  static logger = Gen0Logger.create('watcher')
   logger = Gen0Watcher.logger
 
   fs0: Fs0
   name: string
   plugin: Gen0Plugin
   watchGlob: Fs0.Paths
-  originalWatchGlob: Gen0Watcher.Definition["watch"]
+  originalWatchGlob: Gen0Watcher.Definition['watch']
   clientsGlob: Fs0.Paths | undefined
-  clientsNames: Gen0Watcher.Definition["clientsNames"]
-  originalClientsGlob: Gen0Watcher.Definition["clientsGlob"]
-  originalHandler: Gen0Watcher.Definition["handler"]
+  clientsNames: Gen0Watcher.Definition['clientsNames']
+  originalClientsGlob: Gen0Watcher.Definition['clientsGlob']
+  originalHandler: Gen0Watcher.Definition['handler']
 
   private constructor({
     plugin,
@@ -35,11 +35,11 @@ export class Gen0Watcher {
     name: string
     fs0: Fs0
     watchGlob: Fs0.Paths
-    originalWatchGlob: Gen0Watcher.Definition["watch"]
+    originalWatchGlob: Gen0Watcher.Definition['watch']
     clientsGlob?: Fs0.Paths
-    originalClientsGlob?: Gen0Watcher.Definition["clientsGlob"]
-    clientsNames?: Gen0Watcher.Definition["clientsNames"]
-    originalHandler?: Gen0Watcher.Definition["handler"]
+    originalClientsGlob?: Gen0Watcher.Definition['clientsGlob']
+    clientsNames?: Gen0Watcher.Definition['clientsNames']
+    originalHandler?: Gen0Watcher.Definition['handler']
   }) {
     this.name = name
     this.plugin = plugin
@@ -64,10 +64,10 @@ export class Gen0Watcher {
     plugin: Gen0Plugin
     name: string
     fs0: Fs0
-    watch: Gen0Watcher.Definition["watch"]
-    handler?: Gen0Watcher.Definition["handler"]
-    clientsGlob?: Gen0Watcher.Definition["clientsGlob"]
-    clientsNames?: Gen0Watcher.Definition["clientsNames"]
+    watch: Gen0Watcher.Definition['watch']
+    handler?: Gen0Watcher.Definition['handler']
+    clientsGlob?: Gen0Watcher.Definition['clientsGlob']
+    clientsNames?: Gen0Watcher.Definition['clientsNames']
   }) {
     if (!originalClientsGlob && !originalHandler && !clientsNames) {
       throw new Error(
@@ -100,7 +100,7 @@ export class Gen0Watcher {
         return
       }
       this.logger.debug(
-        `watcher "${this.name}" of plugin "${uniq([this.plugin.name, this.plugin.file0?.path.rel]).filter(Boolean).join(":")}" received event "${event}" for path "${path}"`,
+        `watcher "${this.name}" of plugin "${uniq([this.plugin.name, this.plugin.file0?.path.rel]).filter(Boolean).join(':')}" received event "${event}" for path "${path}"`,
       )
       if (this.originalHandler) {
         await this.originalHandler(ctx, event, path)
@@ -113,7 +113,7 @@ export class Gen0Watcher {
       }
     } catch (error) {
       this.logger.error(
-        `error in watcher "${this.name}" of plugin "${uniq([this.plugin.name, this.plugin.file0?.path.rel]).filter(Boolean).join(":")}"\n`,
+        `error in watcher "${this.name}" of plugin "${uniq([this.plugin.name, this.plugin.file0?.path.rel]).filter(Boolean).join(':')}"\n`,
         error,
       )
     }
@@ -172,11 +172,11 @@ export namespace Gen0Watcher {
     name: string
     plugin: string
     watchGlob: Fs0.Paths
-    originalWatchGlob: Gen0Watcher.Definition["watch"]
+    originalWatchGlob: Gen0Watcher.Definition['watch']
     clientsGlob: Fs0.Paths | undefined
-    originalClientsGlob: Gen0Watcher.Definition["clientsGlob"]
-    clientsNames: Gen0Watcher.Definition["clientsNames"]
-    originalHandler: Gen0Watcher.Definition["handler"]
+    originalClientsGlob: Gen0Watcher.Definition['clientsGlob']
+    clientsNames: Gen0Watcher.Definition['clientsNames']
+    originalHandler: Gen0Watcher.Definition['handler']
   }
   export type Definition = {
     name?: string
@@ -185,5 +185,5 @@ export namespace Gen0Watcher {
     clientsNames?: Fs0.StringMatchInput
     handler?: Handler
   }
-  export type DefinitionWithName = Omit<Definition, "name"> & { name: string }
+  export type DefinitionWithName = Omit<Definition, 'name'> & { name: string }
 }
