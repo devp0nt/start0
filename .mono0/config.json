@@ -21,6 +21,9 @@
       "path": "../tsconfig.json",
       "value": {
         "extends": "$base"
+      },
+      "settings": {
+        "addUnitsAsReferences": true
       }
     },
     "base": {
@@ -104,7 +107,7 @@
           "setSrcAsRootDir": true,
           "addSrcToInclude": true,
           "addSelfSrcToPaths": true,
-          "addUnitsSrcToPaths": true,
+          "addUnitsSrcToPaths": { "scope": "deps" },
           "addUnitsDistToPaths": false,
           "clearReferences": true,
           "addDepsAsReferences": true,

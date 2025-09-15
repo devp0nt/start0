@@ -190,12 +190,12 @@ export class Mono0Unit {
         tsconfig: {
           path: result.tsconfig.path ?? presetValue.tsconfig.path,
           settings: Mono0Tsconfig.mergeSettings(presetValue.tsconfig.settings, result.tsconfig.settings),
-          value: Mono0Tsconfig.merge(presetValue.tsconfig.value, result.tsconfig.value),
+          value: Mono0Tsconfig.mergeValue(presetValue.tsconfig.value, result.tsconfig.value),
         },
         packageJson: {
           path: result.packageJson.path ?? presetValue.packageJson.path,
           settings: Mono0PackageJson.mergeSettings(presetValue.packageJson.settings, result.packageJson.settings),
-          value: Mono0PackageJson.merge(presetValue.packageJson.value, result.packageJson.value),
+          value: Mono0PackageJson.mergeValue(presetValue.packageJson.value, result.packageJson.value),
         },
         preset: presetValue.preset,
       }

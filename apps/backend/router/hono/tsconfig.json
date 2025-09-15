@@ -1,22 +1,22 @@
 {
-  "extends": "../../../../.mono0/tsconfig.backend.json",
-  "exclude": ["**/dist/**/*", "**/node_modules/**/*", "**/public/**/*"],
   "compilerOptions": {
-    "outDir": "./dist",
     "composite": true,
     "declaration": true,
     "declarationMap": true,
     "emitDeclarationOnly": false,
     "noEmitOnError": false,
+    "outDir": "./dist",
     "declarationDir": "./dist",
-    "tsBuildInfoFile": "../../../../node_modules/.cache/tsbuildinfo/@backend/hono-router/.tsbuildinfo",
+    "tsBuildInfoFile": "~/node_modules/.cache/tsbuildinfo/@backend/hono-router/.tsbuildinfo",
     "rootDir": "./src",
     "paths": {
       "@backend/hono-router/*": ["./src/*"],
       "@backend/core/*": ["../../core/src/*"]
     }
   },
-  "include": ["src/**/*"],
+  "exclude": ["**/dist/**/*", "**/node_modules/**/*", "**/public/**/*"],
+  "extends": "../../../../.mono0/tsconfig.backend.json",
+  "include": ["./src/**/*"],
   "references": [
     {
       "path": "../../core/tsconfig.json"

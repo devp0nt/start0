@@ -83,7 +83,10 @@ export class Mono0PackageJson {
     const prevDeps = currentValue.dependencies || {}
     const prevDevDeps = currentValue.devDependencies || {}
 
-    const mergedValue = Mono0PackageJson.merge(currentValue, { name: this.name || currentValue.name, ...this.value })
+    const mergedValue = Mono0PackageJson.mergeValue(currentValue, {
+      name: this.name || currentValue.name,
+      ...this.value,
+    })
 
     if (this.settings.clearWorkspaces) {
       const pathToClear = this.settings.clearWorkspaces
@@ -388,7 +391,11 @@ export class Mono0PackageJson {
     .transform(
       (val) =>
         ("path" in val || "value" in val
-          ? { path: val.path || "package.json", value: val.value, settings: val.settings || {} }
+          ? {
+              path: val.path || "package.json",
+              value: val.value,
+              settings: Mono0PackageJson.zDefinitionSettings.parse(val.settings) || {},
+            }
           : { path: "package.json", value: val, settings: {} }) as Mono0PackageJson.FullDefinitionParsed,
     )
 
@@ -398,7 +405,7 @@ export class Mono0PackageJson {
     settings: {},
   } satisfies Mono0PackageJson.FullDefinition
 
-  static merge(
+  static mergeValue(
     ...packageJsonsValues: [
       Mono0PackageJson.Json | Mono0PackageJson.ValueDefinition,
       ...(Mono0PackageJson.Json | Mono0PackageJson.ValueDefinition)[],

@@ -1,15 +1,13 @@
 {
-  "extends": "../../../.mono0/tsconfig.site.json",
-  "exclude": ["**/dist/**/*", "**/node_modules/**/*", "**/public/**/*"],
   "compilerOptions": {
-    "outDir": "./dist",
     "composite": true,
     "declaration": true,
     "declarationMap": true,
     "emitDeclarationOnly": false,
     "noEmitOnError": false,
+    "outDir": "./dist",
     "declarationDir": "./dist",
-    "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@idea/site/.tsbuildinfo",
+    "tsBuildInfoFile": "~/node_modules/.cache/tsbuildinfo/@idea/site/.tsbuildinfo",
     "rootDir": "./src",
     "paths": {
       "@idea/site/*": ["./src/*"],
@@ -19,7 +17,9 @@
       "@site/core/*": ["../../../apps/site/core/src/*"]
     }
   },
-  "include": ["src/**/*"],
+  "exclude": ["**/dist/**/*", "**/node_modules/**/*", "**/public/**/*"],
+  "extends": "../../../.mono0/tsconfig.site.json",
+  "include": ["./src/**/*"],
   "references": [
     {
       "path": "../../lib/route0/tsconfig.json"

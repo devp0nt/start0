@@ -93,6 +93,7 @@
     "@typed/route": "^10.1.2",
     "axios": "^1.11.0",
     "client-only": "^0.0.1",
+    "comment-json": "^4.2.5",
     "cross-env": "^10.0.0",
     "debug": "^4.4.1",
     "deepmerge": "^4.3.1",

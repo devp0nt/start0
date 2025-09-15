@@ -143,19 +143,6 @@ export class Mono0Tsconfig {
       result.include = uniq(parsedInclude)
     }
 
-    // if (unit) {
-    //   const srcIncludeString = nodePath.join(fs0.toRel(unit.srcFs0.cwd, true), "**/*")
-    //   if (!result.include?.includes(srcIncludeString)) {
-    //     result.include = [srcIncludeString, ...(result.include || [])]
-    //   }
-    //   if (!result.compilerOptions?.rootDir) {
-    //     result.compilerOptions = {
-    //       ...result.compilerOptions,
-    //       rootDir: fs0.toRel(unit.srcFs0.cwd, true),
-    //     }
-    //   }
-    // }
-
     if (unit && settings.setSrcAsRootDir) {
       const srcRootDir = fs0.toRel(unit.srcFs0.cwd, true)
       result.compilerOptions = {
@@ -171,9 +158,8 @@ export class Mono0Tsconfig {
     }
 
     if (unit && settings.clearPaths) {
-      result.compilerOptions = {
-        ...result.compilerOptions,
-        paths: {},
+      if (result.compilerOptions?.paths) {
+        delete result.compilerOptions.paths
       }
     }
 
@@ -188,7 +174,25 @@ export class Mono0Tsconfig {
     }
 
     if (settings.clearReferences) {
-      result.references = []
+      if (result.references) {
+        delete result.references
+      }
+    }
+
+    if (settings.addUnitsAsReferences) {
+      console.log("addUnitsAsReferences", settings.addUnitsAsReferences)
+      const addUnitsAsReferences = settings.addUnitsAsReferences
+      const scope = addUnitsAsReferences.scope
+      const unitsScoped = scope === "all" ? units : unit?.deps.map((dep) => dep.unit) || []
+      const match = addUnitsAsReferences.match
+      const { Mono0Unit: Mono0UnitClass } = await import("./unit")
+      const unitsFiltered = Mono0UnitClass.filterUnits({ units: unitsScoped, match })
+      result.references = [
+        ...(result.references || []),
+        ...unitsFiltered.map((u) => ({
+          path: u.tsconfig.file0.relToDir(file0),
+        })),
+      ]
     }
 
     if (unit && settings.addDepsAsReferences) {
@@ -362,6 +366,19 @@ export class Mono0Tsconfig {
         ])
         .optional(),
       clearReferences: z.boolean().optional(),
+      addUnitsAsReferences: z
+        .union([
+          z.boolean(),
+          z.string(),
+          z.object({
+            scope: z
+              .enum(["all", "deps"])
+              .optional()
+              .default("all" as const),
+            match: z.string().optional(),
+          }),
+        ])
+        .optional(),
       addDepsAsReferences: z.boolean().optional(),
       addDeepDepsAsReferences: z.boolean().optional(),
     })
@@ -369,7 +386,7 @@ export class Mono0Tsconfig {
     .default({})
     .transform((val) => {
       return {
-        ...omit(val, ["addUnitsSrcToPaths", "addUnitsDistToPaths"]),
+        ...omit(val, ["addUnitsSrcToPaths", "addUnitsDistToPaths", "addUnitsAsReferences"]),
         ...(val.addUnitsSrcToPaths === undefined
           ? {}
           : {
@@ -394,6 +411,18 @@ export class Mono0Tsconfig {
                       ? { scope: "all" as const, match: val.addUnitsDistToPaths, index: true }
                       : val.addUnitsDistToPaths,
             }),
+        ...(val.addUnitsAsReferences === undefined
+          ? {}
+          : {
+              addUnitsAsReferences:
+                val.addUnitsAsReferences === false
+                  ? (false as const)
+                  : val.addUnitsAsReferences === true
+                    ? { scope: "all" as const, match: undefined }
+                    : typeof val.addUnitsAsReferences === "string"
+                      ? { scope: "all" as const, match: val.addUnitsAsReferences }
+                      : val.addUnitsAsReferences,
+            }),
       }
     })
 
@@ -408,7 +437,11 @@ export class Mono0Tsconfig {
     .transform(
       (val) =>
         ("path" in val || "value" in val
-          ? { path: val.path || "tsconfig.json", value: val.value, settings: val.settings || {} }
+          ? {
+              path: val.path || "tsconfig.json",
+              value: val.value,
+              settings: Mono0Tsconfig.zDefinitionSettings.parse(val.settings) || {},
+            }
           : { path: "tsconfig.json", value: val, settings: {} }) as Mono0Tsconfig.FullDefinitionParsed,
     )
 
@@ -418,7 +451,7 @@ export class Mono0Tsconfig {
     settings: {},
   } satisfies Mono0Tsconfig.FullDefinition
 
-  static merge(...tsconfigs: [Mono0Tsconfig.Json, ...Mono0Tsconfig.Json[]]): Mono0Tsconfig.Json {
+  static mergeValue(...tsconfigs: [Mono0Tsconfig.Json, ...Mono0Tsconfig.Json[]]): Mono0Tsconfig.Json {
     return tsconfigs.reduce((acc, tsconfig) => {
       return {
         // biome-ignore lint/performance/noAccumulatingSpread: <oh...>

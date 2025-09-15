@@ -11,6 +11,5 @@
     "moduleResolution": "Bundler",
     "verbatimModuleSyntax": true,
     "resolveJsonModule": true
-  },
-  "references": []
+  }
 }

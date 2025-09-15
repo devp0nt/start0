@@ -5,6 +5,5 @@
     "types": ["node", "bun", "vite/client"],
     "target": "ES2022",
     "module": "ES2022"
-  },
-  "references": []
+  }
 }
