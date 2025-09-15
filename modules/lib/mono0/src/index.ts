@@ -8,6 +8,7 @@ import { Mono0Tsconfig } from './tsconfig'
 import { Mono0Unit } from './unit'
 import watcherGen0 from './watcher-gen0'
 
+// TODO: Дип депс это тоже скоуп
 // TODO: В конфиге иметь глобальные плейсхолдеры
 // TODO: Переименовать моны на Джейсон си
 // TODO: Инклюд дист в пасы для колдов, и тогда вообще никому не нужно ничего экспортить из пакейдж джейсона

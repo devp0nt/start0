@@ -5,6 +5,8 @@ import { Gen0Logger } from './logger'
 import { Gen0PluginsManager } from './pluginsManager'
 import { Gen0WatchersManager } from './watchersManager'
 
+// TODO: gen0 code split, just add comment to which workspace or file code should come
+// TODO: gen0 one env, one file, all env files
 // TODO: plugin watcher can change self watching files, like mono0 wants
 // TODO: self watch client always
 // TODO: В ген0 не делать так нагло сам клиент плагином. Достаточно вотчеры добавить
