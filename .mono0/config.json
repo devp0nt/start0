@@ -35,7 +35,10 @@
     "rootCore": {
       "path": "../tsconfig.json",
       "value": {
-        "extends": "$base"
+        "extends": "$base",
+        "compilerOptions": {
+          "tsBuildInfoFile": "~/node_modules/.cache/tsbuildinfo/root-core/.tsbuildinfo"
+        }
       },
       "settings": {
         "addUnitsAsReferences": { "tsconfig": "$core" }
@@ -44,7 +47,10 @@
     "rootBuild": {
       "path": "../tsconfig.build.json",
       "value": {
-        "extends": "$base"
+        "extends": "$base",
+        "compilerOptions": {
+          "tsBuildInfoFile": "~/node_modules/.cache/tsbuildinfo/root-build/.tsbuildinfo"
+        }
       },
       "settings": {
         "addUnitsAsReferences": { "tsconfig": "$build" }

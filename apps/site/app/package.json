@@ -3,6 +3,10 @@
   "private": true,
   "type": "module",
   "exports": {
+    "./../*": {
+      "import": "./*.js",
+      "types": "./*.d.ts"
+    },
     "./*": {
       "import": "./dist/*.js",
       "types": "./dist/*.d.ts"

@@ -1,5 +1,8 @@
 {
   "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "tsBuildInfoFile": "~/node_modules/.cache/tsbuildinfo/root-core/.tsbuildinfo"
+  },
   "references": [
     {
       "path": "./modules/appConfig/backend/tsconfig.json"

@@ -3,7 +3,7 @@
   "preset": "site",
   "deps": ["@site/core", "@devp0nt/env0", "@devp0nt/gen0", "#site"],
   "tsconfig": {
-    "include": ["src/**/*", ".react-router/types/**/*"],
+    "include": [".react-router/types/**/*", "./react-router.config.ts", "./vite.config.ts"],
     "compilerOptions": {
       "rootDir": "./",
       "rootDirs": ["./", "./.react-router/types"]
