@@ -80,10 +80,7 @@ export class Mono0Config {
       })
       .optional()
       .default({}),
-    presets: z
-      .record(z.string(), Mono0Unit.zDefinition.omit({ name: true }))
-      .optional()
-      .default({}),
+    presets: z.record(z.string(), Mono0Unit.zDefinition).optional().default({}),
   })
 
   getMeta({ units }: { units: Mono0Unit[] }) {

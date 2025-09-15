@@ -17,13 +17,22 @@
     }
   },
   "tsconfigs": {
-    "root": {
+    "rootCore": {
       "path": "../tsconfig.json",
       "value": {
         "extends": "$base"
       },
       "settings": {
-        "addUnitsAsReferences": true
+        "addUnitsAsReferences": { "tsconfig": "$core" }
+      }
+    },
+    "rootBuild": {
+      "path": "../tsconfig.build.json",
+      "value": {
+        "extends": "$base"
+      },
+      "settings": {
+        "addUnitsAsReferences": { "tsconfig": "$build" }
       }
     },
     "base": {
@@ -104,30 +113,43 @@
           }
         }
       },
-      "tsconfig": {
-        "settings": {
-          "clearPaths": true,
-          "setSrcAsRootDir": true,
-          "addSrcToInclude": true,
-          "addSelfSrcToPaths": true,
-          "addUnitsSrcToPaths": { "scope": "deps" },
-          "addUnitsDistToPaths": false,
-          "clearReferences": true,
-          "addDepsAsReferences": true,
-          "addDeepDepsAsReferences": false
-        },
-        "value": {
-          "compilerOptions": {
-            "composite": true,
-            "declaration": true,
-            "declarationMap": true,
-            "emitDeclarationOnly": false,
-            "noEmitOnError": false,
-            "outDir": "./dist",
-            "declarationDir": "./dist",
-            "tsBuildInfoFile": "~/node_modules/.cache/tsbuildinfo/{{name}}/.tsbuildinfo"
+      "tsconfigs": {
+        "core": {
+          "path": "./tsconfig.json",
+          "settings": {
+            "clearPaths": true,
+            "setSrcAsRootDir": true,
+            "addSrcToInclude": true,
+            "addSelfSrcToPaths": true,
+            "addUnitsSrcToPaths": { "scope": "deps" },
+            "addUnitsDistToPaths": false,
+            "clearReferences": true,
+            "addUnitsAsReferences": { "scope": "deps", "tsconfig": "$core" }
           },
-          "exclude": ["$exclude"]
+          "value": {
+            "compilerOptions": {
+              "composite": true,
+              "declaration": true,
+              "declarationMap": true,
+              "emitDeclarationOnly": false,
+              "noEmitOnError": false,
+              "outDir": "./dist",
+              "declarationDir": "./dist",
+              "tsBuildInfoFile": "~/node_modules/.cache/tsbuildinfo/{{name}}/.tsbuildinfo"
+            },
+            "exclude": ["$exclude"]
+          }
+        },
+        "build": {
+          "path": "./tsconfig.build.json",
+          "settings": {
+            "clearPaths": true,
+            "addSelfSrcToPaths": true
+          },
+          "value": {
+            "extends": "$core",
+            "compilerOptions": {}
+          }
         }
       }
     },

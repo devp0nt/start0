@@ -58,7 +58,7 @@ export class Mono0PackageJson {
     fs0: Fs0
     unit?: Mono0Unit
   }) {
-    const file0 = fs0.createFile0(definition.path)
+    const file0 = definition.path ? fs0.createFile0(definition.path) : fs0.createFile0("package.json")
     const value = definition.value
     return new Mono0PackageJson({
       name: name || definition.value.name,
@@ -423,7 +423,7 @@ export class Mono0PackageJson {
   })
 
   static zFullDefinition = z.object({
-    path: z.string().optional().default("package.json"),
+    path: z.string().optional(),
     value: Mono0PackageJson.zValueDefinition.optional().default({}),
     settings: Mono0PackageJson.zDefinitionSettings,
   })
@@ -432,11 +432,11 @@ export class Mono0PackageJson {
     (val) =>
       ("path" in val || "value" in val
         ? {
-            path: val.path || "package.json",
+            path: val.path,
             value: val.value,
             settings: Mono0PackageJson.zDefinitionSettings.parse(val.settings) || {},
           }
-        : { path: "package.json", value: val, settings: {} }) as Mono0PackageJson.FullDefinitionParsed,
+        : { path: undefined, value: val, settings: {} }) as Mono0PackageJson.FullDefinitionParsed,
   )
 
   static definitionDefault = {

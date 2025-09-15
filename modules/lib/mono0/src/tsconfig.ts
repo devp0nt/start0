@@ -184,37 +184,23 @@ export class Mono0Tsconfig {
       const scope = addUnitsAsReferences.scope
       const unitsScoped = scope === "all" ? units : unit?.deps.map((dep) => dep.unit) || []
       const match = addUnitsAsReferences.match
+      const tsconfigName = addUnitsAsReferences.tsconfig.startsWith("$")
+        ? addUnitsAsReferences.tsconfig.slice(1)
+        : addUnitsAsReferences.tsconfig
       const { Mono0Unit: Mono0UnitClass } = await import("./unit")
       const unitsFiltered = Mono0UnitClass.filterUnits({ units: unitsScoped, match })
       result.references = [
         ...(result.references || []),
-        ...unitsFiltered.map((u) => ({
-          path: u.tsconfig.file0.relToDir(file0),
-        })),
+        ...unitsFiltered.map((u) => {
+          const tsconfig = u.tsconfigs.find((t) => t.name === tsconfigName)
+          if (!tsconfig) {
+            throw new Error(`Tsconfig "${tsconfigName}" not found in "${u.name}"`)
+          }
+          return {
+            path: tsconfig.file0.relToDir(file0),
+          }
+        }),
       ]
-    }
-
-    if (unit && settings.addDepsAsReferences) {
-      result.references = [
-        ...(result.references || []),
-        ...unit.deps.map((dep) => ({
-          path: dep.unit.tsconfig.file0.relToDir(file0),
-        })),
-      ]
-    }
-
-    if (unit && settings.addDeepDepsAsReferences) {
-      result.references = uniqBy(
-        [
-          ...(result.references || []),
-          ...unit.deps.flatMap((dep) =>
-            dep.unit.deps.map((d) => ({
-              path: d.unit.tsconfig.file0.relToDir(file0),
-            })),
-          ),
-        ],
-        "path",
-      )
     }
 
     if (settings.addUnitsSrcToPaths) {
@@ -224,12 +210,15 @@ export class Mono0Tsconfig {
       const match = addUnitsSrcToPaths.match
       const { Mono0Unit: Mono0UnitClass } = await import("./unit")
       const unitsFiltered = Mono0UnitClass.filterUnits({ units: unitsScoped, match })
+      const unitsDeep = addUnitsSrcToPaths.deepDeps
+        ? [...unitsFiltered, ...unitsFiltered.flatMap((d) => d.deps.map((dep) => dep.unit))]
+        : unitsFiltered
       result.compilerOptions = {
         ...(result.compilerOptions || {}),
         paths: {
           ...(result.compilerOptions?.paths || {}),
           ...Object.fromEntries(
-            unitsFiltered.flatMap((d) => [
+            unitsDeep.flatMap((d) => [
               [`${d.name}/*`, [`${fs0.toRel(d.srcFs0.cwd)}/*`]],
               ...(addUnitsSrcToPaths.index && d.indexFile0
                 ? [[`${d.name}`, [`${fs0.toRel(d.indexFile0.path.abs)}`]]]
@@ -247,12 +236,15 @@ export class Mono0Tsconfig {
       const match = addUnitsDistToPaths.match
       const { Mono0Unit: Mono0UnitClass } = await import("./unit")
       const unitsFiltered = Mono0UnitClass.filterUnits({ units: unitsScoped, match })
+      const unitsDeep = addUnitsDistToPaths.deepDeps
+        ? [...unitsFiltered, ...unitsFiltered.flatMap((d) => d.deps.map((dep) => dep.unit))]
+        : unitsFiltered
       result.compilerOptions = {
         ...(result.compilerOptions || {}),
         paths: {
           ...(result.compilerOptions?.paths || {}),
           ...Object.fromEntries(
-            unitsFiltered.flatMap((d) => [
+            unitsDeep.flatMap((d) => [
               [`${d.name}/*`, [`${fs0.toRel(d.distFs0.cwd)}/*`]],
               ...(addUnitsDistToPaths.index && d.indexFile0
                 ? [[`${d.name}`, [fs0.replaceExt(`${fs0.toRel(d.indexFile0.path.abs)}`, "js")]]]
@@ -401,6 +393,22 @@ export class Mono0Tsconfig {
     }, {} as Mono0Tsconfig.Settings)
   }
 
+  static mergeRecordsOfDefinitions(
+    ...records: [Mono0Tsconfig.RecordOfDefinitions, ...Mono0Tsconfig.RecordOfDefinitions[]]
+  ): Mono0Tsconfig.RecordOfDefinitionsParsed {
+    return records.reduce<Mono0Tsconfig.RecordOfDefinitionsParsed>((acc, record) => {
+      for (const [name, definitionOrValue] of Object.entries(record)) {
+        const definition = Mono0Tsconfig.zDefinition.parse(definitionOrValue)
+        acc[name] = {
+          path: definition.path ?? acc[name]?.path,
+          settings: Mono0Tsconfig.mergeSettings(acc[name]?.settings, definition.settings),
+          value: Mono0Tsconfig.mergeValue(acc[name]?.value, definition.value),
+        }
+      }
+      return acc
+    }, {} as Mono0Tsconfig.RecordOfDefinitionsParsed)
+  }
+
   static zValueDefinition = z.looseObject({
     extends: z.string().optional(),
     include: z.array(z.string()).optional(),
@@ -434,6 +442,7 @@ export class Mono0Tsconfig {
               .default("all" as const),
             match: z.string().optional(),
             index: z.boolean().optional().default(true),
+            deepDeps: z.boolean().optional().default(false),
           }),
         ])
         .optional(),
@@ -448,6 +457,7 @@ export class Mono0Tsconfig {
               .default("all" as const),
             match: z.string().optional(),
             index: z.boolean().optional().default(true),
+            deepDeps: z.boolean().optional().default(false),
           }),
         ])
         .optional(),
@@ -462,11 +472,11 @@ export class Mono0Tsconfig {
               .optional()
               .default("all" as const),
             match: z.string().optional(),
+            tsconfig: z.string().optional().default("$core"),
+            deepDeps: z.boolean().optional().default(false),
           }),
         ])
         .optional(),
-      addDepsAsReferences: z.boolean().optional(),
-      addDeepDepsAsReferences: z.boolean().optional(),
     })
     .optional()
     .default({})
@@ -480,9 +490,9 @@ export class Mono0Tsconfig {
                 val.addUnitsSrcToPaths === false
                   ? (false as const)
                   : val.addUnitsSrcToPaths === true
-                    ? { scope: "all" as const, match: undefined, index: true }
+                    ? { scope: "all" as const, match: undefined, index: true, deepDeps: false }
                     : typeof val.addUnitsSrcToPaths === "string"
-                      ? { scope: "all" as const, match: val.addUnitsSrcToPaths, index: true }
+                      ? { scope: "all" as const, match: val.addUnitsSrcToPaths, index: true, deepDeps: false }
                       : val.addUnitsSrcToPaths,
             }),
         ...(val.addUnitsDistToPaths === undefined
@@ -492,9 +502,9 @@ export class Mono0Tsconfig {
                 val.addUnitsDistToPaths === false
                   ? (false as const)
                   : val.addUnitsDistToPaths === true
-                    ? { scope: "all" as const, match: undefined, index: true }
+                    ? { scope: "all" as const, match: undefined, index: true, deepDeps: false }
                     : typeof val.addUnitsDistToPaths === "string"
-                      ? { scope: "all" as const, match: val.addUnitsDistToPaths, index: true }
+                      ? { scope: "all" as const, match: val.addUnitsDistToPaths, index: true, deepDeps: false }
                       : val.addUnitsDistToPaths,
             }),
         ...(val.addUnitsAsReferences === undefined
@@ -504,16 +514,16 @@ export class Mono0Tsconfig {
                 val.addUnitsAsReferences === false
                   ? (false as const)
                   : val.addUnitsAsReferences === true
-                    ? { scope: "all" as const, match: undefined }
+                    ? { scope: "all" as const, match: undefined, deepDeps: false, tsconfig: "$core" }
                     : typeof val.addUnitsAsReferences === "string"
-                      ? { scope: "all" as const, match: val.addUnitsAsReferences }
+                      ? { scope: "all" as const, match: val.addUnitsAsReferences, deepDeps: false, tsconfig: "$core" }
                       : val.addUnitsAsReferences,
             }),
       }
     })
 
   static zFullDefinition = z.object({
-    path: z.string().optional().default("tsconfig.json"),
+    path: z.string().optional(),
     settings: Mono0Tsconfig.zDefinitionSettings,
     value: Mono0Tsconfig.zValueDefinition.optional().default({}),
   })
@@ -522,11 +532,11 @@ export class Mono0Tsconfig {
     (val) =>
       ("path" in val || "value" in val
         ? {
-            path: val.path || "tsconfig.json",
+            path: val.path,
             value: val.value,
             settings: Mono0Tsconfig.zDefinitionSettings.parse(val.settings) || {},
           }
-        : { path: "tsconfig.json", value: val, settings: {} }) as Mono0Tsconfig.FullDefinitionParsed,
+        : { path: undefined, value: val, settings: {} }) as Mono0Tsconfig.FullDefinitionParsed,
   )
 
   static definitionDefault = {
@@ -554,6 +564,10 @@ export class Mono0Tsconfig {
       value: await this.parseValue({ units }),
     }
   }
+
+  static getMetaAll({ units, tsconfigs }: { units: Mono0Unit[]; tsconfigs: Mono0Tsconfig[] }) {
+    return Promise.all(tsconfigs.map((tsconfig) => tsconfig.getMeta({ units })))
+  }
 }
 
 export namespace Mono0Tsconfig {
@@ -570,4 +584,6 @@ export namespace Mono0Tsconfig {
   export type FullDefinitionParsed = z.output<typeof Mono0Tsconfig.zFullDefinition>
   export type Definition = ValueDefinition | Partial<FullDefinition>
   export type DefinitionParsed = z.output<typeof Mono0Tsconfig.zDefinition>
+  export type RecordOfDefinitions = Record<string, Definition>
+  export type RecordOfDefinitionsParsed = Record<string, FullDefinitionParsed>
 }

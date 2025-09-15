@@ -6,6 +6,7 @@ import type { Mono0Config } from "./config"
 import { Mono0Logger } from "./logger"
 import { Mono0PackageJson } from "./packageJson"
 import { Mono0Tsconfig } from "./tsconfig"
+import { omit } from "./utils"
 
 export class Mono0Unit {
   unitConfigFile0: File0
@@ -17,7 +18,8 @@ export class Mono0Unit {
   generalTsconfigs: Mono0Tsconfig[]
   name: string
   tags: string[]
-  tsconfig: Mono0Tsconfig
+  // tsconfig: Mono0Tsconfig
+  tsconfigs: Mono0Tsconfig[]
   packageJson: Mono0PackageJson
   presets: string[]
   depsDefs: Mono0Unit.DefinitionParsed["deps"]
@@ -39,7 +41,8 @@ export class Mono0Unit {
     generalTsconfigs: Mono0Tsconfig[]
     name: string
     tags: string[]
-    tsconfig: Mono0Tsconfig
+    // tsconfig: Mono0Tsconfig
+    tsconfigs: Mono0Tsconfig[]
     packageJson: Mono0PackageJson
     presets: string[]
     deps: Mono0Unit.Dependency[]
@@ -57,7 +60,8 @@ export class Mono0Unit {
     this.generalTsconfigs = input.generalTsconfigs
     this.name = input.name
     this.tags = input.tags
-    this.tsconfig = input.tsconfig
+    // this.tsconfig = input.tsconfig
+    this.tsconfigs = input.tsconfigs
     this.packageJson = input.packageJson
     this.presets = input.presets
     this.deps = input.deps
@@ -97,25 +101,29 @@ export class Mono0Unit {
     const srcFs0 = (await unitConfigFile0.fs0.isExists("src"))
       ? unitConfigFile0.fs0.createFs0({ cwd: "src" })
       : unitConfigFile0.fs0
-    const tsconfig = Mono0Tsconfig.create({
-      definition: definition.tsconfig,
-      config,
-      generalTsconfigs,
-      // TODO:ASAP use record key
-      name: "core",
-      fs0: unitConfigFile0.fs0,
-      unit: undefined,
-    })
+    const tsconfigs: Mono0Tsconfig[] = Object.entries(definition.tsconfigs).map(([name, tsconfigDefinition]) =>
+      Mono0Tsconfig.create({
+        name,
+        definition: tsconfigDefinition,
+        config,
+        generalTsconfigs,
+        fs0: unitConfigFile0.fs0,
+        unit: undefined,
+      }),
+    )
     const packageJson = Mono0PackageJson.create({
       name: definition.name,
       definition: definition.packageJson,
       config,
       fs0: unitConfigFile0.fs0,
     })
+    const packageJsonName = config.packageJson.value.name ?? "unknown"
+    const name = definition.name ?? `@${packageJsonName}/${unitConfigFile0.path.dirname}`
     const unit = new Mono0Unit({
-      name: definition.name,
+      name,
       tags: definition.tags,
-      tsconfig,
+      // tsconfig,
+      tsconfigs,
       packageJson,
       presets: definition.preset,
       unitConfigFile0,
@@ -133,16 +141,18 @@ export class Mono0Unit {
       filesPaths: [],
       dirsPaths: [],
     })
-    unit.tsconfig.unit = unit
+    for (const tsconfig of unit.tsconfigs) {
+      tsconfig.unit = unit
+    }
     unit.packageJson.unit = unit
-    const tsconfigValue = await unit.tsconfig.parseValue({ units: [] })
+    const tsconfigValue = await unit.tsconfigs[0].parseValue({ units: [] })
     const outDir = tsconfigValue.compilerOptions?.outDir || "./dist"
-    const distFs0 = unit.tsconfig.file0.fs0.createFs0({ cwd: outDir })
+    const distFs0 = unit.tsconfigs[0].file0.fs0.createFs0({ cwd: outDir })
     unit.distFs0 = distFs0
     const includeGlob = tsconfigValue.include ?? []
     const exclude = tsconfigValue.exclude ?? []
     const excludeGlob = exclude.map((e) => `!${e}`)
-    const filesPaths = await unit.tsconfig.file0.fs0.glob([...includeGlob, ...excludeGlob])
+    const filesPaths = await unit.tsconfigs[0].file0.fs0.glob([...includeGlob, ...excludeGlob])
     unit.filesPaths = filesPaths.sort()
     const dirsPaths = [...new Set(filesPaths.map((filePath) => nodePath.dirname(filePath)))]
     unit.dirsPaths = dirsPaths.sort()
@@ -187,11 +197,12 @@ export class Mono0Unit {
         tags: [...(presetValue.tags ?? []), ...result.tags],
         deps: [...(presetValue.deps ?? []), ...result.deps],
         settings: Mono0Unit.mergeSettings(presetValue.settings, result.settings),
-        tsconfig: {
-          path: result.tsconfig.path ?? presetValue.tsconfig.path,
-          settings: Mono0Tsconfig.mergeSettings(presetValue.tsconfig.settings, result.tsconfig.settings),
-          value: Mono0Tsconfig.mergeValue(presetValue.tsconfig.value, result.tsconfig.value),
-        },
+        // tsconfig: {
+        //   path: result.tsconfig.path ?? presetValue.tsconfig.path,
+        //   settings: Mono0Tsconfig.mergeSettings(presetValue.tsconfig.settings, result.tsconfig.settings),
+        //   value: Mono0Tsconfig.mergeValue(presetValue.tsconfig.value, result.tsconfig.value),
+        // },
+        tsconfigs: Mono0Tsconfig.mergeRecordsOfDefinitions(presetValue.tsconfigs, result.tsconfigs),
         packageJson: {
           path: result.packageJson.path ?? presetValue.packageJson.path,
           settings: Mono0PackageJson.mergeSettings(presetValue.packageJson.settings, result.packageJson.settings),
@@ -258,8 +269,8 @@ export class Mono0Unit {
     }
   }
 
-  async writeTsconfig({ units }: { units: Mono0Unit[] }) {
-    await this.tsconfig.write({ units })
+  async writeTsconfigs({ units }: { units: Mono0Unit[] }) {
+    await Promise.all(this.tsconfigs.map((tsconfig) => tsconfig.write({ units })))
   }
 
   async writePackageJson({ units }: { units: Mono0Unit[] }) {
@@ -418,35 +429,57 @@ export class Mono0Unit {
 
   static zDefinitionSettings = z.object({})
 
-  static zDefinition = z.object({
-    name: z.string(),
-    tags: z.array(z.string()).optional().default([]),
-    tsconfig: Mono0Tsconfig.zDefinition.optional().default(Mono0Tsconfig.definitionDefault),
-    packageJson: Mono0PackageJson.zDefinition.optional().default(Mono0PackageJson.definitionDefault),
-    preset: z
-      .union([z.string(), z.array(z.string())])
-      .optional()
-      .default([])
-      .transform((val) => (Array.isArray(val) ? val : [val])),
-    settings: Mono0Unit.zDefinitionSettings.optional().default({}),
-    deps: z
-      .array(
-        z.union([
-          z.string(),
-          z.object({
-            match: z.string().transform(Mono0Unit.parseMatchString),
-            relation: z.enum(["reference", "include", "none"]).optional().default("reference"),
-          }),
-        ]),
-      )
-      .optional()
-      .default([])
-      .transform((val) =>
-        val.map((v) =>
-          typeof v === "string" ? { match: Mono0Unit.parseMatchString(v), relation: "reference" as const } : v,
-        ),
+  static zDefinitionDeps = z
+    .array(
+      z.union([
+        z.string(),
+        z.object({
+          match: z.string().transform(Mono0Unit.parseMatchString),
+          relation: z.enum(["reference", "include", "none"]).optional().default("reference"),
+        }),
+      ]),
+    )
+    .optional()
+    .default([])
+    .transform((val) =>
+      val.map((v) =>
+        typeof v === "string" ? { match: Mono0Unit.parseMatchString(v), relation: "reference" as const } : v,
       ),
-  })
+    )
+
+  static zDefinition = z
+    .object({
+      name: z.string().optional(),
+      tags: z.array(z.string()).optional().default([]),
+      tsconfig: Mono0Tsconfig.zDefinition.optional(),
+      tsconfigs: z.record(z.string(), Mono0Tsconfig.zDefinition).optional(),
+      packageJson: Mono0PackageJson.zDefinition.optional().default(Mono0PackageJson.definitionDefault),
+      preset: z
+        .union([z.string(), z.array(z.string())])
+        .optional()
+        .default([])
+        .transform((val) => (Array.isArray(val) ? val : [val])),
+      settings: Mono0Unit.zDefinitionSettings.optional().default({}),
+      deps: Mono0Unit.zDefinitionDeps,
+    })
+    .transform((val) => {
+      const tsconfigs: Record<string, Mono0Tsconfig.FullDefinitionParsed> = {}
+      if (val.tsconfig) {
+        tsconfigs.core = Mono0Tsconfig.zDefinition.parse(val.tsconfig)
+      }
+      if (val.tsconfigs) {
+        Object.assign(
+          tsconfigs,
+          Object.fromEntries(
+            Object.entries(val.tsconfigs).map(([name, v]) => [name, Mono0Tsconfig.zDefinition.parse(v)]),
+          ),
+        )
+      }
+      return {
+        ...omit(val, ["tsconfig", "tsconfigs"]),
+        tsconfigs,
+      }
+    })
 
   static getFilePathRelativeToPackageName({ absFilePath, units }: { absFilePath: string; units: Mono0Unit[] }) {
     for (const unit of units) {
@@ -472,7 +505,7 @@ export class Mono0Unit {
       path: this.config.rootFs0.toRel(this.fs0.cwd),
       presets: this.presets,
       settings: this.settings,
-      tsconfig: await this.tsconfig.getMeta({ units }),
+      tsconfigs: await Mono0Tsconfig.getMetaAll({ units, tsconfigs: this.tsconfigs }),
       packageJson: await this.packageJson.getMeta({ units }),
       deps: this.deps.map((d) => d.unit.name),
       filesPaths: this.filesPaths,
@@ -508,7 +541,7 @@ export namespace Mono0Unit {
     tsconfig?: Mono0Tsconfig.Definition
   }
   export type DefinitionParsed = z.output<typeof Mono0Unit.zDefinition>
-  export type DependencyDefinitionParsed = z.output<typeof Mono0Unit.zDefinition.shape.deps>[number]
+  export type DependencyDefinitionParsed = z.output<typeof Mono0Unit.zDefinitionDeps>[number]
 
   export type Settings = Record<never, never> // Partial<z.input<typeof Mono0Unit.zDefinitionSettings>>
   export type DefinitionSettings = Record<never, never> // z.output<typeof Mono0Unit.zDefinitionSettings>

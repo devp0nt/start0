@@ -109,7 +109,7 @@ export class Mono0 {
     }
     let packageJsonsDepsChanged = false
     for (const unit of this.units) {
-      await unit.writeTsconfig({ units: this.units })
+      await unit.writeTsconfigs({ units: this.units })
       const { depsChanged } = await unit.writePackageJson({ units: this.units })
       packageJsonsDepsChanged = packageJsonsDepsChanged || depsChanged
     }
