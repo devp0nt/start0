@@ -6,7 +6,7 @@ import uniqBy from "lodash-es/uniqBy.js"
 import type { TsConfigJson as TsConfigJsonTypeFest } from "type-fest"
 import z from "zod"
 import type { Mono0Config } from "./config"
-import type { Mono0Unit } from "./unit"
+import { Mono0Unit } from "./unit"
 import { fixSlahes, omit, replacePlaceholdersAndPathsDeep } from "./utils"
 
 export class Mono0Tsconfig {
@@ -185,9 +185,16 @@ export class Mono0Tsconfig {
         : addUnitsAsReferences.tsconfig
       const { Mono0Unit: Mono0UnitClass } = await import("./unit")
       const unitsFiltered = Mono0UnitClass.filterUnits({ units: unitsScoped, match })
+      const unitsDeps = !addUnitsAsReferences.deepDeps
+        ? []
+        : Mono0Unit.filterUnits({
+            units: unitsFiltered.flatMap((d) => d.deps.map((dep) => dep.unit)),
+            match: addUnitsAsReferences.deepDeps === true ? undefined : addUnitsAsReferences.deepDeps,
+          })
+      const unitsCombined = [...unitsFiltered, ...unitsDeps]
       result.references = [
         ...(result.references || []),
-        ...unitsFiltered.map((u) => {
+        ...unitsCombined.map((u) => {
           const tsconfig = u.tsconfigs.find((t) => t.name === tsconfigName)
           if (!tsconfig) {
             throw new Error(`Tsconfig "${tsconfigName}" not found in "${u.name}"`)
@@ -206,19 +213,23 @@ export class Mono0Tsconfig {
       const match = addUnitsSrcToPaths.match
       const { Mono0Unit: Mono0UnitClass } = await import("./unit")
       const unitsFiltered = Mono0UnitClass.filterUnits({ units: unitsScoped, match })
-      const unitsDeep = addUnitsSrcToPaths.deepDeps
-        ? [...unitsFiltered, ...unitsFiltered.flatMap((d) => d.deps.map((dep) => dep.unit))]
-        : unitsFiltered
+      const unitsDeps = !addUnitsSrcToPaths.deepDeps
+        ? []
+        : Mono0Unit.filterUnits({
+            units: unitsFiltered.flatMap((d) => d.deps.map((dep) => dep.unit)),
+            match: addUnitsSrcToPaths.deepDeps === true ? undefined : addUnitsSrcToPaths.deepDeps,
+          })
+      const unitsCombined = [...unitsFiltered, ...unitsDeps]
       result.compilerOptions = {
         ...(result.compilerOptions || {}),
         paths: {
           ...(result.compilerOptions?.paths || {}),
           ...Object.fromEntries(
-            unitsDeep.flatMap((d) => [
-              [`${d.name}/*`, [`${fs0.toRel(d.srcFs0.cwd)}/*`]],
+            unitsCombined.flatMap((d) => [
               ...(addUnitsSrcToPaths.index && d.indexFile0
                 ? [[`${d.name}`, [`${fs0.toRel(d.indexFile0.path.abs)}`]]]
                 : []),
+              [`${d.name}/*`, [`${fs0.toRel(d.srcFs0.cwd)}/*`]],
             ]),
           ),
         },
@@ -232,19 +243,23 @@ export class Mono0Tsconfig {
       const match = addUnitsDistToPaths.match
       const { Mono0Unit: Mono0UnitClass } = await import("./unit")
       const unitsFiltered = Mono0UnitClass.filterUnits({ units: unitsScoped, match })
-      const unitsDeep = addUnitsDistToPaths.deepDeps
-        ? [...unitsFiltered, ...unitsFiltered.flatMap((d) => d.deps.map((dep) => dep.unit))]
-        : unitsFiltered
+      const unitsDeps = !addUnitsDistToPaths.deepDeps
+        ? []
+        : Mono0Unit.filterUnits({
+            units: unitsFiltered.flatMap((d) => d.deps.map((dep) => dep.unit)),
+            match: addUnitsDistToPaths.deepDeps === true ? undefined : addUnitsDistToPaths.deepDeps,
+          })
+      const unitsCombined = [...unitsFiltered, ...unitsDeps]
       result.compilerOptions = {
         ...(result.compilerOptions || {}),
         paths: {
           ...(result.compilerOptions?.paths || {}),
           ...Object.fromEntries(
-            unitsDeep.flatMap((d) => [
-              [`${d.name}/*`, [`${fs0.toRel(d.distFs0.cwd)}/*`]],
+            unitsCombined.flatMap((d) => [
               ...(addUnitsDistToPaths.index && d.indexFile0
                 ? [[`${d.name}`, [fs0.replaceExt(`${fs0.toRel(d.indexFile0.path.abs)}`, "js")]]]
                 : []),
+              [`${d.name}/*`, [`${fs0.toRel(d.distFs0.cwd)}/*`]],
             ]),
           ),
         },
@@ -429,7 +444,7 @@ export class Mono0Tsconfig {
               .default("all" as const),
             match: z.string().optional(),
             index: z.boolean().optional().default(true),
-            deepDeps: z.boolean().optional().default(false),
+            deepDeps: z.union([z.boolean(), z.string()]).optional().default(false),
           }),
         ])
         .optional(),
@@ -444,7 +459,7 @@ export class Mono0Tsconfig {
               .default("all" as const),
             match: z.string().optional(),
             index: z.boolean().optional().default(true),
-            deepDeps: z.boolean().optional().default(false),
+            deepDeps: z.union([z.boolean(), z.string()]).optional().default(false),
           }),
         ])
         .optional(),
@@ -460,7 +475,7 @@ export class Mono0Tsconfig {
               .default("all" as const),
             match: z.string().optional(),
             tsconfig: z.string().optional().default("$core"),
-            deepDeps: z.boolean().optional().default(false),
+            deepDeps: z.union([z.boolean(), z.string()]).optional().default(false),
           }),
         ])
         .optional(),

@@ -169,6 +169,9 @@
         }
       }
     },
+    "cold": {
+      "tags": ["cold"]
+    },
     "shared": {
       "tsconfig": {
         "extends": "$shared"

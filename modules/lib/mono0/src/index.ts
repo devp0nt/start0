@@ -20,6 +20,9 @@ import watcherGen0 from "./watcher-gen0"
 // TODO: ? https://www.npmjs.com/package/tsc-watch
 // TODO: ? tsc-esm-fix to watcher
 
+// TODO: опицональный packageJson
+// TODO: ? опицональный tsconfig
+
 // TODO: other модуль для ленивых
 // TODO: валдатор циклических зависимостей
 // TODO: валдатор одинаковых имён юнитов
