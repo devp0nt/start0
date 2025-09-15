@@ -17,7 +17,7 @@ site *ARGS:
 
 tools *ARGS:
   just mono0 exec @tools/shared bun run {{ARGS}}
-
+  
 # mega dev command
 
 dev:
