@@ -4,7 +4,7 @@
   "exclude": ["**/dist/**/*", "**/node_modules/**/*", "**/public/**/*"],
   "compilerOptions": {
     "composite": true,
-    "tsBuildInfoFile": "~/node_modules/.cache/tsbuildinfo/@prisma0/backend/.tsbuildinfo",
+    "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@prisma0/backend/.tsbuildinfo",
     "paths": {
       "@prisma0/backend/*": ["./src/*"],
       "@devp0nt/env0/*": ["../../lib/env0/src/*"],

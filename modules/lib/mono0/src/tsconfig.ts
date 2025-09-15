@@ -7,7 +7,7 @@ import type { TsConfigJson as TsConfigJsonTypeFest } from "type-fest"
 import z from "zod"
 import type { Mono0Config } from "./config"
 import type { Mono0Unit } from "./unit"
-import { fixSlahes, omit, replacePlaceholdersDeep } from "./utils"
+import { fixSlahes, omit, replacePlaceholdersAndPathsDeep } from "./utils"
 
 export class Mono0Tsconfig {
   fs0: Fs0
@@ -251,11 +251,15 @@ export class Mono0Tsconfig {
       }
     }
 
-    replacePlaceholdersDeep(result, {
-      name: unit?.name || "unknown",
-      srcDir: fs0.toRel(unit?.srcFs0.cwd || ""),
-      distDir: fs0.toRel(unit?.distFs0.cwd || ""),
-    })
+    replacePlaceholdersAndPathsDeep(
+      result,
+      {
+        name: unit?.name || "unknown",
+        srcDir: fs0.toRel(unit?.srcFs0.cwd || ""),
+        distDir: fs0.toRel(unit?.distFs0.cwd || ""),
+      },
+      file0.fs0,
+    )
 
     const valueChanged = !isEqual(currentValue, result)
 

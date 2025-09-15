@@ -4,7 +4,7 @@
   "exclude": ["**/dist/**/*", "**/node_modules/**/*", "**/public/**/*"],
   "compilerOptions": {
     "composite": true,
-    "tsBuildInfoFile": "~/node_modules/.cache/tsbuildinfo/@backend/hono-router/.tsbuildinfo",
+    "tsBuildInfoFile": "../../../../node_modules/.cache/tsbuildinfo/@backend/hono-router/.tsbuildinfo",
     "paths": {
       "@backend/hono-router/*": ["./src/*"],
       "@backend/core/*": ["../../core/src/*"]

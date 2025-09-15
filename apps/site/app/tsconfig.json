@@ -4,7 +4,7 @@
   "exclude": ["**/dist/**/*", "**/node_modules/**/*", "**/public/**/*"],
   "compilerOptions": {
     "composite": true,
-    "tsBuildInfoFile": "~/node_modules/.cache/tsbuildinfo/@site/app/.tsbuildinfo",
+    "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@site/app/.tsbuildinfo",
     "paths": {
       "@site/app/*": ["./src/*"],
       "@devp0nt/env0/*": ["../../../modules/lib/env0/src/*"],

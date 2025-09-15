@@ -4,7 +4,7 @@
   "exclude": ["**/dist/**/*", "**/node_modules/**/*", "**/public/**/*"],
   "compilerOptions": {
     "composite": true,
-    "tsBuildInfoFile": "~/node_modules/.cache/tsbuildinfo/@backend/trpc-router/.tsbuildinfo",
+    "tsBuildInfoFile": "../../../../node_modules/.cache/tsbuildinfo/@backend/trpc-router/.tsbuildinfo",
     "paths": {
       "@backend/trpc-router/*": ["./src/*"],
       "@backend/core/*": ["../../core/src/*"]

@@ -1,4 +1,5 @@
 import { deepMap } from "@devp0nt/deepmap0"
+import type { Fs0 } from "@devp0nt/fs0"
 import lodashOmit from "lodash-es/omit.js"
 
 export const omit = <TObject extends Record<string, unknown>, TKeys extends keyof TObject>(
@@ -8,13 +9,18 @@ export const omit = <TObject extends Record<string, unknown>, TKeys extends keyo
   return lodashOmit(obj, keys)
 }
 
-export const replacePlaceholdersDeep = <TObject extends Record<string, unknown>>(
+export const replacePlaceholdersAndPathsDeep = <TObject extends Record<string, unknown>>(
   obj: TObject,
   placeholders: Record<string, string>,
+  fs0: Fs0,
 ): TObject => {
   const result = deepMap(obj, ({ value }) => {
     if (typeof value === "string") {
-      return value.replace(/{{(\w+)}}/g, (match, p1) => placeholders[p1] || match)
+      let fixed = value.replace(/{{(\w+)}}/g, (match, p1) => placeholders[p1] || match)
+      if (fixed.startsWith("~/")) {
+        fixed = fs0.toRel(fixed)
+      }
+      return fixed
     }
     return value
   })
