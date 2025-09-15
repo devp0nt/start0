@@ -366,19 +366,50 @@ export class Fs0 {
     }
   }
 
+  static sortJson = <T>(content: T, sort: true | string[] | ((content: T) => string[]) = true): T => {
+    if (!content || typeof content !== "object") return content
+
+    // figure out keys order
+    let keys: string[]
+    if (sort === true) {
+      keys = Object.keys(content).sort()
+    } else if (Array.isArray(sort)) {
+      keys = uniq([...sort.map((k) => k.split(".")[0]), ...Object.keys(content)])
+    } else {
+      keys = sort(content)
+    }
+
+    const result: Record<string, any> = {}
+
+    for (const key of keys) {
+      if (!(key in content)) continue
+
+      const value = (content as Record<string, unknown>)[key]
+
+      if (Array.isArray(sort)) {
+        // find dotted keys for this property
+        const dottedKeys = sort.filter((k) => k.startsWith(key + ".")).map((k) => k.slice(key.length + 1)) // cut off prefix "key."
+
+        if (dottedKeys.length > 0 && typeof value === "object" && value !== null) {
+          // recurse inside
+          result[key] = Fs0.sortJson(value, dottedKeys)
+          continue
+        }
+      }
+
+      result[key] = value
+    }
+
+    return result as T
+  }
+
   writeJsonSync<T>(
     path: string,
     content: T,
     sort: boolean | string[] | ((content: T) => string[]) = false,
     format: boolean = false,
   ) {
-    const sortedContent = !sort
-      ? content
-      : sort === true
-        ? CommentJson.assign({}, content, Object.keys(content as {}).sort())
-        : Array.isArray(sort)
-          ? CommentJson.assign({}, content, uniq([...sort, ...Object.keys(content as {})]))
-          : CommentJson.assign({}, content, sort(content))
+    const sortedContent = !sort ? content : Fs0.sortJson(content, sort)
     this.writeFileSync(path, CommentJson.stringify(sortedContent, null, 2), format)
   }
   async writeJson<T>(
@@ -387,13 +418,7 @@ export class Fs0 {
     sort: boolean | string[] | ((content: T) => string[]) = false,
     format: boolean = false,
   ) {
-    const sortedContent = !sort
-      ? content
-      : sort === true
-        ? CommentJson.assign({}, content, Object.keys(content as {}).sort())
-        : Array.isArray(sort)
-          ? CommentJson.assign({}, content, uniq([...sort, ...Object.keys(content as {})]))
-          : CommentJson.assign({}, content, sort(content))
+    const sortedContent = !sort ? content : Fs0.sortJson(content, sort)
     await this.writeFile(path, CommentJson.stringify(sortedContent, null, 2), format)
   }
 
