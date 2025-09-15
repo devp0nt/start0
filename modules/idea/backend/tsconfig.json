@@ -9,8 +9,8 @@
       "@idea/backend/*": ["./src/*"],
       "@backend/core/*": ["../../../apps/backend/core/src/*"],
       "@idea/shared/*": ["../shared/src/*"],
-      "@prisma0/backend/*": ["../../prisma0/backend/src/*"],
-      "@prisma0/backend": ["../../prisma0/backend/src/index.ts"]
+      "@prisma0/backend": ["../../prisma0/backend/src/index.ts"],
+      "@prisma0/backend/*": ["../../prisma0/backend/src/*"]
     },
     "rootDir": "./src",
     "declaration": true,
@@ -29,6 +29,33 @@
     },
     {
       "path": "../../prisma0/backend/tsconfig.json"
+    },
+    {
+      "path": "../../lib/env0/tsconfig.json"
+    },
+    {
+      "path": "../../lib/error0/tsconfig.json"
+    },
+    {
+      "path": "../../lib/lodash0/tsconfig.json"
+    },
+    {
+      "path": "../../lib/logger0/tsconfig.json"
+    },
+    {
+      "path": "../../lib/meta0/tsconfig.json"
+    },
+    {
+      "path": "../../prisma0/backend/tsconfig.json"
+    },
+    {
+      "path": "../../lib/route0/tsconfig.json"
+    },
+    {
+      "path": "../../lib/env0/tsconfig.json"
+    },
+    {
+      "path": "../shared/tsconfig.json"
     }
   ]
 }

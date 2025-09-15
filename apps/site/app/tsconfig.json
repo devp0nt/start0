@@ -7,10 +7,10 @@
     "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@site/app/.tsbuildinfo",
     "paths": {
       "@site/app/*": ["./src/*"],
-      "@devp0nt/env0/*": ["../../../modules/lib/env0/src/*"],
       "@devp0nt/env0": ["../../../modules/lib/env0/src/index.ts"],
-      "@devp0nt/gen0/*": ["../../../modules/lib/gen0/src/*"],
+      "@devp0nt/env0/*": ["../../../modules/lib/env0/src/*"],
       "@devp0nt/gen0": ["../../../modules/lib/gen0/src/index.ts"],
+      "@devp0nt/gen0/*": ["../../../modules/lib/gen0/src/*"],
       "@idea/site/*": ["../../../modules/idea/site/src/*"],
       "@site/core/*": ["../core/src/*"]
     },
@@ -35,6 +35,33 @@
     },
     {
       "path": "../core/tsconfig.json"
+    },
+    {
+      "path": "../../../modules/lib/error0/tsconfig.json"
+    },
+    {
+      "path": "../../../modules/lib/fs0/tsconfig.json"
+    },
+    {
+      "path": "../../../modules/lib/lodash0/tsconfig.json"
+    },
+    {
+      "path": "../../../modules/lib/meta0/tsconfig.json"
+    },
+    {
+      "path": "../../../modules/lib/route0/tsconfig.json"
+    },
+    {
+      "path": "../../../modules/idea/shared/tsconfig.json"
+    },
+    {
+      "path": "../core/tsconfig.json"
+    },
+    {
+      "path": "../../backend/router/trpc/tsconfig.json"
+    },
+    {
+      "path": "../../../modules/lib/route0/tsconfig.json"
     }
   ]
 }

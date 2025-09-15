@@ -7,10 +7,10 @@
     "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@devp0nt/logger0/.tsbuildinfo",
     "paths": {
       "@devp0nt/logger0/*": ["./src/*"],
-      "@devp0nt/error0/*": ["../error0/src/*"],
       "@devp0nt/error0": ["../error0/src/index.ts"],
-      "@devp0nt/meta0/*": ["../meta0/src/*"],
-      "@devp0nt/meta0": ["../meta0/src/index.ts"]
+      "@devp0nt/error0/*": ["../error0/src/*"],
+      "@devp0nt/meta0": ["../meta0/src/index.ts"],
+      "@devp0nt/meta0/*": ["../meta0/src/*"]
     },
     "rootDir": "./src",
     "declaration": true,
@@ -26,6 +26,12 @@
     },
     {
       "path": "../meta0/tsconfig.json"
+    },
+    {
+      "path": "../meta0/tsconfig.json"
+    },
+    {
+      "path": "../deepmap0/tsconfig.json"
     }
   ]
 }

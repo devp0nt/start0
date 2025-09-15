@@ -18,7 +18,7 @@ export default (async ({}) => {
     init: handler,
     watchers: {
       main: {
-        watch: ["~/**/mono0.json", "~/**/src", "~/.mono0rc.json", "~/.mono0/config.json"],
+        watch: ["~/**/mono0.json{,c}", "~/**/src", "~/.mono0rc.json{,c}", "~/.mono0/config.json{,c}"],
         handler: async () => {
           await mono0.refresh()
           await handler()

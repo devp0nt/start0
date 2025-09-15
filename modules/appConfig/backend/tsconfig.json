@@ -20,6 +20,24 @@
   "references": [
     {
       "path": "../../../apps/backend/core/tsconfig.json"
+    },
+    {
+      "path": "../../lib/env0/tsconfig.json"
+    },
+    {
+      "path": "../../lib/error0/tsconfig.json"
+    },
+    {
+      "path": "../../lib/lodash0/tsconfig.json"
+    },
+    {
+      "path": "../../lib/logger0/tsconfig.json"
+    },
+    {
+      "path": "../../lib/meta0/tsconfig.json"
+    },
+    {
+      "path": "../../prisma0/backend/tsconfig.json"
     }
   ]
 }

@@ -7,8 +7,8 @@
     "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@devp0nt/env0/.tsbuildinfo",
     "paths": {
       "@devp0nt/env0/*": ["./src/*"],
-      "@devp0nt/error0/*": ["../error0/src/*"],
-      "@devp0nt/error0": ["../error0/src/index.ts"]
+      "@devp0nt/error0": ["../error0/src/index.ts"],
+      "@devp0nt/error0/*": ["../error0/src/*"]
     },
     "rootDir": "./src",
     "declaration": true,
@@ -21,6 +21,9 @@
   "references": [
     {
       "path": "../error0/tsconfig.json"
+    },
+    {
+      "path": "../meta0/tsconfig.json"
     }
   ]
 }

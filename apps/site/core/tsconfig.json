@@ -7,10 +7,10 @@
     "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@site/core/.tsbuildinfo",
     "paths": {
       "@site/core/*": ["./src/*"],
-      "@backend/trpc-router/*": ["../../backend/router/trpc/src/*"],
       "@backend/trpc-router": ["../../backend/router/trpc/src/index.ts"],
-      "@devp0nt/route0/*": ["../../../modules/lib/route0/src/*"],
-      "@devp0nt/route0": ["../../../modules/lib/route0/src/index.ts"]
+      "@backend/trpc-router/*": ["../../backend/router/trpc/src/*"],
+      "@devp0nt/route0": ["../../../modules/lib/route0/src/index.ts"],
+      "@devp0nt/route0/*": ["../../../modules/lib/route0/src/*"]
     },
     "rootDir": "./src",
     "declaration": true,
@@ -26,6 +26,9 @@
     },
     {
       "path": "../../../modules/lib/route0/tsconfig.json"
+    },
+    {
+      "path": "../../backend/core/tsconfig.json"
     }
   ]
 }

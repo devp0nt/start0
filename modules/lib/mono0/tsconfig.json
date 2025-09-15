@@ -7,10 +7,10 @@
     "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@devp0nt/mono0/.tsbuildinfo",
     "paths": {
       "@devp0nt/mono0/*": ["./src/*"],
-      "@devp0nt/fs0/*": ["../fs0/src/*"],
       "@devp0nt/fs0": ["../fs0/src/index.ts"],
-      "@devp0nt/gen0/*": ["../gen0/src/*"],
-      "@devp0nt/gen0": ["../gen0/src/index.ts"]
+      "@devp0nt/fs0/*": ["../fs0/src/*"],
+      "@devp0nt/gen0": ["../gen0/src/index.ts"],
+      "@devp0nt/gen0/*": ["../gen0/src/*"]
     },
     "rootDir": "./src",
     "declaration": true,
@@ -26,6 +26,18 @@
     },
     {
       "path": "../gen0/tsconfig.json"
+    },
+    {
+      "path": "../deepmap0/tsconfig.json"
+    },
+    {
+      "path": "../fs0/tsconfig.json"
+    },
+    {
+      "path": "../lodash0/tsconfig.json"
+    },
+    {
+      "path": "../meta0/tsconfig.json"
     }
   ]
 }
