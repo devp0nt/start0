@@ -7,7 +7,19 @@
     "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@appConfig/backend/.tsbuildinfo",
     "paths": {
       "@appConfig/backend/*": ["./src/*"],
-      "@backend/core/*": ["../../../apps/backend/core/src/*"]
+      "@backend/core/*": ["../../../apps/backend/core/src/*"],
+      "@devp0nt/env0": ["../../lib/env0/src/index.ts"],
+      "@devp0nt/env0/*": ["../../lib/env0/src/*"],
+      "@devp0nt/error0": ["../../lib/error0/src/index.ts"],
+      "@devp0nt/error0/*": ["../../lib/error0/src/*"],
+      "@devp0nt/lodash0": ["../../lib/lodash0/src/index.ts"],
+      "@devp0nt/lodash0/*": ["../../lib/lodash0/src/*"],
+      "@devp0nt/logger0": ["../../lib/logger0/src/index.ts"],
+      "@devp0nt/logger0/*": ["../../lib/logger0/src/*"],
+      "@devp0nt/meta0": ["../../lib/meta0/src/index.ts"],
+      "@devp0nt/meta0/*": ["../../lib/meta0/src/*"],
+      "@prisma0/backend": ["../../prisma0/backend/src/index.ts"],
+      "@prisma0/backend/*": ["../../prisma0/backend/src/*"]
     },
     "rootDir": "./src",
     "declaration": true,

@@ -12,7 +12,9 @@
       "@devp0nt/lodash0": ["../lodash0/src/index.ts"],
       "@devp0nt/lodash0/*": ["../lodash0/src/*"],
       "@devp0nt/meta0": ["../meta0/src/index.ts"],
-      "@devp0nt/meta0/*": ["../meta0/src/*"]
+      "@devp0nt/meta0/*": ["../meta0/src/*"],
+      "@devp0nt/deepmap0": ["../deepmap0/src/index.ts"],
+      "@devp0nt/deepmap0/*": ["../deepmap0/src/*"]
     },
     "rootDir": "./src",
     "declaration": true,

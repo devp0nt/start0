@@ -8,7 +8,9 @@
     "paths": {
       "@devp0nt/env0/*": ["./src/*"],
       "@devp0nt/error0": ["../error0/src/index.ts"],
-      "@devp0nt/error0/*": ["../error0/src/*"]
+      "@devp0nt/error0/*": ["../error0/src/*"],
+      "@devp0nt/meta0": ["../meta0/src/index.ts"],
+      "@devp0nt/meta0/*": ["../meta0/src/*"]
     },
     "rootDir": "./src",
     "declaration": true,

@@ -10,7 +10,8 @@
       "@backend/trpc-router": ["../../backend/router/trpc/src/index.ts"],
       "@backend/trpc-router/*": ["../../backend/router/trpc/src/*"],
       "@devp0nt/route0": ["../../../modules/lib/route0/src/index.ts"],
-      "@devp0nt/route0/*": ["../../../modules/lib/route0/src/*"]
+      "@devp0nt/route0/*": ["../../../modules/lib/route0/src/*"],
+      "@backend/core/*": ["../../backend/core/src/*"]
     },
     "rootDir": "./src",
     "declaration": true,

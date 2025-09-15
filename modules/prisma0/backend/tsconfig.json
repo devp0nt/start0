@@ -9,7 +9,11 @@
       "@prisma0/backend/*": ["./src/*"],
       "@devp0nt/env0": ["../../lib/env0/src/index.ts"],
       "@devp0nt/env0/*": ["../../lib/env0/src/*"],
-      "@idea/shared/*": ["../../idea/shared/src/*"]
+      "@idea/shared/*": ["../../idea/shared/src/*"],
+      "@devp0nt/error0": ["../../lib/error0/src/index.ts"],
+      "@devp0nt/error0/*": ["../../lib/error0/src/*"],
+      "@devp0nt/route0": ["../../lib/route0/src/index.ts"],
+      "@devp0nt/route0/*": ["../../lib/route0/src/*"]
     },
     "rootDir": "./src",
     "declaration": true,

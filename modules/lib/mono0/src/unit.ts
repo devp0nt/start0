@@ -275,7 +275,7 @@ export class Mono0Unit {
     const matchByTagsInclude =
       m.tagsInclude.length > 0 ? m.tagsInclude.every((tag) => this.tags.includes(tag)) : undefined
     const matchByTagsExclude =
-      m.tagsExclude.length > 0 ? m.tagsExclude.some((tag) => this.tags.includes(tag)) : undefined
+      m.tagsExclude.length > 0 ? m.tagsExclude.every((tag) => !this.tags.includes(tag)) : undefined
     const matches = [matchByName, matchByTagsInclude, matchByTagsExclude].filter((v) => v !== undefined)
     return matches.length > 0 && matches.every((v) => v)
   }

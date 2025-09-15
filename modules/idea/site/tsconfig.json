@@ -10,7 +10,9 @@
       "@devp0nt/route0": ["../../lib/route0/src/index.ts"],
       "@devp0nt/route0/*": ["../../lib/route0/src/*"],
       "@idea/shared/*": ["../shared/src/*"],
-      "@site/core/*": ["../../../apps/site/core/src/*"]
+      "@site/core/*": ["../../../apps/site/core/src/*"],
+      "@backend/trpc-router": ["../../../apps/backend/router/trpc/src/index.ts"],
+      "@backend/trpc-router/*": ["../../../apps/backend/router/trpc/src/*"]
     },
     "rootDir": "./src",
     "declaration": true,
