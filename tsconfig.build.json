@@ -1,0 +1,74 @@
+{
+  "extends": "./tsconfig.base.json",
+  "references": [
+    {
+      "path": "./modules/appConfig/backend/tsconfig.build.json"
+    },
+    {
+      "path": "./apps/backend/core/tsconfig.build.json"
+    },
+    {
+      "path": "./apps/backend/router/hono/tsconfig.build.json"
+    },
+    {
+      "path": "./apps/backend/services/tsconfig.build.json"
+    },
+    {
+      "path": "./apps/backend/router/trpc/tsconfig.build.json"
+    },
+    {
+      "path": "./modules/lib/deepmap0/tsconfig.build.json"
+    },
+    {
+      "path": "./modules/lib/env0/tsconfig.build.json"
+    },
+    {
+      "path": "./modules/lib/error0/tsconfig.build.json"
+    },
+    {
+      "path": "./modules/lib/fs0/tsconfig.build.json"
+    },
+    {
+      "path": "./modules/lib/gen0/tsconfig.build.json"
+    },
+    {
+      "path": "./modules/lib/lodash0/tsconfig.build.json"
+    },
+    {
+      "path": "./modules/lib/logger0/tsconfig.build.json"
+    },
+    {
+      "path": "./modules/lib/meta0/tsconfig.build.json"
+    },
+    {
+      "path": "./modules/lib/mono0/tsconfig.build.json"
+    },
+    {
+      "path": "./modules/lib/route0/tsconfig.build.json"
+    },
+    {
+      "path": "./modules/lib/x/tsconfig.build.json"
+    },
+    {
+      "path": "./modules/idea/backend/tsconfig.build.json"
+    },
+    {
+      "path": "./modules/idea/shared/tsconfig.build.json"
+    },
+    {
+      "path": "./modules/idea/site/tsconfig.build.json"
+    },
+    {
+      "path": "./modules/prisma0/backend/tsconfig.build.json"
+    },
+    {
+      "path": "./apps/site/app/tsconfig.build.json"
+    },
+    {
+      "path": "./apps/site/core/tsconfig.build.json"
+    },
+    {
+      "path": "./tools/tsconfig.build.json"
+    }
+  ]
+}
