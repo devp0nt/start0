@@ -8,6 +8,7 @@ import { Mono0Tsconfig } from './tsconfig'
 import { Mono0Unit } from './unit'
 import watcherGen0 from './watcher-gen0'
 
+// TODO: error on dep by exact name not found
 // TODO: Дип депс это тоже скоуп
 // TODO: В конфиге иметь глобальные плейсхолдеры
 // TODO: Переименовать моны на Джейсон си
