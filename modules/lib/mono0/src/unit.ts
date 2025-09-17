@@ -332,7 +332,7 @@ export class Mono0Unit {
     generalTsconfigs: Mono0Tsconfig[]
   }) {
     console.log(11, rootFs0.cwd)
-    const unitsConfigsPaths = await rootFs0.glob('**/mono0.json')
+    const unitsConfigsPaths = await rootFs0.glob(config.unitsConfigsGlob)
     console.log(10)
     if (!unitsConfigsPaths.length) {
       return []

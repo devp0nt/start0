@@ -1,4 +1,5 @@
 {
+  "unitsConfigsGlob": ["modules/**/mono0.json", "apps/**/mono0.json", "tools/**/mono0.json"],
   "filesSelectors": {
     "exclude": ["**/dist/**/*", "**/node_modules/**/*", "**/public/**/*"],
     "test": ["**/test/**/*", "**/*.test.*"]

@@ -13,6 +13,7 @@ export class Mono0Config {
   unitsSelectors: Mono0Config.DefinitionParsed['unitsSelectors']
   settings: Mono0Config.DefinitionParsed['settings']
   presets: Mono0Config.DefinitionParsed['presets']
+  unitsConfigsGlob: Mono0Config.DefinitionParsed['unitsConfigsGlob']
 
   private constructor(input: {
     rootFs0: Fs0
@@ -21,6 +22,7 @@ export class Mono0Config {
     packageJson: Mono0PackageJson.FullDefinitionParsed
     filesSelectors: Mono0Config.DefinitionParsed['filesSelectors']
     unitsSelectors: Mono0Config.DefinitionParsed['unitsSelectors']
+    unitsConfigsGlob: Mono0Config.DefinitionParsed['unitsConfigsGlob']
     settings: Mono0Config.DefinitionParsed['settings']
     presets: Mono0Config.DefinitionParsed['presets']
   }) {
@@ -30,6 +32,7 @@ export class Mono0Config {
     this.packageJson = input.packageJson
     this.filesSelectors = input.filesSelectors
     this.unitsSelectors = input.unitsSelectors
+    this.unitsConfigsGlob = input.unitsConfigsGlob
     this.settings = input.settings
     this.presets = input.presets
   }
@@ -65,6 +68,7 @@ export class Mono0Config {
       packageJson: configDefinition.packageJson,
       filesSelectors: configDefinition.filesSelectors,
       unitsSelectors: configDefinition.unitsSelectors,
+      unitsConfigsGlob: configDefinition.unitsConfigsGlob,
       settings: configDefinition.settings,
       presets: configDefinition.presets,
     })
@@ -77,6 +81,10 @@ export class Mono0Config {
     tsconfigs: z.record(z.string(), Mono0Tsconfig.zDefinition).optional().default({}),
     filesSelectors: z.record(z.string(), z.array(z.string())).optional().default({}),
     unitsSelectors: z.record(z.string(), z.array(z.string())).optional().default({}),
+    unitsConfigsGlob: z
+      .union([z.string(), z.array(z.string())])
+      .optional()
+      .default('**/mono0.json'),
     settings: z
       .object({
         onPackageJsonsDepsChangedCommand: z.string().optional(),
@@ -92,6 +100,7 @@ export class Mono0Config {
       packageJson: this.packageJson,
       filesSelectors: this.filesSelectors,
       unitsSelectors: this.unitsSelectors,
+      unitsConfigsGlob: this.unitsConfigsGlob,
       settings: this.settings,
       presets: this.presets,
     }
@@ -104,6 +113,7 @@ export namespace Mono0Config {
     tsconfigs?: TsconfigsDefinitions
     filesSelectors?: FilesSelectors
     unitsSelectors?: UnitsSelectors
+    unitsConfigsGlob?: string[] | string
     settings?: Partial<Settings>
     presets?: Presets
   }
