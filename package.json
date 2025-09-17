@@ -11,7 +11,8 @@
     "watch:m": "tsc --build --watch"
   },
   "dependencies": {
-    "@devp0nt/fs0": "^1.0.7",
+    "@devp0nt/fs0": "^1.0.10-next.6",
+    "@devp0nt/gen0": "^1.0.0-next.1",
     "@hono/trpc-server": "^0.4.0",
     "@hono/zod-openapi": "^1.1.0",
     "@logtape/logtape": "^1.0.4",
@@ -94,7 +95,6 @@
       "./modules/lib/deepmap0",
       "./modules/lib/env0",
       "./modules/lib/error0",
-      "./modules/lib/gen0",
       "./modules/lib/lodash0",
       "./modules/lib/logger0",
       "./modules/lib/meta0",

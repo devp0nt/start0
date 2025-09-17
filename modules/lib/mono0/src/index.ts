@@ -1,6 +1,6 @@
 import { execSync, spawn } from 'node:child_process'
 import type { Fs0 } from '@devp0nt/fs0'
-import { Gen0 } from '@devp0nt/gen0'
+import { Gen0 } from '@devp0nt/gen0/gen0'
 import { Mono0Config } from './config'
 import { Mono0Logger } from './logger'
 import { Mono0PackageJson } from './packageJson'
@@ -176,7 +176,7 @@ export class Mono0 {
       await new Promise<void>((resolve, reject) => {
         const child = spawn(cmd, args, {
           cwd: unit.fs0.cwd,
-          stdio: 'inherit', // интерактивный режим
+          stdio: 'inherit',
         })
 
         child.on('exit', (code) => {

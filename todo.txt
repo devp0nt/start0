@@ -59,5 +59,6 @@ restart frontend server on code change
 gen0 syntax and autocompletion
 error0, meta0, route0 → library
 
+commit0
 tmux0
 remove old

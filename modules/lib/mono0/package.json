@@ -17,7 +17,5 @@
     "types": "tsc --noEmit",
     "build:m": "tsc --build"
   },
-  "dependencies": {
-    "@devp0nt/gen0": "workspace:*"
-  }
+  "dependencies": {}
 }

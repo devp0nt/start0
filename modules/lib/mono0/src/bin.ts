@@ -8,7 +8,7 @@ import { Mono0Logger } from './logger'
 
 const program = new Command()
 program.enablePositionalOptions()
-program.name('mono0').description('A monorepo manager tool').version('1.0.0')
+program.name('mono0').description('A monorepo manager tool')
 
 // helpers
 

@@ -1,8 +1,0 @@
-{
-  "name": "@devp0nt/gen0",
-  "preset": "shared",
-  "deps": ["@devp0nt/fs0", "@devp0nt/lodash0", "@devp0nt/meta0"],
-  "settings": {
-    "addPathsToTsconfigOfAllUnits": true
-  }
-}

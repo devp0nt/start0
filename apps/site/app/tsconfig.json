@@ -9,8 +9,6 @@
       "@site/app/*": ["./src/*"],
       "@devp0nt/env0": ["../../../modules/lib/env0/src/index.ts"],
       "@devp0nt/env0/*": ["../../../modules/lib/env0/src/*"],
-      "@devp0nt/gen0": ["../../../modules/lib/gen0/src/index.ts"],
-      "@devp0nt/gen0/*": ["../../../modules/lib/gen0/src/*"],
       "@idea/site/*": ["../../../modules/idea/site/src/*"],
       "@site/core/*": ["../core/src/*"],
       "@devp0nt/error0": ["../../../modules/lib/error0/src/index.ts"],
