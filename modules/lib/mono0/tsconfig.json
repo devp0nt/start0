@@ -22,9 +22,6 @@
   },
   "references": [
     {
-      "path": "../gen0/tsconfig.json"
-    },
-    {
       "path": "../lodash0/tsconfig.json"
     },
     {

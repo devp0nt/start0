@@ -1,12 +1,11 @@
-import type { Gen0ClientProcessCtx } from '@devp0nt/gen0/clientProcessCtx'
-import type { Gen0Plugin } from '@devp0nt/gen0/plugin'
+import type { Gen0Plugin } from '@devp0nt/gen0'
 import { type GenerateConfig, generateTmuxCommands } from './index'
 
 export default {
   name: 'tmux0',
   fns: {
     generateTmuxCommands: (
-      ctx: Gen0ClientProcessCtx,
+      ctx: any, // Gen0ClientProcessCtx,
       config: GenerateConfig,
       indent: string = '',
       prepend: string = '',

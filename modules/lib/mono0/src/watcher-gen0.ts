@@ -1,4 +1,4 @@
-import type { Gen0Plugin } from '@devp0nt/gen0/plugin'
+import type { Gen0Plugin } from '@devp0nt/gen0'
 import { Mono0 } from './index'
 
 export default (async ({}) => {

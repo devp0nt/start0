@@ -37,9 +37,6 @@
       "path": "../../../modules/lib/env0/tsconfig.json"
     },
     {
-      "path": "../../../modules/lib/gen0/tsconfig.json"
-    },
-    {
       "path": "../../../modules/idea/site/tsconfig.json"
     },
     {

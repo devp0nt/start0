@@ -25,6 +25,7 @@ const withErrorWrapper = <T extends any[]>(action: (...args: T) => Promise<void>
 }
 const withMono0 = <T extends any[]>(action: (mono0: Mono0, ...args: T) => Promise<void>) => {
   return withErrorWrapper(async (...args: T) => {
+    console.log(3)
     const mono0 = await Mono0.create()
     await action(mono0, ...args)
   })

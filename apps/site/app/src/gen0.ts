@@ -1,4 +1,4 @@
-import type { Gen0Plugin } from '@devp0nt/gen0/plugin'
+import type { Gen0Plugin } from '@devp0nt/gen0'
 import type { Page0 } from '@site/core/lib/page0'
 
 export default (async ({ fs0, _ }) => {
