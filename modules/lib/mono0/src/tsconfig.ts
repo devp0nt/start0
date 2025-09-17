@@ -100,12 +100,6 @@ export class Mono0Tsconfig {
         if (!extendsTsconfig) {
           throw new Error(`Tsconfig "${tsconfigName}" not found in "${file0.path.rel}"`)
         }
-        console.log(12, {
-          tconfigFile0: file0.path.abs,
-          tconfigFile0dir: file0.path.dir,
-          extendsTsconfigFile0: extendsTsconfig.file0.path.abs,
-          relToDir: extendsTsconfig.file0.relToDir(file0),
-        })
         result.extends = extendsTsconfig.file0.relToDir(file0)
       }
     }
@@ -271,14 +265,6 @@ export class Mono0Tsconfig {
       }
     }
 
-    console.log(14, {
-      file0Path: file0.path.abs,
-      file0Fs0Cwd: file0.fs0.cwd,
-      unitName: unit?.name,
-      rootDir: fs0.rootDir,
-      cwd: fs0.cwd,
-      test: fs0.toRel('~/test'),
-    })
     replacePlaceholdersAndPathsDeep(
       result,
       {

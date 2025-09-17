@@ -24,11 +24,6 @@ export const replacePlaceholdersAndPathsDeep = <TObject extends Record<string, u
     }
     return value
   })
-  console.log(13, {
-    rootDir: fs0.rootDir,
-    cwd: fs0.cwd,
-    test: fs0.toRel('~/test'),
-  })
   Object.assign(obj, result)
   return obj
 }

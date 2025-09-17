@@ -70,26 +70,20 @@ export class Mono0 {
   }
 
   static async getCreateParams() {
-    console.log(5)
     const config = await Mono0Config.get()
-    console.log(6)
     const generalTsconfigs = Mono0Tsconfig.createGeneralsByConfig(config)
-    console.log(7)
     const generalPackageJson = Mono0PackageJson.create({
       definition: config.packageJson,
       config,
       fs0: config.configFs0,
     })
-    console.log(8)
     const rootFs0 = config.rootFs0
     const units = await Mono0Unit.findAndCreateUnits({ rootFs0, config, generalTsconfigs })
-    console.log(9)
     return { config, generalTsconfigs, generalPackageJson, rootFs0, units }
   }
 
   static async create() {
     const { config, generalTsconfigs, generalPackageJson, rootFs0, units } = await Mono0.getCreateParams()
-    console.log(4)
     return new Mono0({ rootFs0, config, units, generalTsconfigs, generalPackageJson })
   }
 
@@ -194,7 +188,6 @@ export class Mono0 {
   }
 
   async watch() {
-    console.log(1)
     const gen0 = await Gen0.create({
       configDefinition: {
         rootDir: this.config.rootFs0.rootDir,
@@ -204,7 +197,6 @@ export class Mono0 {
         plugins: [watcherGen0],
       },
     })
-    console.log(2)
     await gen0.init()
     const watcher = await gen0.watch()
     return watcher

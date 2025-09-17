@@ -6,11 +6,7 @@
     "composite": true,
     "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@devp0nt/tmux0/.tsbuildinfo",
     "paths": {
-      "@devp0nt/tmux0/*": ["./src/*"],
-      "@devp0nt/lodash0": ["../lodash0/src/index.ts"],
-      "@devp0nt/lodash0/*": ["../lodash0/src/*"],
-      "@devp0nt/meta0": ["../meta0/src/index.ts"],
-      "@devp0nt/meta0/*": ["../meta0/src/*"]
+      "@devp0nt/tmux0/*": ["./src/*"]
     },
     "rootDir": "./src",
     "declaration": true,
@@ -20,12 +16,5 @@
     "noEmitOnError": false,
     "declarationDir": "./dist"
   },
-  "references": [
-    {
-      "path": "../lodash0/tsconfig.json"
-    },
-    {
-      "path": "../meta0/tsconfig.json"
-    }
-  ]
+  "references": []
 }

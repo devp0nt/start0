@@ -1,5 +1,5 @@
 {
   "name": "@devp0nt/tmux0",
   "preset": ["shared"],
-  "deps": ["@devp0nt/gen0"]
+  "deps": []
 }

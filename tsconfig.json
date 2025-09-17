@@ -1,7 +1,7 @@
 {
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
-    "tsBuildInfoFile": "./start0/node_modules/.cache/tsbuildinfo/root-core/.tsbuildinfo"
+    "tsBuildInfoFile": "./node_modules/.cache/tsbuildinfo/root-core/.tsbuildinfo"
   },
   "references": [
     {
