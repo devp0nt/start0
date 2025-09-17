@@ -4,8 +4,8 @@
     "": {
       "name": "ideanick",
       "dependencies": {
-        "@devp0nt/fs0": "^1.0.10-next.6",
-        "@devp0nt/gen0": "^1.0.0-next.1",
+        "@devp0nt/fs0": "^1.0.10-next.16",
+        "@devp0nt/gen0": "^1.0.0-next.2",
         "@hono/trpc-server": "^0.4.0",
         "@hono/zod-openapi": "^1.1.0",
         "@logtape/logtape": "^1.0.4",
@@ -308,9 +308,9 @@
 
     "@devp0nt/error0": ["@devp0nt/error0@workspace:modules/lib/error0"],
 
-    "@devp0nt/fs0": ["@devp0nt/fs0@1.0.10-next.6", "", { "dependencies": { "comment-json": "^4.2.5", "dotenv": "^17.2.2", "ejs": "^3.1.10", "find-up": "^7.0.0", "globby": "^14.1.0", "is-glob": "^4.0.3", "jiti": "^2.5.1", "lodash": "^4.17.21", "micromatch": "^4.0.8" } }, "sha512-ruRFMGzC5t1aU9LvByvfukFssv3s3OIyn0DQ68dWWUocDNHkcOBHQ5aNqHeXCgqDHK38GVRtxjnhUF9T+0PYPA=="],
+    "@devp0nt/fs0": ["@devp0nt/fs0@1.0.10-next.16", "", { "dependencies": { "comment-json": "^4.2.5", "dotenv": "^17.2.2", "ejs": "^3.1.10", "find-up": "^7.0.0", "globby": "^14.1.0", "is-glob": "^4.0.3", "jiti": "^2.5.1", "lodash": "^4.17.21", "micromatch": "^4.0.8" } }, "sha512-px/CoCirnLWx3PkTH++dAfMfSp61grQCSZDGdjKljKJ9lWspYqqoagD8vgYDkOvz6SpDovw5Utn6tqyteVJFHw=="],
 
-    "@devp0nt/gen0": ["@devp0nt/gen0@1.0.0-next.1", "", { "dependencies": { "@devp0nt/fs0": "^1.0.10-next.14", "@parcel/watcher": "^2.5.1", "commander": "^14.0.1", "debug": "^4.4.3", "globby": "^14.1.0", "globify-gitignore": "^1.0.3", "lodash": "^4.17.21", "workspace-root": "^3.3.1" } }, "sha512-FuViaQmlFwrn7oWiUibux5fYo7pDG+fbi2mINNtU7nur/ATxLCrCl7/3GtOrv9SlFQir1c+2O7aHbrcl4v0UbQ=="],
+    "@devp0nt/gen0": ["@devp0nt/gen0@1.0.0-next.2", "", { "dependencies": { "@devp0nt/fs0": "^1.0.10-next.14", "@parcel/watcher": "^2.5.1", "commander": "^14.0.1", "debug": "^4.4.3", "globby": "^14.1.0", "globify-gitignore": "^1.0.3", "lodash": "^4.17.21", "workspace-root": "^3.3.1" } }, "sha512-8ZhObR2K/gglX3dvT1A66u2FBOHRu+2t/UGXArZDrY+Dp1jOm9XrzgWesW6V1GoHTju9CkX9ALMotPz/rpYo6w=="],
 
     "@devp0nt/lodash0": ["@devp0nt/lodash0@workspace:modules/lib/lodash0"],
 
@@ -1251,8 +1251,6 @@
     "@babel/helper-compilation-targets/semver": ["semver@6.3.1", "", { "bin": { "semver": "bin/semver.js" } }, "sha512-BR7VvDCVHO+q2xBEWskxS6DJE1qRnb7DxzUrogb71CWoSficBxYsiAGd+Kl0mmq/MprG9yArRkyrQxTO6XjMzA=="],
 
     "@babel/helper-create-class-features-plugin/semver": ["semver@6.3.1", "", { "bin": { "semver": "bin/semver.js" } }, "sha512-BR7VvDCVHO+q2xBEWskxS6DJE1qRnb7DxzUrogb71CWoSficBxYsiAGd+Kl0mmq/MprG9yArRkyrQxTO6XjMzA=="],
-
-    "@devp0nt/gen0/@devp0nt/fs0": ["@devp0nt/fs0@1.0.10-next.15", "", { "dependencies": { "comment-json": "^4.2.5", "dotenv": "^17.2.2", "ejs": "^3.1.10", "find-up": "^7.0.0", "globby": "^14.1.0", "is-glob": "^4.0.3", "jiti": "^2.5.1", "lodash": "^4.17.21", "micromatch": "^4.0.8" } }, "sha512-b1IdEzdfm5GQ+CGTmWc7EbrXXbLKKyPRrBKGYG2Vj0ckGBI5VpQGTDE9589e+PLqWHidAv6Uoh7tzWToByDfeg=="],
 
     "@hono/vite-dev-server/minimatch": ["minimatch@9.0.5", "", { "dependencies": { "brace-expansion": "^2.0.1" } }, "sha512-G6T0ZX48xgozx7587koeX9Ys2NYy6Gmv//P89sEte9V9whIapMNF4idKxnW2QtCcLiTWlb/wfCabAtAFWhhBow=="],
 
