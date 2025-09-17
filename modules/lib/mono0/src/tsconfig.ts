@@ -271,6 +271,14 @@ export class Mono0Tsconfig {
       }
     }
 
+    console.log(14, {
+      file0Path: file0.path.abs,
+      file0Fs0Cwd: file0.fs0.cwd,
+      unitName: unit?.name,
+      rootDir: fs0.rootDir,
+      cwd: fs0.cwd,
+      test: fs0.toRel('~/test'),
+    })
     replacePlaceholdersAndPathsDeep(
       result,
       {
