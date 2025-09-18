@@ -1,4 +1,4 @@
-tri0
+Сделать ctx0 от него экстендить бэкенд и хоно, а в него уже передавать, что нужно
 выложить либы
 
 better-auth
@@ -32,10 +32,13 @@ public update mechanic
 
 ---
 
+https://strapi.io/
+prisma studio
 react-native
 
 cron/scheduler
 kafka/rabbitmq/pgboss
+
 refine
 
 reuse code between site and mobile

@@ -1,5 +1,0 @@
-{
-  "name": "@devp0nt/env0",
-  "preset": "shared",
-  "deps": ["@devp0nt/error0"]
-}
