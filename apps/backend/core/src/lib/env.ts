@@ -1,15 +1,15 @@
-import { Env0 as E } from '@devp0nt/env0'
+import { Env0, ez } from '@devp0nt/env0'
 import z from 'zod'
 
 export const createEnv = (source: Record<string, unknown>) =>
-  E.create({
+  Env0.create({
     source: source,
     schema: z.object({
-      NODE_ENV: E.zNodeEnv,
-      HOST_ENV: E.zHostEnv,
-      PORT: E.zInt,
-      DATABASE_URL: E.zString,
-      DEBUG: E.zString,
+      NODE_ENV: ez.nodeEnv,
+      HOST_ENV: ez.hostEnv,
+      PORT: ez.int,
+      DATABASE_URL: ez.string,
+      DEBUG: ez.string,
     }),
   })
 export type Env = ReturnType<typeof createEnv>
