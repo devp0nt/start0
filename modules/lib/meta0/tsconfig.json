@@ -6,9 +6,7 @@
     "composite": true,
     "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@devp0nt/meta0/.tsbuildinfo",
     "paths": {
-      "@devp0nt/meta0/*": ["./src/*"],
-      "@devp0nt/deepmap0/*": ["../deepmap0/src/*"],
-      "@devp0nt/deepmap0": ["../deepmap0/src/index.ts"]
+      "@devp0nt/meta0/*": ["./src/*"]
     },
     "rootDir": "./src",
     "declaration": true,
@@ -18,9 +16,5 @@
     "noEmitOnError": false,
     "declarationDir": "./dist"
   },
-  "references": [
-    {
-      "path": "../deepmap0/tsconfig.json"
-    }
-  ]
+  "references": []
 }

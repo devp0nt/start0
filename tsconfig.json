@@ -20,9 +20,6 @@
       "path": "./apps/backend/router/trpc/tsconfig.json"
     },
     {
-      "path": "./modules/lib/deepmap0/tsconfig.json"
-    },
-    {
       "path": "./modules/lib/env0/tsconfig.json"
     },
     {

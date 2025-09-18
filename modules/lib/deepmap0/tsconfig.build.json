@@ -1,9 +1,0 @@
-{
-  "extends": "./tsconfig.json",
-  "exclude": ["**/dist/**/*", "**/node_modules/**/*", "**/public/**/*", "**/test/**/*", "**/*.test.*"],
-  "compilerOptions": {
-    "paths": {
-      "@devp0nt/deepmap0/*": ["./src/*"]
-    }
-  }
-}

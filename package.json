@@ -11,8 +11,8 @@
     "watch:m": "tsc --build --watch"
   },
   "dependencies": {
-    "@devp0nt/fs0": "^1.0.10-next.16",
-    "@devp0nt/gen0": "^1.0.0-next.2",
+    "@devp0nt/fs0": "^1.0.10-next.17",
+    "@devp0nt/gen0": "^1.0.0-next.5",
     "@hono/trpc-server": "^0.4.0",
     "@hono/zod-openapi": "^1.1.0",
     "@logtape/logtape": "^1.0.4",
@@ -53,6 +53,8 @@
   },
   "devDependencies": {
     "@biomejs/biome": "2.2.4",
+    "@devp0nt/deepmap0": "^1.0.0-next.1",
+    "@devp0nt/mono0": "^1.0.0-next.1",
     "@moonrepo/cli": "^1.40.1",
     "@parcel/watcher": "^2.5.1",
     "@react-router/dev": "^7.7.1",
@@ -92,13 +94,11 @@
       "./apps/backend/router/hono",
       "./apps/backend/services",
       "./apps/backend/router/trpc",
-      "./modules/lib/deepmap0",
       "./modules/lib/env0",
       "./modules/lib/error0",
       "./modules/lib/lodash0",
       "./modules/lib/logger0",
       "./modules/lib/meta0",
-      "./modules/lib/mono0",
       "./modules/lib/route0",
       "./modules/lib/tmux0",
       "./modules/lib/x",

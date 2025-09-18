@@ -19,8 +19,6 @@
       "@devp0nt/meta0/*": ["../../../modules/lib/meta0/src/*"],
       "@prisma0/backend": ["../../../modules/prisma0/backend/src/index.ts"],
       "@prisma0/backend/*": ["../../../modules/prisma0/backend/src/*"],
-      "@devp0nt/deepmap0": ["../../../modules/lib/deepmap0/src/index.ts"],
-      "@devp0nt/deepmap0/*": ["../../../modules/lib/deepmap0/src/*"],
       "@idea/shared/*": ["../../../modules/idea/shared/src/*"]
     },
     "rootDir": "./src",
@@ -61,9 +59,6 @@
     },
     {
       "path": "../../../modules/lib/meta0/tsconfig.json"
-    },
-    {
-      "path": "../../../modules/lib/deepmap0/tsconfig.json"
     },
     {
       "path": "../../../modules/lib/env0/tsconfig.json"
