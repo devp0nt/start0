@@ -150,19 +150,22 @@
             },
             "exclude": ["$exclude"]
           }
-        },
-        "build": {
-          "path": "./tsconfig.build.json",
-          "settings": {
-            "clearPaths": true,
-            "addSelfSrcToPaths": true
-          },
-          "value": {
-            "extends": "$core",
-            "exclude": ["$exclude", "$test"],
-            "compilerOptions": {}
-          }
         }
+        // "build": {
+        //   "path": "./tsconfig.build.json",
+        //   "settings": {
+        //     "clearPaths": true,
+        //     "addSelfSrcToPaths": true
+        //   },
+        //   "value": {
+        //     "extends": "$core",
+        //     "exclude": [
+        //       "$exclude",
+        //       "$test"
+        //     ],
+        //     "compilerOptions": {}
+        //   }
+        // }
       }
     },
     "cold": {
