@@ -1,22 +1,12 @@
-// import { Env0 as E } from '@devp0nt/env0'
-// import z from 'zod'
+// Temporary placeholder for env functionality
+export const createEnvBuild = (source: Record<string, unknown>) => ({
+  PORT: Number(source.PORT) || 3000,
+})
 
-// export const createEnvBuild = (source: Record<string, unknown>) =>
-//   E.create({
-//     source: source,
-//     schema: ({ optionalOnLocalHostEnv }) =>
-//       z.object({
-//         PORT: E.zInt,
-//         X: optionalOnLocalHostEnv(E.zBoolean),
-//       }),
-//   })
-// export type EnvBuild = ReturnType<typeof createEnvBuild>
+export type EnvBuild = ReturnType<typeof createEnvBuild>
 
-// export const createEnv = (source: Record<string, unknown>) =>
-//   E.create({
-//     source: source,
-//     schema: z.object({
-//       VITE_TRPC_URL: E.zString,
-//     }),
-//   })
-// export type Env = ReturnType<typeof createEnv>
+export const createEnv = (source: Record<string, unknown>) => ({
+  VITE_TRPC_URL: String(source.VITE_TRPC_URL || ''),
+})
+
+export type Env = ReturnType<typeof createEnv>
