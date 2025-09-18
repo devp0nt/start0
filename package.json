@@ -11,8 +11,8 @@
     "watch:m": "tsc --build --watch"
   },
   "dependencies": {
-    "@devp0nt/fs0": "^1.0.10-next.17",
-    "@devp0nt/gen0": "^1.0.0-next.5",
+    "@devp0nt/fs0": "^1.0.10-next.19",
+    "@devp0nt/gen0": "^1.0.0-next.12",
     "@hono/trpc-server": "^0.4.0",
     "@hono/zod-openapi": "^1.1.0",
     "@logtape/logtape": "^1.0.4",
@@ -53,8 +53,8 @@
   },
   "devDependencies": {
     "@biomejs/biome": "2.2.4",
-    "@devp0nt/deepmap0": "^1.0.0-next.1",
-    "@devp0nt/mono0": "^1.0.0-next.1",
+    "@devp0nt/deepmap0": "^1.0.0-next.3",
+    "@devp0nt/mono0": "^1.0.0-next.6",
     "@moonrepo/cli": "^1.40.1",
     "@parcel/watcher": "^2.5.1",
     "@react-router/dev": "^7.7.1",
