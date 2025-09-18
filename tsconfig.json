@@ -35,9 +35,6 @@
       "path": "./modules/lib/meta0/tsconfig.json"
     },
     {
-      "path": "./modules/lib/mono0/tsconfig.json"
-    },
-    {
       "path": "./modules/lib/route0/tsconfig.json"
     },
     {
