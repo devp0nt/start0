@@ -7,14 +7,8 @@
     "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@site/app/.tsbuildinfo",
     "paths": {
       "@site/app/*": ["./src/*"],
-      "@devp0nt/env0": ["../../../modules/lib/env0/src/index.ts"],
-      "@devp0nt/env0/*": ["../../../modules/lib/env0/src/*"],
       "@idea/site/*": ["../../../modules/idea/site/src/*"],
       "@site/core/*": ["../core/src/*"],
-      "@devp0nt/error0": ["../../../modules/lib/error0/src/index.ts"],
-      "@devp0nt/error0/*": ["../../../modules/lib/error0/src/*"],
-      "@devp0nt/route0": ["../../../modules/lib/route0/src/index.ts"],
-      "@devp0nt/route0/*": ["../../../modules/lib/route0/src/*"],
       "@idea/shared/*": ["../../../modules/idea/shared/src/*"],
       "@backend/trpc-router": ["../../backend/router/trpc/src/index.ts"],
       "@backend/trpc-router/*": ["../../backend/router/trpc/src/*"]
@@ -30,19 +24,10 @@
   },
   "references": [
     {
-      "path": "../../../modules/lib/env0/tsconfig.json"
-    },
-    {
       "path": "../../../modules/idea/site/tsconfig.json"
     },
     {
       "path": "../core/tsconfig.json"
-    },
-    {
-      "path": "../../../modules/lib/error0/tsconfig.json"
-    },
-    {
-      "path": "../../../modules/lib/route0/tsconfig.json"
     },
     {
       "path": "../../../modules/idea/shared/tsconfig.json"
@@ -52,9 +37,6 @@
     },
     {
       "path": "../../backend/router/trpc/tsconfig.json"
-    },
-    {
-      "path": "../../../modules/lib/route0/tsconfig.json"
     }
   ]
 }

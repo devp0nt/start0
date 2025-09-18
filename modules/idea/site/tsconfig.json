@@ -7,8 +7,6 @@
     "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@idea/site/.tsbuildinfo",
     "paths": {
       "@idea/site/*": ["./src/*"],
-      "@devp0nt/route0": ["../../lib/route0/src/index.ts"],
-      "@devp0nt/route0/*": ["../../lib/route0/src/*"],
       "@idea/shared/*": ["../shared/src/*"],
       "@site/core/*": ["../../../apps/site/core/src/*"],
       "@backend/trpc-router": ["../../../apps/backend/router/trpc/src/index.ts"],
@@ -24,22 +22,13 @@
   },
   "references": [
     {
-      "path": "../../lib/route0/tsconfig.json"
-    },
-    {
       "path": "../shared/tsconfig.json"
     },
     {
       "path": "../../../apps/site/core/tsconfig.json"
     },
     {
-      "path": "../../lib/route0/tsconfig.json"
-    },
-    {
       "path": "../../../apps/backend/router/trpc/tsconfig.json"
-    },
-    {
-      "path": "../../lib/route0/tsconfig.json"
     }
   ]
 }

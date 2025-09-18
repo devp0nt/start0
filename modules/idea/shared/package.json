@@ -12,7 +12,5 @@
     "types": "tsc --noEmit",
     "build:m": "tsc --build"
   },
-  "dependencies": {
-    "@devp0nt/route0": "workspace:*"
-  }
+  "dependencies": {}
 }

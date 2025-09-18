@@ -84,11 +84,7 @@
     "apps/backend/core": {
       "name": "@backend/core",
       "dependencies": {
-        "@devp0nt/env0": "workspace:*",
-        "@devp0nt/error0": "workspace:*",
         "@devp0nt/lodash0": "workspace:*",
-        "@devp0nt/logger0": "workspace:*",
-        "@devp0nt/meta0": "workspace:*",
         "@prisma0/backend": "workspace:*",
       },
     },
@@ -113,7 +109,6 @@
     "apps/site/app": {
       "name": "@site/app",
       "dependencies": {
-        "@devp0nt/env0": "workspace:*",
         "@idea/site": "workspace:*",
         "@react-router/node": "catalog:",
         "@site/core": "workspace:*",
@@ -124,7 +119,6 @@
       "name": "@site/core",
       "dependencies": {
         "@backend/trpc-router": "workspace:*",
-        "@devp0nt/route0": "workspace:*",
       },
     },
     "modules/appConfig/backend": {
@@ -143,56 +137,20 @@
     },
     "modules/idea/shared": {
       "name": "@idea/shared",
-      "dependencies": {
-        "@devp0nt/route0": "workspace:*",
-      },
     },
     "modules/idea/site": {
       "name": "@idea/site",
       "dependencies": {
-        "@devp0nt/route0": "workspace:*",
         "@idea/shared": "workspace:*",
         "@site/core": "workspace:*",
-      },
-    },
-    "modules/lib/env0": {
-      "name": "@devp0nt/env0",
-      "dependencies": {
-        "@devp0nt/error0": "workspace:*",
-      },
-    },
-    "modules/lib/error0": {
-      "name": "@devp0nt/error0",
-      "dependencies": {
-        "@devp0nt/meta0": "workspace:*",
       },
     },
     "modules/lib/lodash0": {
       "name": "@devp0nt/lodash0",
     },
-    "modules/lib/logger0": {
-      "name": "@devp0nt/logger0",
-      "dependencies": {
-        "@devp0nt/error0": "workspace:*",
-        "@devp0nt/meta0": "workspace:*",
-      },
-    },
-    "modules/lib/meta0": {
-      "name": "@devp0nt/meta0",
-    },
-    "modules/lib/route0": {
-      "name": "@devp0nt/route0",
-    },
-    "modules/lib/tmux0": {
-      "name": "@devp0nt/tmux0",
-    },
-    "modules/lib/x": {
-      "name": "@devp0nt/x0",
-    },
     "modules/prisma0/backend": {
       "name": "@prisma0/backend",
       "dependencies": {
-        "@devp0nt/env0": "workspace:*",
         "@idea/shared": "workspace:*",
       },
     },
@@ -297,27 +255,13 @@
 
     "@devp0nt/deepmap0": ["@devp0nt/deepmap0@1.0.0-next.3", "", {}, "sha512-jtRaHnMsro/DNv7ghUQoDqMOnmtUzanmTXuIu7ilvU6WCUXkOF6BsidONc/LZA1ge+NKVLnqxEJJ6nke20wK5w=="],
 
-    "@devp0nt/env0": ["@devp0nt/env0@workspace:modules/lib/env0"],
-
-    "@devp0nt/error0": ["@devp0nt/error0@workspace:modules/lib/error0"],
-
     "@devp0nt/fs0": ["@devp0nt/fs0@1.0.10-next.19", "", { "dependencies": { "comment-json": "^4.2.5", "dotenv": "^17.2.2", "ejs": "^3.1.10", "find-up": "^7.0.0", "globby": "^14.1.0", "is-glob": "^4.0.3", "jiti": "^2.5.1", "lodash": "^4.17.21", "micromatch": "^4.0.8" } }, "sha512-PYKrMMsQXX/5BNZPRC+80Fz/0f5zr/dsT4RTo9lonZxp70Ag0DBTXHl1MLmlr8ylJ/aXXbqeVFVAM4SvEGfsiA=="],
 
     "@devp0nt/gen0": ["@devp0nt/gen0@1.0.0-next.12", "", { "dependencies": { "@devp0nt/fs0": "^1.0.10-next.19", "@parcel/watcher": "^2.5.1", "commander": "^14.0.1", "debug": "^4.4.3", "globby": "^14.1.0", "globify-gitignore": "^1.0.3", "lodash": "^4.17.21", "workspace-root": "^3.3.1" }, "bin": { "gen0": "dist/esm/bin.js" } }, "sha512-YEFt7i1n+xMphekdsmsQyPJYRj1+uBl4XWhcmiF/QWJgo0Ccm/b5oLwVt8QzGYbw1BbZCkMLx3ZcOnS/yDwFcg=="],
 
     "@devp0nt/lodash0": ["@devp0nt/lodash0@workspace:modules/lib/lodash0"],
 
-    "@devp0nt/logger0": ["@devp0nt/logger0@workspace:modules/lib/logger0"],
-
-    "@devp0nt/meta0": ["@devp0nt/meta0@workspace:modules/lib/meta0"],
-
     "@devp0nt/mono0": ["@devp0nt/mono0@1.0.0-next.6", "", { "dependencies": { "@devp0nt/deepmap0": "^1.0.0-next.3" }, "bin": { "mono0": "dist/esm/bin.js" } }, "sha512-JGq6L5U1IwrFJ2H9OX/cXTC3NDFMEOv8ZfRFZ6OK899eIy32NNmfm0S5rXpDMUr9SLNzyBWUoD02NHjgyNhbRg=="],
-
-    "@devp0nt/route0": ["@devp0nt/route0@workspace:modules/lib/route0"],
-
-    "@devp0nt/tmux0": ["@devp0nt/tmux0@workspace:modules/lib/tmux0"],
-
-    "@devp0nt/x0": ["@devp0nt/x0@workspace:modules/lib/x"],
 
     "@drizzle-team/brocli": ["@drizzle-team/brocli@0.11.0", "", {}, "sha512-hD3pekGiPg0WPCCGAZmusBBJsDqGUR66Y452YgQsZOnkdQ7ViEPKuyP4huUGEZQefp8g34RRodXYmJ2TbCH+tg=="],
 

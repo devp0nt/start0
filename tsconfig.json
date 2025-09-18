@@ -20,28 +20,7 @@
       "path": "./apps/backend/router/trpc/tsconfig.json"
     },
     {
-      "path": "./modules/lib/env0/tsconfig.json"
-    },
-    {
-      "path": "./modules/lib/error0/tsconfig.json"
-    },
-    {
       "path": "./modules/lib/lodash0/tsconfig.json"
-    },
-    {
-      "path": "./modules/lib/logger0/tsconfig.json"
-    },
-    {
-      "path": "./modules/lib/meta0/tsconfig.json"
-    },
-    {
-      "path": "./modules/lib/route0/tsconfig.json"
-    },
-    {
-      "path": "./modules/lib/tmux0/tsconfig.json"
-    },
-    {
-      "path": "./modules/lib/x/tsconfig.json"
     },
     {
       "path": "./modules/idea/backend/tsconfig.json"

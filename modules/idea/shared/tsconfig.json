@@ -6,9 +6,7 @@
     "composite": true,
     "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@idea/shared/.tsbuildinfo",
     "paths": {
-      "@idea/shared/*": ["./src/*"],
-      "@devp0nt/route0/*": ["../../lib/route0/src/*"],
-      "@devp0nt/route0": ["../../lib/route0/src/index.ts"]
+      "@idea/shared/*": ["./src/*"]
     },
     "rootDir": "./src",
     "declaration": true,
@@ -18,9 +16,5 @@
     "noEmitOnError": false,
     "declarationDir": "./dist"
   },
-  "references": [
-    {
-      "path": "../../lib/route0/tsconfig.json"
-    }
-  ]
+  "references": []
 }

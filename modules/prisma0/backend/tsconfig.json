@@ -7,13 +7,7 @@
     "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@prisma0/backend/.tsbuildinfo",
     "paths": {
       "@prisma0/backend/*": ["./src/*"],
-      "@devp0nt/env0": ["../../lib/env0/src/index.ts"],
-      "@devp0nt/env0/*": ["../../lib/env0/src/*"],
-      "@idea/shared/*": ["../../idea/shared/src/*"],
-      "@devp0nt/error0": ["../../lib/error0/src/index.ts"],
-      "@devp0nt/error0/*": ["../../lib/error0/src/*"],
-      "@devp0nt/route0": ["../../lib/route0/src/index.ts"],
-      "@devp0nt/route0/*": ["../../lib/route0/src/*"]
+      "@idea/shared/*": ["../../idea/shared/src/*"]
     },
     "rootDir": "./src",
     "declaration": true,
@@ -25,16 +19,7 @@
   },
   "references": [
     {
-      "path": "../../lib/env0/tsconfig.json"
-    },
-    {
       "path": "../../idea/shared/tsconfig.json"
-    },
-    {
-      "path": "../../lib/error0/tsconfig.json"
-    },
-    {
-      "path": "../../lib/route0/tsconfig.json"
     }
   ]
 }
