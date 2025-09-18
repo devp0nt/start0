@@ -4,7 +4,13 @@
   "exclude": ["**/dist/**/*", "**/node_modules/**/*", "**/public/**/*"],
   "compilerOptions": {
     "composite": true,
+    "declaration": true,
+    "declarationMap": true,
+    "emitDeclarationOnly": false,
+    "noEmitOnError": false,
+    "outDir": "./dist",
     "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@backend/core/.tsbuildinfo",
+    "rootDir": "./src",
     "paths": {
       "@backend/core/*": ["./src/*"],
       "@devp0nt/lodash0": ["../../../modules/lib/lodash0/src/index.ts"],
@@ -12,14 +18,7 @@
       "@prisma0/backend": ["../../../modules/prisma0/backend/src/index.ts"],
       "@prisma0/backend/*": ["../../../modules/prisma0/backend/src/*"],
       "@idea/shared/*": ["../../../modules/idea/shared/src/*"]
-    },
-    "rootDir": "./src",
-    "declaration": true,
-    "declarationMap": true,
-    "emitDeclarationOnly": false,
-    "outDir": "./dist",
-    "noEmitOnError": false,
-    "declarationDir": "./dist"
+    }
   },
   "references": [
     {

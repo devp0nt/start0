@@ -4,20 +4,19 @@
   "exclude": ["**/dist/**/*", "**/node_modules/**/*", "**/public/**/*"],
   "compilerOptions": {
     "composite": true,
+    "declaration": true,
+    "declarationMap": true,
+    "emitDeclarationOnly": false,
+    "noEmitOnError": false,
+    "outDir": "./dist",
     "tsBuildInfoFile": "../../../../node_modules/.cache/tsbuildinfo/@backend/hono-router/.tsbuildinfo",
+    "rootDir": "./src",
     "paths": {
       "@backend/hono-router/*": ["./src/*"],
       "@backend/core/*": ["../../core/src/*"],
       "@devp0nt/lodash0": ["../../../../modules/lib/lodash0/src/index.ts"],
       "@devp0nt/lodash0/*": ["../../../../modules/lib/lodash0/src/*"]
-    },
-    "rootDir": "./src",
-    "declaration": true,
-    "declarationMap": true,
-    "emitDeclarationOnly": false,
-    "outDir": "./dist",
-    "noEmitOnError": false,
-    "declarationDir": "./dist"
+    }
   },
   "references": [
     {

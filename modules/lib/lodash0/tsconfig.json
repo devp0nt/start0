@@ -4,17 +4,16 @@
   "exclude": ["**/dist/**/*", "**/node_modules/**/*", "**/public/**/*"],
   "compilerOptions": {
     "composite": true,
-    "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@devp0nt/lodash0/.tsbuildinfo",
-    "paths": {
-      "@devp0nt/lodash0/*": ["./src/*"]
-    },
-    "rootDir": "./src",
     "declaration": true,
     "declarationMap": true,
     "emitDeclarationOnly": false,
-    "outDir": "./dist",
     "noEmitOnError": false,
-    "declarationDir": "./dist"
+    "outDir": "./dist",
+    "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@devp0nt/lodash0/.tsbuildinfo",
+    "rootDir": "./src",
+    "paths": {
+      "@devp0nt/lodash0/*": ["./src/*"]
+    }
   },
   "references": []
 }

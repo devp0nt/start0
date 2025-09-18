@@ -46,7 +46,7 @@
         "superjson": "^2.2.2",
         "use-context-selector": "^2.0.0",
         "yaml": "^2.8.1",
-        "zod": "^4.0.17",
+        "zod": "^4.1.9",
         "zustand": "^5.0.8",
       },
       "devDependencies": {
@@ -1193,7 +1193,7 @@
 
     "yocto-queue": ["yocto-queue@1.2.1", "", {}, "sha512-AyeEbWOu/TAXdxlV9wmGcR0+yh2j3vYPGOECcIj2S7MkrLyC7ne+oye2BKTItt0ii2PHk4cDy+95+LshzbXnGg=="],
 
-    "zod": ["zod@4.1.8", "", {}, "sha512-5R1P+WwQqmmMIEACyzSvo4JXHY5WiAFHRMg+zBZKgKS+Q1viRa0C1hmUKtHltoIFKtIdki3pRxkmpP74jnNYHQ=="],
+    "zod": ["zod@4.1.9", "", {}, "sha512-HI32jTq0AUAC125z30E8bQNz0RQ+9Uc+4J7V97gLYjZVKRjeydPgGt6dvQzFrav7MYOUGFqqOGiHpA/fdbd0cQ=="],
 
     "zustand": ["zustand@5.0.8", "", { "peerDependencies": { "@types/react": ">=18.0.0", "immer": ">=9.0.6", "react": ">=18.0.0", "use-sync-external-store": ">=1.2.0" }, "optionalPeers": ["@types/react", "immer", "react", "use-sync-external-store"] }, "sha512-gyPKpIaxY9XcO2vSMrLbiER7QMAMGOQZVRdJ6Zi782jkbzZygq5GI9nG8g+sMgitRtndwaBSl7uiqC49o1SSiw=="],
 
@@ -1203,13 +1203,9 @@
 
     "@babel/helper-create-class-features-plugin/semver": ["semver@6.3.1", "", { "bin": { "semver": "bin/semver.js" } }, "sha512-BR7VvDCVHO+q2xBEWskxS6DJE1qRnb7DxzUrogb71CWoSficBxYsiAGd+Kl0mmq/MprG9yArRkyrQxTO6XjMzA=="],
 
-    "@devp0nt/env0/zod": ["zod@4.1.9", "", {}, "sha512-HI32jTq0AUAC125z30E8bQNz0RQ+9Uc+4J7V97gLYjZVKRjeydPgGt6dvQzFrav7MYOUGFqqOGiHpA/fdbd0cQ=="],
-
     "@devp0nt/error0/@devp0nt/meta0": ["@devp0nt/meta0@1.0.0-next.2", "", { "dependencies": { "@devp0nt/deepmap0": "^1.0.0-next.1" } }, "sha512-PZvW7Mvpxlkmg0YZjZo8D2XKn+g+vgOZl47tMXT+dyK/SB74QEw9Xer+gXKzqT/lMrZXHBQSiuNDb/Ob8XWU9w=="],
 
     "@devp0nt/error0/axios": ["axios@1.12.2", "", { "dependencies": { "follow-redirects": "^1.15.6", "form-data": "^4.0.4", "proxy-from-env": "^1.1.0" } }, "sha512-vMJzPewAlRyOgxV2dU0Cuz2O8zzzx9VYtbJOaBgXFeLc4IV/Eg50n4LowmehOOR61S8ZMpc2K5Sa7g6A4jfkUw=="],
-
-    "@devp0nt/error0/zod": ["zod@4.1.9", "", {}, "sha512-HI32jTq0AUAC125z30E8bQNz0RQ+9Uc+4J7V97gLYjZVKRjeydPgGt6dvQzFrav7MYOUGFqqOGiHpA/fdbd0cQ=="],
 
     "@devp0nt/mono0/@devp0nt/deepmap0": ["@devp0nt/deepmap0@1.0.0-next.3", "", {}, "sha512-jtRaHnMsro/DNv7ghUQoDqMOnmtUzanmTXuIu7ilvU6WCUXkOF6BsidONc/LZA1ge+NKVLnqxEJJ6nke20wK5w=="],
 

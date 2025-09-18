@@ -4,7 +4,14 @@
   "exclude": ["**/dist/**/*", "**/node_modules/**/*", "**/public/**/*"],
   "compilerOptions": {
     "composite": true,
+    "declaration": true,
+    "declarationMap": true,
+    "emitDeclarationOnly": false,
+    "noEmitOnError": false,
+    "outDir": "./dist",
     "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@site/app/.tsbuildinfo",
+    "rootDir": "./",
+    "rootDirs": ["./", "./.react-router/types"],
     "paths": {
       "@site/app/*": ["./src/*"],
       "@idea/site/*": ["../../../modules/idea/site/src/*"],
@@ -12,15 +19,7 @@
       "@idea/shared/*": ["../../../modules/idea/shared/src/*"],
       "@backend/trpc-router": ["../../backend/router/trpc/src/index.ts"],
       "@backend/trpc-router/*": ["../../backend/router/trpc/src/*"]
-    },
-    "rootDirs": ["./", "./.react-router/types"],
-    "rootDir": "./",
-    "declaration": true,
-    "declarationMap": true,
-    "emitDeclarationOnly": false,
-    "outDir": "./dist",
-    "noEmitOnError": false,
-    "declarationDir": "./dist"
+    }
   },
   "references": [
     {

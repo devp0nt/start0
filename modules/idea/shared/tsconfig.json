@@ -4,17 +4,16 @@
   "exclude": ["**/dist/**/*", "**/node_modules/**/*", "**/public/**/*"],
   "compilerOptions": {
     "composite": true,
-    "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@idea/shared/.tsbuildinfo",
-    "paths": {
-      "@idea/shared/*": ["./src/*"]
-    },
-    "rootDir": "./src",
     "declaration": true,
     "declarationMap": true,
     "emitDeclarationOnly": false,
-    "outDir": "./dist",
     "noEmitOnError": false,
-    "declarationDir": "./dist"
+    "outDir": "./dist",
+    "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@idea/shared/.tsbuildinfo",
+    "rootDir": "./src",
+    "paths": {
+      "@idea/shared/*": ["./src/*"]
+    }
   },
   "references": []
 }
