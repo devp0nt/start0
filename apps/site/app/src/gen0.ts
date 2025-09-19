@@ -47,7 +47,6 @@ export default (async ({ fs0, _ }) => {
   }
 
   const removeAllUnusedRoutesFiles = async (pagesPaths?: string[]) => {
-    // biome-ignore lint/nursery/noUnnecessaryConditions: <biome bug>
     pagesPaths = pagesPaths || (await fs0.glob(pagesGlob))
     const unuedPaths: string[] = []
     const existsingRoutesPaths = await fs0.glob(generatedRoutesDir)
@@ -62,7 +61,6 @@ export default (async ({ fs0, _ }) => {
   }
 
   const generateRoutesFile = async (pagesPaths?: string[]) => {
-    // biome-ignore lint/nursery/noUnnecessaryConditions: <biome bug>
     pagesPaths = pagesPaths || (await fs0.glob(pagesGlob))
     const input: RRInput[] = await Promise.all(
       pagesPaths.map((pagePath) =>

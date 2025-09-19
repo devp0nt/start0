@@ -9,8 +9,7 @@
     "vscode-icons-team.vscode-icons",
     "hashicorp.terraform",
     "ms-azuretools.vscode-docker",
-    "github.github-vscode-theme",
-    "ginfuru.ginfuru-better-solarized-dark-theme"
+    "gitpod.gitpod-theme"
   ]
 }
 // Old

@@ -37,7 +37,6 @@ export const startApiProcess = async () => {
       ctx.logger.error(e)
       await ctx.destroy()
     } else {
-      console.error(e)
       // biome-ignore lint/suspicious/noConsole: <fallback to native logger>
       console.dir(
         {

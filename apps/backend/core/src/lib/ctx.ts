@@ -34,9 +34,7 @@ export class BackendCtx {
     meta.assign({
       tagPrefix: meta.getValue().tagPrefix || 'backend',
     })
-    console.log(234234)
     const env = createEnv(props.env)
-    console.log(454545)
     const e0s = Error0.extendCollection(e0sDefault, {
       defaultMeta: meta,
     })

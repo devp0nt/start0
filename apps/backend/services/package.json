@@ -9,7 +9,7 @@
     }
   },
   "scripts": {
-    "dev": "NODE_ENV=development bun src/dev.ts --watch",
+    "dev": "NODE_ENV=development bun --watch src/dev.ts",
     "types": "tsc --noEmit",
     "build:m": "tsc --build"
   },
