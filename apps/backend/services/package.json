@@ -14,6 +14,8 @@
     "build:m": "tsc --build"
   },
   "dependencies": {
-    "@backend/core": "workspace:*"
+    "@backend/core": "workspace:*",
+    "@backend/hono-router": "workspace:*",
+    "@backend/trpc-router": "workspace:*"
   }
 }

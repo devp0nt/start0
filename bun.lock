@@ -101,13 +101,17 @@
     "apps/backend/router/trpc": {
       "name": "@backend/trpc-router",
       "dependencies": {
+        "@appConfig/backend": "workspace:*",
         "@backend/core": "workspace:*",
+        "@idea/backend": "workspace:*",
       },
     },
     "apps/backend/services": {
       "name": "@backend/services",
       "dependencies": {
         "@backend/core": "workspace:*",
+        "@backend/hono-router": "workspace:*",
+        "@backend/trpc-router": "workspace:*",
       },
     },
     "apps/site/app": {

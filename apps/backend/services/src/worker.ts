@@ -8,6 +8,8 @@ export const startWorkerProcess = async () => {
         service: 'backend-worker',
         tagPrefix: 'backend',
       },
+      // biome-ignore lint/style/noProcessEnv: <x>
+      env: process.env,
     })
     // const handleWorker = () => {
     //   ctx.logger.info("Worker is running")

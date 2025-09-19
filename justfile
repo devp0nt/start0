@@ -10,13 +10,13 @@ alias m := mono0
 # forward command to app
 
 backend *ARGS:
-  just mono0 exec @backend/services bun run {{ARGS}}
+  bun run mono0 exec -m @backend/services bun run {{ARGS}}
 
 site *ARGS:
-  just mono0 exec @site/app bun run {{ARGS}}
+  bun run mono0 exec -m @site/app bun run {{ARGS}}
 
 tools *ARGS:
-  just mono0 exec @tools/shared bun run {{ARGS}}
+  bun run mono0 exec -m @tools/shared bun run {{ARGS}}
   
 # mega dev command
 

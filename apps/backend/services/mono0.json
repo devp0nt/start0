@@ -1,5 +1,5 @@
 {
   "name": "@backend/services",
   "preset": "backend",
-  "deps": ["@backend/core"]
+  "deps": ["@backend/core", "@backend/hono-router", "@backend/trpc-router"]
 }

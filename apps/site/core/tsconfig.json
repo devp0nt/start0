@@ -15,7 +15,9 @@
       "@site/core/*": ["./src/*"],
       "@backend/trpc-router": ["../../backend/router/trpc/src/index.ts"],
       "@backend/trpc-router/*": ["../../backend/router/trpc/src/*"],
-      "@backend/core/*": ["../../backend/core/src/*"]
+      "@appConfig/backend/*": ["../../../modules/appConfig/backend/src/*"],
+      "@backend/core/*": ["../../backend/core/src/*"],
+      "@idea/backend/*": ["../../../modules/idea/backend/src/*"]
     }
   },
   "references": [
@@ -23,7 +25,13 @@
       "path": "../../backend/router/trpc/tsconfig.json"
     },
     {
+      "path": "../../../modules/appConfig/backend/tsconfig.json"
+    },
+    {
       "path": "../../backend/core/tsconfig.json"
+    },
+    {
+      "path": "../../../modules/idea/backend/tsconfig.json"
     }
   ]
 }

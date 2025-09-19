@@ -14,8 +14,14 @@
     "paths": {
       "@backend/services/*": ["./src/*"],
       "@backend/core/*": ["../core/src/*"],
+      "@backend/hono-router": ["../router/hono/src/index.ts"],
+      "@backend/hono-router/*": ["../router/hono/src/*"],
+      "@backend/trpc-router": ["../router/trpc/src/index.ts"],
+      "@backend/trpc-router/*": ["../router/trpc/src/*"],
       "@devp0nt/lodash0": ["../../../modules/lib/lodash0/src/index.ts"],
-      "@devp0nt/lodash0/*": ["../../../modules/lib/lodash0/src/*"]
+      "@devp0nt/lodash0/*": ["../../../modules/lib/lodash0/src/*"],
+      "@appConfig/backend/*": ["../../../modules/appConfig/backend/src/*"],
+      "@idea/backend/*": ["../../../modules/idea/backend/src/*"]
     }
   },
   "references": [
@@ -23,10 +29,28 @@
       "path": "../core/tsconfig.json"
     },
     {
+      "path": "../router/hono/tsconfig.json"
+    },
+    {
+      "path": "../router/trpc/tsconfig.json"
+    },
+    {
       "path": "../../../modules/lib/lodash0/tsconfig.json"
     },
     {
       "path": "../../../modules/prisma0/backend/tsconfig.json"
+    },
+    {
+      "path": "../core/tsconfig.json"
+    },
+    {
+      "path": "../../../modules/appConfig/backend/tsconfig.json"
+    },
+    {
+      "path": "../core/tsconfig.json"
+    },
+    {
+      "path": "../../../modules/idea/backend/tsconfig.json"
     }
   ]
 }

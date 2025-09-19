@@ -13,6 +13,8 @@ export const startApiProcess = async () => {
         service: 'backend-api',
         tagPrefix: 'backend',
       },
+      // biome-ignore lint/style/noProcessEnv: <x>
+      env: process.env,
     })
     const { honoApp } = HonoApp.create({
       backendCtx: ctx,
@@ -35,6 +37,7 @@ export const startApiProcess = async () => {
       ctx.logger.error(e)
       await ctx.destroy()
     } else {
+      console.error(e)
       // biome-ignore lint/suspicious/noConsole: <fallback to native logger>
       console.dir(
         {

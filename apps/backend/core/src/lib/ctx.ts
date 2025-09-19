@@ -14,7 +14,7 @@ export class BackendCtx {
   env: Env
 
   constructor(backendCtx: BackendCtx)
-  constructor({ meta }: { meta: Meta0.Meta0OrValueTypeNullish })
+  constructor({ meta, env }: { meta: Meta0.Meta0OrValueTypeNullish; env: Record<string, unknown> })
   constructor(props: any) {
     if (props instanceof BackendCtx) {
       // for extending purposes we just make copy of backendCtx
@@ -34,8 +34,9 @@ export class BackendCtx {
     meta.assign({
       tagPrefix: meta.getValue().tagPrefix || 'backend',
     })
-    // biome-ignore lint/style/noProcessEnv: <x>
-    const env = createEnv(process.env)
+    console.log(234234)
+    const env = createEnv(props.env)
+    console.log(454545)
     const e0s = Error0.extendCollection(e0sDefault, {
       defaultMeta: meta,
     })
@@ -55,8 +56,8 @@ export class BackendCtx {
     })
   }
 
-  static async create({ meta }: { meta: Meta0.Meta0OrValueTypeNullish }) {
-    return new BackendCtx({ meta })
+  static async create({ meta, env }: { meta: Meta0.Meta0OrValueTypeNullish; env: Record<string, unknown> }) {
+    return new BackendCtx({ meta, env })
   }
 
   extend(meta: Meta0.Meta0OrValueTypeNullish): BackendCtx

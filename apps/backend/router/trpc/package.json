@@ -21,6 +21,8 @@
     "build:m": "tsc --build"
   },
   "dependencies": {
-    "@backend/core": "workspace:*"
+    "@backend/core": "workspace:*",
+    "@appConfig/backend": "workspace:*",
+    "@idea/backend": "workspace:*"
   }
 }
