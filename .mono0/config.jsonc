@@ -10,28 +10,28 @@
   "settings": {
     // "onPackageJsonsDepsChangedCommand": "bun install"
   },
-  "packageJson": {
-    "path": "../package.json",
-    "settings": {
-      "clearWorkspaces": "workspaces.papackages",
-      "addWorkspaces": "workspaces.packages",
-      "clearWorkspaceDeps": false,
-      "addWorkspaceDeps": false,
-      "clearExports": false,
-      "addExportsFromDist": false,
-      "addExportsFromSrc": false
-    },
-    "value": {
-      "name": "ideanick",
-      "private": true,
-      "type": "module",
-      "scripts": {
-        "types": "bun run --filter='*' types",
-        "build:m": "tsc --build",
-        "watch:m": "tsc --build --watch"
-      }
-    }
-  },
+  // "packageJson": {
+  //   "path": "../package.json",
+  //   "settings": {
+  //     "clearWorkspaces": "workspaces.papackages",
+  //     "addWorkspaces": "workspaces.packages",
+  //     "clearWorkspaceDeps": false,
+  //     "addWorkspaceDeps": false,
+  //     "clearExports": false,
+  //     "addExportsFromDist": false,
+  //     "addExportsFromSrc": false
+  //   },
+  //   "value": {
+  //     "name": "ideanick",
+  //     "private": true,
+  //     "type": "module",
+  //     "scripts": {
+  //       "types": "bun run --filter='*' types",
+  //       "build:m": "tsc --build",
+  //       "watch:m": "tsc --build --watch"
+  //     }
+  //   }
+  // },
   "tsconfigs": {
     "rootCore": {
       "path": "../tsconfig.json",
@@ -109,22 +109,22 @@
   },
   "presets": {
     "force": {
-      "packageJson": {
-        "settings": {
-          "clearWorkspaceDeps": true,
-          "addWorkspaceDeps": true,
-          "clearExports": true,
-          "addExportsFromDist": true
-        },
-        "value": {
-          "private": true,
-          "type": "module",
-          "scripts": {
-            "types": "tsc --noEmit",
-            "build:m": "tsc --build"
-          }
-        }
-      },
+      // "packageJson": {
+      //   "settings": {
+      //     "clearWorkspaceDeps": true,
+      //     "addWorkspaceDeps": true,
+      //     "clearExports": true,
+      //     "addExportsFromDist": true
+      //   },
+      //   "value": {
+      //     "private": true,
+      //     "type": "module",
+      //     "scripts": {
+      //       "types": "tsc --noEmit",
+      //       "build:m": "tsc --build"
+      //     }
+      //   }
+      // },
       "tsconfigs": {
         "core": {
           "path": "./tsconfig.json",
