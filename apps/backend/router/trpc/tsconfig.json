@@ -41,13 +41,7 @@
       "path": "../../../../modules/prisma0/backend/tsconfig.json"
     },
     {
-      "path": "../../core/tsconfig.json"
-    },
-    {
       "path": "../../../../modules/idea/shared/tsconfig.json"
-    },
-    {
-      "path": "../../../../modules/prisma0/backend/tsconfig.json"
     }
   ]
 }

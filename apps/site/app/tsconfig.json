@@ -18,7 +18,12 @@
       "@site/core/*": ["../core/src/*"],
       "@idea/shared/*": ["../../../modules/idea/shared/src/*"],
       "@backend/trpc-router": ["../../backend/router/trpc/src/index.ts"],
-      "@backend/trpc-router/*": ["../../backend/router/trpc/src/*"]
+      "@backend/trpc-router/*": ["../../backend/router/trpc/src/*"],
+      "@appConfig/backend/*": ["../../../modules/appConfig/backend/src/*"],
+      "@backend/core/*": ["../../backend/core/src/*"],
+      "@devp0nt/lodash0": ["../../../modules/lib/lodash0/src/index.ts"],
+      "@devp0nt/lodash0/*": ["../../../modules/lib/lodash0/src/*"],
+      "@idea/backend/*": ["../../../modules/idea/backend/src/*"]
     }
   },
   "references": [
@@ -36,6 +41,21 @@
     },
     {
       "path": "../../backend/router/trpc/tsconfig.json"
+    },
+    {
+      "path": "../../../modules/appConfig/backend/tsconfig.json"
+    },
+    {
+      "path": "../../backend/core/tsconfig.json"
+    },
+    {
+      "path": "../../../modules/lib/lodash0/tsconfig.json"
+    },
+    {
+      "path": "../../../modules/prisma0/backend/tsconfig.json"
+    },
+    {
+      "path": "../../../modules/idea/backend/tsconfig.json"
     }
   ]
 }
