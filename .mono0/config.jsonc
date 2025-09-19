@@ -8,7 +8,7 @@
     "backendCore": ["@prisma0/backend", "@lib"]
   },
   "settings": {
-    "onPackageJsonsDepsChangedCommand": "bun install"
+    // "onPackageJsonsDepsChangedCommand": "bun install"
   },
   "packageJson": {
     "path": "../package.json",
