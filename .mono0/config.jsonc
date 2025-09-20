@@ -135,7 +135,8 @@
           "path": "./tsconfig.json",
           "settings": {
             "clearPaths": true,
-            "setSrcAsRootDir": true,
+            "setUnitSrcAsRootDir": true,
+            "setUnitDistAsOutDir": true,
             "addUnitIncludeToInclude": "whenNotProvided",
             "addUnitExcludeToExclude": "whenNotProvided",
             "addSelfSrcToPaths": true,
