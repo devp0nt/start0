@@ -109,6 +109,11 @@
   },
   "presets": {
     "force": {
+      "srcDir": true,
+      "distDir": "./dist",
+      "settings": {
+        "addSrcToInclude": true
+      },
       "packageJson": {
         "settings": {
           "clearWorkspaceDeps": true,
@@ -131,7 +136,8 @@
           "settings": {
             "clearPaths": true,
             "setSrcAsRootDir": true,
-            "addSrcToInclude": true,
+            "addUnitIncludeToInclude": true,
+            "addUnitExcludeToExclude": true,
             "addSelfSrcToPaths": true,
             "addUnitsSrcToPaths": { "scope": "deps", "deepDeps": "!#cold" },
             "clearReferences": true,
