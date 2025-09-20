@@ -8,7 +8,7 @@
     "start": "cross-env NODE_ENV=production bun ./dist/server/index.js",
     "types": "tsc --noEmit",
     "watch": "tsc --watch --noEmitOnError false --skipLibCheck --noCheck --assumeChangesOnlyAffectDirectDependencies  --preserveWatchOutput",
-    "clean": "rimraf {{distDir}}"
+    "clean": "rimraf ./dist"
   },
   "dependencies": {
     "@react-router/node": "catalog:",

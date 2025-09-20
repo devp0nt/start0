@@ -6,7 +6,7 @@
     "types": "tsc --noEmit",
     "build": "tsc --build",
     "watch": "tsc --watch --noEmitOnError false --skipLibCheck --noCheck --assumeChangesOnlyAffectDirectDependencies  --preserveWatchOutput",
-    "clean": "rimraf {{distDir}}"
+    "clean": "rimraf ./dist"
   },
   "dependencies": {
     "@appConfig/backend": "workspace:*",
