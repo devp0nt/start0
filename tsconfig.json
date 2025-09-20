@@ -2,7 +2,7 @@
   "extends": "./.mono0/tsconfig.base.json",
   "compilerOptions": {
     "composite": true,
-    "tsBuildInfoFile": "./node_modules/.cache/tsbuildinfo/root-core/.tsbuildinfo"
+    "tsBuildInfoFile": "./node_modules/.cache/tsbuildinfo/root/.tsbuildinfo"
   },
   "references": [
     {
