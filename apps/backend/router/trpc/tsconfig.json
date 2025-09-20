@@ -1,7 +1,7 @@
 {
   "extends": "../../../../.mono0/tsconfig.backend.json",
   "include": ["./src/**/*"],
-  "exclude": ["**/dist/**/*", "**/node_modules/**/*", "**/public/**/*"],
+  "exclude": ["./**/dist/**/*", "./**/node_modules/**/*", "./**/public/**/*"],
   "compilerOptions": {
     "outDir": "./dist",
     "composite": true,

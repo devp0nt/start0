@@ -216,7 +216,7 @@
         "run": {
           "path": "./tsconfig.run.json",
           "settings": {
-            "addUnitIncludeToInclude": "preped",
+            "addUnitIncludeToInclude": "prepend",
             "addUnitExcludeToExclude": "prepend",
             "addUnitsSrcToPaths": { "scope": "deps", "deepDeps": "!#cold" },
             "addUnitsAsReferences": { "scope": "depsAndDeepDeps", "match": "#cold", "tsconfig": "$core" },

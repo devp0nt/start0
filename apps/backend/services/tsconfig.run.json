@@ -1,7 +1,13 @@
 {
-  "extends": "../../../.mono0/tsconfig.backend.json",
   "include": ["./src/**/*"],
-  "exclude": ["./**/dist/**/*", "./**/node_modules/**/*", "./**/public/**/*"],
+  "exclude": [
+    "./**/dist/**/*",
+    "./**/node_modules/**/*",
+    "./**/public/**/*",
+    "**/dist/**/*",
+    "**/node_modules/**/*",
+    "**/public/**/*"
+  ],
   "compilerOptions": {
     "outDir": "./dist",
     "composite": true,
@@ -10,9 +16,7 @@
     "emitDeclarationOnly": false,
     "noEmitOnError": false,
     "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@backend/services/.tsbuildinfo",
-    "rootDir": "./src",
     "paths": {
-      "@backend/services/*": ["./src/*"],
       "@backend/core/*": ["../core/src/*"],
       "@backend/hono-router": ["../router/hono/src/index.ts"],
       "@backend/hono-router/*": ["../router/hono/src/*"],
@@ -27,31 +31,7 @@
   },
   "references": [
     {
-      "path": "../core/tsconfig.json"
-    },
-    {
-      "path": "../router/hono/tsconfig.json"
-    },
-    {
-      "path": "../router/trpc/tsconfig.json"
-    },
-    {
-      "path": "../../../modules/lib/lodash0/tsconfig.json"
-    },
-    {
       "path": "../../../modules/prisma0/backend/tsconfig.json"
-    },
-    {
-      "path": "../../../modules/idea/shared/tsconfig.json"
-    },
-    {
-      "path": "../core/tsconfig.json"
-    },
-    {
-      "path": "../../../modules/appConfig/backend/tsconfig.json"
-    },
-    {
-      "path": "../../../modules/idea/backend/tsconfig.json"
     }
   ]
 }
