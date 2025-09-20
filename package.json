@@ -4,12 +4,9 @@
   "type": "module",
   "scripts": {
     "types": "bun run mono0 exec bun run types",
-    "build": "bun run mono0 exec -m '#cold' bun run build",
-    "watch": "bun run mono0 exec -m '#cold' bun run watch",
     "clean": "bun run mono0 exec bun run clean",
-    "lint": "biome check --write",
-    "test": "bun test",
-    "prepare": "husky"
+    "build": "tsc --build",
+    "watch": "tsc --watch"
   },
   "dependencies": {
     "@devp0nt/deepmap0": "^1.0.0-next.7",
