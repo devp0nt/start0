@@ -61,8 +61,8 @@
       "scripts": {
         "build": "tsc --build",
         "watch": "tsc --watch",
-        "types": "tsc --build --clean",
-        "clean": "rimraf {{projectRootDir}}/node_modules/.cache/tsbuildinfo && bun run mono0 exec bun run clean"
+        "types": "bun run clean && tsc --build",
+        "clean": "rimraf {{projectRootDir}}/node_modules/.cache/tsbuildinfo && rimraf **/dist"
       }
     }
   },

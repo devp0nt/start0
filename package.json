@@ -3,8 +3,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "types": "tsc --noEmit",
-    "clean": "rimraf .//node_modules/.cache/tsbuildinfo && bun run mono0 exec bun run clean",
+    "types": "bun run clean && tsc --build",
+    "clean": "rimraf .//node_modules/.cache/tsbuildinfo && rimraf **/dist",
     "build": "tsc --build",
     "watch": "tsc --watch"
   },
