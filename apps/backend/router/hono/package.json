@@ -5,8 +5,9 @@
   "scripts": {
     "types": "tsc --noEmit",
     "build": "tsc --build",
-    "watch": "tsc --watch --noEmitOnError false --skipLibCheck --noCheck --assumeChangesOnlyAffectDirectDependencies  --preserveWatchOutput",
-    "clean": "rimraf ../../../../node_modules/.cache/tsbuildinfo/@backend/hono-router && rimraf ./dist"
+    "watch": "tsc --watch",
+    "clean": "rimraf ../../../../node_modules/.cache/tsbuildinfo/@backend/hono-router && rimraf ./dist",
+    "watch:fast": "tsc --watch --noEmitOnError false --skipLibCheck --noCheck --assumeChangesOnlyAffectDirectDependencies  --preserveWatchOutput"
   },
   "dependencies": {
     "@backend/core": "workspace:*"

@@ -1,0 +1,63 @@
+// unit root settings: Mono0Unit.Definition
+// name: string | undefined
+// tags: string[]
+// include: string[] | true | undefined
+// exclude: string[] | undefined
+// srcIndexFile: string | true | undefined
+// srcDir: string | true | undefined
+// distDir: string | undefined
+// tsconfig: Mono0Tsconfig.Definition | undefined
+// tsconfigs: Record<string, Mono0Tsconfig.Definition>
+// packageJson: Mono0PackageJson.Definition | undefined
+// preset: string | string[]
+// deps: Mono0Unit.DependencyDefinition[]
+
+// tsconfig.settings: Mono0Tsconfig.DefinitionSettings
+// addUnitIncludeToInclude: 'override' | 'prepend' | 'append' | 'whenNotProvided' | undefined
+// addUnitExcludeToExclude: 'override' | 'prepend' | 'append' | 'whenNotProvided' | undefined
+// setUnitDistAsOutDir: boolean | undefined
+// setUnitSrcAsRootDir: boolean | undefined
+// clearPaths: boolean | undefined
+// addSelfSrcToPaths: boolean | undefined
+// addUnitsSrcToPaths: boolean | string | { scope?: 'all' | 'deps' | 'deepDeps' | 'depsAndDeepDeps', match?: string, indexFile?: boolean, deepDeps?: boolean | string } | undefined
+// addUnitsDistToPaths: boolean | string | { scope?: 'all' | 'deps' | 'deepDeps' | 'depsAndDeepDeps', match?: string, indexFile?: boolean, deepDeps?: boolean | string } | undefined
+// clearReferences: boolean | undefined
+// addUnitsAsReferences: boolean | string | { scope?: 'all' | 'deps' | 'deepDeps' | 'depsAndDeepDeps', match?: string, tsconfig?: string, deepDeps?: boolean | string } | undefined
+// addUnitsIncludesAndExcludes: boolean | string | { scope?: 'all' | 'deps' | 'deepDeps' | 'depsAndDeepDeps', match?: string, tsconfig?: string | null, deepDeps?: boolean | string } | undefined
+
+// packageJson.settings: Mono0PackageJson.DefinitionSettings
+// setUnitNameAsName: boolean | undefined
+// clearWorkspaces: boolean | string | undefined
+// addWorkspaces: boolean | string | undefined
+// clearWorkspaceDeps: boolean | undefined
+// addWorkspaceDeps: boolean | undefined
+// clearExports: boolean | undefined
+// addExportsFromDist: boolean | { indexFile?: boolean, dirs?: boolean, import?: boolean | string[], require?: boolean | string[], node?: boolean | string[], development?: boolean | string[], types?: boolean | string[] } | undefined
+// addExportsFromSrc: boolean | { indexFile?: boolean, dirs?: boolean, import?: boolean | string[], require?: boolean | string[], node?: boolean | string[], development?: boolean | string[], types?: boolean | string[] } | undefined
+// sortExports: boolean | string[] | undefined
+
+{
+  "tsconfigs": {
+    "base": {
+      "settings": {
+        "addUnitsSrcToPaths": { "match": "!#cold", "indexFile": true },
+        "addUnitsDistToPaths": { "match": "#cold", "indexFile": true }
+      }
+    }
+  },
+  "presets": {
+    "force": {
+      "tsconfigs": {
+        "core": {
+          "path": "./tsconfig.json",
+          "settings": {
+            "addUnitsAsReferences": { "scope": "deps", "tsconfig": "$core" } // !!! we need all, becouse else we recieve x.ts is not listed within the file list of project
+          }
+        }
+      }
+    },
+    "cold": {
+      "tags": ["cold"]
+    }
+  }
+}

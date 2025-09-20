@@ -5,8 +5,9 @@
   "scripts": {
     "types": "tsc --noEmit",
     "build": "tsc --build",
-    "watch": "tsc --watch --noEmitOnError false --skipLibCheck --noCheck --assumeChangesOnlyAffectDirectDependencies  --preserveWatchOutput",
-    "clean": "rimraf ../../../node_modules/.cache/tsbuildinfo/@prisma0/backend && rimraf ./dist"
+    "watch": "tsc --watch",
+    "clean": "rimraf ../../../node_modules/.cache/tsbuildinfo/@prisma0/backend && rimraf ./dist",
+    "watch:fast": "tsc --watch --noEmitOnError false --skipLibCheck --noCheck --assumeChangesOnlyAffectDirectDependencies  --preserveWatchOutput"
   },
   "dependencies": {
     "@idea/shared": "workspace:*"
