@@ -14,7 +14,10 @@
   "packageJson": {
     "value": {
       "scripts": {
-        "types": "rimraf dist && react-router typegen && tsc"
+        "dev": "cross-env NODE_ENV=development bun run --bun vite",
+        "types": "rimraf dist && react-router typegen && tsc",
+        "build": "cross-env NODE_ENV=production react-router build",
+        "start": "cross-env NODE_ENV=production bun ./dist/server/index.js"
       }
     }
   }

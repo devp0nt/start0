@@ -5,12 +5,15 @@
   "exports": {
     "./*": {
       "import": "./dist/*.js",
-      "types": "./dist/*.d.ts"
+      "types": "./dist/*.d.ts",
+      "development": "./src/*.js"
     }
   },
   "scripts": {
     "types": "tsc --noEmit",
-    "build:m": "tsc --build"
+    "build": "tsc --build",
+    "watch": "tsc --watch --noEmitOnError false --skipLibCheck --noCheck --assumeChangesOnlyAffectDirectDependencies  --preserveWatchOutput",
+    "clean": "rimraf {{distDir}}"
   },
   "dependencies": {
     "@backend/core": "workspace:*",

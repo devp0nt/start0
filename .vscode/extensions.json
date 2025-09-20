@@ -11,6 +11,7 @@
     "vscode-icons-team.vscode-icons",
     "hashicorp.terraform",
     "ms-azuretools.vscode-docker",
-    "gitpod.gitpod-theme"
+    "gitpod.gitpod-theme",
+    "skellock.just"
   ]
 }

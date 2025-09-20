@@ -32,17 +32,17 @@
 // clearWorkspaceDeps: boolean | undefined
 // addWorkspaceDeps: boolean | undefined
 // clearExports: boolean | undefined
-// addExportsFromDist: boolean | { indexFile?: boolean, dirs?: boolean, import?: boolean | string[], require?: boolean | string[], types?: boolean | string[] } | undefined
-// addExportsFromSrc: boolean | { indexFile?: boolean, dirs?: boolean, import?: boolean | string[], require?: boolean | string[], types?: boolean | string[] } | undefined
+// addExportsFromDist: boolean | { indexFile?: boolean, dirs?: boolean, import?: boolean | string[], require?: boolean | string[], development?: boolean | string[], types?: boolean | string[] } | undefined
+// addExportsFromSrc: boolean | { indexFile?: boolean, dirs?: boolean, import?: boolean | string[], require?: boolean | string[], development?: boolean | string[], types?: boolean | string[] } | undefined
 
 {
-  "unitsConfigsGlob": ["modules/**/mono0.json", "apps/**/mono0.json", "tools/**/mono0.json"],
+  "unitsConfigsGlob": "{modules,apps,tools}/**/mono0.json",
   "filesSelectors": {
     "exclude": ["**/dist/**/*", "**/node_modules/**/*", "**/public/**/*"],
     "test": ["**/test/**/*", "**/*.test.*"]
   },
   "unitsSelectors": {
-    "backendCore": ["@prisma0/backend", "@lib"]
+    // "test": ["@test/slow", "#test"]
   },
   "settings": {
     // "onPackageJsonsDepsChangedCommand": "bun install"
@@ -51,51 +51,23 @@
     "path": "../package.json",
     "settings": {
       "clearWorkspaces": "workspaces.papackages",
-      "addWorkspaces": "workspaces.packages",
-      "clearWorkspaceDeps": false,
-      "addWorkspaceDeps": false,
-      "clearExports": false,
-      "addExportsFromDist": false,
-      "addExportsFromSrc": false
+      "addWorkspaces": "workspaces.packages"
     },
     "value": {
       "name": "ideanick",
       "private": true,
       "type": "module",
       "scripts": {
-        "types": "bun run --filter='*' types",
-        "build:m": "tsc --build",
-        "watch:m": "tsc --build --watch"
+        "types": "bun run mono0 exec bun run types",
+        "build": "bun run mono0 exec -m #cold bun run build",
+        "watch": "bun run mono0 exec -m #cold bun run watch",
+        "clean": "bun run mono0 exec bun run clean"
       }
     }
   },
   "tsconfigs": {
-    "rootCore": {
-      "path": "../tsconfig.json",
-      "value": {
-        "extends": "$base",
-        "compilerOptions": {
-          "tsBuildInfoFile": "~/node_modules/.cache/tsbuildinfo/root-core/.tsbuildinfo"
-        }
-      },
-      "settings": {
-        "addUnitsAsReferences": { "tsconfig": "$core" }
-      }
-    },
-    // "rootBuild": {
-    //   "path": "../tsconfig.build.json",
-    //   "value": {
-    //     "extends": "$base",
-    //     "compilerOptions": {
-    //       "tsBuildInfoFile": "~/node_modules/.cache/tsbuildinfo/root-build/.tsbuildinfo"
-    //     }
-    //   },
-    //   "settings": {
-    //     "addUnitsAsReferences": { "tsconfig": "$build" }
-    //   }
-    // },
     "base": {
-      "path": "../tsconfig.base.json",
+      "path": "./tsconfig.base.json",
       "value": {
         "compilerOptions": {
           "lib": ["ESNext"],
@@ -110,6 +82,19 @@
           "verbatimModuleSyntax": true,
           "resolveJsonModule": true
         }
+      }
+    },
+    "root": {
+      "path": "../tsconfig.json",
+      "value": {
+        "extends": "$base",
+        "compilerOptions": {
+          "tsBuildInfoFile": "~/node_modules/.cache/tsbuildinfo/root-core/.tsbuildinfo"
+        }
+      },
+      "settings": {
+        "addUnitsAsReferences": { "tsconfig": "$core" }
+        // "addUnitsSrcToPaths": true // we do not need it, becouse we get everything package.json
       }
     },
     "shared": {
@@ -147,7 +132,6 @@
     "force": {
       "srcDir": true,
       "distDir": "./dist",
-      "srcIndexFile": true,
       "include": true,
       "exclude": ["$exclude"],
       "packageJson": {
@@ -155,14 +139,17 @@
           "clearWorkspaceDeps": true,
           "addWorkspaceDeps": true,
           "clearExports": true,
-          "addExportsFromDist": true
+          "addExportsFromDist": { "dirs": true, "import": [".js"], "types": [".d.ts"] },
+          "addExportsFromSrc": { "dirs": true, "development": [".js"] }
         },
         "value": {
           "private": true,
           "type": "module",
           "scripts": {
             "types": "tsc --noEmit",
-            "build:m": "tsc --build"
+            "build": "tsc --build",
+            "watch": "tsc --watch --noEmitOnError false --skipLibCheck --noCheck --assumeChangesOnlyAffectDirectDependencies  --preserveWatchOutput",
+            "clean": "rimraf {{distDir}}"
           }
         }
       },
@@ -170,72 +157,35 @@
         "core": {
           "path": "./tsconfig.json",
           "settings": {
-            "clearPaths": true,
             "setUnitSrcAsRootDir": true,
             "setUnitDistAsOutDir": true,
             "addUnitIncludeToInclude": "whenNotProvided",
             "addUnitExcludeToExclude": "whenNotProvided",
+            "clearPaths": true,
             "addSelfSrcToPaths": true,
-            "addUnitsSrcToPaths": { "scope": "deps", "deepDeps": "!#cold" },
             "clearReferences": true,
-            "addUnitsAsReferences": { "scope": "deps", "tsconfig": "$core", "deepDeps": true }
+            "addUnitsAsReferences": { "scope": "deps", "tsconfig": "$core" }
           },
           "value": {
             "compilerOptions": {
               "composite": true,
               "declaration": true,
               "declarationMap": true,
-              "emitDeclarationOnly": false,
-              "noEmitOnError": false,
-              "outDir": "./dist",
               "tsBuildInfoFile": "~/node_modules/.cache/tsbuildinfo/{{name}}/.tsbuildinfo"
             }
           }
         }
-        // "build": {
-        //   "path": "./tsconfig.build.json",
-        //   "settings": {
-        //     "clearPaths": true,
-        //     "addSelfSrcToPaths": true
-        //   },
-        //   "value": {
-        //     "extends": "$core",
-        //     "exclude": [
-        //       "$exclude",
-        //       "$test"
-        //     ],
-        //     "compilerOptions": {}
-        //   }
-        // }
       }
     },
     "app": {
       "tags": ["app"],
-      "tsconfigs": {
-        "run": {
-          "path": "./tsconfig.run.json",
-          "settings": {
-            "clearPaths": true,
-            "setUnitSrcAsRootDir": true,
-            "setUnitDistAsOutDir": true,
-            "addUnitIncludeToInclude": "prepend",
-            "addUnitExcludeToExclude": "prepend",
-            "addSelfSrcToPaths": true,
-            "addUnitsSrcToPaths": { "scope": "deps", "deepDeps": "!#cold" },
-            "addUnitsAsReferences": { "scope": "depsAndDeepDeps", "match": "#cold", "tsconfig": "$core" },
-            "addUnitsIncludesAndExcludes": { "scope": "depsAndDeepDeps", "match": "!#cold" }
-          },
-          "value": {
-            "compilerOptions": {
-              "composite": true,
-              "declaration": true,
-              "declarationMap": true,
-              "emitDeclarationOnly": false,
-              "noEmitOnError": false,
-              "outDir": "./dist",
-              "tsBuildInfoFile": "~/node_modules/.cache/tsbuildinfo/{{name}}/.tsbuildinfo"
-            }
-          }
+      "packageJson": {
+        "settings": {
+          "clearWorkspaceDeps": true,
+          "addWorkspaceDeps": true,
+          "clearExports": true,
+          "addExportsFromDist": false,
+          "addExportsFromSrc": false
         }
       }
     },

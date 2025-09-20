@@ -6,12 +6,12 @@ import { pingHonoRoute } from '@backend/hono-router/ping/route'
 
 import type { HonoApp } from '@backend/core/lib/hono'
 
-console.log(35)
+console.log(3568)
 export namespace BackendHonoRouter {
   export const apply = ({ honoApp }: { honoApp: HonoApp.AppType }) => {
     // @gen0:start $.names.map(name => print(`${name}({ honoApp })`))
-    pingHonoRoute({ honoApp })
     helloHonoRoute({ honoApp })
+    pingHonoRoute({ honoApp })
     // @gen0:end
   }
 }

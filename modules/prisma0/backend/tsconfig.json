@@ -6,13 +6,10 @@
     "rootDir": "./src",
     "outDir": "./dist",
     "paths": {
-      "@prisma0/backend/*": ["./src/*"],
-      "@idea/shared/*": ["../../idea/shared/src/*"]
+      "@prisma0/backend/*": ["./src/*"]
     },
     "declaration": true,
     "declarationMap": true,
-    "emitDeclarationOnly": false,
-    "noEmitOnError": false,
     "composite": true,
     "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@prisma0/backend/.tsbuildinfo"
   },

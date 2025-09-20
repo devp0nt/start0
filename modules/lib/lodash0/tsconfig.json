@@ -10,8 +10,6 @@
     },
     "declaration": true,
     "declarationMap": true,
-    "emitDeclarationOnly": false,
-    "noEmitOnError": false,
     "composite": true,
     "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@devp0nt/lodash0/.tsbuildinfo"
   },

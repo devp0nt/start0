@@ -5,31 +5,37 @@
   "exports": {
     "./*": {
       "import": "./dist/*.js",
-      "types": "./dist/*.d.ts"
+      "types": "./dist/*.d.ts",
+      "development": "./src/*.js"
     },
     "./components/*": {
       "import": "./dist/components/*.js",
-      "types": "./dist/components/*.d.ts"
+      "types": "./dist/components/*.d.ts",
+      "development": "./src/components/*.js"
     },
     "./pages/*": {
       "import": "./dist/pages/*.js",
-      "types": "./dist/pages/*.d.ts"
+      "types": "./dist/pages/*.d.ts",
+      "development": "./src/pages/*.js"
     },
     "./routes/*": {
       "import": "./dist/routes/*.js",
-      "types": "./dist/routes/*.d.ts"
+      "types": "./dist/routes/*.d.ts",
+      "development": "./src/routes/*.js"
     },
     "./routes/generated/*": {
       "import": "./dist/routes/generated/*.js",
-      "types": "./dist/routes/generated/*.d.ts"
+      "types": "./dist/routes/generated/*.d.ts",
+      "development": "./src/routes/generated/*.js"
     }
   },
   "scripts": {
-    "build": "cross-env NODE_ENV=production react-router build",
+    "build": "tsc --build",
     "dev": "cross-env NODE_ENV=development bun run --bun vite",
     "start": "cross-env NODE_ENV=production bun ./dist/server/index.js",
     "types": "tsc --noEmit",
-    "build:m": "tsc --build"
+    "watch": "tsc --watch --noEmitOnError false --skipLibCheck --noCheck --assumeChangesOnlyAffectDirectDependencies  --preserveWatchOutput",
+    "clean": "rimraf {{distDir}}"
   },
   "dependencies": {
     "@react-router/node": "catalog:",

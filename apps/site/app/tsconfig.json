@@ -7,22 +7,10 @@
     "rootDirs": ["./", "./.react-router/types"],
     "outDir": "./dist",
     "paths": {
-      "@site/app/*": ["./src/*"],
-      "@appConfig/backend/*": ["../../../modules/appConfig/backend/src/*"],
-      "@backend/core/*": ["../../backend/core/src/*"],
-      "@backend/trpc-router/*": ["../../backend/router/trpc/src/*"],
-      "@backend/trpc-router": ["../../backend/router/trpc/src/index.ts"],
-      "@devp0nt/lodash0/*": ["../../../modules/lib/lodash0/src/*"],
-      "@devp0nt/lodash0": ["../../../modules/lib/lodash0/src/index.ts"],
-      "@idea/backend/*": ["../../../modules/idea/backend/src/*"],
-      "@idea/shared/*": ["../../../modules/idea/shared/src/*"],
-      "@idea/site/*": ["../../../modules/idea/site/src/*"],
-      "@site/core/*": ["../core/src/*"]
+      "@site/app/*": ["./src/*"]
     },
     "declaration": true,
     "declarationMap": true,
-    "emitDeclarationOnly": false,
-    "noEmitOnError": false,
     "composite": true,
     "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@site/app/.tsbuildinfo"
   },
@@ -32,30 +20,6 @@
     },
     {
       "path": "../core/tsconfig.json"
-    },
-    {
-      "path": "../../../modules/idea/shared/tsconfig.json"
-    },
-    {
-      "path": "../core/tsconfig.json"
-    },
-    {
-      "path": "../../backend/router/trpc/tsconfig.json"
-    },
-    {
-      "path": "../../../modules/appConfig/backend/tsconfig.json"
-    },
-    {
-      "path": "../../backend/core/tsconfig.json"
-    },
-    {
-      "path": "../../../modules/lib/lodash0/tsconfig.json"
-    },
-    {
-      "path": "../../../modules/prisma0/backend/tsconfig.json"
-    },
-    {
-      "path": "../../../modules/idea/backend/tsconfig.json"
     }
   ]
 }

@@ -1,9 +1,23 @@
 {
-  "extends": "./tsconfig.base.json",
+  "extends": "./.mono0/tsconfig.base.json",
   "compilerOptions": {
+    "paths": {
+      "@appConfig/backend/*": ["./modules/appConfig/backend/src/*"],
+      "@backend/core/*": ["./apps/backend/core/src/*"],
+      "@backend/hono-router/*": ["./apps/backend/router/hono/src/*"],
+      "@backend/services/*": ["./apps/backend/services/src/*"],
+      "@backend/trpc-router/*": ["./apps/backend/router/trpc/src/*"],
+      "@devp0nt/lodash0/*": ["./modules/lib/lodash0/src/*"],
+      "@idea/backend/*": ["./modules/idea/backend/src/*"],
+      "@idea/shared/*": ["./modules/idea/shared/src/*"],
+      "@idea/site/*": ["./modules/idea/site/src/*"],
+      "@prisma0/backend/*": ["./modules/prisma0/backend/src/*"],
+      "@site/app/*": ["./apps/site/app/src/*"],
+      "@site/core/*": ["./apps/site/core/src/*"],
+      "@tools/shared/*": ["./tools/src/*"]
+    },
     "tsBuildInfoFile": "./node_modules/.cache/tsbuildinfo/root-core/.tsbuildinfo"
   },
-  "files": [],
   "references": [
     {
       "path": "./modules/appConfig/backend/tsconfig.json"

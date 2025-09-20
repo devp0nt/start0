@@ -3,26 +3,27 @@
   "private": true,
   "type": "module",
   "exports": {
-    ".": {
-      "import": "./dist/index.js",
-      "types": "./dist/index.d.ts"
-    },
     "./*": {
       "import": "./dist/*.js",
-      "types": "./dist/*.d.ts"
+      "types": "./dist/*.d.ts",
+      "development": "./src/*.js"
     },
     "./hello/*": {
       "import": "./dist/hello/*.js",
-      "types": "./dist/hello/*.d.ts"
+      "types": "./dist/hello/*.d.ts",
+      "development": "./src/hello/*.js"
     },
     "./ping/*": {
       "import": "./dist/ping/*.js",
-      "types": "./dist/ping/*.d.ts"
+      "types": "./dist/ping/*.d.ts",
+      "development": "./src/ping/*.js"
     }
   },
   "scripts": {
     "types": "tsc --noEmit",
-    "build:m": "tsc --build"
+    "build": "tsc --build",
+    "watch": "tsc --watch --noEmitOnError false --skipLibCheck --noCheck --assumeChangesOnlyAffectDirectDependencies  --preserveWatchOutput",
+    "clean": "rimraf {{distDir}}"
   },
   "dependencies": {
     "@backend/core": "workspace:*"

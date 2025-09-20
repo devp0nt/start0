@@ -5,16 +5,20 @@
   "exports": {
     "./components/*": {
       "import": "./dist/components/*.js",
-      "types": "./dist/components/*.d.ts"
+      "types": "./dist/components/*.d.ts",
+      "development": "./src/components/*.js"
     },
     "./lib/*": {
       "import": "./dist/lib/*.js",
-      "types": "./dist/lib/*.d.ts"
+      "types": "./dist/lib/*.d.ts",
+      "development": "./src/lib/*.js"
     }
   },
   "scripts": {
     "types": "tsc --noEmit",
-    "build:m": "tsc --build"
+    "build": "tsc --build",
+    "watch": "tsc --watch --noEmitOnError false --skipLibCheck --noCheck --assumeChangesOnlyAffectDirectDependencies  --preserveWatchOutput",
+    "clean": "rimraf {{distDir}}"
   },
   "dependencies": {
     "@backend/trpc-router": "workspace:*"

@@ -44,14 +44,20 @@ dev:
 types *ARGS:
   bun run types {{ARGS}}
 
+build *ARGS:
+  bun run types {{ARGS}}
+
+watch *ARGS:
+  bun run types {{ARGS}}
+
+clean *ARGS:
+  bun run types {{ARGS}}
+
 test *ARGS:
   bun run test {{ARGS}}
 
 lint *ARGS:
   bun run lint {{ARGS}}
-
-watch *ARGS:
-  bun run watch:m {{ARGS}}
 
 # prisma commands
 

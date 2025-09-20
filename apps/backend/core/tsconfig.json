@@ -6,17 +6,10 @@
     "rootDir": "./src",
     "outDir": "./dist",
     "paths": {
-      "@backend/core/*": ["./src/*"],
-      "@devp0nt/lodash0/*": ["../../../modules/lib/lodash0/src/*"],
-      "@devp0nt/lodash0": ["../../../modules/lib/lodash0/src/index.ts"],
-      "@idea/shared/*": ["../../../modules/idea/shared/src/*"],
-      "@prisma0/backend/*": ["../../../modules/prisma0/backend/src/*"],
-      "@prisma0/backend": ["../../../modules/prisma0/backend/src/index.ts"]
+      "@backend/core/*": ["./src/*"]
     },
     "declaration": true,
     "declarationMap": true,
-    "emitDeclarationOnly": false,
-    "noEmitOnError": false,
     "composite": true,
     "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@backend/core/.tsbuildinfo"
   },
@@ -26,9 +19,6 @@
     },
     {
       "path": "../../../modules/prisma0/backend/tsconfig.json"
-    },
-    {
-      "path": "../../../modules/idea/shared/tsconfig.json"
     }
   ]
 }

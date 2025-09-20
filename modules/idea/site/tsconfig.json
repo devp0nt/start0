@@ -6,21 +6,10 @@
     "rootDir": "./src",
     "outDir": "./dist",
     "paths": {
-      "@idea/site/*": ["./src/*"],
-      "@appConfig/backend/*": ["../../appConfig/backend/src/*"],
-      "@backend/core/*": ["../../../apps/backend/core/src/*"],
-      "@backend/trpc-router/*": ["../../../apps/backend/router/trpc/src/*"],
-      "@backend/trpc-router": ["../../../apps/backend/router/trpc/src/index.ts"],
-      "@devp0nt/lodash0/*": ["../../lib/lodash0/src/*"],
-      "@devp0nt/lodash0": ["../../lib/lodash0/src/index.ts"],
-      "@idea/backend/*": ["../backend/src/*"],
-      "@idea/shared/*": ["../shared/src/*"],
-      "@site/core/*": ["../../../apps/site/core/src/*"]
+      "@idea/site/*": ["./src/*"]
     },
     "declaration": true,
     "declarationMap": true,
-    "emitDeclarationOnly": false,
-    "noEmitOnError": false,
     "composite": true,
     "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@idea/site/.tsbuildinfo"
   },
@@ -30,27 +19,6 @@
     },
     {
       "path": "../../../apps/site/core/tsconfig.json"
-    },
-    {
-      "path": "../../../apps/backend/router/trpc/tsconfig.json"
-    },
-    {
-      "path": "../../appConfig/backend/tsconfig.json"
-    },
-    {
-      "path": "../../../apps/backend/core/tsconfig.json"
-    },
-    {
-      "path": "../../lib/lodash0/tsconfig.json"
-    },
-    {
-      "path": "../../prisma0/backend/tsconfig.json"
-    },
-    {
-      "path": "../shared/tsconfig.json"
-    },
-    {
-      "path": "../backend/tsconfig.json"
     }
   ]
 }
