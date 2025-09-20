@@ -70,7 +70,6 @@
     "base": {
       "path": "./tsconfig.base.json",
       "settings": {
-        // Option 2 — use paths and full references
         "addUnitsSrcToPaths": { "match": "!#cold", "indexFile": true },
         "addUnitsDistToPaths": { "match": "#cold", "indexFile": true }
       },
