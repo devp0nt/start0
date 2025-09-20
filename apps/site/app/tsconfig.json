@@ -14,16 +14,16 @@
     "rootDirs": ["./", "./.react-router/types"],
     "paths": {
       "@site/app/*": ["./src/*"],
-      "@idea/site/*": ["../../../modules/idea/site/src/*"],
-      "@site/core/*": ["../core/src/*"],
-      "@idea/shared/*": ["../../../modules/idea/shared/src/*"],
-      "@backend/trpc-router": ["../../backend/router/trpc/src/index.ts"],
-      "@backend/trpc-router/*": ["../../backend/router/trpc/src/*"],
       "@appConfig/backend/*": ["../../../modules/appConfig/backend/src/*"],
       "@backend/core/*": ["../../backend/core/src/*"],
+      "@backend/trpc-router": ["../../backend/router/trpc/src/index.ts"],
+      "@backend/trpc-router/*": ["../../backend/router/trpc/src/*"],
       "@devp0nt/lodash0": ["../../../modules/lib/lodash0/src/index.ts"],
       "@devp0nt/lodash0/*": ["../../../modules/lib/lodash0/src/*"],
-      "@idea/backend/*": ["../../../modules/idea/backend/src/*"]
+      "@idea/backend/*": ["../../../modules/idea/backend/src/*"],
+      "@idea/shared/*": ["../../../modules/idea/shared/src/*"],
+      "@idea/site/*": ["../../../modules/idea/site/src/*"],
+      "@site/core/*": ["../core/src/*"]
     }
   },
   "references": [

@@ -1,6 +1,40 @@
 {
-  "include": ["./src/**/*"],
-  "exclude": ["./**/dist/**/*", "./**/node_modules/**/*", "./**/public/**/*"],
+  "include": [
+    "./src/**/*",
+    "../../../modules/appConfig/backend/src/**/*",
+    "../core/src/**/*",
+    "../router/hono/src/**/*",
+    "../router/trpc/src/**/*",
+    "../../../modules/lib/lodash0/src/**/*",
+    "../../../modules/idea/backend/src/**/*",
+    "../../../modules/idea/shared/src/**/*"
+  ],
+  "exclude": [
+    "./**/dist/**/*",
+    "./**/node_modules/**/*",
+    "./**/public/**/*",
+    "../../../modules/appConfig/backend/**/dist/**/*",
+    "../../../modules/appConfig/backend/**/node_modules/**/*",
+    "../../../modules/appConfig/backend/**/public/**/*",
+    "../core/**/dist/**/*",
+    "../core/**/node_modules/**/*",
+    "../core/**/public/**/*",
+    "../router/hono/**/dist/**/*",
+    "../router/hono/**/node_modules/**/*",
+    "../router/hono/**/public/**/*",
+    "../router/trpc/**/dist/**/*",
+    "../router/trpc/**/node_modules/**/*",
+    "../router/trpc/**/public/**/*",
+    "../../../modules/lib/lodash0/**/dist/**/*",
+    "../../../modules/lib/lodash0/**/node_modules/**/*",
+    "../../../modules/lib/lodash0/**/public/**/*",
+    "../../../modules/idea/backend/**/dist/**/*",
+    "../../../modules/idea/backend/**/node_modules/**/*",
+    "../../../modules/idea/backend/**/public/**/*",
+    "../../../modules/idea/shared/**/dist/**/*",
+    "../../../modules/idea/shared/**/node_modules/**/*",
+    "../../../modules/idea/shared/**/public/**/*"
+  ],
   "compilerOptions": {
     "outDir": "./dist",
     "composite": true,
@@ -9,7 +43,10 @@
     "emitDeclarationOnly": false,
     "noEmitOnError": false,
     "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@backend/services/.tsbuildinfo",
+    "rootDir": "./src",
     "paths": {
+      "@backend/services/*": ["./src/*"],
+      "@appConfig/backend/*": ["../../../modules/appConfig/backend/src/*"],
       "@backend/core/*": ["../core/src/*"],
       "@backend/hono-router": ["../router/hono/src/index.ts"],
       "@backend/hono-router/*": ["../router/hono/src/*"],
@@ -17,9 +54,8 @@
       "@backend/trpc-router/*": ["../router/trpc/src/*"],
       "@devp0nt/lodash0": ["../../../modules/lib/lodash0/src/index.ts"],
       "@devp0nt/lodash0/*": ["../../../modules/lib/lodash0/src/*"],
-      "@idea/shared/*": ["../../../modules/idea/shared/src/*"],
-      "@appConfig/backend/*": ["../../../modules/appConfig/backend/src/*"],
-      "@idea/backend/*": ["../../../modules/idea/backend/src/*"]
+      "@idea/backend/*": ["../../../modules/idea/backend/src/*"],
+      "@idea/shared/*": ["../../../modules/idea/shared/src/*"]
     }
   },
   "references": [

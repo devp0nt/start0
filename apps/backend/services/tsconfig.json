@@ -13,6 +13,7 @@
     "rootDir": "./src",
     "paths": {
       "@backend/services/*": ["./src/*"],
+      "@appConfig/backend/*": ["../../../modules/appConfig/backend/src/*"],
       "@backend/core/*": ["../core/src/*"],
       "@backend/hono-router": ["../router/hono/src/index.ts"],
       "@backend/hono-router/*": ["../router/hono/src/*"],
@@ -20,9 +21,8 @@
       "@backend/trpc-router/*": ["../router/trpc/src/*"],
       "@devp0nt/lodash0": ["../../../modules/lib/lodash0/src/index.ts"],
       "@devp0nt/lodash0/*": ["../../../modules/lib/lodash0/src/*"],
-      "@idea/shared/*": ["../../../modules/idea/shared/src/*"],
-      "@appConfig/backend/*": ["../../../modules/appConfig/backend/src/*"],
-      "@idea/backend/*": ["../../../modules/idea/backend/src/*"]
+      "@idea/backend/*": ["../../../modules/idea/backend/src/*"],
+      "@idea/shared/*": ["../../../modules/idea/shared/src/*"]
     }
   },
   "references": [

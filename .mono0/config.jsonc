@@ -215,12 +215,15 @@
         "run": {
           "path": "./tsconfig.run.json",
           "settings": {
-            "setUnitSrcAsRootDir": false,
+            "clearPaths": true,
+            "setUnitSrcAsRootDir": true,
+            "setUnitDistAsOutDir": true,
             "addUnitIncludeToInclude": "prepend",
             "addUnitExcludeToExclude": "prepend",
+            "addSelfSrcToPaths": true,
             "addUnitsSrcToPaths": { "scope": "deps", "deepDeps": "!#cold" },
             "addUnitsAsReferences": { "scope": "depsAndDeepDeps", "match": "#cold", "tsconfig": "$core" },
-            "addUnitsIncludesAndExcludes": { "scope": "depsAndDeepDeps", "match": "!#cold", "tsconfig": "$core" }
+            "addUnitsIncludesAndExcludes": { "scope": "depsAndDeepDeps", "match": "!#cold" }
           },
           "value": {
             "compilerOptions": {

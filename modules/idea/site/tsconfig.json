@@ -13,15 +13,15 @@
     "rootDir": "./src",
     "paths": {
       "@idea/site/*": ["./src/*"],
-      "@idea/shared/*": ["../shared/src/*"],
-      "@site/core/*": ["../../../apps/site/core/src/*"],
-      "@backend/trpc-router": ["../../../apps/backend/router/trpc/src/index.ts"],
-      "@backend/trpc-router/*": ["../../../apps/backend/router/trpc/src/*"],
       "@appConfig/backend/*": ["../../appConfig/backend/src/*"],
       "@backend/core/*": ["../../../apps/backend/core/src/*"],
+      "@backend/trpc-router": ["../../../apps/backend/router/trpc/src/index.ts"],
+      "@backend/trpc-router/*": ["../../../apps/backend/router/trpc/src/*"],
       "@devp0nt/lodash0": ["../../lib/lodash0/src/index.ts"],
       "@devp0nt/lodash0/*": ["../../lib/lodash0/src/*"],
-      "@idea/backend/*": ["../backend/src/*"]
+      "@idea/backend/*": ["../backend/src/*"],
+      "@idea/shared/*": ["../shared/src/*"],
+      "@site/core/*": ["../../../apps/site/core/src/*"]
     }
   },
   "references": [

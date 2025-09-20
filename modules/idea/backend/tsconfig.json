@@ -14,11 +14,11 @@
     "paths": {
       "@idea/backend/*": ["./src/*"],
       "@backend/core/*": ["../../../apps/backend/core/src/*"],
+      "@devp0nt/lodash0": ["../../lib/lodash0/src/index.ts"],
+      "@devp0nt/lodash0/*": ["../../lib/lodash0/src/*"],
       "@idea/shared/*": ["../shared/src/*"],
       "@prisma0/backend": ["../../prisma0/backend/src/index.ts"],
-      "@prisma0/backend/*": ["../../prisma0/backend/src/*"],
-      "@devp0nt/lodash0": ["../../lib/lodash0/src/index.ts"],
-      "@devp0nt/lodash0/*": ["../../lib/lodash0/src/*"]
+      "@prisma0/backend/*": ["../../prisma0/backend/src/*"]
     }
   },
   "references": [
