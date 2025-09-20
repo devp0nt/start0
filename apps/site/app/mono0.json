@@ -3,15 +3,19 @@
   "preset": "site",
   "deps": ["@site/core", "@devp0nt/env0", "#site"],
   "tsconfig": {
-    "include": [".react-router/types/**/*", "./react-router.config.ts", "./vite.config.ts"],
-    "compilerOptions": {
-      "rootDir": "./",
-      "rootDirs": ["./", "./.react-router/types"]
+    "value": {
+      "include": [".react-router/types/**/*", "./react-router.config.ts", "./vite.config.ts"],
+      "compilerOptions": {
+        "rootDir": "./",
+        "rootDirs": ["./", "./.react-router/types"]
+      }
     }
   },
   "packageJson": {
-    "scripts": {
-      "types": "rimraf dist && react-router typegen && tsc"
+    "value": {
+      "scripts": {
+        "types": "rimraf dist && react-router typegen && tsc"
+      }
     }
   }
 }

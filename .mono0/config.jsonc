@@ -179,25 +179,33 @@
     },
     "shared": {
       "tsconfig": {
-        "extends": "$shared"
+        "value": {
+          "extends": "$shared"
+        }
       },
       "tags": ["shared"]
     },
     "backend": {
       "tsconfig": {
-        "extends": "$backend"
+        "value": {
+          "extends": "$backend"
+        }
       },
       "tags": ["backend"]
     },
     "site": {
       "tsconfig": {
-        "extends": "$site"
+        "value": {
+          "extends": "$site"
+        }
       },
       "tags": ["site"]
     },
     "tools": {
       "tsconfig": {
-        "extends": "$tools"
+        "value": {
+          "extends": "$tools"
+        }
       },
       "tags": ["tools"]
     }
