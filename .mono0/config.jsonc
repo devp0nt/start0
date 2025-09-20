@@ -109,8 +109,7 @@
           "moduleResolution": "Bundler",
           "verbatimModuleSyntax": true,
           "resolveJsonModule": true
-        },
-        "exclude": ["$exclude"]
+        }
       }
     },
     "shared": {
@@ -216,6 +215,7 @@
         "run": {
           "path": "./tsconfig.run.json",
           "settings": {
+            "setUnitSrcAsRootDir": false,
             "addUnitIncludeToInclude": "prepend",
             "addUnitExcludeToExclude": "prepend",
             "addUnitsSrcToPaths": { "scope": "deps", "deepDeps": "!#cold" },
@@ -231,8 +231,7 @@
               "noEmitOnError": false,
               "outDir": "./dist",
               "tsBuildInfoFile": "~/node_modules/.cache/tsbuildinfo/{{name}}/.tsbuildinfo"
-            },
-            "exclude": ["$exclude"]
+            }
           }
         }
       }

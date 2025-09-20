@@ -1,16 +1,15 @@
 {
-  "exclude": ["**/dist/**/*", "**/node_modules/**/*", "**/public/**/*"],
   "compilerOptions": {
-    "target": "ESNext",
-    "module": "ESNext",
     "lib": ["ESNext"],
-    "jsx": "react-jsx",
-    "resolveJsonModule": true,
     "types": ["node", "bun"],
-    "moduleResolution": "Bundler",
+    "target": "ESNext",
+    "strict": true,
+    "jsx": "react-jsx",
     "esModuleInterop": true,
-    "verbatimModuleSyntax": true,
     "skipLibCheck": true,
-    "strict": true
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "verbatimModuleSyntax": true,
+    "resolveJsonModule": true
   }
 }
