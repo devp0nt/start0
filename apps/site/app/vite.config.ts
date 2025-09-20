@@ -1,13 +1,14 @@
 import { reactRouter } from '@react-router/dev/vite'
-import { createEnvBuild } from '@site/core/lib/env'
 import { reactRouterHonoServer } from 'react-router-hono-server/dev'
 import { defineConfig, loadEnv } from 'vite'
 import devtoolsJson from 'vite-plugin-devtools-json'
 import tsconfigPaths from 'vite-tsconfig-paths'
+import { createEnvBuild } from '../core/src/lib/env'
 
 export default defineConfig(({ mode }) => {
   const envRaw = loadEnv(mode, process.cwd(), '')
   const env = createEnvBuild(envRaw)
+
   return {
     build: {
       target: 'esnext',

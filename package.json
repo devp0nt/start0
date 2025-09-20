@@ -89,6 +89,7 @@
     "vite-tsconfig-paths": "^5.1.4",
     "workspace-root": "^3.3.1"
   },
+  "exports": {},
   "workspaces": {
     "packages": [
       "./modules/appConfig/backend",
@@ -101,6 +102,7 @@
       "./modules/idea/shared",
       "./modules/idea/site",
       "./modules/prisma0/backend",
+      "./apps/site/app",
       "./apps/site/core",
       "./tools"
     ],

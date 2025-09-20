@@ -4,7 +4,7 @@
   "deps": ["@site/core", "@devp0nt/env0", "#site"],
   "tsconfig": {
     "value": {
-      "include": [".react-router/types/**/*", "./react-router.config.ts", "./vite.config.ts"],
+      "include": [".react-router/types/**/*", "./react-router.config.ts", "./vite.config.ts", "./src/**/*"],
       "compilerOptions": {
         "rootDir": "./",
         "rootDirs": ["./", "./.react-router/types"]
@@ -15,7 +15,8 @@
     "value": {
       "scripts": {
         "dev": "cross-env NODE_ENV=development bun run --bun vite",
-        "types": "rimraf dist && react-router typegen && tsc",
+        "types": "tsc --noEmit",
+        "types:rr": "rimraf dist && react-router typegen && tsc",
         "build": "cross-env NODE_ENV=production react-router build",
         "start": "cross-env NODE_ENV=production bun ./dist/server/index.js"
       }

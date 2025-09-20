@@ -6,9 +6,10 @@
     "build": "cross-env NODE_ENV=production react-router build",
     "dev": "cross-env NODE_ENV=development bun run --bun vite",
     "start": "cross-env NODE_ENV=production bun ./dist/server/index.js",
-    "types": "rimraf dist && react-router typegen && tsc",
-    "watch": "tsc --watch --noEmitOnError false --skipLibCheck --noCheck --assumeChangesOnlyAffectDirectDependencies  --preserveWatchOutput",
-    "clean": "rimraf ../../../node_modules/.cache/tsbuildinfo/@site/app && rimraf ./dist"
+    "types": "tsc --noEmit",
+    "watch": "tsc --watch",
+    "clean": "rimraf ../../../node_modules/.cache/tsbuildinfo/@site/app && rimraf ./dist",
+    "types:rr": "rimraf dist && react-router typegen && tsc"
   },
   "dependencies": {
     "@react-router/node": "catalog:",

@@ -3,6 +3,8 @@
     "types": ["node", "bun"],
     "paths": {
       "@trpc/server/*": ["../node_modules/@trpc/server/*"],
+      "react-router": ["../node_modules/react-router/*"],
+      "@tanstack/query-core": ["../node_modules/@tanstack/query-core/*"],
       "@appConfig/backend/*": ["../modules/appConfig/backend/src/*"],
       "@backend/core/*": ["../apps/backend/core/src/*"],
       "@backend/hono-router/*": ["../apps/backend/router/hono/src/*"],
@@ -15,6 +17,7 @@
       "@idea/backend/*": ["../modules/idea/backend/src/*"],
       "@idea/shared/*": ["../modules/idea/shared/src/*"],
       "@idea/site/*": ["../modules/idea/site/src/*"],
+      "@site/app/*": ["../apps/site/app/src/*"],
       "@site/core/*": ["../apps/site/core/src/*"],
       "@tools/shared/*": ["../tools/src/*"],
       "@tools/shared": ["../tools/src/index.ts"],

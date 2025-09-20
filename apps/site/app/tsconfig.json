@@ -1,15 +1,11 @@
 {
   "extends": "../../../.mono0/tsconfig.site.json",
-  "include": [".react-router/types/**/*", "./react-router.config.ts", "./vite.config.ts"],
+  "include": [".react-router/types/**/*", "./react-router.config.ts", "./vite.config.ts", "./src/**/*"],
   "exclude": ["./**/dist/**/*", "./**/node_modules/**/*", "./**/public/**/*"],
   "compilerOptions": {
     "rootDir": "./",
     "rootDirs": ["./", "./.react-router/types"],
     "outDir": "./dist",
-    "paths": {
-      "@trpc/server/*": ["../../../node_modules/@trpc/server/*"],
-      "@site/app/*": ["./src/*"]
-    },
     "declaration": true,
     "declarationMap": true,
     "composite": true,
@@ -17,7 +13,10 @@
   },
   "references": [
     {
-      "path": "../../../modules/prisma0/backend/tsconfig.json"
+      "path": "../../../modules/idea/site/tsconfig.json"
+    },
+    {
+      "path": "../core/tsconfig.json"
     }
   ]
 }

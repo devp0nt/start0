@@ -114,6 +114,15 @@
         "@backend/trpc-router": "workspace:*",
       },
     },
+    "apps/site/app": {
+      "name": "@site/app",
+      "dependencies": {
+        "@idea/site": "workspace:*",
+        "@react-router/node": "catalog:",
+        "@site/core": "workspace:*",
+        "isbot": "^5",
+      },
+    },
     "apps/site/core": {
       "name": "@site/core",
       "dependencies": {
@@ -517,6 +526,8 @@
     "@sec-ant/readable-stream": ["@sec-ant/readable-stream@0.4.1", "", {}, "sha512-831qok9r2t8AlxLko40y2ebgSDhenenCatLVeW/uBtnHPyhHOvG0C7TvfgecV+wHzIm5KUICgzmVpWS+IMEAeg=="],
 
     "@sindresorhus/merge-streams": ["@sindresorhus/merge-streams@2.3.0", "", {}, "sha512-LtoMMhxAlorcGhmFYI+LhPgbPZCkgP6ra1YL604EeF6U98pLlQ3iWIGMdWSC+vWmPBWBNgmDBAhnAobLROJmwg=="],
+
+    "@site/app": ["@site/app@workspace:apps/site/app"],
 
     "@site/core": ["@site/core@workspace:apps/site/core"],
 

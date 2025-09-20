@@ -5,7 +5,7 @@ import { type DehydratedState, dehydrate, hydrate, type QueryClient } from '@tan
 import merge from 'deepmerge'
 import { type LoaderFunctionArgs, useMatches } from 'react-router'
 
-export namespace RR0 {
+export namespace RR01 {
   export const createLoader = <TOutput>(fn: (props: any) => Promise<TOutput>) => {
     return async (loaderArgs: LoaderFunctionArgs) => {
       try {

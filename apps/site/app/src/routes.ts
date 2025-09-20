@@ -8,4 +8,4 @@ export default [
     route('*', './routes/catchall.tsx', { id: 'catchall1' }),
   ]),
   route('*', './routes/catchall.tsx', { id: 'catchall2' }),
-] satisfies RouteConfig
+] satisfies RouteConfig as any
