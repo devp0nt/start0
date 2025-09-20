@@ -15,7 +15,7 @@
   },
   "references": [
     {
-      "path": "../../backend/router/trpc/tsconfig.json"
+      "path": "../../../modules/prisma0/backend/tsconfig.json"
     }
   ]
 }

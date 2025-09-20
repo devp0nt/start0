@@ -20,7 +20,7 @@
         "./src/index.tsx"
       ],
       "import": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "types": "./src/index.ts"
     },
     "./*": {
       "node": [
@@ -28,7 +28,7 @@
         "./src/*.tsx"
       ],
       "import": "./dist/*.js",
-      "types": "./dist/*.d.ts"
+      "types": "./src/*.ts"
     },
     "./ping/*": {
       "node": [
@@ -36,7 +36,7 @@
         "./src/ping/*.tsx"
       ],
       "import": "./dist/ping/*.js",
-      "types": "./dist/ping/*.d.ts"
+      "types": "./src/ping/*.ts"
     }
   }
 }

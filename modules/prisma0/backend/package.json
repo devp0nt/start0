@@ -13,20 +13,12 @@
   },
   "exports": {
     ".": {
-      "node": [
-        "./src/index.ts",
-        "./src/index.tsx"
-      ],
       "import": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "types": "./dist/index.d.js"
     },
     "./*": {
-      "node": [
-        "./src/*.ts",
-        "./src/*.tsx"
-      ],
       "import": "./dist/*.js",
-      "types": "./dist/*.d.ts"
+      "types": "./dist/*.d.js"
     }
   }
 }

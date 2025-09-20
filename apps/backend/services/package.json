@@ -14,15 +14,5 @@
     "@backend/core": "workspace:*",
     "@backend/hono-router": "workspace:*",
     "@backend/trpc-router": "workspace:*"
-  },
-  "exports": {
-    "./*": {
-      "node": [
-        "./src/*.ts",
-        "./src/*.tsx"
-      ],
-      "import": "./dist/*.js",
-      "types": "./dist/*.d.ts"
-    }
   }
 }

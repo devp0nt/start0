@@ -15,10 +15,7 @@
   },
   "references": [
     {
-      "path": "../shared/tsconfig.json"
-    },
-    {
-      "path": "../../../apps/site/core/tsconfig.json"
+      "path": "../../prisma0/backend/tsconfig.json"
     }
   ]
 }

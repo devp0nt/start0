@@ -59,9 +59,9 @@
       "type": "module",
       "scripts": {
         "types": "bun run mono0 exec bun run types",
-        "build": "bun run mono0 exec bun run build",
-        "watch": "bun run mono0 exec bun run watch",
-        "clean": "bun run mono0 exec bun run clean"
+        "build": "bun run mono0 exec -m '#cold' bun run build",
+        "watch": "bun run mono0 exec -m '#cold' bun run watch",
+        "clean": "rimraf ./node_modules/.cache/tsbuildinfo && bun run mono0 exec bun run clean"
       }
     }
   },
@@ -140,8 +140,8 @@
           "clearWorkspaceDeps": true,
           "addWorkspaceDeps": true,
           "clearExports": true,
-          "addExportsFromDist": { "dirs": true, "import": [".js"], "types": [".d.ts"], "indexFile": true },
-          "addExportsFromSrc": { "dirs": true, "node": [".ts", ".tsx"], "indexFile": true },
+          "addExportsFromDist": { "dirs": true, "import": [".js"], "indexFile": true },
+          "addExportsFromSrc": { "dirs": true, "node": [".ts", ".tsx"], "types": [".ts"], "indexFile": true },
           "sortExports": true
         },
         "value": {
@@ -167,7 +167,7 @@
             "addSelfSrcToPaths": true,
             "addSelfSrcIndexFileToPaths": true,
             "clearReferences": true,
-            "addUnitsAsReferences": { "scope": "deps", "tsconfig": "$core" }
+            "addUnitsAsReferences": { "scope": "depsAndDeepDeps", "tsconfig": "$core", "match": "#cold" }
           },
           "value": {
             "compilerOptions": {
@@ -193,7 +193,13 @@
       }
     },
     "cold": {
-      "tags": ["cold"]
+      "tags": ["cold"],
+      "packageJson": {
+        "settings": {
+          "addExportsFromDist": { "dirs": true, "import": [".js"], "types": [".d.js"], "indexFile": true },
+          "addExportsFromSrc": false
+        }
+      }
     },
     "shared": {
       "tsconfig": {

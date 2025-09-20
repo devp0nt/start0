@@ -15,9 +15,6 @@
   },
   "references": [
     {
-      "path": "../../../modules/lib/lodash0/tsconfig.json"
-    },
-    {
       "path": "../../../modules/prisma0/backend/tsconfig.json"
     }
   ]

@@ -16,7 +16,7 @@
   },
   "references": [
     {
-      "path": "../../core/tsconfig.json"
+      "path": "../../../../modules/prisma0/backend/tsconfig.json"
     }
   ]
 }

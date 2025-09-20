@@ -14,9 +14,5 @@
     "composite": true,
     "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@prisma0/backend/.tsbuildinfo"
   },
-  "references": [
-    {
-      "path": "../../idea/shared/tsconfig.json"
-    }
-  ]
+  "references": []
 }
