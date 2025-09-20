@@ -10,15 +10,5 @@
   },
   "dependencies": {
     "@idea/shared": "workspace:*"
-  },
-  "exports": {
-    ".": {
-      "import": "./dist/index.js",
-      "types": "./dist/index.d.js"
-    },
-    "./*": {
-      "import": "./dist/*.js",
-      "types": "./dist/*.d.js"
-    }
   }
 }

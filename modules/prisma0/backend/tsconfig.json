@@ -5,15 +5,14 @@
   "compilerOptions": {
     "rootDir": "./src",
     "outDir": "./dist",
-    "paths": {
-      "@trpc/server/*": ["../../../node_modules/@trpc/server/*"],
-      "@prisma0/backend/*": ["./src/*"],
-      "@prisma0/backend": ["./src/index.ts"]
-    },
     "declaration": true,
     "declarationMap": true,
     "composite": true,
     "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@prisma0/backend/.tsbuildinfo"
   },
-  "references": []
+  "references": [
+    {
+      "path": "../../idea/shared/tsconfig.json"
+    }
+  ]
 }

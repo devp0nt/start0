@@ -1,6 +1,6 @@
 // TODO:ASAP resolve circular deps here, tri0
-import { Prisma, PrismaClient } from '@prisma0/backend/generated/prisma/client'
-import { Prisma0Models } from '@prisma0/backend/generated/prisma0/models'
+import { Prisma, PrismaClient } from './generated/prisma/client'
+import { Prisma0Models } from './generated/prisma0/models'
 import { backOff } from 'exponential-backoff'
 
 // TODO: use as separate package

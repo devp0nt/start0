@@ -8,29 +8,5 @@
     "watch": "tsc --watch --noEmitOnError false --skipLibCheck --noCheck --assumeChangesOnlyAffectDirectDependencies  --preserveWatchOutput",
     "clean": "rimraf ./../node_modules/.cache/tsbuildinfo/@tools/shared && rimraf ./dist"
   },
-  "dependencies": {},
-  "exports": {
-    ".": {
-      "node": [
-        "./src/index.ts",
-        "./src/index.tsx"
-      ],
-      "import": "./dist/index.js",
-      "types": [
-        "./src/index.ts",
-        "./src/index.tsx"
-      ]
-    },
-    "./*": {
-      "node": [
-        "./src/*.ts",
-        "./src/*.tsx"
-      ],
-      "import": "./dist/*.js",
-      "types": [
-        "./src/*.ts",
-        "./src/*.tsx"
-      ]
-    }
-  }
+  "dependencies": {}
 }

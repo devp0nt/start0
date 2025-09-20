@@ -11,18 +11,5 @@
   "dependencies": {
     "@idea/shared": "workspace:*",
     "@site/core": "workspace:*"
-  },
-  "exports": {
-    "./*": {
-      "node": [
-        "./src/*.ts",
-        "./src/*.tsx"
-      ],
-      "import": "./dist/*.js",
-      "types": [
-        "./src/*.ts",
-        "./src/*.tsx"
-      ]
-    }
   }
 }

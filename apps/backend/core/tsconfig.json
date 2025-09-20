@@ -5,16 +5,15 @@
   "compilerOptions": {
     "rootDir": "./src",
     "outDir": "./dist",
-    "paths": {
-      "@trpc/server/*": ["../../../node_modules/@trpc/server/*"],
-      "@backend/core/*": ["./src/*"]
-    },
     "declaration": true,
     "declarationMap": true,
     "composite": true,
     "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@backend/core/.tsbuildinfo"
   },
   "references": [
+    {
+      "path": "../../../modules/lib/lodash0/tsconfig.json"
+    },
     {
       "path": "../../../modules/prisma0/backend/tsconfig.json"
     }

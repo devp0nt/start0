@@ -12,18 +12,5 @@
     "@backend/core": "workspace:*",
     "@idea/shared": "workspace:*",
     "@prisma0/backend": "workspace:*"
-  },
-  "exports": {
-    "./*": {
-      "node": [
-        "./src/*.ts",
-        "./src/*.tsx"
-      ],
-      "import": "./dist/*.js",
-      "types": [
-        "./src/*.ts",
-        "./src/*.tsx"
-      ]
-    }
   }
 }

@@ -10,29 +10,5 @@
   },
   "dependencies": {
     "@backend/trpc-router": "workspace:*"
-  },
-  "exports": {
-    "./components/*": {
-      "node": [
-        "./src/components/*.ts",
-        "./src/components/*.tsx"
-      ],
-      "import": "./dist/components/*.js",
-      "types": [
-        "./src/components/*.ts",
-        "./src/components/*.tsx"
-      ]
-    },
-    "./lib/*": {
-      "node": [
-        "./src/lib/*.ts",
-        "./src/lib/*.tsx"
-      ],
-      "import": "./dist/lib/*.js",
-      "types": [
-        "./src/lib/*.ts",
-        "./src/lib/*.tsx"
-      ]
-    }
   }
 }

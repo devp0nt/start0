@@ -60,8 +60,15 @@
       "type": "module",
       "scripts": {
         "types": "bun run mono0 exec bun run types",
-        "build": "bun run mono0 exec -m '#cold' bun run build",
-        "watch": "bun run mono0 exec -m '#cold' bun run watch",
+
+        // Option 1 — import from packages
+        // "build": "bun run mono0 exec -m '#cold' bun run build",
+        // "watch": "bun run mono0 exec -m '#cold' bun run watch",
+
+        // Option 2 — use paths and full references
+        // "build": "tsc --build",
+        // "watch": "tsc --watch",
+
         "clean": "bun run mono0 exec bun run clean"
       }
     }
@@ -69,6 +76,11 @@
   "tsconfigs": {
     "base": {
       "path": "./tsconfig.base.json",
+      "settings": {
+        // Option 2 — use paths and full references
+        "addUnitsSrcToPaths": { "match": "!#cold", "indexFile": true },
+        "addUnitsDistToPaths": { "match": "#cold", "indexFile": true }
+      },
       "value": {
         "compilerOptions": {
           "lib": ["ESNext"],
@@ -81,7 +93,10 @@
           "module": "ESNext",
           "moduleResolution": "Bundler",
           "verbatimModuleSyntax": true,
-          "resolveJsonModule": true
+          "resolveJsonModule": true,
+          "paths": {
+            "@trpc/server/*": ["~/node_modules/@trpc/server/*"]
+          }
         }
       }
     },
@@ -95,7 +110,6 @@
       },
       "settings": {
         "addUnitsAsReferences": { "tsconfig": "$core" }
-        // "addUnitsSrcToPaths": true // we do not need it, becouse we get everything package.json
       }
     },
     "shared": {
@@ -141,8 +155,9 @@
           "clearWorkspaceDeps": true,
           "addWorkspaceDeps": true,
           "clearExports": true,
-          "addExportsFromDist": { "dirs": true, "import": [".js"], "indexFile": true },
-          "addExportsFromSrc": { "dirs": true, "node": [".ts", ".tsx"], "types": [".ts", ".tsx"], "indexFile": true },
+          // Option 1 — import from packages
+          // "addExportsFromDist": { "dirs": true, "import": [".js"], "indexFile": true },
+          // "addExportsFromSrc": { "dirs": true, "node": [".ts", ".tsx"], "types": [".ts", ".tsx"], "indexFile": true },
           "sortExports": true
         },
         "value": {
@@ -164,9 +179,14 @@
             "setUnitDistAsOutDir": true,
             "addUnitIncludeToInclude": "whenNotProvided",
             "addUnitExcludeToExclude": "whenNotProvided",
-            "addSelfSrcToPaths": true,
-            "addSelfSrcIndexFileToPaths": true,
-            "addUnitsAsReferences": { "scope": "depsAndDeepDeps", "tsconfig": "$core", "match": "#cold" } // we need only cold, as references, all other will be bundled via bundlers like vite or bun
+
+            // Option 1 — import from packages (we need in self package imports)
+            // "addSelfSrcToPaths": true,
+            // "addSelfSrcIndexFileToPaths": true,
+            // "addUnitsAsReferences": { "scope": "depsAndDeepDeps", "tsconfig": "$core", "match": "#cold" } // we need only cold, as references, all other will be bundled via bundlers like vite or bun
+            
+            // Option 2 — use paths and full references
+            "addUnitsAsReferences": { "scope": "deps", "tsconfig": "$core" } // we need all, becouse else we recieve x.ts is not listed within the file list of project
           },
           "value": {
             "compilerOptions": {
@@ -174,9 +194,10 @@
               "declaration": true,
               "declarationMap": true,
               "tsBuildInfoFile": "~/node_modules/.cache/tsbuildinfo/{{name}}/.tsbuildinfo",
-              "paths": {
-                "@trpc/server/*": ["~/node_modules/@trpc/server/*"]
-              }
+              // Option 1 — import from packages (as we add own paths, so base paths not extends now)
+              // "paths": {
+              //   "@trpc/server/*": ["~/node_modules/@trpc/server/*"]
+              // }
             }
           }
         }
@@ -189,8 +210,9 @@
           "clearWorkspaceDeps": true,
           "addWorkspaceDeps": true,
           "clearExports": true,
-          "addExportsFromDist": false,
-          "addExportsFromSrc": false
+          // Option 1 — import from packages
+          // "addExportsFromDist": false,
+          // "addExportsFromSrc": false
         }
       }
     },
@@ -198,8 +220,9 @@
       "tags": ["cold"],
       "packageJson": {
         "settings": {
-          "addExportsFromDist": { "dirs": true, "import": [".js"], "types": [".d.js"], "indexFile": true },
-          "addExportsFromSrc": false
+          // Option 1 — import from packages
+          // "addExportsFromDist": { "dirs": true, "import": [".js"], "types": [".d.js"], "indexFile": true },
+          // "addExportsFromSrc": false
         }
       }
     },

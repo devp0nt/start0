@@ -11,18 +11,5 @@
   "dependencies": {
     "@devp0nt/lodash0": "workspace:*",
     "@prisma0/backend": "workspace:*"
-  },
-  "exports": {
-    "./lib/*": {
-      "node": [
-        "./src/lib/*.ts",
-        "./src/lib/*.tsx"
-      ],
-      "import": "./dist/lib/*.js",
-      "types": [
-        "./src/lib/*.ts",
-        "./src/lib/*.tsx"
-      ]
-    }
   }
 }
