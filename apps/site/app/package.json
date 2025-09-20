@@ -2,33 +2,6 @@
   "name": "@site/app",
   "private": true,
   "type": "module",
-  "exports": {
-    "./*": {
-      "import": "./dist/*.js",
-      "types": "./dist/*.d.ts",
-      "development": "./src/*.js"
-    },
-    "./components/*": {
-      "import": "./dist/components/*.js",
-      "types": "./dist/components/*.d.ts",
-      "development": "./src/components/*.js"
-    },
-    "./pages/*": {
-      "import": "./dist/pages/*.js",
-      "types": "./dist/pages/*.d.ts",
-      "development": "./src/pages/*.js"
-    },
-    "./routes/*": {
-      "import": "./dist/routes/*.js",
-      "types": "./dist/routes/*.d.ts",
-      "development": "./src/routes/*.js"
-    },
-    "./routes/generated/*": {
-      "import": "./dist/routes/generated/*.js",
-      "types": "./dist/routes/generated/*.d.ts",
-      "development": "./src/routes/generated/*.js"
-    }
-  },
   "scripts": {
     "build": "tsc --build",
     "dev": "cross-env NODE_ENV=development bun run --bun vite",
@@ -42,5 +15,47 @@
     "isbot": "^5",
     "@idea/site": "workspace:*",
     "@site/core": "workspace:*"
+  },
+  "exports": {
+    "./*": {
+      "import": "./dist/*.js",
+      "types": "./dist/*.d.ts",
+      "node": [
+        "./src/*.ts",
+        "./src/*.tsx"
+      ]
+    },
+    "./components/*": {
+      "import": "./dist/components/*.js",
+      "types": "./dist/components/*.d.ts",
+      "node": [
+        "./src/components/*.ts",
+        "./src/components/*.tsx"
+      ]
+    },
+    "./pages/*": {
+      "import": "./dist/pages/*.js",
+      "types": "./dist/pages/*.d.ts",
+      "node": [
+        "./src/pages/*.ts",
+        "./src/pages/*.tsx"
+      ]
+    },
+    "./routes/*": {
+      "import": "./dist/routes/*.js",
+      "types": "./dist/routes/*.d.ts",
+      "node": [
+        "./src/routes/*.ts",
+        "./src/routes/*.tsx"
+      ]
+    },
+    "./routes/generated/*": {
+      "import": "./dist/routes/generated/*.js",
+      "types": "./dist/routes/generated/*.d.ts",
+      "node": [
+        "./src/routes/generated/*.ts",
+        "./src/routes/generated/*.tsx"
+      ]
+    }
   }
 }

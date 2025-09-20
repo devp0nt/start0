@@ -6,7 +6,8 @@
     "rootDir": "./src",
     "outDir": "./dist",
     "paths": {
-      "@backend/trpc-router/*": ["./src/*"]
+      "@backend/trpc-router/*": ["./src/*"],
+      "@backend/trpc-router": ["./src/index.ts"]
     },
     "declaration": true,
     "declarationMap": true,

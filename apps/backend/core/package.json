@@ -2,13 +2,6 @@
   "name": "@backend/core",
   "private": true,
   "type": "module",
-  "exports": {
-    "./lib/*": {
-      "import": "./dist/lib/*.js",
-      "types": "./dist/lib/*.d.ts",
-      "development": "./src/lib/*.js"
-    }
-  },
   "scripts": {
     "types": "tsc --noEmit",
     "build": "tsc --build",
@@ -18,5 +11,15 @@
   "dependencies": {
     "@devp0nt/lodash0": "workspace:*",
     "@prisma0/backend": "workspace:*"
+  },
+  "exports": {
+    "./lib/*": {
+      "import": "./dist/lib/*.js",
+      "types": "./dist/lib/*.d.ts",
+      "node": [
+        "./src/lib/*.ts",
+        "./src/lib/*.tsx"
+      ]
+    }
   }
 }

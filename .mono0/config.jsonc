@@ -133,14 +133,15 @@
       "srcDir": true,
       "distDir": "./dist",
       "include": true,
+      "srcIndexFile": true,
       "exclude": ["$exclude"],
       "packageJson": {
         "settings": {
           "clearWorkspaceDeps": true,
           "addWorkspaceDeps": true,
           "clearExports": true,
-          "addExportsFromDist": { "dirs": true, "import": [".js"], "types": [".d.ts"] },
-          "addExportsFromSrc": { "dirs": true, "development": [".js"] }
+          "addExportsFromDist": { "dirs": true, "import": [".js"], "types": [".d.ts"], "indexFile": true },
+          "addExportsFromSrc": { "dirs": true, "node": [".ts", ".tsx"], "indexFile": true }
         },
         "value": {
           "private": true,
@@ -163,6 +164,7 @@
             "addUnitExcludeToExclude": "whenNotProvided",
             "clearPaths": true,
             "addSelfSrcToPaths": true,
+            "addSelfSrcIndexFileToPaths": true,
             "clearReferences": true,
             "addUnitsAsReferences": { "scope": "deps", "tsconfig": "$core" }
           },

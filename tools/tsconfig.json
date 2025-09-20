@@ -6,7 +6,8 @@
     "rootDir": "./src",
     "outDir": "./dist",
     "paths": {
-      "@tools/shared/*": ["./src/*"]
+      "@tools/shared/*": ["./src/*"],
+      "@tools/shared": ["./src/index.ts"]
     },
     "declaration": true,
     "declarationMap": true,

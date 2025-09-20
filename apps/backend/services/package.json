@@ -2,13 +2,6 @@
   "name": "@backend/services",
   "private": true,
   "type": "module",
-  "exports": {
-    "./*": {
-      "import": "./dist/*.js",
-      "types": "./dist/*.d.ts",
-      "development": "./src/*.js"
-    }
-  },
   "scripts": {
     "dev": "NODE_ENV=development bun --watch src/dev.ts",
     "types": "tsc --noEmit",
@@ -21,5 +14,15 @@
     "@backend/core": "workspace:*",
     "@backend/hono-router": "workspace:*",
     "@backend/trpc-router": "workspace:*"
+  },
+  "exports": {
+    "./*": {
+      "import": "./dist/*.js",
+      "types": "./dist/*.d.ts",
+      "node": [
+        "./src/*.ts",
+        "./src/*.tsx"
+      ]
+    }
   }
 }

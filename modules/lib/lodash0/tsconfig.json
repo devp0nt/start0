@@ -6,7 +6,8 @@
     "rootDir": "./src",
     "outDir": "./dist",
     "paths": {
-      "@devp0nt/lodash0/*": ["./src/*"]
+      "@devp0nt/lodash0/*": ["./src/*"],
+      "@devp0nt/lodash0": ["./src/index.ts"]
     },
     "declaration": true,
     "declarationMap": true,

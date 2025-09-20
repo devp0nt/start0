@@ -2,18 +2,21 @@
   "name": "@idea/shared",
   "private": true,
   "type": "module",
-  "exports": {
-    "./*": {
-      "import": "./dist/*.js",
-      "types": "./dist/*.d.ts",
-      "development": "./src/*.js"
-    }
-  },
   "scripts": {
     "types": "tsc --noEmit",
     "build": "tsc --build",
     "watch": "tsc --watch --noEmitOnError false --skipLibCheck --noCheck --assumeChangesOnlyAffectDirectDependencies  --preserveWatchOutput",
     "clean": "rimraf {{distDir}}"
   },
-  "dependencies": {}
+  "dependencies": {},
+  "exports": {
+    "./*": {
+      "import": "./dist/*.js",
+      "types": "./dist/*.d.ts",
+      "node": [
+        "./src/*.ts",
+        "./src/*.tsx"
+      ]
+    }
+  }
 }

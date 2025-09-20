@@ -2,18 +2,6 @@
   "name": "@site/core",
   "private": true,
   "type": "module",
-  "exports": {
-    "./components/*": {
-      "import": "./dist/components/*.js",
-      "types": "./dist/components/*.d.ts",
-      "development": "./src/components/*.js"
-    },
-    "./lib/*": {
-      "import": "./dist/lib/*.js",
-      "types": "./dist/lib/*.d.ts",
-      "development": "./src/lib/*.js"
-    }
-  },
   "scripts": {
     "types": "tsc --noEmit",
     "build": "tsc --build",
@@ -22,5 +10,23 @@
   },
   "dependencies": {
     "@backend/trpc-router": "workspace:*"
+  },
+  "exports": {
+    "./components/*": {
+      "import": "./dist/components/*.js",
+      "types": "./dist/components/*.d.ts",
+      "node": [
+        "./src/components/*.ts",
+        "./src/components/*.tsx"
+      ]
+    },
+    "./lib/*": {
+      "import": "./dist/lib/*.js",
+      "types": "./dist/lib/*.d.ts",
+      "node": [
+        "./src/lib/*.ts",
+        "./src/lib/*.tsx"
+      ]
+    }
   }
 }

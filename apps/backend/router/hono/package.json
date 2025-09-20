@@ -2,23 +2,6 @@
   "name": "@backend/hono-router",
   "private": true,
   "type": "module",
-  "exports": {
-    "./*": {
-      "import": "./dist/*.js",
-      "types": "./dist/*.d.ts",
-      "development": "./src/*.js"
-    },
-    "./hello/*": {
-      "import": "./dist/hello/*.js",
-      "types": "./dist/hello/*.d.ts",
-      "development": "./src/hello/*.js"
-    },
-    "./ping/*": {
-      "import": "./dist/ping/*.js",
-      "types": "./dist/ping/*.d.ts",
-      "development": "./src/ping/*.js"
-    }
-  },
   "scripts": {
     "types": "tsc --noEmit",
     "build": "tsc --build",
@@ -27,5 +10,39 @@
   },
   "dependencies": {
     "@backend/core": "workspace:*"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts",
+      "node": [
+        "./src/index.ts",
+        "./src/index.tsx"
+      ]
+    },
+    "./*": {
+      "import": "./dist/*.js",
+      "types": "./dist/*.d.ts",
+      "node": [
+        "./src/*.ts",
+        "./src/*.tsx"
+      ]
+    },
+    "./hello/*": {
+      "import": "./dist/hello/*.js",
+      "types": "./dist/hello/*.d.ts",
+      "node": [
+        "./src/hello/*.ts",
+        "./src/hello/*.tsx"
+      ]
+    },
+    "./ping/*": {
+      "import": "./dist/ping/*.js",
+      "types": "./dist/ping/*.d.ts",
+      "node": [
+        "./src/ping/*.ts",
+        "./src/ping/*.tsx"
+      ]
+    }
   }
 }

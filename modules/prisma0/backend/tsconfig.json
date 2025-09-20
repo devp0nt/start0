@@ -6,7 +6,8 @@
     "rootDir": "./src",
     "outDir": "./dist",
     "paths": {
-      "@prisma0/backend/*": ["./src/*"]
+      "@prisma0/backend/*": ["./src/*"],
+      "@prisma0/backend": ["./src/index.ts"]
     },
     "declaration": true,
     "declarationMap": true,

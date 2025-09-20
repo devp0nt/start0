@@ -2,13 +2,6 @@
   "name": "@idea/site",
   "private": true,
   "type": "module",
-  "exports": {
-    "./*": {
-      "import": "./dist/*.js",
-      "types": "./dist/*.d.ts",
-      "development": "./src/*.js"
-    }
-  },
   "scripts": {
     "types": "tsc --noEmit",
     "build": "tsc --build",
@@ -18,5 +11,15 @@
   "dependencies": {
     "@idea/shared": "workspace:*",
     "@site/core": "workspace:*"
+  },
+  "exports": {
+    "./*": {
+      "import": "./dist/*.js",
+      "types": "./dist/*.d.ts",
+      "node": [
+        "./src/*.ts",
+        "./src/*.tsx"
+      ]
+    }
   }
 }

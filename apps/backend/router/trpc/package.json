@@ -2,18 +2,6 @@
   "name": "@backend/trpc-router",
   "private": true,
   "type": "module",
-  "exports": {
-    "./*": {
-      "import": "./dist/*.js",
-      "types": "./dist/*.d.ts",
-      "development": "./src/*.js"
-    },
-    "./ping/*": {
-      "import": "./dist/ping/*.js",
-      "types": "./dist/ping/*.d.ts",
-      "development": "./src/ping/*.js"
-    }
-  },
   "scripts": {
     "types": "tsc --noEmit",
     "build": "tsc --build",
@@ -24,5 +12,31 @@
     "@appConfig/backend": "workspace:*",
     "@backend/core": "workspace:*",
     "@idea/backend": "workspace:*"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts",
+      "node": [
+        "./src/index.ts",
+        "./src/index.tsx"
+      ]
+    },
+    "./*": {
+      "import": "./dist/*.js",
+      "types": "./dist/*.d.ts",
+      "node": [
+        "./src/*.ts",
+        "./src/*.tsx"
+      ]
+    },
+    "./ping/*": {
+      "import": "./dist/ping/*.js",
+      "types": "./dist/ping/*.d.ts",
+      "node": [
+        "./src/ping/*.ts",
+        "./src/ping/*.tsx"
+      ]
+    }
   }
 }
