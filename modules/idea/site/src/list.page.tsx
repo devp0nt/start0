@@ -6,7 +6,7 @@ import { IdeasPage } from './list.page.comp'
 
 const page = Page0.route(siteRoutes.ideasList)
   .loader(async ({ qc }) => {
-    return aw ait qc.fetchQuery(trpc.getIdeas.queryOptions())
+    return await qc.fetchQuery(trpc.getIdeas.queryOptions())
   })
   .title(`Ideas`)
   .layout(GeneralLayout)

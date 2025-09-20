@@ -6,8 +6,13 @@
     "rootDir": "./src",
     "outDir": "./dist",
     "paths": {
+      "@trpc/server/*": ["../../../node_modules/@trpc/server/*"],
       "@idea/backend/*": ["./src/*"]
-    }
+    },
+    "declaration": true,
+    "declarationMap": true,
+    "composite": true,
+    "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@idea/backend/.tsbuildinfo"
   },
   "references": [
     {

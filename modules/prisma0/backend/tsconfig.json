@@ -6,6 +6,7 @@
     "rootDir": "./src",
     "outDir": "./dist",
     "paths": {
+      "@trpc/server/*": ["../../../node_modules/@trpc/server/*"],
       "@prisma0/backend/*": ["./src/*"],
       "@prisma0/backend": ["./src/index.ts"]
     },

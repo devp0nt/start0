@@ -6,9 +6,14 @@
     "rootDir": "./src",
     "outDir": "./dist",
     "paths": {
+      "@trpc/server/*": ["../../../../node_modules/@trpc/server/*"],
       "@backend/trpc-router/*": ["./src/*"],
       "@backend/trpc-router": ["./src/index.ts"]
-    }
+    },
+    "declaration": true,
+    "declarationMap": true,
+    "composite": true,
+    "tsBuildInfoFile": "../../../../node_modules/.cache/tsbuildinfo/@backend/trpc-router/.tsbuildinfo"
   },
   "references": [
     {

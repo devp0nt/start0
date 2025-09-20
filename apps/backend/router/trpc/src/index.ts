@@ -5,24 +5,25 @@ import type { inferRouterInputs, inferRouterOutputs } from '@trpc/server'
 
 // @gen0:start await importExportedFromFiles("~/**/route{s,}.ts", "TrpcRoute", (file0) => mono0.getFilePathRelativeToPackageName(file0.path.abs))
 
-import { getAppConfigTrpcRoute } from "@appConfig/backend/routes"
-import { getIdeasTrpcRoute, getIdeaTrpcRoute } from "@idea/backend/routes"
-import { pingTrpcRoute } from "@backend/trpc-router/ping/route"
+import { getAppConfigTrpcRoute } from '@appConfig/backend/routes'
+import { pingTrpcRoute } from '@backend/trpc-router/ping/route'
+import { getIdeasTrpcRoute, getIdeaTrpcRoute } from '@idea/backend/routes'
+
 // @gen0:end
 
 export namespace BackendTrpcRouter {
-  export const trpcRouter = BackendTrpc.createTRPCRouter({
-    // @gen0:start $.imports.map(im => print(`${im.cutted}: ${im.name},`))
-getAppConfig: getAppConfigTrpcRoute,
-getIdeas: getIdeasTrpcRoute,
-getIdea: getIdeaTrpcRoute,
-ping: pingTrpcRoute,
-    // @gen0:end
-  })
-
   export type TrpcRouter = typeof trpcRouter
   export type Input = inferRouterInputs<TrpcRouter>
   export type Output = inferRouterOutputs<TrpcRouter>
+
+  const trpcRouter = BackendTrpc.createTRPCRouter({
+    // @gen0:start $.imports.map(im => print(`${im.cutted}: ${im.name},`))
+    getAppConfig: getAppConfigTrpcRoute,
+    getIdeas: getIdeasTrpcRoute,
+    getIdea: getIdeaTrpcRoute,
+    ping: pingTrpcRoute,
+    // @gen0:end
+  })
 
   export const applyToHonoApp = ({ honoApp }: { honoApp: HonoApp.AppType }) => {
     honoApp.use(

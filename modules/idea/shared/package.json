@@ -6,7 +6,7 @@
     "types": "tsc --noEmit",
     "build": "tsc --build",
     "watch": "tsc --watch --noEmitOnError false --skipLibCheck --noCheck --assumeChangesOnlyAffectDirectDependencies  --preserveWatchOutput",
-    "clean": "rimraf ./dist"
+    "clean": "rimraf ../../../node_modules/.cache/tsbuildinfo/@idea/shared && rimraf ./dist"
   },
   "dependencies": {},
   "exports": {

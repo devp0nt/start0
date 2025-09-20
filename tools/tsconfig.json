@@ -6,9 +6,14 @@
     "rootDir": "./src",
     "outDir": "./dist",
     "paths": {
+      "@trpc/server/*": ["../node_modules/@trpc/server/*"],
       "@tools/shared/*": ["./src/*"],
       "@tools/shared": ["./src/index.ts"]
-    }
+    },
+    "declaration": true,
+    "declarationMap": true,
+    "composite": true,
+    "tsBuildInfoFile": "../node_modules/.cache/tsbuildinfo/@tools/shared/.tsbuildinfo"
   },
   "references": []
 }

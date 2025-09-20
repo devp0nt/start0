@@ -61,7 +61,7 @@
         "types": "bun run mono0 exec bun run types",
         "build": "bun run mono0 exec -m '#cold' bun run build",
         "watch": "bun run mono0 exec -m '#cold' bun run watch",
-        "clean": "rimraf ./node_modules/.cache/tsbuildinfo && bun run mono0 exec bun run clean"
+        "clean": "bun run mono0 exec bun run clean"
       }
     }
   },
@@ -151,7 +151,7 @@
             "types": "tsc --noEmit",
             "build": "tsc --build",
             "watch": "tsc --watch --noEmitOnError false --skipLibCheck --noCheck --assumeChangesOnlyAffectDirectDependencies  --preserveWatchOutput",
-            "clean": "rimraf {{distDir}}"
+            "clean": "rimraf {{projectRootDir}}/node_modules/.cache/tsbuildinfo/{{name}} && rimraf {{distDir}}"
           }
         }
       },
@@ -163,18 +163,21 @@
             "setUnitDistAsOutDir": true,
             "addUnitIncludeToInclude": "whenNotProvided",
             "addUnitExcludeToExclude": "whenNotProvided",
-            "clearPaths": true,
             "addSelfSrcToPaths": true,
             "addSelfSrcIndexFileToPaths": true,
-            "clearReferences": true,
             "addUnitsAsReferences": { "scope": "depsAndDeepDeps", "tsconfig": "$core", "match": "#cold" }
+            // "addUnitsAsReferences": { "scope": "depsAndDeepDeps", "tsconfig": "$core" }
+            // "addUnitsAsReferences": { "scope": "deps", "tsconfig": "$core" }
           },
           "value": {
             "compilerOptions": {
-              // "composite": true,
-              // "declaration": true,
-              // "declarationMap": true,
-              // "tsBuildInfoFile": "~/node_modules/.cache/tsbuildinfo/{{name}}/.tsbuildinfo"
+              "composite": true,
+              "declaration": true,
+              "declarationMap": true,
+              "tsBuildInfoFile": "~/node_modules/.cache/tsbuildinfo/{{name}}/.tsbuildinfo",
+              "paths": {
+                "@trpc/server/*": ["~/node_modules/@trpc/server/*"]
+              }
             }
           }
         }

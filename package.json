@@ -6,7 +6,7 @@
     "types": "bun run mono0 exec bun run types",
     "build": "bun run mono0 exec -m '#cold' bun run build",
     "watch": "bun run mono0 exec -m '#cold' bun run watch",
-    "clean": "rimraf ./node_modules/.cache/tsbuildinfo && bun run mono0 exec bun run clean",
+    "clean": "bun run mono0 exec bun run clean",
     "lint": "biome check --write",
     "test": "bun test",
     "prepare": "husky"
