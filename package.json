@@ -4,8 +4,8 @@
   "type": "module",
   "scripts": {
     "types": "bun run mono0 exec bun run types",
-    "build": "bun run mono0 exec -m #cold bun run build",
-    "watch": "bun run mono0 exec -m #cold bun run watch",
+    "build": "bun run mono0 exec bun run build",
+    "watch": "bun run mono0 exec bun run watch",
     "clean": "bun run mono0 exec bun run clean",
     "lint": "biome check --write",
     "test": "bun test",
@@ -104,7 +104,6 @@
       "./modules/idea/shared",
       "./modules/idea/site",
       "./modules/prisma0/backend",
-      "./apps/site/app",
       "./apps/site/core",
       "./tools"
     ],

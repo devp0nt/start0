@@ -35,9 +35,6 @@
       "path": "./modules/prisma0/backend/tsconfig.json"
     },
     {
-      "path": "./apps/site/app/tsconfig.json"
-    },
-    {
       "path": "./apps/site/core/tsconfig.json"
     },
     {
