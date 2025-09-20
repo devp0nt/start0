@@ -1,8 +1,7 @@
 {
   "name": "@site/app",
-  "preset": "site",
+  "preset": ["site", "app"],
   "deps": ["@site/core", "@devp0nt/env0", "#site"],
-  "tags": ["app"],
   "tsconfig": {
     "value": {
       "include": [".react-router/types/**/*", "./react-router.config.ts", "./vite.config.ts"],
