@@ -1,39 +1,39 @@
-// unit root settings
-// name
-// tags
-// include
-// exclude
-// srcIndexFile
-// srcDir
-// distDir
-// tsconfig
-// tsconfigs
-// packageJson
-// preset
-// deps
+// unit root settings: Mono0Unit.Definition
+// name: string | undefined
+// tags: string[]
+// include: string[] | true | undefined
+// exclude: string[] | undefined
+// srcIndexFile: string | true | undefined
+// srcDir: string | true | undefined
+// distDir: string | undefined
+// tsconfig: Mono0Tsconfig.Definition | undefined
+// tsconfigs: Record<string, Mono0Tsconfig.Definition>
+// packageJson: Mono0PackageJson.Definition | undefined
+// preset: string | string[]
+// deps: Mono0Unit.DependencyDefinition[]
 
-// tsconfig.settings
-// addUnitIncludeToInclude
-// addUnitExcludeToExclude
-// setUnitDistAsOutDir
-// setUnitSrcAsRootDir
-// clearPaths
-// addSelfSrcToPaths
-// addUnitsSrcToPaths
-// addUnitsDistToPaths
-// clearReferences
-// addUnitsAsReferences
-// addUnitsIncludesAndExcludes
+// tsconfig.settings: Mono0Tsconfig.DefinitionSettings
+// addUnitIncludeToInclude: 'override' | 'prepend' | 'append' | 'whenNotProvided' | undefined
+// addUnitExcludeToExclude: 'override' | 'prepend' | 'append' | 'whenNotProvided' | undefined
+// setUnitDistAsOutDir: boolean | undefined
+// setUnitSrcAsRootDir: boolean | undefined
+// clearPaths: boolean | undefined
+// addSelfSrcToPaths: boolean | undefined
+// addUnitsSrcToPaths: boolean | string | { scope?: 'all' | 'deps' | 'deepDeps' | 'depsAndDeepDeps', match?: string, indexFile?: boolean, deepDeps?: boolean | string } | undefined
+// addUnitsDistToPaths: boolean | string | { scope?: 'all' | 'deps' | 'deepDeps' | 'depsAndDeepDeps', match?: string, indexFile?: boolean, deepDeps?: boolean | string } | undefined
+// clearReferences: boolean | undefined
+// addUnitsAsReferences: boolean | string | { scope?: 'all' | 'deps' | 'deepDeps' | 'depsAndDeepDeps', match?: string, tsconfig?: string, deepDeps?: boolean | string } | undefined
+// addUnitsIncludesAndExcludes: boolean | string | { scope?: 'all' | 'deps' | 'deepDeps' | 'depsAndDeepDeps', match?: string, tsconfig?: string | null, deepDeps?: boolean | string } | undefined
 
-// packageJson.settings
-// setUnitNameAsName
-// clearWorkspaces
-// addWorkspaces
-// clearWorkspaceDeps
-// addWorkspaceDeps
-// clearExports
-// addExportsFromDist
-// addExportsFromSrc
+// packageJson.settings: Mono0PackageJson.DefinitionSettings
+// setUnitNameAsName: boolean | undefined
+// clearWorkspaces: boolean | string | undefined
+// addWorkspaces: boolean | string | undefined
+// clearWorkspaceDeps: boolean | undefined
+// addWorkspaceDeps: boolean | undefined
+// clearExports: boolean | undefined
+// addExportsFromDist: boolean | { indexFile?: boolean, dirs?: boolean, import?: boolean | string[], require?: boolean | string[], types?: boolean | string[] } | undefined
+// addExportsFromSrc: boolean | { indexFile?: boolean, dirs?: boolean, import?: boolean | string[], require?: boolean | string[], types?: boolean | string[] } | undefined
 
 {
   "unitsConfigsGlob": ["modules/**/mono0.json", "apps/**/mono0.json", "tools/**/mono0.json"],
