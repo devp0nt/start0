@@ -1,5 +1,6 @@
 {
   "name": "@backend/services",
   "preset": "backend",
+  "tags": ["app"],
   "deps": ["@backend/core", "@backend/hono-router", "@backend/trpc-router"]
 }
