@@ -18,7 +18,10 @@
         "./src/index.tsx"
       ],
       "import": "./dist/index.js",
-      "types": "./src/index.ts"
+      "types": [
+        "./src/index.ts",
+        "./src/index.tsx"
+      ]
     },
     "./*": {
       "node": [
@@ -26,7 +29,10 @@
         "./src/*.tsx"
       ],
       "import": "./dist/*.js",
-      "types": "./src/*.ts"
+      "types": [
+        "./src/*.ts",
+        "./src/*.tsx"
+      ]
     },
     "./hello/*": {
       "node": [
@@ -34,7 +40,10 @@
         "./src/hello/*.tsx"
       ],
       "import": "./dist/hello/*.js",
-      "types": "./src/hello/*.ts"
+      "types": [
+        "./src/hello/*.ts",
+        "./src/hello/*.tsx"
+      ]
     },
     "./ping/*": {
       "node": [
@@ -42,7 +51,10 @@
         "./src/ping/*.tsx"
       ],
       "import": "./dist/ping/*.js",
-      "types": "./src/ping/*.ts"
+      "types": [
+        "./src/ping/*.ts",
+        "./src/ping/*.tsx"
+      ]
     }
   }
 }

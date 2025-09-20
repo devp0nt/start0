@@ -7,11 +7,7 @@
     "outDir": "./dist",
     "paths": {
       "@idea/shared/*": ["./src/*"]
-    },
-    "declaration": true,
-    "declarationMap": true,
-    "composite": true,
-    "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@idea/shared/.tsbuildinfo"
+    }
   },
   "references": []
 }

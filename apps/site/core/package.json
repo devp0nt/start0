@@ -18,7 +18,10 @@
         "./src/components/*.tsx"
       ],
       "import": "./dist/components/*.js",
-      "types": "./src/components/*.ts"
+      "types": [
+        "./src/components/*.ts",
+        "./src/components/*.tsx"
+      ]
     },
     "./lib/*": {
       "node": [
@@ -26,7 +29,10 @@
         "./src/lib/*.tsx"
       ],
       "import": "./dist/lib/*.js",
-      "types": "./src/lib/*.ts"
+      "types": [
+        "./src/lib/*.ts",
+        "./src/lib/*.tsx"
+      ]
     }
   }
 }

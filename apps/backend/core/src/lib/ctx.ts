@@ -90,7 +90,7 @@ export class BackendCtx {
     }
   }
 
-  getUnextendable() {
+  getUnextendable(): BackendCtx.Unextendable {
     return {
       prisma: this.prisma,
       env: this.env,
@@ -106,6 +106,9 @@ export class BackendCtx {
 export namespace BackendCtx {
   export type ExtendableKeys = 'meta' | 'logger' | 'e0s'
   export type Extendable = Pick<BackendCtx, ExtendableKeys>
-  export type Unextendable = ReturnType<BackendCtx['getUnextendable']>
+  export type Unextendable = {
+    prisma: Prisma0.Client
+    env: Env
+  }
   export type Props = Extendable & Unextendable
 }

@@ -8,11 +8,7 @@
     "paths": {
       "@backend/hono-router/*": ["./src/*"],
       "@backend/hono-router": ["./src/index.ts"]
-    },
-    "declaration": true,
-    "declarationMap": true,
-    "composite": true,
-    "tsBuildInfoFile": "../../../../node_modules/.cache/tsbuildinfo/@backend/hono-router/.tsbuildinfo"
+    }
   },
   "references": [
     {

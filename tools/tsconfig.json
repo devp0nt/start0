@@ -8,11 +8,7 @@
     "paths": {
       "@tools/shared/*": ["./src/*"],
       "@tools/shared": ["./src/index.ts"]
-    },
-    "declaration": true,
-    "declarationMap": true,
-    "composite": true,
-    "tsBuildInfoFile": "../node_modules/.cache/tsbuildinfo/@tools/shared/.tsbuildinfo"
+    }
   },
   "references": []
 }

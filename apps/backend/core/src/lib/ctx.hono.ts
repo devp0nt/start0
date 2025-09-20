@@ -86,7 +86,7 @@ export class HonoReqCtx {
     return honoReqCtx
   }
 
-  getUnextendable() {
+  getUnextendable(): HonoReqCtx.Unextendable {
     return {
       backendCtx: this.backendCtx,
       honoCtx: this.honoCtx,
@@ -104,6 +104,12 @@ export class HonoReqCtx {
 export namespace HonoReqCtx {
   export type ExtendableKeys = 'meta' | 'logger' | 'e0s'
   export type Extendable = Pick<HonoReqCtx, ExtendableKeys>
-  export type Unextendable = ReturnType<HonoReqCtx['getUnextendable']>
+  export type Unextendable = {
+    backendCtx: BackendCtx
+    honoCtx: HonoContext
+    prisma: Prisma0.Client
+    env: Env
+    req: HonoContext['req']
+  }
   export type Props = Extendable & Unextendable
 }

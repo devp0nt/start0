@@ -7,11 +7,7 @@
     "outDir": "./dist",
     "paths": {
       "@appConfig/backend/*": ["./src/*"]
-    },
-    "declaration": true,
-    "declarationMap": true,
-    "composite": true,
-    "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@appConfig/backend/.tsbuildinfo"
+    }
   },
   "references": [
     {

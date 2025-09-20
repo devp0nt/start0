@@ -141,7 +141,7 @@
           "addWorkspaceDeps": true,
           "clearExports": true,
           "addExportsFromDist": { "dirs": true, "import": [".js"], "indexFile": true },
-          "addExportsFromSrc": { "dirs": true, "node": [".ts", ".tsx"], "types": [".ts"], "indexFile": true },
+          "addExportsFromSrc": { "dirs": true, "node": [".ts", ".tsx"], "types": [".ts", ".tsx"], "indexFile": true },
           "sortExports": true
         },
         "value": {
@@ -171,10 +171,10 @@
           },
           "value": {
             "compilerOptions": {
-              "composite": true,
-              "declaration": true,
-              "declarationMap": true,
-              "tsBuildInfoFile": "~/node_modules/.cache/tsbuildinfo/{{name}}/.tsbuildinfo"
+              // "composite": true,
+              // "declaration": true,
+              // "declarationMap": true,
+              // "tsBuildInfoFile": "~/node_modules/.cache/tsbuildinfo/{{name}}/.tsbuildinfo"
             }
           }
         }
@@ -198,6 +198,18 @@
         "settings": {
           "addExportsFromDist": { "dirs": true, "import": [".js"], "types": [".d.js"], "indexFile": true },
           "addExportsFromSrc": false
+        }
+      },
+      "tsconfigs": {
+        "core": {
+          "value": {
+            "compilerOptions": {
+              "composite": true,
+              "declaration": true,
+              "declarationMap": true,
+              "tsBuildInfoFile": "~/node_modules/.cache/tsbuildinfo/{{name}}/.tsbuildinfo"
+            }
+          }
         }
       }
     },

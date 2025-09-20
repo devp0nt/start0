@@ -8,11 +8,7 @@
     "paths": {
       "@devp0nt/lodash0/*": ["./src/*"],
       "@devp0nt/lodash0": ["./src/index.ts"]
-    },
-    "declaration": true,
-    "declarationMap": true,
-    "composite": true,
-    "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@devp0nt/lodash0/.tsbuildinfo"
+    }
   },
   "references": []
 }

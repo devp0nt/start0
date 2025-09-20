@@ -19,7 +19,10 @@
         "./src/*.tsx"
       ],
       "import": "./dist/*.js",
-      "types": "./src/*.ts"
+      "types": [
+        "./src/*.ts",
+        "./src/*.tsx"
+      ]
     }
   }
 }
