@@ -8,8 +8,8 @@
     "paths": {
       "@appConfig/backend/*": ["./src/*"],
       "@backend/core/*": ["../../../apps/backend/core/src/*"],
-      "@devp0nt/lodash0": ["../../lib/lodash0/src/index.ts"],
       "@devp0nt/lodash0/*": ["../../lib/lodash0/src/*"],
+      "@devp0nt/lodash0": ["../../lib/lodash0/src/index.ts"],
       "@idea/shared/*": ["../../idea/shared/src/*"]
     },
     "declaration": true,

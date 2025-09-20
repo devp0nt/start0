@@ -3,6 +3,7 @@
   "compilerOptions": {
     "tsBuildInfoFile": "./node_modules/.cache/tsbuildinfo/root-core/.tsbuildinfo"
   },
+  "files": [],
   "references": [
     {
       "path": "./modules/appConfig/backend/tsconfig.json"

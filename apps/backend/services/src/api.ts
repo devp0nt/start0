@@ -5,6 +5,7 @@ import { BackendTrpcRouter } from '@backend/trpc-router'
 import { serve } from 'bun'
 import { cors } from 'hono/cors'
 
+console.log(2)
 export const startApiProcess = async () => {
   let ctx: BackendCtx | null = null
   try {

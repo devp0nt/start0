@@ -9,8 +9,8 @@
       "@backend/trpc-router/*": ["./src/*"],
       "@appConfig/backend/*": ["../../../../modules/appConfig/backend/src/*"],
       "@backend/core/*": ["../../core/src/*"],
-      "@devp0nt/lodash0": ["../../../../modules/lib/lodash0/src/index.ts"],
       "@devp0nt/lodash0/*": ["../../../../modules/lib/lodash0/src/*"],
+      "@devp0nt/lodash0": ["../../../../modules/lib/lodash0/src/index.ts"],
       "@idea/backend/*": ["../../../../modules/idea/backend/src/*"],
       "@idea/shared/*": ["../../../../modules/idea/shared/src/*"]
     },

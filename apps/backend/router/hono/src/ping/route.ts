@@ -1,6 +1,7 @@
 import type { HonoApp } from '@backend/core/lib/hono'
 import z from 'zod'
 
+console.log(4567)
 export const pingHonoRoute = ({ honoApp }: { honoApp: HonoApp.AppType }) => {
   honoApp.openapi(
     {
