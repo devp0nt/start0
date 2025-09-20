@@ -45,13 +45,13 @@ types *ARGS:
   bun run types {{ARGS}}
 
 build *ARGS:
-  bun run types {{ARGS}}
+  bun run build {{ARGS}}
 
 watch *ARGS:
-  bun run types {{ARGS}}
+  bun run watch {{ARGS}}
 
 clean *ARGS:
-  bun run types {{ARGS}}
+  bun run clean {{ARGS}}
 
 test *ARGS:
   bun run test {{ARGS}}

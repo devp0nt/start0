@@ -14,12 +14,12 @@
   },
   "exports": {
     "./lib/*": {
-      "import": "./dist/lib/*.js",
-      "types": "./dist/lib/*.d.ts",
       "node": [
         "./src/lib/*.ts",
         "./src/lib/*.tsx"
-      ]
+      ],
+      "import": "./dist/lib/*.js",
+      "types": "./dist/lib/*.d.ts"
     }
   }
 }

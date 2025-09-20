@@ -13,20 +13,20 @@
   },
   "exports": {
     "./components/*": {
-      "import": "./dist/components/*.js",
-      "types": "./dist/components/*.d.ts",
       "node": [
         "./src/components/*.ts",
         "./src/components/*.tsx"
-      ]
+      ],
+      "import": "./dist/components/*.js",
+      "types": "./dist/components/*.d.ts"
     },
     "./lib/*": {
-      "import": "./dist/lib/*.js",
-      "types": "./dist/lib/*.d.ts",
       "node": [
         "./src/lib/*.ts",
         "./src/lib/*.tsx"
-      ]
+      ],
+      "import": "./dist/lib/*.js",
+      "types": "./dist/lib/*.d.ts"
     }
   }
 }

@@ -141,7 +141,8 @@
           "addWorkspaceDeps": true,
           "clearExports": true,
           "addExportsFromDist": { "dirs": true, "import": [".js"], "types": [".d.ts"], "indexFile": true },
-          "addExportsFromSrc": { "dirs": true, "node": [".ts", ".tsx"], "indexFile": true }
+          "addExportsFromSrc": { "dirs": true, "node": [".ts", ".tsx"], "indexFile": true },
+          "sortExports": true
         },
         "value": {
           "private": true,

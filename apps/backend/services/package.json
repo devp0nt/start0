@@ -17,12 +17,12 @@
   },
   "exports": {
     "./*": {
-      "import": "./dist/*.js",
-      "types": "./dist/*.d.ts",
       "node": [
         "./src/*.ts",
         "./src/*.tsx"
-      ]
+      ],
+      "import": "./dist/*.js",
+      "types": "./dist/*.d.ts"
     }
   }
 }

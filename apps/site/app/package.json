@@ -18,44 +18,44 @@
   },
   "exports": {
     "./*": {
-      "import": "./dist/*.js",
-      "types": "./dist/*.d.ts",
       "node": [
         "./src/*.ts",
         "./src/*.tsx"
-      ]
+      ],
+      "import": "./dist/*.js",
+      "types": "./dist/*.d.ts"
     },
     "./components/*": {
-      "import": "./dist/components/*.js",
-      "types": "./dist/components/*.d.ts",
       "node": [
         "./src/components/*.ts",
         "./src/components/*.tsx"
-      ]
+      ],
+      "import": "./dist/components/*.js",
+      "types": "./dist/components/*.d.ts"
     },
     "./pages/*": {
-      "import": "./dist/pages/*.js",
-      "types": "./dist/pages/*.d.ts",
       "node": [
         "./src/pages/*.ts",
         "./src/pages/*.tsx"
-      ]
+      ],
+      "import": "./dist/pages/*.js",
+      "types": "./dist/pages/*.d.ts"
     },
     "./routes/*": {
-      "import": "./dist/routes/*.js",
-      "types": "./dist/routes/*.d.ts",
       "node": [
         "./src/routes/*.ts",
         "./src/routes/*.tsx"
-      ]
+      ],
+      "import": "./dist/routes/*.js",
+      "types": "./dist/routes/*.d.ts"
     },
     "./routes/generated/*": {
-      "import": "./dist/routes/generated/*.js",
-      "types": "./dist/routes/generated/*.d.ts",
       "node": [
         "./src/routes/generated/*.ts",
         "./src/routes/generated/*.tsx"
-      ]
+      ],
+      "import": "./dist/routes/generated/*.js",
+      "types": "./dist/routes/generated/*.d.ts"
     }
   }
 }
