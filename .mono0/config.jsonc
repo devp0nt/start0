@@ -111,9 +111,8 @@
     "force": {
       "srcDir": true,
       "distDir": "./dist",
-      "settings": {
-        "addSrcToInclude": true
-      },
+      "srcIndexFile": true,
+      "include": true,
       "packageJson": {
         "settings": {
           "clearWorkspaceDeps": true,
