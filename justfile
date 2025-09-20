@@ -24,12 +24,10 @@ dev:
 
   tmux split-window -v
   tmux split-window -t 0 -h
-  tmux split-window -t 2 -h
 
   tmux send-keys -t 0 "just backend dev" Enter
   tmux send-keys -t 1 "just site dev" Enter
-  tmux send-keys -t 2 "just gen0 watch" Enter
-  tmux send-keys -t 3 "just watch" Enter
+  tmux send-keys -t 2 "concurrently \"bun run gen0 watch\" \"bun run mono0 watch\"" Enter
 
   tmux resize-pane -t 0 -x "$(($(tmux display -p '#{window_width}') * 50 / 100))"
   tmux resize-pane -t 1 -x "$(($(tmux display -p '#{window_width}') * 50 / 100))"
@@ -60,13 +58,13 @@ lint *ARGS:
 # prisma commands
 
 prisma-migrate-dev *ARGS:
-  bun run mono0 exec -m @prisma0/backend bun run --env-file=./.env prisma migrate dev {{ARGS}}
+  bun run mono0 exec -m @prisma0/backend bun run prisma-migrate-dev {{ARGS}}
 
 prisma-migrate-test *ARGS:
-  bun run mono0 exec -m @prisma0/backend bun run --env-file=./.env.test prisma migrate dev {{ARGS}}
+  bun run mono0 exec -m @prisma0/backend bun run prisma-migrate-test {{ARGS}}
 
 prisma-generate-client *ARGS:
-  bun run mono0 exec -m @prisma0/backend bun run prisma generate client {{ARGS}}
+  bun run mono0 exec -m @prisma0/backend bun run prisma-generate-client {{ARGS}}
 
 # helpers
 

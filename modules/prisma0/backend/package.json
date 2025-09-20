@@ -7,7 +7,9 @@
     "build": "tsc --build",
     "watch": "tsc --watch",
     "clean": "rimraf ../../../node_modules/.cache/tsbuildinfo/@prisma0/backend && rimraf ./dist",
-    "watch:fast": "tsc --watch --noEmitOnError false --skipLibCheck --noCheck --assumeChangesOnlyAffectDirectDependencies  --preserveWatchOutput"
+    "prisma-migrate-dev": "bun run --env-file=./.env prisma migrate dev {{ARGS}}",
+    "prisma-migrate-test": "bun run --env-file=./.env.test prisma migrate dev {{ARGS}}",
+    "prisma-generate-client": "bun run prisma generate client {{ARGS}}"
   },
   "dependencies": {
     "@idea/shared": "workspace:*"

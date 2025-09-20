@@ -8,8 +8,7 @@
     "start": "NODE_ENV=production bun dist/api.js",
     "build": "tsc --build",
     "watch": "tsc --watch",
-    "clean": "rimraf ../../../node_modules/.cache/tsbuildinfo/@backend/services && rimraf ./dist",
-    "watch:fast": "tsc --watch --noEmitOnError false --skipLibCheck --noCheck --assumeChangesOnlyAffectDirectDependencies  --preserveWatchOutput"
+    "clean": "rimraf ../../../node_modules/.cache/tsbuildinfo/@backend/services && rimraf ./dist"
   },
   "dependencies": {
     "@backend/core": "workspace:*",
