@@ -136,8 +136,8 @@
           "settings": {
             "clearPaths": true,
             "setSrcAsRootDir": true,
-            "addUnitIncludeToInclude": true,
-            "addUnitExcludeToExclude": true,
+            "addUnitIncludeToInclude": "whenNotProvided",
+            "addUnitExcludeToExclude": "whenNotProvided",
             "addSelfSrcToPaths": true,
             "addUnitsSrcToPaths": { "scope": "deps", "deepDeps": "!#cold" },
             "clearReferences": true,
