@@ -60,6 +60,8 @@ export default (async ({ fs0, _ }) => {
     return pagesPaths
   }
 
+  // TODO:ASAP rename file back to gen0.ts
+
   const generateRoutesFile = async (pagesPaths?: string[]) => {
     pagesPaths = pagesPaths || (await fs0.glob(pagesGlob))
     const input: RRInput[] = await Promise.all(

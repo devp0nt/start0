@@ -7,6 +7,7 @@
     "rootDirs": ["./", "./.react-router/types"],
     "outDir": "./dist",
     "paths": {
+      "@trpc/server/*": ["../../../node_modules/@trpc/server/*"],
       "@site/app/*": ["./src/*"]
     },
     "declaration": true,
@@ -16,10 +17,7 @@
   },
   "references": [
     {
-      "path": "../../../modules/idea/site/tsconfig.json"
-    },
-    {
-      "path": "../core/tsconfig.json"
+      "path": "../../../modules/prisma0/backend/tsconfig.json"
     }
   ]
 }

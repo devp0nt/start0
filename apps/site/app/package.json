@@ -3,59 +3,17 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "tsc --build",
+    "build": "cross-env NODE_ENV=production react-router build",
     "dev": "cross-env NODE_ENV=development bun run --bun vite",
     "start": "cross-env NODE_ENV=production bun ./dist/server/index.js",
-    "types": "tsc --noEmit",
+    "types": "rimraf dist && react-router typegen && tsc",
     "watch": "tsc --watch --noEmitOnError false --skipLibCheck --noCheck --assumeChangesOnlyAffectDirectDependencies  --preserveWatchOutput",
-    "clean": "rimraf ./dist"
+    "clean": "rimraf ../../../node_modules/.cache/tsbuildinfo/@site/app && rimraf ./dist"
   },
   "dependencies": {
     "@react-router/node": "catalog:",
     "isbot": "^5",
     "@idea/site": "workspace:*",
     "@site/core": "workspace:*"
-  },
-  "exports": {
-    "./*": {
-      "node": [
-        "./src/*.ts",
-        "./src/*.tsx"
-      ],
-      "import": "./dist/*.js",
-      "types": "./dist/*.d.ts"
-    },
-    "./components/*": {
-      "node": [
-        "./src/components/*.ts",
-        "./src/components/*.tsx"
-      ],
-      "import": "./dist/components/*.js",
-      "types": "./dist/components/*.d.ts"
-    },
-    "./pages/*": {
-      "node": [
-        "./src/pages/*.ts",
-        "./src/pages/*.tsx"
-      ],
-      "import": "./dist/pages/*.js",
-      "types": "./dist/pages/*.d.ts"
-    },
-    "./routes/*": {
-      "node": [
-        "./src/routes/*.ts",
-        "./src/routes/*.tsx"
-      ],
-      "import": "./dist/routes/*.js",
-      "types": "./dist/routes/*.d.ts"
-    },
-    "./routes/generated/*": {
-      "node": [
-        "./src/routes/generated/*.ts",
-        "./src/routes/generated/*.tsx"
-      ],
-      "import": "./dist/routes/generated/*.js",
-      "types": "./dist/routes/generated/*.d.ts"
-    }
   }
 }

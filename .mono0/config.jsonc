@@ -32,8 +32,9 @@
 // clearWorkspaceDeps: boolean | undefined
 // addWorkspaceDeps: boolean | undefined
 // clearExports: boolean | undefined
-// addExportsFromDist: boolean | { indexFile?: boolean, dirs?: boolean, import?: boolean | string[], require?: boolean | string[], development?: boolean | string[], types?: boolean | string[] } | undefined
-// addExportsFromSrc: boolean | { indexFile?: boolean, dirs?: boolean, import?: boolean | string[], require?: boolean | string[], development?: boolean | string[], types?: boolean | string[] } | undefined
+// addExportsFromDist: boolean | { indexFile?: boolean, dirs?: boolean, import?: boolean | string[], require?: boolean | string[], node?: boolean | string[], development?: boolean | string[], types?: boolean | string[] } | undefined
+// addExportsFromSrc: boolean | { indexFile?: boolean, dirs?: boolean, import?: boolean | string[], require?: boolean | string[], node?: boolean | string[], development?: boolean | string[], types?: boolean | string[] } | undefined
+// sortExports: boolean | string[] | undefined
 
 {
   "unitsConfigsGlob": "{modules,apps,tools}/**/mono0.json",
@@ -165,9 +166,7 @@
             "addUnitExcludeToExclude": "whenNotProvided",
             "addSelfSrcToPaths": true,
             "addSelfSrcIndexFileToPaths": true,
-            "addUnitsAsReferences": { "scope": "depsAndDeepDeps", "tsconfig": "$core", "match": "#cold" }
-            // "addUnitsAsReferences": { "scope": "depsAndDeepDeps", "tsconfig": "$core" }
-            // "addUnitsAsReferences": { "scope": "deps", "tsconfig": "$core" }
+            "addUnitsAsReferences": { "scope": "depsAndDeepDeps", "tsconfig": "$core", "match": "#cold" } // we need only cold, as references, all other will be bundled via bundlers like vite or bun
           },
           "value": {
             "compilerOptions": {
@@ -201,18 +200,6 @@
         "settings": {
           "addExportsFromDist": { "dirs": true, "import": [".js"], "types": [".d.js"], "indexFile": true },
           "addExportsFromSrc": false
-        }
-      },
-      "tsconfigs": {
-        "core": {
-          "value": {
-            "compilerOptions": {
-              "composite": true,
-              "declaration": true,
-              "declarationMap": true,
-              "tsBuildInfoFile": "~/node_modules/.cache/tsbuildinfo/{{name}}/.tsbuildinfo"
-            }
-          }
         }
       }
     },
