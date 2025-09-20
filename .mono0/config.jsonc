@@ -103,11 +103,8 @@
     "root": {
       "path": "../tsconfig.json",
       "value": {
-        "extends": "$base",
-        "compilerOptions": {
-          "composite": true,
-          "tsBuildInfoFile": "~/node_modules/.cache/tsbuildinfo/root/.tsbuildinfo"
-        }
+        "files": [],
+        "include": []
       },
       "settings": {
         "addUnitsAsReferences": { "tsconfig": "$core" }

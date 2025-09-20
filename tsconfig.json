@@ -1,9 +1,6 @@
 {
-  "extends": "./.mono0/tsconfig.base.json",
-  "compilerOptions": {
-    "composite": true,
-    "tsBuildInfoFile": "./node_modules/.cache/tsbuildinfo/root/.tsbuildinfo"
-  },
+  "files": [],
+  "include": [],
   "references": [
     {
       "path": "./modules/appConfig/backend/tsconfig.json"
