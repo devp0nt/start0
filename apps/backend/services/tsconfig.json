@@ -3,14 +3,8 @@
   "include": ["./src/**/*"],
   "exclude": ["./**/dist/**/*", "./**/node_modules/**/*", "./**/public/**/*"],
   "compilerOptions": {
-    "outDir": "./dist",
-    "composite": true,
-    "declaration": true,
-    "declarationMap": true,
-    "emitDeclarationOnly": false,
-    "noEmitOnError": false,
-    "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@backend/services/.tsbuildinfo",
     "rootDir": "./src",
+    "outDir": "./dist",
     "paths": {
       "@backend/services/*": ["./src/*"],
       "@appConfig/backend/*": ["../../../modules/appConfig/backend/src/*"],
@@ -23,7 +17,13 @@
       "@devp0nt/lodash0/*": ["../../../modules/lib/lodash0/src/*"],
       "@idea/backend/*": ["../../../modules/idea/backend/src/*"],
       "@idea/shared/*": ["../../../modules/idea/shared/src/*"]
-    }
+    },
+    "declaration": true,
+    "declarationMap": true,
+    "emitDeclarationOnly": false,
+    "noEmitOnError": false,
+    "composite": true,
+    "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@backend/services/.tsbuildinfo"
   },
   "references": [
     {

@@ -3,14 +3,8 @@
   "include": ["./src/**/*"],
   "exclude": ["./**/dist/**/*", "./**/node_modules/**/*", "./**/public/**/*"],
   "compilerOptions": {
-    "outDir": "./dist",
-    "composite": true,
-    "declaration": true,
-    "declarationMap": true,
-    "emitDeclarationOnly": false,
-    "noEmitOnError": false,
-    "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@idea/site/.tsbuildinfo",
     "rootDir": "./src",
+    "outDir": "./dist",
     "paths": {
       "@idea/site/*": ["./src/*"],
       "@appConfig/backend/*": ["../../appConfig/backend/src/*"],
@@ -22,7 +16,13 @@
       "@idea/backend/*": ["../backend/src/*"],
       "@idea/shared/*": ["../shared/src/*"],
       "@site/core/*": ["../../../apps/site/core/src/*"]
-    }
+    },
+    "declaration": true,
+    "declarationMap": true,
+    "emitDeclarationOnly": false,
+    "noEmitOnError": false,
+    "composite": true,
+    "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@idea/site/.tsbuildinfo"
   },
   "references": [
     {

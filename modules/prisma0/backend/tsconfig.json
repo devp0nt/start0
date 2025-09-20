@@ -3,18 +3,18 @@
   "include": ["./src/**/*"],
   "exclude": ["./**/dist/**/*", "./**/node_modules/**/*", "./**/public/**/*"],
   "compilerOptions": {
+    "rootDir": "./src",
     "outDir": "./dist",
-    "composite": true,
+    "paths": {
+      "@prisma0/backend/*": ["./src/*"],
+      "@idea/shared/*": ["../../idea/shared/src/*"]
+    },
     "declaration": true,
     "declarationMap": true,
     "emitDeclarationOnly": false,
     "noEmitOnError": false,
-    "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@prisma0/backend/.tsbuildinfo",
-    "rootDir": "./src",
-    "paths": {
-      "@prisma0/backend/*": ["./src/*"],
-      "@idea/shared/*": ["../../idea/shared/src/*"]
-    }
+    "composite": true,
+    "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@prisma0/backend/.tsbuildinfo"
   },
   "references": [
     {

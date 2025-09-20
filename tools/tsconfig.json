@@ -3,17 +3,17 @@
   "include": ["./src/**/*"],
   "exclude": ["./**/dist/**/*", "./**/node_modules/**/*", "./**/public/**/*"],
   "compilerOptions": {
+    "rootDir": "./src",
     "outDir": "./dist",
-    "composite": true,
+    "paths": {
+      "@tools/shared/*": ["./src/*"]
+    },
     "declaration": true,
     "declarationMap": true,
     "emitDeclarationOnly": false,
     "noEmitOnError": false,
-    "tsBuildInfoFile": "../node_modules/.cache/tsbuildinfo/@tools/shared/.tsbuildinfo",
-    "rootDir": "./src",
-    "paths": {
-      "@tools/shared/*": ["./src/*"]
-    }
+    "composite": true,
+    "tsBuildInfoFile": "../node_modules/.cache/tsbuildinfo/@tools/shared/.tsbuildinfo"
   },
   "references": []
 }

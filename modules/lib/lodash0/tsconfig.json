@@ -3,17 +3,17 @@
   "include": ["./src/**/*"],
   "exclude": ["./**/dist/**/*", "./**/node_modules/**/*", "./**/public/**/*"],
   "compilerOptions": {
+    "rootDir": "./src",
     "outDir": "./dist",
-    "composite": true,
+    "paths": {
+      "@devp0nt/lodash0/*": ["./src/*"]
+    },
     "declaration": true,
     "declarationMap": true,
     "emitDeclarationOnly": false,
     "noEmitOnError": false,
-    "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@devp0nt/lodash0/.tsbuildinfo",
-    "rootDir": "./src",
-    "paths": {
-      "@devp0nt/lodash0/*": ["./src/*"]
-    }
+    "composite": true,
+    "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@devp0nt/lodash0/.tsbuildinfo"
   },
   "references": []
 }
