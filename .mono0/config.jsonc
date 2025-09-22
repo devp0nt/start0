@@ -60,7 +60,7 @@
       "type": "module",
       "scripts": {
         "build": "tsc --build",
-        "watch": "tsc --watch",
+        "watch": "tsc --build --watch --preserveWatchOutput",
         "types": "bun run clean && tsc --build",
         "clean": "rimraf {{projectRootDir}}/node_modules/.cache/tsbuildinfo && rimraf **/dist"
       }

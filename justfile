@@ -27,7 +27,7 @@ dev:
 
   tmux send-keys -t 0 "just backend dev" Enter
   tmux send-keys -t 1 "just site dev" Enter
-  tmux send-keys -t 2 "concurrently \"bun run gen0 watch\" \"bun run mono0 watch\"" Enter
+  tmux send-keys -t 2 "concurrently \"bun run gen0 watch\" \"bun run mono0 watch\" \"bun run watch\"" Enter
 
   tmux resize-pane -t 0 -x "$(($(tmux display -p '#{window_width}') * 50 / 100))"
   tmux resize-pane -t 1 -x "$(($(tmux display -p '#{window_width}') * 50 / 100))"
