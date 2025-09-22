@@ -2,6 +2,14 @@
   "name": "@backend/core",
   "private": true,
   "type": "module",
+  "exports": {
+    "./trpc": "./src/lib/trpc.ts",
+    "./hono": "./src/lib/hono.ts",
+    "./ctx.backend": "./src/lib/ctx.backend.ts",
+    "./ctx.hono": "./src/lib/ctx.hono.ts",
+    "./tri0": "./src/lib/tri0.ts",
+    "./env": "./src/lib/env.ts"
+  },
   "scripts": {
     "types": "tsc --noEmit",
     "build": "tsc --build",

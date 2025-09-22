@@ -1,10 +1,15 @@
-import type { HonoReqCtx } from '@backend/core/lib/ctx.hono'
+import type { HonoApp } from '@backend/core/lib/hono'
 import { Error0 } from '@devp0nt/error0'
 import { initTRPC } from '@trpc/server'
 import superjson from 'superjson'
 
 export namespace BackendTrpc {
-  export type TrpcCtx = { honoReqCtx: HonoReqCtx } & HonoReqCtx.Unextendable
+  export const createTrpcCtx = (honoCtx: HonoApp.HonoCtx) => {
+    return honoCtx.var.honoReqCtx.self.extend({
+      tri0: honoCtx.var.tri0.extend('trpc'),
+    })
+  }
+  export type TrpcCtx = ReturnType<typeof createTrpcCtx>
 
   const t = initTRPC.context<TrpcCtx>().create({
     transformer: superjson,
@@ -31,11 +36,11 @@ export namespace BackendTrpc {
   const procedure = t.procedure
 
   const loggedProcedure = procedure.use(async ({ ctx, next, path, type }) => {
-    ctx.honoReqCtx.meta.assign({
+    ctx.tri0.meta.assign({
       trpcReqPath: path,
       trpcReqType: type,
     })
-    const { logger } = ctx.honoReqCtx.extend('trpc:req')
+    const { logger } = ctx.tri0.extend('req')
     const reqStartedAt = performance.now()
     const result = await next({ ctx })
     if (result.ok) {

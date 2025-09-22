@@ -1,24 +1,18 @@
 import { BackendCtx } from '@backend/core/lib/ctx'
 import { HonoApp } from '@backend/core/lib/hono'
+import { T0 } from '@backend/core/lib/tri0'
 import { BackendHonoRouter } from '@backend/hono-router'
 import { BackendTrpcRouter } from '@backend/trpc-router'
 import { serve } from 'bun'
 import { cors } from 'hono/cors'
 
 export const startApiProcess = async () => {
-  let ctx: BackendCtx | null = null
+  const tri0 = T0.create()
+  const ctx = BackendCtx.create({ tri0, service: 'api' })
+  const { logger } = tri0.extend('root')
   try {
-    ctx = await BackendCtx.create({
-      meta: {
-        service: 'backend-api',
-        tagPrefix: 'backend',
-      },
-      // biome-ignore lint/style/noProcessEnv: <x>
-      env: process.env,
-    })
-    const { honoApp } = HonoApp.create({
-      backendCtx: ctx,
-    })
+    await ctx.self.init()
+    const { honoApp } = HonoApp.create({ backendCtx: ctx })
 
     honoApp.use(cors())
     HonoApp.applyLogging({ honoApp })
@@ -31,25 +25,10 @@ export const startApiProcess = async () => {
       fetch: honoApp.fetch,
       port: ctx.env.PORT,
     })
-    ctx.logger.info(`Hono is running at http://localhost:${ctx.env.PORT}`)
+    logger.info(`Hono is running at http://localhost:${ctx.env.PORT}`)
   } catch (e: any) {
-    if (ctx) {
-      ctx.logger.error(e)
-      await ctx.destroy()
-    } else {
-      // biome-ignore lint/suspicious/noConsole: <fallback to native logger>
-      console.dir(
-        {
-          level: 'error',
-          message: e.message || 'Unknown error',
-          service: 'backend-api',
-          tag: 'backend:fatality',
-          meta: e.meta,
-        },
-        { depth: null },
-      )
-    }
-    process.exit(1)
+    logger.error(e)
+    await ctx.self.destroy()
   }
 }
 

@@ -1,25 +1,23 @@
 // TODO:ASAP resolve circular deps here, tri0
+import type { Logger0LoggerProject } from '@devp0nt/logger0/adapters/logger0-adapter-project'
+import { backOff } from 'exponential-backoff'
 import { Prisma, PrismaClient } from './generated/prisma/client'
 import { Prisma0Models } from './generated/prisma0/models'
-import { backOff } from 'exponential-backoff'
 
 // TODO: use as separate package
 // TODO: move to prisma-client not prisma-client-js
 
-type Tri0 = any
 export namespace Prisma0 {
   export const createClient = ({
-    tri0,
+    logger,
     isTestNodeEnv,
     isLocalHostEnv,
   }: {
-    tri0: Tri0
+    logger: Logger0LoggerProject
     isTestNodeEnv: boolean
     isLocalHostEnv: boolean
   }) => {
-    const { logger } = tri0.extend({
-      tagPrefix: 'prisma',
-    })
+    const l = logger.extend('prisma')
     const prismaOriginal = new PrismaClient({
       transactionOptions: {
         maxWait: 10_000,
@@ -56,7 +54,7 @@ export namespace Prisma0 {
 
     const prismaExtended = prismaOriginal
       .$extends(getFakeTimersExtension({ isTestNodeEnv }))
-      .$extends(getHighLoggingExtension({ isLocalHostEnv, tri0 }))
+      .$extends(getHighLoggingExtension({ isLocalHostEnv, l }))
       .$extends(retryTransactionsExtension)
 
     return prismaExtended
@@ -104,7 +102,7 @@ export namespace Prisma0 {
           }),
     )
 
-  const getHighLoggingExtension = ({ isLocalHostEnv, tri0 }: { isLocalHostEnv: boolean; tri0: Tri0 }) =>
+  const getHighLoggingExtension = ({ isLocalHostEnv, l }: { isLocalHostEnv: boolean; l: Logger0LoggerProject }) =>
     Prisma.defineExtension((prisma) =>
       prisma.$extends({
         query: {
@@ -115,7 +113,7 @@ export namespace Prisma0 {
               try {
                 const result = await query(args)
                 const durationMs = performance.now() - startedAt
-                tri0.logger.info({
+                l.info({
                   tag: 'high',
                   message: 'Successfull request',
                   prismaDurationMs: durationMs,
@@ -128,7 +126,7 @@ export namespace Prisma0 {
                 return result
               } catch (error) {
                 const durationMs = performance.now() - startedAt
-                tri0.logger.error({
+                l.error({
                   tag: 'high',
                   error,
                   meta: {

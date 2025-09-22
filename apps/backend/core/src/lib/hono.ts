@@ -1,28 +1,49 @@
 import type { BackendCtx } from '@backend/core/lib/ctx'
-import { HonoReqCtx } from '@backend/core/lib/ctx.hono'
 import { Error0 } from '@devp0nt/error0'
 import { OpenAPIHono } from '@hono/zod-openapi'
 import type { Context as HonoContext } from 'hono'
-import { getConnInfo } from 'hono/bun'
+import { getConnInfo } from 'hono/cloudflare-workers'
+
+export namespace HonoReqCtx {
+  export const create = ({ backendCtx, honoCtx }: { backendCtx: BackendCtx.Self; honoCtx: HonoContext }) => {
+    return backendCtx.self.extend(() => {
+      const req = honoCtx.req
+      const connInfo = getConnInfo(honoCtx)
+      const tri0 = backendCtx.tri0.extend('hono', {
+        ip: connInfo.remote.address,
+        userAgent: req.header('User-Agent'),
+        reqMethod: req.method,
+        reqPath: req.path,
+      })
+      return {
+        tri0,
+        honoCtx,
+        req: honoCtx.req,
+      }
+    })
+  }
+
+  export type Self = ReturnType<typeof create>
+  export type Value = Omit<Self, 'self'>
+}
 
 export namespace HonoApp {
-  type HonoCtxInput = {
-    Variables: { honoReqCtx: HonoReqCtx } & HonoReqCtx.Unextendable
+  type HonoContextSettings = {
+    Variables: { honoReqCtx: HonoReqCtx.Self } & HonoReqCtx.Value
   }
-  export type HonoCtx = HonoContext<HonoCtxInput>
+  export type HonoCtx = HonoContext<HonoContextSettings>
 
-  export const create = ({ backendCtx }: { backendCtx: BackendCtx }) => {
-    const honoApp = new OpenAPIHono<HonoCtxInput>()
+  export const create = ({ backendCtx }: { backendCtx: BackendCtx.Self }) => {
+    const honoApp = new OpenAPIHono<HonoContextSettings>()
     honoApp.use(async (honoCtx, next) => {
       const honoReqCtx = await HonoReqCtx.create({
         backendCtx,
         honoCtx,
       })
       honoCtx.set('honoReqCtx', honoReqCtx)
-      const unextendable = honoReqCtx.getUnextendable()
-      for (const [key, value] of Object.entries(unextendable)) {
-        honoCtx.set(key as keyof HonoReqCtx.Unextendable, value)
-      }
+      honoReqCtx.self.forEach((key, value) => {
+        honoCtx.set(key as never, value as never)
+      })
       await next()
     })
 
@@ -31,19 +52,11 @@ export namespace HonoApp {
 
   export const applyLogging = ({ honoApp }: { honoApp: AppType }) => {
     honoApp.use(async (c, next) => {
-      const connInfo = getConnInfo(c)
-      c.var.honoReqCtx.meta.assign({
-        ip: connInfo.remote.address,
-        userAgent: c.req.header('User-Agent'),
-        reqMethod: c.req.method,
-        reqPath: c.req.path,
-      })
-
-      const { logger } = c.var.honoReqCtx.extend('hono:req')
       if (c.req.path.startsWith('/trpc')) {
         await next()
         return
       }
+      const { logger } = c.var.tri0.extend('hono:req')
       const reqStartedAt = performance.now()
       try {
         await next()
