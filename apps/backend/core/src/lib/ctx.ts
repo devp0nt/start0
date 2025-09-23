@@ -1,4 +1,3 @@
-/** biome-ignore-all lint/style/noProcessEnv: <ok here> */
 import { createEnv } from '@backend/core/lib/env'
 import { Ctx0 } from '@devp0nt/ctx0'
 import { Error0 } from '@devp0nt/error0'

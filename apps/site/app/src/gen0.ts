@@ -1,17 +1,26 @@
 import type { Gen0Plugin } from '@devp0nt/gen0'
 import type { Page0 } from '@site/core/lib/page0'
 
-export default (async ({ fs0, _ }) => {
-  await fs0.loadEnv('.env')
-
-  const { RRGen0 } = await fs0.import<typeof import('./gen0.templates')>('./gen0.templates.ts', { moduleCache: false })
+// TODO: figure out why not work
+export default (({ fs0, _ }) => {
   const pagesGlob = ['~/**/*.page.ts{x,}']
   const watchGlob = [...pagesGlob, './gen0.templates.ts']
   const appDir = fs0.resolve('.')
   const generatedRoutesDir = fs0.toAbs(fs0.resolve(appDir, 'routes/generated'))
   const catchall = './routes/catchall.tsx'
 
-  const getHelpersByPagePath = (pagePath: string) => {
+  const getRRGen0 = _.memoize(
+    async () => {
+      await fs0.loadEnv('.env')
+      const { RRGen0 } = await fs0.import<typeof import('./gen0.templates')>('./gen0.templates.ts', {
+        moduleCache: false,
+      })
+      return { RRGen0 }
+    },
+    () => new Date().getSeconds(),
+  )
+
+  const getHelpersByPagePath = async (pagePath: string) => {
     const pagePathRelToProjectRoot = fs0.toRel(pagePath, fs0.rootDir)
     const pagePathSlug = _.kebabCase(pagePathRelToProjectRoot)
     const routeFilePath = fs0.resolve(generatedRoutesDir, `${pagePathSlug}.tsx`)
@@ -29,7 +38,8 @@ export default (async ({ fs0, _ }) => {
   }
 
   const generateRouteFileByPagePath = async (pagePath: string) => {
-    const { routeFilePath, pagePathSlug, pagePathRelToGeneratedRoutesDir } = getHelpersByPagePath(pagePath)
+    const { RRGen0 } = await getRRGen0()
+    const { routeFilePath, pagePathSlug, pagePathRelToGeneratedRoutesDir } = await getHelpersByPagePath(pagePath)
     await fs0.writeFile(
       routeFilePath,
       RRGen0.routeFileTemplate({
@@ -40,7 +50,6 @@ export default (async ({ fs0, _ }) => {
   }
 
   const generateAllRoutesFiles = async (pagesPaths?: string[]) => {
-    // biome-ignore lint/nursery/noUnnecessaryConditions: <biome bug>
     pagesPaths ||= await fs0.glob(pagesGlob)
     await Promise.all(pagesPaths.map(generateRouteFileByPagePath))
     return pagesPaths
@@ -50,7 +59,11 @@ export default (async ({ fs0, _ }) => {
     pagesPaths ||= await fs0.glob(pagesGlob)
     const unuedPaths: string[] = []
     const existsingRoutesPaths = await fs0.glob(generatedRoutesDir)
-    const neeededRoutesPaths = pagesPaths.map((pagePath) => getHelpersByPagePath(pagePath).routeFilePath)
+    const neeededRoutesPaths = await Promise.all(
+      pagesPaths.map(async (pagePath) => {
+        return (await getHelpersByPagePath(pagePath)).routeFilePath
+      }),
+    )
     for (const existingRoutePath of existsingRoutesPaths) {
       if (!neeededRoutesPaths.includes(existingRoutePath)) {
         unuedPaths.push(existingRoutePath)
@@ -68,6 +81,7 @@ export default (async ({ fs0, _ }) => {
 
   const generateRoutesFile = async (pagesPaths?: string[]) => {
     pagesPaths ||= await fs0.glob(pagesGlob)
+    const { RRGen0 } = await getRRGen0()
     const input: RRInput[] = await Promise.all(
       pagesPaths.map(
         async (pagePath) =>
@@ -75,15 +89,17 @@ export default (async ({ fs0, _ }) => {
             // .importFreshDefault1<Page0<any, any>>(pagePath, { "@site/core/*": "../../apps/site/core/*" })
             .import<{ default: Page0<any, any> }>(pagePath, { default: true })
             .then(async ({ default: page }) => {
-              const { routePathRelativeToAppDir } = getHelpersByPagePath(pagePath)
+              const { routePathRelativeToAppDir } = await getHelpersByPagePath(pagePath)
               const layouts = page.layouts
+              // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- ok
               const route0Definition = page.route.getDefinition()
+              // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- ok
               return { routePathRelativeToAppDir, layouts, route0Definition }
             }),
       ),
     )
     const structure = buildRoutesStructure(input, catchall)
-    const { routesFilePath } = getHelpersByPagePath(pagesPaths[0])
+    const { routesFilePath } = await getHelpersByPagePath(pagesPaths[0])
     await fs0.writeFile(routesFilePath, RRGen0.routesFileTemplate({ structure }))
     return pagesPaths
   }
@@ -106,6 +122,7 @@ export default (async ({ fs0, _ }) => {
     watchers: {
       createRouteByPage: {
         watch: watchGlob,
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises -- TODO: fix it in gen0
         handler: async (ctx, event, path) => {
           if (event !== 'delete') {
             await generateRouteFileByPagePath(path)
@@ -134,6 +151,7 @@ function buildRoutesStructure(data: RRInput[], catchallPath: string): string {
   const root: RRNode[] = []
 
   const findOrCreateLayout = (level: RRNode[], layoutPath: string): RRNode => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-type-assertion -- ok
     let node = level.find((n) => n.type === 'layout' && (n as any).layoutPath === layoutPath)
     if (!node) {
       node = { type: 'layout', layoutPath, children: [] }
@@ -144,7 +162,9 @@ function buildRoutesStructure(data: RRInput[], catchallPath: string): string {
 
   for (const item of data) {
     let level = root
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- ok
     for (const layoutPath of item.layouts || []) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion -- ok
       const layoutNode = findOrCreateLayout(level, layoutPath) as Extract<RRNode, { type: 'layout' }>
       level = layoutNode.children
     }

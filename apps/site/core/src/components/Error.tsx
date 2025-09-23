@@ -1,9 +1,10 @@
 import { Error0 } from '@devp0nt/error0'
 import { useMemo } from 'react'
-import { type ErrorResponse, isRouteErrorResponse } from 'react-router'
+import { isRouteErrorResponse } from 'react-router'
 
 export namespace SiteError {
-  export type Type = Error0 | ErrorResponse | Error | Error0.JSON | string | unknown
+  // export type Type = Error0 | ErrorResponse | Error | Error0.JSON | string
+  export type Type = unknown
 
   export const useError0 = (error: Type) => {
     return useMemo(() => Error0.from(isRouteErrorResponse(error) ? error.data : error), [error])

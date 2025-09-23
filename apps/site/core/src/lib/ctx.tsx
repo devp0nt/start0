@@ -36,6 +36,7 @@ export namespace SiteCtx {
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion -- ok
   const ReactContext = createContext<Ctx>(null as never)
 
   export const Provider = ({ children }: { children: React.ReactNode }) => {
@@ -54,6 +55,7 @@ export namespace SiteCtx {
     const error = getAppConfigQr.error
     const pending = getAppConfigQr.isPending
     return (
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion -- ok
       <ReactContext.Provider value={siteCtx as Ctx}>
         {error ? <div>{error.message}</div> : pending ? <div>Loading...</div> : children}
       </ReactContext.Provider>
@@ -85,6 +87,7 @@ export namespace SiteCtx {
 
   export const rrGetFromContextOrThrow = ({ context }: { context: Readonly<RouterContextProvider> }) => {
     const result = context.get(rrContext)
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- ok becouse, previous ok
     if (!result) {
       throw new Error('siteCtx holder not found in react router context')
     }

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-empty-object-type -- ok */
 import { describe, expect, expectTypeOf, it } from 'bun:test'
 import { Route0 } from '@devp0nt/route0'
 import { Page0 } from '@site/core/lib/page0'

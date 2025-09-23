@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-unsafe-type-assertion */
-/* eslint-disable @typescript-eslint/no-unnecessary-type-parameters */
+
 import lodashOmit from 'lodash/omit.js'
 import lodashPick from 'lodash/pick.js'
 

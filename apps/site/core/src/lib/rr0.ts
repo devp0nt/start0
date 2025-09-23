@@ -1,3 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unsafe-type-assertion -- ok */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access -- ok */
+
+/* eslint-disable @typescript-eslint/no-unsafe-assignment -- ok */
+/* eslint-disable @typescript-eslint/await-thenable -- ok */
 import { Error0 } from '@devp0nt/error0'
 import { SiteCtx } from '@site/core/lib/ctx'
 import { getQueryClient } from '@site/core/lib/trpc'
@@ -32,6 +37,7 @@ export namespace RR0 {
           dehydratedState,
         }
       } catch (error) {
+        // eslint-disable-next-line @typescript-eslint/only-throw-error -- ok
         throw Error0.from(error).toResponse()
       }
     }
@@ -51,6 +57,7 @@ export namespace RR0 {
           query: metaArgs.loaderData?.query || {},
         })
       } catch (error) {
+        // eslint-disable-next-line @typescript-eslint/only-throw-error -- ok
         throw Error0.from(error).toResponse()
       }
     }
@@ -68,6 +75,7 @@ export namespace RR0 {
           query: componentArgs.loaderData?.query || {},
         })
       } catch (error) {
+        // eslint-disable-next-line @typescript-eslint/only-throw-error -- ok
         throw Error0.from(error).toResponse()
       }
     }

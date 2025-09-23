@@ -23,6 +23,13 @@ export default [
     rules: {
       ...(love.rules ?? {}),
       // all
+      '@typescript-eslint/only-throw-error': [
+        'error',
+        {
+          allow: [{ from: 'package', name: 'Error0', package: '@devp0nt/error0' }],
+        },
+      ],
+      '@typescript-eslint/consistent-type-imports': ['error', { disallowTypeAnnotations: false }],
       'arrow-body-style': 'off',
       '@typescript-eslint/no-namespace': 'off',
       '@typescript-eslint/naming-convention': 'off',
@@ -30,6 +37,9 @@ export default [
       '@typescript-eslint/consistent-type-definitions': 'off',
       '@typescript-eslint/strict-boolean-expressions': 'off',
       '@typescript-eslint/require-await': 'off',
+      '@typescript-eslint/no-unnecessary-type-parameters': 'off',
+      '@typescript-eslint/no-explicit-any': 'off',
+      'promise/avoid-new': 'off',
       // project
       '@typescript-eslint/explicit-function-return-type': 'off',
       '@typescript-eslint/no-magic-numbers': 'off',

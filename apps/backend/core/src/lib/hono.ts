@@ -39,12 +39,13 @@ export namespace HonoApp {
 
   export const applyContextSetter = ({ honoApp, backendCtx }: { honoApp: AppType; backendCtx: BackendCtx.Self }) => {
     honoApp.use(async (honoCtx, next) => {
-      const honoReqCtx = await HonoReqCtx.create({
+      const honoReqCtx = HonoReqCtx.create({
         backendCtx,
         honoCtx,
       })
       honoCtx.set('honoReqCtx', honoReqCtx)
       honoReqCtx.self.forEach((key, value) => {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion -- TODO: fix types in ctx0
         honoCtx.set(key as never, value as never)
       })
       await next()
@@ -85,7 +86,7 @@ export namespace HonoApp {
         })
         return c.json(Error0.toJSON(error), 500)
       } catch (errorAgain) {
-        // biome-ignore lint/suspicious/noConsole: <it is corner case when everything is broken>
+        // eslint-disable-next-line no-console -- it is corner case when everything is broken
         console.error(errorAgain, error)
         return c.json(Error0.toJSON(error), 500)
       }

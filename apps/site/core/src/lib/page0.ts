@@ -24,9 +24,11 @@ export class Page0<TRoute extends Page0.Route, TLoader extends Page0.Loader<TRou
   public readonly layouts: Page0.Layouts
 
   private constructor(input: Page0.CreateInputWithLoader<TRoute, TLoader>)
+  // eslint-disable-next-line @typescript-eslint/unified-signatures -- ok
   private constructor(input: Page0.CreateInputWithoutLoader<TRoute>)
   private constructor(input: Page0.CreateInput<TRoute, TLoader>) {
     this.route = input.route
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion -- ok
     this.loader = input.loader as TLoader
     this.metaOriginal = input.meta
     this.titleOriginal = input.title
@@ -34,6 +36,7 @@ export class Page0<TRoute extends Page0.Route, TLoader extends Page0.Loader<TRou
     this.layouts = Page0.normalizeLayoutsInput(input.layout)
     this.component = input.component
     // TODO: check if it works in dev tools
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- ok
     this.component.displayName = input.route.getDefinition()
   }
 
@@ -46,6 +49,7 @@ export class Page0<TRoute extends Page0.Route, TLoader extends Page0.Loader<TRou
   static create<TRoute extends Page0.Route, TLoader extends Page0.Loader<TRoute> | undefined>(
     input: Page0.CreateInput<TRoute, TLoader>,
   ): Page0<TRoute, TLoader> {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion -- ok
     return new Page0<TRoute, TLoader>(input as never)
   }
 
@@ -65,7 +69,7 @@ export class Page0<TRoute extends Page0.Route, TLoader extends Page0.Loader<TRou
       return []
     }
     if (Array.isArray(layoutsInput)) {
-      return layoutsInput.map(Page0.normalizeLayoutSingleInput)
+      return layoutsInput.map((layout) => Page0.normalizeLayoutSingleInput(layout))
     }
     return [Page0.normalizeLayoutSingleInput(layoutsInput)]
   }

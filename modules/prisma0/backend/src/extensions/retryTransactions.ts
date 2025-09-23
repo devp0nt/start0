@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any -- Prisma transaction args are dynamic */
 /* eslint-disable @typescript-eslint/no-unsafe-call -- backOff function requires any args */
 /* eslint-disable @typescript-eslint/no-unsafe-argument -- Prisma transaction args are dynamic */
 /* eslint-disable prefer-spread -- apply method needed for dynamic args */

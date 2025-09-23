@@ -40,7 +40,7 @@
   "unitsConfigsGlob": "{modules,apps,tools}/**/mono0.json",
   "filesSelectors": {
     "exclude": ["**/dist/**/*", "**/node_modules/**/*", "**/public/**/*"],
-    "test": ["**/test/**/*", "**/*.test.*"]
+    "test": ["**/test/**/*", "**/*.test.*"],
   },
   "unitsSelectors": {
     // "test": ["@test/slow", "#test"]
@@ -52,7 +52,7 @@
     "path": "../package.json",
     "settings": {
       "clearWorkspaces": "workspaces.papackages",
-      "addWorkspaces": "workspaces.packages"
+      "addWorkspaces": "workspaces.packages",
     },
     "value": {
       "name": "ideanick",
@@ -62,16 +62,16 @@
         "build": "tsc --build",
         "watch": "tsc --build --watch --preserveWatchOutput",
         "types": "bun run clean && tsc --build",
-        "clean": "rimraf {{projectRootDir}}/node_modules/.cache/tsbuildinfo && rimraf **/dist"
-      }
-    }
+        "clean": "rimraf {{projectRootDir}}/node_modules/.cache/tsbuildinfo && rimraf **/dist",
+      },
+    },
   },
   "tsconfigs": {
     "base": {
       "path": "./tsconfig.base.json",
       "settings": {
         "addUnitsSrcToPaths": { "match": "!#cold", "indexFile": true },
-        "addUnitsDistToPaths": { "match": "#cold", "indexFile": true }
+        "addUnitsDistToPaths": { "match": "#cold", "indexFile": true },
       },
       "value": {
         "compilerOptions": {
@@ -88,33 +88,34 @@
           "resolveJsonModule": true,
           "paths": {
             "@trpc/server/*": ["~/node_modules/@trpc/server/*"],
+            // "@trpc/tanstack-react-query/*": ["~/node_modules/@trpc/tanstack-react-query/*"],
             "react-router": ["~/node_modules/react-router/*"],
-            "@tanstack/query-core": ["~/node_modules/@tanstack/query-core/*"]
-          }
-        }
-      }
+            "@tanstack/query-core": ["~/node_modules/@tanstack/query-core/*"],
+          },
+        },
+      },
     },
     "root": {
       "path": "../tsconfig.json",
       "value": {
         "files": [],
-        "include": []
+        "include": [],
       },
       "settings": {
-        "addUnitsAsReferences": { "tsconfig": "$core" }
-      }
+        "addUnitsAsReferences": { "tsconfig": "$core" },
+      },
     },
     "shared": {
       "path": "./tsconfig.shared.json",
       "value": {
-        "extends": "$base"
-      }
+        "extends": "$base",
+      },
     },
     "backend": {
       "path": "./tsconfig.backend.json",
       "value": {
-        "extends": "$base"
-      }
+        "extends": "$base",
+      },
     },
     "site": {
       "path": "./tsconfig.site.json",
@@ -124,16 +125,16 @@
           "lib": ["DOM", "DOM.Iterable", "ES2022"],
           "types": ["node", "bun", "vite/client"],
           "target": "ES2022",
-          "module": "ES2022"
-        }
-      }
+          "module": "ES2022",
+        },
+      },
     },
     "tools": {
       "path": "./tsconfig.tools.json",
       "value": {
-        "extends": "$base"
-      }
-    }
+        "extends": "$base",
+      },
+    },
   },
   "presets": {
     "force": {
@@ -146,7 +147,7 @@
         "settings": {
           "clearWorkspaceDeps": true,
           "addWorkspaceDeps": true,
-          "clearExports": true
+          "clearExports": true,
         },
         "value": {
           "private": true,
@@ -155,9 +156,9 @@
             "types": "tsc --noEmit",
             "build": "tsc --build",
             "watch": "tsc --watch",
-            "clean": "rimraf {{projectRootDir}}/node_modules/.cache/tsbuildinfo/{{name}} && rimraf {{distDir}}"
-          }
-        }
+            "clean": "rimraf {{projectRootDir}}/node_modules/.cache/tsbuildinfo/{{name}} && rimraf {{distDir}}",
+          },
+        },
       },
       "tsconfigs": {
         "core": {
@@ -167,18 +168,18 @@
             "setUnitDistAsOutDir": true,
             "addUnitIncludeToInclude": "whenNotProvided",
             "addUnitExcludeToExclude": "whenNotProvided",
-            "addUnitsAsReferences": { "scope": "deps", "tsconfig": "$core" }
+            "addUnitsAsReferences": { "scope": "deps", "tsconfig": "$core" },
           },
           "value": {
             "compilerOptions": {
               "composite": true,
               "declaration": true,
               "declarationMap": true,
-              "tsBuildInfoFile": "~/node_modules/.cache/tsbuildinfo/{{name}}/.tsbuildinfo"
-            }
-          }
-        }
-      }
+              "tsBuildInfoFile": "~/node_modules/.cache/tsbuildinfo/{{name}}/.tsbuildinfo",
+            },
+          },
+        },
+      },
     },
     "app": {
       "tags": ["app"],
@@ -186,54 +187,54 @@
         "settings": {
           "clearWorkspaceDeps": true,
           "addWorkspaceDeps": true,
-          "clearExports": true
-        }
+          "clearExports": true,
+        },
       },
       "tsconfigs": {
         "core": {
           "value": {
             "compilerOptions": {
               "declaration": true,
-              "declarationMap": true
-            }
-          }
-        }
-      }
+              "declarationMap": true,
+            },
+          },
+        },
+      },
     },
     "cold": {
-      "tags": ["cold"]
+      "tags": ["cold"],
     },
     "shared": {
       "tsconfig": {
         "value": {
-          "extends": "$shared"
-        }
+          "extends": "$shared",
+        },
       },
-      "tags": ["shared"]
+      "tags": ["shared"],
     },
     "backend": {
       "tsconfig": {
         "value": {
-          "extends": "$backend"
-        }
+          "extends": "$backend",
+        },
       },
-      "tags": ["backend"]
+      "tags": ["backend"],
     },
     "site": {
       "tsconfig": {
         "value": {
-          "extends": "$site"
-        }
+          "extends": "$site",
+        },
       },
-      "tags": ["site"]
+      "tags": ["site"],
     },
     "tools": {
       "tsconfig": {
         "value": {
-          "extends": "$tools"
-        }
+          "extends": "$tools",
+        },
       },
-      "tags": ["tools"]
-    }
-  }
+      "tags": ["tools"],
+    },
+  },
 }

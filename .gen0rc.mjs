@@ -1,4 +1,4 @@
-import { getGen0PluginImportJs } from '@devp0nt/gen0'
+import { getGen0PluginImportJs } from '@devp0nt/gen0/plugins/gen0-plugin-import-js'
 import { getGen0PluginMono0 } from '@devp0nt/mono0'
 
 export default {

@@ -2,7 +2,6 @@ import { Route0 } from '@devp0nt/route0'
 import z from 'zod'
 
 export namespace Idea {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- will be fixed
   export type Client = any
 
   export const siteBaseRoute = Route0.create('/ideas')
