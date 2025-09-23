@@ -1,7 +1,12 @@
+/* eslint-disable eslint-comments/require-description -- ok */
+/* eslint-disable @typescript-eslint/no-empty-function */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-unsafe-type-assertion */
+/* eslint-disable @typescript-eslint/no-unnecessary-type-parameters */
 import lodashOmit from 'lodash/omit.js'
 import lodashPick from 'lodash/pick.js'
 
-export const pick = <TObject extends Object, TKeys extends keyof TObject>(
+export const pick = <TObject extends object, TKeys extends keyof TObject>(
   obj: TObject,
   keys: TKeys[],
 ): Pick<TObject, TKeys> => {
@@ -24,12 +29,7 @@ export const constKeys = <T extends string>(obj: Record<T, unknown>) => {
   return keys as [T, ...T[]]
 }
 
-export const checkEnumTypeEq = <
-  T extends string,
-  U extends T,
-  // biome-ignore lint/correctness/noUnusedVariables: <x>
-  M extends U,
->() => {}
+export const checkEnumTypeEq = <T extends string, U extends T, M extends U>() => {}
 
 export const getConstKeys = <T extends string>(obj: Record<T, unknown>) => {
   const keys = Object.keys(obj) as T[]

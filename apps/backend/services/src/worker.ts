@@ -1,29 +1,19 @@
-import { BackendCtx } from '@backend/core/lib/ctx'
+import { BackendCtx, Tri0 } from '@backend/core/lib/ctx'
 
 export const startWorkerProcess = async () => {
+  const tri0 = Tri0.create()
+  const ctx = BackendCtx.create({ tri0, service: 'worker' })
+  const { logger } = tri0.extend('root')
   try {
-    // biome-ignore lint/correctness/noUnusedVariables: <x>
-    const ctx = await BackendCtx.create({
-      meta: {
-        service: 'backend-worker',
-        tagPrefix: 'backend',
-      },
-      // biome-ignore lint/style/noProcessEnv: <x>
-      env: process.env,
-    })
-    // const handleWorker = () => {
-    //   ctx.logger.info("Worker is running")
-    // }
-    // handleWorker()
-    // setInterval(handleWorker, 10000)
+    await ctx.self.init()
+    logger.info(`Worker started`)
+    while (true) {
+      await new Promise((resolve) => setTimeout(resolve, 1000 * 60 * 60))
+      logger.info(`Worker is still alive`)
+    }
   } catch (e: any) {
-    // biome-ignore lint/suspicious/noConsole: <fallback to native logger>
-    console.error({
-      message: e.message || 'Unknown error',
-      service: 'backend-worker',
-      tag: 'backend:fatality',
-    })
-    process.exit(1)
+    logger.error(e)
+    await ctx.self.destroy()
   }
 }
 

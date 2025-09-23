@@ -41,13 +41,13 @@ export default (async ({ fs0, _ }) => {
 
   const generateAllRoutesFiles = async (pagesPaths?: string[]) => {
     // biome-ignore lint/nursery/noUnnecessaryConditions: <biome bug>
-    pagesPaths = pagesPaths || (await fs0.glob(pagesGlob))
+    pagesPaths ||= await fs0.glob(pagesGlob)
     await Promise.all(pagesPaths.map(generateRouteFileByPagePath))
     return pagesPaths
   }
 
   const removeAllUnusedRoutesFiles = async (pagesPaths?: string[]) => {
-    pagesPaths = pagesPaths || (await fs0.glob(pagesGlob))
+    pagesPaths ||= await fs0.glob(pagesGlob)
     const unuedPaths: string[] = []
     const existsingRoutesPaths = await fs0.glob(generatedRoutesDir)
     const neeededRoutesPaths = pagesPaths.map((pagePath) => getHelpersByPagePath(pagePath).routeFilePath)
@@ -56,25 +56,30 @@ export default (async ({ fs0, _ }) => {
         unuedPaths.push(existingRoutePath)
       }
     }
-    await Promise.all(unuedPaths.map((p) => fs0.rm(p)))
+    await Promise.all(
+      unuedPaths.map(async (p) => {
+        await fs0.rm(p)
+      }),
+    )
     return pagesPaths
   }
 
   // TODO:ASAP rename file back to gen0.ts
 
   const generateRoutesFile = async (pagesPaths?: string[]) => {
-    pagesPaths = pagesPaths || (await fs0.glob(pagesGlob))
+    pagesPaths ||= await fs0.glob(pagesGlob)
     const input: RRInput[] = await Promise.all(
-      pagesPaths.map((pagePath) =>
-        fs0
-          // .importFreshDefault1<Page0<any, any>>(pagePath, { "@site/core/*": "../../apps/site/core/*" })
-          .import<{ default: Page0<any, any> }>(pagePath, { default: true })
-          .then(async ({ default: page }) => {
-            const { routePathRelativeToAppDir } = getHelpersByPagePath(pagePath)
-            const layouts = page.layouts
-            const route0Definition = page.route.getDefinition()
-            return { routePathRelativeToAppDir, layouts, route0Definition }
-          }),
+      pagesPaths.map(
+        async (pagePath) =>
+          await fs0
+            // .importFreshDefault1<Page0<any, any>>(pagePath, { "@site/core/*": "../../apps/site/core/*" })
+            .import<{ default: Page0<any, any> }>(pagePath, { default: true })
+            .then(async ({ default: page }) => {
+              const { routePathRelativeToAppDir } = getHelpersByPagePath(pagePath)
+              const layouts = page.layouts
+              const route0Definition = page.route.getDefinition()
+              return { routePathRelativeToAppDir, layouts, route0Definition }
+            }),
       ),
     )
     const structure = buildRoutesStructure(input, catchall)
@@ -129,7 +134,7 @@ function buildRoutesStructure(data: RRInput[], catchallPath: string): string {
   const root: RRNode[] = []
 
   const findOrCreateLayout = (level: RRNode[], layoutPath: string): RRNode => {
-    let node = level.find((n) => n.type === 'layout' && (n as any).layoutPath === layoutPath) as RRNode | undefined
+    let node = level.find((n) => n.type === 'layout' && (n as any).layoutPath === layoutPath)
     if (!node) {
       node = { type: 'layout', layoutPath, children: [] }
       level.push(node)

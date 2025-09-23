@@ -83,10 +83,10 @@ export namespace RR0 {
       .map((match) => (match.loaderData as { dehydratedState?: DehydratedState } | undefined)?.dehydratedState)
       .filter(Boolean) as DehydratedState[]
     return dehydratedState.length
-      ? dehydratedState.reduce((accumulator, currentValue) => merge(accumulator, currentValue), {
+      ? dehydratedState.reduce<DehydratedState>((accumulator, currentValue) => merge(accumulator, currentValue), {
           mutations: [],
           queries: [],
-        } as DehydratedState)
+        })
       : undefined
   }
 }

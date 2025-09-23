@@ -49,7 +49,7 @@ export class Page0<TRoute extends Page0.Route, TLoader extends Page0.Loader<TRou
     return new Page0<TRoute, TLoader>(input as never)
   }
 
-  private static createEmptyLoader = (): Page0.EmptyLoader => {
+  private static readonly createEmptyLoader = (): Page0.EmptyLoader => {
     return async () => ({})
   }
 
@@ -149,7 +149,7 @@ export class Page0<TRoute extends Page0.Route, TLoader extends Page0.Loader<TRou
               loader: undefined,
               meta,
               title: undefined,
-              component: component,
+              component,
             })
           },
 
@@ -413,8 +413,6 @@ export namespace Page0 {
     layout?: LayoutsInput
     component: Component<TRoute, EmptyLoader>
   }
-  export type CreateInput<
-    TRoute extends Route,
-    TLoader extends Loader<TRoute> | undefined,
-  > = TLoader extends Loader<TRoute> ? CreateInputWithLoader<TRoute, TLoader> : CreateInputWithoutLoader<TRoute>
+  export type CreateInput<TRoute extends Route, TLoader extends Loader<TRoute> | undefined> =
+    TLoader extends Loader<TRoute> ? CreateInputWithLoader<TRoute, TLoader> : CreateInputWithoutLoader<TRoute>
 }

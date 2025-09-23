@@ -21,7 +21,7 @@ export const pingHonoRoute = ({ honoApp }: { honoApp: HonoApp.AppType }) => {
     },
     (c) => {
       return c.json({
-        message: 'pong99',
+        message: 'pong',
       })
     },
   )

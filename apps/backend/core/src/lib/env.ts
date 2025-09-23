@@ -3,7 +3,7 @@ import z from 'zod'
 
 export const createEnv = (source: Record<string, unknown>) => {
   return Env0.create({
-    source: source,
+    source,
     schema: z.object({
       NODE_ENV: ez.nodeEnv,
       HOST_ENV: ez.hostEnv,

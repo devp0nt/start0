@@ -76,7 +76,7 @@ export namespace SiteCtx {
 
   export const rrMiddleware: MiddlewareFunction = async ({ context }) => {
     const qc = getQueryClient()
-    const { siteCtx } = await SiteCtx.loader({ qc })
+    const { siteCtx } = await loader({ qc })
     context.set(rrContext, {
       siteCtx,
       dehydratedState: dehydrate(qc),

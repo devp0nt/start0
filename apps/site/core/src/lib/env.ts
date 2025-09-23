@@ -3,7 +3,7 @@ import z from 'zod'
 
 export const createEnvBuild = (source: Record<string, unknown>) =>
   Env0.create({
-    source: source,
+    source,
     schema: ({ ez, optionalOnLocalHostEnv }) =>
       z.object({
         PORT: ez.int,
@@ -14,7 +14,7 @@ export type EnvBuild = ReturnType<typeof createEnvBuild>
 
 export const createEnv = (source: Record<string, unknown>) =>
   Env0.create({
-    source: source,
+    source,
     schema: z.object({
       VITE_TRPC_URL: ez.string,
     }),

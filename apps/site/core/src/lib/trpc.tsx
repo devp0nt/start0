@@ -63,7 +63,7 @@ const links = [
 
 export const trpc = createTRPCOptionsProxy({
   client: createTRPCClient<BackendTrpcRouter.TrpcRouter>({
-    links: links,
+    links,
   }),
   queryClient: getQueryClient,
 })

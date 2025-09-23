@@ -1,17 +1,19 @@
 //  grep -oE '\"[a-zA-Z0-9.-]+\.[a-zA-Z0-9.-]+\"' .vscode/extensions.json | tr -d '\"' | while read ext; do echo "cursor --install-extension $ext"; done
 {
   "recommendations": [
-    "oven.bun-vscode",
-    "YoavBls.pretty-ts-errors",
-    "MylesMurphy.prettify-ts",
-    "ms-vscode.vscode-typescript-next",
-    "biomejs.biome",
-    "prisma.prisma",
-    "cweijan.vscode-database-client2",
-    "vscode-icons-team.vscode-icons",
-    "hashicorp.terraform",
-    "ms-azuretools.vscode-docker",
-    "gitpod.gitpod-theme",
-    "skellock.just"
+    "oven.bun-vscode", // Bun runtime support - syntax highlighting, debugging, and IntelliSense for Bun projects // comment
+    "YoavBls.pretty-ts-errors", // Makes TypeScript errors more readable with better formatting and colors // comment
+    "MylesMurphy.prettify-ts", // TypeScript code formatter and prettifier // ...
+    "ms-vscode.vscode-typescript-next", // Latest TypeScript language service with cutting-edge features
+    "esbenp.prettier-vscode", // Code formatter using Prettier - auto-formats JS, TS, CSS, HTML, etc.
+    "dbaeumer.vscode-eslint", // ESLint integration for JavaScript and TypeScript linting
+    "prisma.prisma", // Prisma ORM support - syntax highlighting, formatting, and auto-completion
+    "cweijan.vscode-database-client2", // Database client for MySQL, PostgreSQL, SQLite, and more
+    "vscode-icons-team.vscode-icons", // File and folder icons for better visual navigation
+    "hashicorp.terraform", // Terraform language support with syntax highlighting and validation
+    "ms-azuretools.vscode-docker", // Docker support - manage containers, images, and compose files
+    "gitpod.gitpod-theme", // Gitpod color theme for consistent cloud development environment
+    "circlecodesolution.ccs-flutter-color", // Flutter color picker and palette tools
+    "skellock.just" // Just command runner syntax highlighting and support
   ]
 }
