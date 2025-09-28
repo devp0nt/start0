@@ -8,7 +8,8 @@
     "build": "tsc --build",
     "watch": "tsc --build --watch --preserveWatchOutput",
     "lint": "eslint . --cache --cache-location node_modules/.cache/eslint/.eslintcache",
-    "lint:fix": "bun run lint --fix"
+    "lint:fix": "bun run lint --fix",
+    "prepare": "husky"
   },
   "dependencies": {
     "@devp0nt/ctx0": "^1.0.0-next.7",

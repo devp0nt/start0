@@ -7,7 +7,6 @@ import { Tri0 } from '@devp0nt/tri0'
 export namespace T0 {
   export const create = () => {
     Logger0.init({
-      // biome-ignore lint/style/noProcessEnv: <ok here>
       filterByTags: process.env.DEBUG,
       reset: true,
       rootTagPrefix: 'ideanick',
