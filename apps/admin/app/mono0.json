@@ -1,0 +1,19 @@
+{
+  "name": "@admin/app",
+  "preset": ["app", "adminWithTsconfig"],
+  "deps": ["@admin/core", "#adminModule"],
+  "tsconfig": {
+    "value": {}
+  },
+  "packageJson": {
+    "value": {
+      "scripts": {
+        "types": "tsc --noEmit",
+        "dev": "refine dev",
+        "build": "tsc && refine build",
+        "start": "refine start",
+        "refine": "refine"
+      }
+    }
+  }
+}

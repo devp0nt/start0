@@ -1,0 +1,51 @@
+{
+  "extends": "../tsconfig.admin.json",
+  "include": [
+    "./src/**/*",
+    "../core/**/*",
+    "../../../modules/appConfig/**/admin/**/*",
+    "../../../modules/appConfig/**/shared/**/*",
+    "../../../modules/appConfig/**/*.ad.ts",
+    "../../../modules/appConfig/**/*.ad.tsx",
+    "../../../modules/appConfig/**/*.sh.ts",
+    "../../../modules/appConfig/**/*.sh.tsx",
+    "../../shared/**/*",
+    "../../../modules/auth/**/admin/**/*",
+    "../../../modules/auth/**/shared/**/*",
+    "../../../modules/auth/**/*.ad.ts",
+    "../../../modules/auth/**/*.ad.tsx",
+    "../../../modules/auth/**/*.sh.ts",
+    "../../../modules/auth/**/*.sh.tsx",
+    "../../../modules/idea/**/admin/**/*",
+    "../../../modules/idea/**/shared/**/*",
+    "../../../modules/idea/**/*.ad.ts",
+    "../../../modules/idea/**/*.ad.tsx",
+    "../../../modules/idea/**/*.sh.ts",
+    "../../../modules/idea/**/*.sh.tsx"
+  ],
+  "exclude": [
+    "./**/dist/**/*",
+    "./**/node_modules/**/*",
+    "./**/public/**/*",
+    "../core/**/dist/**/*",
+    "../core/**/node_modules/**/*",
+    "../core/**/public/**/*",
+    "../../../modules/appConfig/**/dist/**/*",
+    "../../../modules/appConfig/**/node_modules/**/*",
+    "../../../modules/appConfig/**/public/**/*",
+    "../../shared/**/dist/**/*",
+    "../../shared/**/node_modules/**/*",
+    "../../shared/**/public/**/*",
+    "../../../modules/auth/**/dist/**/*",
+    "../../../modules/auth/**/node_modules/**/*",
+    "../../../modules/auth/**/public/**/*",
+    "../../../modules/idea/**/dist/**/*",
+    "../../../modules/idea/**/node_modules/**/*",
+    "../../../modules/idea/**/public/**/*"
+  ],
+  "compilerOptions": {
+    "rootDir": "../../..",
+    "outDir": "./dist"
+  },
+  "references": []
+}

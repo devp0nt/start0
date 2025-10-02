@@ -1,0 +1,31 @@
+import { useProjectStore } from '@admin/core/lib/project'
+import { backendAdminRoutesBasePath } from '@backend/shared/utils'
+import type { HttpError } from '@refinedev/core'
+import Axios from 'axios'
+
+export const axiosInstance = Axios.create({
+  baseURL: `${import.meta.env.VITE_BACKEND_URL}${backendAdminRoutesBasePath}`,
+})
+
+axiosInstance.interceptors.request.use((config) => {
+  config.headers['X-Project-Id'] = useProjectStore.getState().activeProjectId()
+  return config
+})
+
+axiosInstance.interceptors.response.use(
+  (response) => {
+    return response
+  },
+  async (error) => {
+    const dataRaw = error.response?.data
+    const errorNormalized = typeof dataRaw === 'string' ? { error: { message: dataRaw } } : (dataRaw ?? {})
+    const customError: HttpError = {
+      data: errorNormalized.error,
+      message: errorNormalized.error?.message || 'Unknown error',
+      statusCode: error.response?.status,
+    }
+
+    // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
+    return await Promise.reject(customError)
+  },
+)

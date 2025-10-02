@@ -44,6 +44,7 @@
   "exports": {},
   "workspaces": {
     "packages": [
+      "./apps/admin/app",
       "./apps/backend/services",
       "./modules/prisma0/backend"
     ],

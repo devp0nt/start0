@@ -3,6 +3,15 @@
   "include": [],
   "compilerOptions": {
     "paths": {
+      "@admin/app": [
+        "./apps/admin/app/src/index.tsx"
+      ],
+      "@admin/app/*": [
+        "./apps/admin/app/src/*"
+      ],
+      "@admin/core/*": [
+        "./apps/admin/core/*"
+      ],
       "@appConfig/admin/*": [
         "./modules/appConfig/*"
       ],

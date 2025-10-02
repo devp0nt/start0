@@ -1,3 +1,4 @@
+import { appSlug } from '@apps/shared/utils'
 import { createEnv } from '@backend/core/env'
 import { Ctx0 } from '@devp0nt/ctx0'
 import { Error0 } from '@devp0nt/error0'
@@ -12,7 +13,7 @@ export namespace Tri0 {
     Logger0.init({
       filterByTags: process.env.DEBUG,
       reset: true,
-      rootTagPrefix: 'ideanick',
+      rootTagPrefix: appSlug,
       consoleFormatter: process.env.NODE_ENV === 'development' ? 'prettyYaml' : 'json',
       filters: {
         ...(process.env.NODE_ENV === 'development'
