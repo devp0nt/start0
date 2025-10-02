@@ -1,8 +1,9 @@
 import { honoBase } from '@backend/core/hono'
+import { createRoute } from '@hono/zod-openapi'
 import z from 'zod'
 
 export const pingAppHonoRoute = honoBase().openapi(
-  {
+  createRoute({
     method: 'get',
     path: '/ping',
     responses: {
@@ -10,17 +11,41 @@ export const pingAppHonoRoute = honoBase().openapi(
         content: {
           'application/json': {
             schema: z.object({
-              message: z.string(),
+              pong: z.string(),
             }),
           },
         },
         description: 'Success',
       },
     },
-  },
+  }),
   (c) => {
     return c.json({
-      message: 'pong',
+      pong: 'shmong',
+    })
+  },
+)
+
+export const bigPingAppHonoRoute = honoBase().openapi(
+  createRoute({
+    method: 'get',
+    path: '/big/ping',
+    responses: {
+      200: {
+        content: {
+          'application/json': {
+            schema: z.object({
+              badapong: z.string(),
+            }),
+          },
+        },
+        description: 'Success',
+      },
+    },
+  }),
+  (c) => {
+    return c.json({
+      badapong: 'badashmong',
     })
   },
 )

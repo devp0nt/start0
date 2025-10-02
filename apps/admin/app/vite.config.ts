@@ -38,8 +38,8 @@ export default defineConfig(({ mode }) => {
     },
     plugins: [react()],
     define: {
-      __APP_NAME__: appName,
-      __APP_SLUG__: appSlug,
+      'import.meta.env.APP_NAME': JSON.stringify(appName),
+      'import.meta.env.APP_SLUG': JSON.stringify(appSlug),
     },
   }
 })

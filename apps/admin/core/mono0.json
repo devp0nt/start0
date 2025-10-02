@@ -1,4 +1,5 @@
 {
   "name": "@admin/core",
-  "preset": "admin"
+  "preset": "admin",
+  "deps": ["@backend/hono-router"]
 }

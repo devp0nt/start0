@@ -1,8 +1,9 @@
 import { honoBase } from '@backend/core/hono'
+import { createRoute } from '@hono/zod-openapi'
 import z from 'zod'
 
 export const helloAppHonoRoute = honoBase().openapi(
-  {
+  createRoute({
     method: 'get',
     path: '/hello',
     request: {
@@ -22,7 +23,7 @@ export const helloAppHonoRoute = honoBase().openapi(
         description: 'Success',
       },
     },
-  },
+  }),
   (c) => {
     const query = c.req.valid('query')
     return c.json({

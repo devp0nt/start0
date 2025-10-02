@@ -9,6 +9,9 @@
     "../../../modules/appConfig/**/*.ad.tsx",
     "../../../modules/appConfig/**/*.sh.ts",
     "../../../modules/appConfig/**/*.sh.tsx",
+    "../../../modules/appConfig/**/backend/**/*",
+    "../../../modules/appConfig/**/*.be.ts",
+    "../../../modules/appConfig/**/*.be.tsx",
     "../../shared/**/*",
     "../../../modules/auth/**/admin/**/*",
     "../../../modules/auth/**/shared/**/*",
@@ -16,6 +19,9 @@
     "../../../modules/auth/**/*.ad.tsx",
     "../../../modules/auth/**/*.sh.ts",
     "../../../modules/auth/**/*.sh.tsx",
+    "../../backend/core/**/*",
+    "../../backend/router/hono/**/*",
+    "../../backend/shared/**/*",
     "../../../modules/idea/**/admin/**/*",
     "../../../modules/idea/**/shared/**/*",
     "../../../modules/idea/**/*.ad.ts",
@@ -39,6 +45,15 @@
     "../../../modules/auth/**/dist/**/*",
     "../../../modules/auth/**/node_modules/**/*",
     "../../../modules/auth/**/public/**/*",
+    "../../backend/core/**/dist/**/*",
+    "../../backend/core/**/node_modules/**/*",
+    "../../backend/core/**/public/**/*",
+    "../../backend/router/hono/**/dist/**/*",
+    "../../backend/router/hono/**/node_modules/**/*",
+    "../../backend/router/hono/**/public/**/*",
+    "../../backend/shared/**/dist/**/*",
+    "../../backend/shared/**/node_modules/**/*",
+    "../../backend/shared/**/public/**/*",
     "../../../modules/idea/**/dist/**/*",
     "../../../modules/idea/**/node_modules/**/*",
     "../../../modules/idea/**/public/**/*"
@@ -47,5 +62,9 @@
     "rootDir": "../../..",
     "outDir": "./dist"
   },
-  "references": []
+  "references": [
+    {
+      "path": "../../../modules/prisma0/backend/tsconfig.json"
+    }
+  ]
 }

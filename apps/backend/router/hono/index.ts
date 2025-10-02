@@ -2,19 +2,23 @@ import { honoBase } from '@backend/core/hono'
 
 // @gen0:start $.app = await importExportedFromFiles("~/**/route{s,}{.*,}{.be,}.ts", "AppHonoRoute", (file0) => mono0.getFilePathRelativeToPackageName(file0.path.abs))
 
-import { helloAppHonoRoute } from '@backend/hono-router/hello/route'
-import { pingAppHonoRoute } from '@backend/hono-router/ping/route'
+import { helloAppHonoRoute } from "@backend/hono-router/hello/route"
+import { pingAppHonoRoute, bigPingAppHonoRoute } from "@backend/hono-router/ping/route"
 // @gen0:end
 
 // @gen0:start $.admin = await importExportedFromFiles("~/**/route{s,}{.*,}{.be,}.ts", "AdminHonoRoute", (file0) => mono0.getFilePathRelativeToPackageName(file0.path.abs))
 // @gen0:end
 
 export const honoApp = honoBase()
-// @gen0:start $.app.imports.map(im => print(`honoApp.route('/', ${im.name})`))
-honoApp.route('/', helloAppHonoRoute)
-honoApp.route('/', pingAppHonoRoute)
+  // @gen0:start $.app.imports.map(im => print(`  .route('/', ${im.name})`))
+  .route('/', helloAppHonoRoute)
+  .route('/', pingAppHonoRoute)
+  .route('/', bigPingAppHonoRoute)
 // @gen0:end
 
 export const honoAdmin = honoBase()
-// @gen0:start $.admin.imports.map(im => print(`honoAdmin.route('/', ${im.name})`))
+// @gen0:start $.admin.imports.map(im => print(`  .route('/', ${im.name})`))
 // @gen0:end
+
+export type HonoApp = typeof honoApp
+export type HonoAdmin = typeof honoAdmin
