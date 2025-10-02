@@ -1,20 +1,27 @@
 alias be := backend
 alias si := site
+alias ad := admin
 alias to := tools
+alias w := watch
+alias d := dev
+alias t := test
 alias pmd := prisma-migrate-dev
 alias pmt := prisma-migrate-test
 alias pgc := prisma-generate-client
 
 # forward command to app
 
-backend *ARGS:
-  bun run mono0 exec -m @backend/services bun run {{ARGS}}
+backend *args:
+  bun run mono0 exec -i -m @backend/services bun run {{args}}
 
-site *ARGS:
-  bun run mono0 exec -m @site/app bun run {{ARGS}}
+site *args:
+  bun run mono0 exec -i -m @site/app bun run {{args}}
 
-tools *ARGS:
-  bun run mono0 exec -m @tools/shared bun run {{ARGS}}
+admin *args:
+  bun run mono0 exec -i -m @admin/app bun run {{args}}
+
+tools *args:
+  bun run mono0 exec -i -m @tools/shared bun run {{args}}
   
 # mega dev command
 
@@ -26,7 +33,7 @@ dev:
   tmux split-window -t 0 -h
 
   tmux send-keys -t 0 "just backend dev" Enter
-  tmux send-keys -t 1 "just site dev" Enter
+  tmux send-keys -t 1 "just admin dev" Enter
   tmux send-keys -t 2 "concurrently \"bun run gen0 watch\" \"bun run mono0 watch\" \"bun run watch\"" Enter
 
   tmux resize-pane -t 0 -x "$(($(tmux display -p '#{window_width}') * 50 / 100))"
@@ -37,36 +44,42 @@ dev:
 
 # bun commands mirror
 
-types *ARGS:
-  bun run types {{ARGS}}
+types *args:
+  bun run types {{args}}
 
-build *ARGS:
-  bun run build {{ARGS}}
+build *args:
+  bun run build {{args}}
 
-watch *ARGS:
-  bun run watch {{ARGS}}
+watch *args:
+  bun run watch {{args}}
 
-clean *ARGS:
-  bun run clean {{ARGS}}
+clean *args:
+  bun run clean {{args}}
 
-test *ARGS:
-  bun run test {{ARGS}}
+test *args:
+  bun run test {{args}}
 
-lint *ARGS:
-  bun run lint {{ARGS}}
+lint *args:
+  bun run lint {{args}}
+
+prune *args:
+  bun run prune {{args}}
 
 # prisma commands
 
-prisma-migrate-dev *ARGS:
-  bun run mono0 exec -m @prisma0/backend bun run prisma-migrate-dev {{ARGS}}
+prisma-migrate-dev *args:
+  bun run mono0 exec -m @prisma0/backend bun run prisma-migrate-dev {{args}}
 
-prisma-migrate-test *ARGS:
-  bun run mono0 exec -m @prisma0/backend bun run prisma-migrate-test {{ARGS}}
+prisma-migrate-test *args:
+  bun run mono0 exec -m @prisma0/backend bun run prisma-migrate-test {{args}}
 
-prisma-generate-client *ARGS:
-  bun run mono0 exec -m @prisma0/backend bun run prisma-generate-client {{ARGS}}
+prisma-generate-client *args:
+  bun run mono0 exec -m @prisma0/backend bun run prisma-generate-client {{args}}
 
 # helpers
 
-prune:
-  rm -rf .react-router node_modules .vite .turbo dist build && bun install
+m *args:
+  bun run mono0 {{args}}
+
+g *args:
+  bun run gen0 {{args}}

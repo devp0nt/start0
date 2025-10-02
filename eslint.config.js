@@ -1,8 +1,11 @@
 // ESLint flat config using eslint-config-love
 import love from 'eslint-config-love'
-import prettierRecommended from 'eslint-plugin-prettier/recommended'
+import prettier from 'eslint-config-prettier'
+import { defineConfig } from 'eslint/config'
 
-export default [
+// TODO: unignore tsfiles and figure out with defaultProject typescript
+
+export default defineConfig([
   // Global ignores to keep linting fast and avoid vendor/build dirs
   {
     ignores: [
@@ -14,7 +17,10 @@ export default [
       '**/.cache/**',
       '**/.husky/**',
       '**/.git/**',
-      'eslint.config.js',
+      '**/eslint.config.js',
+      '**/vite.config.ts',
+      '**/tsconfig.json',
+      '**/tsconfig.*.json',
     ],
   },
   {
@@ -22,7 +28,15 @@ export default [
     files: ['**/*.js', '**/*.ts', '**/*.tsx'],
     rules: {
       ...(love.rules ?? {}),
-      // all
+      // temporary
+      '@typescript-eslint/no-unsafe-assignment': 'off',
+      '@typescript-eslint/no-unsafe-return': 'off',
+      '@typescript-eslint/no-unsafe-call': 'off',
+      '@typescript-eslint/no-unsafe-member-access': 'off',
+      'eslint-comments/require-description': 'off',
+      '@typescript-eslint/no-unsafe-type-assertion': 'off',
+      '@typescript-eslint/no-unsafe-argument': 'off',
+      // permanent
       '@typescript-eslint/only-throw-error': [
         'error',
         {
@@ -31,6 +45,7 @@ export default [
       ],
       '@typescript-eslint/consistent-type-imports': ['error', { disallowTypeAnnotations: false }],
       'arrow-body-style': 'off',
+      'max-depth': 'off',
       '@typescript-eslint/no-namespace': 'off',
       '@typescript-eslint/naming-convention': 'off',
       '@typescript-eslint/prefer-destructuring': 'off',
@@ -40,13 +55,15 @@ export default [
       '@typescript-eslint/no-unnecessary-type-parameters': 'off',
       '@typescript-eslint/no-explicit-any': 'off',
       'promise/avoid-new': 'off',
-      // project
+      '@typescript-eslint/init-declarations': 'off',
+      '@typescript-eslint/consistent-indexed-object-style': 'off',
+      '@typescript-eslint/consistent-type-assertions': 'off',
+      complexity: 'off',
       '@typescript-eslint/explicit-function-return-type': 'off',
       '@typescript-eslint/no-magic-numbers': 'off',
       '@typescript-eslint/prefer-nullish-coalescing': 'off',
-      // library
     },
   },
   // Enable prettier formatting via ESLint - must be last to override other configs
-  prettierRecommended,
-]
+  prettier,
+])

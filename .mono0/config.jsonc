@@ -40,19 +40,19 @@
   "unitsConfigsGlob": "{modules,apps,tools}/**/mono0.json",
   "filesSelectors": {
     "exclude": ["**/dist/**/*", "**/node_modules/**/*", "**/public/**/*"],
-    "test": ["**/test/**/*", "**/*.test.*"],
+    "test": ["**/test/**/*", "**/*.test.*"]
   },
   "unitsSelectors": {
     // "test": ["@test/slow", "#test"]
   },
   "settings": {
-    // "onPackageJsonsDepsChangedCommand": "bun install"
+    "onPackageJsonsDepsChangedCommand": "bun install"
   },
   "packageJson": {
     "path": "../package.json",
     "settings": {
       "clearWorkspaces": "workspaces.papackages",
-      "addWorkspaces": "workspaces.packages",
+      "addWorkspaces": "workspaces.packages"
     },
     "value": {
       "name": "ideanick",
@@ -60,18 +60,26 @@
       "type": "module",
       "scripts": {
         "build": "tsc --build",
-        "watch": "tsc --build --watch --preserveWatchOutput",
-        "types": "bun run clean && tsc --build",
+        "watch": "concurrently \"bun run gen0 watch\" \"bun run mono0 watch\" --names 'gen0,mono0'",
+        "watch:build": "tsc --build --watch --preserveWatchOutput",
+        "watch:all": "concurrently \"bun run gen0 watch\" \"bun run mono0 watch\" \"bun run watch:build\" --names 'gen0,mono0,build'",
+        "types": "mono0 exec -m '#cold' build && bun run --filter '**' types",
         "clean": "rimraf {{projectRootDir}}/node_modules/.cache/tsbuildinfo && rimraf **/dist",
-      },
-    },
+        "lint": "bun run lint:base .",
+        "lint:fix": "bun run lint --fix",
+        "lint:each": "bun run --filter '**' lint",
+        "lint:base": "eslint --cache --cache-location node_modules/.cache/eslint/.eslintcache",
+        "format": "bun run format:base .",
+        "format:base": "prettier --cache --cache-location node_modules/.cache/prettier/.prettiercache --write"
+      }
+    }
   },
   "tsconfigs": {
     "base": {
       "path": "./tsconfig.base.json",
       "settings": {
         "addUnitsSrcToPaths": { "match": "!#cold", "indexFile": true },
-        "addUnitsDistToPaths": { "match": "#cold", "indexFile": true },
+        "addUnitsDistToPaths": { "match": "#cold", "indexFile": true }
       },
       "value": {
         "compilerOptions": {
@@ -86,36 +94,51 @@
           "moduleResolution": "Bundler",
           "verbatimModuleSyntax": true,
           "resolveJsonModule": true,
+          "allowJs": true,
           "paths": {
-            "@trpc/server/*": ["~/node_modules/@trpc/server/*"],
+            // "@better-auth/*": ["~/node_modules/better-auth/*"],
+            // "@trpc/server/*": ["~/node_modules/@trpc/server/*"],
             // "@trpc/tanstack-react-query/*": ["~/node_modules/@trpc/tanstack-react-query/*"],
-            "react-router": ["~/node_modules/react-router/*"],
-            "@tanstack/query-core": ["~/node_modules/@tanstack/query-core/*"],
-          },
-        },
-      },
+            // "react-router/*": ["~/node_modules/react-router/*"],
+            // "@tanstack/query-core/*": ["~/node_modules/@tanstack/query-core/*"]
+          }
+        }
+      }
     },
     "root": {
       "path": "../tsconfig.json",
       "value": {
         "files": [],
         "include": [],
+        "compilerOptions": {
+          "paths": {
+            // "@better-auth/*": ["~/node_modules/better-auth/*"],
+            // "@trpc/server/*": ["~/node_modules/@trpc/server/*"],
+            // "@trpc/tanstack-react-query/*": ["~/node_modules/@trpc/tanstack-react-query/*"],
+            // "react-router/*": ["~/node_modules/react-router/*"],
+            // "@tanstack/query-core/*": ["~/node_modules/@tanstack/query-core/*"]
+          }
+        }
       },
       "settings": {
         "addUnitsAsReferences": { "tsconfig": "$core" },
-      },
+        // We need it for bun, becouse it try to find tsconfig just up to tree
+        // Alsow we use root tsconfig in admin vite tsconfig paths resolver
+        "addUnitsSrcToPaths": { "match": "!#cold", "indexFile": true },
+        "addUnitsDistToPaths": { "match": "#cold", "indexFile": true }
+      }
     },
     "shared": {
       "path": "./tsconfig.shared.json",
       "value": {
-        "extends": "$base",
-      },
+        "extends": "$base"
+      }
     },
     "backend": {
       "path": "./tsconfig.backend.json",
       "value": {
-        "extends": "$base",
-      },
+        "extends": "$base"
+      }
     },
     "site": {
       "path": "./tsconfig.site.json",
@@ -125,116 +148,241 @@
           "lib": ["DOM", "DOM.Iterable", "ES2022"],
           "types": ["node", "bun", "vite/client"],
           "target": "ES2022",
-          "module": "ES2022",
-        },
-      },
+          "module": "ES2022"
+        }
+      }
+    },
+    "admin": {
+      "path": "./tsconfig.admin.json",
+      "value": {
+        "extends": "$base",
+        "compilerOptions": {
+          "lib": ["DOM", "DOM.Iterable", "ES2022"],
+          "types": ["node", "bun", "vite/client"],
+          "target": "ES2022",
+          "module": "ES2022"
+        }
+      }
     },
     "tools": {
       "path": "./tsconfig.tools.json",
       "value": {
-        "extends": "$base",
-      },
-    },
+        "extends": "$base"
+      }
+    }
   },
   "presets": {
     "force": {
       "srcDir": true,
-      "distDir": "./dist",
       "include": true,
       "srcIndexFile": true,
       "exclude": ["$exclude"],
+      "deps": ["@apps/shared"],
+      "tsconfigs": {
+        "core": {
+          "value": null
+        }
+      },
+      "packageJson": {
+        "value": null
+      }
+    },
+    "withTsconfig": {
+      "distDir": "./dist",
+      "tsconfigs": {
+        "core": {
+          "path": "./tsconfig.json",
+          "settings": {
+            "setRootDirBySelfIncludes": true,
+            "setUnitDistAsOutDir": true,
+            "addUnitIncludeToInclude": "whenNotProvided",
+            "addUnitExcludeToExclude": "whenNotProvided",
+            "addUnitsAsReferences": { "scope": "depsAndDeepDeps", "tsconfig": "$core" }
+          },
+          "value": {}
+        }
+      }
+    },
+    "withPackageJson": {
       "packageJson": {
         "settings": {
+          "setUnitNameAsName": true,
           "clearWorkspaceDeps": true,
           "addWorkspaceDeps": true,
           "clearExports": true,
+          "addExportsFromSrc": { "dirs": true, "import": [".ts", ".tsx"], "types": [".ts", ".tsx"], "indexFile": true }
         },
         "value": {
           "private": true,
           "type": "module",
           "scripts": {
             "types": "tsc --noEmit",
+            // "lint": "eslint --cache --cache-location {{projectRootDir}}/node_modules/.cache/eslint/{{name}}/.eslintcache .",
+            "lint": "eslint --cache --cache-location {{projectRootDir}}/node_modules/.cache/eslint/.eslintcache .",
             "build": "tsc --build",
             "watch": "tsc --watch",
-            "clean": "rimraf {{projectRootDir}}/node_modules/.cache/tsbuildinfo/{{name}} && rimraf {{distDir}}",
-          },
-        },
-      },
-      "tsconfigs": {
-        "core": {
-          "path": "./tsconfig.json",
-          "settings": {
-            "setUnitSrcAsRootDir": true,
-            "setUnitDistAsOutDir": true,
-            "addUnitIncludeToInclude": "whenNotProvided",
-            "addUnitExcludeToExclude": "whenNotProvided",
-            "addUnitsAsReferences": { "scope": "deps", "tsconfig": "$core" },
-          },
-          "value": {
-            "compilerOptions": {
-              "composite": true,
-              "declaration": true,
-              "declarationMap": true,
-              "tsBuildInfoFile": "~/node_modules/.cache/tsbuildinfo/{{name}}/.tsbuildinfo",
-            },
-          },
-        },
-      },
+            "clean": "rimraf {{projectRootDir}}/node_modules/.cache/tsbuildinfo/{{name}} && rimraf {{distDir}}"
+          }
+        }
+      }
     },
     "app": {
+      "preset": ["withPackageJson", "withTsconfig"],
       "tags": ["app"],
       "packageJson": {
         "settings": {
           "clearWorkspaceDeps": true,
           "addWorkspaceDeps": true,
-          "clearExports": true,
-        },
+          "clearExports": true
+        }
+      },
+      "tsconfigs": {
+        "core": {
+          "settings": {
+            "addUnitsIncludesAndExcludes": { "scope": "depsAndDeepDeps", "match": "!#cold" }
+          },
+          "value": {}
+        }
+      }
+    },
+    "cold": {
+      "preset": ["withPackageJson", "withTsconfig"],
+      "tags": ["cold"],
+      "packageJson": {
+        "settings": {
+          "addExportsFromDist": { "dirs": false, "import": [".js"], "types": [".d.ts"], "indexFile": true },
+          "addExportsFromSrc": false
+        }
       },
       "tsconfigs": {
         "core": {
           "value": {
             "compilerOptions": {
+              "composite": true,
               "declaration": true,
               "declarationMap": true,
-            },
-          },
-        },
-      },
-    },
-    "cold": {
-      "tags": ["cold"],
+              "tsBuildInfoFile": "~/node_modules/.cache/tsbuildinfo/{{name}}/.tsbuildinfo"
+            }
+          }
+        }
+      }
     },
     "shared": {
+      "tags": ["shared"]
+    },
+    "sharedModule": {
+      "preset": ["shared"],
+      "tags": ["sharedModule"],
+      "deps": []
+    },
+    "sharedMulti": {
+      "preset": ["shared"],
+      "setSuffixesToInclude": [[".sh"], [".ts", ".tsx"]],
+      "setDirsToInclude": ["shared"]
+    },
+    "sharedWithTsconfig": {
+      "preset": ["withTsconfig", "shared"],
       "tsconfig": {
         "value": {
-          "extends": "$shared",
-        },
-      },
-      "tags": ["shared"],
+          "extends": "$shared"
+        }
+      }
     },
     "backend": {
+      "tags": ["backend"]
+    },
+    "backendModule": {
+      "preset": ["backend"],
+      "tags": ["backendModule"],
+      "deps": ["@backend/core"]
+    },
+    "backendMulti": {
+      "preset": ["backend"],
+      "setSuffixesToInclude": [
+        [".be", ".sh"],
+        [".ts", ".tsx"]
+      ],
+      "setDirsToInclude": ["backend", "shared"]
+    },
+    "backendWithTsconfig": {
+      "preset": ["withTsconfig", "backend"],
       "tsconfig": {
         "value": {
-          "extends": "$backend",
-        },
-      },
-      "tags": ["backend"],
+          "extends": "$backend"
+        }
+      }
     },
     "site": {
+      "tags": ["site"]
+    },
+    "siteModule": {
+      "preset": ["site"],
+      "tags": ["siteModule"],
+      "deps": ["@site/core"]
+    },
+    "siteMulti": {
+      "preset": ["site"],
+      "setSuffixesToInclude": [
+        [".si", ".sh"],
+        [".ts", ".tsx"]
+      ],
+      "setDirsToInclude": ["site", "shared"]
+    },
+    "siteWithTsconfig": {
+      "preset": ["withTsconfig", "site"],
       "tsconfig": {
         "value": {
-          "extends": "$site",
-        },
-      },
-      "tags": ["site"],
+          "extends": "$site"
+        }
+      }
+    },
+    "admin": {
+      "tags": ["admin"]
+    },
+    "adminModule": {
+      "preset": ["admin"],
+      "tags": ["adminModule"],
+      "deps": ["@admin/core"]
+    },
+    "adminMulti": {
+      "preset": ["admin"],
+      "setSuffixesToInclude": [
+        [".ad", ".sh"],
+        [".ts", ".tsx"]
+      ],
+      "setDirsToInclude": ["admin", "shared"]
+    },
+    "adminWithTsconfig": {
+      "preset": ["withTsconfig", "admin"],
+      "tsconfig": {
+        "value": {
+          "extends": "$admin"
+        }
+      }
     },
     "tools": {
+      "tags": ["tools"]
+    },
+    "toolsMulti": {
+      "preset": ["tools"],
+      "setSuffixesToInclude": [
+        [".to", ".sh"],
+        [".ts", ".tsx"]
+      ],
+      "setDirsToInclude": ["tools", "shared"]
+    },
+    "toolsModule": {
+      "preset": ["tools"],
+      "tags": ["toolsModule"],
+      "deps": ["@tools/core"]
+    },
+    "toolsWithTsconfig": {
+      "preset": ["withTsconfig", "tools"],
       "tsconfig": {
         "value": {
-          "extends": "$tools",
-        },
-      },
-      "tags": ["tools"],
-    },
-  },
+          "extends": "$tools"
+        }
+      }
+    }
+  }
 }
