@@ -1,8 +1,7 @@
 import { appName } from '@apps/shared/utils'
-import { getAuthCtxValueByHonoContext } from '@auth/backend/utils.be'
+import { authOpenapiSchemaUrl, getAuthCtxValueByHonoContext } from '@auth/backend/utils.be'
 import type { BackendCtx } from '@backend/core/ctx'
 import { Error0 } from '@devp0nt/error0'
-import { swaggerUI } from '@hono/swagger-ui'
 import { OpenAPIHono } from '@hono/zod-openapi'
 import { Scalar } from '@scalar/hono-api-reference'
 import type { Context as HonoContext } from 'hono'
@@ -113,30 +112,40 @@ export const applyHonoOpenapiDocs = ({
   hono,
   basePath,
   backendCtx,
-  swagger = true,
+  name,
   scalar = true,
 }: {
   hono: Hono0
   basePath?: string
   backendCtx: BackendCtx.Self
-  swagger?: boolean
+  name: string
   scalar?: boolean
 }) => {
   hono.doc31(
     '/doc.json',
     {
       openapi: '3.1.0',
-      info: { title: appName, version: '1' },
+      info: { title: `${appName} ${name}`, version: '1' },
       ...(basePath ? { servers: [{ url: basePath }] } : {}),
     },
     { unionPreferredType: 'oneOf' },
   )
 
-  if (swagger) {
-    hono.get('/doc/swagger', swaggerUI({ url: basePath + '/doc.json' }))
-  }
-
   if (scalar) {
-    hono.get('/doc/scalar', Scalar({ url: basePath + '/doc.json' }))
+    hono.get(
+      '/doc/scalar',
+      Scalar({
+        sources: [
+          {
+            url: basePath + '/doc.json',
+            title: `${appName} ${name}`,
+          },
+          {
+            url: authOpenapiSchemaUrl,
+            title: `${appName} Auth`,
+          },
+        ],
+      }),
+    )
   }
 }

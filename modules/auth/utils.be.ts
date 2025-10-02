@@ -1,12 +1,12 @@
 import type { Hono0 } from '@backend/core/hono'
+import { backendAuthRoutesBasePath } from '@backend/shared/utils'
 import { PrismaClient } from '@prisma0/backend/generated/prisma/client'
 import { betterAuth } from 'better-auth'
 import { prismaAdapter } from 'better-auth/adapters/prisma'
+import { admin, openAPI } from 'better-auth/plugins'
 import type { Context as HonoContext } from 'hono'
 import { cors } from 'hono/cors'
-import { admin } from 'better-auth/plugins'
 import { v4 as uuidv4 } from 'uuid'
-import { backendAuthRoutesBasePath } from '@backend/shared/utils'
 
 // npx @better-auth/cli generate --config modules/auth/backend/auth.ts --output modules/prisma0/backend/schema1.prisma
 
@@ -14,7 +14,7 @@ export const auth = betterAuth({
   database: prismaAdapter(new PrismaClient(), {
     provider: 'postgresql',
   }),
-  plugins: [admin()],
+  plugins: [admin(), openAPI()],
   basePath: backendAuthRoutesBasePath,
   emailAndPassword: {
     enabled: true,
@@ -56,6 +56,9 @@ export const auth = betterAuth({
   },
   trustedOrigins: [process.env.ADMIN_URL, process.env.SITE_URL].flatMap((url) => url || []),
 })
+
+// path hardocded by better-auth
+export const authOpenapiSchemaUrl = `${backendAuthRoutesBasePath}/open-api/generate-schema`
 
 export const getAuthCtxValueByHonoContext = async (honoCtx: HonoContext) => {
   const session = await auth.api.getSession({ headers: honoCtx.req.raw.headers })

@@ -26,14 +26,16 @@ export const startApiProcess = async () => {
     applyHonoLogging({ hono })
     applyAuthRoutesToHonoApp({ hono })
     applyHonoOpenapiDocs({
-      backendCtx,
+      name: 'App',
       hono: honoApp,
       basePath: backendAppRoutesBasePath,
+      backendCtx,
     })
     applyHonoOpenapiDocs({
-      backendCtx,
+      name: 'Admin',
       hono: honoAdmin,
       basePath: backendAdminRoutesBasePath,
+      backendCtx,
     })
     hono.route(backendAppRoutesBasePath, honoApp)
     hono.route(backendAdminRoutesBasePath, honoAdmin)
