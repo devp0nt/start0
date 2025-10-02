@@ -9,7 +9,7 @@
     "build": "tsc --build",
     "watch": "tsc --watch",
     "clean": "rimraf ../../../node_modules/.cache/tsbuildinfo/@backend/services && rimraf ./dist",
-    "lint": "eslint --cache --cache-location ../../../node_modules/.cache/eslint/.eslintcache ."
+    "lint": "eslint --cache --cache-location ../../../node_modules/.cache/eslint/@backend/services/.eslintcache ."
   },
   "dependencies": {
     "@prisma0/backend": "workspace:*"

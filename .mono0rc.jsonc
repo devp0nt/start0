@@ -30,7 +30,7 @@
 // clearWorkspaces: boolean | string | undefined
 // addWorkspaces: boolean | string | undefined
 // clearWorkspaceDeps: boolean | undefined
-// addWorkspaceDeps: boolean | undefined
+// addWorkspaceDeps: boolean | { scope?: 'all' | 'deps' | 'deepDeps' | 'depsAndDeepDeps', match?: string } | undefined
 // clearExports: boolean | undefined
 // addExportsFromDist: boolean | { indexFile?: boolean, dirs?: boolean, import?: boolean | string[], require?: boolean | string[], node?: boolean | string[], development?: boolean | string[], types?: boolean | string[] } | undefined
 // addExportsFromSrc: boolean | { indexFile?: boolean, dirs?: boolean, import?: boolean | string[], require?: boolean | string[], node?: boolean | string[], development?: boolean | string[], types?: boolean | string[] } | undefined
@@ -126,7 +126,6 @@
         // Alsow we use root tsconfig in admin vite tsconfig paths resolver
         "addUnitsSrcToPaths": { "match": "!#cold", "indexFile": true },
         "addUnitsDistToPaths": { "match": "#cold", "indexFile": true }
-        // "addUnitsSrcToPaths": { "indexFile": true }
       }
     },
     "shared": {
@@ -199,9 +198,6 @@
             "addUnitIncludeToInclude": "whenNotProvided",
             "addUnitExcludeToExclude": "whenNotProvided",
             "addUnitsAsReferences": { "scope": "depsAndDeepDeps", "tsconfig": "$core" }
-            // "addUnitsSrcToPaths": { "match": "!#cold", "indexFile": true },
-            // "addUnitsDistToPaths": { "match": "#cold", "indexFile": true }
-            // "addUnitsSrcToPaths": { "indexFile": true }
           }
         }
       }
@@ -213,15 +209,13 @@
           "clearWorkspaceDeps": true,
           "addWorkspaceDeps": { "scope": "depsAndDeepDeps" },
           "clearExports": true
-          // "addExportsFromSrc": { "dirs": true, "import": [".ts", ".tsx"], "types": [".ts", ".tsx"], "indexFile": true }
         },
         "value": {
           "private": true,
           "type": "module",
           "scripts": {
             "types": "tsc --noEmit",
-            // "lint": "eslint --cache --cache-location {{projectRootDir}}/node_modules/.cache/eslint/{{name}}/.eslintcache .",
-            "lint": "eslint --cache --cache-location {{projectRootDir}}/node_modules/.cache/eslint/.eslintcache .",
+            "lint": "eslint --cache --cache-location {{projectRootDir}}/node_modules/.cache/eslint/{{name}}/.eslintcache .",
             "build": "tsc --build",
             "watch": "tsc --watch",
             "clean": "rimraf {{projectRootDir}}/node_modules/.cache/tsbuildinfo/{{name}} && rimraf {{distDir}}"

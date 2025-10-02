@@ -7,12 +7,12 @@
         "@devp0nt/ctx0": "^1.0.0-next.12",
         "@devp0nt/deepmap0": "^1.0.0-next.17",
         "@devp0nt/env0": "^1.0.0-next.11",
-        "@devp0nt/error0": "^1.0.0-next.24",
+        "@devp0nt/error0": "^1.0.0-next.25",
         "@devp0nt/gen0": "^1.0.0-next.38",
-        "@devp0nt/logger0": "^1.0.0-next.34",
+        "@devp0nt/logger0": "^1.0.0-next.35",
         "@devp0nt/meta0": "^1.0.0-next.25",
         "@devp0nt/route0": "^1.0.0-next.10",
-        "@devp0nt/tri0": "^1.0.0-next.18",
+        "@devp0nt/tri0": "^1.0.0-next.19",
         "@hono/trpc-server": "^0.4.0",
         "@hono/zod-openapi": "^1.1.0",
         "@logtape/logtape": "^1.0.4",
@@ -52,7 +52,7 @@
         "zustand": "^5.0.8",
       },
       "devDependencies": {
-        "@devp0nt/mono0": "^1.0.0-next.47",
+        "@devp0nt/mono0": "^1.0.0-next.49",
         "@moonrepo/cli": "^1.40.1",
         "@parcel/watcher": "^2.5.1",
         "@react-router/dev": "^7.7.1",
@@ -95,13 +95,6 @@
       "name": "@backend/services",
       "dependencies": {
         "@prisma0/backend": "workspace:*",
-      },
-    },
-    "apps/site/app": {
-      "name": "@site/app",
-      "dependencies": {
-        "@react-router/node": "catalog:",
-        "isbot": "^5",
       },
     },
     "modules/prisma0/backend": {
@@ -183,7 +176,7 @@
 
     "@devp0nt/env0": ["@devp0nt/env0@1.0.0-next.11", "", { "peerDependencies": { "zod": "^4.0.0" } }, "sha512-OlWCQd/GlzngsccAjUpFeEkDl3ig5zyTw52Z2IitrYTHSsc3W2n5Nxn94yWs+RFnnLxGBpqHdMLGp4hVOAtOoQ=="],
 
-    "@devp0nt/error0": ["@devp0nt/error0@1.0.0-next.24", "", { "peerDependencies": { "@devp0nt/meta0": "^1.0.0-next.24", "axios": "^1.12.2", "zod": "^4.1.9" } }, "sha512-WJdqvxRJzKPkltXdIy3N9sFpvJp6A1xiXQrOLspGQyD0yDmHgke0uPQxod7n5Medz0hTojM+aWvgAw3vaeJS3g=="],
+    "@devp0nt/error0": ["@devp0nt/error0@1.0.0-next.25", "", { "peerDependencies": { "@devp0nt/meta0": "^1.0.0-next.25", "axios": "^1.12.2", "zod": "^4.1.9" } }, "sha512-7m854s1MXYLXx3RCVcWX0WcISteGYIibeSmFu/nj5VPvLLQABULlnRGPtdwVSvMW653UPGg9wMQ1d3/JhdagdQ=="],
 
     "@devp0nt/exec0": ["@devp0nt/exec0@1.0.0-next.19", "", { "dependencies": { "chalk": "4", "execa": "^9.6.0" } }, "sha512-i7Cld8YvGBZpz3QilEykKkRPXtEmp9dXdoZW3z0CgJ9jvzsBF6p0sMitUoPpd71PIy3PApujLT84yfTdKqmLdQ=="],
 
@@ -191,15 +184,15 @@
 
     "@devp0nt/gen0": ["@devp0nt/gen0@1.0.0-next.38", "", { "dependencies": { "@devp0nt/fs0": "^1.0.10-next.31", "@parcel/watcher": "^2.5.1", "commander": "^14.0.1", "debug": "^4.4.3", "globby": "^14.1.0", "globify-gitignore": "^1.0.3", "lodash": "^4.17.21", "workspace-root": "^3.3.1" }, "bin": { "gen0": "dist/esm/bin.js" } }, "sha512-aOnzBZZlgJB8n1NK8/5sOyk8kTaL4whZz+b8MORApELEgVSbT8OvFny1w1coJ26/LuWZxm8yMGqwu/f+dr4irQ=="],
 
-    "@devp0nt/logger0": ["@devp0nt/logger0@1.0.0-next.34", "", { "dependencies": { "lodash": "^4.17.21", "micromatch": "^4.0.8", "yaml": "^2.8.1" }, "peerDependencies": { "@devp0nt/error0": "^1.0.0-next.1", "@devp0nt/meta0": "^1.0.0-next.2", "@logtape/logtape": "^1.1.1" } }, "sha512-0l89SnX1Dr0TRego0WY2i4etm0bL6VTDPNtw1Gade4KbuI9prFT1/VdyiG4cxcLjOrnX5J6acyvC7Jl3kp02AQ=="],
+    "@devp0nt/logger0": ["@devp0nt/logger0@1.0.0-next.35", "", { "dependencies": { "lodash": "^4.17.21", "micromatch": "^4.0.8", "yaml": "^2.8.1" }, "peerDependencies": { "@devp0nt/error0": "^1.0.0-next.1", "@devp0nt/meta0": "^1.0.0-next.2", "@logtape/logtape": "^1.1.1" } }, "sha512-I20+P88LLXsVpE2Gdz/vI4sRmXjphCURcIBMV8mHQtGXlAicB50spsGeAnMn7ksuT/lG+Vh6r2lL+Y6kopKVtQ=="],
 
     "@devp0nt/meta0": ["@devp0nt/meta0@1.0.0-next.25", "", { "dependencies": { "@devp0nt/deepmap0": "^1.0.0-next.17" } }, "sha512-I0utoA8Op9QGGrB9+RIY7tJsPndqmhxARerqWBq10j3Y4GppAck/AHOQ7SyQSVsyaxDq/UqLFhzCO7pLhwqJBA=="],
 
-    "@devp0nt/mono0": ["@devp0nt/mono0@1.0.0-next.47", "", { "dependencies": { "@devp0nt/deepmap0": "^1.0.0-next.17", "@devp0nt/exec0": "^1.0.0-next.19", "@devp0nt/fs0": "^1.0.10-next.31", "@devp0nt/gen0": "^1.0.0-next.37", "commander": "^14.0.1", "deepmerge": "^4.3.1", "globals": "^16.4.0" }, "bin": { "mono0": "dist/esm/bin.js" } }, "sha512-ZqSDTsLjOQ4E0G0USKxng3SMfFtyOta9OQT6lHb/J7VxX834U/p+Iamib/gRy9gBy6p5HaU8mlRtLPyLifWMnQ=="],
+    "@devp0nt/mono0": ["@devp0nt/mono0@1.0.0-next.49", "", { "dependencies": { "@devp0nt/deepmap0": "^1.0.0-next.17", "@devp0nt/exec0": "^1.0.0-next.19", "@devp0nt/fs0": "^1.0.10-next.31", "@devp0nt/gen0": "^1.0.0-next.38", "commander": "^14.0.1", "deepmerge": "^4.3.1", "globals": "^16.4.0" }, "bin": { "mono0": "dist/esm/bin.js" } }, "sha512-h9NA4w3j8rcatb1MTqqs9huUdv5QDbneWSjZzyyjhJ6jr6izY7uWCYOXyLAC6Tz7EIvhJENGArYBSdDFVfvOtg=="],
 
     "@devp0nt/route0": ["@devp0nt/route0@1.0.0-next.10", "", {}, "sha512-dxwkt0gHhX5UWz9f+MOI/cfyv0p4QNZLA3M376sfmBxkmqQZ0OaaO4XPuCDycvslMGuUPTKdcZvzdb2Enn9E0Q=="],
 
-    "@devp0nt/tri0": ["@devp0nt/tri0@1.0.0-next.18", "", { "peerDependencies": { "@devp0nt/error0": "^1.0.0-next.15", "@devp0nt/logger0": "^1.0.0-next.20", "@devp0nt/meta0": "^1.0.0-next.15" } }, "sha512-2UFZ62wThONX9eSpVzt3faIlqWGj8siLq7Uh8moG2QhroJ2EqiwpG5RhrUfP7bhObZqI+2MC5lR+Gz/gXdiu0g=="],
+    "@devp0nt/tri0": ["@devp0nt/tri0@1.0.0-next.19", "", { "peerDependencies": { "@devp0nt/error0": "^1.0.0-next.15", "@devp0nt/logger0": "^1.0.0-next.20", "@devp0nt/meta0": "^1.0.0-next.15" } }, "sha512-3wR95g2TWddZEAGkL/NOKs1bd4n8p7OcggnphNv7Rq1sLubcrsm3VR3p+VBiSEClOc82cbwHAh17EFUw5nKUiw=="],
 
     "@drizzle-team/brocli": ["@drizzle-team/brocli@0.11.0", "", {}, "sha512-hD3pekGiPg0WPCCGAZmusBBJsDqGUR66Y452YgQsZOnkdQ7ViEPKuyP4huUGEZQefp8g34RRodXYmJ2TbCH+tg=="],
 
@@ -472,8 +465,6 @@
     "@sec-ant/readable-stream": ["@sec-ant/readable-stream@0.4.1", "", {}, "sha512-831qok9r2t8AlxLko40y2ebgSDhenenCatLVeW/uBtnHPyhHOvG0C7TvfgecV+wHzIm5KUICgzmVpWS+IMEAeg=="],
 
     "@sindresorhus/merge-streams": ["@sindresorhus/merge-streams@2.3.0", "", {}, "sha512-LtoMMhxAlorcGhmFYI+LhPgbPZCkgP6ra1YL604EeF6U98pLlQ3iWIGMdWSC+vWmPBWBNgmDBAhnAobLROJmwg=="],
-
-    "@site/app": ["@site/app@workspace:apps/site/app"],
 
     "@standard-schema/spec": ["@standard-schema/spec@1.0.0", "", {}, "sha512-m2bOd0f2RT9k8QJx1JN85cZYyH1RqFBdlwtkSlf4tBDYLCiiZnv1fIIwacK6cqwXavOydf0NPToMQgpKq+dVlA=="],
 

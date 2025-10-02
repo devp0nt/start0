@@ -10,7 +10,7 @@
     "prisma-migrate-dev": "bun run --env-file=./.env prisma migrate dev && bun run build",
     "prisma-migrate-test": "bun run --env-file=./.env.test prisma migrate dev",
     "prisma-generate-client": "bun run prisma generate client && bun run build",
-    "lint": "eslint --cache --cache-location ../../../node_modules/.cache/eslint/.eslintcache ."
+    "lint": "eslint --cache --cache-location ../../../node_modules/.cache/eslint/@prisma0/backend/.eslintcache ."
   },
   "dependencies": {}
 }
