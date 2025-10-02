@@ -16,7 +16,7 @@ export namespace BackendTrpc {
   const t = initTRPC.context<TrpcCtx>().create({
     transformer: superjson,
     errorFormatter: ({ shape, error }) => {
-      // TODO: use correct code from TRPC, or force error0 code
+      // TODO0: use correct code from TRPC, or force error0 code
       const error0 = Error0.from(error.cause || error)
       return {
         ...shape,

@@ -2,18 +2,19 @@ import type { ProjectLogger } from '@devp0nt/logger0/adapters/logger0-adapter-pr
 import { getFakeTimersExtension } from './extensions/fakeTimers'
 import { retryTransactionsExtension } from './extensions/retryTransactions'
 import { Prisma, PrismaClient } from './generated/prisma/client'
+import type { Tri0 } from '@devp0nt/tri0'
 
 export namespace Prisma0 {
   export const createClient = ({
-    logger,
+    tri0,
     isTestNodeEnv,
     isLocalHostEnv,
   }: {
-    logger: ProjectLogger
+    tri0: Tri0<any, any, any>
     isTestNodeEnv: boolean
     isLocalHostEnv: boolean
   }) => {
-    const l = logger.extend('prisma')
+    const { logger: l } = tri0.extend('prisma')
     const prismaOriginal = new PrismaClient({
       transactionOptions: {
         maxWait: 10_000,

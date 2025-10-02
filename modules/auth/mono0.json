@@ -1,0 +1,18 @@
+[
+  {
+    "name": "@auth/shared",
+    "preset": ["sharedModule", "sharedMulti"]
+  },
+  {
+    "name": "@auth/backend",
+    "preset": ["backendModule", "backendMulti"]
+  },
+  {
+    "name": "@auth/site",
+    "preset": ["siteModule", "siteMulti"]
+  },
+  {
+    "name": "@auth/admin",
+    "preset": ["adminModule", "adminMulti"]
+  }
+]

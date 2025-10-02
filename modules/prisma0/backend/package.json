@@ -12,5 +12,11 @@
     "prisma-generate-client": "bun run prisma generate client && bun run build",
     "lint": "eslint --cache --cache-location ../../../node_modules/.cache/eslint/@prisma0/backend/.eslintcache ."
   },
-  "dependencies": {}
+  "dependencies": {
+    "@devp0nt/tri0": "^1.0.0-next.19",
+    "@prisma/client": "^6.14.0",
+    "prisma": "^6.14.0",
+    "prisma-json-types-generator": "^3.6.0",
+    "prisma-zod-generator": "^1.21.3"
+  }
 }

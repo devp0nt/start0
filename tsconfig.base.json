@@ -20,6 +20,18 @@
       "@apps/shared/*": [
         "./apps/shared/*"
       ],
+      "@auth/admin/*": [
+        "./modules/auth/*"
+      ],
+      "@auth/backend/*": [
+        "./modules/auth/*"
+      ],
+      "@auth/shared/*": [
+        "./modules/auth/*"
+      ],
+      "@auth/site/*": [
+        "./modules/auth/*"
+      ],
       "@backend/core/*": [
         "./apps/backend/core/*"
       ],
@@ -31,6 +43,9 @@
       ],
       "@backend/services/*": [
         "./apps/backend/services/src/*"
+      ],
+      "@backend/shared/*": [
+        "./apps/backend/shared/*"
       ],
       "@backend/trpc-router": [
         "./apps/backend/router/trpc/index.ts"

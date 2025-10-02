@@ -13,4 +13,7 @@ helloHonoRoute({ honoApp })
 pingHonoRoute({ honoApp })
     // @gen0:end
   }
+
+  export const applyAdminRoutes = ({ honoApp }: { honoApp: HonoApp.AppType }) => {}
+  export const applyAppRoutes = ({ honoApp }: { honoApp: HonoApp.AppType }) => {}
 }

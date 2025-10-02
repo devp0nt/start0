@@ -51,7 +51,7 @@ export namespace BackendCtx {
     return Ctx0.create('backend', () => {
       const env = createEnv(process.env)
       const prisma = Prisma0.createClient({
-        logger: tri0.logger,
+        tri0,
         isTestNodeEnv: env.isTestNodeEnv,
         isLocalHostEnv: env.isLocalHostEnv,
       })

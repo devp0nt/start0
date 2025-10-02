@@ -12,6 +12,32 @@
     "lint": "eslint --cache --cache-location ../../../node_modules/.cache/eslint/@backend/services/.eslintcache ."
   },
   "dependencies": {
-    "@prisma0/backend": "workspace:*"
+    "@prisma0/backend": "workspace:*",
+    "@devp0nt/ctx0": "^1.0.0-next.12",
+    "@devp0nt/deepmap0": "^1.0.0-next.17",
+    "@devp0nt/env0": "^1.0.0-next.11",
+    "@devp0nt/error0": "^1.0.0-next.25",
+    "@devp0nt/logger0": "^1.0.0-next.35",
+    "@devp0nt/meta0": "^1.0.0-next.25",
+    "@devp0nt/route0": "^1.0.0-next.10",
+    "@devp0nt/tri0": "^1.0.0-next.19",
+    "@hono/swagger-ui": "^0.5.2",
+    "@hono/trpc-server": "^0.4.0",
+    "@hono/zod-openapi": "^1.1.0",
+    "@logtape/logtape": "^1.0.4",
+    "@prisma/client": "^6.14.0",
+    "@scalar/hono-api-reference": "^0.9.19",
+    "@trpc/server": "^11.5.0",
+    "axios": "^1.11.0",
+    "better-auth": "^1.3.24",
+    "cross-env": "^10.0.0",
+    "exponential-backoff": "^3.1.2",
+    "hono": "^4.9.2",
+    "superjson": "^2.2.2"
+  },
+  "devDependencies": {
+    "@better-auth/cli": "^1.3.24",
+    "@types/bun": "latest",
+    "@types/node": "^20"
   }
 }
