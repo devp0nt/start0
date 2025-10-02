@@ -17,6 +17,9 @@
       "@appConfig/site/*": [
         "./modules/appConfig/*"
       ],
+      "@apps/shared/*": [
+        "./apps/shared/*"
+      ],
       "@backend/core/*": [
         "./apps/backend/core/*"
       ],
@@ -47,23 +50,14 @@
       "@idea/site/*": [
         "./modules/idea/*"
       ],
-      "@site/app/*": [
-        "./apps/site/app/src/*"
-      ],
-      "@site/core/*": [
-        "./apps/site/core/*"
-      ],
       "@tools/shared": [
         "./tools/src/index.ts"
       ],
       "@tools/shared/*": [
         "./tools/src/*"
       ],
-      "@prisma0/backend": [
-        "./modules/prisma0/backend/dist/index.js"
-      ],
       "@prisma0/backend/*": [
-        "./modules/prisma0/backend/dist/*"
+        "./modules/prisma0/backend/dist/modules/prisma0/backend/src/*"
       ]
     },
     "module": "ESNext",

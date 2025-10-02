@@ -1,9 +1,9 @@
 /* eslint-disable */
-import page from "../../../../../../modules/idea/site/src/view.page.js"
+import page from "../../../../../../modules/idea/site/list.page.js"
 import { Error0 } from "@devp0nt/error0"
 import { SiteError } from "@site/core/components/Error"
 import { RR0 } from "@site/core/lib/rr0"
-import type { Route } from "./+types/modules-idea-site-src-view-page-tsx"
+// import type { Route } from "./+types/modules-idea-site-list-page-tsx"
 
 export const meta = (RR0.createMeta(({ loaderData, params, error }) => {
   if (!loaderData) {

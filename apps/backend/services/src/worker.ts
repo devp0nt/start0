@@ -1,4 +1,4 @@
-import { BackendCtx, Tri0 } from '@backend/core/lib/ctx'
+import { BackendCtx, Tri0 } from '@backend/core/ctx'
 
 export const startWorkerProcess = async () => {
   const tri0 = Tri0.create()

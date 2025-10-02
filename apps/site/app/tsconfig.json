@@ -1,27 +1,23 @@
 {
+  "extends": "../tsconfig.site.json",
   "include": [
     ".react-router/types/**/*",
     "./react-router.config.ts",
     "./vite.config.ts",
     "./src/**/*",
-    "../../../modules/appConfig/**/backend/**/*",
-    "../../../modules/appConfig/**/shared/**/*",
-    "../../../modules/appConfig/**/*.be.ts",
-    "../../../modules/appConfig/**/*.be.tsx",
-    "../../../modules/appConfig/**/*.sh.ts",
-    "../../../modules/appConfig/**/*.sh.tsx",
     "../../../modules/appConfig/**/site/**/*",
+    "../../../modules/appConfig/**/shared/**/*",
     "../../../modules/appConfig/**/*.si.ts",
     "../../../modules/appConfig/**/*.si.tsx",
-    "../../backend/core/**/*",
-    "../../backend/router/trpc/**/*",
+    "../../../modules/appConfig/**/*.sh.ts",
+    "../../../modules/appConfig/**/*.sh.tsx",
+    "../../shared/**/*",
     "../../../modules/idea/**/site/**/*",
     "../../../modules/idea/**/shared/**/*",
     "../../../modules/idea/**/*.si.ts",
     "../../../modules/idea/**/*.si.tsx",
     "../../../modules/idea/**/*.sh.ts",
-    "../../../modules/idea/**/*.sh.tsx",
-    "../core/**/*"
+    "../../../modules/idea/**/*.sh.tsx"
   ],
   "exclude": [
     "./**/dist/**/*",
@@ -30,30 +26,20 @@
     "../../../modules/appConfig/**/dist/**/*",
     "../../../modules/appConfig/**/node_modules/**/*",
     "../../../modules/appConfig/**/public/**/*",
-    "../../backend/core/**/dist/**/*",
-    "../../backend/core/**/node_modules/**/*",
-    "../../backend/core/**/public/**/*",
-    "../../backend/router/trpc/**/dist/**/*",
-    "../../backend/router/trpc/**/node_modules/**/*",
-    "../../backend/router/trpc/**/public/**/*",
+    "../../shared/**/dist/**/*",
+    "../../shared/**/node_modules/**/*",
+    "../../shared/**/public/**/*",
     "../../../modules/idea/**/dist/**/*",
     "../../../modules/idea/**/node_modules/**/*",
-    "../../../modules/idea/**/public/**/*",
-    "../core/**/dist/**/*",
-    "../core/**/node_modules/**/*",
-    "../core/**/public/**/*"
+    "../../../modules/idea/**/public/**/*"
   ],
   "compilerOptions": {
-    "rootDir": "../../..",
+    "rootDir": "./",
     "rootDirs": [
       "./",
       "./.react-router/types"
     ],
     "outDir": "./dist"
   },
-  "references": [
-    {
-      "path": "../../../modules/prisma0/backend/tsconfig.json"
-    }
-  ]
+  "references": []
 }

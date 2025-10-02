@@ -11,17 +11,7 @@
     "clean": "rimraf ../../../node_modules/.cache/tsbuildinfo/@backend/services && rimraf ./dist",
     "lint": "eslint --cache --cache-location ../../../node_modules/.cache/eslint/.eslintcache ."
   },
-  "dependencies": {},
-  "exports": {
-    "./*": {
-      "import": [
-        "./src/*.ts",
-        "./src/*.tsx"
-      ],
-      "types": [
-        "./src/*.ts",
-        "./src/*.tsx"
-      ]
-    }
+  "dependencies": {
+    "@prisma0/backend": "workspace:*"
   }
 }

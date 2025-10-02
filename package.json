@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "types": "mono0 exec -m '#cold' build && bun run --filter '**' types",
+    "types": "mono0 exec -m '#cold' -c 'bun run build' && bun run --filter '**' types",
     "clean": "rimraf .//node_modules/.cache/tsbuildinfo && rimraf **/dist",
     "build": "tsc --build",
     "watch": "concurrently \"bun run gen0 watch\" \"bun run mono0 watch\" --names 'gen0,mono0'",
@@ -108,8 +108,7 @@
   "workspaces": {
     "packages": [
       "./apps/backend/services",
-      "./modules/prisma0/backend",
-      "./apps/site/app"
+      "./modules/prisma0/backend"
     ],
     "catalog": {
       "isbot": "^5.1.27",

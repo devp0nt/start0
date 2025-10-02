@@ -63,7 +63,7 @@
         "watch": "concurrently \"bun run gen0 watch\" \"bun run mono0 watch\" --names 'gen0,mono0'",
         "watch:build": "tsc --build --watch --preserveWatchOutput",
         "watch:all": "concurrently \"bun run gen0 watch\" \"bun run mono0 watch\" \"bun run watch:build\" --names 'gen0,mono0,build'",
-        "types": "mono0 exec -m '#cold' build && bun run --filter '**' types",
+        "types": "mono0 exec -m '#cold' -c 'bun run build' && bun run --filter '**' types",
         "clean": "rimraf {{projectRootDir}}/node_modules/.cache/tsbuildinfo && rimraf **/dist",
         "lint": "bun run lint:base .",
         "lint:fix": "bun run lint --fix",
@@ -126,6 +126,7 @@
         // Alsow we use root tsconfig in admin vite tsconfig paths resolver
         "addUnitsSrcToPaths": { "match": "!#cold", "indexFile": true },
         "addUnitsDistToPaths": { "match": "#cold", "indexFile": true }
+        // "addUnitsSrcToPaths": { "indexFile": true }
       }
     },
     "shared": {
@@ -198,8 +199,10 @@
             "addUnitIncludeToInclude": "whenNotProvided",
             "addUnitExcludeToExclude": "whenNotProvided",
             "addUnitsAsReferences": { "scope": "depsAndDeepDeps", "tsconfig": "$core" }
-          },
-          "value": {}
+            // "addUnitsSrcToPaths": { "match": "!#cold", "indexFile": true },
+            // "addUnitsDistToPaths": { "match": "#cold", "indexFile": true }
+            // "addUnitsSrcToPaths": { "indexFile": true }
+          }
         }
       }
     },
@@ -208,9 +211,9 @@
         "settings": {
           "setUnitNameAsName": true,
           "clearWorkspaceDeps": true,
-          "addWorkspaceDeps": true,
-          "clearExports": true,
-          "addExportsFromSrc": { "dirs": true, "import": [".ts", ".tsx"], "types": [".ts", ".tsx"], "indexFile": true }
+          "addWorkspaceDeps": { "scope": "depsAndDeepDeps" },
+          "clearExports": true
+          // "addExportsFromSrc": { "dirs": true, "import": [".ts", ".tsx"], "types": [".ts", ".tsx"], "indexFile": true }
         },
         "value": {
           "private": true,
@@ -231,9 +234,8 @@
       "tags": ["app"],
       "packageJson": {
         "settings": {
-          "clearWorkspaceDeps": true,
-          "addWorkspaceDeps": true,
-          "clearExports": true
+          "addExportsFromDist": false,
+          "addExportsFromSrc": false
         }
       },
       "tsconfigs": {
@@ -250,12 +252,15 @@
       "tags": ["cold"],
       "packageJson": {
         "settings": {
-          "addExportsFromDist": { "dirs": false, "import": [".js"], "types": [".d.ts"], "indexFile": true },
-          "addExportsFromSrc": false
+          // "addExportsFromDist": { "dirs": true, "import": [".js"], "types": [".d.ts"], "indexFile": true },
+          // "addExportsFromSrc": false
         }
       },
       "tsconfigs": {
         "core": {
+          "settings": {
+            "addUnitsIncludesAndExcludes": { "scope": "depsAndDeepDeps", "match": "!#cold" }
+          },
           "value": {
             "compilerOptions": {
               "composite": true,

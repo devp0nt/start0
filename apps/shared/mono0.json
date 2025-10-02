@@ -1,0 +1,5 @@
+{
+  "name": "@apps/shared",
+  "preset": "shared",
+  "deps": []
+}

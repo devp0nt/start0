@@ -1,4 +1,4 @@
-import { pick } from '@devp0nt/lodash0'
+import { pick } from '@apps/shared/lodash0'
 import type { IdeaModel } from '@prisma0/backend/generated/prisma/models'
 
 export namespace IdeaBe {

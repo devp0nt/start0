@@ -1,5 +1,5 @@
-import { BackendCtx, Tri0 } from '@backend/core/lib/ctx'
-import { HonoApp } from '@backend/core/lib/hono'
+import { BackendCtx, Tri0 } from '@backend/core/ctx'
+import { HonoApp } from '@backend/core/hono'
 import { BackendHonoRouter } from '@backend/hono-router'
 import { BackendTrpcRouter } from '@backend/trpc-router'
 import { serve } from 'bun'

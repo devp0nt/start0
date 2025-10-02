@@ -1,11 +1,11 @@
-import { createEnv } from '@backend/core/lib/env'
+import { createEnv } from '@backend/core/env'
 import { Ctx0 } from '@devp0nt/ctx0'
 import { Error0 } from '@devp0nt/error0'
 import { Logger0 } from '@devp0nt/logger0'
 import { logger0AdapterProject } from '@devp0nt/logger0/adapters/logger0-adapter-project'
 import { Meta0 } from '@devp0nt/meta0'
 import { Tri0 as OriginalTri0 } from '@devp0nt/tri0'
-import { Prisma0 } from '@prisma0/backend'
+import { Prisma0 } from '@prisma0/backend/client'
 
 export namespace Tri0 {
   export const create = () => {
@@ -14,6 +14,19 @@ export namespace Tri0 {
       reset: true,
       rootTagPrefix: 'ideanick',
       consoleFormatter: process.env.NODE_ENV === 'development' ? 'prettyYaml' : 'json',
+      filters: {
+        ...(process.env.NODE_ENV === 'development'
+          ? {
+              dev: (record) => {
+                // TODO0: fix logger filters
+                if (record.category.includes('prisma')) {
+                  return false
+                }
+                return true
+              },
+            }
+          : {}),
+      },
     })
     const logger = Logger0.create({
       adapter: logger0AdapterProject,

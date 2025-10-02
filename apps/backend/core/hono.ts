@@ -1,4 +1,4 @@
-import type { BackendCtx } from '@backend/core/lib/ctx'
+import type { BackendCtx } from '@backend/core/ctx'
 import { Error0 } from '@devp0nt/error0'
 import { OpenAPIHono } from '@hono/zod-openapi'
 import type { Context as HonoContext } from 'hono'

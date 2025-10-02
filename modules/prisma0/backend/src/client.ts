@@ -1,11 +1,7 @@
-// TODO:ASAP resolve circular deps here, tri0
 import type { ProjectLogger } from '@devp0nt/logger0/adapters/logger0-adapter-project'
 import { getFakeTimersExtension } from './extensions/fakeTimers'
 import { retryTransactionsExtension } from './extensions/retryTransactions'
 import { Prisma, PrismaClient } from './generated/prisma/client'
-
-// TODO: use as separate package
-// TODO: move to prisma-client not prisma-client-js
 
 export namespace Prisma0 {
   export const createClient = ({
@@ -37,7 +33,7 @@ export namespace Prisma0 {
     })
 
     prismaOriginal.$on('query', (e) => {
-      logger.info({
+      l.info({
         tag: 'low:query',
         message: 'Successfull prisma request',
         prismaDurationMs: e.duration,
@@ -46,7 +42,7 @@ export namespace Prisma0 {
       })
     })
     prismaOriginal.$on('info', (e) => {
-      logger.info({
+      l.info({
         tag: 'low:info',
         message: e.message,
       })

@@ -93,6 +93,9 @@
     },
     "apps/backend/services": {
       "name": "@backend/services",
+      "dependencies": {
+        "@prisma0/backend": "workspace:*",
+      },
     },
     "apps/site/app": {
       "name": "@site/app",

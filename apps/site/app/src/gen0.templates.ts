@@ -11,7 +11,7 @@ import page from "${pathForImport}"
 import { Error0 } from "@devp0nt/error0"
 import { SiteError } from "@site/core/components/Error"
 import { RR0 } from "@site/core/lib/rr0"
-import type { Route } from "./+types/${selfBaseNameWitoutExt}"
+// import type { Route } from "./+types/${selfBaseNameWitoutExt}"
 
 export const meta = (RR0.createMeta(({ loaderData, params, error }) => {
   if (!loaderData) {

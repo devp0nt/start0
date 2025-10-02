@@ -1,15 +1,25 @@
 {
   "extends": "../../../apps/backend/tsconfig.backend.json",
   "include": [
-    "./src/**/*"
+    "./src/**/*",
+    "../../../apps/shared/**/*",
+    "../../idea/**/shared/**/*",
+    "../../idea/**/*.sh.ts",
+    "../../idea/**/*.sh.tsx"
   ],
   "exclude": [
     "./**/dist/**/*",
     "./**/node_modules/**/*",
-    "./**/public/**/*"
+    "./**/public/**/*",
+    "../../../apps/shared/**/dist/**/*",
+    "../../../apps/shared/**/node_modules/**/*",
+    "../../../apps/shared/**/public/**/*",
+    "../../idea/**/dist/**/*",
+    "../../idea/**/node_modules/**/*",
+    "../../idea/**/public/**/*"
   ],
   "compilerOptions": {
-    "rootDir": "./src",
+    "rootDir": "../../..",
     "outDir": "./dist",
     "declaration": true,
     "declarationMap": true,

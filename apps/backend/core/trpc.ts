@@ -1,4 +1,4 @@
-import type { HonoApp } from '@backend/core/lib/hono'
+import type { HonoApp } from '@backend/core/hono'
 import { Error0 } from '@devp0nt/error0'
 import { initTRPC } from '@trpc/server'
 import superjson from 'superjson'
