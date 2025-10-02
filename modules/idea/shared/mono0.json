@@ -1,5 +1,0 @@
-{
-  "name": "@idea/shared",
-  "preset": "shared",
-  "deps": ["@devp0nt/route0"]
-}

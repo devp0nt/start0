@@ -8,11 +8,20 @@
     "start": "NODE_ENV=production bun dist/api.js",
     "build": "tsc --build",
     "watch": "tsc --watch",
-    "clean": "rimraf ../../../node_modules/.cache/tsbuildinfo/@backend/services && rimraf ./dist"
+    "clean": "rimraf ../../../node_modules/.cache/tsbuildinfo/@backend/services && rimraf ./dist",
+    "lint": "eslint --cache --cache-location ../../../node_modules/.cache/eslint/.eslintcache ."
   },
-  "dependencies": {
-    "@backend/core": "workspace:*",
-    "@backend/hono-router": "workspace:*",
-    "@backend/trpc-router": "workspace:*"
+  "dependencies": {},
+  "exports": {
+    "./*": {
+      "import": [
+        "./src/*.ts",
+        "./src/*.tsx"
+      ],
+      "types": [
+        "./src/*.ts",
+        "./src/*.tsx"
+      ]
+    }
   }
 }

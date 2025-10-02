@@ -1,22 +1,59 @@
 {
-  "extends": "../../../.mono0/tsconfig.site.json",
-  "include": [".react-router/types/**/*", "./react-router.config.ts", "./vite.config.ts", "./src/**/*"],
-  "exclude": ["./**/dist/**/*", "./**/node_modules/**/*", "./**/public/**/*"],
+  "include": [
+    ".react-router/types/**/*",
+    "./react-router.config.ts",
+    "./vite.config.ts",
+    "./src/**/*",
+    "../../../modules/appConfig/**/backend/**/*",
+    "../../../modules/appConfig/**/shared/**/*",
+    "../../../modules/appConfig/**/*.be.ts",
+    "../../../modules/appConfig/**/*.be.tsx",
+    "../../../modules/appConfig/**/*.sh.ts",
+    "../../../modules/appConfig/**/*.sh.tsx",
+    "../../../modules/appConfig/**/site/**/*",
+    "../../../modules/appConfig/**/*.si.ts",
+    "../../../modules/appConfig/**/*.si.tsx",
+    "../../backend/core/**/*",
+    "../../backend/router/trpc/**/*",
+    "../../../modules/idea/**/site/**/*",
+    "../../../modules/idea/**/shared/**/*",
+    "../../../modules/idea/**/*.si.ts",
+    "../../../modules/idea/**/*.si.tsx",
+    "../../../modules/idea/**/*.sh.ts",
+    "../../../modules/idea/**/*.sh.tsx",
+    "../core/**/*"
+  ],
+  "exclude": [
+    "./**/dist/**/*",
+    "./**/node_modules/**/*",
+    "./**/public/**/*",
+    "../../../modules/appConfig/**/dist/**/*",
+    "../../../modules/appConfig/**/node_modules/**/*",
+    "../../../modules/appConfig/**/public/**/*",
+    "../../backend/core/**/dist/**/*",
+    "../../backend/core/**/node_modules/**/*",
+    "../../backend/core/**/public/**/*",
+    "../../backend/router/trpc/**/dist/**/*",
+    "../../backend/router/trpc/**/node_modules/**/*",
+    "../../backend/router/trpc/**/public/**/*",
+    "../../../modules/idea/**/dist/**/*",
+    "../../../modules/idea/**/node_modules/**/*",
+    "../../../modules/idea/**/public/**/*",
+    "../core/**/dist/**/*",
+    "../core/**/node_modules/**/*",
+    "../core/**/public/**/*"
+  ],
   "compilerOptions": {
-    "rootDir": "./",
-    "rootDirs": ["./", "./.react-router/types"],
-    "outDir": "./dist",
-    "declaration": true,
-    "declarationMap": true,
-    "composite": true,
-    "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@site/app/.tsbuildinfo"
+    "rootDir": "../../..",
+    "rootDirs": [
+      "./",
+      "./.react-router/types"
+    ],
+    "outDir": "./dist"
   },
   "references": [
     {
-      "path": "../../../modules/idea/site/tsconfig.json"
-    },
-    {
-      "path": "../core/tsconfig.json"
+      "path": "../../../modules/prisma0/backend/tsconfig.json"
     }
   ]
 }

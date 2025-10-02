@@ -1,7 +1,13 @@
 {
-  "extends": "../../../.mono0/tsconfig.backend.json",
-  "include": ["./src/**/*"],
-  "exclude": ["./**/dist/**/*", "./**/node_modules/**/*", "./**/public/**/*"],
+  "extends": "../../../apps/backend/tsconfig.backend.json",
+  "include": [
+    "./src/**/*"
+  ],
+  "exclude": [
+    "./**/dist/**/*",
+    "./**/node_modules/**/*",
+    "./**/public/**/*"
+  ],
   "compilerOptions": {
     "rootDir": "./src",
     "outDir": "./dist",
@@ -10,9 +16,5 @@
     "composite": true,
     "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@prisma0/backend/.tsbuildinfo"
   },
-  "references": [
-    {
-      "path": "../../idea/shared/tsconfig.json"
-    }
-  ]
+  "references": []
 }

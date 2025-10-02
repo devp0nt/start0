@@ -6,12 +6,17 @@
     "types": "tsc --noEmit",
     "build": "tsc --build",
     "watch": "tsc --watch",
-    "clean": "rimraf ../../../node_modules/.cache/tsbuildinfo/@prisma0/backend && rimraf ./dist",
+    "clean": "rimraf ../../../node_modules/.cache/tsbuildinfo/@prisma0/backend && rimraf ./dist && rimraf ./src/generated",
     "prisma-migrate-dev": "bun run --env-file=./.env prisma migrate dev {{ARGS}}",
     "prisma-migrate-test": "bun run --env-file=./.env.test prisma migrate dev {{ARGS}}",
-    "prisma-generate-client": "bun run prisma generate client {{ARGS}}"
+    "prisma-generate-client": "bun run prisma generate client {{ARGS}}",
+    "lint": "eslint --cache --cache-location ../../../node_modules/.cache/eslint/.eslintcache ."
   },
-  "dependencies": {
-    "@idea/shared": "workspace:*"
+  "dependencies": {},
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
   }
 }

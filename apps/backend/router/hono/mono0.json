@@ -1,5 +1,5 @@
 {
   "name": "@backend/hono-router",
   "preset": "backend",
-  "deps": ["@backend/core", "#honoRoutes"]
+  "deps": ["@backend/core", "@appConfig/backend", "#honoRoutes"]
 }

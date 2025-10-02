@@ -1,6 +1,13 @@
 {
   "name": "@prisma0/backend",
-  "preset": ["backend", "cold"],
+  "preset": ["cold", "backendWithTsconfig"],
   "tags": ["prisma"],
-  "deps": ["@idea/shared", "@devp0nt/env0"]
+  "deps": ["@devp0nt/env0"],
+  "packageJson": {
+    "value": {
+      "scripts": {
+        "clean": "rimraf {{projectRootDir}}/node_modules/.cache/tsbuildinfo/{{name}} && rimraf {{distDir}} && rimraf ./src/generated"
+      }
+    }
+  }
 }

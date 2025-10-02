@@ -1,7 +1,9 @@
 {
-  "files": [],
-  "include": [],
   "compilerOptions": {
+    "types": [
+      "node",
+      "bun"
+    ],
     "paths": {
       "@appConfig/admin/*": [
         "./modules/appConfig/*"
@@ -63,17 +65,19 @@
       "@prisma0/backend/*": [
         "./modules/prisma0/backend/dist/*"
       ]
-    }
-  },
-  "references": [
-    {
-      "path": "./apps/backend/services/tsconfig.json"
     },
-    {
-      "path": "./modules/prisma0/backend/tsconfig.json"
-    },
-    {
-      "path": "./apps/site/app/tsconfig.json"
-    }
-  ]
+    "module": "ESNext",
+    "target": "ESNext",
+    "lib": [
+      "ESNext"
+    ],
+    "moduleResolution": "Bundler",
+    "resolveJsonModule": true,
+    "allowJs": true,
+    "jsx": "react-jsx",
+    "esModuleInterop": true,
+    "verbatimModuleSyntax": true,
+    "strict": true,
+    "skipLibCheck": true
+  }
 }

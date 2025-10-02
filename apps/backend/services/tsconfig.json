@@ -1,24 +1,50 @@
 {
-  "extends": "../../../.mono0/tsconfig.backend.json",
-  "include": ["./src/**/*"],
-  "exclude": ["./**/dist/**/*", "./**/node_modules/**/*", "./**/public/**/*"],
+  "extends": "../tsconfig.backend.json",
+  "include": [
+    "./src/**/*",
+    "../../../modules/appConfig/**/backend/**/*",
+    "../../../modules/appConfig/**/shared/**/*",
+    "../../../modules/appConfig/**/*.be.ts",
+    "../../../modules/appConfig/**/*.be.tsx",
+    "../../../modules/appConfig/**/*.sh.ts",
+    "../../../modules/appConfig/**/*.sh.tsx",
+    "../core/**/*",
+    "../router/hono/**/*",
+    "../router/trpc/**/*",
+    "../../../modules/idea/**/backend/**/*",
+    "../../../modules/idea/**/shared/**/*",
+    "../../../modules/idea/**/*.be.ts",
+    "../../../modules/idea/**/*.be.tsx",
+    "../../../modules/idea/**/*.sh.ts",
+    "../../../modules/idea/**/*.sh.tsx"
+  ],
+  "exclude": [
+    "./**/dist/**/*",
+    "./**/node_modules/**/*",
+    "./**/public/**/*",
+    "../../../modules/appConfig/**/dist/**/*",
+    "../../../modules/appConfig/**/node_modules/**/*",
+    "../../../modules/appConfig/**/public/**/*",
+    "../core/**/dist/**/*",
+    "../core/**/node_modules/**/*",
+    "../core/**/public/**/*",
+    "../router/hono/**/dist/**/*",
+    "../router/hono/**/node_modules/**/*",
+    "../router/hono/**/public/**/*",
+    "../router/trpc/**/dist/**/*",
+    "../router/trpc/**/node_modules/**/*",
+    "../router/trpc/**/public/**/*",
+    "../../../modules/idea/**/dist/**/*",
+    "../../../modules/idea/**/node_modules/**/*",
+    "../../../modules/idea/**/public/**/*"
+  ],
   "compilerOptions": {
-    "rootDir": "./src",
-    "outDir": "./dist",
-    "declaration": true,
-    "declarationMap": true,
-    "composite": true,
-    "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@backend/services/.tsbuildinfo"
+    "rootDir": "../../..",
+    "outDir": "./dist"
   },
   "references": [
     {
-      "path": "../core/tsconfig.json"
-    },
-    {
-      "path": "../router/hono/tsconfig.json"
-    },
-    {
-      "path": "../router/trpc/tsconfig.json"
+      "path": "../../../modules/prisma0/backend/tsconfig.json"
     }
   ]
 }

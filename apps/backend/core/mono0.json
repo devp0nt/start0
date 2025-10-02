@@ -1,12 +1,5 @@
 {
   "name": "@backend/core",
   "preset": "backend",
-  "deps": [
-    "@devp0nt/env0",
-    "@devp0nt/error0",
-    "@devp0nt/lodash0",
-    "@devp0nt/logger0",
-    "@devp0nt/meta0",
-    "@prisma0/backend"
-  ]
+  "deps": ["@prisma0/backend"]
 }

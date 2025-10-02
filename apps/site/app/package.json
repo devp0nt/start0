@@ -9,12 +9,63 @@
     "types": "tsc --noEmit",
     "watch": "tsc --watch",
     "clean": "rimraf ../../../node_modules/.cache/tsbuildinfo/@site/app && rimraf ./dist",
-    "types:rr": "rimraf dist && react-router typegen && tsc"
+    "types:rr": "rimraf dist && react-router typegen && tsc",
+    "lint": "eslint --cache --cache-location ../../../node_modules/.cache/eslint/.eslintcache ."
   },
   "dependencies": {
     "@react-router/node": "catalog:",
-    "isbot": "^5",
-    "@idea/site": "workspace:*",
-    "@site/core": "workspace:*"
+    "isbot": "^5"
+  },
+  "exports": {
+    "./*": {
+      "import": [
+        "./src/*.ts",
+        "./src/*.tsx"
+      ],
+      "types": [
+        "./src/*.ts",
+        "./src/*.tsx"
+      ]
+    },
+    "./components/*": {
+      "import": [
+        "./src/components/*.ts",
+        "./src/components/*.tsx"
+      ],
+      "types": [
+        "./src/components/*.ts",
+        "./src/components/*.tsx"
+      ]
+    },
+    "./pages/*": {
+      "import": [
+        "./src/pages/*.ts",
+        "./src/pages/*.tsx"
+      ],
+      "types": [
+        "./src/pages/*.ts",
+        "./src/pages/*.tsx"
+      ]
+    },
+    "./routes/*": {
+      "import": [
+        "./src/routes/*.ts",
+        "./src/routes/*.tsx"
+      ],
+      "types": [
+        "./src/routes/*.ts",
+        "./src/routes/*.tsx"
+      ]
+    },
+    "./routes/generated/*": {
+      "import": [
+        "./src/routes/generated/*.ts",
+        "./src/routes/generated/*.tsx"
+      ],
+      "types": [
+        "./src/routes/generated/*.ts",
+        "./src/routes/generated/*.tsx"
+      ]
+    }
   }
 }

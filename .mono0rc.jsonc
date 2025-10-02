@@ -49,7 +49,7 @@
     "onPackageJsonsDepsChangedCommand": "bun install"
   },
   "packageJson": {
-    "path": "../package.json",
+    "path": "./package.json",
     "settings": {
       "clearWorkspaces": "workspaces.papackages",
       "addWorkspaces": "workspaces.packages"
@@ -106,7 +106,7 @@
       }
     },
     "root": {
-      "path": "../tsconfig.json",
+      "path": "./tsconfig.json",
       "value": {
         "files": [],
         "include": [],
@@ -129,19 +129,19 @@
       }
     },
     "shared": {
-      "path": "./tsconfig.shared.json",
+      "path": "./apps/shared/tsconfig.shared.json",
       "value": {
         "extends": "$base"
       }
     },
     "backend": {
-      "path": "./tsconfig.backend.json",
+      "path": "./apps/backend/tsconfig.backend.json",
       "value": {
         "extends": "$base"
       }
     },
     "site": {
-      "path": "./tsconfig.site.json",
+      "path": "./apps/site/tsconfig.site.json",
       "value": {
         "extends": "$base",
         "compilerOptions": {
@@ -153,7 +153,7 @@
       }
     },
     "admin": {
-      "path": "./tsconfig.admin.json",
+      "path": "./apps/admin/tsconfig.admin.json",
       "value": {
         "extends": "$base",
         "compilerOptions": {
@@ -165,7 +165,7 @@
       }
     },
     "tools": {
-      "path": "./tsconfig.tools.json",
+      "path": "./tools/tsconfig.tools.json",
       "value": {
         "extends": "$base"
       }
