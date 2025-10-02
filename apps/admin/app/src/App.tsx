@@ -24,6 +24,7 @@ import { App as AntdApp } from 'antd'
 import { BrowserRouter, Outlet, Route, Routes } from 'react-router'
 import { Header } from './components/header'
 import { ColorModeContextProvider } from './lib/colorMode'
+import { TrpcProvider } from '@admin/core/lib/trpc'
 
 function App() {
   return (
@@ -33,61 +34,63 @@ function App() {
           <AntdApp>
             <AdminCtx.Provider>
               <RefineSetup>
-                <Routes>
-                  <Route
-                    element={
-                      <Authenticated key="authenticated-inner" fallback={<CatchAllNavigate to="/login" />}>
-                        <ThemedLayout
-                          Header={Header}
-                          Sider={(props) => (
-                            <ThemedSider
-                              {...props}
-                              Title={({ collapsed }) => {
-                                return <ThemedTitle collapsed={collapsed} text={appName} />
-                              }}
-                              render={({ items, logout, collapsed }) => {
-                                return (
-                                  <>
-                                    <SiderBefore />
-                                    {items}
-                                    {logout}
-                                    <SiderAfter />
-                                  </>
-                                )
-                              }}
-                              fixed
-                            />
-                          )}
-                        >
-                          <Outlet />
-                        </ThemedLayout>
-                      </Authenticated>
-                    }
-                  >
-                    <Route index element={<NavigateToResource resource="blog_posts" />} />
-                    <Route path="/:resource">
-                      <Route index element={<ResourceListPage />} />
-                      <Route path="create" element={<ResourceCreatePage />} />
-                      <Route path="edit/:id" element={<ResourceEditPage />} />
-                      <Route path="show/:id" element={<ResourceShowPage />} />
+                <TrpcProvider>
+                  <Routes>
+                    <Route
+                      element={
+                        <Authenticated key="authenticated-inner" fallback={<CatchAllNavigate to="/login" />}>
+                          <ThemedLayout
+                            Header={Header}
+                            Sider={(props) => (
+                              <ThemedSider
+                                {...props}
+                                Title={({ collapsed }) => {
+                                  return <ThemedTitle collapsed={collapsed} text={appName} />
+                                }}
+                                render={({ items, logout, collapsed }) => {
+                                  return (
+                                    <>
+                                      <SiderBefore />
+                                      {items}
+                                      {logout}
+                                      <SiderAfter />
+                                    </>
+                                  )
+                                }}
+                                fixed
+                              />
+                            )}
+                          >
+                            <Outlet />
+                          </ThemedLayout>
+                        </Authenticated>
+                      }
+                    >
+                      <Route index element={<NavigateToResource resource="blog_posts" />} />
+                      <Route path="/:resource">
+                        <Route index element={<ResourceListPage />} />
+                        <Route path="create" element={<ResourceCreatePage />} />
+                        <Route path="edit/:id" element={<ResourceEditPage />} />
+                        <Route path="show/:id" element={<ResourceShowPage />} />
+                      </Route>
+                      <Route path="*" element={<ErrorComponent />} />
                     </Route>
-                    <Route path="*" element={<ErrorComponent />} />
-                  </Route>
-                  <Route
-                    element={
-                      <Authenticated key="authenticated-outer" fallback={<Outlet />}>
-                        <NavigateToResource />
-                      </Authenticated>
-                    }
-                  >
-                    <Route path="/login" element={<LoginPage />} />
-                    <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-                  </Route>
-                </Routes>
+                    <Route
+                      element={
+                        <Authenticated key="authenticated-outer" fallback={<Outlet />}>
+                          <NavigateToResource />
+                        </Authenticated>
+                      }
+                    >
+                      <Route path="/login" element={<LoginPage />} />
+                      <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+                    </Route>
+                  </Routes>
 
-                <RefineKbar />
-                <UnsavedChangesNotifier />
-                <DocumentTitleHandler />
+                  <RefineKbar />
+                  <UnsavedChangesNotifier />
+                  <DocumentTitleHandler />
+                </TrpcProvider>
               </RefineSetup>
             </AdminCtx.Provider>
           </AntdApp>

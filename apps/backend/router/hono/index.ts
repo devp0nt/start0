@@ -8,7 +8,7 @@ import { pingAppHonoRoute, bigPingAppHonoRoute } from "@backend/hono-router/ping
 
 // @gen0:start $.admin = await importExportedFromFiles("~/**/route{s,}{.*,}{.be,}.ts", "AdminHonoRoute", (file0) => mono0.getFilePathRelativeToPackageName(file0.path.abs))
 
-import { ideaListAdminHonoRoute, ideaGetAdminHonoRoute, ideaCreateAdminHonoRoute, ideaUpdateAdminHonoRoute, ideaDeleteAdminHonoRoute } from "@idea/backend/routes.admin-hono.be"
+import { ideaListAdminHonoRoute, ideaGetAdminHonoRoute, ideaCreateAdminHonoRoute, ideaUpdateAdminHonoRoute, ideaDeleteAdminHonoRoute } from "/Users/iserdmi/cc/opensource/devp0nt/start0/modules/idea/routes.admin-hono.be"
 // @gen0:end
 
 export const honoApp = honoBase()

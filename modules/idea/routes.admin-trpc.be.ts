@@ -5,7 +5,7 @@ import { zIdeaClientAdmin } from '@idea/shared/utils.sh'
 import { z } from 'zod'
 
 const helpers = getRoutesHelpers({ resource: 'idea' })
-const { zPaginationInput } = helpers.pagination
+const { zPaginationInput, defaultPagination } = helpers.pagination
 
 const zFilters = z.object({}).optional().default({})
 const zResource = zIdeaClientAdmin
@@ -27,10 +27,13 @@ const zList = zResource.pick({
 export const ideaListAdminTrpcRoute = trpcBase()
   .meta({ openapi: { method: 'POST', path: '/idea/list' } })
   .input(
-    z.object({
-      filters: zFilters,
-      pagination: zPaginationInput,
-    }),
+    z
+      .object({
+        filters: zFilters,
+        pagination: zPaginationInput,
+      })
+      .optional()
+      .default({ filters: {}, pagination: defaultPagination }),
   )
   .output(
     z.object({

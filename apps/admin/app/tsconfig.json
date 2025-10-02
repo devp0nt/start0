@@ -22,6 +22,7 @@
     "../../backend/core/**/*",
     "../../backend/router/hono/**/*",
     "../../backend/shared/**/*",
+    "../../backend/router/trpc/**/*",
     "../../../modules/idea/**/admin/**/*",
     "../../../modules/idea/**/shared/**/*",
     "../../../modules/idea/**/*.ad.ts",
@@ -54,6 +55,9 @@
     "../../backend/shared/**/dist/**/*",
     "../../backend/shared/**/node_modules/**/*",
     "../../backend/shared/**/public/**/*",
+    "../../backend/router/trpc/**/dist/**/*",
+    "../../backend/router/trpc/**/node_modules/**/*",
+    "../../backend/router/trpc/**/public/**/*",
     "../../../modules/idea/**/dist/**/*",
     "../../../modules/idea/**/node_modules/**/*",
     "../../../modules/idea/**/public/**/*"

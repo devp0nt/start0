@@ -8,33 +8,27 @@ import { appName } from '@apps/shared/utils'
 
 // @gen0:start $.app = await importExportedFromFiles("~/**/route{s,}{.*,}{.be,}.ts", "AppTrpcRoute", (file0) => mono0.getFilePathRelativeToPackageName(file0.path.abs))
 
-import { pingAppTrpcRoute } from '@backend/trpc-router/ping/route'
+import { pingAppTrpcRoute } from "@backend/trpc-router/ping/route"
 // @gen0:end
 
 // @gen0:start $.admin = await importExportedFromFiles("~/**/route{s,}{.*,}{.be,}.ts", "AdminTrpcRoute", (file0) => mono0.getFilePathRelativeToPackageName(file0.path.abs))
 
-import {
-  ideaListAdminTrpcRoute,
-  ideaGetAdminTrpcRoute,
-  ideaCreateAdminTrpcRoute,
-  ideaUpdateAdminTrpcRoute,
-  ideaDeleteAdminTrpcRoute,
-} from '@idea/backend/routes.admin-trpc.be'
+import { ideaListAdminTrpcRoute, ideaGetAdminTrpcRoute, ideaCreateAdminTrpcRoute, ideaUpdateAdminTrpcRoute, ideaDeleteAdminTrpcRoute } from "/Users/iserdmi/cc/opensource/devp0nt/start0/modules/idea/routes.admin-trpc.be"
 // @gen0:end
 
 export const appTrpcRouter = createTrpcRouter({
   // @gen0:start $.app.imports.map(im => print(`${im.cutted}: ${im.name},`))
-  ping: pingAppTrpcRoute,
+ping: pingAppTrpcRoute,
   // @gen0:end
 })
 
 export const adminTrpcRouter = createTrpcRouter({
   // @gen0:start $.admin.imports.map(im => print(`${im.cutted}: ${im.name},`))
-  ideaList: ideaListAdminTrpcRoute,
-  ideaGet: ideaGetAdminTrpcRoute,
-  ideaCreate: ideaCreateAdminTrpcRoute,
-  ideaUpdate: ideaUpdateAdminTrpcRoute,
-  ideaDelete: ideaDeleteAdminTrpcRoute,
+ideaList: ideaListAdminTrpcRoute,
+ideaGet: ideaGetAdminTrpcRoute,
+ideaCreate: ideaCreateAdminTrpcRoute,
+ideaUpdate: ideaUpdateAdminTrpcRoute,
+ideaDelete: ideaDeleteAdminTrpcRoute,
   // @gen0:end
 })
 

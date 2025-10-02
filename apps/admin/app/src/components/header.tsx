@@ -1,10 +1,11 @@
-import { honoAppClient } from '@admin/core/lib/hono'
+import { honoAppClient, useHonoQuery } from '@admin/core/lib/hono'
+import { useQuery } from '@tanstack/react-query'
 import type { RefineThemedLayoutHeaderProps } from '@refinedev/antd'
 import { useGetIdentity } from '@refinedev/core'
 import { Layout as AntdLayout, Space, Switch, Typography, theme } from 'antd'
 import React, { useContext, useEffect } from 'react'
 import { ColorModeContext } from '../lib/colorMode'
-import { useQuery } from '@admin/core/lib/honoq1'
+import { useTrpc } from '@admin/core/lib/trpc'
 
 const { Text } = Typography
 const { useToken } = theme
@@ -20,12 +21,15 @@ export const Header: React.FC<RefineThemedLayoutHeaderProps> = ({ sticky = true 
   const { data: user } = useGetIdentity<IUser>()
   const { mode, setMode } = useContext(ColorModeContext)
 
-  const x = useQuery(honoAppClient.ping, '$get', {})
-  const y = useQuery(honoAppClient.hello, '$get', { query: { name: 'oop' } })
-  const z = useQuery(honoAppClient.big.ping, '$get', { query: { name: 'oop' } })
+  const x = useHonoQuery(honoAppClient.ping, '$get', {})
+  const y = useHonoQuery(honoAppClient.hello, '$get', { query: { name: 'oop' } })
+  const z = useHonoQuery(honoAppClient.big.ping, '$get', { query: { name: 'oop' } })
+  const trpc = useTrpc()
+  const c = useQuery(trpc.admin.ideaList.queryOptions())
   console.log(2, x.data)
   console.log(2, y.data)
   console.log(2, z.data)
+  console.log(89988, c.data)
 
   useEffect(() => {
     void (async () => {
