@@ -23,32 +23,7 @@ export const RefineSetup = ({ children }: { children: React.ReactNode }) => {
       notificationProvider={useNotificationProvider}
       routerProvider={routerProvider}
       authProvider={refineAuthProvider}
-      resources={[
-        {
-          name: 'blog_posts',
-          list: '/blog-posts',
-          create: '/blog-posts/create',
-          edit: '/blog-posts/edit/:id',
-          show: '/blog-posts/show/:id',
-          meta: {
-            canDelete: true,
-            dataProviderName: 'fakeRest',
-          },
-        },
-        {
-          name: 'categories',
-          list: '/categories',
-          create: '/categories/create',
-          edit: '/categories/edit/:id',
-          show: '/categories/show/:id',
-          clone: '/categories/clone/:id',
-          meta: {
-            canDelete: true,
-            dataProviderName: 'fakeRest',
-          },
-        },
-        ...refineResources,
-      ]}
+      resources={[...refineResources]}
       options={{
         syncWithLocation: true,
         warnWhenUnsavedChanges: true,
