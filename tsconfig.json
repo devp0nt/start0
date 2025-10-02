@@ -76,9 +76,6 @@
   },
   "references": [
     {
-      "path": "./apps/backend/services/tsconfig.json"
-    },
-    {
       "path": "./modules/prisma0/backend/tsconfig.json"
     }
   ]

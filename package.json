@@ -3,7 +3,6 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "types": "mono0 exec -m '#cold' -c 'bun run build' && bun run --filter '**' types",
     "clean": "rimraf .//node_modules/.cache/tsbuildinfo && rimraf **/dist",
     "build": "tsc --build",
     "watch": "concurrently \"bun run gen0 watch\" \"bun run mono0 watch\" --names 'gen0,mono0'",
@@ -12,10 +11,13 @@
     "lint": "bun run lint:base .",
     "lint:base": "eslint --cache --cache-location node_modules/.cache/eslint/.eslintcache",
     "lint:fix": "bun run lint --fix",
+    "lint:each": "bun run --filter '**' lint",
     "format": "bun run format:base .",
     "format:base": "prettier --cache --cache-location node_modules/.cache/prettier/.prettiercache --write",
     "prepare": "husky",
-    "lint:each": "bun run --filter '**' lint"
+    "types": "bun run types:light",
+    "types:light": "bun run --filter '**' types",
+    "types:full": "bun run clean && tsc --build && bun run types:light"
   },
   "dependencies": {
     "cross-env": "^10.0.0",

@@ -63,7 +63,9 @@
         "watch": "concurrently \"bun run gen0 watch\" \"bun run mono0 watch\" --names 'gen0,mono0'",
         "watch:build": "tsc --build --watch --preserveWatchOutput",
         "watch:all": "concurrently \"bun run gen0 watch\" \"bun run mono0 watch\" \"bun run watch:build\" --names 'gen0,mono0,build'",
-        "types": "mono0 exec -m '#cold' -c 'bun run build' && bun run --filter '**' types",
+        "types:light": "bun run --filter '**' types",
+        "types:full": "bun run clean && tsc --build && bun run types:light",
+        "types": "bun run types:light",
         "clean": "rimraf {{projectRootDir}}/node_modules/.cache/tsbuildinfo && rimraf **/dist",
         "lint": "bun run lint:base .",
         "lint:fix": "bun run lint --fix",
@@ -121,7 +123,7 @@
         }
       },
       "settings": {
-        "addUnitsAsReferences": { "tsconfig": "$core" },
+        "addUnitsAsReferences": { "tsconfig": "$core", "match": "#cold" },
         // We need it for bun, becouse it try to find tsconfig just up to tree
         // Alsow we use root tsconfig in admin vite tsconfig paths resolver
         "addUnitsSrcToPaths": { "match": "!#cold", "indexFile": true },
