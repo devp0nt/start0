@@ -26,7 +26,6 @@ export const Header: React.FC<RefineThemedLayoutHeaderProps> = ({ sticky = true 
   console.log(2, x.data)
   console.log(2, y.data)
   console.log(2, z.data)
-  const t = getQueryClient
 
   useEffect(() => {
     void (async () => {

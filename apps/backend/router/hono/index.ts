@@ -7,6 +7,8 @@ import { pingAppHonoRoute, bigPingAppHonoRoute } from "@backend/hono-router/ping
 // @gen0:end
 
 // @gen0:start $.admin = await importExportedFromFiles("~/**/route{s,}{.*,}{.be,}.ts", "AdminHonoRoute", (file0) => mono0.getFilePathRelativeToPackageName(file0.path.abs))
+
+import { ideaListAdminHonoRoute, ideaGetAdminHonoRoute, ideaCreateAdminHonoRoute, ideaUpdateAdminHonoRoute, ideaDeleteAdminHonoRoute } from "@idea/backend/routes.admin-hono.be"
 // @gen0:end
 
 export const honoApp = honoBase()
@@ -17,7 +19,12 @@ export const honoApp = honoBase()
 // @gen0:end
 
 export const honoAdmin = honoBase()
-// @gen0:start $.admin.imports.map(im => print(`  .route('/', ${im.name})`))
+  // @gen0:start $.admin.imports.map(im => print(`  .route('/', ${im.name})`))
+  .route('/', ideaListAdminHonoRoute)
+  .route('/', ideaGetAdminHonoRoute)
+  .route('/', ideaCreateAdminHonoRoute)
+  .route('/', ideaUpdateAdminHonoRoute)
+  .route('/', ideaDeleteAdminHonoRoute)
 // @gen0:end
 
 export type HonoApp = typeof honoApp

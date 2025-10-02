@@ -2,6 +2,7 @@ import type { HonoCtx } from '@backend/core/hono'
 import { Error0 } from '@devp0nt/error0'
 import { initTRPC } from '@trpc/server'
 import superjson from 'superjson'
+import type { OpenApiMeta } from 'trpc-to-openapi'
 
 export const createTrpcCtx = (honoCtx: HonoCtx) => {
   return honoCtx.var.honoReqCtx.self
@@ -12,21 +13,24 @@ export const createTrpcCtx = (honoCtx: HonoCtx) => {
 }
 export type TrpcCtx = ReturnType<typeof createTrpcCtx>
 
-const t = initTRPC.context<TrpcCtx>().create({
-  transformer: superjson,
-  errorFormatter: ({ shape, error }) => {
-    // TODO0: use correct code from TRPC, or force error0 code
-    const error0 = Error0.from(error.cause || error)
-    return {
-      ...shape,
-      data: {
-        ...shape.data,
-        httpStatus: error0.httpStatus || shape.data.httpStatus,
-        error0: error0.toJSON(),
-      },
-    }
-  },
-})
+const t = initTRPC
+  .context<TrpcCtx>()
+  .meta<OpenApiMeta>()
+  .create({
+    transformer: superjson,
+    errorFormatter: ({ shape, error }) => {
+      // TODO0: use correct code from TRPC, or force error0 code
+      const error0 = Error0.from(error.cause || error)
+      return {
+        ...shape,
+        data: {
+          ...shape.data,
+          httpStatus: error0.httpStatus || shape.data.httpStatus,
+          error0: error0.toJSON(),
+        },
+      }
+    },
+  })
 
 // Create a caller factory for making server-side tRPC calls from loaders or actions.
 export const createTrpcCallerFactory = t.createCallerFactory

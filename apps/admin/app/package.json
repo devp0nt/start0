@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@ant-design/v5-patch-for-react-19": "^1.0.3",
+    "@prisma0/backend": "workspace:*",
     "@refinedev/antd": "^6.0.1",
     "@refinedev/cli": "^2.16.48",
     "@refinedev/core": "^5.0.0",
@@ -23,14 +24,14 @@
     "@refinedev/react-router": "^2.0.0",
     "@rjsf/antd": "^5.24.13",
     "@rjsf/validator-ajv8": "^5.24.13",
-    "@trpc/client": "^11.5.0",
-    "@trpc/tanstack-react-query": "^11.5.0",
+    "@tanstack/react-query": "^5.90.2",
+    "@trpc/client": "^11.6.0",
+    "@trpc/tanstack-react-query": "^11.6.0",
     "@uiw/react-md-editor": "^4.0.8",
     "qs": "^6.14.0",
     "react": "19.2.0",
     "react-dom": "19.2.0",
-    "use-context-selector": "^2.0.0",
-    "@prisma0/backend": "workspace:*"
+    "use-context-selector": "^2.0.0"
   },
   "devDependencies": {
     "@types/qs": "^6.14.0",

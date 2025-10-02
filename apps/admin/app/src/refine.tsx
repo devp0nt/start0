@@ -7,8 +7,8 @@ import { backendDataProvider } from '@admin/app/dataProvider'
 import { AdminCtx } from '@admin/core/lib/ctx'
 import { useRefineResources } from '@admin/core/lib/schema'
 import { refineAuthProvider } from '@auth/admin/admin/refine'
-import { backendAdminRoutesBasePath } from '@backend/shared/utils'
 import routerProvider from '@refinedev/react-router'
+import { backendAdminRoutesBasePath } from '@backend/shared/utils'
 
 export const RefineSetup = ({ children }: { children: React.ReactNode }) => {
   const env = AdminCtx.useEnv()

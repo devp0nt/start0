@@ -81,8 +81,9 @@
     "base": {
       "path": "./tsconfig.base.json",
       "settings": {
-        "addUnitsSrcToPaths": { "match": "!#cold", "indexFile": true },
-        "addUnitsDistToPaths": { "match": "#cold", "indexFile": true }
+        // "addUnitsSrcToPaths": { "match": "!#cold", "indexFile": true },
+        // "addUnitsDistToPaths": { "match": "#cold", "indexFile": true }
+        "addUnitsSrcToPaths": { "indexFile": true }
       },
       "value": {
         "compilerOptions": {
@@ -128,8 +129,9 @@
         "addUnitsAsReferences": { "tsconfig": "$core" },
         // We need it for bun, becouse it try to find tsconfig just up to tree
         // Alsow we use root tsconfig in admin vite tsconfig paths resolver
-        "addUnitsSrcToPaths": { "match": "!#cold", "indexFile": true },
-        "addUnitsDistToPaths": { "match": "#cold", "indexFile": true }
+        // "addUnitsSrcToPaths": { "match": "!#cold", "indexFile": true },
+        // "addUnitsDistToPaths": { "match": "#cold", "indexFile": true }
+        "addUnitsSrcToPaths": { "indexFile": true }
       }
     },
     "shared": {

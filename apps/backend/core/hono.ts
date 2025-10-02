@@ -1,5 +1,5 @@
 import { appName } from '@apps/shared/utils'
-import { authOpenapiSchemaUrl, getAuthCtxValueByHonoContext } from '@auth/backend/utils.be'
+import { getAuthCtxValueByHonoContext } from '@auth/backend/utils.be'
 import type { BackendCtx } from '@backend/core/ctx'
 import { Error0 } from '@devp0nt/error0'
 import { OpenAPIHono } from '@hono/zod-openapi'
@@ -45,6 +45,13 @@ export const honoBase = () => {
   return hono
 }
 export type Hono0 = ReturnType<typeof honoBase>
+
+export const honoAdminBase = () => {
+  return honoBase()
+}
+export const honoAppBase = () => {
+  return honoBase()
+}
 
 export const applyHonoReqContext = ({ hono, backendCtx }: { hono: Hono0; backendCtx: BackendCtx.Self }) => {
   hono.use(async (honoCtx, next) => {
@@ -108,19 +115,7 @@ export const applyHonoErrorHandling = ({ hono }: { hono: Hono0 }) => {
   })
 }
 
-export const applyHonoOpenapiDocs = ({
-  hono,
-  basePath,
-  backendCtx,
-  name,
-  scalar = true,
-}: {
-  hono: Hono0
-  basePath?: string
-  backendCtx: BackendCtx.Self
-  name: string
-  scalar?: boolean
-}) => {
+export const applyHonoOpenapiDocs = ({ hono, basePath, name }: { hono: Hono0; basePath?: string; name: string }) => {
   hono.doc31(
     '/doc.json',
     {
@@ -130,22 +125,35 @@ export const applyHonoOpenapiDocs = ({
     },
     { unionPreferredType: 'oneOf' },
   )
+}
 
-  if (scalar) {
-    hono.get(
-      '/doc/scalar',
-      Scalar({
-        sources: [
-          {
-            url: basePath + '/doc.json',
-            title: `${appName} ${name}`,
-          },
-          {
-            url: authOpenapiSchemaUrl,
-            title: `${appName} Auth`,
-          },
-        ],
-      }),
-    )
-  }
+export const applyScalarDocs = ({
+  hono,
+  path,
+  sources,
+}: {
+  hono: Hono0
+  path: `/${string}`
+  sources: Array<
+    (
+      | {
+          basePath: string
+        }
+      | {
+          path: string
+        }
+    ) & {
+      title: string
+    }
+  >
+}) => {
+  hono.get(
+    path,
+    Scalar({
+      sources: sources.map((source) => ({
+        url: 'path' in source ? source.path : source.basePath + '/doc.json',
+        title: source.title,
+      })),
+    }),
+  )
 }

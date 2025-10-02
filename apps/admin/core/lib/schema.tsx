@@ -282,6 +282,7 @@ export type ResourcesAbilities = ReturnType<typeof getResourcesAbilities>
 
 export const useResourcesAbilities = ({ routePrefix }: { routePrefix: string }) => {
   const openapiSchema = AdminCtx.useOpenapiSchema()
+  console.log('openapiSchema', openapiSchema)
   return useMemo(() => {
     return getResourcesAbilities({ openapiSchema, routePrefix })
   }, [openapiSchema, routePrefix])
