@@ -15,9 +15,7 @@
     "format": "bun run format:base .",
     "format:base": "prettier --cache --cache-location node_modules/.cache/prettier/.prettiercache --write",
     "prepare": "husky",
-    "types": "bun run types:light",
-    "types:light": "bun run --filter '**' types",
-    "types:full": "bun run clean && tsc --build && bun run types:light"
+    "types": "bun run clean && tsc --build"
   },
   "dependencies": {
     "cross-env": "^10.0.0",

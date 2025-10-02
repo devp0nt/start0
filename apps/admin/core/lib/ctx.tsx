@@ -1,6 +1,5 @@
 import { Loader } from '@admin/core/components/loader'
 import { createEnv, type Env } from '@admin/core/lib/env'
-import { useProjectsLoader } from '@admin/core/lib/project'
 import { useOpenapiSchemaLoader, type OpenapiSchema } from '@admin/core/lib/schema'
 import { backendAdminRoutesBasePath } from '@backend/shared/utils'
 import { Alert } from 'antd'
@@ -38,7 +37,6 @@ export namespace AdminCtx {
     const openapiSchemaResult = useOpenapiSchemaLoader({
       url: `${import.meta.env.VITE_BACKEND_URL}${backendAdminRoutesBasePath}/doc.json`,
     })
-    const projectsResult = useProjectsLoader()
     if (envParseResult.error || !envParseResult.env) {
       return (
         <Alert
@@ -47,8 +45,8 @@ export namespace AdminCtx {
         />
       )
     }
-    const error = openapiSchemaResult.error || projectsResult.error
-    const pending = openapiSchemaResult.isLoading || projectsResult.isLoading
+    const error = openapiSchemaResult.error
+    const pending = openapiSchemaResult.isLoading
     if (error) {
       return <Alert type="error" message={error.message} />
     }

@@ -1,6 +1,5 @@
 import type { RefineThemedLayoutHeaderProps } from '@refinedev/antd'
 import { useGetIdentity } from '@refinedev/core'
-import { ProjectSelect } from '@admin/core/lib/project'
 import { Layout as AntdLayout, Space, Switch, Typography, theme } from 'antd'
 import React, { useContext } from 'react'
 import { ColorModeContext } from '../lib/colorMode'
@@ -37,7 +36,6 @@ export const Header: React.FC<RefineThemedLayoutHeaderProps> = ({ sticky = true 
 
   return (
     <AntdLayout.Header style={headerStyles}>
-      <ProjectSelect />
       <Space>
         <Switch
           checkedChildren="🌛"

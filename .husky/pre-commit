@@ -1,2 +1,2 @@
 bun run lint-staged
-bun run types:full
+bun run types

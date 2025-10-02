@@ -1,4 +1,3 @@
-import { useProjectStore } from '@admin/core/lib/project'
 import { backendAdminRoutesBasePath } from '@backend/shared/utils'
 import type { HttpError } from '@refinedev/core'
 import Axios from 'axios'
@@ -8,7 +7,7 @@ export const axiosInstance = Axios.create({
 })
 
 axiosInstance.interceptors.request.use((config) => {
-  config.headers['X-Project-Id'] = useProjectStore.getState().activeProjectId()
+  // config.headers['X-Any-Header'] = ...
   return config
 })
 

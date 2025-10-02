@@ -290,28 +290,21 @@ export const useResourcesAbilities = ({ routePrefix }: { routePrefix: string }) 
 export const resourcesAbilitiesToRefineResources = ({
   abilities,
   routePrefix,
-  projectSlug,
-  dataProviderName,
   hide,
 }: {
   abilities: ResourcesAbilities
   routePrefix: string
-  projectSlug: string
-  dataProviderName: string
-  hide: boolean
+  hide?: boolean
 }) => {
   return abilities.map((resource) => ({
     name: resource.name,
-    identifier: `${projectSlug}-${resource.name}`,
-    list: resource.listable ? `/${projectSlug}/${resource.name}` : undefined,
-    create: resource.creatable ? `/${projectSlug}/${resource.name}/create` : undefined,
-    edit: resource.editable ? `/${projectSlug}/${resource.name}/edit/:id` : undefined,
-    show: resource.showable ? `/${projectSlug}/${resource.name}/show/:id` : undefined,
+    list: resource.listable ? `/${resource.name}` : undefined,
+    create: resource.creatable ? `/${resource.name}/create` : undefined,
+    edit: resource.editable ? `/${resource.name}/edit/:id` : undefined,
+    show: resource.showable ? `/${resource.name}/show/:id` : undefined,
     meta: {
       canDelete: resource.deleteable,
       routePrefix,
-      dataProviderName,
-      projectSlug,
       hide,
       icon: <InfoCircleOutlined />,
     },
@@ -320,28 +313,12 @@ export const resourcesAbilitiesToRefineResources = ({
 
 export type RefineResources = ReturnType<typeof resourcesAbilitiesToRefineResources>
 
-export const useRefineResources = ({
-  routePrefix,
-  projectSlug,
-  projectSlugs,
-  dataProviderName,
-}: {
-  routePrefix: string
-  projectSlug?: string | null
-  projectSlugs?: string[]
-  dataProviderName: string
-}): RefineResources => {
-  const projectSlugsNormalized = projectSlugs || ([projectSlug].filter(Boolean) as string[])
+export const useRefineResources = ({ routePrefix }: { routePrefix: string }): RefineResources => {
   const abilities = useResourcesAbilities({ routePrefix })
   return useMemo(() => {
-    return projectSlugsNormalized.flatMap((ps) =>
-      resourcesAbilitiesToRefineResources({
-        abilities,
-        routePrefix,
-        projectSlug: ps,
-        dataProviderName,
-        hide: ps !== projectSlug,
-      }),
-    )
-  }, [abilities, routePrefix, projectSlugsNormalized])
+    return resourcesAbilitiesToRefineResources({
+      abilities,
+      routePrefix,
+    })
+  }, [abilities, routePrefix])
 }

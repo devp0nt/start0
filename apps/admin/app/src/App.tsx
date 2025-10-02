@@ -10,7 +10,6 @@ import { RefineSetup } from '@admin/app/refine'
 import { AdminCtx } from '@admin/core/lib/ctx'
 import { ResourceCreatePage, ResourceEditPage } from '@admin/core/lib/form'
 import { ResourceListPage } from '@admin/core/lib/list'
-import { ProjectSlugFromRouteParamsGuard } from '@admin/core/lib/project'
 import { ResourceShowPage } from '@admin/core/lib/show'
 import { appName } from '@apps/shared/utils'
 import { ForgotPasswordPage } from '@auth/admin/admin/pages/forgotPassword'
@@ -66,19 +65,11 @@ function App() {
                     }
                   >
                     <Route index element={<NavigateToResource resource="blog_posts" />} />
-                    <Route
-                      element={
-                        <ProjectSlugFromRouteParamsGuard>
-                          <Outlet />
-                        </ProjectSlugFromRouteParamsGuard>
-                      }
-                    >
-                      <Route path="/:project/:resource">
-                        <Route index element={<ResourceListPage />} />
-                        <Route path="create" element={<ResourceCreatePage />} />
-                        <Route path="edit/:id" element={<ResourceEditPage />} />
-                        <Route path="show/:id" element={<ResourceShowPage />} />
-                      </Route>
+                    <Route path="/:resource">
+                      <Route index element={<ResourceListPage />} />
+                      <Route path="create" element={<ResourceCreatePage />} />
+                      <Route path="edit/:id" element={<ResourceEditPage />} />
+                      <Route path="show/:id" element={<ResourceShowPage />} />
                     </Route>
                     <Route path="*" element={<ErrorComponent />} />
                   </Route>

@@ -14,8 +14,6 @@ export const RefineSetup = ({ children }: { children: React.ReactNode }) => {
   const env = AdminCtx.useEnv()
   const refineResources = useRefineResources({
     routePrefix: backendAdminRoutesBasePath,
-    projectSlugs: Object.keys(projects),
-    projectSlug: lastActiveNonGeneralProjectSlug,
   })
   return (
     <Refine
