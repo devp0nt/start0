@@ -1,0 +1,17 @@
+{
+  "extends": "./tsconfig.tools.json",
+  "include": ["./src/**/*", "../apps/shared/**/*"],
+  "exclude": [
+    "./**/dist/**/*",
+    "./**/node_modules/**/*",
+    "./**/public/**/*",
+    "../apps/shared/**/dist/**/*",
+    "../apps/shared/**/node_modules/**/*",
+    "../apps/shared/**/public/**/*"
+  ],
+  "compilerOptions": {
+    "rootDir": "./..",
+    "outDir": "./dist"
+  },
+  "references": []
+}

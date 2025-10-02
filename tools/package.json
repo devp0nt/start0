@@ -1,0 +1,13 @@
+{
+  "name": "@tools/shared",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "types": "tsc --noEmit",
+    "lint": "eslint --cache --cache-location ./../node_modules/.cache/eslint/@tools/shared/.eslintcache .",
+    "build": "tsc --build",
+    "watch": "tsc --watch",
+    "clean": "rimraf ./../node_modules/.cache/tsbuildinfo/@tools/shared && rimraf ./dist"
+  },
+  "dependencies": {}
+}

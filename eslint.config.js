@@ -17,6 +17,7 @@ export default defineConfig([
       '**/.cache/**',
       '**/.husky/**',
       '**/.git/**',
+      '**/*.ignore*/**',
       '**/eslint.config.js',
       '**/vite.config.ts',
       '**/tsconfig.json',

@@ -3,8 +3,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "clean": "rimraf .//node_modules/.cache/tsbuildinfo && rimraf **/dist",
     "build": "tsc --build",
+    "build:clean": "rimraf .//node_modules/.cache/tsbuildinfo && rimraf **/dist",
     "watch": "concurrently \"bun run gen0 watch\" \"bun run mono0 watch\" --names 'gen0,mono0'",
     "watch:build": "tsc --build --watch --preserveWatchOutput",
     "watch:all": "concurrently \"bun run gen0 watch\" \"bun run mono0 watch\" \"bun run watch:build\" --names 'gen0,mono0,build'",
@@ -12,10 +12,13 @@
     "lint:base": "eslint --cache --cache-location node_modules/.cache/eslint/.eslintcache",
     "lint:fix": "bun run lint --fix",
     "lint:each": "bun run --filter '**' lint",
+    "lint:clean": "rimraf node_modules/.cache/eslint/.eslintcache",
     "format": "bun run format:base .",
     "format:base": "prettier --cache --cache-location node_modules/.cache/prettier/.prettiercache --write",
+    "format:clean": "rimraf node_modules/.cache/prettier/.prettiercache",
     "prepare": "husky",
-    "types": "bun run clean && tsc --build"
+    "types": "bun run clean && tsc --build",
+    "clean": "bun run build:clean && bun run lint:clean && bun run format:clean"
   },
   "dependencies": {
     "cross-env": "^10.0.0",
@@ -44,7 +47,9 @@
     "packages": [
       "./apps/admin/app",
       "./apps/backend/services",
-      "./modules/prisma0/backend"
+      "./modules/prisma0/backend",
+      "./apps/site/app",
+      "./tools"
     ],
     "catalog": {
       "isbot": "^5.1.27",

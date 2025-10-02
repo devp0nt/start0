@@ -60,17 +60,20 @@
       "type": "module",
       "scripts": {
         "build": "tsc --build",
+        "build:clean": "rimraf {{projectRootDir}}/node_modules/.cache/tsbuildinfo && rimraf **/dist",
         "watch": "concurrently \"bun run gen0 watch\" \"bun run mono0 watch\" --names 'gen0,mono0'",
         "watch:build": "tsc --build --watch --preserveWatchOutput",
         "watch:all": "concurrently \"bun run gen0 watch\" \"bun run mono0 watch\" \"bun run watch:build\" --names 'gen0,mono0,build'",
         "types": "bun run clean && tsc --build",
-        "clean": "rimraf {{projectRootDir}}/node_modules/.cache/tsbuildinfo && rimraf **/dist",
         "lint": "bun run lint:base .",
         "lint:fix": "bun run lint --fix",
         "lint:each": "bun run --filter '**' lint",
         "lint:base": "eslint --cache --cache-location node_modules/.cache/eslint/.eslintcache",
+        "lint:clean": "rimraf node_modules/.cache/eslint/.eslintcache",
         "format": "bun run format:base .",
-        "format:base": "prettier --cache --cache-location node_modules/.cache/prettier/.prettiercache --write"
+        "format:base": "prettier --cache --cache-location node_modules/.cache/prettier/.prettiercache --write",
+        "format:clean": "rimraf node_modules/.cache/prettier/.prettiercache",
+        "clean": "bun run build:clean && bun run lint:clean && bun run format:clean"
       }
     }
   },

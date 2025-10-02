@@ -1,0 +1,17 @@
+{
+  "name": "@site/app",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "types": "tsc --noEmit",
+    "lint": "eslint --cache --cache-location ../../../node_modules/.cache/eslint/@site/app/.eslintcache .",
+    "build": "tsc && not-refine build",
+    "watch": "tsc --watch",
+    "clean": "rimraf ../../../node_modules/.cache/tsbuildinfo/@site/app && rimraf ./dist",
+    "dev": "not-refine dev",
+    "types:rr": "rimraf dist && react-router typegen && tsc",
+    "start": "not-refine start",
+    "not-refine": "not-refine"
+  },
+  "dependencies": {}
+}

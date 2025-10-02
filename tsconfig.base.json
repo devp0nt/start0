@@ -1,94 +1,39 @@
 {
   "compilerOptions": {
-    "types": [
-      "node",
-      "bun"
-    ],
+    "types": ["node", "bun"],
     "paths": {
-      "@admin/app": [
-        "./apps/admin/app/src/index.tsx"
-      ],
-      "@admin/app/*": [
-        "./apps/admin/app/src/*"
-      ],
-      "@admin/core/*": [
-        "./apps/admin/core/*"
-      ],
-      "@appConfig/admin/*": [
-        "./modules/appConfig/*"
-      ],
-      "@appConfig/backend/*": [
-        "./modules/appConfig/*"
-      ],
-      "@appConfig/shared/*": [
-        "./modules/appConfig/*"
-      ],
-      "@appConfig/site/*": [
-        "./modules/appConfig/*"
-      ],
-      "@apps/shared/*": [
-        "./apps/shared/*"
-      ],
-      "@auth/admin/*": [
-        "./modules/auth/*"
-      ],
-      "@auth/backend/*": [
-        "./modules/auth/*"
-      ],
-      "@auth/shared/*": [
-        "./modules/auth/*"
-      ],
-      "@auth/site/*": [
-        "./modules/auth/*"
-      ],
-      "@backend/core/*": [
-        "./apps/backend/core/*"
-      ],
-      "@backend/hono-router": [
-        "./apps/backend/router/hono/index.ts"
-      ],
-      "@backend/hono-router/*": [
-        "./apps/backend/router/hono/*"
-      ],
-      "@backend/services/*": [
-        "./apps/backend/services/src/*"
-      ],
-      "@backend/shared/*": [
-        "./apps/backend/shared/*"
-      ],
-      "@backend/trpc-router": [
-        "./apps/backend/router/trpc/index.ts"
-      ],
-      "@backend/trpc-router/*": [
-        "./apps/backend/router/trpc/*"
-      ],
-      "@idea/admin/*": [
-        "./modules/idea/*"
-      ],
-      "@idea/backend/*": [
-        "./modules/idea/*"
-      ],
-      "@idea/shared/*": [
-        "./modules/idea/*"
-      ],
-      "@idea/site/*": [
-        "./modules/idea/*"
-      ],
-      "@tools/shared": [
-        "./tools/src/index.ts"
-      ],
-      "@tools/shared/*": [
-        "./tools/src/*"
-      ],
-      "@prisma0/backend/*": [
-        "./modules/prisma0/backend/dist/modules/prisma0/backend/src/*"
-      ]
+      "@admin/app": ["./apps/admin/app/src/index.tsx"],
+      "@admin/app/*": ["./apps/admin/app/src/*"],
+      "@admin/core/*": ["./apps/admin/core/*"],
+      "@appConfig/admin/*": ["./modules/appConfig/*"],
+      "@appConfig/backend/*": ["./modules/appConfig/*"],
+      "@appConfig/shared/*": ["./modules/appConfig/*"],
+      "@appConfig/site/*": ["./modules/appConfig/*"],
+      "@apps/shared/*": ["./apps/shared/*"],
+      "@auth/admin/*": ["./modules/auth/*"],
+      "@auth/backend/*": ["./modules/auth/*"],
+      "@auth/shared/*": ["./modules/auth/*"],
+      "@auth/site/*": ["./modules/auth/*"],
+      "@backend/core/*": ["./apps/backend/core/*"],
+      "@backend/hono-router": ["./apps/backend/router/hono/index.ts"],
+      "@backend/hono-router/*": ["./apps/backend/router/hono/*"],
+      "@backend/services/*": ["./apps/backend/services/src/*"],
+      "@backend/shared/*": ["./apps/backend/shared/*"],
+      "@backend/trpc-router": ["./apps/backend/router/trpc/index.ts"],
+      "@backend/trpc-router/*": ["./apps/backend/router/trpc/*"],
+      "@idea/admin/*": ["./modules/idea/*"],
+      "@idea/backend/*": ["./modules/idea/*"],
+      "@idea/shared/*": ["./modules/idea/*"],
+      "@idea/site/*": ["./modules/idea/*"],
+      "@site/app/*": ["./apps/site/app/*"],
+      "@site/core/*": ["./apps/site/core/*"],
+      "@tools/shared": ["./tools/src/index.ts"],
+      "@tools/shared/*": ["./tools/src/*"],
+      "@prisma0/backend/*": ["./modules/prisma0/backend/dist/modules/prisma0/backend/src/*"]
     },
     "module": "ESNext",
     "target": "ESNext",
-    "lib": [
-      "ESNext"
-    ],
+    "lib": ["ESNext"],
     "moduleResolution": "Bundler",
     "resolveJsonModule": true,
     "allowJs": true,

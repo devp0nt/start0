@@ -1,5 +1,5 @@
 {
   "name": "@tools/shared",
-  "preset": "tools",
+  "preset": ["toolsWithTsconfig", "app"],
   "deps": []
 }

@@ -1,33 +1,36 @@
-import type { HonoApp } from '@backend/core/hono'
-import { BackendTrpc } from '@backend/core/trpc'
+import type { Hono0, HonoCtx } from '@backend/core/hono'
+import { createTrpcCtx, createTrpcRouter } from '@backend/core/trpc'
 import { trpcServer } from '@hono/trpc-server'
 import type { inferRouterInputs, inferRouterOutputs } from '@trpc/server'
 
-// @gen0:start await importExportedFromFiles("~/**/route{s,}.ts", "TrpcRoute", (file0) => mono0.getFilePathRelativeToPackageName(file0.path.abs))
+// @gen0:start await importExportedFromFiles("~/**/route{s,}{.*,}{.be,}.ts", "TrpcRoute", (file0) => mono0.getFilePathRelativeToPackageName(file0.path.abs))
 
-import { pingTrpcRoute } from "@backend/trpc-router/ping/route"
+import { getAppConfigTrpcRoute } from '@appConfig/backend/routes.be'
+import { getIdeasTrpcRoute, getIdeaTrpcRoute } from '@idea/backend/routes.be'
+import { pingTrpcRoute } from '@backend/trpc-router/ping/route'
 // @gen0:end
 
-export namespace BackendTrpcRouter {
-  export type TrpcRouter = typeof trpcRouter
-  export type Input = inferRouterInputs<TrpcRouter>
-  export type Output = inferRouterOutputs<TrpcRouter>
+const trpcRouter = createTrpcRouter({
+  // @gen0:start $.imports.map(im => print(`${im.cutted}: ${im.name},`))
+  getAppConfig: getAppConfigTrpcRoute,
+  getIdeas: getIdeasTrpcRoute,
+  getIdea: getIdeaTrpcRoute,
+  ping: pingTrpcRoute,
+  // @gen0:end
+})
 
-  const trpcRouter = BackendTrpc.createTRPCRouter({
-    // @gen0:start $.imports.map(im => print(`${im.cutted}: ${im.name},`))
-ping: pingTrpcRoute,
-    // @gen0:end
-  })
+export type TrpcRouter = typeof trpcRouter
+export type TrpcRouterInput = inferRouterInputs<TrpcRouter>
+export type TrpcRouterOutput = inferRouterOutputs<TrpcRouter>
 
-  export const applyToHonoApp = ({ honoApp }: { honoApp: HonoApp.AppType }) => {
-    honoApp.use(
-      '/trpc/*',
-      trpcServer({
-        router: trpcRouter,
-        createContext: (_opts, honoCtx: HonoApp.HonoCtx) => {
-          return BackendTrpc.createTrpcCtx(honoCtx)
-        },
-      }),
-    )
-  }
+export const applyTrpcRouterToHono = ({ hono }: { hono: Hono0 }) => {
+  hono.use(
+    '/trpc/*',
+    trpcServer({
+      router: trpcRouter,
+      createContext: (_opts, honoCtx: HonoCtx) => {
+        return createTrpcCtx(honoCtx)
+      },
+    }),
+  )
 }

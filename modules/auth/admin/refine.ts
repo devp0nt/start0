@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { authClient } from '@auth/admin/admin/client'
 import type { AuthProvider, LoginFormTypes } from '@refinedev/core'
 

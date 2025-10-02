@@ -36,9 +36,9 @@ export const RefineSetup = ({ children }: { children: React.ReactNode }) => {
           //     reason: 'Unauthorized',
           //   }
           // }
-          console.log('resource', resource)
-          console.log('action', action)
-          console.log('params', params)
+          // console.log('resource', resource)
+          // console.log('action', action)
+          // console.log('params', params)
 
           return { can: true }
         },

@@ -1,6 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access -- Prisma extension requires dynamic property access */
-
-/* eslint-disable @typescript-eslint/no-unsafe-type-assertion -- Type assertion needed for Prisma data casting */
 import { Prisma } from '../generated/prisma/client'
 import { Prisma0Models } from '../generated/prisma0/models'
 

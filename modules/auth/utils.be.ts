@@ -1,4 +1,4 @@
-import type { HonoApp } from '@backend/core/hono'
+import type { Hono0 } from '@backend/core/hono'
 import { PrismaClient } from '@prisma0/backend/generated/prisma/client'
 import { betterAuth } from 'better-auth'
 import { prismaAdapter } from 'better-auth/adapters/prisma'
@@ -66,8 +66,8 @@ export const getAuthCtxValueByHonoContext = async (honoCtx: HonoContext) => {
   }
 }
 
-export const applyAuthRoutesToHonoApp = ({ honoApp }: { honoApp: HonoApp.AppType }) => {
-  honoApp.use(
+export const applyAuthRoutesToHonoApp = ({ hono }: { hono: Hono0 }) => {
+  hono.use(
     `${backendAuthRoutesBasePath}/*`,
     cors({
       origin: [process.env.ADMIN_URL || ''],
@@ -79,5 +79,5 @@ export const applyAuthRoutesToHonoApp = ({ honoApp }: { honoApp: HonoApp.AppType
     }),
   )
 
-  honoApp.on(['POST', 'GET'], `${backendAuthRoutesBasePath}/*`, async (c) => await auth.handler(c.req.raw))
+  hono.on(['POST', 'GET'], `${backendAuthRoutesBasePath}/*`, async (c) => await auth.handler(c.req.raw))
 }

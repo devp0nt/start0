@@ -1,0 +1,19 @@
+{
+  "name": "@site/app",
+  "preset": ["app", "siteWithTsconfig"],
+  "deps": ["@site/core", "#siteModule"],
+  "tsconfig": {
+    "value": {}
+  },
+  "packageJson": {
+    "value": {
+      "scripts": {
+        "types": "tsc --noEmit",
+        "dev": "not-refine dev",
+        "build": "tsc && not-refine build",
+        "start": "not-refine start",
+        "not-refine": "not-refine"
+      }
+    }
+  }
+}

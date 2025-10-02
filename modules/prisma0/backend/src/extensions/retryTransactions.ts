@@ -1,10 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call -- backOff function requires any args */
-/* eslint-disable @typescript-eslint/no-unsafe-argument -- Prisma transaction args are dynamic */
-/* eslint-disable prefer-spread -- apply method needed for dynamic args */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access -- Error object properties are dynamic */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment -- Error code assignment from dynamic properties */
-/* eslint-disable @typescript-eslint/no-unsafe-type-assertion -- Client extension typing requires assertions */
-/* eslint-disable @typescript-eslint/consistent-type-assertions -- Mixed assertion styles needed for Prisma types */
+/* eslint-disable prefer-spread */
 import { backOff } from 'exponential-backoff'
 import { Prisma } from '../generated/prisma/client'
 

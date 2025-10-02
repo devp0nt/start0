@@ -3,6 +3,7 @@ import nodeFs from 'fs'
 import nodePath from 'path'
 import { defineConfig, loadEnv } from 'vite'
 import { createEnvBuild } from '../core/lib/env'
+import { appName, appSlug } from '../../shared/utils'
 
 export default defineConfig(({ mode }) => {
   const envRaw = loadEnv(mode, process.cwd(), '')
@@ -36,5 +37,9 @@ export default defineConfig(({ mode }) => {
       alias: aliases,
     },
     plugins: [react()],
+    define: {
+      __APP_NAME__: appName,
+      __APP_SLUG__: appSlug,
+    },
   }
 })
