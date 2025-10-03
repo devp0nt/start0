@@ -7,6 +7,8 @@
     "../../../modules/appConfig/**/shared/**/*",
     "../../../modules/appConfig/**/*.ad.ts",
     "../../../modules/appConfig/**/*.ad.tsx",
+    "../../../modules/appConfig/**/*.fe.ts",
+    "../../../modules/appConfig/**/*.fe.tsx",
     "../../../modules/appConfig/**/*.sh.ts",
     "../../../modules/appConfig/**/*.sh.tsx",
     "../../../modules/appConfig/**/backend/**/*",
@@ -17,6 +19,8 @@
     "../../../modules/auth/**/shared/**/*",
     "../../../modules/auth/**/*.ad.ts",
     "../../../modules/auth/**/*.ad.tsx",
+    "../../../modules/auth/**/*.fe.ts",
+    "../../../modules/auth/**/*.fe.tsx",
     "../../../modules/auth/**/*.sh.ts",
     "../../../modules/auth/**/*.sh.tsx",
     "../../backend/core/**/*",
@@ -27,8 +31,21 @@
     "../../../modules/idea/**/shared/**/*",
     "../../../modules/idea/**/*.ad.ts",
     "../../../modules/idea/**/*.ad.tsx",
+    "../../../modules/idea/**/*.fe.ts",
+    "../../../modules/idea/**/*.fe.tsx",
     "../../../modules/idea/**/*.sh.ts",
-    "../../../modules/idea/**/*.sh.tsx"
+    "../../../modules/idea/**/*.sh.tsx",
+    "../../../modules/refine0/**/admin/**/*",
+    "../../../modules/refine0/**/shared/**/*",
+    "../../../modules/refine0/**/*.ad.ts",
+    "../../../modules/refine0/**/*.ad.tsx",
+    "../../../modules/refine0/**/*.fe.ts",
+    "../../../modules/refine0/**/*.fe.tsx",
+    "../../../modules/refine0/**/*.sh.ts",
+    "../../../modules/refine0/**/*.sh.tsx",
+    "../../../modules/refine0/**/backend/**/*",
+    "../../../modules/refine0/**/*.be.ts",
+    "../../../modules/refine0/**/*.be.tsx"
   ],
   "exclude": [
     "./**/dist/**/*",
@@ -60,7 +77,10 @@
     "../../backend/router/trpc/**/public/**/*",
     "../../../modules/idea/**/dist/**/*",
     "../../../modules/idea/**/node_modules/**/*",
-    "../../../modules/idea/**/public/**/*"
+    "../../../modules/idea/**/public/**/*",
+    "../../../modules/refine0/**/dist/**/*",
+    "../../../modules/refine0/**/node_modules/**/*",
+    "../../../modules/refine0/**/public/**/*"
   ],
   "compilerOptions": {
     "rootDir": "../../..",

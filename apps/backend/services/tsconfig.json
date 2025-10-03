@@ -24,7 +24,13 @@
     "../../../modules/idea/**/*.be.ts",
     "../../../modules/idea/**/*.be.tsx",
     "../../../modules/idea/**/*.sh.ts",
-    "../../../modules/idea/**/*.sh.tsx"
+    "../../../modules/idea/**/*.sh.tsx",
+    "../../../modules/refine0/**/backend/**/*",
+    "../../../modules/refine0/**/shared/**/*",
+    "../../../modules/refine0/**/*.be.ts",
+    "../../../modules/refine0/**/*.be.tsx",
+    "../../../modules/refine0/**/*.sh.ts",
+    "../../../modules/refine0/**/*.sh.tsx"
   ],
   "exclude": [
     "./**/dist/**/*",
@@ -53,7 +59,10 @@
     "../router/trpc/**/public/**/*",
     "../../../modules/idea/**/dist/**/*",
     "../../../modules/idea/**/node_modules/**/*",
-    "../../../modules/idea/**/public/**/*"
+    "../../../modules/idea/**/public/**/*",
+    "../../../modules/refine0/**/dist/**/*",
+    "../../../modules/refine0/**/node_modules/**/*",
+    "../../../modules/refine0/**/public/**/*"
   ],
   "compilerOptions": {
     "rootDir": "../../..",

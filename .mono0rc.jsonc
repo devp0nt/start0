@@ -278,6 +278,11 @@
     "sharedModule": {
       "preset": ["shared"],
       "tags": ["sharedModule"],
+      "deps": ["#sharedCoreModule"]
+    },
+    "sharedCoreModule": {
+      "preset": ["shared"],
+      "tags": ["sharedCoreModule"],
       "deps": []
     },
     "sharedMulti": {
@@ -299,6 +304,11 @@
     "backendModule": {
       "preset": ["backend"],
       "tags": ["backendModule"],
+      "deps": ["@backend/core", "#backendCoreModule"]
+    },
+    "backendCoreModule": {
+      "preset": ["backend"],
+      "tags": ["backendCoreModule"],
       "deps": ["@backend/core"]
     },
     "backendMulti": {
@@ -323,12 +333,17 @@
     "siteModule": {
       "preset": ["site"],
       "tags": ["siteModule"],
+      "deps": ["@site/core", "#siteCoreModule"]
+    },
+    "siteCoreModule": {
+      "preset": ["site"],
+      "tags": ["siteCoreModule"],
       "deps": ["@site/core"]
     },
     "siteMulti": {
       "preset": ["site"],
       "setSuffixesToInclude": [
-        [".si", ".sh"],
+        [".si", ".fe", ".sh"],
         [".ts", ".tsx"]
       ],
       "setDirsToInclude": ["site", "shared"]
@@ -347,12 +362,17 @@
     "adminModule": {
       "preset": ["admin"],
       "tags": ["adminModule"],
+      "deps": ["@admin/core", "#adminCoreModule"]
+    },
+    "adminCoreModule": {
+      "preset": ["admin"],
+      "tags": ["adminCoreModule"],
       "deps": ["@admin/core"]
     },
     "adminMulti": {
       "preset": ["admin"],
       "setSuffixesToInclude": [
-        [".ad", ".sh"],
+        [".ad", ".fe", ".sh"],
         [".ts", ".tsx"]
       ],
       "setDirsToInclude": ["admin", "shared"]
@@ -379,6 +399,11 @@
     "toolsModule": {
       "preset": ["tools"],
       "tags": ["toolsModule"],
+      "deps": ["@tools/core", "#toolsCoreModule"]
+    },
+    "toolsCoreModule": {
+      "preset": ["tools"],
+      "tags": ["toolsCoreModule"],
       "deps": ["@tools/core"]
     },
     "toolsWithTsconfig": {

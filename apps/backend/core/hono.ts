@@ -1,7 +1,7 @@
 import { appName } from '@apps/shared/utils'
 import { getAuthCtxValueByHonoContext } from '@auth/backend/utils.be'
 import type { BackendCtx } from '@backend/core/ctx'
-import { Error0 } from '@devp0nt/error0'
+import { toErrorResponseWithStatus } from '@backend/core/error'
 import { OpenAPIHono } from '@hono/zod-openapi'
 import { Scalar } from '@scalar/hono-api-reference'
 import type { Context as HonoContext } from 'hono'
@@ -38,7 +38,7 @@ export const honoBase = () => {
   const hono = new OpenAPIHono<HonoInit>({
     defaultHook: (result, c) => {
       if (!result.success) {
-        return c.json({ error: Error0.toJSON(result.error) }, 422)
+        return c.json(...toErrorResponseWithStatus(result.error, 422))
       }
     },
   })
@@ -93,24 +93,11 @@ export const applyHonoErrorHandling = ({ hono }: { hono: Hono0 }) => {
       logger.error(error, {
         message: 'Hono request unhandled error',
       })
-      const error0 = Error0.from(error)
-      return c.json(
-        {
-          error: error0.toJSON(),
-        },
-        (error0.httpStatus as any) || 500,
-      )
+      return c.json(...toErrorResponseWithStatus(error))
     } catch (errorAgain) {
       // eslint-disable-next-line no-console -- it is corner case when everything is broken
       console.error(errorAgain, error)
-      const error0 = Error0.from(errorAgain)
-      return c.json(
-        {
-          error: error0.toJSON(),
-        },
-        // TODO0: fix it in error0
-        (error0.httpStatus as any) || 500,
-      )
+      return c.json(...toErrorResponseWithStatus(errorAgain))
     }
   })
 }

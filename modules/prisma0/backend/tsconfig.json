@@ -5,7 +5,10 @@
     "../../../apps/shared/**/*",
     "../../idea/**/shared/**/*",
     "../../idea/**/*.sh.ts",
-    "../../idea/**/*.sh.tsx"
+    "../../idea/**/*.sh.tsx",
+    "../../refine0/**/shared/**/*",
+    "../../refine0/**/*.sh.ts",
+    "../../refine0/**/*.sh.tsx"
   ],
   "exclude": [
     "./**/dist/**/*",
@@ -16,7 +19,10 @@
     "../../../apps/shared/**/public/**/*",
     "../../idea/**/dist/**/*",
     "../../idea/**/node_modules/**/*",
-    "../../idea/**/public/**/*"
+    "../../idea/**/public/**/*",
+    "../../refine0/**/dist/**/*",
+    "../../refine0/**/node_modules/**/*",
+    "../../refine0/**/public/**/*"
   ],
   "compilerOptions": {
     "rootDir": "../../..",

@@ -1,11 +1,10 @@
-import { getRoutesHelpers, parseZod } from '@apps/shared/backend'
 import { trpcBase } from '@backend/core/trpc'
 import { Error0 } from '@devp0nt/error0'
 import { zIdeaClientAdmin } from '@idea/shared/utils.sh'
+import { getTrpcRefineRoutesHelpers } from '@refine0/admin/trpc.be'
 import { z } from 'zod'
 
-const helpers = getRoutesHelpers({ resource: 'idea' })
-const { zPaginationInput, defaultPagination } = helpers.pagination
+const { getMeta, getZInput, getZOutput, parseZOutput } = getTrpcRefineRoutesHelpers({ resource: 'idea' })
 
 const zFilters = z.object({}).optional().default({})
 const zResource = zIdeaClientAdmin
@@ -25,22 +24,9 @@ const zList = zResource.pick({
 })
 
 export const ideaListAdminTrpcRoute = trpcBase()
-  .meta({ openapi: { method: 'POST', path: '/idea/list' } })
-  .input(
-    z
-      .object({
-        filters: zFilters,
-        pagination: zPaginationInput,
-      })
-      .optional()
-      .default({ filters: {}, pagination: defaultPagination }),
-  )
-  .output(
-    z.object({
-      data: zList.array(),
-      total: z.number(),
-    }),
-  )
+  .meta(getMeta.list('idea'))
+  .input(getZInput.list(zFilters))
+  .output(getZOutput.list(zList))
   .query(async ({ ctx, input }) => {
     const ideas = await ctx.prisma.idea.findMany({
       where: { ...input.filters },
@@ -51,21 +37,13 @@ export const ideaListAdminTrpcRoute = trpcBase()
     const total = await ctx.prisma.idea.count({
       where: input.filters,
     })
-    return { data: parseZod(zList, ideas), total }
+    return { data: parseZOutput.list(zList, ideas), total }
   })
 
 export const ideaGetAdminTrpcRoute = trpcBase()
-  .meta({ openapi: { method: 'GET', path: '/idea/get' } })
-  .input(
-    z.object({
-      id: z.uuid(),
-    }),
-  )
-  .output(
-    z.object({
-      data: zShow,
-    }),
-  )
+  .meta(getMeta.get('idea'))
+  .input(getZInput.get())
+  .output(getZOutput.get(zShow))
   .query(async ({ ctx, input }) => {
     const idea = await ctx.prisma.idea.findUnique({
       where: { id: input.id },
@@ -73,48 +51,31 @@ export const ideaGetAdminTrpcRoute = trpcBase()
     if (!idea) {
       throw new Error0('Item not found', { expected: true })
     }
-    return { data: parseZod(zShow, idea) }
+    return { data: parseZOutput.get(zShow, idea) }
   })
 
 export const ideaCreateAdminTrpcRoute = trpcBase()
-  .meta({ openapi: { method: 'POST', path: '/idea/create' } })
-  .input(
-    z.object({
-      data: zCreate,
-    }),
-  )
-  .output(
-    z.object({
-      data: zResource,
-    }),
-  )
+  .meta(getMeta.create('idea'))
+  .input(getZInput.create(zCreate))
+  .output(getZOutput.create(zResource))
   .mutation(async ({ ctx, input }) => {
     const idea = await ctx.prisma.idea.create({
       data: { ...input.data },
     })
-    return { data: parseZod(zResource, idea) }
+    return { data: parseZOutput.create(zResource, idea) }
   })
 
 export const ideaUpdateAdminTrpcRoute = trpcBase()
-  .meta({ openapi: { method: 'POST', path: '/idea/update' } })
-  .input(
-    z.object({
-      id: z.uuid(),
-      data: zEdit,
-    }),
-  )
-  .output(
-    z.object({
-      data: zResource,
-    }),
-  )
+  .meta(getMeta.update('idea'))
+  .input(getZInput.update(zEdit))
+  .output(getZOutput.update(zResource))
   .mutation(async ({ ctx, input }) => {
     try {
       const idea = await ctx.prisma.idea.update({
         where: { id: input.id },
         data: input.data,
       })
-      return { data: parseZod(zResource, idea) }
+      return { data: parseZOutput.update(zResource, idea) }
     } catch (error: any) {
       if (error.code === 'P2025') {
         throw new Error0('Item not found', { cause: error, expected: true })
@@ -124,23 +85,15 @@ export const ideaUpdateAdminTrpcRoute = trpcBase()
   })
 
 export const ideaDeleteAdminTrpcRoute = trpcBase()
-  .meta({ openapi: { method: 'POST', path: '/idea/delete' } })
-  .input(
-    z.object({
-      id: z.uuid(),
-    }),
-  )
-  .output(
-    z.object({
-      data: zResource,
-    }),
-  )
+  .meta(getMeta.delete('idea'))
+  .input(getZInput.delete())
+  .output(getZOutput.delete(zResource))
   .mutation(async ({ ctx, input }) => {
     try {
       const idea = await ctx.prisma.idea.delete({
         where: { id: input.id },
       })
-      return { data: parseZod(zResource, idea) }
+      return { data: parseZOutput.delete(zResource, idea) }
     } catch (error: any) {
       if (error.code === 'P2025') {
         throw new Error0('Item not found', { cause: error, expected: true })

@@ -1,17 +1,9 @@
-import { getRoutesHelpers, parseZod } from '@apps/shared/backend'
 import { honoAdminBase } from '@backend/core/hono'
 import { zIdeaClientAdmin } from '@idea/shared/utils.sh'
+import { getHonoRefineRoutesHelpers } from '@refine0/admin/hono.be'
 import { z } from 'zod'
 
-const helpers = getRoutesHelpers({ resource: 'idea' })
-const {
-  getResourceListRouteSettings,
-  getResourceGetRouteSettings,
-  getResourceCreateRouteSettings,
-  getResourceUpdateRouteSettings,
-  getResourceDeleteRouteSettings,
-} = helpers.settings
-const { zPaginationInput } = helpers.pagination
+const { getRoute, parseZOutput } = getHonoRefineRoutesHelpers({ resource: 'idea' })
 
 const zFilters = z.object({}).optional().default({})
 const zResource = zIdeaClientAdmin
@@ -31,30 +23,28 @@ const zList = zResource.pick({
 })
 
 export const ideaListAdminHonoRoute = honoAdminBase().openapi(
-  getResourceListRouteSettings({
-    zRes: zList,
+  getRoute.list({
+    zResData: zList,
     zFilters,
   }),
   async ({ req, json, var: { prisma } }) => {
     const body = req.valid('json')
-    const pagination = zPaginationInput.parse(body.pagination)
-    const filters = zFilters.parse(body.filters)
     const ideas = await prisma.idea.findMany({
-      where: { ...filters },
-      take: pagination.take,
-      skip: pagination.skip,
+      where: { ...body.filters },
+      take: body.pagination.take,
+      skip: body.pagination.skip,
       orderBy: { createdAt: 'desc' },
     })
     const total = await prisma.idea.count({
-      where: filters,
+      where: body.filters,
     })
-    return json({ data: parseZod(zList, ideas), total }, 200)
+    return json({ data: parseZOutput.list(zList, ideas), total }, 200)
   },
 )
 
 export const ideaGetAdminHonoRoute = honoAdminBase().openapi(
-  getResourceGetRouteSettings({
-    zRes: zShow,
+  getRoute.get({
+    zResData: zShow,
   }),
   async ({ req, json, var: { prisma } }) => {
     const query = req.valid('query')
@@ -64,28 +54,28 @@ export const ideaGetAdminHonoRoute = honoAdminBase().openapi(
     if (!idea) {
       return json({ error: { message: 'Item not found' } }, 404)
     }
-    return json({ data: parseZod(zShow, idea) }, 200)
+    return json({ data: parseZOutput.get(zShow, idea) }, 200)
   },
 )
 
 export const ideaCreateAdminHonoRoute = honoAdminBase().openapi(
-  getResourceCreateRouteSettings({
-    zRes: zResource,
-    zReq: zCreate,
+  getRoute.create({
+    zResData: zResource,
+    zReqData: zCreate,
   }),
   async ({ req, json, var: { prisma } }) => {
     const body = req.valid('json')
     const idea = await prisma.idea.create({
       data: { ...body.data },
     })
-    return json({ data: parseZod(zResource, idea) }, 200)
+    return json({ data: parseZOutput.create(zResource, idea) }, 200)
   },
 )
 
 export const ideaUpdateAdminHonoRoute = honoAdminBase().openapi(
-  getResourceUpdateRouteSettings({
-    zRes: zResource,
-    zReq: zEdit,
+  getRoute.update({
+    zResData: zResource,
+    zReqData: zEdit,
   }),
   async ({ req, json, var: { prisma } }) => {
     const body = req.valid('json')
@@ -94,7 +84,7 @@ export const ideaUpdateAdminHonoRoute = honoAdminBase().openapi(
         where: { id: body.id },
         data: body.data,
       })
-      return json({ data: parseZod(zResource, idea) }, 200)
+      return json({ data: parseZOutput.update(zResource, idea) }, 200)
     } catch (error: any) {
       if (error.code === 'P2025') {
         return json({ error: { message: 'Item not found' } }, 404)
@@ -105,8 +95,8 @@ export const ideaUpdateAdminHonoRoute = honoAdminBase().openapi(
 )
 
 export const ideaDeleteAdminHonoRoute = honoAdminBase().openapi(
-  getResourceDeleteRouteSettings({
-    zRes: zResource,
+  getRoute.delete({
+    zResData: zResource,
   }),
   async ({ req, json, var: { prisma } }) => {
     const query = req.valid('query')
@@ -114,7 +104,7 @@ export const ideaDeleteAdminHonoRoute = honoAdminBase().openapi(
       const idea = await prisma.idea.delete({
         where: { id: query.id },
       })
-      return json({ data: parseZod(zResource, idea) }, 200)
+      return json({ data: parseZOutput.delete(zResource, idea) }, 200)
     } catch (error: any) {
       if (error.code === 'P2025') {
         return json({ error: { message: 'Item not found' } }, 404)
