@@ -12,18 +12,9 @@ import { honoAdmin, honoApp } from '@backend/hono-router'
 import {
   backendHonoAdminRoutesBasePath,
   backendHonoAppRoutesBasePath,
-  backendTrpcRestAdminRoutesBasePath,
-  backendTrpcRestAppRoutesBasePath,
   backendTrpcRoutesBasePath,
 } from '@backend/shared/utils'
-import {
-  adminTrpcRouter,
-  appTrpcRouter,
-  applyTrpcOpenapiDocs,
-  applyTrpcRestRouterToHono,
-  applyTrpcRouterToHono,
-  trpcRouter,
-} from '@backend/trpc-router'
+import { applyTrpcRouterToHono, trpcRouter } from '@backend/trpc-router'
 import { serve } from 'bun'
 import { cors } from 'hono/cors'
 
@@ -33,6 +24,7 @@ export const startApiProcess = async () => {
   const { logger } = tri0.extend('root')
   try {
     await backendCtx.self.init()
+
     // general
     const hono = honoBase()
     applyHonoErrorHandling({ hono })
@@ -45,34 +37,21 @@ export const startApiProcess = async () => {
 
     // docs
     applyHonoOpenapiDocs({
-      name: 'Hono App',
+      name: 'App',
       hono: honoApp,
       basePath: backendHonoAppRoutesBasePath,
     })
-    applyTrpcOpenapiDocs({
-      name: 'Trpc App',
-      hono,
-      basePath: backendTrpcRestAppRoutesBasePath,
-      trpcRouter: appTrpcRouter,
-    })
     applyHonoOpenapiDocs({
-      name: 'Hono Admin',
+      name: 'Admin',
       hono: honoAdmin,
       basePath: backendHonoAdminRoutesBasePath,
-    })
-    applyTrpcOpenapiDocs({
-      name: 'Trpc Admin',
-      hono,
-      basePath: backendTrpcRestAdminRoutesBasePath,
-      trpcRouter: adminTrpcRouter,
     })
     applyScalarDocs({
       hono,
       path: '/doc/app',
       sources: [
         { path: authOpenapiSchemaUrl, title: 'Auth' },
-        { basePath: backendHonoAppRoutesBasePath, title: 'Hono App' },
-        { basePath: backendTrpcRestAppRoutesBasePath, title: 'Trpc App' },
+        { basePath: backendHonoAppRoutesBasePath, title: 'App' },
       ],
     })
     applyScalarDocs({
@@ -80,8 +59,7 @@ export const startApiProcess = async () => {
       path: '/doc/admin',
       sources: [
         { path: authOpenapiSchemaUrl, title: 'Auth' },
-        { basePath: backendHonoAdminRoutesBasePath, title: 'Hono Admin' },
-        { basePath: backendTrpcRestAdminRoutesBasePath, title: 'Trpc Admin' },
+        { basePath: backendHonoAdminRoutesBasePath, title: 'Admin' },
       ],
     })
 
@@ -89,8 +67,6 @@ export const startApiProcess = async () => {
     hono.route(backendHonoAppRoutesBasePath, honoApp)
     hono.route(backendHonoAdminRoutesBasePath, honoAdmin)
     applyTrpcRouterToHono({ hono, basePath: backendTrpcRoutesBasePath, trpcRouter })
-    applyTrpcRestRouterToHono({ hono, basePath: backendTrpcRestAdminRoutesBasePath, trpcRouter: adminTrpcRouter })
-    applyTrpcRestRouterToHono({ hono, basePath: backendTrpcRestAppRoutesBasePath, trpcRouter: appTrpcRouter })
 
     serve({
       fetch: hono.fetch,

@@ -3,22 +3,24 @@ import { Refine } from '@refinedev/core'
 import { useNotificationProvider } from '@refinedev/antd'
 import '@refinedev/antd/dist/reset.css'
 
-import { backendDataProvider } from '@admin/app/dataProvider'
-import { AdminCtx } from '@admin/core/lib/ctx'
-import { useRefineResources } from '@admin/core/lib/schema'
+import { axiosInstance } from '@admin/core/lib/axios'
 import { refineAuthProvider } from '@auth/admin/admin/refine'
-import routerProvider from '@refinedev/react-router'
 import { backendAdminRoutesBasePath } from '@backend/shared/utils'
+import { Refine0 } from '@devp0nt/refine0/client'
+import routerProvider from '@refinedev/react-router'
+
+export const refine0 = Refine0.create({
+  openapiUrl: `${import.meta.env.VITE_BACKEND_URL}${backendAdminRoutesBasePath}/doc.json`,
+  apiUrl: import.meta.env.VITE_BACKEND_URL,
+  httpClient: axiosInstance,
+})
 
 export const RefineSetup = ({ children }: { children: React.ReactNode }) => {
-  const env = AdminCtx.useEnv()
-  const refineResources = useRefineResources({
-    routePrefix: backendAdminRoutesBasePath,
-  })
+  const refineResources = refine0.useRefineResources()
   return (
     <Refine
       dataProvider={{
-        default: backendDataProvider(`${env.VITE_BACKEND_URL}${backendAdminRoutesBasePath}`),
+        default: refine0.dataProvider,
       }}
       notificationProvider={useNotificationProvider}
       routerProvider={routerProvider}

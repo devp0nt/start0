@@ -1,19 +1,18 @@
-import { RJSFForm } from '@admin/core/lib/rjsf'
-import { useResourceSchema } from '@admin/core/lib/schema'
-import { useResourceTitle } from '@admin/core/lib/shared'
+import { refine0 } from '@admin/app/lib/refine'
+import { RjsfForm } from '@admin/core/lib/rjsf.form'
 import { Create, Edit, useForm as useRefineForm, type UseFormProps as UseRefineFormProps } from '@refinedev/antd'
+import { Alert } from 'antd'
 import { useRef } from 'react'
 
-type UseFormProps = {
+export type UseFormProps = {
   useRefineFormProps?: UseRefineFormProps
   type: 'create' | 'edit'
 }
 
-const FormPage = ({ useRefineFormProps, type }: UseFormProps) => {
+export const FormPage = ({ useRefineFormProps, type }: UseFormProps) => {
   const refineForm = useRefineForm({ ...useRefineFormProps })
   const formRef = useRef<any>(null)
-  const schema = useResourceSchema()
-  const title = useResourceTitle()
+  const resource = refine0.useResourceWithAction()
   const Parent = type === 'create' ? Create : Edit
   return (
     <Parent
@@ -24,17 +23,12 @@ const FormPage = ({ useRefineFormProps, type }: UseFormProps) => {
         },
       }}
       isLoading={refineForm.formLoading}
-      title={title}
     >
-      <RJSFForm formRef={formRef} schema={schema} refineForm={refineForm} />
+      {!resource ? (
+        <Alert type="error" message="No schema found" />
+      ) : (
+        <RjsfForm formRef={formRef} schema={resource.jsonSchema} refineForm={refineForm} />
+      )}
     </Parent>
   )
-}
-
-export const ResourceCreatePage = (input: Omit<UseFormProps, 'type'> = {}) => {
-  return <FormPage {...input} type="create" />
-}
-
-export const ResourceEditPage = (input: Omit<UseFormProps, 'type'> = {}) => {
-  return <FormPage {...input} type="edit" />
 }

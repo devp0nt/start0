@@ -1,13 +1,20 @@
 {
   "extends": "./tsconfig.tools.json",
-  "include": ["./src/**/*", "../apps/shared/**/*"],
+  "include": [
+    "./src/**/*",
+    "../apps/shared/**/*",
+    "../modules/refine0/**/*"
+  ],
   "exclude": [
     "./**/dist/**/*",
     "./**/node_modules/**/*",
     "./**/public/**/*",
     "../apps/shared/**/dist/**/*",
     "../apps/shared/**/node_modules/**/*",
-    "../apps/shared/**/public/**/*"
+    "../apps/shared/**/public/**/*",
+    "../modules/refine0/**/dist/**/*",
+    "../modules/refine0/**/node_modules/**/*",
+    "../modules/refine0/**/public/**/*"
   ],
   "compilerOptions": {
     "rootDir": "./..",

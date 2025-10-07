@@ -1,18 +1,4 @@
-[
-  {
-    "name": "@refine0/shared",
-    "preset": ["sharedCoreModule", "sharedMulti"]
-  },
-  {
-    "name": "@refine0/backend",
-    "preset": ["backendCoreModule", "backendMulti"]
-  },
-  {
-    "name": "@refine0/site",
-    "preset": ["siteCoreModule", "siteMulti"]
-  },
-  {
-    "name": "@refine0/admin",
-    "preset": ["adminCoreModule", "adminMulti"]
-  }
-]
+{
+  "name": "@devp0nt/refine0",
+  "preset": ["sharedModule"]
+}

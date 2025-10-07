@@ -3,12 +3,10 @@
   "include": [
     "./src/**/*",
     "../../../apps/shared/**/*",
+    "../../refine0/**/*",
     "../../idea/**/shared/**/*",
     "../../idea/**/*.sh.ts",
-    "../../idea/**/*.sh.tsx",
-    "../../refine0/**/shared/**/*",
-    "../../refine0/**/*.sh.ts",
-    "../../refine0/**/*.sh.tsx"
+    "../../idea/**/*.sh.tsx"
   ],
   "exclude": [
     "./**/dist/**/*",
@@ -17,12 +15,12 @@
     "../../../apps/shared/**/dist/**/*",
     "../../../apps/shared/**/node_modules/**/*",
     "../../../apps/shared/**/public/**/*",
-    "../../idea/**/dist/**/*",
-    "../../idea/**/node_modules/**/*",
-    "../../idea/**/public/**/*",
     "../../refine0/**/dist/**/*",
     "../../refine0/**/node_modules/**/*",
-    "../../refine0/**/public/**/*"
+    "../../refine0/**/public/**/*",
+    "../../idea/**/dist/**/*",
+    "../../idea/**/node_modules/**/*",
+    "../../idea/**/public/**/*"
   ],
   "compilerOptions": {
     "rootDir": "../../..",

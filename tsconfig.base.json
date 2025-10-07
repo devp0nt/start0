@@ -62,6 +62,9 @@
       "@backend/trpc-router/*": [
         "./apps/backend/router/trpc/*"
       ],
+      "@devp0nt/refine0/*": [
+        "./modules/refine0/*"
+      ],
       "@idea/admin/*": [
         "./modules/idea/*"
       ],
@@ -76,18 +79,6 @@
       ],
       "@prisma0/backend/*": [
         "./modules/prisma0/backend/src/*"
-      ],
-      "@refine0/admin/*": [
-        "./modules/refine0/*"
-      ],
-      "@refine0/backend/*": [
-        "./modules/refine0/*"
-      ],
-      "@refine0/shared/*": [
-        "./modules/refine0/*"
-      ],
-      "@refine0/site/*": [
-        "./modules/refine0/*"
       ],
       "@site/app/*": [
         "./apps/site/app/*"

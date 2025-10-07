@@ -1,16 +1,19 @@
 import type z from 'zod'
-import { getRefineRoutesHelpers, type ResourceAction } from './utils.be'
+import { getRefineRoutesHelpers, type ResourceAction, type ResourceMethod, type ZodToJsonSchemaOptions } from './utils'
 
 export const getHonoRefineRoutesHelpers = ({
   prefix: defaultPrefix = '',
   resource: defaultResource,
+  zodToJsonSchemaOptions,
 }: {
   prefix?: string
   resource: string
+  zodToJsonSchemaOptions?: ZodToJsonSchemaOptions
 }) => {
   const helpers = getRefineRoutesHelpers({
     prefix: defaultPrefix,
     resource: defaultResource,
+    zodToJsonSchemaOptions,
   })
   const { getPathWithMethod, getZInput, getZOutput, error } = helpers
 
@@ -125,7 +128,7 @@ export const getHonoRefineRoutesHelpers = ({
     }
     responses: TResponses
   }): {
-    method: 'get' | 'post' | 'put' | 'delete'
+    method: ResourceMethod
     path: string
     request: {
       body: ReturnType<typeof getReqBodySchema<TReqBodySchema>>
@@ -154,16 +157,12 @@ export const getHonoRefineRoutesHelpers = ({
     }
   }
 
-  const getResourceListRoute = <TZFilters extends z.ZodType, TZResData extends z.ZodType>(input: {
-    resource?: string
-    zFilters: TZFilters
-    zResData: TZResData
-  }) => {
+  const getResourceListRoute = <TZResData extends z.ZodType>(input: { resource?: string; zResData: TZResData }) => {
     return getResourceRoute({
       resource: input.resource,
       action: 'list',
       request: {
-        body: getZInput.list(input.zFilters),
+        body: getZInput.list(),
       },
       responses: {
         200: getZOutput.list(input.zResData),
@@ -171,15 +170,15 @@ export const getHonoRefineRoutesHelpers = ({
     })
   }
 
-  const getResourceGetRoute = <TZResData extends z.ZodType>(input: { resource?: string; zResData: TZResData }) => {
+  const getResourceShowRoute = <TZResData extends z.ZodType>(input: { resource?: string; zResData: TZResData }) => {
     return getResourceRoute({
       resource: input.resource,
-      action: 'get',
+      action: 'show',
       request: {
-        query: getReqParamsSchema(input.zResData),
+        query: getZInput.show(),
       },
       responses: {
-        200: getZOutput.get(input.zResData),
+        200: getZOutput.show(input.zResData),
         404: error.zRespone,
       },
     })
@@ -202,19 +201,19 @@ export const getHonoRefineRoutesHelpers = ({
     })
   }
 
-  const getResourceUpdateRoute = <TZReqData extends z.ZodType, TZResData extends z.ZodType>(input: {
+  const getResourceEditRoute = <TZReqData extends z.ZodType, TZResData extends z.ZodType>(input: {
     resource?: string
     zReqData: TZReqData
     zResData: TZResData
   }) => {
     return getResourceRoute({
       resource: input.resource,
-      action: 'update',
+      action: 'edit',
       request: {
-        body: getZInput.update(input.zReqData),
+        body: getZInput.edit(input.zReqData),
       },
       responses: {
-        200: getZOutput.update(input.zResData),
+        200: getZOutput.edit(input.zResData),
         404: error.zRespone,
       },
     })
@@ -225,7 +224,7 @@ export const getHonoRefineRoutesHelpers = ({
       resource: input.resource,
       action: 'delete',
       request: {
-        query: getReqParamsSchema(input.zResData),
+        query: getZInput.delete(),
       },
       responses: {
         200: getZOutput.delete(input.zResData),
@@ -236,9 +235,9 @@ export const getHonoRefineRoutesHelpers = ({
 
   const getRoute = {
     list: getResourceListRoute,
-    get: getResourceGetRoute,
+    show: getResourceShowRoute,
     create: getResourceCreateRoute,
-    update: getResourceUpdateRoute,
+    edit: getResourceEditRoute,
     delete: getResourceDeleteRoute,
   }
 

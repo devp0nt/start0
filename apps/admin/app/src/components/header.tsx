@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { honoAppClient, useHonoQuery } from '@admin/core/lib/hono'
 import { useQuery } from '@tanstack/react-query'
 import type { RefineThemedLayoutHeaderProps } from '@refinedev/antd'
@@ -21,39 +22,39 @@ export const Header: React.FC<RefineThemedLayoutHeaderProps> = ({ sticky = true 
   const { data: user } = useGetIdentity<IUser>()
   const { mode, setMode } = useContext(ColorModeContext)
 
-  const x = useHonoQuery(honoAppClient.ping, '$get', {})
-  const y = useHonoQuery(honoAppClient.hello, '$get', { query: { name: 'oop' } })
-  const z = useHonoQuery(honoAppClient.big.ping, '$get', { query: { name: 'oop' } })
-  const trpc = useTrpc()
-  const c = useQuery(trpc.admin.ideaList.queryOptions())
-  console.log(2, x.data)
-  console.log(2, y.data)
-  console.log(2, z.data)
-  console.log(89988, c.data)
+  // const x = useHonoQuery(honoAppClient.ping, '$get', {})
+  // const y = useHonoQuery(honoAppClient.hello, '$get', { query: { name: 'oop' } })
+  // const z = useHonoQuery(honoAppClient.big.ping, '$get', { query: { name: 'oop' } })
+  // const trpc = useTrpc()
+  // const config = useQuery(trpc.app.getConfig.queryOptions())
+  // console.log(2, x.data)
+  // console.log(2, y.data)
+  // console.log(2, z.data)
+  // console.log(89988, config.data)
 
-  useEffect(() => {
-    void (async () => {
-      try {
-        const result = await honoAppClient.hello.$get({ query: { name: 'zxc' } })
-        const data = await result.json()
-        console.log(123, data)
-      } catch (error) {
-        console.error(error)
-      }
-    })()
-  }, [])
+  // useEffect(() => {
+  //   void (async () => {
+  //     try {
+  //       const result = await honoAppClient.hello.$get({ query: { name: 'zxc' } })
+  //       const data = await result.json()
+  //       console.log(123, data)
+  //     } catch (error) {
+  //       console.error(error)
+  //     }
+  //   })()
+  // }, [])
 
-  useEffect(() => {
-    void (async () => {
-      try {
-        const result = await honoAppClient.ping.$get()
-        const data = await result.json()
-        console.log(234, data)
-      } catch (error) {
-        console.error(error)
-      }
-    })()
-  }, [])
+  // useEffect(() => {
+  //   void (async () => {
+  //     try {
+  //       const result = await honoAppClient.ping.$get()
+  //       const data = await result.json()
+  //       console.log(234, data)
+  //     } catch (error) {
+  //       console.error(error)
+  //     }
+  //   })()
+  // }, [])
 
   const headerStyles: React.CSSProperties = {
     backgroundColor: token.colorBgLayout,

@@ -1,52 +1,58 @@
 import { honoAdminBase } from '@backend/core/hono'
+import { getHonoRefineRoutesHelpers } from '@devp0nt/refine0/server/hono'
 import { zIdeaClientAdmin } from '@idea/shared/utils.sh'
-import { getHonoRefineRoutesHelpers } from '@refine0/admin/hono.be'
-import { z } from 'zod'
 
 const { getRoute, parseZOutput } = getHonoRefineRoutesHelpers({ resource: 'idea' })
 
-const zFilters = z.object({}).optional().default({})
 const zResource = zIdeaClientAdmin
-const zCreate = zResource.omit({
-  id: true,
-  sn: true,
-  createdAt: true,
-  updatedAt: true,
-})
+const zCreate = zResource
+  .omit({
+    id: true,
+    sn: true,
+    createdAt: true,
+    updatedAt: true,
+  })
+  .meta({ title: '' })
 const zEdit = zCreate
 const zShow = zResource
-const zList = zResource.pick({
-  id: true,
-  sn: true,
-  createdAt: true,
-  title: true,
-})
+const zList = zResource
+  .pick({
+    id: true,
+    sn: true,
+    createdAt: true,
+    title: true,
+  })
+  .extend({
+    id: zResource.shape.id.meta({ 'x-invisible': true }),
+  })
 
 export const ideaListAdminHonoRoute = honoAdminBase().openapi(
   getRoute.list({
     zResData: zList,
-    zFilters,
   }),
   async ({ req, json, var: { prisma } }) => {
     const body = req.valid('json')
+    // TODO: convert filters to where
+    const where = {}
     const ideas = await prisma.idea.findMany({
-      where: { ...body.filters },
-      take: body.pagination.take,
-      skip: body.pagination.skip,
+      where,
+      take: body.pagination.pageSize,
+      skip: (body.pagination.currentPage - 1) * body.pagination.pageSize,
       orderBy: { createdAt: 'desc' },
     })
     const total = await prisma.idea.count({
-      where: body.filters,
+      where,
     })
     return json({ data: parseZOutput.list(zList, ideas), total }, 200)
   },
 )
 
-export const ideaGetAdminHonoRoute = honoAdminBase().openapi(
-  getRoute.get({
+export const ideaShowAdminHonoRoute = honoAdminBase().openapi(
+  getRoute.show({
     zResData: zShow,
   }),
   async ({ req, json, var: { prisma } }) => {
+    console.log(234234, 12312323)
     const query = req.valid('query')
     const idea = await prisma.idea.findUnique({
       where: { id: query.id },
@@ -54,7 +60,8 @@ export const ideaGetAdminHonoRoute = honoAdminBase().openapi(
     if (!idea) {
       return json({ error: { message: 'Item not found' } }, 404)
     }
-    return json({ data: parseZOutput.get(zShow, idea) }, 200)
+    console.log(98867876, idea)
+    return json({ data: parseZOutput.show(zShow, idea) }, 200)
   },
 )
 
@@ -72,8 +79,8 @@ export const ideaCreateAdminHonoRoute = honoAdminBase().openapi(
   },
 )
 
-export const ideaUpdateAdminHonoRoute = honoAdminBase().openapi(
-  getRoute.update({
+export const ideaEditAdminHonoRoute = honoAdminBase().openapi(
+  getRoute.edit({
     zResData: zResource,
     zReqData: zEdit,
   }),
@@ -84,7 +91,7 @@ export const ideaUpdateAdminHonoRoute = honoAdminBase().openapi(
         where: { id: body.id },
         data: body.data,
       })
-      return json({ data: parseZOutput.update(zResource, idea) }, 200)
+      return json({ data: parseZOutput.edit(zResource, idea) }, 200)
     } catch (error: any) {
       if (error.code === 'P2025') {
         return json({ error: { message: 'Item not found' } }, 404)

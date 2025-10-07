@@ -27,6 +27,7 @@
     "../../backend/router/hono/**/*",
     "../../backend/shared/**/*",
     "../../backend/router/trpc/**/*",
+    "../../../modules/refine0/**/*",
     "../../../modules/idea/**/admin/**/*",
     "../../../modules/idea/**/shared/**/*",
     "../../../modules/idea/**/*.ad.ts",
@@ -34,18 +35,7 @@
     "../../../modules/idea/**/*.fe.ts",
     "../../../modules/idea/**/*.fe.tsx",
     "../../../modules/idea/**/*.sh.ts",
-    "../../../modules/idea/**/*.sh.tsx",
-    "../../../modules/refine0/**/admin/**/*",
-    "../../../modules/refine0/**/shared/**/*",
-    "../../../modules/refine0/**/*.ad.ts",
-    "../../../modules/refine0/**/*.ad.tsx",
-    "../../../modules/refine0/**/*.fe.ts",
-    "../../../modules/refine0/**/*.fe.tsx",
-    "../../../modules/refine0/**/*.sh.ts",
-    "../../../modules/refine0/**/*.sh.tsx",
-    "../../../modules/refine0/**/backend/**/*",
-    "../../../modules/refine0/**/*.be.ts",
-    "../../../modules/refine0/**/*.be.tsx"
+    "../../../modules/idea/**/*.sh.tsx"
   ],
   "exclude": [
     "./**/dist/**/*",
@@ -75,12 +65,12 @@
     "../../backend/router/trpc/**/dist/**/*",
     "../../backend/router/trpc/**/node_modules/**/*",
     "../../backend/router/trpc/**/public/**/*",
-    "../../../modules/idea/**/dist/**/*",
-    "../../../modules/idea/**/node_modules/**/*",
-    "../../../modules/idea/**/public/**/*",
     "../../../modules/refine0/**/dist/**/*",
     "../../../modules/refine0/**/node_modules/**/*",
-    "../../../modules/refine0/**/public/**/*"
+    "../../../modules/refine0/**/public/**/*",
+    "../../../modules/idea/**/dist/**/*",
+    "../../../modules/idea/**/node_modules/**/*",
+    "../../../modules/idea/**/public/**/*"
   ],
   "compilerOptions": {
     "rootDir": "../../..",
