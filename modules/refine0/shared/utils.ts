@@ -2,11 +2,10 @@ import { deepMap } from '@devp0nt/deepmap0'
 import type { GlobalUISchemaOptions, UiSchema } from '@rjsf/utils'
 import type { JSONSchema7Definition } from 'json-schema'
 import capitalize from 'lodash/capitalize.js'
+import get from 'lodash/get.js'
 import set from 'lodash/set.js'
 import words from 'lodash/words.js'
 import type { JSONSchema } from 'zod/v4/core'
-import get from 'lodash/get.js'
-import kebabCase from 'lodash/kebabCase.js'
 
 import { z } from 'zod'
 

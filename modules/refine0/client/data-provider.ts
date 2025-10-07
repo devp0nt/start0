@@ -129,7 +129,6 @@ export const refine0DataProvider = ({
     },
 
     getOne: async ({ resource, id, meta }) => {
-      console.log('getOne', resource, id, meta)
       const data = await getData({
         resource,
         action: 'show',

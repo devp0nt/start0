@@ -52,15 +52,13 @@ export const ideaShowAdminHonoRoute = honoAdminBase().openapi(
     zResData: zShow,
   }),
   async ({ req, json, var: { prisma } }) => {
-    console.log(234234, 12312323)
     const query = req.valid('query')
     const idea = await prisma.idea.findUnique({
-      where: { id: query.id },
+      where: { id: query.id.toString() },
     })
     if (!idea) {
       return json({ error: { message: 'Item not found' } }, 404)
     }
-    console.log(98867876, idea)
     return json({ data: parseZOutput.show(zShow, idea) }, 200)
   },
 )
@@ -88,7 +86,7 @@ export const ideaEditAdminHonoRoute = honoAdminBase().openapi(
     const body = req.valid('json')
     try {
       const idea = await prisma.idea.update({
-        where: { id: body.id },
+        where: { id: body.id.toString() },
         data: body.data,
       })
       return json({ data: parseZOutput.edit(zResource, idea) }, 200)
@@ -109,7 +107,7 @@ export const ideaDeleteAdminHonoRoute = honoAdminBase().openapi(
     const query = req.valid('query')
     try {
       const idea = await prisma.idea.delete({
-        where: { id: query.id },
+        where: { id: query.id.toString() },
       })
       return json({ data: parseZOutput.delete(zResource, idea) }, 200)
     } catch (error: any) {
