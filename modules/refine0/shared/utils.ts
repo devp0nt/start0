@@ -17,10 +17,23 @@ export type UiSchemaSettings = {
   disableLabels?: boolean
 }
 
+let defaultExtractTitleFromJSOverrides: Record<string, string> = {
+  Sn: 'SN',
+  Id: 'ID',
+}
+
+export const setDefaultExtractTitleFromJSOverrides = (overrides: Record<string, string>) => {
+  defaultExtractTitleFromJSOverrides = overrides
+}
+
+export const getDefaultExtractTitleFromJSOverrides = (): Record<string, string> => {
+  return defaultExtractTitleFromJSOverrides
+}
+
 // x-ui-widget = ...
 // x-ui:form-widget = ...
 // x-ui:view-widget = ...
-export const jsonSchemaToRjsfUiSchema = ({
+export const jsToRjsfUiSchema = ({
   js,
   scope,
   globalOptions,
@@ -30,7 +43,7 @@ export const jsonSchemaToRjsfUiSchema = ({
   globalOptions?: GlobalUISchemaOptions
 }): UiSchema => {
   if (typeof js === 'boolean' || !js) {
-    return jsonSchemaToRjsfUiSchema({ js: {}, scope, globalOptions })
+    return jsToRjsfUiSchema({ js: {}, scope, globalOptions })
   }
   const result: UiSchema = {}
   deepMap(js, ({ value, path }) => {
@@ -89,38 +102,45 @@ export const jsonSchemaToRjsfUiSchema = ({
 
 // x-meta-anyProperty = ...
 // x-meta-anotherProperty = ...
-export const jsonSchemaToMeta = (js: JsonSchema): Record<string, unknown> => {
+export const jsToMeta = (js: JsonSchema): Record<string, unknown> => {
   if (typeof js === 'boolean') {
-    return jsonSchemaToMeta({})
+    return jsToMeta({})
   }
   return Object.fromEntries(Object.entries(js).filter(([key, value]) => key.startsWith('x-meta-')))
 }
 
-export function extractTitleFromJsonSchema(js: JsonSchema, key?: string): string | undefined {
+export function extractTitleFromJS(
+  js: JsonSchema,
+  key?: string,
+  overrides: Record<string, string> = {},
+): string | undefined {
   if (typeof js === 'boolean') {
-    return extractTitleFromJsonSchema({}, key)
+    return extractTitleFromJS({}, key)
   }
-  return (
+  const result =
     js.title ||
     words(key || '')
       .map((word) => capitalize(word))
       .join(' ') ||
     undefined
-  )
+  if (!result) {
+    return result
+  }
+  const combinedOverrides = { ...getDefaultExtractTitleFromJSOverrides(), ...overrides }
+  return result
+    .split(' ')
+    .map((word) => combinedOverrides[word] || word)
+    .join(' ')
 }
 
-export function getJsonSchemaProperties(js: JsonSchema | null): Record<string, Exclude<JsonSchema, boolean>> {
+export function getJSProperties(js: JsonSchema | null): Record<string, Exclude<JsonSchema, boolean>> {
   if (typeof js === 'boolean' || !js?.properties) {
     return {}
   }
   return Object.fromEntries(Object.entries(js.properties).filter(([key, value]) => typeof value !== 'boolean'))
 }
 
-export function getJsonSchemaValueByPath<T = unknown>(
-  js: JsonSchema | null,
-  path: string,
-  defaultValue: unknown = null,
-): T {
+export function getJSValueByPath<T = unknown>(js: JsonSchema | null, path: string, defaultValue: unknown = null): T {
   if (typeof js === 'boolean') {
     return defaultValue as T
   }

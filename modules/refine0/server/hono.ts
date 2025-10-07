@@ -1,19 +1,19 @@
 import type z from 'zod'
-import { getRefineRoutesHelpers, type ResourceAction, type ResourceMethod, type ZodToJsonSchemaOptions } from './utils'
+import { getRefineRoutesHelpers, type ResourceAction, type ResourceMethod, type ZodToJSOptions } from './utils'
 
 export const getHonoRefineRoutesHelpers = ({
   prefix: defaultPrefix = '',
   resource: defaultResource,
-  zodToJsonSchemaOptions,
+  zodToJSOptions,
 }: {
   prefix?: string
   resource: string
-  zodToJsonSchemaOptions?: ZodToJsonSchemaOptions
+  zodToJSOptions?: ZodToJSOptions
 }) => {
   const helpers = getRefineRoutesHelpers({
     prefix: defaultPrefix,
     resource: defaultResource,
-    zodToJsonSchemaOptions,
+    zodToJSOptions,
   })
   const { getPathWithMethod, getZInput, getZOutput, error } = helpers
 

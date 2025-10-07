@@ -14,7 +14,7 @@ export const ResourceShowPage = (input: { useShowProps?: UseShowProps } = {}) =>
 
   return (
     <Show isLoading={query.isLoading}>
-      <RjsfView schema={resource.jsonSchema} data={data} scope="view" />
+      <RjsfView js={resource.js} data={data} scope="view" />
     </Show>
   )
 }

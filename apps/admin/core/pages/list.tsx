@@ -1,10 +1,6 @@
 import { refine0 } from '@admin/app/lib/refine'
 import { RjsfView } from '@admin/core/lib/rjsf.view'
-import {
-  extractTitleFromJsonSchema,
-  getJsonSchemaProperties,
-  getJsonSchemaValueByPath,
-} from '@devp0nt/refine0/shared/utils'
+import { extractTitleFromJS, getJSProperties, getJSValueByPath } from '@devp0nt/refine0/shared/utils'
 import {
   DeleteButton,
   EditButton,
@@ -32,17 +28,17 @@ export const ResourceTable = (input: ResourceTableProps) => {
   return (
     <List>
       <Table {...refineTable.tableProps} rowKey="id">
-        {Object.entries(getJsonSchemaProperties(resource.jsonSchema))
-          .filter(([propKey, propSchema]) => getJsonSchemaValueByPath(propSchema, 'x-invisible') !== true)
-          .map(([propKey, propSchema]) => (
+        {Object.entries(getJSProperties(resource.js))
+          .filter(([propKey, propJS]) => getJSValueByPath(propJS, 'x-invisible') !== true)
+          .map(([propKey, propJS]) => (
             <Table.Column
               dataIndex={propKey}
-              title={extractTitleFromJsonSchema(propSchema, propKey)}
+              title={extractTitleFromJS(propJS, propKey)}
               render={(value: any) => {
                 return (
                   <RjsfView
                     data={value}
-                    schema={propSchema}
+                    js={propJS}
                     scope={['view', 'preview']}
                     uiSchemaGlobalOptions={{ label: false }}
                   />

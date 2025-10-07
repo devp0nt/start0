@@ -1,12 +1,11 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { honoAppClient, useHonoQuery } from '@admin/core/lib/hono'
-import { useQuery } from '@tanstack/react-query'
+import { honoAppClient2 } from '@admin/core/lib/hono'
+import { useTrpc } from '@admin/core/lib/trpc'
 import type { RefineThemedLayoutHeaderProps } from '@refinedev/antd'
 import { useGetIdentity } from '@refinedev/core'
+import { useQuery } from '@tanstack/react-query'
 import { Layout as AntdLayout, Space, Switch, Typography, theme } from 'antd'
-import React, { useContext, useEffect } from 'react'
+import React, { useContext } from 'react'
 import { ColorModeContext } from '../lib/colorMode'
-import { useTrpc } from '@admin/core/lib/trpc'
 
 const { Text } = Typography
 const { useToken } = theme
@@ -25,11 +24,16 @@ export const Header: React.FC<RefineThemedLayoutHeaderProps> = ({ sticky = true 
   // const x = useHonoQuery(honoAppClient.ping, '$get', {})
   // const y = useHonoQuery(honoAppClient.hello, '$get', { query: { name: 'oop' } })
   // const z = useHonoQuery(honoAppClient.big.ping, '$get', { query: { name: 'oop' } })
-  // const trpc = useTrpc()
-  // const config = useQuery(trpc.app.getConfig.queryOptions())
-  // console.log(2, x.data)
-  // console.log(2, y.data)
-  // console.log(2, z.data)
+
+  console.log(444, honoAppClient2.ping.$get.queryOptions({}))
+  const x = useQuery(honoAppClient2.ping.$get.queryOptions({}))
+  // const y = useQuery(honoAppClient2.hello.$get.queryOptions({ query: { name: 'oop' } }))
+  // const z = useQuery(honoAppClient2.big.ping.$get.queryOptions({ query: { name: 'oopP' } }))
+  const trpc = useTrpc()
+  const config = useQuery(trpc.app.getConfig.queryOptions())
+  console.log(21, x.data)
+  // console.log(22, y.data)
+  // console.log(23, z.data)
   // console.log(89988, config.data)
 
   // useEffect(() => {

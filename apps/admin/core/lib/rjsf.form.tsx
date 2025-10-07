@@ -1,5 +1,5 @@
 import { useRjsfUiSchema } from '@devp0nt/refine0/client'
-import { getJsonSchemaProperties, type JsonSchema } from '@devp0nt/refine0/shared/utils'
+import { getJSProperties, type JsonSchema } from '@devp0nt/refine0/shared/utils'
 import type { UseFormReturnType } from '@refinedev/antd'
 import { Theme as AntDTheme } from '@rjsf/antd'
 import { withTheme } from '@rjsf/core'
@@ -55,19 +55,19 @@ const theme = {
 const RjsfThemed = withTheme(theme)
 
 export const RjsfForm = ({
-  schema,
+  js,
   refineForm,
   formRef,
   initialValues,
   uiSchemaGlobalOptions,
 }: {
-  schema: JsonSchema | null
+  js: JsonSchema | null
   refineForm: UseFormReturnType
   formRef: React.RefObject<any>
   initialValues?: any
   uiSchemaGlobalOptions?: GlobalUISchemaOptions
 }) => {
-  const uiSchema = useRjsfUiSchema({ schema, scope: 'form', globalOptions: uiSchemaGlobalOptions })
+  const uiSchema = useRjsfUiSchema({ js, scope: 'form', globalOptions: uiSchemaGlobalOptions })
   const [formData, setFormData] = useState<any>()
   const [wasSubmitted, setWasSubmitted] = useState(false)
   // TODO: do initial values omit better
@@ -75,7 +75,7 @@ export const RjsfForm = ({
     if (wasSubmitted) {
       return
     }
-    const properties = getJsonSchemaProperties(schema)
+    const properties = getJSProperties(js)
     if (initialValues) {
       setFormData(pick(initialValues, Object.keys(properties)))
     } else {
@@ -84,16 +84,16 @@ export const RjsfForm = ({
   }, [
     Object.keys(refineForm.formProps.initialValues || {}).length,
     Object.keys(initialValues || {}).length,
-    schema,
+    js,
     wasSubmitted,
   ])
-  if (!schema) {
+  if (!js) {
     return <Alert type="error" message="No schema found" />
   }
   return (
     <RjsfThemed
       ref={formRef}
-      schema={schema as any}
+      schema={js as any}
       validator={validator}
       formData={formData}
       uiSchema={uiSchema}

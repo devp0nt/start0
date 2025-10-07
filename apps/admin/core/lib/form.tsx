@@ -27,7 +27,7 @@ export const FormPage = ({ useRefineFormProps, type }: UseFormProps) => {
       {!resource ? (
         <Alert type="error" message="No schema found" />
       ) : (
-        <RjsfForm formRef={formRef} schema={resource.jsonSchema} refineForm={refineForm} />
+        <RjsfForm formRef={formRef} js={resource.js} refineForm={refineForm} />
       )}
     </Parent>
   )

@@ -1,27 +1,27 @@
 import z from 'zod'
-import { extractTitleFromJsonSchema, zFilters, zSorters, type ZodJsonSchema } from '../shared/utils'
+import { extractTitleFromJS, zFilters, zSorters, type ZodJsonSchema } from '../shared/utils'
 
-let defaultZodToJsonSchemaOptions: ZodToJsonSchemaOptions = {
+let defaultZodToJSOptions: ZodToJSOptions = {
   titlify: true,
 }
 
-export const setDefaultZodToJsonSchemaOptions = (options: ZodToJsonSchemaOptions) => {
-  defaultZodToJsonSchemaOptions = options
+export const setDefaultZodToJSOptions = (options: ZodToJSOptions) => {
+  defaultZodToJSOptions = options
 }
 
-export const getDefaultZodToJsonSchemaOptions = (): ZodToJsonSchemaOptions => {
-  return defaultZodToJsonSchemaOptions
+export const getDefaultZodToJSOptions = (): ZodToJSOptions => {
+  return defaultZodToJSOptions
 }
 
-export type ZodToJsonSchemaOptions = {
+export type ZodToJSOptions = {
   titlify?: boolean
 } & Parameters<typeof z.toJSONSchema>[1]
-export function zodToJsonSchema(schema: z.ZodType, options: ZodToJsonSchemaOptions = {}): ZodJsonSchema {
+export function zodToJS(zSchema: z.ZodType, options: ZodToJSOptions = {}): ZodJsonSchema {
   const { titlify, ...restOptions } = {
-    ...defaultZodToJsonSchemaOptions,
+    ...defaultZodToJSOptions,
     ...options,
   }
-  return z.toJSONSchema(schema, {
+  return z.toJSONSchema(zSchema, {
     unrepresentable: 'any',
     ...restOptions,
     override: (ctx) => {
@@ -40,7 +40,7 @@ export function zodToJsonSchema(schema: z.ZodType, options: ZodToJsonSchemaOptio
             if (typeof value === 'boolean') {
               return [key, value]
             }
-            return [key, { ...value, title: value.title === '' ? '' : extractTitleFromJsonSchema(value, key) }]
+            return [key, { ...value, title: value.title === '' ? '' : extractTitleFromJS(value, key) }]
           }),
         )
       }
@@ -72,11 +72,11 @@ export type ResourcePathWithMethod<TMethod extends ResourceMethod = ResourceMeth
 export const getRefineRoutesHelpers = ({
   prefix: defaultPrefix = '',
   resource: defaultResource,
-  zodToJsonSchemaOptions: defaultZodToJsonSchemaOptions = {},
+  zodToJSOptions: defaultZodToJSOptions = {},
 }: {
   prefix?: string
   resource: string
-  zodToJsonSchemaOptions?: ZodToJsonSchemaOptions
+  zodToJSOptions?: ZodToJSOptions
 }) => {
   const getResourceRoutePathAny = ({
     resource = defaultResource,
@@ -181,17 +181,17 @@ export const getRefineRoutesHelpers = ({
     defaultPageSize,
   }
 
-  const withJsonSchemaAsMeta = <TZodSchema extends z.ZodType>(
-    schema: TZodSchema,
-    options: ZodToJsonSchemaOptions = {},
+  const withJSAsMeta = <TZodSchema extends z.ZodType>(
+    zSchema: TZodSchema,
+    options: ZodToJSOptions = {},
   ): TZodSchema => {
-    return schema.meta(zodToJsonSchema(schema, { ...defaultZodToJsonSchemaOptions, ...options }))
+    return zSchema.meta(zodToJS(zSchema, { ...defaultZodToJSOptions, ...options }))
   }
 
   const zId = z.union([z.coerce.number(), z.string()])
 
   const getResourceListZInput = () => {
-    return withJsonSchemaAsMeta(
+    return withJSAsMeta(
       z
         .object({
           filters: zFilters.optional().default([]),
@@ -204,7 +204,7 @@ export const getRefineRoutesHelpers = ({
   }
 
   const getResourceShowZInput = () => {
-    return withJsonSchemaAsMeta(
+    return withJSAsMeta(
       z.object({
         id: zId,
       }),
@@ -212,7 +212,7 @@ export const getRefineRoutesHelpers = ({
   }
 
   const getResourceCreateZInput = <TZReqData extends z.ZodType>(zReqData: TZReqData) => {
-    return withJsonSchemaAsMeta(
+    return withJSAsMeta(
       z.object({
         data: zReqData,
       }),
@@ -220,7 +220,7 @@ export const getRefineRoutesHelpers = ({
   }
 
   const getResourceEditZInput = <TZReqData extends z.ZodType>(zReqData: TZReqData) => {
-    return withJsonSchemaAsMeta(
+    return withJSAsMeta(
       z.object({
         id: zId,
         data: zReqData,
@@ -229,7 +229,7 @@ export const getRefineRoutesHelpers = ({
   }
 
   const getResourceDeleteZInput = () => {
-    return withJsonSchemaAsMeta(
+    return withJSAsMeta(
       z.object({
         id: zId,
       }),
@@ -245,7 +245,7 @@ export const getRefineRoutesHelpers = ({
   }
 
   const getResourceListZOutput = <TZResData extends z.ZodType>(zResData: TZResData) => {
-    return withJsonSchemaAsMeta(
+    return withJSAsMeta(
       z.object({
         data: z.array(zResData),
         total: z.number(),
@@ -254,7 +254,7 @@ export const getRefineRoutesHelpers = ({
   }
 
   const getResourceShowZOutput = <TZResData extends z.ZodType>(zResData: TZResData) => {
-    return withJsonSchemaAsMeta(
+    return withJSAsMeta(
       z.object({
         data: zResData,
       }),
@@ -262,7 +262,7 @@ export const getRefineRoutesHelpers = ({
   }
 
   const getResourceCreateZOutput = <TZResData extends z.ZodType>(zResData: TZResData) => {
-    return withJsonSchemaAsMeta(
+    return withJSAsMeta(
       z.object({
         data: zResData,
       }),
@@ -270,7 +270,7 @@ export const getRefineRoutesHelpers = ({
   }
 
   const getResourceEditZOutput = <TZResData extends z.ZodType>(zResData: TZResData) => {
-    return withJsonSchemaAsMeta(
+    return withJSAsMeta(
       z.object({
         data: zResData,
       }),
@@ -278,7 +278,7 @@ export const getRefineRoutesHelpers = ({
   }
 
   const getResourceDeleteZOutput = <TZResData extends z.ZodType>(zResData: TZResData) => {
-    return withJsonSchemaAsMeta(
+    return withJSAsMeta(
       z.object({
         data: zResData,
       }),
@@ -337,6 +337,6 @@ export const getRefineRoutesHelpers = ({
     getZInput,
     getZOutput,
     parseZOutput,
-    withJsonSchemaAsMeta,
+    withJSAsMeta,
   }
 }

@@ -1,5 +1,5 @@
 import { useRjsfUiSchema } from '@devp0nt/refine0/client'
-import { extractTitleFromJsonSchema, getJsonSchemaValueByPath, type JsonSchema } from '@devp0nt/refine0/shared/utils'
+import { extractTitleFromJS, getJSValueByPath, type JsonSchema } from '@devp0nt/refine0/shared/utils'
 import { withTheme } from '@rjsf/core'
 import type {
   ArrayFieldTemplateProps,
@@ -9,7 +9,6 @@ import type {
   ObjectFieldTemplateProps,
   RegistryFieldsType,
   RegistryWidgetsType,
-  RJSFSchema,
   TemplatesType,
   UiSchema,
 } from '@rjsf/utils'
@@ -109,23 +108,23 @@ const pickComposedOption = (options: JSONSchema7Definition[] | undefined, data: 
 
 const OneOfField: React.FC<FieldProps> = (props) => {
   const option = pickComposedOption(props.schema.oneOf, props.formData)
-  if (!option) return <Text type="secondary">—</Text>
+  if (!option || typeof option === 'boolean') return <Text type="secondary">—</Text>
   const SchemaField = props.registry.fields.SchemaField
-  return <SchemaField {...props} schema={option as RJSFSchema} uiSchema={props.uiSchema} formData={props.formData} />
+  return <SchemaField {...props} schema={option} uiSchema={props.uiSchema} formData={props.formData} />
 }
 
 const AnyOfField: React.FC<FieldProps> = (props) => {
   const option = pickComposedOption(props.schema.anyOf, props.formData)
-  if (!option) return <Text type="secondary">—</Text>
+  if (!option || typeof option === 'boolean') return <Text type="secondary">—</Text>
   const SchemaField = props.registry.fields.SchemaField
-  return <SchemaField {...props} schema={option as RJSFSchema} uiSchema={props.uiSchema} formData={props.formData} />
+  return <SchemaField {...props} schema={option} uiSchema={props.uiSchema} formData={props.formData} />
 }
 
 /** Arrays */
 const ArrayField: React.FC<FieldProps> = (props) => {
   const { formData, schema, uiSchema, name } = props
   const itemsSchema = schema.items
-  const label = extractTitleFromJsonSchema(schema, name)
+  const label = extractTitleFromJS(schema, name)
 
   if (!Array.isArray(formData) || formData.length === 0) {
     return (
@@ -165,17 +164,19 @@ const ArrayField: React.FC<FieldProps> = (props) => {
     <Card size="small" title={label}>
       <List
         dataSource={formData}
-        renderItem={(item, index) => (
-          <List.Item key={index}>
-            <SchemaField
-              {...props}
-              name={String(index)}
-              schema={itemsSchema as RJSFSchema}
-              formData={item}
-              uiSchema={uiSchema?.items || uiSchema}
-            />
-          </List.Item>
-        )}
+        renderItem={(item, index) =>
+          typeof itemsSchema === 'object' && (
+            <List.Item key={index}>
+              <SchemaField
+                {...props}
+                name={String(index)}
+                schema={itemsSchema}
+                formData={item}
+                uiSchema={uiSchema?.items || uiSchema}
+              />
+            </List.Item>
+          )
+        }
       />
     </Card>
   )
@@ -185,9 +186,9 @@ const ArrayField: React.FC<FieldProps> = (props) => {
 const ObjectField: React.FC<FieldProps> = (props) => {
   const { formData, schema, name } = props
   const properties = schema.properties || {}
-  const label = extractTitleFromJsonSchema(schema, name)
-  const asCard = getJsonSchemaValueByPath(schema, 'x-card', false)
-  const asDescriptions = getJsonSchemaValueByPath(schema, 'x-descriptions', false)
+  const label = extractTitleFromJS(schema, name)
+  const asCard = getJSValueByPath(schema, 'x-card', false)
+  const asDescriptions = getJSValueByPath(schema, 'x-descriptions', false)
 
   const CardWrapper = ({ children }: { children: React.ReactNode }) => {
     if (asCard) {
@@ -217,16 +218,17 @@ const ObjectField: React.FC<FieldProps> = (props) => {
           {Object.entries(properties).map(([key, childSchema]) => {
             const value = formData[key]
             if (typeof value === 'undefined') return null
+            if (typeof childSchema === 'boolean') return null
             return (
               <Descriptions.Item
                 key={key}
-                label={extractTitleFromJsonSchema(childSchema, key)}
+                label={extractTitleFromJS(childSchema, key)}
                 styles={{ label: { width: 240 } }}
               >
                 <SchemaField
                   {...props}
                   name={key}
-                  schema={childSchema as RJSFSchema}
+                  schema={childSchema}
                   formData={value}
                   uiSchema={{
                     ...props.uiSchema?.[key],
@@ -245,11 +247,12 @@ const ObjectField: React.FC<FieldProps> = (props) => {
         <Space direction="vertical" style={{ width: '100%', gap: 16 }}>
           {Object.entries(properties).map(([key, childSchema]) => {
             const value = formData[key]
+            if (typeof childSchema === 'boolean') return null
             return (
               <SchemaField
                 {...props}
                 name={key}
-                schema={childSchema as RJSFSchema}
+                schema={childSchema}
                 formData={value}
                 uiSchema={props.uiSchema?.[key]}
               />
@@ -263,7 +266,7 @@ const ObjectField: React.FC<FieldProps> = (props) => {
 
 /** Title/Description/Unsupported */
 const TitleField: React.FC<FieldProps> = ({ schema, name }) => {
-  const title = extractTitleFromJsonSchema(schema, name)
+  const title = extractTitleFromJS(schema, name)
   return !title ? null : (
     <Title level={4} style={{ marginTop: 0 }}>
       {title}
@@ -356,23 +359,23 @@ const RjsfThemed = withTheme(theme)
 /** ---------- Public component ---------- */
 
 export const RjsfView = ({
-  schema,
+  js,
   data,
   scope,
   uiSchemaGlobalOptions,
 }: {
-  schema: JSONSchema7Definition | JsonSchema | null
+  js: JsonSchema | null
   data: unknown
   scope?: string | string[]
   uiSchemaGlobalOptions?: GlobalUISchemaOptions
 }) => {
-  if (!schema || typeof schema === 'boolean') {
+  if (!js || typeof js === 'boolean') {
     return <Alert type="error" message="No schema found" />
   }
-  const uiSchema = useRjsfUiSchema({ schema, scope, globalOptions: uiSchemaGlobalOptions })
+  const uiSchema = useRjsfUiSchema({ js, scope, globalOptions: uiSchemaGlobalOptions })
   return (
     <RjsfThemed
-      schema={schema as RJSFSchema}
+      schema={js as any}
       validator={validator}
       tagName="div"
       formData={data}

@@ -1,14 +1,13 @@
 import { refine0DataProvider } from '@devp0nt/refine0/client/data-provider'
-import { jsonSchemaToMeta, jsonSchemaToRjsfUiSchema, type JsonSchema } from '@devp0nt/refine0/shared/utils'
+import { jsToMeta, jsToRjsfUiSchema, type JsonSchema } from '@devp0nt/refine0/shared/utils'
 import type { ResourceProps } from '@refinedev/core'
 import { useResourceParams } from '@refinedev/core'
+import type { GlobalUISchemaOptions } from '@rjsf/utils'
 import axios, { type AxiosInstance } from 'axios'
 import get from 'lodash/get'
-import type { OpenAPI3 } from 'openapi-typescript'
+import type { OpenAPI3, OperationObject } from 'openapi-typescript'
 import { useEffect, useMemo } from 'react'
 import * as zustand from 'zustand'
-import type { JSONSchema7Definition } from 'json-schema'
-import type { GlobalUISchemaOptions } from '@rjsf/utils'
 
 export type OpenapiSchema = OpenAPI3
 export type OpenapiMethod = 'get' | 'post' | 'put' | 'delete' | 'patch'
@@ -19,7 +18,7 @@ export type RefineMeta = ResourceProps['meta']
 export type Refine0ResourceAction = {
   method: OpenapiMethod
   path: string
-  jsonSchema: JsonSchema
+  js: JsonSchema
 }
 export type Refine0Resource = {
   name: string
@@ -37,7 +36,7 @@ export type Refine0ResourceFullAction = {
   meta: RefineMeta
   method: OpenapiMethod
   path: string
-  jsonSchema: JsonSchema
+  js: JsonSchema
 }
 export type Refine0ResourceWithAction = Refine0Resource & Refine0ResourceAction
 
@@ -258,17 +257,17 @@ export const createRefine0 = ({
 export type CreateRefine0Result = ReturnType<typeof createRefine0>
 
 export const useRjsfUiSchema = ({
-  schema,
+  js,
   scope,
   globalOptions,
 }: {
-  schema: JSONSchema7Definition | JsonSchema | null
+  js: JsonSchema | null
   scope?: string | string[]
   globalOptions?: GlobalUISchemaOptions
 }) => {
   return useMemo(() => {
-    return jsonSchemaToRjsfUiSchema({ js: schema, scope, globalOptions })
-  }, [schema, scope, globalOptions])
+    return jsToRjsfUiSchema({ js, scope, globalOptions })
+  }, [js, scope, globalOptions])
 }
 
 export const normalizeOpenapiSchemaPaths = ({
@@ -307,7 +306,7 @@ export const getAnyRefine0ResourceAction = ({
   const { method, operationObject } = (():
     | {
         method: OpenapiMethod
-        operationObject: JsonSchema
+        operationObject: OperationObject
       }
     | {
         method: undefined
@@ -332,21 +331,21 @@ export const getAnyRefine0ResourceAction = ({
     return null
   }
   if (type === 'res') {
-    const schema = get(
+    const js = get(
       operationObject,
       ['responses', '200', 'content', 'application/json', 'schema', 'properties', 'data'],
       null,
     )
-    if (!schema) {
+    if (!js) {
       return null
     }
-    if (schema.type === 'array') {
-      return { method, jsonSchema: schema.items as JsonSchema, path }
+    if (js.type === 'array') {
+      return { method, js: js.items as JsonSchema, path }
     } else {
-      return { method, jsonSchema: schema as JsonSchema, path }
+      return { method, js: js as JsonSchema, path }
     }
   } else {
-    const schema = (() => {
+    const js = (() => {
       if (method === 'get' || method === 'delete') {
         // For GET and DELETE requests, get query parameters schema
         return get(operationObject, ['request', 'query'], null)
@@ -359,10 +358,10 @@ export const getAnyRefine0ResourceAction = ({
         )
       }
     })()
-    if (!schema) {
+    if (!js) {
       return null
     }
-    return { method, jsonSchema: schema as JsonSchema, path }
+    return { method, js: js as JsonSchema, path }
   }
 }
 
@@ -399,12 +398,11 @@ export const getRefine0ResourceAction = ({
       return { path: `${fullPathPrefix}/show`, type: 'res' }
     }
   })()
-  const schema = getAnyRefine0ResourceAction({
+  return getAnyRefine0ResourceAction({
     openapiSchema,
     path,
     type,
   })
-  return schema
 }
 
 export const getRefine0Resources = ({
@@ -443,12 +441,12 @@ export const getRefine0Resources = ({
     const exRefine0Resource = refine0Resources.find((exR0Resource) => exR0Resource.name === resource)
     if (exRefine0Resource) {
       exRefine0Resource[action] = refine0ResourceAction
-      exRefine0Resource.meta = { ...exRefine0Resource.meta, ...jsonSchemaToMeta(refine0ResourceAction.jsonSchema) }
+      exRefine0Resource.meta = { ...exRefine0Resource.meta, ...jsToMeta(refine0ResourceAction.js) }
     } else {
       refine0Resources.push({
         name: resource,
         icon: null,
-        meta: jsonSchemaToMeta(refine0ResourceAction.jsonSchema),
+        meta: jsToMeta(refine0ResourceAction.js),
         [action]: refine0ResourceAction,
       })
     }
