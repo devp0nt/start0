@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unnecessary-type-conversion */
 // createReactQueryHonoClient.ts
-import type { UseMutationOptions, UseQueryOptions } from '@tanstack/react-query'
-import type { Hono } from 'hono'
 import { hc, type InferResponseType } from 'hono/client'
+import type { Hono } from 'hono'
+import type { UseMutationOptions, UseQueryOptions } from '@tanstack/react-query'
 import type {
   ClientErrorStatusCode,
   ServerErrorStatusCode,
@@ -92,18 +93,18 @@ export const honoQueryOptions = <
   params: Params,
   options?: Options,
 ) => {
-  // callable (function) or request-builder with .fetch
-  const methodNode = (endpoint as any)[method] as
-    | ((p: Params) => Promise<Response>)
-    | { fetch: (p: Params, init?: RequestInit) => Promise<Response> }
+  const getMethodNode = () =>
+    (endpoint as any)[method] as
+      | ((p: Params) => Promise<Response>)
+      | { fetch: (p: Params, init?: RequestInit) => Promise<Response> }
 
   const callOnce = async () => {
-    if (typeof methodNode === 'function') return await handleJson<TResponse, TError>(await methodNode(params))
+    const node = getMethodNode()
+    if (typeof node === 'function') return await handleJson<TResponse, TError>(await node(params))
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-    if (methodNode && typeof (methodNode as any).fetch === 'function') {
-      return await handleJson<TResponse, TError>(await (methodNode as any).fetch(params))
+    if (node && typeof (node as any).fetch === 'function') {
+      return await handleJson<TResponse, TError>(await (node as any).fetch(params))
     }
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-conversion
     throw new Error(`Unsupported Hono method node for ${String(method)}`)
   }
 
@@ -133,17 +134,18 @@ export const honoMutationOptions = <
   method: M,
   options?: Omit<UseMutationOptions<TResponse, TError, TVariables, TContext>, 'mutationFn' | 'mutationKey'>,
 ): UseMutationOptions<TResponse, TError, TVariables, TContext> => {
-  const methodNode = (endpoint as any)[method] as
-    | ((p: TVariables) => Promise<Response>)
-    | { fetch: (p: TVariables, init?: RequestInit) => Promise<Response> }
+  const getMethodNode = () =>
+    (endpoint as any)[method] as
+      | ((p: TVariables) => Promise<Response>)
+      | { fetch: (p: TVariables, init?: RequestInit) => Promise<Response> }
 
   const callOnce = async (variables: TVariables) => {
-    if (typeof methodNode === 'function') return await handleJson<TResponse, TError>(await methodNode(variables))
+    const node = getMethodNode()
+    if (typeof node === 'function') return await handleJson<TResponse, TError>(await node(variables))
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-    if (methodNode && typeof (methodNode as any).fetch === 'function') {
-      return await handleJson<TResponse, TError>(await (methodNode as any).fetch(variables))
+    if (node && typeof (node as any).fetch === 'function') {
+      return await handleJson<TResponse, TError>(await (node as any).fetch(variables))
     }
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-conversion
     throw new Error(`Unsupported Hono method node for ${String(method)}`)
   }
 
@@ -226,25 +228,25 @@ const HTTP_METHODS: readonly HttpMethodKey[] = [
   '$head',
 ] as const
 
-function wrapMethodNode<T extends HasUrl>(endpointObj: T, method: HttpMethodKey, rawMethodNode: any): any {
-  // Build a callable that delegates to the underlying node (function or { fetch })
-  const callImpl = (args: any) => {
-    if (typeof rawMethodNode === 'function') return rawMethodNode(args)
-    if (rawMethodNode && typeof rawMethodNode.fetch === 'function') return rawMethodNode.fetch(args)
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-conversion
-    throw new Error(`Unsupported Hono method node for ${String(method)}`)
-  }
+function wrapMethodFacade<T extends HasUrl>(endpointObj: T, method: HttpMethodKey): any {
+  const getMethodNode = () => (endpointObj as any)[method]
 
-  // Return a callable proxy that *also* serves our virtual helpers.
+  // Callable facade that delegates to the real node lazily
   const callable = function (this: any, ...args: [any]) {
-    return callImpl(args[0])
+    const node = getMethodNode()
+    if (typeof node === 'function') return node(args[0])
+    if (node && typeof node.fetch === 'function') return node.fetch(args[0])
+    throw new Error(`Unsupported Hono method node for ${String(method)}`)
   } as any
 
   return new Proxy(callable, {
     apply(_t, _thisArg, argArray) {
-      return callImpl(argArray[0])
+      const node = getMethodNode()
+      if (typeof node === 'function') return node(argArray[0])
+      if (node && typeof node.fetch === 'function') return node.fetch(argArray[0])
+      throw new Error(`Unsupported Hono method node for ${String(method)}`)
     },
-    get(_t, prop, receiver) {
+    get(_t, prop, _receiver) {
       if (prop === 'queryOptions') {
         return (params: any, options?: any) => honoQueryOptions(endpointObj as any, method as never, params, options)
       }
@@ -254,17 +256,21 @@ function wrapMethodNode<T extends HasUrl>(endpointObj: T, method: HttpMethodKey,
       if (prop === 'queryFn') {
         return (params: any) => {
           return async () => {
-            const res = await callImpl(params)
-            return await handleJson(res)
+            const node = getMethodNode()
+            if (typeof node === 'function') return await handleJson(await node(params))
+            if (node && typeof node.fetch === 'function') return await handleJson(await node.fetch(params))
+            throw new Error(`Unsupported Hono method node for ${String(method)}`)
           }
         }
       }
       if (prop === 'mutationOptions') {
         return (options?: any) => honoMutationOptions(endpointObj as any, method as never, options)
       }
-      // Also forward known properties from the raw node (e.g. .fetch)
-      const raw = rawMethodNode[prop]
-      return typeof raw === 'function' ? raw.bind(rawMethodNode) : raw
+
+      // Forward other props to the real node (e.g., `.fetch`, `.aborted`, etc.)
+      const node = getMethodNode()
+      const raw = node?.[prop as any]
+      return typeof raw === 'function' ? raw.bind(node) : raw
     },
   })
 }
@@ -272,16 +278,15 @@ function wrapMethodNode<T extends HasUrl>(endpointObj: T, method: HttpMethodKey,
 function addReactQueryToHonoClient<TClient extends object>(original: TClient): HonoClientWithReactQuery<TClient> {
   const handler: ProxyHandler<any> = {
     get(target, prop, receiver) {
-      // 1) Intercept HTTP method *by property name first* to avoid path pollution like "/$get/queryOptions"
+      // Intercept method names BEFORE touching the underlying node
       if (HTTP_METHODS.includes(prop as HttpMethodKey)) {
         const endpointObj = target as HasUrl
-        const rawMethodNode = Reflect.get(target, prop, receiver)
-        return wrapMethodNode(endpointObj, prop as HttpMethodKey, rawMethodNode)
+        return wrapMethodFacade(endpointObj, prop as HttpMethodKey)
       }
 
-      // 2) Recurse into nested route objects
+      // Recurse into both objects AND functions (Hono returns function-like builders)
       const value = Reflect.get(target, prop, receiver)
-      if (value && typeof value === 'object') {
+      if (value && (typeof value === 'object' || typeof value === 'function')) {
         return new Proxy(value, handler)
       }
 
@@ -296,35 +301,12 @@ function addReactQueryToHonoClient<TClient extends object>(original: TClient): H
 // Public factory
 // ───────────────────────────────────────────────────────────────────────────────
 
-type Client<TApp extends Hono<any, any, any>> = Exclude<ReturnType<typeof hc<TApp>>, unknown>
+type Client<TApp extends Hono<any, any, any>> = Extract<ReturnType<typeof hc<TApp>>, object>
 
 export function createReactQueryHonoClient<
   TApp extends Hono<any, any, any>,
-  // TClient extends Client<TApp> = Client<TApp>,
   TClient extends Client<TApp> = Client<TApp>,
 >(baseUrl: string): HonoClientWithReactQuery<TClient> {
   const original = hc<TApp>(baseUrl) as TClient
   return addReactQueryToHonoClient<TClient>(original)
 }
-
-// ───────────────────────────────────────────────────────────────────────────────
-// Usage
-// ───────────────────────────────────────────────────────────────────────────────
-//
-// import type { HonoAdmin, HonoApp } from '@backend/hono-router'
-// import { createReactQueryHonoClient } from './createReactQueryHonoClient'
-// import { useQuery } from '@tanstack/react-query'
-//
-// export const honoAdminClient = createReactQueryHonoClient<HonoAdmin>(
-//   `${import.meta.env.VITE_BACKEND_URL}${backendHonoAdminRoutesBasePath}`,
-// )
-//
-// export const honoAppClient = createReactQueryHonoClient<HonoApp>(
-//   `${import.meta.env.VITE_BACKEND_URL}${backendHonoAppRoutesBasePath}`,
-// )
-//
-// // Exactly like you want:
-// useQuery(honoAppClient.posts.$get.queryOptions({ query: { filter: 'active' } }), { staleTime: 60_000 })
-//
-// // Also works for endpoints without params:
-// useQuery(honoAppClient.ping.$get.queryOptions({}), { staleTime: 60_000 })

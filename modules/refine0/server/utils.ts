@@ -212,28 +212,22 @@ export const getRefineRoutesHelpers = ({
   }
 
   const getResourceCreateZInput = <TZReqData extends z.ZodType>(zReqData: TZReqData) => {
-    return withJSAsMeta(
-      z.object({
-        data: zReqData,
-      }),
-    )
+    return z.object({
+      data: withJSAsMeta(zReqData),
+    })
   }
 
   const getResourceEditZInput = <TZReqData extends z.ZodType>(zReqData: TZReqData) => {
-    return withJSAsMeta(
-      z.object({
-        id: zId,
-        data: zReqData,
-      }),
-    )
+    return z.object({
+      id: zId,
+      data: withJSAsMeta(zReqData),
+    })
   }
 
   const getResourceDeleteZInput = () => {
-    return withJSAsMeta(
-      z.object({
-        id: zId,
-      }),
-    )
+    return z.object({
+      id: zId,
+    })
   }
 
   const getZInput = {

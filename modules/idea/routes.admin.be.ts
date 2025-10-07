@@ -5,14 +5,12 @@ import { zIdeaClientAdmin } from '@idea/shared/utils.sh'
 const { getRoute, parseZOutput } = getHonoRefineRoutesHelpers({ resource: 'idea' })
 
 const zResource = zIdeaClientAdmin
-const zCreate = zResource
-  .omit({
-    id: true,
-    sn: true,
-    createdAt: true,
-    updatedAt: true,
-  })
-  .meta({ title: '' })
+const zCreate = zResource.omit({
+  id: true,
+  sn: true,
+  createdAt: true,
+  updatedAt: true,
+})
 const zEdit = zCreate
 const zShow = zResource
 const zList = zResource
