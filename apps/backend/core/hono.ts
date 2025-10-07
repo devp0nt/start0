@@ -1,11 +1,15 @@
-import { appName } from '@apps/shared/utils'
-import { getAuthCtxValueByHonoContext } from '@auth/backend/utils.be'
+import { appName } from '@apps/shared/general'
+import type { auth } from '@auth/admin/backend/utils'
+import { getAuthCtxValueByHonoContext } from '@auth/admin/backend/utils'
 import type { BackendCtx } from '@backend/core/ctx'
 import { toErrorResponseWithStatus } from '@backend/core/error'
+import { Error0 } from '@devp0nt/error0'
 import { OpenAPIHono } from '@hono/zod-openapi'
 import { Scalar } from '@scalar/hono-api-reference'
 import type { Context as HonoContext } from 'hono'
 import { getConnInfo } from 'hono/cloudflare-workers'
+
+// base
 
 const createHonoReqCtx = async ({ backendCtx, honoCtx }: { backendCtx: BackendCtx.Self; honoCtx: HonoContext }) => {
   const req = honoCtx.req
@@ -28,14 +32,14 @@ const createHonoReqCtx = async ({ backendCtx, honoCtx }: { backendCtx: BackendCt
 
 export type HonoReqCtx = Awaited<ReturnType<typeof createHonoReqCtx>>
 export type HonoReqCtxValue = Omit<HonoReqCtx, 'self'>
-
-type HonoInit = {
-  Variables: { honoReqCtx: HonoReqCtx } & HonoReqCtxValue
+export type HonoSettings<THonoReqCtx extends HonoReqCtx = HonoReqCtx> = {
+  Variables: { honoReqCtx: THonoReqCtx } & Omit<THonoReqCtx, 'self'>
 }
-export type HonoCtx = HonoContext<HonoInit>
+export type HonoCtx = HonoContext<HonoSettings>
+export type HonoBase<THonoReqCtx extends HonoReqCtx = HonoReqCtx> = OpenAPIHono<HonoSettings<THonoReqCtx>>
 
-export const honoBase = () => {
-  const hono = new OpenAPIHono<HonoInit>({
+export const honoBase = <THonoReqCtx extends HonoReqCtx = HonoReqCtx>(): HonoBase<THonoReqCtx> => {
+  const hono = new OpenAPIHono<HonoSettings<THonoReqCtx>>({
     defaultHook: (result, c) => {
       if (!result.success) {
         return c.json(...toErrorResponseWithStatus(result.error, 422))
@@ -44,16 +48,8 @@ export const honoBase = () => {
   })
   return hono
 }
-export type Hono0 = ReturnType<typeof honoBase>
 
-export const honoAdminBase = () => {
-  return honoBase()
-}
-export const honoAppBase = () => {
-  return honoBase()
-}
-
-export const applyHonoReqContext = ({ hono, backendCtx }: { hono: Hono0; backendCtx: BackendCtx.Self }) => {
+export const applyHonoReqContext = ({ hono, backendCtx }: { hono: HonoBase; backendCtx: BackendCtx.Self }) => {
   hono.use(async (honoCtx, next) => {
     const honoReqCtx = await createHonoReqCtx({
       backendCtx,
@@ -71,7 +67,97 @@ export const applyHonoReqContext = ({ hono, backendCtx }: { hono: Hono0; backend
   })
 }
 
-export const applyHonoLogging = ({ hono }: { hono: Hono0 }) => {
+// admin
+
+export type HonoAdminReqCtx = Omit<HonoReqCtx, 'admin' | 'user'> & {
+  admin: NonNullable<HonoReqCtx['admin']>
+  user: NonNullable<HonoReqCtx['user']>
+}
+export type HonoAdminBase = HonoBase<HonoAdminReqCtx>
+export type HonoAdminBaseSettings = {
+  permission?: Parameters<typeof auth.api.userHasPermission>[0]['body']['permission']
+  permissions?: Parameters<typeof auth.api.userHasPermission>[0]['body']['permissions']
+}
+const validateHonoAdminReqCtx = async (
+  honoReqCtx: HonoReqCtx,
+  settings?: HonoAdminBaseSettings,
+): Promise<HonoAdminReqCtx> => {
+  if (!honoReqCtx.user) {
+    throw new Error0('Only for admins', { expected: true, httpStatus: 403 })
+  }
+  if (!honoReqCtx.admin) {
+    throw new Error0('Only for admins', { expected: true, httpStatus: 403 })
+  }
+  const auth = honoReqCtx.auth
+  if (settings?.permission) {
+    const { success } = await auth.api.userHasPermission({
+      body: {
+        userId: honoReqCtx.user.id,
+        role: honoReqCtx.user.role,
+        permission: settings.permission,
+      },
+    })
+    if (!success) {
+      throw new Error0(`Only for admins with one of this permission ${JSON.stringify(settings.permission)}`, {
+        expected: true,
+        httpStatus: 403,
+      })
+    }
+  }
+  if (settings?.permissions) {
+    const { success } = await auth.api.userHasPermission({
+      body: {
+        userId: honoReqCtx.user.id,
+        role: honoReqCtx.user.role,
+        permissions: settings.permissions,
+      },
+    })
+    if (!success) {
+      throw new Error0(`Only for admins with this permissions ${JSON.stringify(settings.permissions)}`, {
+        expected: true,
+        httpStatus: 403,
+      })
+    }
+  }
+  return honoReqCtx as never
+}
+export const honoAdminBase = (settings?: HonoAdminBaseSettings): HonoAdminBase => {
+  const hono = honoBase<HonoAdminReqCtx>()
+  hono.use(async (honoCtx, next) => {
+    await validateHonoAdminReqCtx(honoCtx.var.honoReqCtx, settings)
+    await next()
+  })
+  return hono
+}
+
+// member
+
+export type HonoMemberReqCtx = Omit<HonoReqCtx, 'member' | 'user'> & {
+  member: NonNullable<HonoReqCtx['member']>
+  user: NonNullable<HonoReqCtx['user']>
+}
+export type HonoMemberBase = HonoBase<HonoMemberReqCtx>
+const validateHonoMemberReqCtx = (honoReqCtx: HonoReqCtx): HonoMemberReqCtx => {
+  if (!honoReqCtx.user) {
+    throw new Error0('Only for authorized', { expected: true, httpStatus: 403 })
+  }
+  if (!honoReqCtx.member) {
+    throw new Error0('Only for authorized', { expected: true, httpStatus: 403 })
+  }
+  return honoReqCtx as never
+}
+export const honoMemberBase = (): HonoMemberBase => {
+  const hono = honoBase<HonoMemberReqCtx>()
+  hono.use(async (honoCtx, next) => {
+    validateHonoMemberReqCtx(honoCtx.var.honoReqCtx)
+    await next()
+  })
+  return hono
+}
+
+// utils
+
+export const applyHonoLogging = ({ hono }: { hono: HonoBase }) => {
   hono.use(async (c, next) => {
     const reqStartedAt = performance.now()
     try {
@@ -86,7 +172,7 @@ export const applyHonoLogging = ({ hono }: { hono: Hono0 }) => {
   })
 }
 
-export const applyHonoErrorHandling = ({ hono }: { hono: Hono0 }) => {
+export const applyHonoErrorHandling = ({ hono }: { hono: HonoBase }) => {
   hono.onError((error, c) => {
     try {
       const { logger } = c.var.tri0.extend('req')
@@ -102,7 +188,7 @@ export const applyHonoErrorHandling = ({ hono }: { hono: Hono0 }) => {
   })
 }
 
-export const applyHonoOpenapiDocs = ({ hono, basePath, name }: { hono: Hono0; basePath?: string; name: string }) => {
+export const applyHonoOpenapiDocs = ({ hono, basePath, name }: { hono: HonoBase; basePath?: string; name: string }) => {
   hono.doc31(
     '/doc.json',
     {
@@ -119,7 +205,7 @@ export const applyScalarDocs = ({
   path,
   sources,
 }: {
-  hono: Hono0
+  hono: HonoBase
   path: `/${string}`
   sources: Array<
     (

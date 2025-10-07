@@ -1,4 +1,4 @@
-import { appSlug } from '@apps/shared/utils'
+import { appSlug } from '@apps/shared/general'
 import { createEnv } from '@backend/core/env'
 import { Ctx0 } from '@devp0nt/ctx0'
 import { Error0 } from '@devp0nt/error0'

@@ -1,4 +1,4 @@
-import type { Hono0, HonoCtx } from '@backend/core/hono'
+import type { HonoBase, HonoCtx } from '@backend/core/hono'
 import { createTrpcCtx, createTrpcRouter } from '@backend/core/trpc'
 import { trpcServer } from '@hono/trpc-server'
 import type { inferRouterInputs, inferRouterOutputs } from '@trpc/server'
@@ -38,7 +38,7 @@ export const applyTrpcRouterToHono = ({
   basePath,
   trpcRouter,
 }: {
-  hono: Hono0
+  hono: HonoBase
   basePath: `/${string}`
   trpcRouter: any
 }) => {

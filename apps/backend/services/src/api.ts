@@ -1,4 +1,4 @@
-import { applyAuthRoutesToHonoApp, authOpenapiSchemaUrl } from '@auth/backend/utils.be'
+import { applyAuthRoutesToHonoApp, authOpenapiSchemaUrl } from '@auth/admin/backend/utils'
 import { BackendCtx, Tri0 } from '@backend/core/ctx'
 import {
   applyHonoErrorHandling,

@@ -31,6 +31,7 @@ export const ideaListAdminHonoRoute = honoAdminBase().openapi(
   async ({ req, json, var: { prisma } }) => {
     const body = req.valid('json')
     // TODO: convert filters to where
+    // TODO: convert sorters to orderBy
     const where = {}
     const ideas = await prisma.idea.findMany({
       where,

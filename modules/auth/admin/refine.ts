@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { authClient } from '@auth/admin/admin/client'
+import { authClient } from '@auth/admin/admin/utils'
 import type { AuthProvider, LoginFormTypes } from '@refinedev/core'
 
 export const TOKEN_KEY = 'refine-auth'

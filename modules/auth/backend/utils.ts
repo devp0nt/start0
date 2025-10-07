@@ -1,20 +1,33 @@
-import type { Hono0 } from '@backend/core/hono'
+import { adminPluginOptions } from '@auth/admin/shared/utils'
+import type { HonoBase } from '@backend/core/hono'
 import { backendAuthRoutesBasePath } from '@backend/shared/utils'
 import { PrismaClient } from '@prisma0/backend/generated/prisma/client'
 import { betterAuth } from 'better-auth'
 import { prismaAdapter } from 'better-auth/adapters/prisma'
-import { admin, openAPI } from 'better-auth/plugins'
+import { admin, customSession, openAPI } from 'better-auth/plugins'
 import type { Context as HonoContext } from 'hono'
 import { cors } from 'hono/cors'
 import { v4 as uuidv4 } from 'uuid'
 
-// npx @better-auth/cli generate --config modules/auth/backend/auth.ts --output modules/prisma0/backend/schema1.prisma
+const prisma = new PrismaClient()
 
 export const auth = betterAuth({
-  database: prismaAdapter(new PrismaClient(), {
+  database: prismaAdapter(prisma, {
     provider: 'postgresql',
   }),
-  plugins: [admin(), openAPI()],
+  plugins: [
+    admin({
+      ...adminPluginOptions,
+    }),
+    openAPI(),
+    customSession(async ({ user, session }) => {
+      const userData = await getUserData(user.id)
+      return {
+        ...userData,
+        session,
+      }
+    }),
+  ],
   basePath: backendAuthRoutesBasePath,
   emailAndPassword: {
     enabled: true,
@@ -64,12 +77,14 @@ export const getAuthCtxValueByHonoContext = async (honoCtx: HonoContext) => {
   const session = await auth.api.getSession({ headers: honoCtx.req.raw.headers })
   return {
     user: session?.user || null,
+    admin: session?.admin || null,
+    member: session?.member || null,
     session: session?.session || null,
     auth,
   }
 }
 
-export const applyAuthRoutesToHonoApp = ({ hono }: { hono: Hono0 }) => {
+export const applyAuthRoutesToHonoApp = ({ hono }: { hono: HonoBase }) => {
   hono.use(
     `${backendAuthRoutesBasePath}/*`,
     cors({
@@ -84,3 +99,35 @@ export const applyAuthRoutesToHonoApp = ({ hono }: { hono: Hono0 }) => {
 
   hono.on(['POST', 'GET'], `${backendAuthRoutesBasePath}/*`, async (c) => await auth.handler(c.req.raw))
 }
+
+export const getUserData = async (userId: string) => {
+  const { adminUser, memberUser, ...user } = await prisma.user.findUniqueOrThrow({
+    where: {
+      id: userId,
+    },
+    include: {
+      adminUser: {
+        include: {
+          user: true,
+        },
+      },
+      memberUser: {
+        include: {
+          user: true,
+        },
+      },
+    },
+  })
+  if (user.role === 'admin' && !adminUser) {
+    throw new Error(`User "${user.id}" is an admin but does not have an admin user`)
+  }
+  if (user.role !== 'admin' && adminUser) {
+    throw new Error(`User "${user.id}" is not an admin but has an admin user`)
+  }
+  return {
+    user,
+    admin: adminUser,
+    member: memberUser,
+  }
+}
+export type UserData = Awaited<ReturnType<typeof getUserData>>

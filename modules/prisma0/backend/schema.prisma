@@ -31,6 +31,13 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Role {
+  user
+  admin
+  manager
+  analyst
+}
+
 model User {
   id            String    @id @default(uuid())
   sn            Int       @unique @default(autoincrement())
@@ -40,12 +47,19 @@ model User {
   image         String?
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @default(now()) @updatedAt
-  role          String    @default("user")
+  role          Role      @default(user)
   banned        Boolean?  @default(false)
   banReason     String?
   banExpires    DateTime?
   sessions      Session[]
   accounts      Account[]
+
+  // each user is memberUser
+  memberUserId String     @unique
+  memberUser   MemberUser @relation(fields: [memberUserId], references: [id])
+
+  // but only some of them are adminUser
+  adminUser AdminUser?
 
   @@unique([email])
 }
@@ -89,6 +103,21 @@ model Verification {
   expiresAt  DateTime
   createdAt  DateTime @default(now())
   updatedAt  DateTime @default(now()) @updatedAt
+}
+
+model AdminUser {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+model MemberUser {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User?
 }
 
 model Idea {

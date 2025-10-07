@@ -11,7 +11,7 @@ import { Loader } from '@admin/core/components/loader'
 import { AdminCtx } from '@admin/core/lib/ctx'
 import { ResourceListPage } from '@admin/core/pages/list'
 import { TrpcProvider } from '@admin/core/lib/trpc'
-import { appName } from '@apps/shared/utils'
+import { appName } from '@apps/shared/general'
 import { ForgotPasswordPage } from '@auth/admin/admin/pages/forgotPassword'
 import { LoginPage } from '@auth/admin/admin/pages/login'
 import {

@@ -1,4 +1,5 @@
-import { IdeaSchema as zRaw } from '@prisma0/backend/generated/zod/schemas/models/Idea.schema'
+import { IdeaModelSchema as zRaw } from '@prisma0/backend/generated/zod/schemas'
+import type * as z from 'zod'
 
 export const zIdeaClientAdmin = zRaw
   .pick({
@@ -12,5 +13,7 @@ export const zIdeaClientAdmin = zRaw
   .extend({
     description: zRaw.shape.description.meta({ format: 'markdown' }),
   })
+export type IdeaClientAdmin = z.infer<typeof zIdeaClientAdmin>
 
-export const zIdeaClientUser = zIdeaClientAdmin
+export const zIdeaClientGuest = zIdeaClientAdmin
+export type IdeaClientGuest = z.infer<typeof zIdeaClientGuest>
