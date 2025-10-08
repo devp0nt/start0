@@ -1,6 +1,6 @@
 import { useRjsfJs, useRjsfUiSchema } from '@devp0nt/refine0/client'
 import {
-  disableUiSchemaLabel,
+  disableRjsfUiSchemaLabel,
   extractTitleFromJs,
   getJsValueByPath,
   type JsonSchema,
@@ -119,7 +119,7 @@ const OneOfField: React.FC<FieldProps> = (props) => {
     <SchemaField
       {...props}
       schema={combinedSchema}
-      uiSchema={disableUiSchemaLabel(props.uiSchema)} // disable labels inside the selected option
+      uiSchema={disableRjsfUiSchemaLabel(props.uiSchema)} // disable labels inside the selected option
       formData={props.formData}
     />
   )
@@ -134,7 +134,7 @@ const AnyOfField: React.FC<FieldProps> = (props) => {
     <SchemaField
       {...props}
       schema={combinedSchema}
-      uiSchema={disableUiSchemaLabel(props.uiSchema)} // disable labels inside the selected option
+      uiSchema={disableRjsfUiSchemaLabel(props.uiSchema)} // disable labels inside the selected option
       formData={props.formData}
     />
   )
@@ -258,7 +258,7 @@ const ObjectField: React.FC<FieldProps> = (props) => {
                   name={key}
                   schema={childSchema}
                   formData={value}
-                  uiSchema={disableUiSchemaLabel(props.uiSchema?.[key])} // child rows: no inner labels
+                  uiSchema={disableRjsfUiSchemaLabel(props.uiSchema?.[key])} // child rows: no inner labels
                 />
               </Descriptions.Item>
             )

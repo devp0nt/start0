@@ -15,19 +15,70 @@ export type RjsfJsonSchema = JSONSchema7Definition
 export type ZodJsonSchema = JSONSchema.BaseSchema
 export type JsonSchema = ZodJsonSchema | RjsfJsonSchema
 
-export type UiSchemaSettings = {
-  disableLabels?: boolean
+let defaultZodToJsOptions: ZodToJsOptions = {
+  datify: true,
+  titlify: true,
+  nullablify: true,
+}
+
+export const setDefaultZodToJsOptions = (options: ZodToJsOptions) => {
+  defaultZodToJsOptions = options
+}
+
+export const getDefaultZodToJsOptions = (): ZodToJsOptions => {
+  return defaultZodToJsOptions
+}
+
+export type ZodToJsOptions = {
+  datify?: boolean
+  titlify?: boolean
+  nullablify?: boolean
+} & Parameters<typeof z.toJSONSchema>[1]
+export function zodToJs(zSchema: z.ZodType, options: ZodToJsOptions = {}): ZodJsonSchema {
+  const { datify, titlify, ...restOptions } = {
+    ...defaultZodToJsOptions,
+    ...options,
+  }
+  return z.toJSONSchema(zSchema, {
+    unrepresentable: 'any',
+    ...restOptions,
+    override: (ctx) => {
+      // const def = (ctx.zodSchema as unknown as z.ZodType).def;
+      const def = ctx.zodSchema._zod.def
+
+      if (datify) {
+        if (def.type === 'date') {
+          ctx.jsonSchema.type = 'string'
+          ctx.jsonSchema.format = 'date-time'
+        }
+      }
+
+      if (ctx.jsonSchema.type === 'object' && titlify) {
+        ctx.jsonSchema.properties = Object.fromEntries(
+          Object.entries(ctx.jsonSchema.properties || {}).map(([key, value]) => {
+            if (typeof value === 'boolean') {
+              return [key, value]
+            }
+            return [key, { ...value, title: value.title === '' ? '' : extractTitleFromJs(value, key) }]
+          }),
+        )
+      }
+
+      // let user-supplied override run too
+      if (options.override) {
+        options.override(ctx)
+      }
+    },
+  })
 }
 
 let defaultExtractTitleFromJsOverrides: Record<string, string> = {
   Sn: 'SN',
   Id: 'ID',
 }
-
 export const setDefaultExtractTitleFromJsOverrides = (overrides: Record<string, string>) => {
   defaultExtractTitleFromJsOverrides = overrides
 }
-
 export const getDefaultExtractTitleFromJsOverrides = (): Record<string, string> => {
   return defaultExtractTitleFromJsOverrides
 }
@@ -35,7 +86,7 @@ export const getDefaultExtractTitleFromJsOverrides = (): Record<string, string> 
 // x-ui-widget = ...
 // x-ui:form-widget = ...
 // x-ui:view-widget = ...
-export const jsToUiSchema = ({
+export const jsToRjsfUiSchema = ({
   js,
   scope,
   globalOptions,
@@ -45,7 +96,7 @@ export const jsToUiSchema = ({
   globalOptions?: GlobalUISchemaOptions
 }): UiSchema => {
   if (typeof js === 'boolean' || !js) {
-    return jsToUiSchema({ js: {}, scope, globalOptions })
+    return jsToRjsfUiSchema({ js: {}, scope, globalOptions })
   }
   const result: UiSchema = {}
   deepMap(js, ({ value, path }) => {
@@ -102,12 +153,12 @@ export const jsToUiSchema = ({
   return result
 }
 
-export const overrideUiSchema = (uiSchema: UiSchema | undefined | null, overrides: UiSchema): UiSchema => {
+export const overrideRjsfUiSchema = (uiSchema: UiSchema | undefined | null, overrides: UiSchema): UiSchema => {
   return deepmerge(uiSchema || {}, overrides)
 }
 
-export const disableUiSchemaLabel = (uiSchema: UiSchema | undefined | null): UiSchema => {
-  return overrideUiSchema(uiSchema, { 'ui:options': { label: false } })
+export const disableRjsfUiSchemaLabel = (uiSchema: UiSchema | undefined | null): UiSchema => {
+  return overrideRjsfUiSchema(uiSchema, { 'ui:options': { label: false } })
 }
 
 export const evaluate = <T = unknown>(expression: string, data: unknown = {}): T => {
@@ -123,7 +174,7 @@ export const evaluate = <T = unknown>(expression: string, data: unknown = {}): T
   }
 }
 
-export const evalJsByData = (js: JsonSchema | null, data?: unknown): JsonSchema | null => {
+export const evalifyJsByData = (js: JsonSchema | null, data: unknown): JsonSchema | null => {
   if (!js || typeof js === 'boolean') {
     return null
   }
@@ -142,17 +193,17 @@ export const toRjsfJs = (js: JsonSchema | null): Exclude<RjsfJsonSchema, boolean
   return js as Exclude<RjsfJsonSchema, boolean>
 }
 
-// x-refine-meta-anyProperty = ...
-// x-refine-meta-anotherProperty = ...
-export const jsToMeta = (js: JsonSchema): Record<string, unknown> => {
+// x-refine-resource-meta-anyProperty = ...
+// x-refine-resource-meta-anotherProperty = ...
+export const jsToRefineResourceMeta = (js: JsonSchema): Record<string, unknown> => {
   if (typeof js === 'boolean') {
-    return jsToMeta({})
+    return jsToRefineResourceMeta({})
   }
   return Object.fromEntries(
     Object.entries(js)
-      .filter(([key, value]) => key.startsWith('x-refine-meta-'))
+      .filter(([key, value]) => key.startsWith('x-refine-resource-meta-'))
       .map(([key, value]) => {
-        return [key.replace('x-refine-meta-', ''), value]
+        return [key.replace('x-refine-resource-meta-', ''), value]
       }),
   )
 }

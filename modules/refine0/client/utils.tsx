@@ -1,9 +1,9 @@
 /* eslint-disable max-lines */
 import { refine0DataProvider } from '@devp0nt/refine0/client/data-provider'
 import {
-  evalJsByData,
-  jsToMeta,
-  jsToUiSchema,
+  evalifyJsByData,
+  jsToRefineResourceMeta,
+  jsToRjsfUiSchema,
   nullablifyJs,
   removeAdditionalDataByJs,
   toRjsfJs,
@@ -291,7 +291,7 @@ export const useRjsfUiSchema = ({
   globalOptions?: GlobalUISchemaOptions
 }) => {
   return useMemo(() => {
-    return jsToUiSchema({ js, scope, globalOptions })
+    return jsToRjsfUiSchema({ js, scope, globalOptions })
   }, [js, scope, globalOptions])
 }
 
@@ -466,11 +466,11 @@ export const getRefine0Resources = ({
     const exRefine0Resource = refine0Resources.find((exR0Resource) => exR0Resource.name === resource)
     if (exRefine0Resource) {
       exRefine0Resource[action] = refine0ResourceAction
-      exRefine0Resource.meta = { ...exRefine0Resource.meta, ...jsToMeta(refine0ResourceAction.js) }
+      exRefine0Resource.meta = { ...exRefine0Resource.meta, ...jsToRefineResourceMeta(refine0ResourceAction.js) }
     } else {
       refine0Resources.push({
         name: resource,
-        meta: jsToMeta(refine0ResourceAction.js),
+        meta: jsToRefineResourceMeta(refine0ResourceAction.js),
         [action]: refine0ResourceAction,
       })
     }
@@ -496,7 +496,7 @@ export const useRjsfJs = ({
       result = nullablifyJs(result)
     }
     if (evalify) {
-      result = evalJsByData(result, dataHere)
+      result = evalifyJsByData(result, dataHere)
     }
     result = toRjsfJs(result)
     return result

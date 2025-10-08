@@ -6,6 +6,12 @@ export class Refine0 {
   apiUrl: string
   apiPathPrefix: string | undefined
   httpClient: AxiosInstance
+  routePathPrefix: string | undefined
+  Icon:
+    | React.FC<{
+        icon: string
+      }>
+    | undefined
 
   useStore: CreateRefine0Result['useRefine0Store']
   useRefineResources: CreateRefine0Result['useRefine0RefineResources']
@@ -22,6 +28,8 @@ export class Refine0 {
     this.openapiUrl = props.openapiUrl
     this.httpClient = props.httpClient
     this.apiPathPrefix = props.apiPathPrefix
+    this.routePathPrefix = props.routePathPrefix
+    this.Icon = props.Icon
 
     this.useStore = refine0.useRefine0Store
     this.useRefineResources = refine0.useRefine0RefineResources

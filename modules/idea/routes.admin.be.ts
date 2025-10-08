@@ -1,5 +1,5 @@
 import { honoAdminMiddleware, honoBase } from '@backend/core/hono'
-import { getHonoRefineRoutesHelpers } from '@devp0nt/refine0/server/hono'
+import { getHonoRefineRoutesHelpers } from '@devp0nt/refine0/server'
 import { zIdeaClientAdmin } from '@idea/shared/utils.sh'
 
 const { getRoute, parseZOutput } = getHonoRefineRoutesHelpers({ resource: 'idea' })
@@ -24,7 +24,7 @@ const zList = zResource
     id: zResource.shape.id.meta({ 'x-hidden': true }),
   })
   .meta({
-    'x-refine-meta-icon': 'ant-design:file-outlined',
+    'x-refine-resource-meta-icon': 'ant-design:file-outlined',
   })
 
 export const ideaListAdminHonoRoute = honoBase().openapi(

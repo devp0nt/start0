@@ -2,7 +2,12 @@ refine0: r0c, r0s
 refine0
 react-query-hono-client
 
-logo admin
+env0 lazy
+logger0 fix filter
+tri0 init immediatelly
+catch errors on backend and frontend in highlevel
+prima client init immediatelly → add it to auth client
+add error thrower for server only files when them used in client
 
 Создать трпс процедуру, которая принимает название тега, и в контексте сразу отдаёт отэкстендженые трио
 Создать функцию обёртку над функциями, у которых первый аргумент контекст, чтобы опять же она могла легко заэкстендить все трио
@@ -32,7 +37,6 @@ code snippets
 nice docs generator
 
 remove old
-
 update mechanic в проекте клиенте старт0 хранить отдельно ветку с изначальным шаблоном, чтобы когда надумают обновиться, ии  посмотрела диф с той веткой и поняла, что надо обновлять в реальной ветке
 
 cron/scheduler
@@ -48,7 +52,9 @@ admin sn not id
 admin управление юзерами
 admin наличие только страницы редактирование без страницы списка
 admin chakra
+admin trpc schema
 admin полная генерация любых страниц, форм, пунктов меню искоючительно по схеме
+admin В мету самого эндпоинта подмешивать название ресурса и Экшена, чтобы отлепиться от наименования роутов
 
 --
 

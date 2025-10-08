@@ -2,7 +2,7 @@ import { toAdminUserServer } from '@adminUser/admin/utils.be'
 import { zAdminUserClientAdmin } from '@adminUser/shared/utils.sh'
 import { generatePassword } from '@auth/admin/backend/utils'
 import { honoAdminMiddleware, honoBase } from '@backend/core/hono'
-import { getHonoRefineRoutesHelpers } from '@devp0nt/refine0/server/hono'
+import { getHonoRefineRoutesHelpers } from '@devp0nt/refine0/server'
 import type { UserCreateInput } from '@prisma/backend/generated/prisma/models'
 
 const { getRoute, parseZOutput } = getHonoRefineRoutesHelpers({ resource: 'admin' })
@@ -33,7 +33,7 @@ const zList = zResource
     id: zResource.shape.id.meta({ 'x-hidden': true }),
   })
   .meta({
-    'x-refine-meta-icon': 'ant-design:file-outlined',
+    'x-refine-resource-meta-icon': 'ant-design:file-outlined',
   })
 
 export const adminUserListAdminHonoRoute = honoBase().openapi(

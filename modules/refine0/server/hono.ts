@@ -1,6 +1,7 @@
 import type z from 'zod'
-import { getRefineRoutesHelpers, type ResourceAction, type ResourceMethod, type ZodToJsOptions } from './utils'
+import { getRefineRoutesHelpers, type ResourceAction, type ResourceMethod } from './utils'
 import type { MiddlewareHandler } from 'hono'
+import type { ZodToJsOptions } from '@devp0nt/refine0/shared'
 
 // TODO: add default zIdSchema
 
