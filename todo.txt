@@ -1,14 +1,4 @@
-admin управление админами
-admin управление юзерами
-admin права админов на ресурсы на фронте
-admin права админов на ресурсы на бэке
-admin наличие только страницы редактирование без страницы списка
-admin смена пароля и прочее
-admin лого
-
 refine0: r0c, r0s
-remove namespaces
-
 refine0
 react-query-hono-client
 
@@ -52,7 +42,13 @@ i0n, i0n route0
 
 --
 
+logo/favicon generator
+admin logo
 admin sn not id
+admin управление юзерами
+admin наличие только страницы редактирование без страницы списка
+admin chakra
+admin полная генерация любых страниц, форм, пунктов меню искоючительно по схеме
 
 --
 

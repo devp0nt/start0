@@ -44,6 +44,7 @@ export const Header: React.FC<RefineThemedLayoutHeaderProps> = ({ sticky = true 
             <Link
               to="/profile"
               style={{
+                color: token.colorLink,
                 fontWeight: 600,
                 textDecoration: 'none',
               }}
