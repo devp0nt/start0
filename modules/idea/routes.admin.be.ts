@@ -1,4 +1,4 @@
-import { honoAdminBase } from '@backend/core/hono'
+import { honoAdminMiddleware, honoBase } from '@backend/core/hono'
 import { getHonoRefineRoutesHelpers } from '@devp0nt/refine0/server/hono'
 import { zIdeaClientAdmin } from '@idea/shared/utils.sh'
 
@@ -24,10 +24,13 @@ const zList = zResource
     id: zResource.shape.id.meta({ 'x-invisible': true }),
   })
 
-export const ideaListAdminHonoRoute = honoAdminBase({ permission: { idea: ['view'] } }).openapi(
-  getRoute.list({
-    zResData: zList,
-  }),
+export const ideaListAdminHonoRoute = honoBase().openapi(
+  {
+    ...getRoute.list({
+      zResData: zList,
+      middleware: [honoAdminMiddleware({ permission: { idea: ['view'] } })] as const,
+    }),
+  },
   async ({ req, json, var: { prisma } }) => {
     const body = req.valid('json')
     // TODO: convert filters to where
@@ -48,9 +51,10 @@ export const ideaListAdminHonoRoute = honoAdminBase({ permission: { idea: ['view
   },
 )
 
-export const ideaShowAdminHonoRoute = honoAdminBase({ permission: { idea: ['view'] } }).openapi(
+export const ideaShowAdminHonoRoute = honoBase().openapi(
   getRoute.show({
     zResData: zShow,
+    middleware: [honoAdminMiddleware({ permission: { idea: ['view'] } })] as const,
   }),
   async ({ req, json, var: { prisma } }) => {
     const query = req.valid('query')
@@ -64,10 +68,11 @@ export const ideaShowAdminHonoRoute = honoAdminBase({ permission: { idea: ['view
   },
 )
 
-export const ideaCreateAdminHonoRoute = honoAdminBase({ permission: { idea: ['manage'] } }).openapi(
+export const ideaCreateAdminHonoRoute = honoBase().openapi(
   getRoute.create({
     zResData: zResource,
     zReqData: zCreate,
+    middleware: [honoAdminMiddleware({ permission: { idea: ['manage'] } })] as const,
   }),
   async ({ req, json, var: { prisma } }) => {
     const body = req.valid('json')
@@ -78,10 +83,11 @@ export const ideaCreateAdminHonoRoute = honoAdminBase({ permission: { idea: ['ma
   },
 )
 
-export const ideaEditAdminHonoRoute = honoAdminBase({ permission: { idea: ['manage'] } }).openapi(
+export const ideaEditAdminHonoRoute = honoBase().openapi(
   getRoute.edit({
     zResData: zResource,
     zReqData: zEdit,
+    middleware: [honoAdminMiddleware({ permission: { idea: ['manage'] } })] as const,
   }),
   async ({ req, json, var: { prisma } }) => {
     const body = req.valid('json')
@@ -100,9 +106,10 @@ export const ideaEditAdminHonoRoute = honoAdminBase({ permission: { idea: ['mana
   },
 )
 
-export const ideaDeleteAdminHonoRoute = honoAdminBase({ permission: { idea: ['manage'] } }).openapi(
+export const ideaDeleteAdminHonoRoute = honoBase().openapi(
   getRoute.delete({
     zResData: zResource,
+    middleware: [honoAdminMiddleware({ permission: { idea: ['manage'] } })] as const,
   }),
   async ({ req, json, var: { prisma } }) => {
     const query = req.valid('query')

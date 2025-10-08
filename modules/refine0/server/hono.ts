@@ -1,14 +1,17 @@
 import type z from 'zod'
 import { getRefineRoutesHelpers, type ResourceAction, type ResourceMethod, type ZodToJSOptions } from './utils'
+import type { MiddlewareHandler } from 'hono'
 
-export const getHonoRefineRoutesHelpers = ({
+export const getHonoRefineRoutesHelpers = <TDefaultMiddleware extends MiddlewareHandler[] | undefined = undefined>({
   prefix: defaultPrefix = '',
   resource: defaultResource,
   zodToJSOptions,
+  defaultMiddleware,
 }: {
   prefix?: string
   resource: string
   zodToJSOptions?: ZodToJSOptions
+  defaultMiddleware?: TDefaultMiddleware
 }) => {
   const helpers = getRefineRoutesHelpers({
     prefix: defaultPrefix,
@@ -16,6 +19,28 @@ export const getHonoRefineRoutesHelpers = ({
     zodToJSOptions,
   })
   const { getPathWithMethod, getZInput, getZOutput, error } = helpers
+
+  type WithDefaultMiddleware<TMiddleware extends MiddlewareHandler[] | undefined = undefined> =
+    TDefaultMiddleware extends undefined
+      ? TMiddleware
+      : TMiddleware extends undefined
+        ? TDefaultMiddleware
+        : TDefaultMiddleware extends MiddlewareHandler[]
+          ? TMiddleware extends MiddlewareHandler[]
+            ? [...TDefaultMiddleware, ...TMiddleware]
+            : never
+          : never
+  const withDefaultMiddleware = <TMiddleware extends MiddlewareHandler[] | undefined = undefined>(
+    middleware: TMiddleware,
+  ): WithDefaultMiddleware<TMiddleware> => {
+    if (!defaultMiddleware) {
+      return middleware as WithDefaultMiddleware<TMiddleware>
+    }
+    if (!middleware) {
+      return defaultMiddleware as WithDefaultMiddleware<TMiddleware>
+    }
+    return [...defaultMiddleware, ...middleware] as WithDefaultMiddleware<TMiddleware>
+  }
 
   function getResSchema<TZResSchema extends z.ZodType>(description: string, schema: TZResSchema) {
     return {
@@ -118,9 +143,11 @@ export const getHonoRefineRoutesHelpers = ({
     TReqBodySchema extends z.ZodType | undefined = undefined,
     TReqQuerySchema extends z.ZodType | undefined = undefined,
     TReqParamsSchema extends z.ZodType | undefined = undefined,
+    TMiddleware extends MiddlewareHandler[] | undefined = undefined,
   >(input: {
     resource?: string
     action: ResourceAction
+    middleware?: TMiddleware
     request?: {
       body?: TReqBodySchema
       query?: TReqQuerySchema
@@ -135,6 +162,7 @@ export const getHonoRefineRoutesHelpers = ({
       query: ReturnType<typeof getReqQuerySchema<TReqQuerySchema>>
       params: ReturnType<typeof getReqParamsSchema<TReqParamsSchema>>
     }
+    middleware: WithDefaultMiddleware<TMiddleware>
     responses: {
       [key in keyof TResponses]: ReturnType<typeof getResSchema<TResponses[key]>>
     }
@@ -146,6 +174,7 @@ export const getHonoRefineRoutesHelpers = ({
         query: getReqQuerySchema(input.request?.query),
         params: getReqParamsSchema(input.request?.params),
       },
+      middleware: withDefaultMiddleware(input.middleware) as WithDefaultMiddleware<TMiddleware>,
       responses: {
         ...Object.fromEntries(
           Object.entries(input.responses).reduce((acc, [status, zSchema]) => {
@@ -157,10 +186,18 @@ export const getHonoRefineRoutesHelpers = ({
     }
   }
 
-  const getResourceListRoute = <TZResData extends z.ZodType>(input: { resource?: string; zResData: TZResData }) => {
+  const getResourceListRoute = <
+    TZResData extends z.ZodType,
+    TMiddleware extends MiddlewareHandler[] | undefined = undefined,
+  >(input: {
+    resource?: string
+    middleware?: TMiddleware
+    zResData: TZResData
+  }) => {
     return getResourceRoute({
       resource: input.resource,
       action: 'list',
+      middleware: input.middleware,
       request: {
         body: getZInput.list(),
       },
@@ -170,10 +207,18 @@ export const getHonoRefineRoutesHelpers = ({
     })
   }
 
-  const getResourceShowRoute = <TZResData extends z.ZodType>(input: { resource?: string; zResData: TZResData }) => {
+  const getResourceShowRoute = <
+    TZResData extends z.ZodType,
+    TMiddleware extends MiddlewareHandler[] | undefined = undefined,
+  >(input: {
+    resource?: string
+    middleware?: TMiddleware
+    zResData: TZResData
+  }) => {
     return getResourceRoute({
       resource: input.resource,
       action: 'show',
+      middleware: input.middleware,
       request: {
         query: getZInput.show(),
       },
@@ -184,14 +229,20 @@ export const getHonoRefineRoutesHelpers = ({
     })
   }
 
-  const getResourceCreateRoute = <TZReqData extends z.ZodType, TZResData extends z.ZodType>(input: {
+  const getResourceCreateRoute = <
+    TZReqData extends z.ZodType,
+    TZResData extends z.ZodType,
+    TMiddleware extends MiddlewareHandler[] | undefined = undefined,
+  >(input: {
     resource?: string
+    middleware?: TMiddleware
     zReqData: TZReqData
     zResData: TZResData
   }) => {
     return getResourceRoute({
       resource: input.resource,
       action: 'create',
+      middleware: input.middleware,
       request: {
         body: getZInput.create(input.zReqData),
       },
@@ -201,14 +252,20 @@ export const getHonoRefineRoutesHelpers = ({
     })
   }
 
-  const getResourceEditRoute = <TZReqData extends z.ZodType, TZResData extends z.ZodType>(input: {
+  const getResourceEditRoute = <
+    TZReqData extends z.ZodType,
+    TZResData extends z.ZodType,
+    TMiddleware extends MiddlewareHandler[] | undefined = undefined,
+  >(input: {
     resource?: string
+    middleware?: TMiddleware
     zReqData: TZReqData
     zResData: TZResData
   }) => {
     return getResourceRoute({
       resource: input.resource,
       action: 'edit',
+      middleware: input.middleware,
       request: {
         body: getZInput.edit(input.zReqData),
       },
@@ -219,10 +276,18 @@ export const getHonoRefineRoutesHelpers = ({
     })
   }
 
-  const getResourceDeleteRoute = <TZResData extends z.ZodType>(input: { resource?: string; zResData: TZResData }) => {
+  const getResourceDeleteRoute = <
+    TZResData extends z.ZodType,
+    TMiddleware extends MiddlewareHandler[] | undefined = undefined,
+  >(input: {
+    resource?: string
+    middleware?: TMiddleware
+    zResData: TZResData
+  }) => {
     return getResourceRoute({
       resource: input.resource,
       action: 'delete',
+      middleware: input.middleware,
       request: {
         query: getZInput.delete(),
       },

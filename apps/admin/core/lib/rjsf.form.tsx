@@ -10,11 +10,19 @@ import type {
   TemplatesType,
   WidgetProps,
 } from '@rjsf/utils'
-import validator from '@rjsf/validator-ajv8'
+import { customizeValidator } from '@rjsf/validator-ajv8'
 import MDEditor from '@uiw/react-md-editor'
 import { Alert, Flex } from 'antd'
 import { pick } from 'lodash'
 import { useEffect, useState } from 'react'
+import Ajv2020 from '@rjsf/validator-ajv8/node_modules/ajv/dist/2020'
+
+const validator = customizeValidator({
+  AjvClass: Ajv2020,
+  ajvOptionsOverrides: {
+    strict: false,
+  },
+})
 
 const MdEditorWidget = (props: WidgetProps) => {
   return (

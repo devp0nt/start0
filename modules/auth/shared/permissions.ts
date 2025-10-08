@@ -88,7 +88,7 @@ export const zPermissions = z
     ...Object.fromEntries(
       Object.entries(adminPluginOptions.ac.statements).map(([key, value]) => [
         key,
-        z.array(z.enum(value as unknown as [string, ...string[]])),
+        z.array(z.enum(value as unknown as [string, ...string[]])).optional(),
       ]),
     ),
   })

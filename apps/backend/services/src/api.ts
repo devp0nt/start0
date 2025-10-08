@@ -27,12 +27,19 @@ export const startApiProcess = async () => {
 
     // general
     const hono = honoBase()
-    applyHonoErrorHandling({ hono })
-    hono.use(cors())
+    hono.use(
+      cors({
+        origin: [backendCtx.env.ADMIN_URL, backendCtx.env.SITE_URL],
+        allowHeaders: ['Content-Type', 'Authorization'],
+        allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+        exposeHeaders: ['Content-Length'],
+        maxAge: 600,
+        credentials: true,
+      }),
+    )
     applyHonoReqContext({ hono, backendCtx })
     applyHonoLogging({ hono })
-
-    // auth
+    applyHonoErrorHandling({ hono })
     applyAuthRoutesToHonoApp({ hono })
 
     // docs
@@ -64,9 +71,9 @@ export const startApiProcess = async () => {
     })
 
     // routes
-    hono.route(backendHonoAppRoutesBasePath, honoApp)
-    hono.route(backendHonoAdminRoutesBasePath, honoAdmin)
     applyTrpcRouterToHono({ hono, basePath: backendTrpcRoutesBasePath, trpcRouter })
+    hono.route(backendHonoAdminRoutesBasePath, honoAdmin)
+    hono.route(backendHonoAppRoutesBasePath, honoApp)
 
     serve({
       fetch: hono.fetch,

@@ -1,12 +1,12 @@
 import { appName } from '@apps/shared/general'
-import { getAuthCtxValueByHonoContext } from '@auth/backend/backend/utils'
+import { getAuthCtxByHonoContext } from '@auth/backend/backend/utils'
 import type { Permissions } from '@auth/shared/shared/permissions'
 import type { BackendCtx } from '@backend/core/ctx'
 import { toErrorResponseWithStatus } from '@backend/core/error'
 import { Error0 } from '@devp0nt/error0'
 import { OpenAPIHono } from '@hono/zod-openapi'
 import { Scalar } from '@scalar/hono-api-reference'
-import type { Context as HonoContext } from 'hono'
+import type { Context as HonoContext, MiddlewareHandler } from 'hono'
 import { getConnInfo } from 'hono/cloudflare-workers'
 
 // base
@@ -21,12 +21,20 @@ const createHonoReqCtx = async ({ backendCtx, honoCtx }: { backendCtx: BackendCt
     reqMethod: req.method,
     reqPath: req.path,
   })
-  const authCtxValue = await getAuthCtxValueByHonoContext(honoCtx)
+
+  // early set tri0, to have access to logger if something went wrong in auth middleware
+  honoCtx.set('tri0', tri0)
+  honoCtx.set('logger', tri0.logger)
+  honoCtx.set('Error0', tri0.Error0)
+  honoCtx.set('meta', tri0.meta)
+
+  const authCtx = await getAuthCtxByHonoContext(honoCtx)
+
   return backendCtx.self.extend({
     tri0,
     honoCtx,
     req: honoCtx.req,
-    ...authCtxValue,
+    ...authCtx,
   })
 }
 
@@ -73,14 +81,15 @@ export type HonoAdminReqCtx = Omit<HonoReqCtx, 'admin' | 'user'> & {
   admin: NonNullable<HonoReqCtx['admin']>
   user: NonNullable<HonoReqCtx['user']>
 }
+export type HonoAdminSettings = HonoSettings<HonoAdminReqCtx>
 export type HonoAdminBase = HonoBase<HonoAdminReqCtx>
-export type HonoAdminBaseSettings = {
+export type HonoAdminOptions = {
   permission?: Permissions
   permissions?: Permissions
 }
 const validateHonoAdminReqCtx = async (
   honoReqCtx: HonoReqCtx,
-  settings?: HonoAdminBaseSettings,
+  options?: HonoAdminOptions,
 ): Promise<HonoAdminReqCtx> => {
   if (!honoReqCtx.user) {
     throw new Error0('Only for authorized admins', { expected: true, httpStatus: 403 })
@@ -88,20 +97,23 @@ const validateHonoAdminReqCtx = async (
   if (!honoReqCtx.admin) {
     throw new Error0('Only for authorized admins', { expected: true, httpStatus: 403 })
   }
-  if (settings?.permission) {
-    honoReqCtx.requirePermission({ permission: settings.permission })
+  if (options?.permission) {
+    honoReqCtx.requirePermission({ permission: options.permission })
   }
-  if (settings?.permissions) {
-    honoReqCtx.requirePermission({ permissions: settings.permissions })
+  if (options?.permissions) {
+    honoReqCtx.requirePermission({ permissions: options.permissions })
   }
   return honoReqCtx as never
 }
-export const honoAdminBase = (settings?: HonoAdminBaseSettings): HonoAdminBase => {
-  const hono = honoBase<HonoAdminReqCtx>()
-  hono.use(async (honoCtx, next) => {
-    await validateHonoAdminReqCtx(honoCtx.var.honoReqCtx, settings)
+export const honoAdminMiddleware = (options?: HonoAdminOptions): MiddlewareHandler<HonoAdminSettings> => {
+  return async (honoCtx, next) => {
+    await validateHonoAdminReqCtx(honoCtx.var.honoReqCtx, options)
     await next()
-  })
+  }
+}
+export const honoAdminBase = (options?: HonoAdminOptions): HonoAdminBase => {
+  const hono = honoBase<HonoAdminReqCtx>()
+  hono.use(honoAdminMiddleware(options))
   return hono
 }
 
@@ -111,6 +123,7 @@ export type HonoMemberReqCtx = Omit<HonoReqCtx, 'member' | 'user'> & {
   member: NonNullable<HonoReqCtx['member']>
   user: NonNullable<HonoReqCtx['user']>
 }
+export type HonoMemberSettings = HonoSettings<HonoMemberReqCtx>
 export type HonoMemberBase = HonoBase<HonoMemberReqCtx>
 const validateHonoMemberReqCtx = (honoReqCtx: HonoReqCtx): HonoMemberReqCtx => {
   if (!honoReqCtx.user) {
@@ -121,12 +134,15 @@ const validateHonoMemberReqCtx = (honoReqCtx: HonoReqCtx): HonoMemberReqCtx => {
   }
   return honoReqCtx as never
 }
-export const honoMemberBase = (): HonoMemberBase => {
-  const hono = honoBase<HonoMemberReqCtx>()
-  hono.use(async (honoCtx, next) => {
+export const honoMemberMiddleware = (): MiddlewareHandler<HonoMemberSettings> => {
+  return async (honoCtx, next) => {
     validateHonoMemberReqCtx(honoCtx.var.honoReqCtx)
     await next()
-  })
+  }
+}
+export const honoMemberBase = (): HonoMemberBase => {
+  const hono = honoBase<HonoMemberReqCtx>()
+  hono.use(honoMemberMiddleware())
   return hono
 }
 

@@ -4,6 +4,7 @@ import Axios, { isAxiosError } from 'axios'
 
 export const axiosInstance = Axios.create({
   baseURL: `${import.meta.env.VITE_BACKEND_URL}${backendAdminRoutesBasePath}`,
+  withCredentials: true,
 })
 
 axiosInstance.interceptors.request.use((config) => {

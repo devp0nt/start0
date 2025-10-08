@@ -11,6 +11,7 @@ export const createEnv = (source: Record<string, unknown>) => {
         PORT: ez.int,
         BACKEND_URL: ez.string,
         ADMIN_URL: ez.string,
+        SITE_URL: ez.string,
         DATABASE_URL: ez.string,
         INITIAL_ADMIN_EMAIL: ez.string,
         INITIAL_ADMIN_PASSWORD: ez.string,

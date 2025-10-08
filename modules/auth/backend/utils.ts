@@ -6,7 +6,6 @@ import { betterAuth } from 'better-auth'
 import { prismaAdapter } from 'better-auth/adapters/prisma'
 import { customSession, openAPI } from 'better-auth/plugins'
 import type { Context as HonoContext } from 'hono'
-import { cors } from 'hono/cors'
 import { v4 as uuidv4 } from 'uuid'
 import { zMeAdmin, zMeMember, zMeUser } from '../shared/dto'
 import {
@@ -89,10 +88,10 @@ export const auth = betterAuth({
   trustedOrigins: [process.env.ADMIN_URL, process.env.SITE_URL].flatMap((url) => url || []),
 })
 
-// path hardocded by better-auth
+// path hardcoded by better-auth "open-api/generate-schema"
 export const authOpenapiSchemaUrl = `${backendAuthRoutesBasePath}/open-api/generate-schema`
 
-export const getAuthCtxValueByHonoContext = async (honoCtx: HonoContext) => {
+export const getAuthCtxByHonoContext = async (honoCtx: HonoContext) => {
   const session = await auth.api.getSession({ headers: honoCtx.req.raw.headers })
   return {
     user: session?.user || null,
@@ -104,20 +103,9 @@ export const getAuthCtxValueByHonoContext = async (honoCtx: HonoContext) => {
     auth,
   }
 }
+export type AuthCtx = Awaited<ReturnType<typeof getAuthCtxByHonoContext>>
 
 export const applyAuthRoutesToHonoApp = ({ hono }: { hono: HonoBase }) => {
-  hono.use(
-    `${backendAuthRoutesBasePath}/*`,
-    cors({
-      origin: [process.env.ADMIN_URL || ''],
-      allowHeaders: ['Content-Type', 'Authorization'],
-      allowMethods: ['POST', 'GET', 'OPTIONS'],
-      exposeHeaders: ['Content-Length'],
-      maxAge: 600,
-      credentials: true,
-    }),
-  )
-
   hono.on(['POST', 'GET'], `${backendAuthRoutesBasePath}/*`, async (c) => await auth.handler(c.req.raw))
 }
 
@@ -139,19 +127,39 @@ export const getUserData = async (userId: string) => {
       },
     },
   })
-  if (user.role === 'admin' && !adminUser) {
-    throw new Error(`User "${user.id}" is an admin but does not have an admin user`)
-  }
-  if (user.role !== 'admin' && adminUser) {
-    throw new Error(`User "${user.id}" is not an admin but has an admin user`)
-  }
-  if (!memberUser) {
-    throw new Error(`User "${user.id}" does not have a member user`)
-  }
+  const ensureMemberUser = await (async () => {
+    if (memberUser) {
+      return memberUser
+    }
+    return await prisma.memberUser.create({
+      data: {
+        userId: user.id,
+      },
+      include: {
+        user: true,
+      },
+    })
+  })()
+  const ensureAdminUser = await (async () => {
+    if (!adminPluginOptions.adminRoles.includes(user.role)) {
+      return null
+    }
+    if (adminUser) {
+      return adminUser
+    }
+    return await prisma.adminUser.create({
+      data: {
+        userId: user.id,
+      },
+      include: {
+        user: true,
+      },
+    })
+  })()
   return {
     user: parseZodOrNull(zMeUser, user),
-    admin: parseZodOrNull(zMeAdmin, adminUser),
-    member: parseZodOrNull(zMeMember, memberUser),
+    admin: parseZodOrNull(zMeAdmin, ensureAdminUser),
+    member: parseZodOrNull(zMeMember, ensureMemberUser),
   }
 }
 export type UserData = Awaited<ReturnType<typeof getUserData>>
