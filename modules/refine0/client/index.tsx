@@ -37,4 +37,4 @@ export class Refine0 {
   }
 }
 
-export { useRjsfUiSchema } from '@devp0nt/refine0/client/utils'
+export { useRjsfUiSchema, useEvalRjsfJs, useRjsfJs } from '@devp0nt/refine0/client/utils'

@@ -1,5 +1,5 @@
 import type z from 'zod'
-import { getRefineRoutesHelpers, type ResourceAction, type ResourceMethod, type ZodToJSOptions } from './utils'
+import { getRefineRoutesHelpers, type ResourceAction, type ResourceMethod, type ZodToJsOptions } from './utils'
 import type { MiddlewareHandler } from 'hono'
 
 // TODO: add default zIdSchema
@@ -7,18 +7,18 @@ import type { MiddlewareHandler } from 'hono'
 export const getHonoRefineRoutesHelpers = <TDefaultMiddleware extends MiddlewareHandler[] | undefined = undefined>({
   prefix: defaultPrefix = '',
   resource: defaultResource,
-  zodToJSOptions,
+  zodToJsOptions,
   defaultMiddleware,
 }: {
   prefix?: string
   resource: string
-  zodToJSOptions?: ZodToJSOptions
+  zodToJsOptions?: ZodToJsOptions
   defaultMiddleware?: TDefaultMiddleware
 }) => {
   const helpers = getRefineRoutesHelpers({
     prefix: defaultPrefix,
     resource: defaultResource,
-    zodToJSOptions,
+    zodToJsOptions,
   })
   const { getPathWithMethod, getZInput, getZOutput, error } = helpers
 

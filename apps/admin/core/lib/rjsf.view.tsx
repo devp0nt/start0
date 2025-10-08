@@ -1,8 +1,9 @@
 import { useRjsfUiSchema } from '@devp0nt/refine0/client'
+import { useEvalRjsfJs } from '@devp0nt/refine0/client/utils'
 import {
   disableUiSchemaLabel,
-  extractTitleFromJS,
-  getJSValueByPath,
+  extractTitleFromJs,
+  getJsValueByPath,
   type JsonSchema,
 } from '@devp0nt/refine0/shared/utils'
 import { withTheme } from '@rjsf/core'
@@ -144,7 +145,7 @@ const AnyOfField: React.FC<FieldProps> = (props) => {
 const ArrayField: React.FC<FieldProps> = (props) => {
   const { formData, schema, uiSchema, name } = props
   const itemsSchema = schema.items
-  const label = extractTitleFromJS(schema, name)
+  const label = extractTitleFromJs(schema, name)
   const displayLabel = uiSchema?.['ui:options']?.label !== false && !!label
 
   const isTags =
@@ -203,10 +204,10 @@ const ArrayField: React.FC<FieldProps> = (props) => {
 const ObjectField: React.FC<FieldProps> = (props) => {
   const { formData, schema, name, uiSchema } = props
   const properties = schema.properties || {}
-  const label = extractTitleFromJS(schema, name)
-  const asCard = getJSValueByPath(schema, 'x-card', false)
-  const asDescriptionsBordered = !!getJSValueByPath(schema, 'x-descriptions-bordered', false)
-  const asDescriptions = !!getJSValueByPath(schema, 'x-descriptions', false) || asDescriptionsBordered
+  const label = extractTitleFromJs(schema, name)
+  const asCard = getJsValueByPath(schema, 'x-card', false)
+  const asDescriptionsBordered = !!getJsValueByPath(schema, 'x-descriptions-bordered', false)
+  const asDescriptions = !!getJsValueByPath(schema, 'x-descriptions', false) || asDescriptionsBordered
   const displayLabel = uiSchema?.['ui:options']?.label !== false && !!label
 
   const CardWrapper = ({ children }: { children: React.ReactNode }) => {
@@ -250,7 +251,7 @@ const ObjectField: React.FC<FieldProps> = (props) => {
             return (
               <Descriptions.Item
                 key={key}
-                label={extractTitleFromJS(childSchema, key)}
+                label={extractTitleFromJs(childSchema, key)}
                 styles={{ label: { width: 240 } }}
               >
                 <SchemaField
@@ -398,13 +399,14 @@ export const RjsfView = ({
   scope?: string | string[]
   uiSchemaGlobalOptions?: GlobalUISchemaOptions
 }) => {
-  if (!js || typeof js === 'boolean') {
+  const fixedJs = useEvalRjsfJs(js, data)
+  const uiSchema = useRjsfUiSchema({ js: fixedJs, scope, globalOptions: uiSchemaGlobalOptions })
+  if (!fixedJs) {
     return <Alert type="error" message="No schema found" />
   }
-  const uiSchema = useRjsfUiSchema({ js, scope, globalOptions: uiSchemaGlobalOptions })
   return (
     <RjsfThemed
-      schema={js as any}
+      schema={fixedJs}
       validator={validator}
       tagName="div"
       formData={data}
