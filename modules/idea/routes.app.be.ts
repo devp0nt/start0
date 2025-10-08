@@ -1,6 +1,6 @@
 import { trpcBase } from '@backend/core/trpc'
 import { Error0 } from '@devp0nt/error0'
-import { zIdeaShowInput } from '@idea/shared/routes.sh'
+import { zIdeaShowInput } from '@idea/admin/routes.app.sh'
 import { zIdeaClientGuest } from './utils.sh'
 import { parseZod } from '@apps/shared/utils'
 
