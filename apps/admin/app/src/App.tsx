@@ -9,8 +9,11 @@ import { SiderAfter, SiderBefore } from '@admin/app/components/sider'
 import { refine0, RefineSetup } from '@admin/app/lib/refine'
 import { Loader } from '@admin/core/components/loader'
 import { AdminCtx } from '@admin/core/lib/ctx'
-import { ResourceListPage } from '@admin/core/pages/list'
 import { TrpcProvider } from '@admin/core/lib/trpc'
+import { ResourceCreatePage } from '@admin/core/pages/create'
+import { ResourceEditPage } from '@admin/core/pages/edit'
+import { ResourceListPage } from '@admin/core/pages/list'
+import { ResourceShowPage } from '@admin/core/pages/show'
 import { appName } from '@apps/shared/general'
 import { ForgotPasswordPage } from '@auth/admin/admin/pages/forgotPassword'
 import { LoginPage } from '@auth/admin/admin/pages/login'
@@ -24,9 +27,14 @@ import { Alert, App as AntdApp } from 'antd'
 import { BrowserRouter, Outlet, Route, Routes } from 'react-router'
 import { Header } from './components/header'
 import { ColorModeContextProvider } from './lib/colorMode'
-import { ResourceCreatePage } from '@admin/core/pages/create'
-import { ResourceEditPage } from '@admin/core/pages/edit'
-import { ResourceShowPage } from '@admin/core/pages/show'
+
+// Global styles
+const globalStyles = `
+  .ant-menu-item .ant-menu-item-icon {
+    min-width: 16px !important;
+    font-size: 16px !important;
+  }
+`
 
 function App() {
   return (
@@ -34,6 +42,7 @@ function App() {
       <RefineKbarProvider>
         <ColorModeContextProvider>
           <AntdApp>
+            <style dangerouslySetInnerHTML={{ __html: globalStyles }} />
             <RefineSetup>
               <TrpcProvider>
                 <AdminCtx.Provider>

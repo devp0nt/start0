@@ -8,11 +8,14 @@ import { refineAuthProvider } from '@auth/admin/admin/refine'
 import { backendAdminRoutesBasePath } from '@backend/shared/utils'
 import { Refine0 } from '@devp0nt/refine0/client'
 import routerProvider from '@refinedev/react-router'
+import { Icon } from '@iconify/react'
+import { LoadingOutlined } from '@ant-design/icons'
 
 export const refine0 = Refine0.create({
   openapiUrl: `${import.meta.env.VITE_BACKEND_URL}${backendAdminRoutesBasePath}/doc.json`,
   apiUrl: import.meta.env.VITE_BACKEND_URL,
   httpClient: axiosInstance,
+  Icon: ({ icon }) => <Icon icon={icon} fallback={<LoadingOutlined />} className="anticon ant-menu-item-icon" />,
 })
 
 export const RefineSetup = ({ children }: { children: React.ReactNode }) => {

@@ -100,13 +100,19 @@ export const jsToRjsfUiSchema = ({
   return result
 }
 
-// x-meta-anyProperty = ...
-// x-meta-anotherProperty = ...
+// x-refine-meta-anyProperty = ...
+// x-refine-meta-anotherProperty = ...
 export const jsToMeta = (js: JsonSchema): Record<string, unknown> => {
   if (typeof js === 'boolean') {
     return jsToMeta({})
   }
-  return Object.fromEntries(Object.entries(js).filter(([key, value]) => key.startsWith('x-meta-')))
+  return Object.fromEntries(
+    Object.entries(js)
+      .filter(([key, value]) => key.startsWith('x-refine-meta-'))
+      .map(([key, value]) => {
+        return [key.replace('x-refine-meta-', ''), value]
+      }),
+  )
 }
 
 export function extractTitleFromJS(

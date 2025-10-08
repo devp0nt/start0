@@ -22,7 +22,6 @@ export type Refine0ResourceAction = {
 }
 export type Refine0Resource = {
   name: string
-  icon: string | null
   meta: RefineMeta
   create?: Refine0ResourceAction | null
   edit?: Refine0ResourceAction | null
@@ -66,11 +65,15 @@ export const createRefine0 = ({
   apiUrl: defaultApiUrl,
   apiPathPrefix: defaultApiPathPrefix,
   httpClient: defaultHttpClient,
+  Icon,
 }: {
   openapiUrl: string
   apiUrl: string
   apiPathPrefix?: string
   httpClient: AxiosInstance
+  Icon?: React.FC<{
+    icon: string
+  }>
 }) => {
   const useRefine0Store = zustand.create<
     (OpenapiSchemaStoreNotReady | OpenapiSchemaStoreReady) & {
@@ -121,10 +124,15 @@ export const createRefine0 = ({
         show: r0Resource.show ? `/${r0Resource.name}/show/:id` : undefined,
         clone: r0Resource.clone ? `/${r0Resource.name}/clone/:id` : undefined,
         meta: {
+          ...r0Resource.meta,
           canDelete: !!r0Resource.delete,
           dataProviderName,
-          icon: r0Resource.icon,
-          ...r0Resource.meta,
+          icon:
+            typeof r0Resource.meta?.icon === 'string' && Icon ? (
+              <Icon icon={r0Resource.meta.icon} />
+            ) : (
+              r0Resource.meta?.icon
+            ),
         },
       }))
     },
@@ -445,7 +453,6 @@ export const getRefine0Resources = ({
     } else {
       refine0Resources.push({
         name: resource,
-        icon: null,
         meta: jsToMeta(refine0ResourceAction.js),
         [action]: refine0ResourceAction,
       })

@@ -23,6 +23,9 @@ const zList = zResource
   .extend({
     id: zResource.shape.id.meta({ 'x-invisible': true }),
   })
+  .meta({
+    'x-refine-meta-icon': 'ant-design:file-outlined',
+  })
 
 export const ideaListAdminHonoRoute = honoBase().openapi(
   {

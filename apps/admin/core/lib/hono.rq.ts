@@ -310,3 +310,6 @@ export function createReactQueryHonoClient<
   const original = hc<TApp>(baseUrl) as TClient
   return addReactQueryToHonoClient<TClient>(original)
 }
+
+export type HonoClientOutput<T extends (...args: any[]) => any> = Awaited<ReturnType<Awaited<ReturnType<T>>['json']>>
+export type HonoClientInput<T extends (...args: any[]) => any> = Parameters<T>[0]
