@@ -2,6 +2,7 @@ import z from 'zod'
 import { extractTitleFromJS, zFilters, zSorters, type ZodJsonSchema } from '../shared/utils'
 
 let defaultZodToJSOptions: ZodToJSOptions = {
+  datify: true,
   titlify: true,
 }
 
@@ -14,10 +15,11 @@ export const getDefaultZodToJSOptions = (): ZodToJSOptions => {
 }
 
 export type ZodToJSOptions = {
+  datify?: boolean
   titlify?: boolean
 } & Parameters<typeof z.toJSONSchema>[1]
 export function zodToJS(zSchema: z.ZodType, options: ZodToJSOptions = {}): ZodJsonSchema {
-  const { titlify, ...restOptions } = {
+  const { datify, titlify, ...restOptions } = {
     ...defaultZodToJSOptions,
     ...options,
   }
@@ -28,10 +30,11 @@ export function zodToJS(zSchema: z.ZodType, options: ZodToJSOptions = {}): ZodJs
       // const def = (ctx.zodSchema as unknown as z.ZodType).def;
       const def = ctx.zodSchema._zod.def
 
-      // plain z.date()
-      if (def.type === 'date') {
-        ctx.jsonSchema.type = 'string'
-        ctx.jsonSchema.format = 'date-time'
+      if (datify) {
+        if (def.type === 'date') {
+          ctx.jsonSchema.type = 'string'
+          ctx.jsonSchema.format = 'date-time'
+        }
       }
 
       if (ctx.jsonSchema.type === 'object' && titlify) {

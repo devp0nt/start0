@@ -47,7 +47,7 @@ export const applyTrpcRouterToHono = ({
     trpcServer({
       router: trpcRouter,
       createContext: (_opts, honoCtx: HonoCtx) => {
-        return createTrpcCtx(honoCtx)
+        return createTrpcCtx(honoCtx.var.honoReqCtx, true)
       },
     }),
   )

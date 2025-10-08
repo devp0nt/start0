@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import { refine0DataProvider } from '@devp0nt/refine0/client/data-provider'
 import { jsToMeta, jsToRjsfUiSchema, type JsonSchema } from '@devp0nt/refine0/shared/utils'
 import type { ResourceProps } from '@refinedev/core'
@@ -45,7 +46,7 @@ type OpenapiSchemaStoreNotReady = {
   isLoading: boolean
   isReady: boolean
   error: { message: string } | null
-  apiUrl: null
+  // apiUrl: null
   openapiUrl: null
   apiPathPrefix: null
 }
@@ -55,7 +56,7 @@ type OpenapiSchemaStoreReady = {
   isLoading: boolean
   isReady: boolean
   error: null
-  apiUrl: string
+  // apiUrl: string
   openapiUrl: string
   apiPathPrefix: string | null
 }
@@ -64,12 +65,16 @@ export const createRefine0 = ({
   openapiUrl: defaultOpenapiUrl,
   apiUrl: defaultApiUrl,
   apiPathPrefix: defaultApiPathPrefix,
+  routePathPrefix: defaultRoutePathPrefix,
+  dataProviderName: defaultDataProviderName,
   httpClient: defaultHttpClient,
   Icon,
 }: {
   openapiUrl: string
   apiUrl: string
   apiPathPrefix?: string
+  routePathPrefix?: string
+  dataProviderName?: string
   httpClient: AxiosInstance
   Icon?: React.FC<{
     icon: string
@@ -78,7 +83,7 @@ export const createRefine0 = ({
   const useRefine0Store = zustand.create<
     (OpenapiSchemaStoreNotReady | OpenapiSchemaStoreReady) & {
       load: (props: { openapiUrl: string; apiPathPrefix?: string }) => Promise<void>
-      refineResources: (props?: { dataProviderName?: string }) => ResourceProps[]
+      refineResources: (props?: { dataProviderName?: string; routePathPrefix?: string }) => ResourceProps[]
       resourceAction: (props: { resource: string; action: RefineAction }) => Refine0ResourceAction | null
     }
   >((set, get) => ({
@@ -88,10 +93,9 @@ export const createRefine0 = ({
     isReady: false,
     error: null,
     isLoading: false,
-    apiUrl: null,
     openapiUrl: null,
     load: async ({ openapiUrl = defaultOpenapiUrl, apiPathPrefix: apiPathPrefixProvided = defaultApiPathPrefix }) => {
-      set({ isLoading: true, isReady: false, error: null, openapiSchema: null, resources: null })
+      set({ isLoading: true, isReady: false, error: null, openapiSchema: null, resources: null, openapiUrl: null })
       try {
         const res = await axios.get<OpenAPI3>(openapiUrl)
         const { openapiSchema, apiPathPrefix } = normalizeOpenapiSchemaPaths({
@@ -99,30 +103,32 @@ export const createRefine0 = ({
           apiPathPrefix: apiPathPrefixProvided,
         })
         const resources = getRefine0Resources({ openapiSchema, apiPathPrefix })
-        set({ openapiSchema, resources, error: null, isLoading: false, isReady: true, openapiUrl, apiPathPrefix })
+        set({ isLoading: false, isReady: true, error: null, openapiSchema, resources, openapiUrl, apiPathPrefix })
       } catch (error) {
         set({
-          error: error instanceof Error ? { message: error.message } : { message: 'Unknown error' },
           isLoading: false,
+          isReady: false,
+          error: error instanceof Error ? { message: error.message } : { message: 'Unknown error' },
           openapiSchema: null,
           resources: null,
-          isReady: false,
           openapiUrl: null,
+          apiPathPrefix: null,
         })
       }
     },
-    refineResources: ({ dataProviderName } = {}) => {
+    refineResources: (props = {}) => {
+      const { dataProviderName = defaultDataProviderName, routePathPrefix = defaultRoutePathPrefix || '' } = props
       const refine0Resources = get().resources
       if (!refine0Resources) {
         return []
       }
       return refine0Resources.map((r0Resource) => ({
         name: r0Resource.name,
-        list: r0Resource.list ? `/${r0Resource.name}` : undefined,
-        create: r0Resource.create ? `/${r0Resource.name}/create` : undefined,
-        edit: r0Resource.edit ? `/${r0Resource.name}/edit/:id` : undefined,
-        show: r0Resource.show ? `/${r0Resource.name}/show/:id` : undefined,
-        clone: r0Resource.clone ? `/${r0Resource.name}/clone/:id` : undefined,
+        list: r0Resource.list ? `${routePathPrefix}/${r0Resource.name}` : undefined,
+        create: r0Resource.create ? `${routePathPrefix}/${r0Resource.name}/create` : undefined,
+        edit: r0Resource.edit ? `${routePathPrefix}/${r0Resource.name}/edit/:id` : undefined,
+        show: r0Resource.show ? `${routePathPrefix}/${r0Resource.name}/show/:id` : undefined,
+        clone: r0Resource.clone ? `${routePathPrefix}/${r0Resource.name}/clone/:id` : undefined,
         meta: {
           ...r0Resource.meta,
           canDelete: !!r0Resource.delete,
@@ -149,11 +155,14 @@ export const createRefine0 = ({
     },
   }))
 
-  const useRefine0RefineResources = ({ dataProviderName }: { dataProviderName?: string } = {}) => {
+  const useRefine0RefineResources = ({
+    dataProviderName,
+    routePathPrefix,
+  }: { dataProviderName?: string; routePathPrefix?: string } = {}) => {
     const refine0Resources = useRefine0Store((state) => state.resources)
     return useMemo(() => {
-      return useRefine0Store.getState().refineResources({ dataProviderName })
-    }, [refine0Resources])
+      return useRefine0Store.getState().refineResources({ dataProviderName, routePathPrefix })
+    }, [refine0Resources, dataProviderName, routePathPrefix])
   }
 
   const useRefine0Resource = ({ resource: resourceProvided }: { resource?: string } = {}):

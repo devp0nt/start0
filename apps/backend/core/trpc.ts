@@ -1,17 +1,23 @@
-import type { HonoCtx } from '@backend/core/hono'
+import {
+  validateHonoAdminReqCtx,
+  validateHonoMemberReqCtx,
+  type HonoAdminOptions,
+  type HonoReqCtx,
+} from '@backend/core/hono'
 import { Error0 } from '@devp0nt/error0'
 import { initTRPC } from '@trpc/server'
 import superjson from 'superjson'
 import type { OpenApiMeta } from 'trpc-to-openapi'
 
-export const createTrpcCtx = (honoCtx: HonoCtx) => {
-  return honoCtx.var.honoReqCtx.self
-    .extend('trpc', {
-      tri0: honoCtx.var.tri0.extend('trpc'),
-    })
-    .self.extractValue()
+export const createTrpcCtx = <THonoReqCtx extends HonoReqCtx = HonoReqCtx>(
+  honoReqCtx: THonoReqCtx,
+  extend: boolean,
+) => {
+  const honoReqCtxValue = honoReqCtx.self.extractValue()
+  const tri0 = extend ? honoReqCtx.tri0.extend('trpc') : honoReqCtx.tri0
+  return { ...honoReqCtxValue, honoReqCtx, tri0 }
 }
-export type TrpcCtx = ReturnType<typeof createTrpcCtx>
+export type TrpcCtx<THonoReqCtx extends HonoReqCtx = HonoReqCtx> = ReturnType<typeof createTrpcCtx<THonoReqCtx>>
 
 const t = initTRPC
   .context<TrpcCtx>()
@@ -63,3 +69,19 @@ const trpcLogged = trpcProcedure.use(async ({ ctx, next, path, type }) => {
 })
 
 export const trpcBase = () => trpcLogged
+
+export const trpcAdminBase = (options?: HonoAdminOptions) => {
+  return trpcLogged.use(async ({ ctx, next, path, type }) => {
+    const honoAdminReqCtx = await validateHonoAdminReqCtx(ctx.honoReqCtx, options)
+    const trpcAdminReqCtx = createTrpcCtx(honoAdminReqCtx, false)
+    return await next({ ctx: trpcAdminReqCtx })
+  })
+}
+
+export const trpcMemberBase = () => {
+  return trpcLogged.use(async ({ ctx, next, path, type }) => {
+    const honoMemberReqCtx = await validateHonoMemberReqCtx(ctx.honoReqCtx)
+    const trpcMemberReqCtx = createTrpcCtx(honoMemberReqCtx, false)
+    return await next({ ctx: trpcMemberReqCtx })
+  })
+}
