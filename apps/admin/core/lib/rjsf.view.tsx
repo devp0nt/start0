@@ -1,5 +1,4 @@
-import { useRjsfUiSchema } from '@devp0nt/refine0/client'
-import { useEvalRjsfJs } from '@devp0nt/refine0/client/utils'
+import { useRjsfJs, useRjsfUiSchema } from '@devp0nt/refine0/client'
 import {
   disableUiSchemaLabel,
   extractTitleFromJs,
@@ -399,7 +398,7 @@ export const RjsfView = ({
   scope?: string | string[]
   uiSchemaGlobalOptions?: GlobalUISchemaOptions
 }) => {
-  const fixedJs = useEvalRjsfJs(js, data)
+  const fixedJs = useRjsfJs({ js, data, evalify: true, nullablify: false })
   const uiSchema = useRjsfUiSchema({ js: fixedJs, scope, globalOptions: uiSchemaGlobalOptions })
   if (!fixedJs) {
     return <Alert type="error" message="No schema found" />

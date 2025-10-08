@@ -59,12 +59,12 @@ export const jsToUiSchema = ({
           }),
       )
       const scopes = !scope ? [] : Array.isArray(scope) ? scope : [scope]
-      for (const oneOfScopes of scopes) {
+      for (const scopeItem of scopes) {
         const scopedProps = Object.fromEntries(
           Object.entries(value)
-            .filter(([key, value]) => key.startsWith(`x-ui:${oneOfScopes}-`))
+            .filter(([key, value]) => key.startsWith(`x-ui:${scopeItem}-`))
             .map(([key, value]) => {
-              return [key.replace(`x-ui:${oneOfScopes}-`, 'ui:'), value]
+              return [key.replace(`x-ui:${scopeItem}-`, 'ui:'), value]
             }),
         )
         // TODO if ui options is object merge it
@@ -217,6 +217,41 @@ export function removeAdditionalDataByJs<T>(js: JsonSchema | null, data: T): T {
     return data.map((item) => removeAdditionalDataByJs(js.items as JsonSchema | null, item)) as unknown as T
   }
   return data
+}
+
+export function nullablifyJs(schema: JsonSchema | null): JsonSchema | null {
+  if (!schema || typeof schema !== 'object') return schema
+  // Handle oneOf / anyOf => type: ['x','null']
+  const fix = (arrKey: 'oneOf' | 'anyOf') => {
+    const arr = schema[arrKey]
+    if (Array.isArray(arr) && arr.length === 2) {
+      const types = arr.map((x) => (x && typeof x === 'object' && 'type' in x ? x.type : undefined)).filter(Boolean)
+      if (types.includes('null') && types.length === 2) {
+        schema.type = types as never
+        // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
+        delete schema[arrKey]
+      }
+    }
+  }
+  fix('oneOf')
+  fix('anyOf')
+  // Recurse into nested schemas
+  if (schema.properties) {
+    for (const key of Object.keys(schema.properties)) {
+      const propSchema = get(schema, `properties.${key}`)
+      if (propSchema) {
+        set(schema, `properties.${key}`, nullablifyJs(propSchema))
+      }
+    }
+  }
+  if (schema.items) {
+    if (Array.isArray(schema.items)) {
+      schema.items = schema.items.map((item) => nullablifyJs(item)) as never
+    } else {
+      schema.items = nullablifyJs(schema.items) as never
+    }
+  }
+  return schema
 }
 
 /** Operators */

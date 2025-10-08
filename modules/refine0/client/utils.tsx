@@ -4,6 +4,7 @@ import {
   evalJsByData,
   jsToMeta,
   jsToUiSchema,
+  nullablifyJs,
   removeAdditionalDataByJs,
   toRjsfJs,
   type JsonSchema,
@@ -477,23 +478,45 @@ export const getRefine0Resources = ({
   return refine0Resources
 }
 
-export const useRjsfJs = (js: JsonSchema | null) => {
+export const useRjsfJs = ({
+  js,
+  data,
+  nullablify,
+  evalify,
+}: {
+  js: JsonSchema | null
+  data?: unknown
+  nullablify?: boolean
+  evalify?: boolean
+}) => {
+  const dataHere = evalify ? data : undefined
   return useMemo(() => {
-    const fixedJs = toRjsfJs(js)
-    return fixedJs
-  }, [js])
+    let result = js
+    if (nullablify) {
+      result = nullablifyJs(result)
+    }
+    if (evalify) {
+      result = evalJsByData(result, dataHere)
+    }
+    result = toRjsfJs(result)
+    return result
+  }, [js, dataHere, nullablify, evalify])
 }
 
-export const useEvalRjsfJs = (js: JsonSchema | null, data?: unknown) => {
+export const useRjsfData = ({
+  js,
+  data,
+  removeAdditional,
+}: {
+  js: JsonSchema | null
+  data: unknown
+  removeAdditional?: boolean
+}) => {
   return useMemo(() => {
-    const evaledJs = evalJsByData(js, data)
-    const fixedJs = toRjsfJs(evaledJs)
-    return fixedJs
-  }, [js, data])
-}
-
-export const useRemoveAdditionalDataByJs = (js: JsonSchema | null, data: unknown) => {
-  return useMemo(() => {
-    return removeAdditionalDataByJs(js, data)
-  }, [js, data])
+    let result = data
+    if (removeAdditional) {
+      result = removeAdditionalDataByJs(js, result)
+    }
+    return result
+  }, [js, data, removeAdditional])
 }

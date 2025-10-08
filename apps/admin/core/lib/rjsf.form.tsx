@@ -1,5 +1,5 @@
-import { useEvalRjsfJs, useRjsfUiSchema } from '@devp0nt/refine0/client'
-import { useRemoveAdditionalDataByJs } from '@devp0nt/refine0/client/utils'
+import { useRjsfUiSchema } from '@devp0nt/refine0/client'
+import { useRjsfData, useRjsfJs } from '@devp0nt/refine0/client/utils'
 import type { JsonSchema } from '@devp0nt/refine0/shared/utils'
 import type { UseFormReturnType } from '@refinedev/antd'
 import { Theme as AntDTheme } from '@rjsf/antd'
@@ -80,11 +80,15 @@ export const RjsfForm = ({
   uiSchemaGlobalOptions?: GlobalUISchemaOptions
 }) => {
   const [formData, setFormData] = useState<any>()
-  const fixedJs = useEvalRjsfJs(js, formData)
+  const fixedJs = useRjsfJs({ js, data: formData, evalify: true, nullablify: true })
   const uiSchema = useRjsfUiSchema({ js: fixedJs, scope: 'form', globalOptions: uiSchemaGlobalOptions })
   console.log({ fixedJs, uiSchema, formData })
   const [wasSubmitted, setWasSubmitted] = useState(false)
-  const fixedInitialValues = useRemoveAdditionalDataByJs(fixedJs, initialValues || refineForm.formProps.initialValues)
+  const fixedInitialValues = useRjsfData({
+    js: fixedJs,
+    data: initialValues || refineForm.formProps.initialValues,
+    removeAdditional: true,
+  })
   useEffect(() => {
     if (wasSubmitted) {
       return

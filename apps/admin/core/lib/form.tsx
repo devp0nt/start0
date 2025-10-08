@@ -1,7 +1,7 @@
 import { refine0 } from '@admin/app/lib/refine'
 import { RjsfForm } from '@admin/core/lib/rjsf.form'
 import { Create, Edit, useForm as useRefineForm, type UseFormProps as UseRefineFormProps } from '@refinedev/antd'
-import { Alert } from 'antd'
+import { Alert, Skeleton } from 'antd'
 import { useRef } from 'react'
 
 export type UseFormProps = {
@@ -26,6 +26,8 @@ export const FormPage = ({ useRefineFormProps, type }: UseFormProps) => {
     >
       {!resource ? (
         <Alert type="error" message="No schema found" />
+      ) : refineForm.query?.isLoading ? (
+        <Skeleton active />
       ) : (
         <RjsfForm formRef={formRef} js={resource.js} refineForm={refineForm} />
       )}

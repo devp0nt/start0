@@ -18,5 +18,6 @@ export const zAdminUserClientAdmin = UserSchema.pick({
   role: true,
 }).extend({
   permissions: zPermissions,
+  role: UserSchema.shape.role.meta({ 'x-ui:form-widget': 'radio' }),
 })
 export type AdminUserClientAdmin = z.infer<typeof zAdminUserClientAdmin>

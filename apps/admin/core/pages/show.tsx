@@ -2,7 +2,7 @@ import { refine0 } from '@admin/app/lib/refine'
 import { RjsfView } from '@admin/core/lib/rjsf.view'
 import { Show } from '@refinedev/antd'
 import { useShow, type UseShowProps } from '@refinedev/core'
-import { Alert } from 'antd'
+import { Alert, Skeleton } from 'antd'
 
 export const ResourceShowPage = (input: { useShowProps?: UseShowProps } = {}) => {
   const { result: data, query } = useShow({ ...input.useShowProps })
@@ -14,7 +14,7 @@ export const ResourceShowPage = (input: { useShowProps?: UseShowProps } = {}) =>
 
   return (
     <Show isLoading={query.isLoading}>
-      <RjsfView js={resource.js} data={data} scope="view" />
+      {query.isLoading ? <Skeleton active /> : <RjsfView js={resource.js} data={data} scope="view" />}
     </Show>
   )
 }

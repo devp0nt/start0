@@ -4,6 +4,7 @@ import { extractTitleFromJs, zFilters, zSorters, type ZodJsonSchema } from '../s
 let defaultZodToJsOptions: ZodToJsOptions = {
   datify: true,
   titlify: true,
+  nullablify: true,
 }
 
 export const setDefaultZodToJsOptions = (options: ZodToJsOptions) => {
@@ -17,6 +18,7 @@ export const getDefaultZodToJsOptions = (): ZodToJsOptions => {
 export type ZodToJsOptions = {
   datify?: boolean
   titlify?: boolean
+  nullablify?: boolean
 } & Parameters<typeof z.toJSONSchema>[1]
 export function zodToJs(zSchema: z.ZodType, options: ZodToJsOptions = {}): ZodJsonSchema {
   const { datify, titlify, ...restOptions } = {
