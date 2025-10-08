@@ -94,7 +94,9 @@ export const zPermissions = z
           .meta({
             'x-ui:view-widget': 'tags',
             'x-ui:form-widget': 'checkboxes',
+            'x-ui:form-emptyValue': [],
             'x-ui:form-options': { inline: true },
+            uniqueItems: true,
           }),
       ]),
     ),

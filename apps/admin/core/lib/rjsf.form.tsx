@@ -82,6 +82,7 @@ export const RjsfForm = ({
   const [formData, setFormData] = useState<any>()
   const fixedJs = useEvalRjsfJs(js, formData)
   const uiSchema = useRjsfUiSchema({ js: fixedJs, scope: 'form', globalOptions: uiSchemaGlobalOptions })
+  console.log({ fixedJs, uiSchema, formData })
   const [wasSubmitted, setWasSubmitted] = useState(false)
   const fixedInitialValues = useRemoveAdditionalDataByJs(fixedJs, initialValues || refineForm.formProps.initialValues)
   useEffect(() => {
