@@ -41,3 +41,29 @@ export function parseZod<T extends z.ZodType>(
   }
   return zSchema.parse(data)
 }
+
+export function parseZodOrNull<T extends z.ZodType, D extends z.input<T> | null>(
+  zSchema: T,
+  data: D,
+): D extends null ? null : z.infer<T>
+export function parseZodOrNull<T extends z.ZodType, D extends Array<z.input<T>> | null[]>(
+  zSchema: T,
+  data: D,
+): D extends null[] ? null[] : Array<z.infer<T>>
+export function parseZodOrNull<T extends z.ZodType, D extends Array<z.input<T>> | z.input<T> | null | null[]>(
+  zSchema: T,
+  data: D,
+) {
+  if (data === null) {
+    return null
+  }
+  if (Array.isArray(data)) {
+    if (data.every((item) => item === null)) {
+      return data.map(() => null)
+    } else {
+      return zSchema.array().parse(data)
+    }
+  } else {
+    return zSchema.parse(data)
+  }
+}

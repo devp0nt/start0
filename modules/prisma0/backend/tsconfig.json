@@ -3,6 +3,9 @@
   "include": [
     "./src/**/*",
     "../../../apps/shared/**/*",
+    "../../auth/**/shared/**/*",
+    "../../auth/**/*.sh.ts",
+    "../../auth/**/*.sh.tsx",
     "../../refine0/**/*",
     "../../idea/**/shared/**/*",
     "../../idea/**/*.sh.ts",
@@ -15,6 +18,9 @@
     "../../../apps/shared/**/dist/**/*",
     "../../../apps/shared/**/node_modules/**/*",
     "../../../apps/shared/**/public/**/*",
+    "../../auth/**/dist/**/*",
+    "../../auth/**/node_modules/**/*",
+    "../../auth/**/public/**/*",
     "../../refine0/**/dist/**/*",
     "../../refine0/**/node_modules/**/*",
     "../../refine0/**/public/**/*",
@@ -30,5 +36,9 @@
     "composite": true,
     "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@prisma0/backend/.tsbuildinfo"
   },
-  "references": []
+  "references": [
+    {
+      "path": "../shared/tsconfig.json"
+    }
+  ]
 }

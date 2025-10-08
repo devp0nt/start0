@@ -9,7 +9,7 @@
     "clean": "rimraf ../../../node_modules/.cache/tsbuildinfo/@prisma0/backend && rimraf ./dist && rimraf ./src/generated",
     "prisma-migrate-dev": "bun run --env-file=./.env prisma migrate dev && bun run build",
     "prisma-migrate-test": "bun run --env-file=./.env.test prisma migrate dev",
-    "prisma-generate-client": "bun run prisma generate client && bun run build",
+    "prisma-generate-client": "bun run prisma generate client && bun run build && cd ../shared && bun run build",
     "lint": "eslint --cache --cache-location ../../../node_modules/.cache/eslint/@prisma0/backend/.eslintcache ."
   },
   "dependencies": {
@@ -17,6 +17,7 @@
     "@prisma/client": "^6.14.0",
     "prisma": "^6.14.0",
     "prisma-json-types-generator": "^3.6.0",
-    "prisma-zod-generator": "^1.21.3"
+    "prisma-zod-generator": "^1.21.3",
+    "@prisma0/shared": "workspace:*"
   }
 }

@@ -1,11 +1,17 @@
-import { AdminUserModelSchema, MemberUserModelSchema, UserModelSchema } from '@prisma0/backend/generated/zod/schemas'
+// import { zPermissions } from './permissions'
+import { AdminUserSchema, MemberUserSchema, UserSchema } from '@prisma0/shared/generated/zod/schemas'
+import { z } from 'zod'
 
-export const zMeUser = UserModelSchema.omit({
-  // who know may be later, we want to hide some props
+export const zMeUser = UserSchema.extend({
+  // permissions: zPermissions,
+  permissions: z.any(),
 })
-export const zMeAdmin = AdminUserModelSchema.omit({
+export type MeUser = z.infer<typeof zMeUser>
+export const zMeAdmin = AdminUserSchema.extend({
   // ...
 })
-export const zMeMember = MemberUserModelSchema.omit({
+export type MeAdmin = z.infer<typeof zMeAdmin>
+export const zMeMember = MemberUserSchema.extend({
   // ...
 })
+export type MeMember = z.infer<typeof zMeMember>

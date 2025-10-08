@@ -1,11 +1,7 @@
-// import type { Idea } from '@idea/shared/utils.sh'
-
-// This file must be a module, so we include an empty export.
-export {}
+import type { Permissions as PermissionsType } from '@auth/shared/shared/permissions'
 
 declare global {
   namespace PrismaJson {
-    // Define a type for a user's profile information.
-    type IdeaLog = any
+    type Permissions = PermissionsType
   }
 }

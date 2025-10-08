@@ -4,23 +4,20 @@
     "./src/**/*",
     "../core/**/*",
     "../../../modules/appConfig/**/admin/**/*",
-    "../../../modules/appConfig/**/shared/**/*",
     "../../../modules/appConfig/**/*.ad.ts",
     "../../../modules/appConfig/**/*.ad.tsx",
     "../../../modules/appConfig/**/*.fe.ts",
     "../../../modules/appConfig/**/*.fe.tsx",
-    "../../../modules/appConfig/**/*.sh.ts",
-    "../../../modules/appConfig/**/*.sh.tsx",
     "../../../modules/appConfig/**/backend/**/*",
     "../../../modules/appConfig/**/*.be.ts",
     "../../../modules/appConfig/**/*.be.tsx",
     "../../shared/**/*",
     "../../../modules/auth/**/admin/**/*",
-    "../../../modules/auth/**/shared/**/*",
     "../../../modules/auth/**/*.ad.ts",
     "../../../modules/auth/**/*.ad.tsx",
     "../../../modules/auth/**/*.fe.ts",
     "../../../modules/auth/**/*.fe.tsx",
+    "../../../modules/auth/**/shared/**/*",
     "../../../modules/auth/**/*.sh.ts",
     "../../../modules/auth/**/*.sh.tsx",
     "../../backend/core/**/*",
@@ -29,11 +26,11 @@
     "../../backend/router/trpc/**/*",
     "../../../modules/refine0/**/*",
     "../../../modules/idea/**/admin/**/*",
-    "../../../modules/idea/**/shared/**/*",
     "../../../modules/idea/**/*.ad.ts",
     "../../../modules/idea/**/*.ad.tsx",
     "../../../modules/idea/**/*.fe.ts",
     "../../../modules/idea/**/*.fe.tsx",
+    "../../../modules/idea/**/shared/**/*",
     "../../../modules/idea/**/*.sh.ts",
     "../../../modules/idea/**/*.sh.tsx"
   ],
@@ -79,6 +76,9 @@
   "references": [
     {
       "path": "../../../modules/prisma0/backend/tsconfig.json"
+    },
+    {
+      "path": "../../../modules/prisma0/shared/tsconfig.json"
     }
   ]
 }

@@ -5,14 +5,17 @@
   },
   {
     "name": "@idea/backend",
-    "preset": ["backendModule", "backendMulti"]
+    "preset": ["backendModule", "backendMulti"],
+    "deps": ["@idea/shared"]
   },
   {
     "name": "@idea/site",
-    "preset": ["siteModule", "siteMulti"]
+    "preset": ["siteModule", "siteMulti"],
+    "deps": ["@idea/shared"]
   },
   {
     "name": "@idea/admin",
-    "preset": ["adminModule", "adminMulti"]
+    "preset": ["adminModule", "adminMulti"],
+    "deps": ["@idea/shared"]
   }
 ]

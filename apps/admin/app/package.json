@@ -15,7 +15,6 @@
   },
   "dependencies": {
     "@ant-design/v5-patch-for-react-19": "^1.0.3",
-    "@prisma0/backend": "workspace:*",
     "@refinedev/antd": "^6.0.1",
     "@refinedev/cli": "^2.16.48",
     "@refinedev/core": "^5.0.0",
@@ -33,7 +32,9 @@
     "react-dom": "19.2.0",
     "superjson": "^2.2.2",
     "use-context-selector": "^2.0.0",
-    "zustand": "^5.0.8"
+    "zustand": "^5.0.8",
+    "@prisma0/backend": "workspace:*",
+    "@prisma0/shared": "workspace:*"
   },
   "devDependencies": {
     "@types/qs": "^6.14.0",

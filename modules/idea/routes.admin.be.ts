@@ -24,7 +24,7 @@ const zList = zResource
     id: zResource.shape.id.meta({ 'x-invisible': true }),
   })
 
-export const ideaListAdminHonoRoute = honoAdminBase().openapi(
+export const ideaListAdminHonoRoute = honoAdminBase({ permission: { idea: ['view'] } }).openapi(
   getRoute.list({
     zResData: zList,
   }),
@@ -32,7 +32,9 @@ export const ideaListAdminHonoRoute = honoAdminBase().openapi(
     const body = req.valid('json')
     // TODO: convert filters to where
     // TODO: convert sorters to orderBy
-    const where = {}
+    const where = {
+      deletedAt: null,
+    }
     const ideas = await prisma.idea.findMany({
       where,
       take: body.pagination.pageSize,
@@ -46,14 +48,14 @@ export const ideaListAdminHonoRoute = honoAdminBase().openapi(
   },
 )
 
-export const ideaShowAdminHonoRoute = honoAdminBase().openapi(
+export const ideaShowAdminHonoRoute = honoAdminBase({ permission: { idea: ['view'] } }).openapi(
   getRoute.show({
     zResData: zShow,
   }),
   async ({ req, json, var: { prisma } }) => {
     const query = req.valid('query')
     const idea = await prisma.idea.findUnique({
-      where: { id: query.id.toString() },
+      where: { id: query.id.toString(), deletedAt: null },
     })
     if (!idea) {
       return json({ error: { message: 'Item not found' } }, 404)
@@ -62,7 +64,7 @@ export const ideaShowAdminHonoRoute = honoAdminBase().openapi(
   },
 )
 
-export const ideaCreateAdminHonoRoute = honoAdminBase().openapi(
+export const ideaCreateAdminHonoRoute = honoAdminBase({ permission: { idea: ['manage'] } }).openapi(
   getRoute.create({
     zResData: zResource,
     zReqData: zCreate,
@@ -76,7 +78,7 @@ export const ideaCreateAdminHonoRoute = honoAdminBase().openapi(
   },
 )
 
-export const ideaEditAdminHonoRoute = honoAdminBase().openapi(
+export const ideaEditAdminHonoRoute = honoAdminBase({ permission: { idea: ['manage'] } }).openapi(
   getRoute.edit({
     zResData: zResource,
     zReqData: zEdit,
@@ -98,15 +100,16 @@ export const ideaEditAdminHonoRoute = honoAdminBase().openapi(
   },
 )
 
-export const ideaDeleteAdminHonoRoute = honoAdminBase().openapi(
+export const ideaDeleteAdminHonoRoute = honoAdminBase({ permission: { idea: ['manage'] } }).openapi(
   getRoute.delete({
     zResData: zResource,
   }),
   async ({ req, json, var: { prisma } }) => {
     const query = req.valid('query')
     try {
-      const idea = await prisma.idea.delete({
+      const idea = await prisma.idea.update({
         where: { id: query.id.toString() },
+        data: { deletedAt: new Date() },
       })
       return json({ data: parseZOutput.delete(zResource, idea) }, 200)
     } catch (error: any) {

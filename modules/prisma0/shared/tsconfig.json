@@ -1,0 +1,28 @@
+{
+  "extends": "../../../apps/shared/tsconfig.shared.json",
+  "include": [
+    "./src/**/*",
+    "../../../apps/shared/**/*",
+    "../../refine0/**/*"
+  ],
+  "exclude": [
+    "./**/dist/**/*",
+    "./**/node_modules/**/*",
+    "./**/public/**/*",
+    "../../../apps/shared/**/dist/**/*",
+    "../../../apps/shared/**/node_modules/**/*",
+    "../../../apps/shared/**/public/**/*",
+    "../../refine0/**/dist/**/*",
+    "../../refine0/**/node_modules/**/*",
+    "../../refine0/**/public/**/*"
+  ],
+  "compilerOptions": {
+    "rootDir": "../../..",
+    "outDir": "./dist",
+    "declaration": true,
+    "declarationMap": true,
+    "composite": true,
+    "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@prisma0/shared/.tsbuildinfo"
+  },
+  "references": []
+}

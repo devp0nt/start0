@@ -3,6 +3,9 @@
   "include": [],
   "compilerOptions": {
     "paths": {
+      "better-auth/*": [
+        "./node_modules/better-auth/*"
+      ],
       "@admin/app": [
         "./apps/admin/app/src/index.tsx"
       ],
@@ -78,6 +81,9 @@
       "@prisma0/backend/*": [
         "./modules/prisma0/backend/src/*"
       ],
+      "@prisma0/shared/*": [
+        "./modules/prisma0/shared/src/*"
+      ],
       "@site/app/*": [
         "./apps/site/app/*"
       ],
@@ -101,6 +107,9 @@
     },
     {
       "path": "./modules/prisma0/backend/tsconfig.json"
+    },
+    {
+      "path": "./modules/prisma0/shared/tsconfig.json"
     },
     {
       "path": "./apps/site/app/tsconfig.json"

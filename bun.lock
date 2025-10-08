@@ -33,6 +33,7 @@
       "dependencies": {
         "@ant-design/v5-patch-for-react-19": "^1.0.3",
         "@prisma0/backend": "workspace:*",
+        "@prisma0/shared": "workspace:*",
         "@refinedev/antd": "^6.0.1",
         "@refinedev/cli": "^2.16.48",
         "@refinedev/core": "^5.0.0",
@@ -75,6 +76,7 @@
         "@logtape/logtape": "^1.0.4",
         "@prisma/client": "^6.14.0",
         "@prisma0/backend": "workspace:*",
+        "@prisma0/shared": "workspace:*",
         "@scalar/hono-api-reference": "^0.9.19",
         "@trpc/server": "^11.5.0",
         "axios": "^1.11.0",
@@ -100,10 +102,14 @@
       "dependencies": {
         "@devp0nt/tri0": "^1.0.0-next.19",
         "@prisma/client": "^6.14.0",
+        "@prisma0/shared": "workspace:*",
         "prisma": "^6.14.0",
         "prisma-json-types-generator": "^3.6.0",
         "prisma-zod-generator": "^1.21.3",
       },
+    },
+    "modules/prisma0/shared": {
+      "name": "@prisma0/shared",
     },
     "tools": {
       "name": "@tools/shared",
@@ -513,6 +519,8 @@
     "@prisma/schema-files-loader": ["@prisma/schema-files-loader@6.16.3", "", { "dependencies": { "@prisma/prisma-schema-wasm": "6.16.1-1.bb420e667c1820a8c05a38023385f6cc7ef8e83a", "fs-extra": "11.3.0" } }, "sha512-Rvw2ZVMBaUyfHWjHCYKDacI4IgtuOuj8amFd1wFwrBIEkiCbIX1nMo6xafKpmKFcDVx0io01k/LuL/PycKI5TA=="],
 
     "@prisma0/backend": ["@prisma0/backend@workspace:modules/prisma0/backend"],
+
+    "@prisma0/shared": ["@prisma0/shared@workspace:modules/prisma0/shared"],
 
     "@radix-ui/react-compose-refs": ["@radix-ui/react-compose-refs@1.1.2", "", { "peerDependencies": { "@types/react": "*", "react": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc" }, "optionalPeers": ["@types/react"] }, "sha512-z4eqJvfiNnFMHIIvXP3CY57y2WJs5g2v3X0zm9mEJkrkNv4rDxu+sg9Jh8EkXyeqBkB7SOcboo9dMVqhyrACIg=="],
 

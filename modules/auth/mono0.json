@@ -5,14 +5,17 @@
   },
   {
     "name": "@auth/backend",
-    "preset": ["backendModule", "backendMulti"]
+    "preset": ["backendModule", "backendMulti"],
+    "deps": ["@auth/shared"]
   },
   {
     "name": "@auth/site",
-    "preset": ["siteModule", "siteMulti"]
+    "preset": ["siteModule", "siteMulti"],
+    "deps": ["@auth/shared"]
   },
   {
     "name": "@auth/admin",
-    "preset": ["adminModule", "adminMulti"]
+    "preset": ["adminModule", "adminMulti"],
+    "deps": ["@auth/shared"]
   }
 ]

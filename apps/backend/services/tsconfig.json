@@ -3,16 +3,13 @@
   "include": [
     "./src/**/*",
     "../../../modules/appConfig/**/backend/**/*",
-    "../../../modules/appConfig/**/shared/**/*",
     "../../../modules/appConfig/**/*.be.ts",
     "../../../modules/appConfig/**/*.be.tsx",
-    "../../../modules/appConfig/**/*.sh.ts",
-    "../../../modules/appConfig/**/*.sh.tsx",
     "../../shared/**/*",
     "../../../modules/auth/**/backend/**/*",
-    "../../../modules/auth/**/shared/**/*",
     "../../../modules/auth/**/*.be.ts",
     "../../../modules/auth/**/*.be.tsx",
+    "../../../modules/auth/**/shared/**/*",
     "../../../modules/auth/**/*.sh.ts",
     "../../../modules/auth/**/*.sh.tsx",
     "../core/**/*",
@@ -21,9 +18,9 @@
     "../router/trpc/**/*",
     "../../../modules/refine0/**/*",
     "../../../modules/idea/**/backend/**/*",
-    "../../../modules/idea/**/shared/**/*",
     "../../../modules/idea/**/*.be.ts",
     "../../../modules/idea/**/*.be.tsx",
+    "../../../modules/idea/**/shared/**/*",
     "../../../modules/idea/**/*.sh.ts",
     "../../../modules/idea/**/*.sh.tsx"
   ],
@@ -66,6 +63,9 @@
   "references": [
     {
       "path": "../../../modules/prisma0/backend/tsconfig.json"
+    },
+    {
+      "path": "../../../modules/prisma0/shared/tsconfig.json"
     }
   ]
 }

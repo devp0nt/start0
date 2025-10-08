@@ -1,6 +1,6 @@
 import { appName } from '@apps/shared/general'
-import type { auth } from '@auth/admin/backend/utils'
-import { getAuthCtxValueByHonoContext } from '@auth/admin/backend/utils'
+import { getAuthCtxValueByHonoContext } from '@auth/backend/backend/utils'
+import type { Permissions } from '@auth/shared/shared/permissions'
 import type { BackendCtx } from '@backend/core/ctx'
 import { toErrorResponseWithStatus } from '@backend/core/error'
 import { Error0 } from '@devp0nt/error0'
@@ -75,49 +75,24 @@ export type HonoAdminReqCtx = Omit<HonoReqCtx, 'admin' | 'user'> & {
 }
 export type HonoAdminBase = HonoBase<HonoAdminReqCtx>
 export type HonoAdminBaseSettings = {
-  permission?: Parameters<typeof auth.api.userHasPermission>[0]['body']['permission']
-  permissions?: Parameters<typeof auth.api.userHasPermission>[0]['body']['permissions']
+  permission?: Permissions
+  permissions?: Permissions
 }
 const validateHonoAdminReqCtx = async (
   honoReqCtx: HonoReqCtx,
   settings?: HonoAdminBaseSettings,
 ): Promise<HonoAdminReqCtx> => {
   if (!honoReqCtx.user) {
-    throw new Error0('Only for admins', { expected: true, httpStatus: 403 })
+    throw new Error0('Only for authorized admins', { expected: true, httpStatus: 403 })
   }
   if (!honoReqCtx.admin) {
-    throw new Error0('Only for admins', { expected: true, httpStatus: 403 })
+    throw new Error0('Only for authorized admins', { expected: true, httpStatus: 403 })
   }
-  const auth = honoReqCtx.auth
   if (settings?.permission) {
-    const { success } = await auth.api.userHasPermission({
-      body: {
-        userId: honoReqCtx.user.id,
-        role: honoReqCtx.user.role,
-        permission: settings.permission,
-      },
-    })
-    if (!success) {
-      throw new Error0(`Only for admins with one of this permission ${JSON.stringify(settings.permission)}`, {
-        expected: true,
-        httpStatus: 403,
-      })
-    }
+    honoReqCtx.requirePermission({ permission: settings.permission })
   }
   if (settings?.permissions) {
-    const { success } = await auth.api.userHasPermission({
-      body: {
-        userId: honoReqCtx.user.id,
-        role: honoReqCtx.user.role,
-        permissions: settings.permissions,
-      },
-    })
-    if (!success) {
-      throw new Error0(`Only for admins with this permissions ${JSON.stringify(settings.permissions)}`, {
-        expected: true,
-        httpStatus: 403,
-      })
-    }
+    honoReqCtx.requirePermission({ permissions: settings.permissions })
   }
   return honoReqCtx as never
 }
@@ -139,10 +114,10 @@ export type HonoMemberReqCtx = Omit<HonoReqCtx, 'member' | 'user'> & {
 export type HonoMemberBase = HonoBase<HonoMemberReqCtx>
 const validateHonoMemberReqCtx = (honoReqCtx: HonoReqCtx): HonoMemberReqCtx => {
   if (!honoReqCtx.user) {
-    throw new Error0('Only for authorized', { expected: true, httpStatus: 403 })
+    throw new Error0('Only for authorized users', { expected: true, httpStatus: 403 })
   }
   if (!honoReqCtx.member) {
-    throw new Error0('Only for authorized', { expected: true, httpStatus: 403 })
+    throw new Error0('Only for authorized users', { expected: true, httpStatus: 403 })
   }
   return honoReqCtx as never
 }

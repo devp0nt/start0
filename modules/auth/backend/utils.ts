@@ -1,24 +1,48 @@
-import { adminPluginOptions } from '@auth/admin/shared/utils'
+import { parseZodOrNull } from '@apps/shared/utils'
 import type { HonoBase } from '@backend/core/hono'
 import { backendAuthRoutesBasePath } from '@backend/shared/utils'
 import { PrismaClient } from '@prisma0/backend/generated/prisma/client'
 import { betterAuth } from 'better-auth'
 import { prismaAdapter } from 'better-auth/adapters/prisma'
-import { admin, customSession, openAPI } from 'better-auth/plugins'
+import { customSession, openAPI } from 'better-auth/plugins'
 import type { Context as HonoContext } from 'hono'
 import { cors } from 'hono/cors'
+import { admin } from 'better-auth/plugins/admin'
 import { v4 as uuidv4 } from 'uuid'
+import { zMeAdmin, zMeMember, zMeUser } from '../shared/dto'
+import { createHasPermission, createRequirePermission, getAdminPluginSettings } from '../shared/permissions'
 
 const prisma = new PrismaClient()
 
+const aps = getAdminPluginSettings()
 export const auth = betterAuth({
   database: prismaAdapter(prisma, {
     provider: 'postgresql',
   }),
   plugins: [
     admin({
-      ...adminPluginOptions,
+      ac: aps.accessControl,
+      roles: {
+        user: aps.userRole,
+        admin: aps.adminRole,
+        manager: aps.managerRole,
+        analyst: aps.analystRole,
+        special: aps.specialRole,
+      },
+      adminRoles: aps.adminRoles,
     }),
+    // admin({
+    //   ac: getAdminPluginSettings().accessControl,
+    //   roles: {
+    //     user: getAdminPluginSettings().userRole,
+    //     admin: getAdminPluginSettings().adminRole,
+    //     manager: getAdminPluginSettings().managerRole,
+    //     analyst: getAdminPluginSettings().analystRole,
+    //     special: getAdminPluginSettings().specialRole,
+    //   },
+    //   adminRoles: getAdminPluginSettings().adminRoles,
+    // }),
+    // await aps.createServerAdminPlugin(),
     openAPI(),
     customSession(async ({ user, session }) => {
       const userData = await getUserData(user.id)
@@ -80,6 +104,8 @@ export const getAuthCtxValueByHonoContext = async (honoCtx: HonoContext) => {
     admin: session?.admin || null,
     member: session?.member || null,
     session: session?.session || null,
+    hasPermission: createHasPermission(session?.user || null),
+    requirePermission: createRequirePermission(session?.user || null),
     auth,
   }
 }
@@ -125,9 +151,9 @@ export const getUserData = async (userId: string) => {
     throw new Error(`User "${user.id}" is not an admin but has an admin user`)
   }
   return {
-    user,
-    admin: adminUser,
-    member: memberUser,
+    user: parseZodOrNull(zMeUser, user),
+    admin: parseZodOrNull(zMeAdmin, adminUser),
+    member: parseZodOrNull(zMeMember, memberUser),
   }
 }
 export type UserData = Awaited<ReturnType<typeof getUserData>>

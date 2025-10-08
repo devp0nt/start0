@@ -22,7 +22,7 @@ generator custom {
 
 generator zod {
   provider = "prisma-zod-generator"
-  output   = "./src/generated/zod"
+  output   = "../shared/src/generated/zod"
   config   = "./zod-generator.config.json"
 }
 
@@ -53,6 +53,9 @@ model User {
   banExpires    DateTime?
   sessions      Session[]
   accounts      Account[]
+
+  /// [Permissions]
+  permissions Json @default("{}")
 
   // each user is memberUser
   memberUserId String     @unique
@@ -121,10 +124,11 @@ model MemberUser {
 }
 
 model Idea {
-  id        String   @id @default(uuid())
-  sn        Int      @unique @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id        String    @id @default(uuid())
+  sn        Int       @unique @default(autoincrement())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
 
   title       String
   description String
