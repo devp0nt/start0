@@ -8,13 +8,17 @@ import type { UserCreateInput } from '@prisma0/backend/generated/prisma/models'
 const { getRoute, parseZOutput } = getHonoRefineRoutesHelpers({ resource: 'admin' })
 
 const zResource = zAdminUserClientAdmin
-const zCreate = zResource.pick({
-  name: true,
-  email: true,
-  role: true,
-  permissions: true,
-  image: true,
-})
+const zCreate = zResource
+  .pick({
+    name: true,
+    email: true,
+    role: true,
+    permissions: true,
+    image: true,
+  })
+  .extend({
+    permissions: zResource.shape.permissions.meta({ 'x-card': true }),
+  })
 const zEdit = zCreate
 const zShow = zResource
 const zList = zResource
