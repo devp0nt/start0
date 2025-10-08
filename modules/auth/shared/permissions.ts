@@ -6,8 +6,8 @@ import z from 'zod'
 
 const accessControlStatements = {
   ...defaultStatements,
-  adminUser: ['view', 'manage'],
-  memberUser: ['view', 'manage'],
+  admin: ['view', 'manage'],
+  member: ['view', 'manage'],
   idea: ['view', 'manage'],
   newsPost: ['view', 'manage'],
   appConfig: ['view', 'manage'],
@@ -21,8 +21,8 @@ const userRole = accessControl.newRole({
 
 const adminRole = accessControl.newRole({
   ...adminAc.statements,
-  adminUser: ['view', 'manage'],
-  memberUser: ['view', 'manage'],
+  admin: ['view', 'manage'],
+  member: ['view', 'manage'],
   idea: ['view', 'manage'],
   newsPost: ['view', 'manage'],
   appConfig: ['view', 'manage'],
@@ -31,8 +31,8 @@ const adminRole = accessControl.newRole({
 const managerRole = accessControl.newRole({
   user: ['list', 'ban', 'get'],
   session: ['list', 'revoke', 'delete'],
-  adminUser: ['view'],
-  memberUser: ['view'],
+  admin: ['view'],
+  member: ['view'],
   idea: ['view', 'manage'],
   newsPost: ['view', 'manage'],
   appConfig: ['view', 'manage'],
@@ -41,8 +41,8 @@ const managerRole = accessControl.newRole({
 const analystRole = accessControl.newRole({
   user: ['list', 'get'],
   session: ['list'],
-  adminUser: ['view'],
-  memberUser: ['view'],
+  admin: ['view'],
+  member: ['view'],
   idea: ['view'],
   newsPost: ['view'],
   appConfig: ['view'],

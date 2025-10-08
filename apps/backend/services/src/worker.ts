@@ -1,9 +1,9 @@
-import { BackendCtx, Tri0 } from '@backend/core/ctx'
+import { createBackendCtx, createTri0 } from '@backend/core/ctx'
 import { presetDb } from '@backend/core/presetDb'
 
 export const startWorkerProcess = async () => {
-  const tri0 = Tri0.create()
-  const ctx = BackendCtx.create({ tri0, service: 'worker' })
+  const tri0 = createTri0()
+  const ctx = createBackendCtx({ tri0, service: 'worker' })
   const { logger } = tri0.extend('root')
   try {
     await ctx.self.init()

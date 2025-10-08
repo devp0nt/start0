@@ -34,7 +34,7 @@
     "declaration": true,
     "declarationMap": true,
     "composite": true,
-    "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@prisma0/backend/.tsbuildinfo"
+    "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@prisma/backend/.tsbuildinfo"
   },
   "references": [
     {

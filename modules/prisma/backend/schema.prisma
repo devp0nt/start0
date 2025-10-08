@@ -17,7 +17,7 @@ generator json {
 
 generator custom {
   provider = "bun ./src/generator.ts"
-  output   = "./src/generated/prisma0"
+  output   = "../shared/src/generated/custom"
 }
 
 generator zod {
@@ -36,6 +36,7 @@ enum Role {
   admin
   manager
   analyst
+  special
 }
 
 model User {

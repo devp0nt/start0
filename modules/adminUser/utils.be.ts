@@ -1,5 +1,5 @@
 import { omit } from '@apps/shared/utils'
-import type { AdminUser, User } from '@prisma0/backend/generated/prisma/client'
+import type { AdminUser, User } from '@prisma/backend/generated/prisma/client'
 
 export type AdminUserWithUser = AdminUser & { user: User }
 function toAdminUserServerOne(data: AdminUserWithUser) {

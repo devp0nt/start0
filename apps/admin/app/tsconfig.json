@@ -86,10 +86,10 @@
   },
   "references": [
     {
-      "path": "../../../modules/prisma0/backend/tsconfig.json"
+      "path": "../../../modules/prisma/backend/tsconfig.json"
     },
     {
-      "path": "../../../modules/prisma0/shared/tsconfig.json"
+      "path": "../../../modules/prisma/shared/tsconfig.json"
     }
   ]
 }

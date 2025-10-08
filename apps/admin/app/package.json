@@ -16,8 +16,8 @@
   "dependencies": {
     "@ant-design/v5-patch-for-react-19": "^1.0.3",
     "@iconify/react": "^6.0.2",
-    "@prisma0/backend": "workspace:*",
-    "@prisma0/shared": "workspace:*",
+    "@prisma/backend": "workspace:*",
+    "@prisma/shared": "workspace:*",
     "@refinedev/antd": "^6.0.1",
     "@refinedev/cli": "^2.16.48",
     "@refinedev/core": "^5.0.0",

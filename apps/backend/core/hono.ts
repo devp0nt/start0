@@ -12,10 +12,9 @@ import type { Ctx0 } from '@devp0nt/ctx0'
 
 // base
 
-const createHonoReqCtx = async ({ backendCtx, honoCtx }: { backendCtx: BackendCtx.Self; honoCtx: HonoContext }) => {
+const createHonoReqCtx = async ({ backendCtx, honoCtx }: { backendCtx: BackendCtx; honoCtx: HonoContext }) => {
   const req = honoCtx.req
   const connInfo = getConnInfo(honoCtx)
-  // TODO0: add more data to context about request, also uniq id of request
   const tri0 = backendCtx.tri0.extend('hono', {
     ip: connInfo.remote.address,
     userAgent: req.header('User-Agent'),
@@ -25,6 +24,10 @@ const createHonoReqCtx = async ({ backendCtx, honoCtx }: { backendCtx: BackendCt
   // early set tri0, to have access to logger if something went wrong in auth middleware
   honoCtx.set('tri0', tri0)
   const authCtx = await getAuthCtxByHonoContext(honoCtx)
+  tri0.meta.assign({
+    adminId: authCtx.admin?.id,
+    memberId: authCtx.member?.id,
+  })
   return backendCtx.self.extend({
     tri0,
     honoCtx,
@@ -52,7 +55,7 @@ export const honoBase = <THonoReqCtx extends HonoReqCtx = HonoReqCtx>(): HonoBas
   return hono
 }
 
-export const applyHonoReqContext = ({ hono, backendCtx }: { hono: HonoBase; backendCtx: BackendCtx.Self }) => {
+export const applyHonoReqContext = ({ hono, backendCtx }: { hono: HonoBase; backendCtx: BackendCtx }) => {
   hono.use(async (honoCtx, next) => {
     const honoReqCtx = await createHonoReqCtx({
       backendCtx,
@@ -73,9 +76,8 @@ export const applyHonoReqContext = ({ hono, backendCtx }: { hono: HonoBase; back
 // admin
 
 export type HonoAdminReqCtx = Ctx0.Proxy<
-  Omit<HonoReqCtx, 'admin' | 'user' | 'self'> & {
+  Omit<HonoReqCtx, 'admin' | 'self'> & {
     admin: NonNullable<HonoReqCtx['admin']>
-    user: NonNullable<HonoReqCtx['user']>
   }
 >
 export type HonoAdminSettings = HonoSettings<HonoAdminReqCtx>
@@ -88,9 +90,6 @@ export const validateHonoAdminReqCtx = async (
   honoReqCtx: HonoReqCtx,
   options?: HonoAdminOptions,
 ): Promise<HonoAdminReqCtx> => {
-  if (!honoReqCtx.user) {
-    throw new Error0('Only for authorized admins', { expected: true, httpStatus: 403 })
-  }
   if (!honoReqCtx.admin) {
     throw new Error0('Only for authorized admins', { expected: true, httpStatus: 403 })
   }
@@ -117,17 +116,13 @@ export const honoAdminBase = (options?: HonoAdminOptions): HonoAdminBase => {
 // member
 
 export type HonoMemberReqCtx = Ctx0.Proxy<
-  Omit<HonoReqCtx, 'member' | 'user' | 'self'> & {
+  Omit<HonoReqCtx, 'member' | 'self'> & {
     member: NonNullable<HonoReqCtx['member']>
-    user: NonNullable<HonoReqCtx['user']>
   }
 >
 export type HonoMemberSettings = HonoSettings<HonoMemberReqCtx>
 export type HonoMemberBase = HonoBase<HonoMemberReqCtx>
 export const validateHonoMemberReqCtx = async (honoReqCtx: HonoReqCtx): Promise<HonoMemberReqCtx> => {
-  if (!honoReqCtx.user) {
-    throw new Error0('Only for authorized users', { expected: true, httpStatus: 403 })
-  }
   if (!honoReqCtx.member) {
     throw new Error0('Only for authorized users', { expected: true, httpStatus: 403 })
   }

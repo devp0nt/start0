@@ -1,10 +1,6 @@
 {
   "extends": "../../../apps/shared/tsconfig.shared.json",
-  "include": [
-    "./src/**/*",
-    "../../../apps/shared/**/*",
-    "../../refine0/**/*"
-  ],
+  "include": ["./src/**/*", "../../../apps/shared/**/*", "../../refine0/**/*"],
   "exclude": [
     "./**/dist/**/*",
     "./**/node_modules/**/*",
@@ -22,7 +18,7 @@
     "declaration": true,
     "declarationMap": true,
     "composite": true,
-    "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@prisma0/shared/.tsbuildinfo"
+    "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@prisma/shared/.tsbuildinfo"
   },
   "references": []
 }

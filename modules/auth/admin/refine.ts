@@ -1,10 +1,9 @@
-/* eslint-disable no-console */
 import { authClient } from '@auth/admin/admin/utils'
-import type { AuthProvider, LoginFormTypes } from '@refinedev/core'
+import { hasPermission } from '@auth/admin/shared/permissions'
+import type { AccessControlProvider, AuthProvider, LoginFormTypes } from '@refinedev/core'
+import { useGetIdentity as useGetIdentityOriginal } from '@refinedev/core'
 
-export const TOKEN_KEY = 'refine-auth'
-
-export const refineAuthProvider: AuthProvider = {
+export const refineAuthProvider = {
   login: async ({ remember, email, password, redirectPath }: LoginFormTypes) => {
     if (!email || !password) {
       return {
@@ -19,14 +18,8 @@ export const refineAuthProvider: AuthProvider = {
       {
         email,
         password,
-        /**
-         * A URL to redirect to after the user verifies their email (optional)
-         */
+        //A URL to redirect to after the user verifies their email (optional)
         callbackURL: redirectPath || '/',
-        /**
-         * remember the user session after the browser is closed.
-         * @default true
-         */
         rememberMe: remember,
       },
       {
@@ -34,7 +27,6 @@ export const refineAuthProvider: AuthProvider = {
       },
     )
     if (error) {
-      console.error(error)
       return {
         success: false,
         error: {
@@ -49,7 +41,6 @@ export const refineAuthProvider: AuthProvider = {
     }
   },
   logout: async () => {
-    // localStorage.removeItem(TOKEN_KEY)
     await authClient.signOut()
     return {
       success: true,
@@ -57,40 +48,87 @@ export const refineAuthProvider: AuthProvider = {
     }
   },
   check: async () => {
-    const { data, error } = await authClient.getSession()
-    if (error) {
-      console.error(error)
-    }
-
-    if (data?.user) {
+    const { data } = await authClient.getSession()
+    if (data?.admin) {
       return {
         authenticated: true,
       }
     }
-
     return {
+      logout: true,
       authenticated: false,
       redirectTo: '/login',
+      error: {
+        name: 'Unauthorized',
+        message: 'Not authorized',
+      },
     }
   },
-  getPermissions: async () => null,
+  getPermissions: async (params) => {
+    return null
+  },
   getIdentity: async () => {
     const { data, error } = await authClient.getSession()
     if (error) {
+      // eslint-disable-next-line no-console
       console.error(error)
     }
-
-    if (data?.user) {
+    if (data?.admin) {
       return {
-        id: data.user.id,
-        name: data.user.name,
-        avatar: data.user.image,
+        id: data.admin.id,
+        name: data.admin.name,
+        avatar: data.admin.image,
+        role: data.admin.role,
+        permissions: data.admin.permissions,
+        email: data.admin.email,
       }
     }
     return null
   },
   onError: async (error) => {
-    console.error(error)
     return { error }
   },
+} satisfies AuthProvider
+
+export type RefineIdentity = Awaited<ReturnType<typeof refineAuthProvider.getIdentity>>
+
+export const useRefineGetIdentity = () => {
+  return useGetIdentityOriginal<RefineIdentity>()
 }
+
+export const refineAccessControlProvider = {
+  can: async ({ resource, action, params }) => {
+    if (!resource || !action) {
+      return { can: true }
+    }
+    const session = await authClient.getSession()
+    if (session.error) {
+      return { can: false, reason: session.error.message || 'Unknown error' }
+    }
+    const { admin } = session.data
+    if (!admin) {
+      return { can: false, reason: 'Only for admins' }
+    }
+    const permissionAction = ['show', 'list', 'get'].includes(action) ? 'view' : 'manage'
+    const can = hasPermission({
+      role: admin.role,
+      ownPermissions: admin.permissions,
+      permission: {
+        [resource]: [permissionAction],
+      },
+    })
+    if (!can) {
+      return { can: false, reason: `Only for admins with "${permissionAction}" permission for "${resource}"` }
+    }
+    return { can: true }
+  },
+  options: {
+    buttons: {
+      enableAccessControl: true,
+      hideIfUnauthorized: true,
+    },
+    queryOptions: {
+      // ... default global query options
+    },
+  },
+} satisfies AccessControlProvider

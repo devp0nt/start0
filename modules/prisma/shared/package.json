@@ -1,0 +1,13 @@
+{
+  "name": "@prisma/shared",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "types": "tsc --noEmit",
+    "lint": "eslint --cache --cache-location ../../../node_modules/.cache/eslint/@prisma/shared/.eslintcache .",
+    "build": "tsc --build",
+    "watch": "tsc --watch",
+    "clean": "rimraf ../../../node_modules/.cache/tsbuildinfo/@prisma/shared && rimraf ./dist && rimraf ./src/generated"
+  },
+  "dependencies": {}
+}

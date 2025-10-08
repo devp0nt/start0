@@ -1,20 +1,19 @@
-import { parseZodOrNull } from '@apps/shared/utils'
 import type { HonoBase } from '@backend/core/hono'
 import { backendAuthRoutesBasePath } from '@backend/shared/utils'
-import { PrismaClient } from '@prisma0/backend/generated/prisma/client'
+import { PrismaClient } from '@prisma/backend/generated/prisma/client'
 import { betterAuth } from 'better-auth'
 import { prismaAdapter } from 'better-auth/adapters/prisma'
 import { customSession, openAPI } from 'better-auth/plugins'
+import generatePasswordTs from 'generate-password-ts'
 import type { Context as HonoContext } from 'hono'
 import { v4 as uuidv4 } from 'uuid'
-import { zMeAdmin, zMeMember, zMeUser } from '../shared/dto'
 import {
   adminPluginOptions,
   createHasPermission,
   createRequirePermission,
   createServerAdminPlugin,
 } from '../shared/permissions'
-import generatePasswordTs from 'generate-password-ts'
+import { toMeAdmin, toMeMember } from '../shared/utils'
 
 const prisma = new PrismaClient()
 
@@ -95,12 +94,11 @@ export const authOpenapiSchemaUrl = `${backendAuthRoutesBasePath}/open-api/gener
 export const getAuthCtxByHonoContext = async (honoCtx: HonoContext) => {
   const session = await auth.api.getSession({ headers: honoCtx.req.raw.headers })
   return {
-    user: session?.user || null,
     admin: session?.admin || null,
     member: session?.member || null,
     session: session?.session || null,
-    hasPermission: createHasPermission(session?.user || null),
-    requirePermission: createRequirePermission(session?.user || null),
+    hasPermission: createHasPermission(session?.admin || session?.member || null),
+    requirePermission: createRequirePermission(session?.admin || session?.member || null),
     auth,
   }
 }
@@ -158,9 +156,8 @@ export const getMe = async (userId: string) => {
     })
   })()
   return {
-    user: parseZodOrNull(zMeUser, user),
-    admin: parseZodOrNull(zMeAdmin, ensureAdminUser),
-    member: parseZodOrNull(zMeMember, ensureMemberUser),
+    admin: toMeAdmin(ensureAdminUser),
+    member: toMeMember(ensureMemberUser),
   }
 }
 export type UserData = Awaited<ReturnType<typeof getMe>>

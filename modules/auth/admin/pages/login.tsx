@@ -7,7 +7,8 @@ export const LoginPage = () => {
       title={appName}
       type="login"
       formProps={{
-        initialValues: { email: 'w@w.we', password: '1234', remember: true },
+        // initialValues: { email: 'w@w.we', password: '11111111', remember: true },
+        initialValues: { email: 'w@w1.we', password: '9!FK\\$[!jf', remember: true },
       }}
       registerLink={false}
     />

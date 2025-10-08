@@ -17,6 +17,7 @@ import { ResourceShowPage } from '@admin/core/pages/show'
 import { appName } from '@apps/shared/general'
 import { ForgotPasswordPage } from '@auth/admin/admin/pages/forgotPassword'
 import { LoginPage } from '@auth/admin/admin/pages/login'
+import { ProfilePage } from '@auth/admin/admin/pages/profile'
 import {
   CatchAllNavigate,
   DocumentTitleHandler,
@@ -82,6 +83,7 @@ function App() {
                         }
                       >
                         <Route index element={<NavigateToResource resource="blog_posts" />} />
+                        <Route path="/profile" element={<ProfilePage />} />
                         <Route path="/:resource">
                           <Route index element={<ResourceListPage />} />
                           <Route path="create" element={<ResourceCreatePage />} />

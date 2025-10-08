@@ -35,8 +35,8 @@
       "dependencies": {
         "@ant-design/v5-patch-for-react-19": "^1.0.3",
         "@iconify/react": "^6.0.2",
-        "@prisma0/backend": "workspace:*",
-        "@prisma0/shared": "workspace:*",
+        "@prisma/backend": "workspace:*",
+        "@prisma/shared": "workspace:*",
         "@refinedev/antd": "^6.0.1",
         "@refinedev/cli": "^2.16.48",
         "@refinedev/core": "^5.0.0",
@@ -77,9 +77,9 @@
         "@hono/trpc-server": "^0.4.0",
         "@hono/zod-openapi": "^1.1.0",
         "@logtape/logtape": "^1.0.4",
+        "@prisma/backend": "workspace:*",
         "@prisma/client": "^6.14.0",
-        "@prisma0/backend": "workspace:*",
-        "@prisma0/shared": "workspace:*",
+        "@prisma/shared": "workspace:*",
         "@scalar/hono-api-reference": "^0.9.19",
         "@trpc/server": "^11.5.0",
         "axios": "^1.11.0",
@@ -101,19 +101,19 @@
     "apps/site/app": {
       "name": "@site/app",
     },
-    "modules/prisma0/backend": {
-      "name": "@prisma0/backend",
+    "modules/prisma/backend": {
+      "name": "@prisma/backend",
       "dependencies": {
         "@devp0nt/tri0": "^1.0.0-next.19",
         "@prisma/client": "^6.14.0",
-        "@prisma0/shared": "workspace:*",
+        "@prisma/shared": "workspace:*",
         "prisma": "^6.14.0",
         "prisma-json-types-generator": "^3.6.0",
         "prisma-zod-generator": "^1.21.3",
       },
     },
-    "modules/prisma0/shared": {
-      "name": "@prisma0/shared",
+    "modules/prisma/shared": {
+      "name": "@prisma/shared",
     },
     "tools": {
       "name": "@tools/shared",
@@ -496,6 +496,8 @@
 
     "@pnpm/error": ["@pnpm/error@5.0.3", "", { "dependencies": { "@pnpm/constants": "7.1.1" } }, "sha512-ONJU5cUeoeJSy50qOYsMZQHTA/9QKmGgh1ATfEpCLgtbdwqUiwD9MxHNeXUYYI/pocBCz6r1ZCFqiQvO+8SUKA=="],
 
+    "@prisma/backend": ["@prisma/backend@workspace:modules/prisma/backend"],
+
     "@prisma/client": ["@prisma/client@6.16.2", "", { "peerDependencies": { "prisma": "*", "typescript": ">=5.1.0" }, "optionalPeers": ["prisma", "typescript"] }, "sha512-E00PxBcalMfYO/TWnXobBVUai6eW/g5OsifWQsQDzJYm7yaY+IRLo7ZLsaefi0QkTpxfuhFcQ/w180i6kX3iJw=="],
 
     "@prisma/config": ["@prisma/config@6.16.2", "", { "dependencies": { "c12": "3.1.0", "deepmerge-ts": "7.1.5", "effect": "3.16.12", "empathic": "2.0.0" } }, "sha512-mKXSUrcqXj0LXWPmJsK2s3p9PN+aoAbyMx7m5E1v1FufofR1ZpPoIArjjzOIm+bJRLLvYftoNYLx1tbHgF9/yg=="],
@@ -526,9 +528,7 @@
 
     "@prisma/schema-files-loader": ["@prisma/schema-files-loader@6.16.3", "", { "dependencies": { "@prisma/prisma-schema-wasm": "6.16.1-1.bb420e667c1820a8c05a38023385f6cc7ef8e83a", "fs-extra": "11.3.0" } }, "sha512-Rvw2ZVMBaUyfHWjHCYKDacI4IgtuOuj8amFd1wFwrBIEkiCbIX1nMo6xafKpmKFcDVx0io01k/LuL/PycKI5TA=="],
 
-    "@prisma0/backend": ["@prisma0/backend@workspace:modules/prisma0/backend"],
-
-    "@prisma0/shared": ["@prisma0/shared@workspace:modules/prisma0/shared"],
+    "@prisma/shared": ["@prisma/shared@workspace:modules/prisma/shared"],
 
     "@radix-ui/react-compose-refs": ["@radix-ui/react-compose-refs@1.1.2", "", { "peerDependencies": { "@types/react": "*", "react": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc" }, "optionalPeers": ["@types/react"] }, "sha512-z4eqJvfiNnFMHIIvXP3CY57y2WJs5g2v3X0zm9mEJkrkNv4rDxu+sg9Jh8EkXyeqBkB7SOcboo9dMVqhyrACIg=="],
 

@@ -68,13 +68,13 @@ prune *args:
 # prisma commands
 
 prisma-migrate-dev *args:
-  bun run mono0 exec -m @prisma0/backend bun run prisma-migrate-dev {{args}}
+  bun run mono0 exec -m @prisma/backend bun run prisma-migrate-dev {{args}}
 
 prisma-migrate-test *args:
-  bun run mono0 exec -m @prisma0/backend bun run prisma-migrate-test {{args}}
+  bun run mono0 exec -m @prisma/backend bun run prisma-migrate-test {{args}}
 
 prisma-generate-client *args:
-  bun run mono0 exec -m @prisma0/backend bun run prisma-generate-client {{args}}
+  bun run mono0 exec -m @prisma/backend bun run prisma-generate-client {{args}}
 
 # helpers
 

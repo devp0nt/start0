@@ -31,8 +31,8 @@
       "@idea/backend/*": ["./modules/idea/*"],
       "@idea/shared/*": ["./modules/idea/*"],
       "@idea/site/*": ["./modules/idea/*"],
-      "@prisma0/backend/*": ["./modules/prisma0/backend/src/*"],
-      "@prisma0/shared/*": ["./modules/prisma0/shared/src/*"],
+      "@prisma/backend/*": ["./modules/prisma/backend/src/*"],
+      "@prisma/shared/*": ["./modules/prisma/shared/src/*"],
       "@site/app/*": ["./apps/site/app/*"],
       "@site/core/*": ["./apps/site/core/*"],
       "@tools/shared": ["./tools/src/index.ts"],
@@ -47,10 +47,10 @@
       "path": "./apps/backend/services/tsconfig.json"
     },
     {
-      "path": "./modules/prisma0/backend/tsconfig.json"
+      "path": "./modules/prisma/backend/tsconfig.json"
     },
     {
-      "path": "./modules/prisma0/shared/tsconfig.json"
+      "path": "./modules/prisma/shared/tsconfig.json"
     },
     {
       "path": "./apps/site/app/tsconfig.json"

@@ -1,8 +1,8 @@
 {
-  "name": "@prisma0/backend",
-  "preset": ["backendWithTsconfig", "cold"],
+  "name": "@prisma/shared",
+  "preset": ["sharedWithTsconfig", "cold"],
   "tags": ["prisma"],
-  "deps": ["@idea/shared", "@auth/shared", "@prisma0/shared"],
+  "deps": [],
   "packageJson": {
     "value": {
       "scripts": {

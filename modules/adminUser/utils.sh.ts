@@ -1,5 +1,5 @@
 import { zPermissions } from '@auth/admin/shared/permissions'
-import { UserSchema } from '@prisma0/shared/generated/zod/schemas'
+import { UserSchema } from '@prisma/shared/generated/zod/schemas'
 import type * as z from 'zod'
 
 export const zAdminUserClientAdmin = UserSchema.pick({

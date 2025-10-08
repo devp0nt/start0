@@ -1,27 +1,21 @@
 import type { RefineThemedLayoutHeaderProps } from '@refinedev/antd'
-import { useGetIdentity } from '@refinedev/core'
-import { Layout as AntdLayout, Space, Switch, Typography, theme } from 'antd'
+import { Layout as AntdLayout, Space, Switch, theme } from 'antd'
 import React, { useContext } from 'react'
+import { Link } from 'react-router'
 import { ColorModeContext } from '../lib/colorMode'
+import { useRefineGetIdentity } from '@auth/admin/admin/refine'
 
-const { Text } = Typography
 const { useToken } = theme
-
-type IUser = {
-  id: number
-  name: string
-  avatar: string
-}
 
 export const Header: React.FC<RefineThemedLayoutHeaderProps> = ({ sticky = true }) => {
   const { token } = useToken()
-  const { data: user } = useGetIdentity<IUser>()
+  const { data: admin } = useRefineGetIdentity()
   const { mode, setMode } = useContext(ColorModeContext)
 
   const headerStyles: React.CSSProperties = {
     backgroundColor: token.colorBgLayout,
     display: 'flex',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-end',
     alignItems: 'center',
     padding: '0px 24px',
     height: '64px',
@@ -46,7 +40,17 @@ export const Header: React.FC<RefineThemedLayoutHeaderProps> = ({ sticky = true 
           defaultChecked={mode === 'dark'}
         />
         <Space style={{ marginLeft: '8px' }} size="middle">
-          {user?.name && <Text strong>{user.name}</Text>}
+          {admin && (
+            <Link
+              to="/profile"
+              style={{
+                fontWeight: 600,
+                textDecoration: 'none',
+              }}
+            >
+              {admin.name || admin.email}
+            </Link>
+          )}
         </Space>
       </Space>
     </AntdLayout.Header>

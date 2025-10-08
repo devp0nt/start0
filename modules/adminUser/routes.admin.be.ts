@@ -3,7 +3,7 @@ import { zAdminUserClientAdmin } from '@adminUser/shared/utils.sh'
 import { generatePassword } from '@auth/admin/backend/utils'
 import { honoAdminMiddleware, honoBase } from '@backend/core/hono'
 import { getHonoRefineRoutesHelpers } from '@devp0nt/refine0/server/hono'
-import type { UserCreateInput } from '@prisma0/backend/generated/prisma/models'
+import type { UserCreateInput } from '@prisma/backend/generated/prisma/models'
 
 const { getRoute, parseZOutput } = getHonoRefineRoutesHelpers({ resource: 'admin' })
 
@@ -40,7 +40,7 @@ export const adminUserListAdminHonoRoute = honoBase().openapi(
   {
     ...getRoute.list({
       zResData: zList,
-      middleware: [honoAdminMiddleware({ permission: { adminUser: ['view'] } })] as const,
+      middleware: [honoAdminMiddleware({ permission: { admin: ['view'] } })] as const,
     }),
   },
   async ({ req, json, var: { prisma } }) => {
@@ -68,7 +68,7 @@ export const adminUserListAdminHonoRoute = honoBase().openapi(
 export const adminUserShowAdminHonoRoute = honoBase().openapi(
   getRoute.show({
     zResData: zShow,
-    middleware: [honoAdminMiddleware({ permission: { adminUser: ['view'] } })] as const,
+    middleware: [honoAdminMiddleware({ permission: { admin: ['view'] } })] as const,
   }),
   async ({ req, json, var: { prisma } }) => {
     const { id } = req.valid('query')
@@ -86,7 +86,7 @@ export const adminUserCreateAdminHonoRoute = honoBase().openapi(
   getRoute.create({
     zResData: zResource,
     zReqData: zCreate,
-    middleware: [honoAdminMiddleware({ permission: { adminUser: ['manage'] } })] as const,
+    middleware: [honoAdminMiddleware({ permission: { admin: ['manage'] } })] as const,
   }),
   async ({ req, json, var: { prisma, auth } }) => {
     const { data } = req.valid('json')
@@ -123,7 +123,7 @@ export const adminUserEditAdminHonoRoute = honoBase().openapi(
   getRoute.edit({
     zResData: zResource,
     zReqData: zEdit,
-    middleware: [honoAdminMiddleware({ permission: { adminUser: ['manage'] } })] as const,
+    middleware: [honoAdminMiddleware({ permission: { admin: ['manage'] } })] as const,
   }),
   async ({ req, json, var: { prisma } }) => {
     const { data, id } = req.valid('json')
@@ -154,7 +154,7 @@ export const adminUserEditAdminHonoRoute = honoBase().openapi(
 export const adminUserDeleteAdminHonoRoute = honoBase().openapi(
   getRoute.delete({
     zResData: zResource,
-    middleware: [honoAdminMiddleware({ permission: { adminUser: ['manage'] } })] as const,
+    middleware: [honoAdminMiddleware({ permission: { admin: ['manage'] } })] as const,
   }),
   async ({ req, json, var: { prisma } }) => {
     const { id } = req.valid('query')

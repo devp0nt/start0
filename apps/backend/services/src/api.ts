@@ -1,5 +1,5 @@
 import { applyAuthRoutesToHonoApp, authOpenapiSchemaUrl } from '@auth/admin/backend/utils'
-import { BackendCtx, Tri0 } from '@backend/core/ctx'
+import { createBackendCtx, createTri0 } from '@backend/core/ctx'
 import {
   applyHonoErrorHandling,
   applyHonoLogging,
@@ -19,8 +19,8 @@ import { serve } from 'bun'
 import { cors } from 'hono/cors'
 
 export const startApiProcess = async () => {
-  const tri0 = Tri0.create()
-  const backendCtx = BackendCtx.create({ tri0, service: 'api' })
+  const tri0 = createTri0()
+  const backendCtx = createBackendCtx({ tri0, service: 'api' })
   const { logger } = tri0.extend('root')
   try {
     await backendCtx.self.init()

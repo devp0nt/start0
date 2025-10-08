@@ -8,17 +8,17 @@ const __dirname = path.dirname(new URL(import.meta.url).pathname)
 generatorHandler({
   onManifest: (props) => ({
     defaultOutput: getDefaultOutputDir(),
-    prettyName: 'Prisma0 Generator',
+    prettyName: 'Custom Generator',
   }),
   onGenerate: async (options) => {
     const modelsOutputParts: string[] = []
 
     const modelsNames = options.dmmf.datamodel.models.map((m) => m.name)
-    const modelsNamesTs = `export const names = ["${modelsNames.join('", "')}"];`
+    const modelsNamesTs = `export const prismaModelsNames = ["${modelsNames.join('", "')}"];`
     modelsOutputParts.push(modelsNamesTs)
 
     const modelsIdsKeys = options.dmmf.datamodel.models.map((m) => `${lowerFirst(m.name)}Id`)
-    const modelsIdsKeysTs = `export const idsKeys = ["${modelsIdsKeys.join('", "')}"];`
+    const modelsIdsKeysTs = `export const prismaModelsIdsKeys = ["${modelsIdsKeys.join('", "')}"];`
     modelsOutputParts.push(modelsIdsKeysTs)
 
     const modelsNamesWithCreatedAtNow = options.dmmf.datamodel.models
@@ -34,7 +34,7 @@ generatorHandler({
         })
       })
       .map((m) => m.name)
-    const modelsNamesWithCreatedAtNowTs = `export const namesWithCreatedAt = ["${modelsNamesWithCreatedAtNow.join('", "')}"];`
+    const modelsNamesWithCreatedAtNowTs = `export const prismaModelsNamesWithCreatedAt = ["${modelsNamesWithCreatedAtNow.join('", "')}"];`
     modelsOutputParts.push(modelsNamesWithCreatedAtNowTs)
 
     const modelsNamesWithUpdatedAt = options.dmmf.datamodel.models
@@ -47,19 +47,15 @@ generatorHandler({
         })
       })
       .map((m) => m.name)
-    const modelsNamesWithUpdatedAtTs = `export const namesWithUpdatedAt = ["${modelsNamesWithUpdatedAt.join('", "')}"];`
+    const modelsNamesWithUpdatedAtTs = `export const prismaModelsNamesWithUpdatedAt = ["${modelsNamesWithUpdatedAt.join('", "')}"];`
     modelsOutputParts.push(modelsNamesWithUpdatedAtTs)
 
-    writeOutputContent(options, [['models.ts', withExportNamespace('Prisma0Models', modelsOutputParts)]])
+    writeOutputContent(options, [['utils.ts', modelsOutputParts.join('\n')]])
   },
 })
 
 const getDefaultOutputDir = () => {
-  return path.resolve(__dirname, 'generated/prisma0')
-}
-
-const withExportNamespace = (namespace: string, lines: string[]) => {
-  return [`export namespace ${namespace} {`, ...lines.map((line) => `  ${line}`), `}`].join('\n')
+  return path.resolve(__dirname, 'generated/custom')
 }
 
 const writeOutputContent = (options: GeneratorOptions, input: Array<[string, string]>) => {
