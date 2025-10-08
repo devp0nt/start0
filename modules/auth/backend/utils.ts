@@ -7,42 +7,23 @@ import { prismaAdapter } from 'better-auth/adapters/prisma'
 import { customSession, openAPI } from 'better-auth/plugins'
 import type { Context as HonoContext } from 'hono'
 import { cors } from 'hono/cors'
-import { admin } from 'better-auth/plugins/admin'
 import { v4 as uuidv4 } from 'uuid'
 import { zMeAdmin, zMeMember, zMeUser } from '../shared/dto'
-import { createHasPermission, createRequirePermission, getAdminPluginSettings } from '../shared/permissions'
+import {
+  adminPluginOptions,
+  createHasPermission,
+  createRequirePermission,
+  createServerAdminPlugin,
+} from '../shared/permissions'
 
 const prisma = new PrismaClient()
 
-const aps = getAdminPluginSettings()
 export const auth = betterAuth({
   database: prismaAdapter(prisma, {
     provider: 'postgresql',
   }),
   plugins: [
-    admin({
-      ac: aps.accessControl,
-      roles: {
-        user: aps.userRole,
-        admin: aps.adminRole,
-        manager: aps.managerRole,
-        analyst: aps.analystRole,
-        special: aps.specialRole,
-      },
-      adminRoles: aps.adminRoles,
-    }),
-    // admin({
-    //   ac: getAdminPluginSettings().accessControl,
-    //   roles: {
-    //     user: getAdminPluginSettings().userRole,
-    //     admin: getAdminPluginSettings().adminRole,
-    //     manager: getAdminPluginSettings().managerRole,
-    //     analyst: getAdminPluginSettings().analystRole,
-    //     special: getAdminPluginSettings().specialRole,
-    //   },
-    //   adminRoles: getAdminPluginSettings().adminRoles,
-    // }),
-    // await aps.createServerAdminPlugin(),
+    await createServerAdminPlugin(),
     openAPI(),
     customSession(async ({ user, session }) => {
       const userData = await getUserData(user.id)
@@ -67,6 +48,20 @@ export const auth = betterAuth({
         before: async (data) => ({
           data: { ...data, id: uuidv4() },
         }),
+        after: async (data, ctx) => {
+          await prisma.memberUser.create({
+            data: {
+              userId: data.id,
+            },
+          })
+          if (adminPluginOptions.adminRoles.includes(data.role as string)) {
+            await prisma.adminUser.create({
+              data: {
+                userId: data.id,
+              },
+            })
+          }
+        },
       },
     },
     session: {
@@ -149,6 +144,9 @@ export const getUserData = async (userId: string) => {
   }
   if (user.role !== 'admin' && adminUser) {
     throw new Error(`User "${user.id}" is not an admin but has an admin user`)
+  }
+  if (!memberUser) {
+    throw new Error(`User "${user.id}" does not have a member user`)
   }
   return {
     user: parseZodOrNull(zMeUser, user),

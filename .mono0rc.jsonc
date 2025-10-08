@@ -100,7 +100,7 @@
           "resolveJsonModule": true,
           "allowJs": true,
           "paths": {
-            "better-auth/*": ["~/node_modules/better-auth/*"]
+            // "better-auth/*": ["~/node_modules/better-auth/*"]
             // "@trpc/server/*": ["~/node_modules/@trpc/server/*"],
             // "@trpc/tanstack-react-query/*": ["~/node_modules/@trpc/tanstack-react-query/*"],
             // "react-router/*": ["~/node_modules/react-router/*"],
@@ -116,7 +116,7 @@
         "include": [],
         "compilerOptions": {
           "paths": {
-            "better-auth/*": ["~/node_modules/better-auth/*"]
+            // "better-auth/*": ["~/node_modules/better-auth/*"]
             // "@trpc/server/*": ["~/node_modules/@trpc/server/*"],
             // "@trpc/tanstack-react-query/*": ["~/node_modules/@trpc/tanstack-react-query/*"],
             // "react-router/*": ["~/node_modules/react-router/*"],

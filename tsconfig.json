@@ -3,9 +3,6 @@
   "include": [],
   "compilerOptions": {
     "paths": {
-      "better-auth/*": [
-        "./node_modules/better-auth/*"
-      ],
       "@admin/app": [
         "./apps/admin/app/src/index.tsx"
       ],

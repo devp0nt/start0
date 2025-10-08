@@ -1,137 +1,99 @@
 import { Error0 } from '@devp0nt/error0'
 import type { AdminOptions } from 'better-auth/plugins'
-import { createAccessControl, type Statements } from 'better-auth/plugins/access'
-// import { defaultStatements } from 'better-auth/plugins/admin/access'
+import { createAccessControl } from 'better-auth/plugins/access'
+import { userAc, adminAc, defaultStatements } from 'better-auth/plugins/admin/access'
 import z from 'zod'
 
-export const getAdminPluginSettings = () => {
-  const accessControlStatements = {
-    user: ['create', 'list', 'set-role', 'ban', 'impersonate', 'delete', 'set-password', 'get', 'update'] as const,
-    session: ['list', 'revoke', 'delete'] as const,
-    adminUser: ['view', 'manage'] as const,
-    memberUser: ['view', 'manage'] as const,
-    idea: ['view', 'manage'] as const,
-    newsPost: ['view', 'manage'] as const,
-    appConfig: ['view', 'manage'] as const,
-  } as const
+const accessControlStatements = {
+  ...defaultStatements,
+  adminUser: ['view', 'manage'],
+  memberUser: ['view', 'manage'],
+  idea: ['view', 'manage'],
+  newsPost: ['view', 'manage'],
+  appConfig: ['view', 'manage'],
+} as const
 
-  // const accessControl = createAccessControl(accessControlStatements)
-  const accessControl = createAccessControl({
-    user: ['create', 'list', 'set-role', 'ban', 'impersonate', 'delete', 'set-password', 'get', 'update'],
-    session: ['list', 'revoke', 'delete'],
-    adminUser: ['view', 'manage'],
-    memberUser: ['view', 'manage'],
-    idea: ['view', 'manage'],
-    newsPost: ['view', 'manage'],
-    appConfig: ['view', 'manage'],
-  } satisfies Statements)
+const accessControl = createAccessControl(accessControlStatements)
 
-  const userRole = accessControl.newRole({
-    user: [],
-    session: [],
-    adminUser: [],
-    memberUser: [],
-    idea: [],
-    newsPost: [],
-    appConfig: [],
-  })
+const userRole = accessControl.newRole({
+  ...userAc.statements,
+})
 
-  const adminRole = accessControl.newRole({
-    user: ['create', 'list', 'set-role', 'ban', 'impersonate', 'delete', 'set-password', 'get', 'update'],
-    session: ['list', 'revoke', 'delete'],
-    adminUser: ['view', 'manage'],
-    memberUser: ['view', 'manage'],
-    idea: ['view', 'manage'],
-    newsPost: ['view', 'manage'],
-    appConfig: ['view', 'manage'],
-  })
+const adminRole = accessControl.newRole({
+  ...adminAc.statements,
+  adminUser: ['view', 'manage'],
+  memberUser: ['view', 'manage'],
+  idea: ['view', 'manage'],
+  newsPost: ['view', 'manage'],
+  appConfig: ['view', 'manage'],
+})
 
-  const managerRole = accessControl.newRole({
-    user: ['list', 'ban', 'get'],
-    session: ['list', 'revoke', 'delete'],
-    adminUser: ['view'],
-    memberUser: ['view'],
-    idea: ['view', 'manage'],
-    newsPost: ['view', 'manage'],
-    appConfig: ['view', 'manage'],
-  })
+const managerRole = accessControl.newRole({
+  user: ['list', 'ban', 'get'],
+  session: ['list', 'revoke', 'delete'],
+  adminUser: ['view'],
+  memberUser: ['view'],
+  idea: ['view', 'manage'],
+  newsPost: ['view', 'manage'],
+  appConfig: ['view', 'manage'],
+})
 
-  const analystRole = accessControl.newRole({
-    user: ['list', 'get'],
-    session: ['list'],
-    adminUser: ['view'],
-    memberUser: ['view'],
-    idea: ['view'],
-    newsPost: ['view'],
-    appConfig: ['view'],
-  })
+const analystRole = accessControl.newRole({
+  user: ['list', 'get'],
+  session: ['list'],
+  adminUser: ['view'],
+  memberUser: ['view'],
+  idea: ['view'],
+  newsPost: ['view'],
+  appConfig: ['view'],
+})
 
-  const specialRole = accessControl.newRole({
-    user: [],
-    session: [],
-    adminUser: [],
-    memberUser: [],
-    idea: [],
-    newsPost: [],
-    appConfig: [],
-  })
+const specialRole = accessControl.newRole({
+  ...userAc.statements,
+})
 
-  const adminRoles = ['admin', 'manager', 'analyst', 'special']
+const adminRoles = ['admin', 'manager', 'analyst', 'special']
 
-  const options = {
-    adminRoles,
-    ac: accessControl,
-    roles: {
-      user: userRole,
-      admin: adminRole,
-      manager: managerRole,
-      analyst: analystRole,
-      special: specialRole,
-    },
-  } satisfies AdminOptions
+const roles = {
+  user: userRole,
+  admin: adminRole,
+  manager: managerRole,
+  analyst: analystRole,
+  special: specialRole,
+}
 
-  const createServerAdminPlugin = async () => {
-    const plugins = await import('better-auth/plugins')
-    return plugins.admin(options)
-  }
+export const adminPluginOptions = {
+  adminRoles,
+  ac: accessControl,
+  roles,
+} satisfies AdminOptions
 
-  const createClientAdminPlugin = async () => {
-    const plugins = await import('better-auth/client/plugins')
-    return plugins.adminClient(options)
-  }
+export const createServerAdminPlugin = async () => {
+  const plugins = await import('better-auth/plugins')
+  return plugins.admin(adminPluginOptions)
+}
 
-  return {
-    accessControlStatements,
-    accessControl,
-    userRole,
-    adminRole,
-    managerRole,
-    analystRole,
-    specialRole,
-    adminRoles,
-    options,
-    createServerAdminPlugin,
-    createClientAdminPlugin,
-  }
+export const createClientAdminPlugin = async () => {
+  const plugins = await import('better-auth/client/plugins')
+  return plugins.adminClient(adminPluginOptions)
 }
 
 // TODO: move to own better-auth plugin
 
-const adminPluginSettings = getAdminPluginSettings()
-type AdminPluginSettings = typeof adminPluginSettings
-
 export type Permissions = {
-  [K in keyof AdminPluginSettings['accessControlStatements']]?: Array<
-    AdminPluginSettings['accessControlStatements'][K][number]
-  >
+  [K in keyof typeof adminPluginOptions.ac.statements]?: Array<(typeof adminPluginOptions.ac.statements)[K][number]>
 }
 export const zPermissions = z
   .object({
     ...Object.fromEntries(
-      Object.entries(adminPluginSettings.accessControl.statements).map(([key, value]) => [key, z.array(z.enum(value))]),
+      Object.entries(adminPluginOptions.ac.statements).map(([key, value]) => [
+        key,
+        z.array(z.enum(value as unknown as [string, ...string[]])),
+      ]),
     ),
   })
   .meta({}) as z.ZodType<Permissions>
+
 const flatPermissions = (permissions: Permissions) => {
   return Object.entries(permissions).flatMap(([key, value]) => value.map((v) => `${key}:${v}`))
 }
@@ -151,12 +113,12 @@ export const hasPermission = ({
   permission,
   permissions,
 }: {
-  role: keyof typeof adminPluginSettings.options.roles
+  role: keyof typeof adminPluginOptions.roles
   ownPermissions: Permissions
   permission?: Permissions
   permissions?: Permissions
 }) => {
-  const userPermissions = role === 'special' ? ownPermissions : adminPluginSettings.options.roles[role].statements
+  const userPermissions = role === 'special' ? ownPermissions : adminPluginOptions.roles[role].statements
   if (permission) {
     return isOneOfPermissionsSuitable(permission, userPermissions)
   } else if (permissions) {
@@ -170,7 +132,7 @@ export const hasUserPermission = ({
   permission,
   permissions,
 }: {
-  user: { permissions: Permissions; role: keyof typeof adminPluginSettings.options.roles } | null
+  user: { permissions: Permissions; role: keyof typeof adminPluginOptions.roles } | null
   permission?: Permissions
   permissions?: Permissions
 }) => {
@@ -189,7 +151,7 @@ export const requirePermission = ({
   permission,
   permissions,
 }: {
-  user: { permissions: Permissions; role: keyof typeof adminPluginSettings.options.roles } | null
+  user: { permissions: Permissions; role: keyof typeof adminPluginOptions.roles } | null
   permission?: Permissions
   permissions?: Permissions
 }) => {
@@ -205,7 +167,7 @@ export const requirePermission = ({
   }
 }
 export const createHasPermission = (
-  user: { permissions: Permissions; role: keyof typeof adminPluginSettings.options.roles } | null,
+  user: { permissions: Permissions; role: keyof typeof adminPluginOptions.roles } | null,
 ) => {
   return ({ permission, permissions }: { permission?: Permissions; permissions?: Permissions }) => {
     return hasUserPermission({
@@ -216,7 +178,7 @@ export const createHasPermission = (
   }
 }
 export const createRequirePermission = (
-  user: { permissions: Permissions; role: keyof typeof adminPluginSettings.options.roles } | null,
+  user: { permissions: Permissions; role: keyof typeof adminPluginOptions.roles } | null,
 ) => {
   return ({ permission, permissions }: { permission?: Permissions; permissions?: Permissions }) => {
     requirePermission({

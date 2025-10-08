@@ -58,11 +58,8 @@ model User {
   permissions Json @default("{}")
 
   // each user is memberUser
-  memberUserId String     @unique
-  memberUser   MemberUser @relation(fields: [memberUserId], references: [id])
-
-  // but only some of them are adminUser
-  adminUser AdminUser?
+  memberUser MemberUser?
+  adminUser  AdminUser?
 
   @@unique([email])
 }
@@ -120,7 +117,8 @@ model MemberUser {
   id        String   @id @default(uuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  user      User?
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id])
 }
 
 model Idea {
