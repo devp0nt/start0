@@ -29,7 +29,7 @@ export const ResourceTable = (input: ResourceTableProps) => {
     <List>
       <Table {...refineTable.tableProps} rowKey="id">
         {Object.entries(getJSProperties(resource.js))
-          .filter(([propKey, propJS]) => getJSValueByPath(propJS, 'x-invisible') !== true)
+          .filter(([propKey, propJS]) => getJSValueByPath(propJS, 'x-hidden') !== true)
           .map(([propKey, propJS]) => (
             <Table.Column
               dataIndex={propKey}

@@ -14,6 +14,7 @@ import {
   createRequirePermission,
   createServerAdminPlugin,
 } from '../shared/permissions'
+import generatePasswordTs from 'generate-password-ts'
 
 const prisma = new PrismaClient()
 
@@ -25,7 +26,7 @@ export const auth = betterAuth({
     await createServerAdminPlugin(),
     openAPI(),
     customSession(async ({ user, session }) => {
-      const userData = await getUserData(user.id)
+      const userData = await getMe(user.id)
       return {
         ...userData,
         session,
@@ -109,7 +110,7 @@ export const applyAuthRoutesToHonoApp = ({ hono }: { hono: HonoBase }) => {
   hono.on(['POST', 'GET'], `${backendAuthRoutesBasePath}/*`, async (c) => await auth.handler(c.req.raw))
 }
 
-export const getUserData = async (userId: string) => {
+export const getMe = async (userId: string) => {
   const { adminUser, memberUser, ...user } = await prisma.user.findUniqueOrThrow({
     where: {
       id: userId,
@@ -162,4 +163,16 @@ export const getUserData = async (userId: string) => {
     member: parseZodOrNull(zMeMember, ensureMemberUser),
   }
 }
-export type UserData = Awaited<ReturnType<typeof getUserData>>
+export type UserData = Awaited<ReturnType<typeof getMe>>
+
+export const generatePassword = () => {
+  return generatePasswordTs.generate({
+    length: 10,
+    numbers: true,
+    uppercase: true,
+    lowercase: true,
+    symbols: true,
+    excludeSimilarCharacters: true,
+    strict: true,
+  })
+}

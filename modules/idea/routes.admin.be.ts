@@ -21,7 +21,7 @@ const zList = zResource
     title: true,
   })
   .extend({
-    id: zResource.shape.id.meta({ 'x-invisible': true }),
+    id: zResource.shape.id.meta({ 'x-hidden': true }),
   })
   .meta({
     'x-refine-meta-icon': 'ant-design:file-outlined',
@@ -35,7 +35,8 @@ export const ideaListAdminHonoRoute = honoBase().openapi(
     }),
   },
   async ({ req, json, var: { prisma } }) => {
-    const body = req.valid('json')
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { filters, pagination, sorters } = req.valid('json')
     // TODO: convert filters to where
     // TODO: convert sorters to orderBy
     const where = {
@@ -43,8 +44,8 @@ export const ideaListAdminHonoRoute = honoBase().openapi(
     }
     const ideas = await prisma.idea.findMany({
       where,
-      take: body.pagination.pageSize,
-      skip: (body.pagination.currentPage - 1) * body.pagination.pageSize,
+      take: pagination.pageSize,
+      skip: (pagination.currentPage - 1) * pagination.pageSize,
       orderBy: { createdAt: 'desc' },
     })
     const total = await prisma.idea.count({
@@ -60,9 +61,9 @@ export const ideaShowAdminHonoRoute = honoBase().openapi(
     middleware: [honoAdminMiddleware({ permission: { idea: ['view'] } })] as const,
   }),
   async ({ req, json, var: { prisma } }) => {
-    const query = req.valid('query')
+    const { id } = req.valid('query')
     const idea = await prisma.idea.findUnique({
-      where: { id: query.id.toString(), deletedAt: null },
+      where: { id: id.toString(), deletedAt: null },
     })
     if (!idea) {
       return json({ error: { message: 'Item not found' } }, 404)
@@ -78,9 +79,9 @@ export const ideaCreateAdminHonoRoute = honoBase().openapi(
     middleware: [honoAdminMiddleware({ permission: { idea: ['manage'] } })] as const,
   }),
   async ({ req, json, var: { prisma } }) => {
-    const body = req.valid('json')
+    const { data } = req.valid('json')
     const idea = await prisma.idea.create({
-      data: { ...body.data },
+      data: { ...data },
     })
     return json({ data: parseZOutput.create(zResource, idea) }, 200)
   },
@@ -93,11 +94,11 @@ export const ideaEditAdminHonoRoute = honoBase().openapi(
     middleware: [honoAdminMiddleware({ permission: { idea: ['manage'] } })] as const,
   }),
   async ({ req, json, var: { prisma } }) => {
-    const body = req.valid('json')
+    const { data, id } = req.valid('json')
     try {
       const idea = await prisma.idea.update({
-        where: { id: body.id.toString() },
-        data: body.data,
+        where: { id: id.toString() },
+        data,
       })
       return json({ data: parseZOutput.edit(zResource, idea) }, 200)
     } catch (error: any) {
@@ -115,10 +116,10 @@ export const ideaDeleteAdminHonoRoute = honoBase().openapi(
     middleware: [honoAdminMiddleware({ permission: { idea: ['manage'] } })] as const,
   }),
   async ({ req, json, var: { prisma } }) => {
-    const query = req.valid('query')
+    const { id } = req.valid('query')
     try {
       const idea = await prisma.idea.update({
-        where: { id: query.id.toString() },
+        where: { id: id.toString() },
         data: { deletedAt: new Date() },
       })
       return json({ data: parseZOutput.delete(zResource, idea) }, 200)

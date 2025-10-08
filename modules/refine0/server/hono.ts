@@ -2,6 +2,8 @@ import type z from 'zod'
 import { getRefineRoutesHelpers, type ResourceAction, type ResourceMethod, type ZodToJSOptions } from './utils'
 import type { MiddlewareHandler } from 'hono'
 
+// TODO: add default zIdSchema
+
 export const getHonoRefineRoutesHelpers = <TDefaultMiddleware extends MiddlewareHandler[] | undefined = undefined>({
   prefix: defaultPrefix = '',
   resource: defaultResource,
