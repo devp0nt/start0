@@ -1,6 +1,6 @@
 /* eslint-disable max-lines */
 import { refine0DataProvider } from '@devp0nt/refine0/client/data-provider'
-import { jsToMeta, jsToRjsfUiSchema, type JsonSchema } from '@devp0nt/refine0/shared/utils'
+import { jsToMeta, jsToUiSchema, type JsonSchema } from '@devp0nt/refine0/shared/utils'
 import type { ResourceProps } from '@refinedev/core'
 import { useResourceParams } from '@refinedev/core'
 import type { GlobalUISchemaOptions } from '@rjsf/utils'
@@ -283,7 +283,7 @@ export const useRjsfUiSchema = ({
   globalOptions?: GlobalUISchemaOptions
 }) => {
   return useMemo(() => {
-    return jsToRjsfUiSchema({ js, scope, globalOptions })
+    return jsToUiSchema({ js, scope, globalOptions })
   }, [js, scope, globalOptions])
 }
 

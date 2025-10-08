@@ -1,5 +1,6 @@
 import { deepMap } from '@devp0nt/deepmap0'
 import type { GlobalUISchemaOptions, UiSchema } from '@rjsf/utils'
+import deepmerge from 'deepmerge'
 import type { JSONSchema7Definition } from 'json-schema'
 import capitalize from 'lodash/capitalize.js'
 import get from 'lodash/get.js'
@@ -33,7 +34,7 @@ export const getDefaultExtractTitleFromJSOverrides = (): Record<string, string> 
 // x-ui-widget = ...
 // x-ui:form-widget = ...
 // x-ui:view-widget = ...
-export const jsToRjsfUiSchema = ({
+export const jsToUiSchema = ({
   js,
   scope,
   globalOptions,
@@ -43,7 +44,7 @@ export const jsToRjsfUiSchema = ({
   globalOptions?: GlobalUISchemaOptions
 }): UiSchema => {
   if (typeof js === 'boolean' || !js) {
-    return jsToRjsfUiSchema({ js: {}, scope, globalOptions })
+    return jsToUiSchema({ js: {}, scope, globalOptions })
   }
   const result: UiSchema = {}
   deepMap(js, ({ value, path }) => {
@@ -98,6 +99,14 @@ export const jsToRjsfUiSchema = ({
     set(result, 'ui:globalOptions', { ...(result['ui:globalOptions'] || {}), ...globalOptions })
   }
   return result
+}
+
+export const overrideUiSchema = (uiSchema: UiSchema | undefined | null, overrides: UiSchema): UiSchema => {
+  return deepmerge(uiSchema || {}, overrides)
+}
+
+export const disableUiSchemaLabel = (uiSchema: UiSchema | undefined | null): UiSchema => {
+  return overrideUiSchema(uiSchema, { 'ui:options': { label: false } })
 }
 
 // x-refine-meta-anyProperty = ...

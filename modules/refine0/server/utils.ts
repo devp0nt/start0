@@ -242,44 +242,34 @@ export const getRefineRoutesHelpers = ({
   }
 
   const getResourceListZOutput = <TZResData extends z.ZodType>(zResData: TZResData) => {
-    return withJSAsMeta(
-      z.object({
-        data: z.array(zResData),
-        total: z.number(),
-      }),
-    )
+    return z.object({
+      data: withJSAsMeta(z.array(zResData)),
+      total: z.number(),
+    })
   }
 
   const getResourceShowZOutput = <TZResData extends z.ZodType>(zResData: TZResData) => {
-    return withJSAsMeta(
-      z.object({
-        data: zResData,
-      }),
-    )
+    return z.object({
+      data: withJSAsMeta(zResData),
+    })
   }
 
   const getResourceCreateZOutput = <TZResData extends z.ZodType>(zResData: TZResData) => {
-    return withJSAsMeta(
-      z.object({
-        data: zResData,
-      }),
-    )
+    return z.object({
+      data: withJSAsMeta(zResData),
+    })
   }
 
   const getResourceEditZOutput = <TZResData extends z.ZodType>(zResData: TZResData) => {
-    return withJSAsMeta(
-      z.object({
-        data: zResData,
-      }),
-    )
+    return z.object({
+      data: withJSAsMeta(zResData),
+    })
   }
 
   const getResourceDeleteZOutput = <TZResData extends z.ZodType>(zResData: TZResData) => {
-    return withJSAsMeta(
-      z.object({
-        data: zResData,
-      }),
-    )
+    return z.object({
+      data: withJSAsMeta(zResData),
+    })
   }
 
   const getZOutput = {

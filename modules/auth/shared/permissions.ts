@@ -88,11 +88,16 @@ export const zPermissions = z
     ...Object.fromEntries(
       Object.entries(adminPluginOptions.ac.statements).map(([key, value]) => [
         key,
-        z.array(z.enum(value as unknown as [string, ...string[]])).optional(),
+        z
+          .array(z.enum(value as unknown as [string, ...string[]]))
+          .optional()
+          .meta({ 'x-ui:view-widget': 'tags' }),
       ]),
     ),
   })
-  .meta({}) as z.ZodType<Permissions>
+  .meta({
+    'x-descriptions': true,
+  }) as z.ZodType<Permissions>
 
 const flatPermissions = (permissions: Permissions) => {
   return Object.entries(permissions).flatMap(([key, value]) => value.map((v) => `${key}:${v}`))

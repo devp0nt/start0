@@ -1,5 +1,10 @@
 import { useRjsfUiSchema } from '@devp0nt/refine0/client'
-import { extractTitleFromJS, getJSValueByPath, type JsonSchema } from '@devp0nt/refine0/shared/utils'
+import {
+  disableUiSchemaLabel,
+  extractTitleFromJS,
+  getJSValueByPath,
+  type JsonSchema,
+} from '@devp0nt/refine0/shared/utils'
 import { withTheme } from '@rjsf/core'
 import type {
   ArrayFieldTemplateProps,
@@ -17,6 +22,7 @@ import MDEditor from '@uiw/react-md-editor'
 import { Alert, Card, Descriptions, Empty, Image, List, Space, Tag, Typography } from 'antd'
 import { formatDate } from 'date-fns/format'
 import type { JSONSchema7Definition, JSONSchema7TypeName } from 'json-schema'
+import omit from 'lodash/omit.js'
 import React from 'react'
 
 const { Text, Paragraph, Link, Title } = Typography
@@ -28,7 +34,7 @@ const isEmpty = (val: unknown) =>
   val === null ||
   (typeof val === 'string' && val.trim() === '') ||
   (Array.isArray(val) && val.length === 0) ||
-  (typeof val === 'object' && Object.keys(val).length === 0)
+  (typeof val === 'object' && Object.keys(val as Record<string, unknown>).length === 0)
 
 /** ---------- Primitive renderers (no labels) ---------- */
 
@@ -62,7 +68,6 @@ const RenderString: React.FC<{ value: unknown; schema?: JSONSchema7Definition; u
     case 'markdown':
       return (
         <Card size="small">
-          {/* @uiw/react-md-editor preview */}
           <MDEditor.Markdown source={String(value)} />
         </Card>
       )
@@ -80,7 +85,6 @@ const RenderBoolean: React.FC<{ value: unknown }> = ({ value }) =>
 /** ---------- Fields (used by RJSF) ---------- */
 
 const StringField: React.FC<FieldProps> = ({ formData, schema }) => <RenderString value={formData} schema={schema} />
-
 const NumberField: React.FC<FieldProps> = ({ formData }) => <RenderNumber value={formData} />
 const IntegerField: React.FC<FieldProps> = ({ formData }) => <RenderNumber value={formData} />
 const BooleanField: React.FC<FieldProps> = ({ formData }) => <RenderBoolean value={formData} />
@@ -92,7 +96,7 @@ const pickComposedOption = (options: JSONSchema7Definition[] | undefined, data: 
   const idx = options.findIndex((opt) => {
     if (typeof opt === 'object' && opt.properties && data && typeof data === 'object') {
       const keys = Object.keys(opt.properties)
-      return keys.every((k) => k in data)
+      return keys.every((k) => k in (data as Record<string, unknown>))
     }
     if (typeof opt === 'object' && opt.type && typeof data !== 'undefined') {
       if (Array.isArray(opt.type)) return opt.type.includes(typeof data as JSONSchema7TypeName)
@@ -110,14 +114,30 @@ const OneOfField: React.FC<FieldProps> = (props) => {
   const option = pickComposedOption(props.schema.oneOf, props.formData)
   if (!option || typeof option === 'boolean') return <Text type="secondary">—</Text>
   const SchemaField = props.registry.fields.SchemaField
-  return <SchemaField {...props} schema={option} uiSchema={props.uiSchema} formData={props.formData} />
+  const combinedSchema = { ...omit(props.schema, 'oneOf'), ...option }
+  return (
+    <SchemaField
+      {...props}
+      schema={combinedSchema}
+      uiSchema={disableUiSchemaLabel(props.uiSchema)} // disable labels inside the selected option
+      formData={props.formData}
+    />
+  )
 }
 
 const AnyOfField: React.FC<FieldProps> = (props) => {
   const option = pickComposedOption(props.schema.anyOf, props.formData)
   if (!option || typeof option === 'boolean') return <Text type="secondary">—</Text>
   const SchemaField = props.registry.fields.SchemaField
-  return <SchemaField {...props} schema={option} uiSchema={props.uiSchema} formData={props.formData} />
+  const combinedSchema = { ...omit(props.schema, 'anyOf'), ...option }
+  return (
+    <SchemaField
+      {...props}
+      schema={combinedSchema}
+      uiSchema={disableUiSchemaLabel(props.uiSchema)} // disable labels inside the selected option
+      formData={props.formData}
+    />
+  )
 }
 
 /** Arrays */
@@ -125,83 +145,91 @@ const ArrayField: React.FC<FieldProps> = (props) => {
   const { formData, schema, uiSchema, name } = props
   const itemsSchema = schema.items
   const label = extractTitleFromJS(schema, name)
+  const displayLabel = uiSchema?.['ui:options']?.label !== false && !!label
 
-  if (!Array.isArray(formData) || formData.length === 0) {
-    return (
-      <Card size="small" title={label}>
-        <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="No items" />
-      </Card>
-    )
-  }
-
-  // Render as tags if it looks like a "tags" array
   const isTags =
     (typeof itemsSchema === 'object' &&
       !Array.isArray(itemsSchema) &&
       (itemsSchema.format === 'tags' || uiSchema?.['ui:widget'] === 'tags')) ||
     schema.format === 'tags'
 
-  if (isTags && formData.every((x) => typeof x === 'string')) {
+  if (isTags && Array.isArray(formData) && formData.every((x) => typeof x === 'string')) {
     return (
       <Space direction="vertical" style={{ width: '100%' }}>
-        {!label ? null : (
+        {!displayLabel ? null : (
           <Title level={5} style={{ margin: 0 }}>
             {label}
           </Title>
         )}
         <Space wrap>
-          {formData.map((v, i) => (
-            <Tag key={i}>{v}</Tag>
-          ))}
+          {Array.isArray(formData) && formData.length > 0 ? (
+            formData.map((v, i) => <Tag key={i}>{v}</Tag>)
+          ) : (
+            <Text type="secondary">—</Text>
+          )}
         </Space>
       </Space>
     )
   }
 
-  // Generic list rendering; use SchemaField for each item so nested types are handled by our theme
   const SchemaField = props.registry.fields.SchemaField
   return (
-    <Card size="small" title={label}>
-      <List
-        dataSource={formData}
-        renderItem={(item, index) =>
-          typeof itemsSchema === 'object' && (
-            <List.Item key={index}>
-              <SchemaField
-                {...props}
-                name={String(index)}
-                schema={itemsSchema}
-                formData={item}
-                uiSchema={uiSchema?.items || uiSchema}
-              />
-            </List.Item>
-          )
-        }
-      />
+    <Card size="small" title={displayLabel ? label : undefined}>
+      {Array.isArray(formData) && formData.length > 0 ? (
+        <List
+          dataSource={formData}
+          renderItem={(item, index) =>
+            typeof itemsSchema === 'object' && (
+              <List.Item key={index}>
+                <SchemaField
+                  {...props}
+                  name={String(index)}
+                  schema={itemsSchema}
+                  formData={item}
+                  uiSchema={uiSchema?.items || uiSchema}
+                />
+              </List.Item>
+            )
+          }
+        />
+      ) : (
+        <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="No items" />
+      )}
     </Card>
   )
 }
 
 /** Objects */
 const ObjectField: React.FC<FieldProps> = (props) => {
-  const { formData, schema, name } = props
+  const { formData, schema, name, uiSchema } = props
   const properties = schema.properties || {}
   const label = extractTitleFromJS(schema, name)
   const asCard = getJSValueByPath(schema, 'x-card', false)
-  const asDescriptions = getJSValueByPath(schema, 'x-descriptions', false)
+  const asDescriptionsBordered = !!getJSValueByPath(schema, 'x-descriptions-bordered', false)
+  const asDescriptions = !!getJSValueByPath(schema, 'x-descriptions', false) || asDescriptionsBordered
+  const displayLabel = uiSchema?.['ui:options']?.label !== false && !!label
 
   const CardWrapper = ({ children }: { children: React.ReactNode }) => {
     if (asCard) {
       return (
-        <Card size="small" title={label}>
+        <Card size="small" title={displayLabel ? label : undefined}>
           {children}
         </Card>
       )
     }
-    return <>{children}</>
+    return (
+      <>
+        {displayLabel ? (
+          <Title level={5} style={{ margin: 0 }}>
+            {label}
+          </Title>
+        ) : null}
+        {children}
+      </>
+    )
   }
 
-  if (!formData || typeof formData !== 'object' || Object.keys(formData).length === 0) {
+  if (!formData || typeof formData !== 'object' || Object.keys(formData as Record<string, unknown>).length === 0) {
     return (
       <CardWrapper>
         <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="No data" />
@@ -214,9 +242,9 @@ const ObjectField: React.FC<FieldProps> = (props) => {
   if (asDescriptions) {
     return (
       <CardWrapper>
-        <Descriptions size="small" column={1} bordered>
+        <Descriptions size="small" column={1} bordered={asDescriptionsBordered}>
           {Object.entries(properties).map(([key, childSchema]) => {
-            const value = formData[key]
+            const value = (formData as Record<string, unknown>)[key]
             if (typeof value === 'undefined') return null
             if (typeof childSchema === 'boolean') return null
             return (
@@ -230,10 +258,7 @@ const ObjectField: React.FC<FieldProps> = (props) => {
                   name={key}
                   schema={childSchema}
                   formData={value}
-                  uiSchema={{
-                    ...props.uiSchema?.[key],
-                    'ui:options': { ...props.uiSchema?.[key]?.['ui:options'], label: false },
-                  }}
+                  uiSchema={disableUiSchemaLabel(props.uiSchema?.[key])} // child rows: no inner labels
                 />
               </Descriptions.Item>
             )
@@ -242,11 +267,12 @@ const ObjectField: React.FC<FieldProps> = (props) => {
       </CardWrapper>
     )
   } else {
+    // Vertical stack with normal child labels
     return (
       <CardWrapper>
         <Space direction="vertical" style={{ width: '100%', gap: 16 }}>
           {Object.entries(properties).map(([key, childSchema]) => {
-            const value = formData[key]
+            const value = (formData as Record<string, unknown>)[key]
             if (typeof childSchema === 'boolean') return null
             return (
               <SchemaField
@@ -265,14 +291,10 @@ const ObjectField: React.FC<FieldProps> = (props) => {
 }
 
 /** Title/Description/Unsupported */
-const TitleField: React.FC<FieldProps> = ({ schema, name }) => {
-  const title = extractTitleFromJS(schema, name)
-  return !title ? null : (
-    <Title level={4} style={{ marginTop: 0 }}>
-      {title}
-    </Title>
-  )
-}
+
+// ❗️No-op to avoid duplicate titles around objects/arrays.
+// FieldTemplate + custom fields handle all labeling now.
+const TitleField: React.FC<FieldProps> = () => null
 
 const DescriptionField: React.FC<FieldProps> = ({ description }) =>
   !description ? null : <Paragraph type="secondary">{String(description)}</Paragraph>
@@ -286,16 +308,23 @@ const UnsupportedField: React.FC<FieldProps> = ({ schema }) => (
 /** ---------- Templates ---------- */
 
 const FieldTemplate = (props: FieldTemplateProps) => {
-  const { id, label, description, errors, help, disabled, displayLabel, schema, children } = props
+  const { id, label, description, errors, help, disabled, displayLabel, schema, children, uiSchema } = props
 
-  // Objects and Arrays render their own labels/layout
+  // Containers render their own labels/layout
   if (schema.type === 'object' || schema.type === 'array') {
     return <div id={id}>{children}</div>
   }
 
+  // rjsf try to hide label for boolean fields, but we want to show it
+  const displayLabelByUiSchema =
+    typeof uiSchema?.['ui:options']?.label === 'boolean' ? uiSchema['ui:options'].label : undefined
+  const displayLabelByBooleanFieldType = schema.type === 'boolean' ? true : undefined
+  const fixedDisplayLabel = displayLabelByUiSchema ?? displayLabelByBooleanFieldType ?? displayLabel
+
+  // For primitives (including boolean/null), we render a predictable label once.
   return (
     <Space direction="vertical" style={{ width: '100%', gap: 4 }}>
-      {displayLabel && (
+      {fixedDisplayLabel && (
         <Title level={5} style={{ margin: 0 }}>
           {label}
         </Title>
@@ -330,7 +359,7 @@ const templates = {
 /** ---------- Theme ---------- */
 
 const widgets = {
-  // In "view" we generally avoid interactive widgets; leave empty or add read-only display widgets if needed.
+  // read-only view widgets can be declared here if needed
 } satisfies RegistryWidgetsType
 
 const fields = {
@@ -343,7 +372,7 @@ const fields = {
   ArrayField,
   OneOfField,
   AnyOfField,
-  TitleField,
+  TitleField, // now a no-op (prevents duplicate titles)
   DescriptionField,
   UnsupportedField,
 } satisfies RegistryFieldsType
