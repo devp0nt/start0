@@ -1,6 +1,6 @@
 import { trpcBase } from '@backend/core/trpc'
 import { Error0 } from '@devp0nt/error0'
-import { zGetIdeaInput } from '@idea/shared/routes.sh'
+import { zIdeaShowInput } from '@idea/shared/routes.sh'
 import { zIdeaClientGuest } from './utils.sh'
 import { parseZod } from '@apps/shared/utils'
 
@@ -10,7 +10,7 @@ export const ideaListTrpcRoute = trpcBase().query(async ({ ctx }) => {
 })
 
 export const ideaShowTrpcRoute = trpcBase()
-  .input(zGetIdeaInput)
+  .input(zIdeaShowInput)
   .query(async ({ ctx, input }) => {
     const idea = await ctx.prisma.idea.findUnique({
       where: { sn: input.ideaSn },
