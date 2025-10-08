@@ -1,5 +1,6 @@
 import { useEvalRjsfJs, useRjsfUiSchema } from '@devp0nt/refine0/client'
-import { getJsProperties, type JsonSchema } from '@devp0nt/refine0/shared/utils'
+import { useRemoveAdditionalDataByJs } from '@devp0nt/refine0/client/utils'
+import type { JsonSchema } from '@devp0nt/refine0/shared/utils'
 import type { UseFormReturnType } from '@refinedev/antd'
 import { Theme as AntDTheme } from '@rjsf/antd'
 import { withTheme } from '@rjsf/core'
@@ -14,7 +15,6 @@ import { customizeValidator } from '@rjsf/validator-ajv8'
 import Ajv2020 from '@rjsf/validator-ajv8/node_modules/ajv/dist/2020'
 import MDEditor from '@uiw/react-md-editor'
 import { Alert, Flex } from 'antd'
-import { pick } from 'lodash'
 import { useEffect, useState } from 'react'
 
 const validator = customizeValidator({
@@ -83,23 +83,13 @@ export const RjsfForm = ({
   const fixedJs = useEvalRjsfJs(js, formData)
   const uiSchema = useRjsfUiSchema({ js: fixedJs, scope: 'form', globalOptions: uiSchemaGlobalOptions })
   const [wasSubmitted, setWasSubmitted] = useState(false)
-  // TODO: do initial values omit better
+  const fixedInitialValues = useRemoveAdditionalDataByJs(fixedJs, initialValues || refineForm.formProps.initialValues)
   useEffect(() => {
     if (wasSubmitted) {
       return
     }
-    const properties = getJsProperties(fixedJs)
-    if (initialValues) {
-      setFormData(pick(initialValues, Object.keys(properties)))
-    } else {
-      setFormData(pick(refineForm.formProps.initialValues, Object.keys(properties)))
-    }
-  }, [
-    Object.keys(refineForm.formProps.initialValues || {}).length,
-    Object.keys(initialValues || {}).length,
-    fixedJs,
-    wasSubmitted,
-  ])
+    setFormData(fixedInitialValues)
+  }, [JSON.stringify(fixedInitialValues), JSON.stringify(initialValues), wasSubmitted])
   if (!fixedJs) {
     return <Alert type="error" message="No schema found" />
   }

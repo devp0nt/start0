@@ -6,8 +6,8 @@ import capitalize from 'lodash/capitalize.js'
 import get from 'lodash/get.js'
 import set from 'lodash/set.js'
 import words from 'lodash/words.js'
-import type { JSONSchema } from 'zod/v4/core'
 import simpleEval from 'simple-eval'
+import type { JSONSchema } from 'zod/v4/core'
 
 import { z } from 'zod'
 
@@ -193,6 +193,30 @@ export function getJsValueByPath<T = unknown>(js: JsonSchema | null, path: strin
     return defaultValue as T
   }
   return get(js, path, defaultValue) as T
+}
+
+export function removeAdditionalDataByJs<T>(js: JsonSchema | null, data: T): T {
+  if (!js || typeof js === 'boolean' || typeof data !== 'object' || data === null) {
+    return data
+  }
+  if (js.type === 'object' && js.properties) {
+    const result: Record<string, unknown> = {}
+    for (const key of Object.keys(data)) {
+      const propSchema = get(js, `properties.${key}`)
+      // keep only declared properties
+      if (propSchema) {
+        result[key] = removeAdditionalDataByJs(propSchema, get(data, key))
+      } else if (js.additionalProperties !== false) {
+        // if additionalProperties not forbidden — keep it
+        result[key] = get(data, key)
+      }
+    }
+    return result as T
+  }
+  if (js.type === 'array' && js.items && Array.isArray(data)) {
+    return data.map((item) => removeAdditionalDataByJs(js.items as JsonSchema | null, item)) as unknown as T
+  }
+  return data
 }
 
 /** Operators */

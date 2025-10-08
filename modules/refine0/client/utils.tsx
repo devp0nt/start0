@@ -1,6 +1,13 @@
 /* eslint-disable max-lines */
 import { refine0DataProvider } from '@devp0nt/refine0/client/data-provider'
-import { evalJsByData, jsToMeta, jsToUiSchema, toRjsfJs, type JsonSchema } from '@devp0nt/refine0/shared/utils'
+import {
+  evalJsByData,
+  jsToMeta,
+  jsToUiSchema,
+  removeAdditionalDataByJs,
+  toRjsfJs,
+  type JsonSchema,
+} from '@devp0nt/refine0/shared/utils'
 import type { ResourceProps } from '@refinedev/core'
 import { useResourceParams } from '@refinedev/core'
 import type { GlobalUISchemaOptions } from '@rjsf/utils'
@@ -482,5 +489,11 @@ export const useEvalRjsfJs = (js: JsonSchema | null, data?: unknown) => {
     const evaledJs = evalJsByData(js, data)
     const fixedJs = toRjsfJs(evaledJs)
     return fixedJs
+  }, [js, data])
+}
+
+export const useRemoveAdditionalDataByJs = (js: JsonSchema | null, data: unknown) => {
+  return useMemo(() => {
+    return removeAdditionalDataByJs(js, data)
   }, [js, data])
 }

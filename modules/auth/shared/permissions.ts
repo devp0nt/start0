@@ -91,7 +91,11 @@ export const zPermissions = z
         z
           .array(z.enum(value as unknown as [string, ...string[]]))
           .optional()
-          .meta({ 'x-ui:view-widget': 'tags' }),
+          .meta({
+            'x-ui:view-widget': 'tags',
+            'x-ui:form-widget': 'checkboxes',
+            'x-ui:form-options': { inline: true },
+          }),
       ]),
     ),
   })
