@@ -1,9 +1,10 @@
+import { env } from '@admin/core/lib/env.runtime'
 import { backendAdminRoutesBasePath } from '@backend/shared/utils'
 import type { HttpError } from '@refinedev/core'
 import Axios, { isAxiosError } from 'axios'
 
 export const axiosInstance = Axios.create({
-  baseURL: `${import.meta.env.VITE_BACKEND_URL}${backendAdminRoutesBasePath}`,
+  baseURL: `${env.VITE_BACKEND_URL}${backendAdminRoutesBasePath}`,
   withCredentials: true,
 })
 

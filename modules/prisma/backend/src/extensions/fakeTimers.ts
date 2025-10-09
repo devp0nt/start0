@@ -4,9 +4,9 @@ import {
 } from '@prisma/shared/src/generated/custom/utils'
 import { Prisma } from '../generated/prisma/client'
 
-export const getFakeTimersExtension = ({ isTestNodeEnv }: { isTestNodeEnv: boolean }) =>
+export const getFakeTimersExtension = ({ enabled }: { enabled: boolean }) =>
   Prisma.defineExtension((prisma) =>
-    !isTestNodeEnv
+    !enabled
       ? prisma
       : prisma.$extends({
           query: {

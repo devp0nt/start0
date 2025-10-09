@@ -1,3 +1,4 @@
+import { env } from '@admin/core/lib/env.runtime'
 import { backendTrpcRoutesBasePath } from '@backend/shared/utils'
 import type { TrpcRouter } from '@backend/trpc-router'
 import { QueryClient } from '@tanstack/react-query'
@@ -15,7 +16,7 @@ const links = [
   }),
   httpBatchLink({
     transformer: superjson,
-    url: import.meta.env.VITE_BACKEND_URL + backendTrpcRoutesBasePath,
+    url: env.VITE_BACKEND_URL + backendTrpcRoutesBasePath,
   }),
 ]
 

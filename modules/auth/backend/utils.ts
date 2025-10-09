@@ -1,6 +1,6 @@
 import type { HonoBase } from '@backend/core/hono'
 import { backendAuthRoutesBasePath } from '@backend/shared/utils'
-import { PrismaClient } from '@prisma/backend/generated/prisma/client'
+import { prisma } from '@prisma/backend/client'
 import { betterAuth } from 'better-auth'
 import { prismaAdapter } from 'better-auth/adapters/prisma'
 import { customSession, openAPI } from 'better-auth/plugins'
@@ -14,8 +14,7 @@ import {
   createServerAdminPlugin,
 } from '../shared/permissions'
 import { toMeAdmin, toMeMember } from '../shared/utils'
-
-const prisma = new PrismaClient()
+import { env } from '@backend/base/env.runtime'
 
 export const auth = betterAuth({
   database: prismaAdapter(prisma, {
@@ -85,7 +84,7 @@ export const auth = betterAuth({
       },
     },
   },
-  trustedOrigins: [process.env.ADMIN_URL, process.env.SITE_URL].flatMap((url) => url || []),
+  trustedOrigins: [env.ADMIN_URL, env.SITE_URL].flatMap((url) => url || []),
 })
 
 // path hardcoded by better-auth "open-api/generate-schema"

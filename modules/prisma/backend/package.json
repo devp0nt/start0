@@ -6,7 +6,7 @@
     "types": "tsc --noEmit",
     "build": "tsc --build",
     "watch": "tsc --watch",
-    "clean": "rimraf ../../../node_modules/.cache/tsbuildinfo/@prisma/backend && rimraf ./dist && rimraf ./src/generated",
+    "clean": "rimraf ../../../node_modules/.cache/tsbuildinfo/@prisma/backend && rimraf ./dist && rimraf ./src/generated && rimraf ../shared/src/generated",
     "prisma-migrate-dev": "bun run --env-file=./.env prisma migrate dev && bun run build",
     "prisma-migrate-test": "bun run --env-file=./.env.test prisma migrate dev",
     "prisma-generate-client": "bun run prisma generate client && bun run build && cd ../shared && bun run build",

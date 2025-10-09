@@ -1,0 +1,5 @@
+{
+  "name": "@backend/base",
+  "preset": "backend",
+  "deps": ["@apps/shared"]
+}

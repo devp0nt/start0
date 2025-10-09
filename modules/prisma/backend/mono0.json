@@ -2,11 +2,11 @@
   "name": "@prisma/backend",
   "preset": ["backendWithTsconfig", "cold"],
   "tags": ["prisma"],
-  "deps": ["@idea/shared", "@auth/shared", "@prisma/shared"],
+  "deps": ["@idea/shared", "@auth/shared", "@prisma/shared", "@backend/base"],
   "packageJson": {
     "value": {
       "scripts": {
-        "clean": "rimraf {{projectRootDir}}/node_modules/.cache/tsbuildinfo/{{name}} && rimraf {{distDir}} && rimraf ./src/generated"
+        "clean": "rimraf {{projectRootDir}}/node_modules/.cache/tsbuildinfo/{{name}} && rimraf {{distDir}} && rimraf ./src/generated && rimraf ../shared/src/generated"
       }
     }
   },

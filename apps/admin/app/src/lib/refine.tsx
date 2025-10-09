@@ -10,10 +10,11 @@ import { Refine0 } from '@devp0nt/refine0/client'
 import routerProvider from '@refinedev/react-router'
 import { Icon } from '@iconify/react'
 import { LoadingOutlined } from '@ant-design/icons'
+import { env } from '@admin/core/lib/env.runtime'
 
 export const refine0 = Refine0.create({
-  openapiUrl: `${import.meta.env.VITE_BACKEND_URL}${backendAdminRoutesBasePath}/doc.json`,
-  apiUrl: import.meta.env.VITE_BACKEND_URL,
+  openapiUrl: `${env.VITE_BACKEND_URL}${backendAdminRoutesBasePath}/doc.json`,
+  apiUrl: env.VITE_BACKEND_URL,
   httpClient: axiosInstance,
   Icon: ({ icon }) => <Icon icon={icon} fallback={<LoadingOutlined />} className="anticon ant-menu-item-icon" />,
 })

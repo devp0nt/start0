@@ -1,68 +1,58 @@
+import { ErrorPage } from '@admin/app/components/error'
 import { Loader } from '@admin/core/components/loader'
-import { createEnv, type Env } from '@admin/core/lib/env'
-import { Alert } from 'antd'
-import { createContext, useContext, useContextSelector } from 'use-context-selector'
-import { useQuery } from '@tanstack/react-query'
 import { trpc } from '@admin/core/lib/trpc'
+import { authClient } from '@auth/admin/utils'
+import type { MeAdmin, MeMember } from '@auth/shared/utils'
 import type { TrpcRouterOutput } from '@backend/trpc-router'
+import { useQuery } from '@tanstack/react-query'
+import { createContext, useContext, useContextSelector } from 'use-context-selector'
 
-export namespace AdminCtx {
-  export type Admin = { id: string; name: string; email: string }
-  export type Me = { admin: Admin | null }
-  export type Config = TrpcRouterOutput['app']['getConfig']['config']
-  export type Ctx = {
-    me: Me
-    config: Config
-    env: Env
-  }
-
-  const ReactContext = createContext<Ctx>(null as never)
-
-  export const Provider = ({ children }: { children: React.ReactNode }) => {
-    const getConfigQr = useQuery(
-      trpc.app.getConfig.queryOptions(undefined, {
-        staleTime: Infinity,
-      }),
-    )
-    const envParseResult = ((): { env: Env; error: null } | { env: null; error: unknown } => {
-      try {
-        return { env: createEnv(import.meta.env), error: null }
-      } catch (error) {
-        // eslint-disable-next-line no-console
-        console.error(error)
-        return { error, env: null }
-      }
-    })()
-    if (envParseResult.error || !envParseResult.env) {
-      return (
-        <Alert
-          type="error"
-          message={envParseResult.error instanceof Error ? envParseResult.error.message : 'Unknown error'}
-        />
-      )
-    }
-    const error = getConfigQr.error
-    const pending = getConfigQr.isLoading
-    if (error) {
-      return <Alert type="error" message={error.message} />
-    }
-    if (pending) {
-      return <Loader type="site" />
-    }
-    const adminCtx: Partial<Ctx> = {
-      me: {
-        admin: null,
-      },
-      config: getConfigQr.data?.config,
-      env: envParseResult.env,
-    }
-    return <ReactContext.Provider value={adminCtx as Ctx}>{children}</ReactContext.Provider>
-  }
-
-  export const useCtx = () => {
-    return useContext(ReactContext)
-  }
-  export const useMe = () => useContextSelector(ReactContext, (ctx) => ctx.me)
-  export const useConfig = () => useContextSelector(ReactContext, (ctx) => ctx.config)
-  export const useEnv = () => useContextSelector(ReactContext, (ctx) => ctx.env)
+export type AppConfig = TrpcRouterOutput['app']['getConfig']['config']
+export type AdminCtx = {
+  admin: MeAdmin | null
+  member: MeMember | null
+  config: AppConfig
 }
+
+const ReactContext = createContext<AdminCtx>(null as never)
+
+export const CtxProvider = ({ children }: { children: React.ReactNode }) => {
+  const getConfigResult = useQuery(trpc.app.getConfig.queryOptions())
+  const sessionResult = authClient.useSession()
+  const pending = getConfigResult.isLoading || sessionResult.isPending
+  const error = getConfigResult.error || sessionResult.error
+
+  if (pending) {
+    return <Loader type="site" />
+  }
+  if (error) {
+    return <ErrorPage error={error} />
+  }
+
+  const config = getConfigResult.data?.config
+  if (!config) {
+    return <ErrorPage message="Config not found" />
+  }
+
+  const admin = sessionResult.data?.admin || null
+  const member = sessionResult.data?.member || null
+
+  return (
+    <ReactContext.Provider
+      value={{
+        admin,
+        member,
+        config,
+      }}
+    >
+      {children}
+    </ReactContext.Provider>
+  )
+}
+
+export const useCtx = () => {
+  return useContext(ReactContext)
+}
+export const useMeAdmin = () => useContextSelector(ReactContext, (ctx) => ctx.admin)
+export const useMeMember = () => useContextSelector(ReactContext, (ctx) => ctx.member)
+export const useConfig = () => useContextSelector(ReactContext, (ctx) => ctx.config)

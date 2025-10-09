@@ -8,7 +8,7 @@ import '@refinedev/antd/dist/reset.css'
 import { SiderAfter, SiderBefore } from '@admin/app/components/sider'
 import { refine0, RefineSetup } from '@admin/app/lib/refine'
 import { Loader } from '@admin/core/components/loader'
-import { AdminCtx } from '@admin/core/lib/ctx'
+import { CtxProvider } from '@admin/core/lib/ctx'
 import { TrpcProvider } from '@admin/core/lib/trpc'
 import { ResourceCreatePage } from '@admin/core/pages/create'
 import { ResourceEditPage } from '@admin/core/pages/edit'
@@ -46,7 +46,7 @@ function App() {
             <style dangerouslySetInnerHTML={{ __html: globalStyles }} />
             <RefineSetup>
               <TrpcProvider>
-                <AdminCtx.Provider>
+                <CtxProvider>
                   <refine0.Provider
                     Error={({ message }) => <Alert type="error" message={message} />}
                     Loader={<Loader type="site" />}
@@ -108,7 +108,7 @@ function App() {
                     <UnsavedChangesNotifier />
                     <DocumentTitleHandler />
                   </refine0.Provider>
-                </AdminCtx.Provider>
+                </CtxProvider>
               </TrpcProvider>
             </RefineSetup>
           </AntdApp>

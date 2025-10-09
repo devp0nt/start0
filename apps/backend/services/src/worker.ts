@@ -1,24 +1,25 @@
-import { createBackendCtx, createTri0 } from '@backend/core/ctx'
+import { baseTri0 } from '@backend/base/tri0'
+import { backendCtx } from '@backend/core/ctx'
 import { presetDb } from '@backend/core/presetDb'
+import { applyUncaughtExceptionCatcher } from '@backend/core/uncaught'
+
+const tri0 = baseTri0.extend({
+  service: 'worker',
+})
 
 export const startWorkerProcess = async () => {
-  const tri0 = createTri0()
-  const ctx = createBackendCtx({ tri0, service: 'worker' })
-  const { logger } = tri0.extend('root')
-  try {
-    await ctx.self.init()
-    await presetDb(ctx)
-    logger.info(`Worker started`)
-    while (true) {
-      await new Promise((resolve) => setTimeout(resolve, 1000 * 60 * 60))
-      logger.info(`Worker is still alive`)
-    }
-  } catch (e: any) {
-    logger.error(e)
-    await ctx.self.destroy()
+  await backendCtx.self.init({ tri0 })
+  const { logger } = backendCtx.tri0.extend('worker')
+
+  await presetDb(backendCtx)
+  logger.info(`Worker started`)
+  while (true) {
+    await new Promise((resolve) => setTimeout(resolve, 1000 * 60 * 60))
+    logger.info(`Worker is still alive`)
   }
 }
 
 if (import.meta.main) {
+  applyUncaughtExceptionCatcher({ tri0, ctx: backendCtx })
   void startWorkerProcess()
 }

@@ -19,6 +19,7 @@
       "@auth/backend/*": ["./modules/auth/backend/*"],
       "@auth/shared/*": ["./modules/auth/shared/*"],
       "@auth/site/*": ["./modules/auth/site/*"],
+      "@backend/base/*": ["./apps/backend/base/*"],
       "@backend/core/*": ["./apps/backend/core/*"],
       "@backend/hono-router": ["./apps/backend/router/hono/index.ts"],
       "@backend/hono-router/*": ["./apps/backend/router/hono/*"],
