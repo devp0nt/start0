@@ -56,10 +56,10 @@ export type CustomerUserWithEverything = Prisma.CustomerUserGetPayload<{
 }>
 
 function toCustomerOne(data: CustomerUserWithEverything) {
-  return {
+  return withFinalPermissions({
     ...omit(data, ['user']),
     ...data.user,
-  }
+  })
 }
 export type Customer = ReturnType<typeof toCustomerOne>
 export function toCustomer(data: CustomerUserWithEverything): Customer
@@ -69,7 +69,7 @@ export function toCustomer(data: CustomerUserWithEverything | CustomerUserWithEv
 }
 
 function toCustomerClientAdminOne(data: Customer): CustomerClientAdmin {
-  return parseZod(zCustomerClientAdmin, withFinalPermissions(data))
+  return parseZod(zCustomerClientAdmin, data)
 }
 export function toCustomerClientAdmin(data: Customer): CustomerClientAdmin
 export function toCustomerClientAdmin(data: Customer[]): CustomerClientAdmin[]
@@ -141,12 +141,12 @@ export function toAdminClientMe(data: Admin): AdminClientMe
 export function toAdminClientMe(data: null): null
 export function toAdminClientMe(data: Admin | null): AdminClientMe | null
 export function toAdminClientMe(data: Admin | null): AdminClientMe | null {
-  return !data ? null : parseZod(zAdminClientMe, withFinalPermissions(data))
+  return !data ? null : parseZod(zAdminClientMe, data)
 }
 
 export function toCustomerClientMe(data: Customer): CustomerClientMe
 export function toCustomerClientMe(data: null): null
 export function toCustomerClientMe(data: Customer | null): CustomerClientMe | null
 export function toCustomerClientMe(data: Customer | null): CustomerClientMe | null {
-  return !data ? null : parseZod(zCustomerClientMe, withFinalPermissions(data))
+  return !data ? null : parseZod(zCustomerClientMe, data)
 }
