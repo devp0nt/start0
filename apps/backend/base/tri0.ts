@@ -12,19 +12,6 @@ Logger0.init({
   rootTagPrefix: appSlug,
   errorTagSuffix: 'err',
   consoleFormatter: env.isDevelopmentNodeEnv ? 'prettyYaml' : 'json',
-  filters: {
-    ...(env.isDevelopmentNodeEnv
-      ? {
-          dev: (record) => {
-            // TODO0: fix logger filters
-            if (record.category.includes('prisma')) {
-              return false
-            }
-            return true
-          },
-        }
-      : {}),
-  },
 })
 const logger = Logger0.create({
   adapter: logger0AdapterProject,

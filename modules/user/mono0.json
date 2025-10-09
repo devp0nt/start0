@@ -1,0 +1,21 @@
+[
+  {
+    "name": "@user/shared",
+    "preset": ["sharedModule", "sharedMulti"]
+  },
+  {
+    "name": "@user/backend",
+    "preset": ["backendModule", "backendMulti"],
+    "deps": ["@user/shared"]
+  },
+  {
+    "name": "@user/site",
+    "preset": ["siteModule", "siteMulti"],
+    "deps": ["@user/shared"]
+  },
+  {
+    "name": "@user/admin",
+    "preset": ["adminModule", "adminMulti"],
+    "deps": ["@user/shared"]
+  }
+]

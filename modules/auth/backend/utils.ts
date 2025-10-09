@@ -1,6 +1,10 @@
+import { env } from '@backend/base/env.runtime'
+import type { BackendCtx } from '@backend/core/ctx'
 import type { HonoBase } from '@backend/core/hono'
 import { backendAuthRoutesBasePath } from '@backend/shared/utils'
 import { prisma } from '@prisma/backend/client'
+import { getUser, toAdminClientAdmin, toMemberClientMe, toUserClientMe } from '@user/admin/utils.be'
+import type { MeAuthorized } from '@user/admin/utils.sh'
 import { betterAuth } from 'better-auth'
 import { prismaAdapter } from 'better-auth/adapters/prisma'
 import { customSession, openAPI } from 'better-auth/plugins'
@@ -13,8 +17,6 @@ import {
   createRequirePermission,
   createServerAdminPlugin,
 } from '../shared/permissions'
-import { toMeAdmin, toMeMember } from '../shared/utils'
-import { env } from '@backend/base/env.runtime'
 
 export const auth = betterAuth({
   database: prismaAdapter(prisma, {
@@ -24,9 +26,9 @@ export const auth = betterAuth({
     await createServerAdminPlugin(),
     openAPI(),
     customSession(async ({ user, session }) => {
-      const userData = await getMe(user.id)
+      const me = await getMe({ prisma }, user.id)
       return {
-        ...userData,
+        ...me,
         session,
       }
     }),
@@ -107,59 +109,14 @@ export const applyAuthRoutesToHonoApp = ({ hono }: { hono: HonoBase }) => {
   hono.on(['POST', 'GET'], `${backendAuthRoutesBasePath}/*`, async (c) => await auth.handler(c.req.raw))
 }
 
-export const getMe = async (userId: string) => {
-  const { adminUser, memberUser, ...user } = await prisma.user.findUniqueOrThrow({
-    where: {
-      id: userId,
-    },
-    include: {
-      adminUser: {
-        include: {
-          user: true,
-        },
-      },
-      memberUser: {
-        include: {
-          user: true,
-        },
-      },
-    },
-  })
-  const ensureMemberUser = await (async () => {
-    if (memberUser) {
-      return memberUser
-    }
-    return await prisma.memberUser.create({
-      data: {
-        userId: user.id,
-      },
-      include: {
-        user: true,
-      },
-    })
-  })()
-  const ensureAdminUser = await (async () => {
-    if (!adminPluginOptions.adminRoles.includes(user.role)) {
-      return null
-    }
-    if (adminUser) {
-      return adminUser
-    }
-    return await prisma.adminUser.create({
-      data: {
-        userId: user.id,
-      },
-      include: {
-        user: true,
-      },
-    })
-  })()
+const getMe = async (ctx: Pick<BackendCtx, 'prisma'>, userId: string): Promise<MeAuthorized> => {
+  const me = await getUser(ctx, userId)
   return {
-    admin: toMeAdmin(ensureAdminUser),
-    member: toMeMember(ensureMemberUser),
+    admin: !me.admin ? null : toAdminClientAdmin(me.admin),
+    member: toMemberClientMe(me.member),
+    user: toUserClientMe(me.user),
   }
 }
-export type UserData = Awaited<ReturnType<typeof getMe>>
 
 export const generatePassword = () => {
   return generatePasswordTs.generate({
@@ -172,3 +129,5 @@ export const generatePassword = () => {
     strict: true,
   })
 }
+
+export type Session = (typeof auth)['$Infer']['Session']['session']

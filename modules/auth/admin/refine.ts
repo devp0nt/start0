@@ -1,5 +1,5 @@
 import { authClient } from '@auth/admin/utils'
-import { hasPermission } from '@auth/shared/permissions'
+import { getUserPermissions, hasPermission } from '@auth/shared/permissions'
 import type { AccessControlProvider, AuthProvider, LoginFormTypes } from '@refinedev/core'
 import { useGetIdentity as useGetIdentityOriginal } from '@refinedev/core'
 
@@ -65,6 +65,7 @@ export const refineAuthProvider = {
     }
   },
   getPermissions: async (params) => {
+    // TODO: figure out what is it
     return null
   },
   getIdentity: async () => {
@@ -79,7 +80,7 @@ export const refineAuthProvider = {
         name: data.admin.name,
         avatar: data.admin.image,
         role: data.admin.role,
-        permissions: data.admin.permissions,
+        permissions: getUserPermissions(data.admin.role, data.admin.permissions),
         email: data.admin.email,
       }
     }

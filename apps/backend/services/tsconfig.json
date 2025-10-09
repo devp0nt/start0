@@ -24,7 +24,13 @@
     "../../../modules/idea/**/*.be.tsx",
     "../../../modules/idea/**/shared/**/*",
     "../../../modules/idea/**/*.sh.ts",
-    "../../../modules/idea/**/*.sh.tsx"
+    "../../../modules/idea/**/*.sh.tsx",
+    "../../../modules/user/**/backend/**/*",
+    "../../../modules/user/**/*.be.ts",
+    "../../../modules/user/**/*.be.tsx",
+    "../../../modules/user/**/shared/**/*",
+    "../../../modules/user/**/*.sh.ts",
+    "../../../modules/user/**/*.sh.tsx"
   ],
   "exclude": [
     "./**/dist/**/*",
@@ -59,7 +65,10 @@
     "../router/trpc/**/public/**/*",
     "../../../modules/idea/**/dist/**/*",
     "../../../modules/idea/**/node_modules/**/*",
-    "../../../modules/idea/**/public/**/*"
+    "../../../modules/idea/**/public/**/*",
+    "../../../modules/user/**/dist/**/*",
+    "../../../modules/user/**/node_modules/**/*",
+    "../../../modules/user/**/public/**/*"
   ],
   "compilerOptions": {
     "rootDir": "../../..",

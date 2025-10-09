@@ -104,17 +104,29 @@ export const zPermissions = z
   .meta({
     'x-descriptions': true,
   }) as z.ZodType<Permissions>
-
+export const getRolePermissions = (role: keyof typeof adminPluginOptions.roles): Permissions => {
+  return adminPluginOptions.roles[role].statements
+}
+export const getUserPermissions = (
+  role: keyof typeof adminPluginOptions.roles,
+  ownPermissions: Permissions,
+): Permissions => {
+  if (role === 'special') {
+    return ownPermissions
+  } else {
+    return getRolePermissions(role)
+  }
+}
 const flatPermissions = (permissions: Permissions) => {
   return Object.entries(permissions).flatMap(([key, value]) => value.map((v) => `${key}:${v}`))
 }
-export const isOneOfPermissionsSuitable = (requiredPermissions: Permissions, userPermissions: Permissions) => {
-  const requiredPermissionsFlat = flatPermissions(requiredPermissions)
+export const isOneOfPermissionsSuitable = (permission: Permissions, userPermissions: Permissions) => {
+  const requiredPermissionsFlat = flatPermissions(permission)
   const userPermissionsFlat = flatPermissions(userPermissions)
   return requiredPermissionsFlat.some((permission) => userPermissionsFlat.includes(permission))
 }
-export const isAllPermissionsSuitable = (requiredPermissions: Permissions, userPermissions: Permissions) => {
-  const requiredPermissionsFlat = flatPermissions(requiredPermissions)
+export const isAllPermissionsSuitable = (permissions: Permissions, userPermissions: Permissions) => {
+  const requiredPermissionsFlat = flatPermissions(permissions)
   const userPermissionsFlat = flatPermissions(userPermissions)
   return requiredPermissionsFlat.every((permission) => userPermissionsFlat.includes(permission))
 }
@@ -129,7 +141,7 @@ export const hasPermission = ({
   permission?: Permissions
   permissions?: Permissions
 }) => {
-  const userPermissions = role === 'special' ? ownPermissions : adminPluginOptions.roles[role].statements
+  const userPermissions = getUserPermissions(role, ownPermissions)
   if (permission) {
     return isOneOfPermissionsSuitable(permission, userPermissions)
   } else if (permissions) {

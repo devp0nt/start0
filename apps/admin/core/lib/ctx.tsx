@@ -2,15 +2,18 @@ import { ErrorPage } from '@admin/app/components/error'
 import { Loader } from '@admin/core/components/loader'
 import { trpc } from '@admin/core/lib/trpc'
 import { authClient } from '@auth/admin/utils'
-import type { MeAdmin, MeMember } from '@auth/shared/utils'
 import type { TrpcRouterOutput } from '@backend/trpc-router'
 import { useQuery } from '@tanstack/react-query'
+import type { AdminClientMe, MemberClientMe, UserClientMe } from '@user/admin/utils.sh'
 import { createContext, useContext, useContextSelector } from 'use-context-selector'
+import type { Session } from '@auth/backend/utils'
 
 export type AppConfig = TrpcRouterOutput['app']['getConfig']['config']
 export type AdminCtx = {
-  admin: MeAdmin | null
-  member: MeMember | null
+  session: Session | null
+  user: UserClientMe | null
+  admin: AdminClientMe | null
+  member: MemberClientMe | null
   config: AppConfig
 }
 
@@ -34,12 +37,16 @@ export const CtxProvider = ({ children }: { children: React.ReactNode }) => {
     return <ErrorPage message="Config not found" />
   }
 
+  const session = sessionResult.data?.session || null
+  const user = sessionResult.data?.user || null
   const admin = sessionResult.data?.admin || null
   const member = sessionResult.data?.member || null
 
   return (
     <ReactContext.Provider
       value={{
+        session,
+        user,
         admin,
         member,
         config,
