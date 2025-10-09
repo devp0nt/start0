@@ -15,7 +15,7 @@ import type { Ctx0 } from '@devp0nt/ctx0'
 const createHonoReqCtx = async ({ backendCtx, honoCtx }: { backendCtx: BackendCtx; honoCtx: HonoContext }) => {
   const req = honoCtx.req
   const connInfo = getConnInfo(honoCtx)
-  const tri0 = backendCtx.tri0.extend('hono', {
+  const tri0 = backendCtx.tri0.extend({
     ip: connInfo.remote.address,
     userAgent: req.header('User-Agent'),
     reqMethod: req.method,
@@ -151,7 +151,7 @@ export const applyHonoLogging = ({ hono }: { hono: HonoBase }) => {
     try {
       await next()
     } finally {
-      const { logger } = c.var.tri0.extend('req')
+      const { logger } = c.var.tri0.extend('hono:req')
       logger.info({
         message: 'Hono request finished',
         reqDurationMs: performance.now() - reqStartedAt,
@@ -163,7 +163,7 @@ export const applyHonoLogging = ({ hono }: { hono: HonoBase }) => {
 export const applyHonoErrorHandling = ({ hono }: { hono: HonoBase }) => {
   hono.onError((error, c) => {
     try {
-      const { logger } = c.var.tri0.extend('req')
+      const { logger } = c.var.tri0.extend('hono:req')
       logger.error(error, {
         message: 'Hono request unhandled error',
       })

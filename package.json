@@ -29,8 +29,8 @@
     "zod": "^4.1.9"
   },
   "devDependencies": {
-    "@devp0nt/mono0": "^1.0.0-next.49",
-    "@devp0nt/gen0": "^1.0.0-next.38",
+    "@devp0nt/gen0": "^1.0.0-next.42",
+    "@devp0nt/mono0": "^1.0.0-next.56",
     "@types/bun": "latest",
     "@types/debug": "^4.1.12",
     "@types/lodash": "^4.17.20",
@@ -55,8 +55,6 @@
       "./apps/site/app",
       "./tools"
     ],
-    "catalog": {
-      "@devp0nt/refine0": "^1.0.0-next.1"
-    }
+    "catalog": {}
   }
 }

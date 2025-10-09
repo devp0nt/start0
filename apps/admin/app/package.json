@@ -15,8 +15,8 @@
   },
   "dependencies": {
     "@ant-design/v5-patch-for-react-19": "^1.0.3",
-    "@devp0nt/react-query-hono-client": "^1.0.0-next.1",
-    "@devp0nt/refine0": "catalog:",
+    "@devp0nt/react-query-hono-client": "^1.0.0-next.2",
+    "@devp0nt/refine0": "^1.0.0-next.4",
     "@iconify/react": "^6.0.2",
     "@prisma/backend": "workspace:*",
     "@prisma/shared": "workspace:*",

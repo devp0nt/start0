@@ -10,6 +10,7 @@ Logger0.init({
   filterByTags: env.DEBUG,
   reset: true,
   rootTagPrefix: appSlug,
+  errorTagSuffix: 'err',
   consoleFormatter: env.isDevelopmentNodeEnv ? 'prettyYaml' : 'json',
   filters: {
     ...(env.isDevelopmentNodeEnv
