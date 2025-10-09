@@ -1,4 +1,4 @@
-import { authClient } from '@auth/admin/admin/utils'
+import { authClient } from '@auth/admin/utils'
 import { Card, Form, Input, Button, message, Space } from 'antd'
 import { LockOutlined } from '@ant-design/icons'
 import { useState } from 'react'

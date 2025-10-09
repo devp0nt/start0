@@ -4,7 +4,7 @@ import { useNotificationProvider } from '@refinedev/antd'
 import '@refinedev/antd/dist/reset.css'
 
 import { axiosInstance } from '@admin/core/lib/axios'
-import { refineAccessControlProvider, refineAuthProvider } from '@auth/admin/admin/refine'
+import { refineAccessControlProvider, refineAuthProvider } from '@auth/admin/refine'
 import { backendAdminRoutesBasePath } from '@backend/shared/utils'
 import { Refine0 } from '@devp0nt/refine0/client'
 import routerProvider from '@refinedev/react-router'

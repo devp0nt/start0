@@ -1,6 +1,6 @@
 import { toAdminUserServer } from '@adminUser/admin/utils.be'
 import { zAdminUserClientAdmin } from '@adminUser/shared/utils.sh'
-import { generatePassword } from '@auth/admin/backend/utils'
+import { generatePassword } from '@auth/backend/utils'
 import { honoAdminMiddleware, honoBase } from '@backend/core/hono'
 import { getHonoRefineRoutesHelpers } from '@devp0nt/refine0/server'
 import type { UserCreateInput } from '@prisma/backend/generated/prisma/models'

@@ -1,21 +1,21 @@
 [
   {
     "name": "@auth/shared",
-    "preset": ["sharedModule", "sharedMulti"]
+    "preset": ["sharedModule", "sharedNested"]
   },
   {
     "name": "@auth/backend",
-    "preset": ["backendModule", "backendMulti"],
+    "preset": ["backendModule", "backendNested"],
     "deps": ["@auth/shared"]
   },
   {
     "name": "@auth/site",
-    "preset": ["siteModule", "siteMulti"],
+    "preset": ["siteModule", "siteNested"],
     "deps": ["@auth/shared"]
   },
   {
     "name": "@auth/admin",
-    "preset": ["adminModule", "adminMulti"],
+    "preset": ["adminModule", "adminNested"],
     "deps": ["@auth/shared"]
   }
 ]

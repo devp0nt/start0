@@ -1,4 +1,4 @@
-import { auth } from '@auth/admin/backend/utils'
+import { auth } from '@auth/backend/utils'
 import type { BackendCtx } from '@backend/core/ctx'
 
 export const presetDb = async (ctx: BackendCtx) => {

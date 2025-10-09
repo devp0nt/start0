@@ -3,9 +3,7 @@
   "include": [
     "./src/**/*",
     "../../../apps/shared/**/*",
-    "../../auth/**/shared/**/*",
-    "../../auth/**/*.sh.ts",
-    "../../auth/**/*.sh.tsx",
+    "../../auth/shared/**/*",
     "../../idea/**/shared/**/*",
     "../../idea/**/*.sh.ts",
     "../../idea/**/*.sh.tsx"

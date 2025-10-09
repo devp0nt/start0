@@ -3,7 +3,7 @@ import { Layout as AntdLayout, Space, Switch, theme } from 'antd'
 import React, { useContext } from 'react'
 import { Link } from 'react-router'
 import { ColorModeContext } from '../lib/colorMode'
-import { useRefineGetIdentity } from '@auth/admin/admin/refine'
+import { useRefineGetIdentity } from '@auth/admin/refine'
 
 const { useToken } = theme
 

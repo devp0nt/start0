@@ -15,9 +15,9 @@ import { ResourceEditPage } from '@admin/core/pages/edit'
 import { ResourceListPage } from '@admin/core/pages/list'
 import { ResourceShowPage } from '@admin/core/pages/show'
 import { appName } from '@apps/shared/general'
-import { ForgotPasswordPage } from '@auth/admin/admin/pages/forgotPassword'
-import { LoginPage } from '@auth/admin/admin/pages/login'
-import { ProfilePage } from '@auth/admin/admin/pages/profile'
+import { ForgotPasswordPage } from '@auth/admin/pages/forgotPassword'
+import { LoginPage } from '@auth/admin/pages/login'
+import { ProfilePage } from '@auth/admin/pages/profile'
 import {
   CatchAllNavigate,
   DocumentTitleHandler,

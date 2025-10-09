@@ -1,6 +1,6 @@
 import { appName } from '@apps/shared/general'
-import { getAuthCtxByHonoContext } from '@auth/backend/backend/utils'
-import type { Permissions } from '@auth/shared/shared/permissions'
+import { getAuthCtxByHonoContext } from '@auth/backend/utils'
+import type { Permissions } from '@auth/shared/permissions'
 import type { BackendCtx } from '@backend/core/ctx'
 import { toErrorResponseWithStatus } from '@backend/core/error'
 import { Error0 } from '@devp0nt/error0'

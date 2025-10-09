@@ -290,6 +290,10 @@
       "setSuffixesToInclude": [[".sh"], [".ts", ".tsx"]],
       "setDirsToInclude": ["shared"]
     },
+    "sharedNested": {
+      "preset": ["shared"],
+      "srcDir": "shared"
+    },
     "sharedWithTsconfig": {
       "preset": ["withTsconfig", "shared"],
       "tsconfig": {
@@ -315,6 +319,10 @@
       "preset": ["backend"],
       "setSuffixesToInclude": [[".be"], [".ts", ".tsx"]],
       "setDirsToInclude": ["backend"]
+    },
+    "backendNested": {
+      "preset": ["backend"],
+      "srcDir": "backend"
     },
     "backendWithTsconfig": {
       "preset": ["withTsconfig", "backend"],
@@ -345,6 +353,10 @@
       ],
       "setDirsToInclude": ["site"]
     },
+    "siteNested": {
+      "preset": ["site"],
+      "srcDir": "site"
+    },
     "siteWithTsconfig": {
       "preset": ["withTsconfig", "site"],
       "tsconfig": {
@@ -374,6 +386,10 @@
       ],
       "setDirsToInclude": ["admin"]
     },
+    "adminNested": {
+      "preset": ["admin"],
+      "srcDir": "admin"
+    },
     "adminWithTsconfig": {
       "preset": ["withTsconfig", "admin"],
       "tsconfig": {
@@ -399,6 +415,10 @@
       "preset": ["tools"],
       "tags": ["toolsCoreModule"],
       "deps": ["@tools/core"]
+    },
+    "toolsNested": {
+      "preset": ["tools"],
+      "srcDir": "tools"
     },
     "toolsWithTsconfig": {
       "preset": ["withTsconfig", "tools"],
