@@ -1,4 +1,4 @@
-import { omit } from '@apps/shared/utils'
+import { omit, parseZod } from '@apps/shared/utils'
 import type { BackendCtx } from '@backend/core/ctx'
 import type { Prisma } from '@prisma/backend/generated/prisma/client'
 import {
@@ -37,7 +37,7 @@ export function toAdmin(data: AdminUserWithEverything | AdminUserWithEverything[
 }
 
 function toAdminClientAdminOne(data: Admin): AdminClientAdmin {
-  return zAdminClientAdmin.parse(data)
+  return parseZod(zAdminClientAdmin, data)
 }
 export function toAdminClientAdmin(data: Admin): AdminClientAdmin
 export function toAdminClientAdmin(data: Admin[]): AdminClientAdmin[]
@@ -49,7 +49,7 @@ export function toAdminClientMe(data: Admin): AdminClientMe
 export function toAdminClientMe(data: null): null
 export function toAdminClientMe(data: Admin | null): AdminClientMe | null
 export function toAdminClientMe(data: Admin | null): AdminClientMe | null {
-  return !data ? null : zAdminClientMe.parse(data)
+  return !data ? null : parseZod(zAdminClientMe, data)
 }
 
 // memberUser
@@ -75,7 +75,7 @@ export function toMember(data: MemberUserWithEverything | MemberUserWithEverythi
 }
 
 function toMemberClientAdminOne(data: Member): MemberClientAdmin {
-  return zMemberClientAdmin.parse(data)
+  return parseZod(zMemberClientAdmin, data)
 }
 export function toMemberClientAdmin(data: Member): MemberClientAdmin
 export function toMemberClientAdmin(data: Member[]): MemberClientAdmin[]
@@ -87,7 +87,7 @@ export function toMemberClientMe(data: Member): MemberClientMe
 export function toMemberClientMe(data: null): null
 export function toMemberClientMe(data: Member | null): MemberClientMe | null
 export function toMemberClientMe(data: Member | null): MemberClientMe | null {
-  return !data ? null : zMemberClientMe.parse(data)
+  return !data ? null : parseZod(zMemberClientMe, data)
 }
 
 // user
@@ -145,5 +145,5 @@ export function toUserClientMe(data: UserWithEverything): UserClientMe
 export function toUserClientMe(data: null): null
 export function toUserClientMe(data: UserWithEverything | null): UserClientMe | null
 export function toUserClientMe(data: UserWithEverything | null): UserClientMe | null {
-  return !data ? null : zUserClientMe.parse(data)
+  return !data ? null : parseZod(zUserClientMe, data)
 }

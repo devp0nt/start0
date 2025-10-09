@@ -98,6 +98,7 @@
           "moduleResolution": "Bundler",
           "verbatimModuleSyntax": true,
           "resolveJsonModule": true,
+          "preserveSymlinks": true,
           "allowJs": true,
           "paths": {
             // "better-auth/*": ["~/node_modules/better-auth/*"]

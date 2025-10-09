@@ -1,13 +1,15 @@
-import { toAdminUserServer } from '@adminUser/admin/utils.be'
-import { zAdminUserClientAdmin } from '@adminUser/shared/utils.sh'
 import { generatePassword } from '@auth/backend/utils'
 import { honoAdminMiddleware, honoBase } from '@backend/core/hono'
 import { getHonoRefineRoutesHelpers } from '@devp0nt/refine0/server'
 import type { UserCreateInput } from '@prisma/backend/generated/prisma/models'
+import { zAdminClientAdmin } from '@user/admin/utils.sh'
+import { includesAdminUserWithEverything, toAdmin } from '@user/backend/utils.be'
 
-const { getRoute, parseZOutput } = getHonoRefineRoutesHelpers({ resource: 'admin' })
+const { getRoute, parseZOutput } = getHonoRefineRoutesHelpers({ resource: 'admin-user' })
+const honoAdminManageMiddleware = honoAdminMiddleware({ permission: { adminUser: ['manage'] } })
+const honoAdminViewMiddleware = honoAdminMiddleware({ permission: { adminUser: ['view'] } })
 
-const zResource = zAdminUserClientAdmin
+const zResource = zAdminClientAdmin
 const zCreate = zResource
   .pick({
     name: true,
@@ -34,16 +36,17 @@ const zList = zResource
   })
   .meta({
     'x-refine-resource-meta-icon': 'ant-design:file-outlined',
+    'x-refine-resource-meta-identifier': 'admin',
   })
 
 export const adminUserListAdminHonoRoute = honoBase().openapi(
   {
     ...getRoute.list({
       zResData: zList,
-      middleware: [honoAdminMiddleware({ permission: { admin: ['view'] } })] as const,
+      middleware: [honoAdminViewMiddleware] as const,
     }),
   },
-  async ({ req, json, var: { prisma } }) => {
+  async ({ req, json, var: { prisma, admin } }) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { filters, pagination, sorters } = req.valid('json')
     // TODO: convert filters to where
@@ -54,31 +57,27 @@ export const adminUserListAdminHonoRoute = honoBase().openapi(
       take: pagination.pageSize,
       skip: (pagination.currentPage - 1) * pagination.pageSize,
       orderBy: { createdAt: 'desc' },
-      include: {
-        user: true,
-      },
+      include: includesAdminUserWithEverything,
     })
     const total = await prisma.adminUser.count({
       where,
     })
-    return json({ data: parseZOutput.list(zList, toAdminUserServer(adminUsers)), total }, 200)
+    return json({ data: parseZOutput.list(zList, toAdmin(adminUsers)), total }, 200)
   },
 )
 
 export const adminUserShowAdminHonoRoute = honoBase().openapi(
   getRoute.show({
     zResData: zShow,
-    middleware: [honoAdminMiddleware({ permission: { admin: ['view'] } })] as const,
+    middleware: [honoAdminViewMiddleware] as const,
   }),
   async ({ req, json, var: { prisma } }) => {
     const { id } = req.valid('query')
     const adminUser = await prisma.adminUser.findUniqueOrThrow({
       where: { userId: id.toString() },
-      include: {
-        user: true,
-      },
+      include: includesAdminUserWithEverything,
     })
-    return json({ data: parseZOutput.show(zShow, toAdminUserServer(adminUser)) }, 200)
+    return json({ data: parseZOutput.show(zShow, toAdmin(adminUser)) }, 200)
   },
 )
 
@@ -86,7 +85,7 @@ export const adminUserCreateAdminHonoRoute = honoBase().openapi(
   getRoute.create({
     zResData: zResource,
     zReqData: zCreate,
-    middleware: [honoAdminMiddleware({ permission: { admin: ['manage'] } })] as const,
+    middleware: [honoAdminManageMiddleware] as const,
   }),
   async ({ req, json, var: { prisma, auth } }) => {
     const { data } = req.valid('json')
@@ -111,11 +110,9 @@ export const adminUserCreateAdminHonoRoute = honoBase().openapi(
       where: {
         userId: createResult.user.id,
       },
-      include: {
-        user: true,
-      },
+      include: includesAdminUserWithEverything,
     })
-    return json({ data: parseZOutput.create(zResource, toAdminUserServer(adminUser)) }, 200)
+    return json({ data: parseZOutput.create(zResource, toAdmin(adminUser)) }, 200)
   },
 )
 
@@ -123,7 +120,7 @@ export const adminUserEditAdminHonoRoute = honoBase().openapi(
   getRoute.edit({
     zResData: zResource,
     zReqData: zEdit,
-    middleware: [honoAdminMiddleware({ permission: { admin: ['manage'] } })] as const,
+    middleware: [honoAdminManageMiddleware] as const,
   }),
   async ({ req, json, var: { prisma } }) => {
     const { data, id } = req.valid('json')
@@ -137,11 +134,9 @@ export const adminUserEditAdminHonoRoute = honoBase().openapi(
             },
           },
         },
-        include: {
-          user: true,
-        },
+        include: includesAdminUserWithEverything,
       })
-      return json({ data: parseZOutput.edit(zResource, toAdminUserServer(adminUser)) }, 200)
+      return json({ data: parseZOutput.edit(zResource, toAdmin(adminUser)) }, 200)
     } catch (error: any) {
       if (error.code === 'P2025') {
         return json({ error: { message: 'Item not found' } }, 404)
@@ -154,7 +149,7 @@ export const adminUserEditAdminHonoRoute = honoBase().openapi(
 export const adminUserDeleteAdminHonoRoute = honoBase().openapi(
   getRoute.delete({
     zResData: zResource,
-    middleware: [honoAdminMiddleware({ permission: { admin: ['manage'] } })] as const,
+    middleware: [honoAdminManageMiddleware] as const,
   }),
   async ({ req, json, var: { prisma } }) => {
     const { id } = req.valid('query')
@@ -168,11 +163,9 @@ export const adminUserDeleteAdminHonoRoute = honoBase().openapi(
             },
           },
         },
-        include: {
-          user: true,
-        },
+        include: includesAdminUserWithEverything,
       })
-      return json({ data: parseZOutput.delete(zResource, toAdminUserServer(adminUser)) }, 200)
+      return json({ data: parseZOutput.delete(zResource, toAdmin(adminUser)) }, 200)
     } catch (error: any) {
       if (error.code === 'P2025') {
         return json({ error: { message: 'Item not found' } }, 404)

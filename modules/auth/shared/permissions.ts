@@ -3,11 +3,12 @@ import type { AdminOptions } from 'better-auth/plugins'
 import { createAccessControl } from 'better-auth/plugins/access'
 import { userAc, adminAc, defaultStatements } from 'better-auth/plugins/admin/access'
 import z from 'zod'
+import get from 'lodash/get'
 
 const accessControlStatements = {
   ...defaultStatements,
-  admin: ['view', 'manage'],
-  member: ['view', 'manage'],
+  adminUser: ['view', 'manage'],
+  memberUser: ['view', 'manage'],
   idea: ['view', 'manage'],
   newsPost: ['view', 'manage'],
   appConfig: ['view', 'manage'],
@@ -21,8 +22,8 @@ const userRole = accessControl.newRole({
 
 const adminRole = accessControl.newRole({
   ...adminAc.statements,
-  admin: ['view', 'manage'],
-  member: ['view', 'manage'],
+  adminUser: ['view', 'manage'],
+  memberUser: ['view', 'manage'],
   idea: ['view', 'manage'],
   newsPost: ['view', 'manage'],
   appConfig: ['view', 'manage'],
@@ -31,8 +32,8 @@ const adminRole = accessControl.newRole({
 const managerRole = accessControl.newRole({
   user: ['list', 'ban', 'get'],
   session: ['list', 'revoke', 'delete'],
-  admin: ['view'],
-  member: ['view'],
+  adminUser: ['view'],
+  memberUser: ['view'],
   idea: ['view', 'manage'],
   newsPost: ['view', 'manage'],
   appConfig: ['view', 'manage'],
@@ -41,8 +42,8 @@ const managerRole = accessControl.newRole({
 const analystRole = accessControl.newRole({
   user: ['list', 'get'],
   session: ['list'],
-  admin: ['view'],
-  member: ['view'],
+  adminUser: ['view'],
+  memberUser: ['view'],
   idea: ['view'],
   newsPost: ['view'],
   appConfig: ['view'],
@@ -105,7 +106,13 @@ export const zPermissions = z
     'x-descriptions': true,
   }) as z.ZodType<Permissions>
 export const getRolePermissions = (role: keyof typeof adminPluginOptions.roles): Permissions => {
-  return adminPluginOptions.roles[role].statements
+  const result = get(adminPluginOptions, ['roles', role, 'statements'], undefined)
+  if (!result) {
+    // eslint-disable-next-line no-console
+    console.error(`Role ${role} not found`)
+    return {}
+  }
+  return result
 }
 export const getUserPermissions = (
   role: keyof typeof adminPluginOptions.roles,

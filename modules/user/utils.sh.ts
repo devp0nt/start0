@@ -1,5 +1,5 @@
 import { zPermissions } from '@auth/shared/permissions'
-import { UserSchema } from '@prisma/shared/generated/zod/schemas'
+import { AdminUserSchema, MemberUserSchema, UserSchema } from '@prisma/shared/generated/zod/schemas'
 import type * as z from 'zod'
 
 // admin
@@ -22,6 +22,8 @@ const zUser = UserSchema.pick({
   permissions: zPermissions,
   role: UserSchema.shape.role.meta({ 'x-ui:form-widget': 'radio' }),
 })
+const zMemberUser = MemberUserSchema.pick({ userId: true })
+const zAdminUser = AdminUserSchema.pick({ userId: true })
 
 export const zAdminClientAdmin = zUser.extend({})
 export type AdminClientAdmin = z.infer<typeof zAdminClientAdmin>
@@ -38,8 +40,8 @@ export const zMemberClientMe = zUser.extend({})
 export type MemberClientMe = z.infer<typeof zMemberClientMe>
 
 export const zUserClientMe = zUser.extend({
-  memberUser: zMemberClientMe,
-  adminUser: zAdminClientMe.nullable(),
+  memberUser: zMemberUser.nullable(),
+  adminUser: zAdminUser.nullable(),
 })
 export type UserClientMe = z.infer<typeof zUserClientMe>
 
