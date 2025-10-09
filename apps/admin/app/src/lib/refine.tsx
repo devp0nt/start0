@@ -21,6 +21,8 @@ export const refine0 = Refine0.create({
 
 export const RefineSetup = ({ children }: { children: React.ReactNode }) => {
   const refineResources = refine0.useRefineResources()
+  // TODO:ASAP refine identifiers
+  // console.log('refineResources', refineResources)
   return (
     <Refine
       dataProvider={{
