@@ -18,7 +18,7 @@
     "@devp0nt/error0": "^1.0.0-next.33",
     "@devp0nt/logger0": "^1.0.0-next.47",
     "@devp0nt/meta0": "^1.0.0-next.30",
-    "@devp0nt/refine0": "^1.0.0-next.6",
+    "@devp0nt/refine0": "^1.0.0-next.7",
     "@devp0nt/route0": "^1.0.0-next.13",
     "@devp0nt/tri0": "^1.0.0-next.29",
     "@hono/trpc-server": "^0.4.0",

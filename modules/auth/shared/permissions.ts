@@ -84,29 +84,27 @@ export const createClientAdminPlugin = async () => {
 export type Permissions = {
   [K in keyof typeof adminPluginOptions.ac.statements]?: Array<(typeof adminPluginOptions.ac.statements)[K][number]>
 }
-export const getZPermissions = () =>
-  z
-    .object({
-      ...Object.fromEntries(
-        Object.entries(adminPluginOptions.ac.statements).map(([key, value]) => [
-          key,
-          z
-            .array(z.enum(value as unknown as [string, ...string[]]))
-            .optional()
-            .meta({
-              'x-ui:view-widget': 'tags',
-              'x-ui:form-widget': 'checkboxes',
-              'x-ui:form-emptyValue': [],
-              'x-ui:form-options': { inline: true },
-              uniqueItems: true,
-            }),
-        ]),
-      ),
-    })
-    .meta({
-      'x-descriptions': true,
-    }) as z.ZodType<Permissions>
-export const zPermissions = getZPermissions()
+export const zPermissions = z
+  .object({
+    ...Object.fromEntries(
+      Object.entries(adminPluginOptions.ac.statements).map(([key, value]) => [
+        key,
+        z
+          .array(z.enum(value as unknown as [string, ...string[]]))
+          .optional()
+          .meta({
+            'x-ui:view-widget': 'tags',
+            'x-ui:form-widget': 'checkboxes',
+            'x-ui:form-emptyValue': [],
+            'x-ui:form-options': { inline: true },
+            uniqueItems: true,
+          }),
+      ]),
+    ),
+  })
+  .meta({
+    'x-descriptions': true,
+  }) as z.ZodType<Permissions>
 export const getRolePermissions = (role: keyof typeof adminPluginOptions.roles): Permissions => {
   const result = get(adminPluginOptions, ['roles', role, 'statements'], undefined)
   if (!result) {

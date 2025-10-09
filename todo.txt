@@ -1,4 +1,3 @@
-Как-то нормально отдавать пермишенсы юзера, чтобы было понятно какие используются
 member → customer
 В модуле роуты тоже паковать в роутер и в общий роутер экспортировать уже его
 logger filter by tags omit root tag prefix, not DEBUG but LOGGER_FILTER

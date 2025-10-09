@@ -5,8 +5,8 @@ import { authClient } from '@auth/admin/utils'
 import type { Session } from '@auth/backend/utils'
 import type { AdminClientMe, MemberClientMe, UserClientMe } from '@auth/shared/utils'
 import type { TrpcRouterOutput } from '@backend/trpc-router'
-import { useQuery } from '@tanstack/react-query'
 import { createContext, useContext, useContextSelector } from 'use-context-selector'
+import { useQuery } from '@tanstack/react-query'
 
 export type AppConfig = TrpcRouterOutput['app']['getConfig']['config']
 export type AdminCtx = {

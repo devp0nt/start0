@@ -1,10 +1,3 @@
-import '@ant-design/v5-patch-for-react-19'
-import { Authenticated } from '@refinedev/core'
-import { RefineKbar, RefineKbarProvider } from '@refinedev/kbar'
-
-import { ErrorComponent, ThemedLayout, ThemedSider, ThemedTitle } from '@refinedev/antd'
-import '@refinedev/antd/dist/reset.css'
-
 import { SiderAfter, SiderBefore } from '@admin/app/components/sider'
 import { refine0, RefineSetup } from '@admin/app/lib/refine'
 import { Loader } from '@admin/core/components/loader'
@@ -14,10 +7,15 @@ import { ResourceCreatePage } from '@admin/core/pages/create'
 import { ResourceEditPage } from '@admin/core/pages/edit'
 import { ResourceListPage } from '@admin/core/pages/list'
 import { ResourceShowPage } from '@admin/core/pages/show'
+import '@ant-design/v5-patch-for-react-19'
 import { appName } from '@apps/shared/general'
 import { ForgotPasswordPage } from '@auth/admin/pages/forgotPassword'
 import { LoginPage } from '@auth/admin/pages/login'
 import { ProfilePage } from '@auth/admin/pages/profile'
+import { ErrorComponent, ThemedLayout, ThemedSider, ThemedTitle } from '@refinedev/antd'
+import '@refinedev/antd/dist/reset.css'
+import { Authenticated } from '@refinedev/core'
+import { RefineKbar, RefineKbarProvider } from '@refinedev/kbar'
 import {
   CatchAllNavigate,
   DocumentTitleHandler,

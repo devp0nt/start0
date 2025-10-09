@@ -1,17 +1,15 @@
-import { Refine } from '@refinedev/core'
-
-import { useNotificationProvider } from '@refinedev/antd'
-import '@refinedev/antd/dist/reset.css'
-
 import { axiosInstance } from '@admin/core/lib/axios'
+import { env } from '@admin/core/lib/env.runtime'
+import { queryClient } from '@admin/core/lib/trpc'
+import { LoadingOutlined } from '@ant-design/icons'
 import { refineAccessControlProvider, refineAuthProvider } from '@auth/admin/refine'
 import { backendAdminRoutesBasePath } from '@backend/shared/utils'
 import { Refine0 } from '@devp0nt/refine0/client'
-import routerProvider from '@refinedev/react-router'
 import { Icon } from '@iconify/react'
-import { LoadingOutlined } from '@ant-design/icons'
-import { env } from '@admin/core/lib/env.runtime'
-
+import { useNotificationProvider } from '@refinedev/antd'
+import '@refinedev/antd/dist/reset.css'
+import { Refine } from '@refinedev/core'
+import routerProvider from '@refinedev/react-router'
 export const refine0 = Refine0.create({
   openapiUrl: `${env.VITE_BACKEND_URL}${backendAdminRoutesBasePath}/doc.json`,
   apiUrl: env.VITE_BACKEND_URL,
@@ -21,8 +19,6 @@ export const refine0 = Refine0.create({
 
 export const RefineSetup = ({ children }: { children: React.ReactNode }) => {
   const refineResources = refine0.useRefineResources()
-  // TODO:ASAP refine identifiers
-  // console.log('refineResources', refineResources)
   return (
     <Refine
       dataProvider={{
@@ -35,6 +31,9 @@ export const RefineSetup = ({ children }: { children: React.ReactNode }) => {
       options={{
         syncWithLocation: true,
         warnWhenUnsavedChanges: true,
+        reactQuery: {
+          clientConfig: queryClient,
+        },
       }}
       accessControlProvider={refineAccessControlProvider}
     >

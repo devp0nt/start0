@@ -35,7 +35,7 @@
       "dependencies": {
         "@ant-design/v5-patch-for-react-19": "^1.0.3",
         "@devp0nt/react-query-hono-client": "^1.0.0-next.3",
-        "@devp0nt/refine0": "^1.0.0-next.6",
+        "@devp0nt/refine0": "^1.0.0-next.7",
         "@iconify/react": "^6.0.2",
         "@prisma/backend": "workspace:*",
         "@prisma/shared": "workspace:*",
@@ -74,7 +74,7 @@
         "@devp0nt/error0": "^1.0.0-next.33",
         "@devp0nt/logger0": "^1.0.0-next.47",
         "@devp0nt/meta0": "^1.0.0-next.30",
-        "@devp0nt/refine0": "^1.0.0-next.6",
+        "@devp0nt/refine0": "^1.0.0-next.7",
         "@devp0nt/route0": "^1.0.0-next.13",
         "@devp0nt/tri0": "^1.0.0-next.29",
         "@hono/trpc-server": "^0.4.0",
@@ -287,7 +287,7 @@
 
     "@devp0nt/react-query-hono-client": ["@devp0nt/react-query-hono-client@1.0.0-next.3", "", { "peerDependencies": { "@tanstack/react-query": "^5.80.0", "hono": "^4.9.0" } }, "sha512-zjR6MI1QG78PLPnnJHhBVJo6jrqv0mBnmQvvu2NUAigT8/jFoB/dgvuTGZZi2zF2a7SFKrJoy0g95qyMH9YVdA=="],
 
-    "@devp0nt/refine0": ["@devp0nt/refine0@1.0.0-next.6", "", { "dependencies": { "@devp0nt/deepmap0": "^1.0.0-next.19", "deepmerge": "^4.3.1", "qs": "^6.14.0", "simple-eval": "^2.0.0" }, "peerDependencies": { "@refinedev/core": "^5.0.0", "axios": "^1.12.0", "lodash": "^4.17.0", "zod": "^4.1.0", "zustand": "^5.0.8" } }, "sha512-W8nk3YRLVof3tTbGCULpzoNVgfmpRcAtOIASEk6b+YU3XCla/NwdoZE2cRDKCov8Je9K0kStdWLCGDjegTFRXg=="],
+    "@devp0nt/refine0": ["@devp0nt/refine0@1.0.0-next.7", "", { "dependencies": { "@devp0nt/deepmap0": "^1.0.0-next.19", "deepmerge": "^4.3.1", "qs": "^6.14.0", "simple-eval": "^2.0.0" }, "peerDependencies": { "@refinedev/core": "^5.0.0", "axios": "^1.12.0", "lodash": "^4.17.0", "react": "^19.0.0", "zod": "^4.1.0", "zustand": "^5.0.8" } }, "sha512-ZTNw4M/BKEyTEuOrosjisKT6Q+BVv49fyNcvxa9cYUTONlkXPCh8o2o4Ncrn4Q9TkOtr/+ZGs033reW6bTrvgw=="],
 
     "@devp0nt/route0": ["@devp0nt/route0@1.0.0-next.13", "", {}, "sha512-IdS5kqJryjVKXayBzWj6YR8wsHfFyXOaNS6w8FttIMBH105s+QE9DuTPy0XKvL84UZtuQaihAVBdLFvgeyVkVw=="],
 
