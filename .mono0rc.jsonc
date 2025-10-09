@@ -183,7 +183,7 @@
       "include": true,
       "srcIndexFile": true,
       "exclude": ["$exclude"],
-      "deps": ["@apps/shared", "@devp0nt/refine0"],
+      "deps": ["@apps/shared"],
       "tsconfigs": {
         "core": {
           "value": null

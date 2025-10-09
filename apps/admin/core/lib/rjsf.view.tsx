@@ -4,7 +4,7 @@ import {
   extractTitleFromJs,
   getJsValueByPath,
   type JsonSchema,
-} from '@devp0nt/refine0/shared/utils'
+} from '@devp0nt/refine0/shared'
 import { withTheme } from '@rjsf/core'
 import type {
   ArrayFieldTemplateProps,

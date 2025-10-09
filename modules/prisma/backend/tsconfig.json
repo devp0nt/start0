@@ -6,7 +6,6 @@
     "../../auth/**/shared/**/*",
     "../../auth/**/*.sh.ts",
     "../../auth/**/*.sh.tsx",
-    "../../refine0/**/*",
     "../../idea/**/shared/**/*",
     "../../idea/**/*.sh.ts",
     "../../idea/**/*.sh.tsx"
@@ -21,9 +20,6 @@
     "../../auth/**/dist/**/*",
     "../../auth/**/node_modules/**/*",
     "../../auth/**/public/**/*",
-    "../../refine0/**/dist/**/*",
-    "../../refine0/**/node_modules/**/*",
-    "../../refine0/**/public/**/*",
     "../../idea/**/dist/**/*",
     "../../idea/**/node_modules/**/*",
     "../../idea/**/public/**/*"

@@ -26,7 +26,6 @@
       "@backend/shared/*": ["./apps/backend/shared/*"],
       "@backend/trpc-router": ["./apps/backend/router/trpc/index.ts"],
       "@backend/trpc-router/*": ["./apps/backend/router/trpc/*"],
-      "@devp0nt/refine0/*": ["./modules/refine0/*"],
       "@idea/admin/*": ["./modules/idea/*"],
       "@idea/backend/*": ["./modules/idea/*"],
       "@idea/shared/*": ["./modules/idea/*"],

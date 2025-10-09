@@ -34,6 +34,7 @@
       "version": "0.1.0",
       "dependencies": {
         "@ant-design/v5-patch-for-react-19": "^1.0.3",
+        "@devp0nt/refine0": "catalog:",
         "@iconify/react": "^6.0.2",
         "@prisma/backend": "workspace:*",
         "@prisma/shared": "workspace:*",
@@ -72,6 +73,7 @@
         "@devp0nt/error0": "^1.0.0-next.25",
         "@devp0nt/logger0": "^1.0.0-next.35",
         "@devp0nt/meta0": "^1.0.0-next.25",
+        "@devp0nt/refine0": "catalog:",
         "@devp0nt/route0": "^1.0.0-next.10",
         "@devp0nt/tri0": "^1.0.0-next.19",
         "@hono/trpc-server": "^0.4.0",
@@ -120,8 +122,7 @@
     },
   },
   "catalog": {
-    "@react-router/node": "^7.8.1",
-    "isbot": "^5.1.27",
+    "@devp0nt/refine0": "^1.0.0-next.1",
   },
   "packages": {
     "@admin/app": ["@admin/app@workspace:apps/admin/app"],
@@ -285,6 +286,8 @@
     "@devp0nt/meta0": ["@devp0nt/meta0@1.0.0-next.25", "", { "dependencies": { "@devp0nt/deepmap0": "^1.0.0-next.17" } }, "sha512-I0utoA8Op9QGGrB9+RIY7tJsPndqmhxARerqWBq10j3Y4GppAck/AHOQ7SyQSVsyaxDq/UqLFhzCO7pLhwqJBA=="],
 
     "@devp0nt/mono0": ["@devp0nt/mono0@1.0.0-next.49", "", { "dependencies": { "@devp0nt/deepmap0": "^1.0.0-next.17", "@devp0nt/exec0": "^1.0.0-next.19", "@devp0nt/fs0": "^1.0.10-next.31", "@devp0nt/gen0": "^1.0.0-next.38", "commander": "^14.0.1", "deepmerge": "^4.3.1", "globals": "^16.4.0" }, "bin": { "mono0": "dist/esm/bin.js" } }, "sha512-h9NA4w3j8rcatb1MTqqs9huUdv5QDbneWSjZzyyjhJ6jr6izY7uWCYOXyLAC6Tz7EIvhJENGArYBSdDFVfvOtg=="],
+
+    "@devp0nt/refine0": ["@devp0nt/refine0@1.0.0-next.1", "", { "dependencies": { "@devp0nt/deepmap0": "^1.0.0-next.1", "deepmerge": "^4.3.1", "qs": "^6.14.0", "simple-eval": "^2.0.0" }, "peerDependencies": { "@refinedev/core": "^5.0.0", "axios": "^1.12.0", "lodash": "^4.17.0", "zod": "^4.1.0", "zustand": "^5.0.8" } }, "sha512-0tw4d4CIkdymCvc4PeRZ/wxUe3fDFWYs3drODjKHhqVfkkLB4X7ccRhM2XuCB2aLs+nXTVuVbcpX6K0sLUl4Hg=="],
 
     "@devp0nt/route0": ["@devp0nt/route0@1.0.0-next.10", "", {}, "sha512-dxwkt0gHhX5UWz9f+MOI/cfyv0p4QNZLA3M376sfmBxkmqQZ0OaaO4XPuCDycvslMGuUPTKdcZvzdb2Enn9E0Q=="],
 

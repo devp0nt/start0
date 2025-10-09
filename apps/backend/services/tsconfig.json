@@ -22,7 +22,6 @@
     "../router/hono/**/*",
     "../shared/**/*",
     "../router/trpc/**/*",
-    "../../../modules/refine0/**/*",
     "../../../modules/idea/**/backend/**/*",
     "../../../modules/idea/**/*.be.ts",
     "../../../modules/idea/**/*.be.tsx",
@@ -58,9 +57,6 @@
     "../router/trpc/**/dist/**/*",
     "../router/trpc/**/node_modules/**/*",
     "../router/trpc/**/public/**/*",
-    "../../../modules/refine0/**/dist/**/*",
-    "../../../modules/refine0/**/node_modules/**/*",
-    "../../../modules/refine0/**/public/**/*",
     "../../../modules/idea/**/dist/**/*",
     "../../../modules/idea/**/node_modules/**/*",
     "../../../modules/idea/**/public/**/*"

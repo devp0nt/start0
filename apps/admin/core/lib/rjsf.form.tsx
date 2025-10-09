@@ -1,5 +1,5 @@
-import { useRjsfUiSchema, useRjsfData, useRjsfJs } from '@devp0nt/refine0/client'
-import { getJsValueByPath, type JsonSchema } from '@devp0nt/refine0/shared/utils'
+import { useRjsfData, useRjsfJs, useRjsfUiSchema } from '@devp0nt/refine0/client'
+import { getJsValueByPath, type JsonSchema } from '@devp0nt/refine0/shared'
 import type { UseFormReturnType } from '@refinedev/antd'
 import { Theme as AntDTheme } from '@rjsf/antd'
 import { withTheme } from '@rjsf/core'
