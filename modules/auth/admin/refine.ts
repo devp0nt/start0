@@ -2,6 +2,7 @@ import { authClient } from '@auth/admin/utils'
 import { getUserPermissions, hasPermission } from '@auth/shared/permissions'
 import type { AccessControlProvider, AuthProvider, LoginFormTypes } from '@refinedev/core'
 import { useGetIdentity as useGetIdentityOriginal } from '@refinedev/core'
+import camelCase from 'lodash/camelCase'
 
 export const refineAuthProvider = {
   login: async ({ remember, email, password, redirectPath }: LoginFormTypes) => {
@@ -102,6 +103,7 @@ export const refineAccessControlProvider = {
     if (!resource || !action) {
       return { can: true }
     }
+    const resourceName = camelCase(resource)
     const session = await authClient.getSession()
     if (session.error) {
       return { can: false, reason: session.error.message || 'Unknown error' }
@@ -115,11 +117,11 @@ export const refineAccessControlProvider = {
       role: admin.role,
       ownPermissions: admin.permissions,
       permission: {
-        [resource]: [permissionAction],
+        [resourceName]: [permissionAction],
       },
     })
     if (!can) {
-      return { can: false, reason: `Only for admins with "${permissionAction}" permission for "${resource}"` }
+      return { can: false, reason: `Only for admins with "${permissionAction}" permission for "${resourceName}"` }
     }
     return { can: true }
   },
