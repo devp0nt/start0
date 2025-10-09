@@ -2,11 +2,11 @@ import { ErrorPage } from '@admin/app/components/error'
 import { Loader } from '@admin/core/components/loader'
 import { trpc } from '@admin/core/lib/trpc'
 import { authClient } from '@auth/admin/utils'
+import type { Session } from '@auth/backend/utils'
+import type { AdminClientMe, MemberClientMe, UserClientMe } from '@auth/shared/utils'
 import type { TrpcRouterOutput } from '@backend/trpc-router'
 import { useQuery } from '@tanstack/react-query'
-import type { AdminClientMe, MemberClientMe, UserClientMe } from '@user/admin/utils.sh'
 import { createContext, useContext, useContextSelector } from 'use-context-selector'
-import type { Session } from '@auth/backend/utils'
 
 export type AppConfig = TrpcRouterOutput['app']['getConfig']['config']
 export type AdminCtx = {

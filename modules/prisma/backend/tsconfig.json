@@ -7,7 +7,10 @@
     "../../../apps/backend/base/**/*",
     "../../idea/**/shared/**/*",
     "../../idea/**/*.sh.ts",
-    "../../idea/**/*.sh.tsx"
+    "../../idea/**/*.sh.tsx",
+    "../../user/**/shared/**/*",
+    "../../user/**/*.sh.ts",
+    "../../user/**/*.sh.tsx"
   ],
   "exclude": [
     "./**/dist/**/*",
@@ -24,7 +27,10 @@
     "../../../apps/backend/base/**/public/**/*",
     "../../idea/**/dist/**/*",
     "../../idea/**/node_modules/**/*",
-    "../../idea/**/public/**/*"
+    "../../idea/**/public/**/*",
+    "../../user/**/dist/**/*",
+    "../../user/**/node_modules/**/*",
+    "../../user/**/public/**/*"
   ],
   "compilerOptions": {
     "rootDir": "../../..",

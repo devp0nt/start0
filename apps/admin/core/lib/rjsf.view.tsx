@@ -310,6 +310,10 @@ const UnsupportedField: React.FC<FieldProps> = ({ schema }) => (
 const FieldTemplate = (props: FieldTemplateProps) => {
   const { id, label, description, errors, help, disabled, displayLabel, schema, children, uiSchema } = props
 
+  if (schema['x-hidden'] || uiSchema?.['ui:widget'] === 'hidden') {
+    return null
+  }
+
   // Containers render their own labels/layout
   if (schema.type === 'object' || schema.type === 'array') {
     return <div id={id}>{children}</div>

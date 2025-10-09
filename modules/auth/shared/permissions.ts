@@ -1,9 +1,9 @@
 import { Error0 } from '@devp0nt/error0'
 import type { AdminOptions } from 'better-auth/plugins'
 import { createAccessControl } from 'better-auth/plugins/access'
-import { userAc, adminAc, defaultStatements } from 'better-auth/plugins/admin/access'
-import z from 'zod'
+import { adminAc, defaultStatements, userAc } from 'better-auth/plugins/admin/access'
 import get from 'lodash/get'
+import z from 'zod'
 
 const accessControlStatements = {
   ...defaultStatements,
@@ -84,27 +84,29 @@ export const createClientAdminPlugin = async () => {
 export type Permissions = {
   [K in keyof typeof adminPluginOptions.ac.statements]?: Array<(typeof adminPluginOptions.ac.statements)[K][number]>
 }
-export const zPermissions = z
-  .object({
-    ...Object.fromEntries(
-      Object.entries(adminPluginOptions.ac.statements).map(([key, value]) => [
-        key,
-        z
-          .array(z.enum(value as unknown as [string, ...string[]]))
-          .optional()
-          .meta({
-            'x-ui:view-widget': 'tags',
-            'x-ui:form-widget': 'checkboxes',
-            'x-ui:form-emptyValue': [],
-            'x-ui:form-options': { inline: true },
-            uniqueItems: true,
-          }),
-      ]),
-    ),
-  })
-  .meta({
-    'x-descriptions': true,
-  }) as z.ZodType<Permissions>
+export const getZPermissions = () =>
+  z
+    .object({
+      ...Object.fromEntries(
+        Object.entries(adminPluginOptions.ac.statements).map(([key, value]) => [
+          key,
+          z
+            .array(z.enum(value as unknown as [string, ...string[]]))
+            .optional()
+            .meta({
+              'x-ui:view-widget': 'tags',
+              'x-ui:form-widget': 'checkboxes',
+              'x-ui:form-emptyValue': [],
+              'x-ui:form-options': { inline: true },
+              uniqueItems: true,
+            }),
+        ]),
+      ),
+    })
+    .meta({
+      'x-descriptions': true,
+    }) as z.ZodType<Permissions>
+export const zPermissions = getZPermissions()
 export const getRolePermissions = (role: keyof typeof adminPluginOptions.roles): Permissions => {
   const result = get(adminPluginOptions, ['roles', role, 'statements'], undefined)
   if (!result) {
@@ -114,7 +116,7 @@ export const getRolePermissions = (role: keyof typeof adminPluginOptions.roles):
   }
   return result
 }
-export const getUserPermissions = (
+export const getFinalPermissions = (
   role: keyof typeof adminPluginOptions.roles,
   ownPermissions: Permissions,
 ): Permissions => {
@@ -127,14 +129,14 @@ export const getUserPermissions = (
 const flatPermissions = (permissions: Permissions) => {
   return Object.entries(permissions).flatMap(([key, value]) => value.map((v) => `${key}:${v}`))
 }
-export const isOneOfPermissionsSuitable = (permission: Permissions, userPermissions: Permissions) => {
+export const isOneOfPermissionsSuitable = (permission: Permissions, finalPermissions: Permissions) => {
   const requiredPermissionsFlat = flatPermissions(permission)
-  const userPermissionsFlat = flatPermissions(userPermissions)
+  const userPermissionsFlat = flatPermissions(finalPermissions)
   return requiredPermissionsFlat.some((permission) => userPermissionsFlat.includes(permission))
 }
-export const isAllPermissionsSuitable = (permissions: Permissions, userPermissions: Permissions) => {
+export const isAllPermissionsSuitable = (permissions: Permissions, finalPermissions: Permissions) => {
   const requiredPermissionsFlat = flatPermissions(permissions)
-  const userPermissionsFlat = flatPermissions(userPermissions)
+  const userPermissionsFlat = flatPermissions(finalPermissions)
   return requiredPermissionsFlat.every((permission) => userPermissionsFlat.includes(permission))
 }
 export const hasPermission = ({
@@ -148,21 +150,25 @@ export const hasPermission = ({
   permission?: Permissions
   permissions?: Permissions
 }) => {
-  const userPermissions = getUserPermissions(role, ownPermissions)
+  const finalPermissions = getFinalPermissions(role, ownPermissions)
   if (permission) {
-    return isOneOfPermissionsSuitable(permission, userPermissions)
+    return isOneOfPermissionsSuitable(permission, finalPermissions)
   } else if (permissions) {
-    return isAllPermissionsSuitable(permissions, userPermissions)
+    return isAllPermissionsSuitable(permissions, finalPermissions)
   } else {
     throw new Error('Either permission or permissions must be provided')
   }
+}
+type WithRoleAndPermissions = {
+  role: keyof typeof adminPluginOptions.roles
+  permissions: Permissions
 }
 export const hasUserPermission = ({
   user,
   permission,
   permissions,
 }: {
-  user: { permissions: Permissions; role: keyof typeof adminPluginOptions.roles } | null
+  user: WithRoleAndPermissions | null
   permission?: Permissions
   permissions?: Permissions
 }) => {
@@ -181,7 +187,7 @@ export const requirePermission = ({
   permission,
   permissions,
 }: {
-  user: { permissions: Permissions; role: keyof typeof adminPluginOptions.roles } | null
+  user: WithRoleAndPermissions | null
   permission?: Permissions
   permissions?: Permissions
 }) => {
@@ -196,9 +202,7 @@ export const requirePermission = ({
     )
   }
 }
-export const createHasPermission = (
-  user: { permissions: Permissions; role: keyof typeof adminPluginOptions.roles } | null,
-) => {
+export const createHasPermission = (user: WithRoleAndPermissions | null) => {
   return ({ permission, permissions }: { permission?: Permissions; permissions?: Permissions }) => {
     return hasUserPermission({
       user,
@@ -207,9 +211,7 @@ export const createHasPermission = (
     })
   }
 }
-export const createRequirePermission = (
-  user: { permissions: Permissions; role: keyof typeof adminPluginOptions.roles } | null,
-) => {
+export const createRequirePermission = (user: WithRoleAndPermissions | null) => {
   return ({ permission, permissions }: { permission?: Permissions; permissions?: Permissions }) => {
     requirePermission({
       user,
@@ -217,4 +219,21 @@ export const createRequirePermission = (
       permissions,
     })
   }
+}
+
+const withFinalPermissionsOne = <T extends WithRoleAndPermissions>(user: T): WithFinalPermissions<T> => {
+  return { ...user, finalPermissions: getFinalPermissions(user.role, user.permissions) }
+}
+export type WithFinalPermissions<T extends WithRoleAndPermissions> = T & { finalPermissions: Permissions }
+export function withFinalPermissions<T extends WithRoleAndPermissions>(user: T): WithFinalPermissions<T>
+export function withFinalPermissions<T extends WithRoleAndPermissions>(users: T[]): Array<WithFinalPermissions<T>>
+export function withFinalPermissions(user: null): null
+export function withFinalPermissions(user: WithRoleAndPermissions | WithRoleAndPermissions[] | null) {
+  if (user === null) {
+    return null
+  }
+  if (Array.isArray(user)) {
+    return user.map((u) => withFinalPermissionsOne(u))
+  }
+  return withFinalPermissionsOne(user)
 }

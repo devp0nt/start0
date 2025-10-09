@@ -1,7 +1,8 @@
 [
   {
     "name": "@auth/shared",
-    "preset": ["sharedModule", "sharedNested"]
+    "preset": ["sharedModule", "sharedNested"],
+    "deps": ["@user/shared"]
   },
   {
     "name": "@auth/backend",

@@ -1,11 +1,14 @@
 import { generatePassword } from '@auth/backend/utils'
+import { getZPermissions, withFinalPermissions } from '@auth/shared/permissions'
 import { honoAdminMiddleware, honoBase } from '@backend/core/hono'
 import { getHonoRefineRoutesHelpers } from '@devp0nt/refine0/server'
 import type { UserCreateInput } from '@prisma/backend/generated/prisma/models'
 import { zAdminClientAdmin } from '@user/admin/utils.sh'
 import { includesAdminUserWithEverything, toAdmin } from '@user/backend/utils.be'
 
-const { getRoute, parseZOutput } = getHonoRefineRoutesHelpers({ resource: 'admin-user' })
+const { getRoute, parseZOutput } = getHonoRefineRoutesHelpers({
+  resource: 'admin-user',
+})
 const honoAdminManageMiddleware = honoAdminMiddleware({ permission: { adminUser: ['manage'] } })
 const honoAdminViewMiddleware = honoAdminMiddleware({ permission: { adminUser: ['view'] } })
 
@@ -19,10 +22,21 @@ const zCreate = zResource
     image: true,
   })
   .extend({
-    permissions: zResource.shape.permissions.meta({ 'x-card': true }),
+    permissions: getZPermissions().meta({
+      'x-card': true,
+      'x-ui:form-widget': `{{role === 'special' ? 'radio' : 'hidden'}}`,
+    }),
   })
 const zEdit = zCreate
-const zShow = zResource
+const zShow = zResource.extend({
+  // if we use just zPermissions, it will loose items and type, I do not know why
+  permissions: getZPermissions().meta({
+    'x-ui:view-widget': 'hidden',
+  }),
+  finalPermissions: getZPermissions().meta({
+    title: 'Permissions',
+  }),
+})
 const zList = zResource
   .pick({
     id: true,
@@ -77,7 +91,7 @@ export const adminUserShowAdminHonoRoute = honoBase().openapi(
       where: { userId: id.toString() },
       include: includesAdminUserWithEverything,
     })
-    return json({ data: parseZOutput.show(zShow, toAdmin(adminUser)) }, 200)
+    return json({ data: parseZOutput.show(zShow, withFinalPermissions(toAdmin(adminUser))) }, 200)
   },
 )
 

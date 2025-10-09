@@ -1,10 +1,12 @@
+import { parseZod } from '@apps/shared/utils'
+import type { AdminClientMe, MeAuthorized, MemberClientMe, UserClientMe } from '@auth/shared/utils'
+import { zAdminClientMe, zMemberClientMe, zUserClientMe } from '@auth/shared/utils'
 import { env } from '@backend/base/env.runtime'
 import type { BackendCtx } from '@backend/core/ctx'
 import type { HonoBase } from '@backend/core/hono'
 import { backendAuthRoutesBasePath } from '@backend/shared/utils'
 import { prisma } from '@prisma/backend/client'
-import { getUser, toAdminClientAdmin, toMemberClientMe, toUserClientMe } from '@user/admin/utils.be'
-import type { MeAuthorized } from '@user/admin/utils.sh'
+import { getUser, toAdminClientAdmin, type Admin, type Member, type UserWithEverything } from '@user/admin/utils.be'
 import { betterAuth } from 'better-auth'
 import { prismaAdapter } from 'better-auth/adapters/prisma'
 import { customSession, openAPI } from 'better-auth/plugins'
@@ -131,3 +133,24 @@ export const generatePassword = () => {
 }
 
 export type Session = (typeof auth)['$Infer']['Session']['session']
+
+export function toUserClientMe(data: UserWithEverything): UserClientMe
+export function toUserClientMe(data: null): null
+export function toUserClientMe(data: UserWithEverything | null): UserClientMe | null
+export function toUserClientMe(data: UserWithEverything | null): UserClientMe | null {
+  return !data ? null : parseZod(zUserClientMe, data)
+}
+
+export function toAdminClientMe(data: Admin): AdminClientMe
+export function toAdminClientMe(data: null): null
+export function toAdminClientMe(data: Admin | null): AdminClientMe | null
+export function toAdminClientMe(data: Admin | null): AdminClientMe | null {
+  return !data ? null : parseZod(zAdminClientMe, data)
+}
+
+export function toMemberClientMe(data: Member): MemberClientMe
+export function toMemberClientMe(data: null): null
+export function toMemberClientMe(data: Member | null): MemberClientMe | null
+export function toMemberClientMe(data: Member | null): MemberClientMe | null {
+  return !data ? null : parseZod(zMemberClientMe, data)
+}

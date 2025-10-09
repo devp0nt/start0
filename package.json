@@ -29,8 +29,8 @@
     "zod": "^4.1.9"
   },
   "devDependencies": {
-    "@devp0nt/gen0": "^1.0.0-next.42",
-    "@devp0nt/mono0": "^1.0.0-next.57",
+    "@devp0nt/gen0": "^1.0.0-next.43",
+    "@devp0nt/mono0": "^1.0.0-next.58",
     "@types/bun": "latest",
     "@types/debug": "^4.1.12",
     "@types/lodash": "^4.17.20",

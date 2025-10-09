@@ -4,7 +4,7 @@ import type * as z from 'zod'
 
 // admin
 
-const zUser = UserSchema.pick({
+export const zUser = UserSchema.pick({
   id: true,
   sn: true,
   createdAt: true,
@@ -22,8 +22,8 @@ const zUser = UserSchema.pick({
   permissions: zPermissions,
   role: UserSchema.shape.role.meta({ 'x-ui:form-widget': 'radio' }),
 })
-const zMemberUser = MemberUserSchema.pick({ userId: true })
-const zAdminUser = AdminUserSchema.pick({ userId: true })
+export const zMemberUser = MemberUserSchema.pick({ userId: true })
+export const zAdminUser = AdminUserSchema.pick({ userId: true })
 
 export const zAdminClientAdmin = zUser.extend({})
 export type AdminClientAdmin = z.infer<typeof zAdminClientAdmin>
@@ -31,28 +31,8 @@ export type AdminClientAdmin = z.infer<typeof zAdminClientAdmin>
 export const zMemberClientAdmin = zUser.extend({})
 export type MemberClientAdmin = z.infer<typeof zMemberClientAdmin>
 
-// me
-
-export const zAdminClientMe = zUser.extend({})
-export type AdminClientMe = z.infer<typeof zAdminClientMe>
-
-export const zMemberClientMe = zUser.extend({})
-export type MemberClientMe = z.infer<typeof zMemberClientMe>
-
-export const zUserClientMe = zUser.extend({
-  memberUser: zMemberUser.nullable(),
+export const zUserClientAdmin = zUser.extend({
   adminUser: zAdminUser.nullable(),
+  memberUser: zMemberUser.nullable(),
 })
-export type UserClientMe = z.infer<typeof zUserClientMe>
-
-export type MeAuthorized = {
-  admin: AdminClientMe | null
-  member: MemberClientMe
-  user: UserClientMe
-}
-export type MeUnauthorized = {
-  user: null
-  admin: null
-  member: null
-}
-export type Me = MeAuthorized | MeUnauthorized
+export type UserClientAdmin = z.infer<typeof zUserClientAdmin>

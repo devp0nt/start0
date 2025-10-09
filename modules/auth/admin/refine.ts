@@ -1,5 +1,5 @@
 import { authClient } from '@auth/admin/utils'
-import { getUserPermissions, hasPermission } from '@auth/shared/permissions'
+import { getFinalPermissions, hasPermission } from '@auth/shared/permissions'
 import type { AccessControlProvider, AuthProvider, LoginFormTypes } from '@refinedev/core'
 import { useGetIdentity as useGetIdentityOriginal } from '@refinedev/core'
 import camelCase from 'lodash/camelCase'
@@ -81,7 +81,7 @@ export const refineAuthProvider = {
         name: data.admin.name,
         avatar: data.admin.image,
         role: data.admin.role,
-        permissions: getUserPermissions(data.admin.role, data.admin.permissions),
+        permissions: getFinalPermissions(data.admin.role, data.admin.permissions),
         email: data.admin.email,
       }
     }
