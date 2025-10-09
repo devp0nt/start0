@@ -3,17 +3,17 @@ import { Loader } from '@admin/core/components/loader'
 import { trpc } from '@admin/core/lib/trpc'
 import { authClient } from '@auth/admin/utils'
 import type { Session } from '@auth/backend/utils'
-import type { AdminClientMe, MemberClientMe, UserClientMe } from '@auth/shared/utils'
+import type { AdminClientMe, CustomerClientMe, UserClientMe } from '@auth/shared/user'
 import type { TrpcRouterOutput } from '@backend/trpc-router'
-import { createContext, useContext, useContextSelector } from 'use-context-selector'
 import { useQuery } from '@tanstack/react-query'
+import { createContext, useContext, useContextSelector } from 'use-context-selector'
 
 export type AppConfig = TrpcRouterOutput['app']['getConfig']['config']
 export type AdminCtx = {
   session: Session | null
   user: UserClientMe | null
   admin: AdminClientMe | null
-  member: MemberClientMe | null
+  customer: CustomerClientMe | null
   config: AppConfig
 }
 
@@ -40,7 +40,7 @@ export const CtxProvider = ({ children }: { children: React.ReactNode }) => {
   const session = sessionResult.data?.session || null
   const user = sessionResult.data?.user || null
   const admin = sessionResult.data?.admin || null
-  const member = sessionResult.data?.member || null
+  const customer = sessionResult.data?.customer || null
 
   return (
     <ReactContext.Provider
@@ -48,7 +48,7 @@ export const CtxProvider = ({ children }: { children: React.ReactNode }) => {
         session,
         user,
         admin,
-        member,
+        customer,
         config,
       }}
     >
@@ -61,5 +61,5 @@ export const useCtx = () => {
   return useContext(ReactContext)
 }
 export const useMeAdmin = () => useContextSelector(ReactContext, (ctx) => ctx.admin)
-export const useMeMember = () => useContextSelector(ReactContext, (ctx) => ctx.member)
+export const useMeCustomer = () => useContextSelector(ReactContext, (ctx) => ctx.customer)
 export const useConfig = () => useContextSelector(ReactContext, (ctx) => ctx.config)

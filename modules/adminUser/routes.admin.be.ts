@@ -1,11 +1,10 @@
+import { includesAdminUserWithEverything, toAdmin } from '@auth/backend/user'
 import { generatePassword } from '@auth/backend/utils'
-import { withFinalPermissions } from '@auth/shared/permissions'
+import { zAdminClientAdmin } from '@auth/shared/user'
 import { honoAdminMiddleware, honoBase } from '@backend/core/hono'
 import { getHonoRefineRoutesHelpers } from '@devp0nt/refine0/server'
 import { withJsAsMeta } from '@devp0nt/refine0/shared'
 import type { UserCreateInput } from '@prisma/backend/generated/prisma/models'
-import { zAdminClientAdmin } from '@user/admin/utils.sh'
-import { includesAdminUserWithEverything, toAdmin } from '@user/backend/utils.be'
 
 const { getRoute, parseZOutput } = getHonoRefineRoutesHelpers({
   resource: 'admin-user',
@@ -19,11 +18,11 @@ const zCreate = zResource
     name: true,
     email: true,
     role: true,
-    permissions: true,
+    specialPermissions: true,
     image: true,
   })
   .extend({
-    permissions: zResource.shape.permissions.meta({
+    specialPermissions: zResource.shape.specialPermissions.meta({
       'x-card': true,
       'x-ui:form-widget': `{{role === 'special' ? 'radio' : 'hidden'}}`,
     }),
@@ -32,11 +31,11 @@ const zEdit = zCreate
 const zShow = zResource.extend({
   // if we use just zPermissions, it will loose items and type, I do not know why
   // TODO: add to refine0 withJsAsMeta to map deeply
-  permissions: zResource.shape.permissions.meta({
+  specialPermissions: zResource.shape.specialPermissions.meta({
     'x-ui:view-widget': 'hidden',
   }),
   finalPermissions: withJsAsMeta(
-    zResource.shape.permissions.meta({
+    zResource.shape.specialPermissions.meta({
       title: 'Permissions',
     }),
   ),
@@ -95,7 +94,7 @@ export const adminUserShowAdminHonoRoute = honoBase().openapi(
       where: { userId: id.toString() },
       include: includesAdminUserWithEverything,
     })
-    return json({ data: parseZOutput.show(zShow, withFinalPermissions(toAdmin(adminUser))) }, 200)
+    return json({ data: parseZOutput.show(zShow, toAdmin(adminUser)) }, 200)
   },
 )
 
@@ -119,7 +118,7 @@ export const adminUserCreateAdminHonoRoute = honoBase().openapi(
         name: data.name,
         role: data.role,
         data: {
-          permissions: data.permissions,
+          specialPermissions: data.specialPermissions,
           image: data.image,
         } satisfies Partial<UserCreateInput>,
       },
@@ -177,7 +176,7 @@ export const adminUserDeleteAdminHonoRoute = honoBase().openapi(
         data: {
           user: {
             update: {
-              role: 'user',
+              role: 'customer',
             },
           },
         },

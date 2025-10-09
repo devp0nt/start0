@@ -16,7 +16,7 @@ export const createEnv = (source: Record<string, unknown>) => {
         INITIAL_ADMIN_EMAIL: ez.string,
         INITIAL_ADMIN_PASSWORD: ez.string,
         SHADOW_DATABASE_URL: optionalOnNotLocalHostEnv(ez.string),
-        DEBUG: ez.string,
+        LOGGER_FILTER: ez.string.default('*'),
       }),
   })
 }

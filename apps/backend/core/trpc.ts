@@ -1,6 +1,6 @@
 import {
   validateHonoAdminReqCtx,
-  validateHonoMemberReqCtx,
+  validateHonoCustomerReqCtx,
   type HonoAdminOptions,
   type HonoReqCtx,
 } from '@backend/core/hono'
@@ -74,10 +74,10 @@ export const trpcAdminBase = (options?: HonoAdminOptions) => {
   })
 }
 
-export const trpcMemberBase = () => {
+export const trpcCustomerBase = () => {
   return trpcLogged.use(async ({ ctx, next, path, type }) => {
-    const honoMemberReqCtx = await validateHonoMemberReqCtx(ctx.honoReqCtx)
-    const trpcMemberReqCtx = createTrpcCtx(honoMemberReqCtx)
-    return await next({ ctx: trpcMemberReqCtx })
+    const honoCustomerReqCtx = await validateHonoCustomerReqCtx(ctx.honoReqCtx)
+    const trpcCustomerReqCtx = createTrpcCtx(honoCustomerReqCtx)
+    return await next({ ctx: trpcCustomerReqCtx })
   })
 }

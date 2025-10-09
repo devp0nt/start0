@@ -7,7 +7,7 @@ import { Meta0 } from '@devp0nt/meta0'
 import { Tri0 as OriginalTri0 } from '@devp0nt/tri0'
 
 Logger0.init({
-  filterByTags: env.DEBUG,
+  filterByTags: env.LOGGER_FILTER,
   reset: true,
   rootTagPrefix: appSlug,
   errorTagSuffix: 'err',
@@ -16,9 +16,7 @@ Logger0.init({
 const logger = Logger0.create({
   adapter: logger0AdapterProject,
 })
-const meta = Meta0.create({
-  tagPrefix: 'backend',
-})
+const meta = Meta0.create()
 export const baseTri0 = OriginalTri0.create({
   Error0,
   logger,

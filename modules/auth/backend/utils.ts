@@ -1,12 +1,9 @@
-import { parseZod } from '@apps/shared/utils'
-import type { AdminClientMe, MeAuthorized, MemberClientMe, UserClientMe } from '@auth/shared/utils'
-import { zAdminClientMe, zMemberClientMe, zUserClientMe } from '@auth/shared/utils'
+import { getUser, toAdminClientAdmin, toCustomerClientMe, toUserClientMe } from '@auth/backend/user'
 import { env } from '@backend/base/env.runtime'
 import type { BackendCtx } from '@backend/core/ctx'
 import type { HonoBase } from '@backend/core/hono'
 import { backendAuthRoutesBasePath } from '@backend/shared/utils'
 import { prisma } from '@prisma/backend/client'
-import { getUser, toAdminClientAdmin, type Admin, type Member, type UserWithEverything } from '@user/admin/utils.be'
 import { betterAuth } from 'better-auth'
 import { prismaAdapter } from 'better-auth/adapters/prisma'
 import { customSession, openAPI } from 'better-auth/plugins'
@@ -19,6 +16,7 @@ import {
   createRequirePermission,
   createServerAdminPlugin,
 } from '../shared/permissions'
+import type { MeAuthorized } from '@auth/shared/user'
 
 export const auth = betterAuth({
   database: prismaAdapter(prisma, {
@@ -51,7 +49,7 @@ export const auth = betterAuth({
           data: { ...data, id: uuidv4() },
         }),
         after: async (data, ctx) => {
-          await prisma.memberUser.create({
+          await prisma.customerUser.create({
             data: {
               userId: data.id,
             },
@@ -98,10 +96,10 @@ export const getAuthCtxByHonoContext = async (honoCtx: HonoContext) => {
   const session = await auth.api.getSession({ headers: honoCtx.req.raw.headers })
   return {
     admin: session?.admin || null,
-    member: session?.member || null,
+    customer: session?.customer || null,
     session: session?.session || null,
-    hasPermission: createHasPermission(session?.admin || session?.member || null),
-    requirePermission: createRequirePermission(session?.admin || session?.member || null),
+    hasPermission: createHasPermission(session?.admin || session?.customer || null),
+    requirePermission: createRequirePermission(session?.admin || session?.customer || null),
     auth,
   }
 }
@@ -111,11 +109,11 @@ export const applyAuthRoutesToHonoApp = ({ hono }: { hono: HonoBase }) => {
   hono.on(['POST', 'GET'], `${backendAuthRoutesBasePath}/*`, async (c) => await auth.handler(c.req.raw))
 }
 
-const getMe = async (ctx: Pick<BackendCtx, 'prisma'>, userId: string): Promise<MeAuthorized> => {
+export const getMe = async (ctx: Pick<BackendCtx, 'prisma'>, userId: string): Promise<MeAuthorized> => {
   const me = await getUser(ctx, userId)
   return {
     admin: !me.admin ? null : toAdminClientAdmin(me.admin),
-    member: toMemberClientMe(me.member),
+    customer: toCustomerClientMe(me.customer),
     user: toUserClientMe(me.user),
   }
 }
@@ -133,24 +131,3 @@ export const generatePassword = () => {
 }
 
 export type Session = (typeof auth)['$Infer']['Session']['session']
-
-export function toUserClientMe(data: UserWithEverything): UserClientMe
-export function toUserClientMe(data: null): null
-export function toUserClientMe(data: UserWithEverything | null): UserClientMe | null
-export function toUserClientMe(data: UserWithEverything | null): UserClientMe | null {
-  return !data ? null : parseZod(zUserClientMe, data)
-}
-
-export function toAdminClientMe(data: Admin): AdminClientMe
-export function toAdminClientMe(data: null): null
-export function toAdminClientMe(data: Admin | null): AdminClientMe | null
-export function toAdminClientMe(data: Admin | null): AdminClientMe | null {
-  return !data ? null : parseZod(zAdminClientMe, data)
-}
-
-export function toMemberClientMe(data: Member): MemberClientMe
-export function toMemberClientMe(data: null): null
-export function toMemberClientMe(data: Member | null): MemberClientMe | null
-export function toMemberClientMe(data: Member | null): MemberClientMe | null {
-  return !data ? null : parseZod(zMemberClientMe, data)
-}

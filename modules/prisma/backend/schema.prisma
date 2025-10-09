@@ -32,7 +32,7 @@ datasource db {
 }
 
 enum Role {
-  user
+  customer
   admin
   manager
   analyst
@@ -48,7 +48,7 @@ model User {
   image         String?
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @default(now()) @updatedAt
-  role          Role      @default(user)
+  role          Role      @default(customer)
   banned        Boolean?  @default(false)
   banReason     String?
   banExpires    DateTime?
@@ -56,11 +56,11 @@ model User {
   accounts      Account[]
 
   /// [Permissions]
-  permissions Json @default("{}")
+  specialPermissions Json @default("{}")
 
-  // each user is memberUser
-  memberUser MemberUser?
-  adminUser  AdminUser?
+  // each user is customerUser
+  customerUser CustomerUser?
+  adminUser    AdminUser?
 
   @@unique([email])
 }
@@ -113,7 +113,7 @@ model AdminUser {
   user      User     @relation(fields: [userId], references: [id])
 }
 
-model MemberUser {
+model CustomerUser {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   userId    String   @unique

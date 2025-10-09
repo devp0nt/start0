@@ -81,7 +81,7 @@ export const refineAuthProvider = {
         name: data.admin.name,
         avatar: data.admin.image,
         role: data.admin.role,
-        permissions: getFinalPermissions(data.admin.role, data.admin.permissions),
+        permissions: getFinalPermissions(data.admin.role, data.admin.specialPermissions),
         email: data.admin.email,
       }
     }
@@ -115,7 +115,7 @@ export const refineAccessControlProvider = {
     const permissionAction = ['show', 'list', 'get'].includes(action) ? 'view' : 'manage'
     const can = hasPermission({
       role: admin.role,
-      ownPermissions: admin.permissions,
+      specialPermissions: admin.specialPermissions,
       permission: {
         [resourceName]: [permissionAction],
       },

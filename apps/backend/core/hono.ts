@@ -26,7 +26,7 @@ const createHonoReqCtx = async ({ backendCtx, honoCtx }: { backendCtx: BackendCt
   const authCtx = await getAuthCtxByHonoContext(honoCtx)
   tri0.meta.assign({
     adminId: authCtx.admin?.id,
-    memberId: authCtx.member?.id,
+    customerId: authCtx.customer?.id,
   })
   return backendCtx.self.extend({
     tri0,
@@ -113,35 +113,35 @@ export const honoAdminBase = (options?: HonoAdminOptions): HonoAdminBase => {
   return hono
 }
 
-// member
+// customer
 
-export type HonoMemberReqCtx = Ctx0.Proxy<
-  Omit<HonoReqCtx, 'member' | 'self'> & {
-    member: NonNullable<HonoReqCtx['member']>
+export type HonoCustomerReqCtx = Ctx0.Proxy<
+  Omit<HonoReqCtx, 'customer' | 'self'> & {
+    customer: NonNullable<HonoReqCtx['customer']>
   }
 >
-export type HonoMemberSettings = HonoSettings<HonoMemberReqCtx>
-export type HonoMemberBase = HonoBase<HonoMemberReqCtx>
-export const validateHonoMemberReqCtx = async (honoReqCtx: HonoReqCtx): Promise<HonoMemberReqCtx> => {
-  if (!honoReqCtx.member) {
+export type HonoCustomerSettings = HonoSettings<HonoCustomerReqCtx>
+export type HonoCustomerBase = HonoBase<HonoCustomerReqCtx>
+export const validateHonoCustomerReqCtx = async (honoReqCtx: HonoReqCtx): Promise<HonoCustomerReqCtx> => {
+  if (!honoReqCtx.customer) {
     throw new Error0('Only for authorized users', { expected: true, httpStatus: 403 })
   }
   return honoReqCtx as never
 }
-export const honoMemberMiddleware = (): MiddlewareHandler<HonoMemberSettings> => {
+export const honoCustomerMiddleware = (): MiddlewareHandler<HonoCustomerSettings> => {
   return async (honoCtx, next) => {
-    await validateHonoMemberReqCtx(honoCtx.var.honoReqCtx)
+    await validateHonoCustomerReqCtx(honoCtx.var.honoReqCtx)
     await next()
   }
 }
-export const honoMemberBase = (): HonoMemberBase => {
-  const hono = honoBase<HonoMemberReqCtx>()
-  hono.use(honoMemberMiddleware())
+export const honoCustomerBase = (): HonoCustomerBase => {
+  const hono = honoBase<HonoCustomerReqCtx>()
+  hono.use(honoCustomerMiddleware())
   return hono
 }
 
 // all ctxs
-export type HonoAnyReqCtx = HonoReqCtx | HonoAdminReqCtx | HonoMemberReqCtx
+export type HonoAnyReqCtx = HonoReqCtx | HonoAdminReqCtx | HonoCustomerReqCtx
 
 // utils
 

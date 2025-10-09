@@ -8,7 +8,7 @@ import z from 'zod'
 const accessControlStatements = {
   ...defaultStatements,
   adminUser: ['view', 'manage'],
-  memberUser: ['view', 'manage'],
+  customerUser: ['view', 'manage'],
   idea: ['view', 'manage'],
   newsPost: ['view', 'manage'],
   appConfig: ['view', 'manage'],
@@ -16,14 +16,14 @@ const accessControlStatements = {
 
 const accessControl = createAccessControl(accessControlStatements)
 
-const userRole = accessControl.newRole({
+const customerRole = accessControl.newRole({
   ...userAc.statements,
 })
 
 const adminRole = accessControl.newRole({
   ...adminAc.statements,
   adminUser: ['view', 'manage'],
-  memberUser: ['view', 'manage'],
+  customerUser: ['view', 'manage'],
   idea: ['view', 'manage'],
   newsPost: ['view', 'manage'],
   appConfig: ['view', 'manage'],
@@ -33,7 +33,7 @@ const managerRole = accessControl.newRole({
   user: ['list', 'ban', 'get'],
   session: ['list', 'revoke', 'delete'],
   adminUser: ['view'],
-  memberUser: ['view'],
+  customerUser: ['view'],
   idea: ['view', 'manage'],
   newsPost: ['view', 'manage'],
   appConfig: ['view', 'manage'],
@@ -43,7 +43,7 @@ const analystRole = accessControl.newRole({
   user: ['list', 'get'],
   session: ['list'],
   adminUser: ['view'],
-  memberUser: ['view'],
+  customerUser: ['view'],
   idea: ['view'],
   newsPost: ['view'],
   appConfig: ['view'],
@@ -56,7 +56,7 @@ const specialRole = accessControl.newRole({
 const adminRoles = ['admin', 'manager', 'analyst', 'special']
 
 const roles = {
-  user: userRole,
+  customer: customerRole,
   admin: adminRole,
   manager: managerRole,
   analyst: analystRole,
@@ -116,10 +116,10 @@ export const getRolePermissions = (role: keyof typeof adminPluginOptions.roles):
 }
 export const getFinalPermissions = (
   role: keyof typeof adminPluginOptions.roles,
-  ownPermissions: Permissions,
+  specialPermissions: Permissions,
 ): Permissions => {
   if (role === 'special') {
-    return ownPermissions
+    return specialPermissions
   } else {
     return getRolePermissions(role)
   }
@@ -139,16 +139,16 @@ export const isAllPermissionsSuitable = (permissions: Permissions, finalPermissi
 }
 export const hasPermission = ({
   role,
-  ownPermissions,
+  specialPermissions,
   permission,
   permissions,
 }: {
   role: keyof typeof adminPluginOptions.roles
-  ownPermissions: Permissions
+  specialPermissions: Permissions
   permission?: Permissions
   permissions?: Permissions
 }) => {
-  const finalPermissions = getFinalPermissions(role, ownPermissions)
+  const finalPermissions = getFinalPermissions(role, specialPermissions)
   if (permission) {
     return isOneOfPermissionsSuitable(permission, finalPermissions)
   } else if (permissions) {
@@ -159,7 +159,7 @@ export const hasPermission = ({
 }
 type WithRoleAndPermissions = {
   role: keyof typeof adminPluginOptions.roles
-  permissions: Permissions
+  specialPermissions: Permissions
 }
 export const hasUserPermission = ({
   user,
@@ -175,7 +175,7 @@ export const hasUserPermission = ({
   }
   return hasPermission({
     role: user.role,
-    ownPermissions: user.permissions,
+    specialPermissions: user.specialPermissions,
     permission,
     permissions,
   })
@@ -220,7 +220,7 @@ export const createRequirePermission = (user: WithRoleAndPermissions | null) => 
 }
 
 const withFinalPermissionsOne = <T extends WithRoleAndPermissions>(user: T): WithFinalPermissions<T> => {
-  return { ...user, finalPermissions: getFinalPermissions(user.role, user.permissions) }
+  return { ...user, finalPermissions: getFinalPermissions(user.role, user.specialPermissions) }
 }
 export type WithFinalPermissions<T extends WithRoleAndPermissions> = T & { finalPermissions: Permissions }
 export function withFinalPermissions<T extends WithRoleAndPermissions>(user: T): WithFinalPermissions<T>

@@ -13,7 +13,7 @@
     "lint": "eslint --cache --cache-location ../../../node_modules/.cache/eslint/@prisma/backend/.eslintcache ."
   },
   "dependencies": {
-    "@devp0nt/tri0": "^1.0.0-next.29",
+    "@devp0nt/tri0": "^1.0.0-next.30",
     "@prisma/client": "^6.14.0",
     "@prisma/shared": "workspace:*",
     "prisma": "^6.14.0",
