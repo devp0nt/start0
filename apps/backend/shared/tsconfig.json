@@ -1,17 +1,18 @@
 {
-  "include": ["./src/**/*"],
+  "extends": "../../shared/tsconfig.shared.json",
+  "include": ["./**/*"],
   "exclude": ["./**/dist/**/*", "./**/node_modules/**/*", "./**/public/**/*"],
   "compilerOptions": {
-    "rootDir": "./src",
+    "rootDir": "./",
     "outDir": "./dist",
     "declaration": true,
     "declarationMap": true,
     "composite": true,
-    "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@prisma/shared/.tsbuildinfo"
+    "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@backend/shared/.tsbuildinfo"
   },
   "references": [
     {
-      "path": "../../../apps/base/tsconfig.json"
+      "path": "../../base/tsconfig.json"
     }
   ]
 }

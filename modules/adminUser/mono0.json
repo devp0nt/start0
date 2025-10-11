@@ -6,7 +6,7 @@
   {
     "name": "@adminUser/backend",
     "preset": ["backendModule", "backendMulti"],
-    "deps": ["@adminUser/shared", "@user/backend", "@user/shared"]
+    "deps": ["@adminUser/shared", "@user/backend", "@user/shared", "@auth/backend"]
   },
   {
     "name": "@adminUser/site",

@@ -73,7 +73,7 @@
       "path": "./.tsconfig/@appConfig/site/tsconfig.json"
     },
     {
-      "path": "./.tsconfig/@apps/base/tsconfig.json"
+      "path": "./apps/base/tsconfig.json"
     },
     {
       "path": "./.tsconfig/@auth/admin/tsconfig.json"
@@ -88,22 +88,22 @@
       "path": "./.tsconfig/@auth/site/tsconfig.json"
     },
     {
-      "path": "./.tsconfig/@backend/base/tsconfig.json"
+      "path": "./apps/backend/base/tsconfig.json"
     },
     {
       "path": "./.tsconfig/@backend/core/tsconfig.json"
     },
     {
-      "path": "./.tsconfig/@backend/hono-router/tsconfig.json"
+      "path": "./apps/backend/router/hono/tsconfig.json"
     },
     {
       "path": "./apps/backend/services/tsconfig.json"
     },
     {
-      "path": "./.tsconfig/@backend/shared/tsconfig.json"
+      "path": "./apps/backend/shared/tsconfig.json"
     },
     {
-      "path": "./.tsconfig/@backend/trpc-router/tsconfig.json"
+      "path": "./apps/backend/router/trpc/tsconfig.json"
     },
     {
       "path": "./.tsconfig/@idea/admin/tsconfig.json"

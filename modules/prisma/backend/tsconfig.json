@@ -11,16 +11,16 @@
   },
   "references": [
     {
-      "path": "../../../.tsconfig/@apps/base/tsconfig.json"
+      "path": "../../../apps/base/tsconfig.json"
     },
     {
-      "path": "../../../.tsconfig/@backend/base/tsconfig.json"
+      "path": "../../../apps/backend/base/tsconfig.json"
     },
     {
       "path": "../shared/tsconfig.json"
     },
     {
-      "path": "../../../.tsconfig/@apps/base/tsconfig.json"
+      "path": "../../../apps/base/tsconfig.json"
     }
   ]
 }

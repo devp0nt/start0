@@ -1,13 +1,14 @@
 {
+  "extends": "../tsconfig.site.json",
   "include": ["./**/*"],
   "exclude": ["./**/dist/**/*", "./**/node_modules/**/*", "./**/public/**/*"],
   "compilerOptions": {
     "rootDir": "./",
     "outDir": "./dist",
-    "declaration": false,
-    "declarationMap": false,
-    "composite": false,
-    "tsBuildInfoFile": null
+    "declaration": true,
+    "declarationMap": true,
+    "composite": true,
+    "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@site/app/.tsbuildinfo"
   },
   "references": [
     {
@@ -17,7 +18,7 @@
       "path": "../../../.tsconfig/@appConfig/site/tsconfig.json"
     },
     {
-      "path": "../../../.tsconfig/@apps/base/tsconfig.json"
+      "path": "../../base/tsconfig.json"
     },
     {
       "path": "../../../.tsconfig/@auth/site/tsconfig.json"
@@ -32,7 +33,7 @@
       "path": "../../../.tsconfig/@adminUser/shared/tsconfig.json"
     },
     {
-      "path": "../../../.tsconfig/@apps/base/tsconfig.json"
+      "path": "../../base/tsconfig.json"
     },
     {
       "path": "../../../.tsconfig/@site/core/tsconfig.json"

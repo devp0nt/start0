@@ -1,4 +1,5 @@
 {
+  "extends": "../../../apps/backend/tsconfig.backend.json",
   "include": [
     "../../../modules/appConfig/**/backend/**/*",
     "../../../modules/appConfig/**/*.be.ts",
@@ -19,19 +20,19 @@
   },
   "references": [
     {
-      "path": "../../@apps/base/tsconfig.json"
+      "path": "../../../apps/base/tsconfig.json"
     },
     {
       "path": "../../@backend/core/tsconfig.json"
     },
     {
-      "path": "../../@apps/base/tsconfig.json"
+      "path": "../../../apps/base/tsconfig.json"
     },
     {
-      "path": "../../@backend/base/tsconfig.json"
+      "path": "../../../apps/backend/base/tsconfig.json"
     },
     {
-      "path": "../../@backend/shared/tsconfig.json"
+      "path": "../../../apps/backend/shared/tsconfig.json"
     },
     {
       "path": "../../../modules/prisma/backend/tsconfig.json"

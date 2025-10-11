@@ -20,7 +20,7 @@
       "path": "../../../.tsconfig/@appConfig/admin/tsconfig.json"
     },
     {
-      "path": "../../../.tsconfig/@apps/base/tsconfig.json"
+      "path": "../../base/tsconfig.json"
     },
     {
       "path": "../../../.tsconfig/@auth/admin/tsconfig.json"
@@ -29,10 +29,10 @@
       "path": "../../../.tsconfig/@idea/admin/tsconfig.json"
     },
     {
-      "path": "../../../.tsconfig/@apps/base/tsconfig.json"
+      "path": "../../base/tsconfig.json"
     },
     {
-      "path": "../../../.tsconfig/@backend/hono-router/tsconfig.json"
+      "path": "../../backend/router/hono/tsconfig.json"
     },
     {
       "path": "../../../.tsconfig/@appConfig/backend/tsconfig.json"
@@ -41,10 +41,10 @@
       "path": "../../../.tsconfig/@backend/core/tsconfig.json"
     },
     {
-      "path": "../../../.tsconfig/@backend/base/tsconfig.json"
+      "path": "../../backend/base/tsconfig.json"
     },
     {
-      "path": "../../../.tsconfig/@backend/shared/tsconfig.json"
+      "path": "../../backend/shared/tsconfig.json"
     },
     {
       "path": "../../../modules/prisma/backend/tsconfig.json"
@@ -53,7 +53,7 @@
       "path": "../../../modules/prisma/shared/tsconfig.json"
     },
     {
-      "path": "../../../.tsconfig/@backend/trpc-router/tsconfig.json"
+      "path": "../../backend/router/trpc/tsconfig.json"
     },
     {
       "path": "../../../.tsconfig/@admin/core/tsconfig.json"

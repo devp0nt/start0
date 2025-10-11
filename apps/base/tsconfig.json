@@ -1,0 +1,14 @@
+{
+  "extends": "../shared/tsconfig.shared.json",
+  "include": ["./**/*"],
+  "exclude": ["./**/dist/**/*", "./**/node_modules/**/*", "./**/public/**/*"],
+  "compilerOptions": {
+    "rootDir": "./",
+    "outDir": "./dist",
+    "declaration": true,
+    "declarationMap": true,
+    "composite": true,
+    "tsBuildInfoFile": "../../node_modules/.cache/tsbuildinfo/@apps/base/.tsbuildinfo"
+  },
+  "references": []
+}

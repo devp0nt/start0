@@ -1,4 +1,5 @@
 {
+  "extends": "../../../apps/site/tsconfig.site.json",
   "include": [
     "../../../modules/appConfig/**/site/**/*",
     "../../../modules/appConfig/**/*.si.ts",
@@ -21,13 +22,13 @@
   },
   "references": [
     {
-      "path": "../../@apps/base/tsconfig.json"
+      "path": "../../../apps/base/tsconfig.json"
     },
     {
       "path": "../../@site/core/tsconfig.json"
     },
     {
-      "path": "../../@apps/base/tsconfig.json"
+      "path": "../../../apps/base/tsconfig.json"
     }
   ]
 }

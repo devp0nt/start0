@@ -1,4 +1,5 @@
 {
+  "extends": "../../../apps/shared/tsconfig.shared.json",
   "include": ["../../../modules/auth/shared/**/*"],
   "exclude": [
     "../../../modules/auth/**/dist/**/*",
@@ -15,7 +16,7 @@
   },
   "references": [
     {
-      "path": "../../@apps/base/tsconfig.json"
+      "path": "../../../apps/base/tsconfig.json"
     }
   ]
 }

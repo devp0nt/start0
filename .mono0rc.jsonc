@@ -275,20 +275,27 @@
         }
       }
     },
-    "module": {
-      "preset": ["withHiddenTsconfig"],
-      "tags": ["module"]
-    },
     "shared": {
       "tags": ["shared"]
     },
+    "sharedWithTsconfig": {
+      "preset": ["withTsconfig", "shared"],
+      "tsconfig": {
+        "value": {
+          "extends": "$shared"
+        }
+      }
+    },
+    "sharedWithHiddenTsconfig": {
+      "preset": ["sharedWithTsconfig", "withHiddenTsconfig"]
+    },
     "sharedModule": {
-      "preset": ["module", "shared"],
+      "preset": ["sharedWithHiddenTsconfig"],
       "tags": ["sharedModule"],
       "deps": ["#sharedCoreModule"]
     },
     "sharedCoreModule": {
-      "preset": ["module", "shared"],
+      "preset": ["sharedWithHiddenTsconfig"],
       "tags": ["sharedCoreModule"],
       "deps": []
     },
@@ -304,13 +311,24 @@
     "backend": {
       "tags": ["backend"]
     },
+    "backendWithTsconfig": {
+      "preset": ["withTsconfig", "backend"],
+      "tsconfig": {
+        "value": {
+          "extends": "$backend"
+        }
+      }
+    },
+    "backendWithHiddenTsconfig": {
+      "preset": ["backendWithTsconfig", "withHiddenTsconfig"]
+    },
     "backendModule": {
-      "preset": ["module", "backend"],
+      "preset": ["backendWithHiddenTsconfig"],
       "tags": ["backendModule"],
       "deps": ["@backend/core", "#backendCoreModule"]
     },
     "backendCoreModule": {
-      "preset": ["module", "backend"],
+      "preset": ["backendWithHiddenTsconfig"],
       "tags": ["backendCoreModule"],
       "deps": ["@backend/core"]
     },
@@ -326,13 +344,24 @@
     "site": {
       "tags": ["site"]
     },
+    "siteWithTsconfig": {
+      "preset": ["withTsconfig", "site"],
+      "tsconfig": {
+        "value": {
+          "extends": "$site"
+        }
+      }
+    },
+    "siteWithHiddenTsconfig": {
+      "preset": ["siteWithTsconfig", "withHiddenTsconfig"]
+    },
     "siteModule": {
-      "preset": ["module", "site"],
+      "preset": ["siteWithHiddenTsconfig"],
       "tags": ["siteModule"],
       "deps": ["@site/core", "#siteCoreModule"]
     },
     "siteCoreModule": {
-      "preset": ["module", "site"],
+      "preset": ["siteWithHiddenTsconfig"],
       "tags": ["siteCoreModule"],
       "deps": ["@site/core"]
     },
@@ -351,13 +380,24 @@
     "admin": {
       "tags": ["admin"]
     },
+    "adminWithTsconfig": {
+      "preset": ["withTsconfig", "admin"],
+      "tsconfig": {
+        "value": {
+          "extends": "$admin"
+        }
+      }
+    },
+    "adminWithHiddenTsconfig": {
+      "preset": ["adminWithTsconfig", "withHiddenTsconfig"]
+    },
     "adminModule": {
-      "preset": ["module", "admin"],
+      "preset": ["adminWithHiddenTsconfig"],
       "tags": ["adminModule"],
       "deps": ["@admin/core", "#adminCoreModule"]
     },
     "adminCoreModule": {
-      "preset": ["module", "admin"],
+      "preset": ["adminWithHiddenTsconfig"],
       "tags": ["adminCoreModule"],
       "deps": ["@admin/core"]
     },
@@ -376,18 +416,29 @@
     "tools": {
       "tags": ["tools"]
     },
+    "toolsWithTsconfig": {
+      "preset": ["withTsconfig", "tools"],
+      "tsconfig": {
+        "value": {
+          "extends": "$tools"
+        }
+      }
+    },
+    "toolsWithHiddenTsconfig": {
+      "preset": ["toolsWithTsconfig", "withHiddenTsconfig"]
+    },
     "toolsMulti": {
       "preset": ["tools"],
       "setSuffixesToInclude": [[".to"], [".ts", ".tsx"]],
       "setDirsToInclude": ["tools"]
     },
     "toolsModule": {
-      "preset": ["module", "tools"],
+      "preset": ["toolsWithHiddenTsconfig"],
       "tags": ["toolsModule"],
       "deps": ["@tools/core", "#toolsCoreModule"]
     },
     "toolsCoreModule": {
-      "preset": ["module", "tools"],
+      "preset": ["toolsWithHiddenTsconfig"],
       "tags": ["toolsCoreModule"],
       "deps": ["@tools/core"]
     },

@@ -1,4 +1,5 @@
 {
+  "extends": "../../../apps/backend/tsconfig.backend.json",
   "include": ["../../../apps/backend/core/**/*"],
   "exclude": [
     "../../../apps/backend/core/**/dist/**/*",
@@ -15,13 +16,13 @@
   },
   "references": [
     {
-      "path": "../../@apps/base/tsconfig.json"
+      "path": "../../../apps/base/tsconfig.json"
     },
     {
-      "path": "../base/tsconfig.json"
+      "path": "../../../apps/backend/base/tsconfig.json"
     },
     {
-      "path": "../shared/tsconfig.json"
+      "path": "../../../apps/backend/shared/tsconfig.json"
     },
     {
       "path": "../../../modules/prisma/backend/tsconfig.json"
@@ -30,10 +31,10 @@
       "path": "../../../modules/prisma/shared/tsconfig.json"
     },
     {
-      "path": "../../@apps/base/tsconfig.json"
+      "path": "../../../apps/base/tsconfig.json"
     },
     {
-      "path": "../base/tsconfig.json"
+      "path": "../../../apps/backend/base/tsconfig.json"
     },
     {
       "path": "../../../modules/prisma/shared/tsconfig.json"

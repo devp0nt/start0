@@ -1,4 +1,5 @@
 {
+  "extends": "../../../apps/backend/tsconfig.backend.json",
   "include": ["../../../modules/auth/backend/**/*"],
   "exclude": [
     "../../../modules/auth/**/dist/**/*",
@@ -15,7 +16,7 @@
   },
   "references": [
     {
-      "path": "../../@apps/base/tsconfig.json"
+      "path": "../../../apps/base/tsconfig.json"
     },
     {
       "path": "../shared/tsconfig.json"
@@ -24,13 +25,13 @@
       "path": "../../@backend/core/tsconfig.json"
     },
     {
-      "path": "../../@apps/base/tsconfig.json"
+      "path": "../../../apps/base/tsconfig.json"
     },
     {
-      "path": "../../@backend/base/tsconfig.json"
+      "path": "../../../apps/backend/base/tsconfig.json"
     },
     {
-      "path": "../../@backend/shared/tsconfig.json"
+      "path": "../../../apps/backend/shared/tsconfig.json"
     },
     {
       "path": "../../../modules/prisma/backend/tsconfig.json"
