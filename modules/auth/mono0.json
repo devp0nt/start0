@@ -2,12 +2,12 @@
   {
     "name": "@auth/shared",
     "preset": ["sharedBaseModule", "sharedNested"],
-    "deps": ["@user/shared", "@prisma/shared"]
+    "deps": ["@prisma/shared"]
   },
   {
     "name": "@auth/backend",
     "preset": ["backendBaseModule", "backendNested"],
-    "deps": ["@auth/shared", "@user/shared", "@user/backend", "@backend/shared", "@prisma/backend"]
+    "deps": ["@auth/shared", "@user/backend", "@backend/shared", "@prisma/backend"]
   },
   {
     "name": "@auth/site",

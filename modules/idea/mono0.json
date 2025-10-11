@@ -5,7 +5,7 @@
   },
   {
     "name": "@idea/backend",
-    "preset": ["backendModule", "backendMulti"],
+    "preset": ["backendModule", "backendMulti", "withBackendRoutes"],
     "deps": ["@idea/shared"]
   },
   {

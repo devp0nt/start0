@@ -275,6 +275,9 @@
         }
       }
     },
+    "withBackendRoutes": {
+      "tags": ["honoRoutes", "trpcRoutes"]
+    },
     "shared": {
       "tags": ["shared"]
     },
