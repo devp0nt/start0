@@ -3,102 +3,42 @@
   "include": [],
   "compilerOptions": {
     "paths": {
-      "@admin/app": [
-        "./apps/admin/app/src/index.tsx"
-      ],
-      "@admin/app/*": [
-        "./apps/admin/app/src/*"
-      ],
-      "@admin/core/*": [
-        "./apps/admin/core/*"
-      ],
-      "@adminUser/admin/*": [
-        "./modules/adminUser/*"
-      ],
-      "@adminUser/backend/*": [
-        "./modules/adminUser/*"
-      ],
-      "@adminUser/shared/*": [
-        "./modules/adminUser/*"
-      ],
-      "@adminUser/site/*": [
-        "./modules/adminUser/*"
-      ],
-      "@appConfig/admin/*": [
-        "./modules/appConfig/*"
-      ],
-      "@appConfig/backend/*": [
-        "./modules/appConfig/*"
-      ],
-      "@appConfig/shared/*": [
-        "./modules/appConfig/*"
-      ],
-      "@appConfig/site/*": [
-        "./modules/appConfig/*"
-      ],
-      "@apps/shared/*": [
-        "./apps/shared/*"
-      ],
-      "@auth/admin/*": [
-        "./modules/auth/admin/*"
-      ],
-      "@auth/backend/*": [
-        "./modules/auth/backend/*"
-      ],
-      "@auth/shared/*": [
-        "./modules/auth/shared/*"
-      ],
-      "@auth/site/*": [
-        "./modules/auth/site/*"
-      ],
-      "@backend/base/*": [
-        "./apps/backend/base/*"
-      ],
-      "@backend/core/*": [
-        "./apps/backend/core/*"
-      ],
-      "@backend/hono-router": [
-        "./apps/backend/router/hono/index.ts"
-      ],
-      "@backend/hono-router/*": [
-        "./apps/backend/router/hono/*"
-      ],
-      "@backend/services/*": [
-        "./apps/backend/services/src/*"
-      ],
-      "@backend/shared/*": [
-        "./apps/backend/shared/*"
-      ],
-      "@backend/trpc-router": [
-        "./apps/backend/router/trpc/index.ts"
-      ],
-      "@backend/trpc-router/*": [
-        "./apps/backend/router/trpc/*"
-      ],
-      "@idea/admin/*": [
-        "./modules/idea/*"
-      ],
-      "@idea/backend/*": [
-        "./modules/idea/*"
-      ],
-      "@idea/shared/*": [
-        "./modules/idea/*"
-      ],
-      "@idea/site/*": [
-        "./modules/idea/*"
-      ],
-      "@site/app/*": [
-        "./apps/site/app/*"
-      ],
-      "@site/core/*": [
-        "./apps/site/core/*"
-      ],
-      "@tools/shared": [
-        "./tools/src/index.ts"
-      ],
-      "@tools/shared/*": [
-        "./tools/src/*"
-      ]
+      "@admin/app": ["./apps/admin/app/src/index.tsx"],
+      "@admin/app/*": ["./apps/admin/app/src/*"],
+      "@admin/core/*": ["./apps/admin/core/*"],
+      "@adminUser/admin/*": ["./modules/adminUser/*"],
+      "@adminUser/backend/*": ["./modules/adminUser/*"],
+      "@adminUser/shared/*": ["./modules/adminUser/*"],
+      "@adminUser/site/*": ["./modules/adminUser/*"],
+      "@appConfig/admin/*": ["./modules/appConfig/*"],
+      "@appConfig/backend/*": ["./modules/appConfig/*"],
+      "@appConfig/shared/*": ["./modules/appConfig/*"],
+      "@appConfig/site/*": ["./modules/appConfig/*"],
+      "@apps/shared/*": ["./apps/shared/*"],
+      "@auth/admin/*": ["./modules/auth/admin/*"],
+      "@auth/backend/*": ["./modules/auth/backend/*"],
+      "@auth/shared/*": ["./modules/auth/shared/*"],
+      "@auth/site/*": ["./modules/auth/site/*"],
+      "@backend/base/*": ["./apps/backend/base/*"],
+      "@backend/core/*": ["./apps/backend/core/*"],
+      "@backend/hono-router": ["./apps/backend/router/hono/index.ts"],
+      "@backend/hono-router/*": ["./apps/backend/router/hono/*"],
+      "@backend/services/*": ["./apps/backend/services/src/*"],
+      "@backend/shared/*": ["./apps/backend/shared/*"],
+      "@backend/trpc-router": ["./apps/backend/router/trpc/index.ts"],
+      "@backend/trpc-router/*": ["./apps/backend/router/trpc/*"],
+      "@idea/admin/*": ["./modules/idea/*"],
+      "@idea/backend/*": ["./modules/idea/*"],
+      "@idea/shared/*": ["./modules/idea/*"],
+      "@idea/site/*": ["./modules/idea/*"],
+      "@prisma/backend": ["./modules/prisma/backend/src/index.ts"],
+      "@prisma/backend/*": ["./modules/prisma/backend/src/*"],
+      "@prisma/shared": ["./modules/prisma/shared/src/index.ts"],
+      "@prisma/shared/*": ["./modules/prisma/shared/src/*"],
+      "@site/app/*": ["./apps/site/app/*"],
+      "@site/core/*": ["./apps/site/core/*"],
+      "@tools/shared": ["./tools/src/index.ts"],
+      "@tools/shared/*": ["./tools/src/*"]
     }
   },
   "references": [
