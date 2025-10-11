@@ -24,9 +24,7 @@
     "../../../modules/idea/**/*.be.tsx",
     "../../../modules/idea/**/shared/**/*",
     "../../../modules/idea/**/*.sh.ts",
-    "../../../modules/idea/**/*.sh.tsx",
-    "../../../modules/prisma/backend/src/**/*",
-    "../../../modules/prisma/shared/src/**/*"
+    "../../../modules/idea/**/*.sh.tsx"
   ],
   "exclude": [
     "./**/dist/**/*",
@@ -61,13 +59,7 @@
     "../router/trpc/**/public/**/*",
     "../../../modules/idea/**/dist/**/*",
     "../../../modules/idea/**/node_modules/**/*",
-    "../../../modules/idea/**/public/**/*",
-    "../../../modules/prisma/backend/**/dist/**/*",
-    "../../../modules/prisma/backend/**/node_modules/**/*",
-    "../../../modules/prisma/backend/**/public/**/*",
-    "../../../modules/prisma/shared/**/dist/**/*",
-    "../../../modules/prisma/shared/**/node_modules/**/*",
-    "../../../modules/prisma/shared/**/public/**/*"
+    "../../../modules/idea/**/public/**/*"
   ],
   "compilerOptions": {
     "rootDir": "../../..",

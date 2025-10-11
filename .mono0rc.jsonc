@@ -193,6 +193,7 @@
     },
     "withTsconfig": {
       "distDir": "./dist",
+      "tags": ["hasTsconfig"],
       "tsconfigs": {
         "core": {
           "path": "./tsconfig.json",
@@ -217,6 +218,7 @@
       }
     },
     "withPackageJson": {
+      "tags": ["hasTsconfig"],
       "packageJson": {
         "settings": {
           "setUnitNameAsName": true,
