@@ -76,7 +76,7 @@ export const getAuthCtxByHonoCtx = async (honoCtx: HonoContext) => {
 }
 export type AuthCtx = Awaited<ReturnType<typeof getAuthCtxByHonoCtx>>
 
-export const applyAuthRoutesToHonoApp = ({ hono }: { hono: OpenAPIHono }) => {
+export const applyAuthRoutesToHonoApp = ({ hono }: { hono: OpenAPIHono<any, any, any> }) => {
   hono.on(['POST', 'GET'], `${backendAuthRoutesBasePath}/*`, async (c) => await auth.handler(c.req.raw))
 }
 

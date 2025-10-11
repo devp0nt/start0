@@ -1,4 +1,4 @@
-import { refine0 } from '@admin/app/lib/refine'
+import { refine0 } from '@admin/core/lib/refine'
 import { RjsfView } from '@admin/core/lib/rjsf.view'
 import { extractTitleFromJs, getJsProperties, getJsValueByPath } from '@devp0nt/refine0/shared'
 import {
