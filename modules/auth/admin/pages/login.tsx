@@ -1,3 +1,4 @@
+import { env } from '@admin/core/lib/env.runtime'
 import { appName } from '@apps/shared/general'
 import { AuthPage } from '@refinedev/antd'
 
@@ -7,8 +8,13 @@ export const LoginPage = () => {
       title={appName}
       type="login"
       formProps={{
-        // initialValues: { email: 'w@w.we', password: '11111111', remember: true },
-        initialValues: { email: 'w@w1.we', password: '11111111', remember: true },
+        initialValues: env.isLocalHostEnv
+          ? { email: 'w@w.we', password: '1234', remember: true }
+          : {
+              email: '',
+              password: '',
+              remember: true,
+            },
       }}
       registerLink={false}
     />

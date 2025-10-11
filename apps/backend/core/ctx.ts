@@ -11,4 +11,4 @@ export const backendCtx = Ctx0.create('backend', async ({ tri0 }: { tri0: Tri0 }
   }
 })
 export type BackendCtx = typeof backendCtx
-export type BackendCtxValue = Omit<BackendCtx, 'self'>
+export type BackendCtxValue = Ctx0.InferValue<BackendCtx>

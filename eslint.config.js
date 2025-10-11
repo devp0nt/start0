@@ -49,6 +49,7 @@ export default defineConfig([
       '@typescript-eslint/class-methods-use-this': 'off',
       'arrow-body-style': 'off',
       'max-depth': 'off',
+      'max-lines': 'off',
       '@typescript-eslint/no-namespace': 'off',
       '@typescript-eslint/naming-convention': 'off',
       '@typescript-eslint/prefer-destructuring': 'off',

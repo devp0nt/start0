@@ -1,9 +1,25 @@
-import { getUser, toAdminClientAdmin, toCustomerClientMe, toUserClientMe } from '@auth/backend/user'
+import {
+  getUser,
+  includesAdminUserWithEverything,
+  includesCustomerUserWithEverything,
+  toAdmin,
+  toAdminClientAdmin,
+  toCustomer,
+  toCustomerClientMe,
+  toUserClientMe,
+} from '@auth/backend/user'
+import type { MeAuthorized } from '@auth/shared/user'
 import { env } from '@backend/base/env.runtime'
+import { createTagged } from '@backend/base/tri0'
 import type { BackendCtx } from '@backend/core/ctx'
 import type { HonoBase } from '@backend/core/hono'
 import { backendAuthRoutesBasePath } from '@backend/shared/utils'
 import { prisma } from '@prisma/backend/client'
+import type {
+  AdminUserCreateInput,
+  CustomerUserCreateInput,
+  UserCreateInput,
+} from '@prisma/backend/generated/prisma/models'
 import { betterAuth } from 'better-auth'
 import { prismaAdapter } from 'better-auth/adapters/prisma'
 import { customSession, openAPI } from 'better-auth/plugins'
@@ -11,12 +27,11 @@ import generatePasswordTs from 'generate-password-ts'
 import type { Context as HonoContext } from 'hono'
 import { v4 as uuidv4 } from 'uuid'
 import {
-  adminPluginOptions,
+  adminRoles,
   createHasPermission,
   createRequirePermission,
   createServerAdminPlugin,
 } from '../shared/permissions'
-import type { MeAuthorized } from '@auth/shared/user'
 
 export const auth = betterAuth({
   database: prismaAdapter(prisma, {
@@ -39,51 +54,7 @@ export const auth = betterAuth({
   },
   advanced: {
     database: {
-      generateId: false,
-    },
-  },
-  databaseHooks: {
-    user: {
-      create: {
-        before: async (data) => ({
-          data: { ...data, id: uuidv4() },
-        }),
-        after: async (data, ctx) => {
-          await prisma.customerUser.create({
-            data: {
-              userId: data.id,
-            },
-          })
-          if (adminPluginOptions.adminRoles.includes(data.role as string)) {
-            await prisma.adminUser.create({
-              data: {
-                userId: data.id,
-              },
-            })
-          }
-        },
-      },
-    },
-    session: {
-      create: {
-        before: async (data) => ({
-          data: { ...data, id: uuidv4() },
-        }),
-      },
-    },
-    account: {
-      create: {
-        before: async (data) => ({
-          data: { ...data, id: uuidv4() },
-        }),
-      },
-    },
-    verification: {
-      create: {
-        before: async (data) => ({
-          data: { ...data, id: uuidv4() },
-        }),
-      },
+      generateId: () => uuidv4(),
     },
   },
   trustedOrigins: [env.ADMIN_URL, env.SITE_URL].flatMap((url) => url || []),
@@ -92,7 +63,7 @@ export const auth = betterAuth({
 // path hardcoded by better-auth "open-api/generate-schema"
 export const authOpenapiSchemaUrl = `${backendAuthRoutesBasePath}/open-api/generate-schema`
 
-export const getAuthCtxByHonoContext = async (honoCtx: HonoContext) => {
+export const getAuthCtxByHonoCtx = async (honoCtx: HonoContext) => {
   const session = await auth.api.getSession({ headers: honoCtx.req.raw.headers })
   return {
     admin: session?.admin || null,
@@ -103,7 +74,7 @@ export const getAuthCtxByHonoContext = async (honoCtx: HonoContext) => {
     auth,
   }
 }
-export type AuthCtx = Awaited<ReturnType<typeof getAuthCtxByHonoContext>>
+export type AuthCtx = Awaited<ReturnType<typeof getAuthCtxByHonoCtx>>
 
 export const applyAuthRoutesToHonoApp = ({ hono }: { hono: HonoBase }) => {
   hono.on(['POST', 'GET'], `${backendAuthRoutesBasePath}/*`, async (c) => await auth.handler(c.req.raw))
@@ -131,3 +102,93 @@ export const generatePassword = () => {
 }
 
 export type Session = (typeof auth)['$Infer']['Session']['session']
+
+const tagged = createTagged('auth')
+
+export const createAdmin = async (
+  { tri0, prisma }: Pick<BackendCtx, 'tri0' | 'prisma'>,
+  {
+    password: providedPassword,
+    userData,
+    adminUserData,
+  }: {
+    password?: string
+    userData: UserCreateInput
+    adminUserData: Omit<AdminUserCreateInput, 'user'>
+  },
+) => {
+  const { Error0 } = tagged(tri0)
+  const password = providedPassword || generatePassword()
+  const { email, name, role, ...restUserData } = userData
+  if (!role || !adminRoles.includes(role)) {
+    throw new Error0(`Invalid admin role: ${role}`)
+  }
+  const createUserResult = await auth.api.createUser({
+    body: {
+      email,
+      password,
+      name,
+      role,
+      data: {
+        ...restUserData,
+      } satisfies Partial<UserCreateInput>,
+    },
+  })
+  const adminWithEverything = await prisma.adminUser.create({
+    data: {
+      ...adminUserData,
+      userId: createUserResult.user.id,
+    },
+    include: includesAdminUserWithEverything,
+  })
+  // TODO: send email with password
+  if (!providedPassword) {
+    // eslint-disable-next-line no-console
+    console.log({ password })
+  }
+  return toAdmin(adminWithEverything)
+}
+
+export const createCustomer = async (
+  { prisma, tri0 }: BackendCtx,
+  {
+    password: providedPassword,
+    userData,
+    customerUserData,
+  }: {
+    password?: string
+    userData: UserCreateInput
+    customerUserData: Omit<CustomerUserCreateInput, 'user'>
+  },
+) => {
+  const { Error0 } = tagged(tri0)
+  const password = providedPassword || generatePassword()
+  const { email, name, role, ...restUserData } = userData
+  if (role && adminRoles.includes(role)) {
+    throw new Error0(`Invalid customer role: ${role}`)
+  }
+  const createUserResult = await auth.api.createUser({
+    body: {
+      email,
+      password,
+      name,
+      role,
+      data: {
+        ...restUserData,
+      } satisfies Partial<UserCreateInput>,
+    },
+  })
+  const customerWithEverything = await prisma.customerUser.create({
+    data: {
+      ...customerUserData,
+      userId: createUserResult.user.id,
+    },
+    include: includesCustomerUserWithEverything,
+  })
+  // TODO: send email with password
+  if (!providedPassword) {
+    // eslint-disable-next-line no-console
+    console.log({ password })
+  }
+  return toCustomer(customerWithEverything)
+}

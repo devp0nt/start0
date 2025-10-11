@@ -17,9 +17,14 @@ const logger = Logger0.create({
   adapter: logger0AdapterProject,
 })
 const meta = Meta0.create()
+
 export const baseTri0 = OriginalTri0.create({
   Error0,
   logger,
   meta,
 })
+
 export type Tri0 = typeof baseTri0
+export type Tri0Value = OriginalTri0.InferValue<Tri0>
+
+export const createTagged = baseTri0.createTagged.bind(baseTri0)

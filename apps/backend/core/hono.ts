@@ -1,5 +1,5 @@
 import { appName } from '@apps/shared/general'
-import { getAuthCtxByHonoContext } from '@auth/backend/utils'
+import { getAuthCtxByHonoCtx } from '@auth/backend/utils'
 import type { Permissions } from '@auth/shared/permissions'
 import type { BackendCtx } from '@backend/core/ctx'
 import { toErrorResponseWithStatus } from '@backend/core/error'
@@ -23,7 +23,7 @@ const createHonoReqCtx = async ({ backendCtx, honoCtx }: { backendCtx: BackendCt
   })
   // early set tri0, to have access to logger if something went wrong in auth middleware
   honoCtx.set('tri0', tri0)
-  const authCtx = await getAuthCtxByHonoContext(honoCtx)
+  const authCtx = await getAuthCtxByHonoCtx(honoCtx)
   tri0.meta.assign({
     adminId: authCtx.admin?.id,
     customerId: authCtx.customer?.id,
@@ -62,8 +62,8 @@ export const applyHonoReqContext = ({ hono, backendCtx }: { hono: HonoBase; back
       honoCtx,
     })
     honoCtx.set('honoReqCtx', honoReqCtx)
-    honoReqCtx.self.forEach((key, value) => {
-      honoCtx.set(key as never, value as never)
+    honoReqCtx.self.forEach((item) => {
+      honoCtx.set(item.key, item.value)
     })
     try {
       await next()

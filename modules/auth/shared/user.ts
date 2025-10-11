@@ -27,10 +27,14 @@ export const zUser = UserSchema.pick({
 export const zCustomerUser = CustomerUserSchema.pick({ userId: true })
 export const zAdminUser = AdminUserSchema.pick({ userId: true })
 
-export const zAdminClientAdmin = zUser.extend({})
+export const zAdminClientAdmin = zUser.extend({
+  ...zAdminUser.shape,
+})
 export type AdminClientAdmin = z.infer<typeof zAdminClientAdmin>
 
-export const zCustomerClientAdmin = zUser.extend({})
+export const zCustomerClientAdmin = zUser.extend({
+  ...zCustomerUser.shape,
+})
 export type CustomerClientAdmin = z.infer<typeof zCustomerClientAdmin>
 
 export const zUserClientAdmin = zUser.extend({
@@ -41,10 +45,14 @@ export type UserClientAdmin = z.infer<typeof zUserClientAdmin>
 
 // me
 
-export const zAdminClientMe = zUser.extend({})
+export const zAdminClientMe = zUser.extend({
+  ...zAdminUser.shape,
+})
 export type AdminClientMe = z.infer<typeof zAdminClientMe>
 
-export const zCustomerClientMe = zUser.extend({})
+export const zCustomerClientMe = zUser.extend({
+  ...zCustomerUser.shape,
+})
 export type CustomerClientMe = z.infer<typeof zCustomerClientMe>
 
 export const zUserClientMe = zUser.extend({

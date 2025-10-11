@@ -53,7 +53,7 @@ const specialRole = accessControl.newRole({
   ...userAc.statements,
 })
 
-const adminRoles = ['admin', 'manager', 'analyst', 'special']
+export const adminRoles = ['admin', 'manager', 'analyst', 'special']
 
 const roles = {
   customer: customerRole,

@@ -1,10 +1,9 @@
 import { includesAdminUserWithEverything, toAdmin } from '@auth/backend/user'
-import { generatePassword } from '@auth/backend/utils'
+import { createAdmin } from '@auth/backend/utils'
 import { zAdminClientAdmin } from '@auth/shared/user'
 import { honoAdminMiddleware, honoBase } from '@backend/core/hono'
 import { getHonoRefineRoutesHelpers } from '@devp0nt/refine0/server'
 import { withJsAsMeta } from '@devp0nt/refine0/shared'
-import type { UserCreateInput } from '@prisma/backend/generated/prisma/models'
 
 const { getRoute, parseZOutput } = getHonoRefineRoutesHelpers({
   resource: 'admin-user',
@@ -104,32 +103,10 @@ export const adminUserCreateAdminHonoRoute = honoBase().openapi(
     zReqData: zCreate,
     middleware: [honoAdminManageMiddleware] as const,
   }),
-  async ({ req, json, var: { prisma, auth } }) => {
+  async ({ req, json, var: { honoReqCtx } }) => {
     const { data } = req.valid('json')
-
-    const password = generatePassword()
-    // TODO: send email with password
-    // eslint-disable-next-line no-console
-    console.log({ password })
-    const createResult = await auth.api.createUser({
-      body: {
-        email: data.email,
-        password,
-        name: data.name,
-        role: data.role,
-        data: {
-          specialPermissions: data.specialPermissions,
-          image: data.image,
-        } satisfies Partial<UserCreateInput>,
-      },
-    })
-    const adminUser = await prisma.adminUser.findUniqueOrThrow({
-      where: {
-        userId: createResult.user.id,
-      },
-      include: includesAdminUserWithEverything,
-    })
-    return json({ data: parseZOutput.create(zResource, toAdmin(adminUser)) }, 200)
+    const admin = await createAdmin(honoReqCtx, { userData: data, adminUserData: {} })
+    return json({ data: parseZOutput.create(zResource, admin) }, 200)
   },
 )
 

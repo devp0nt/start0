@@ -6,7 +6,9 @@ alias w := watch
 alias d := dev
 alias t := test
 alias pmd := prisma-migrate-dev
+alias pmr := prisma-migrate-reset
 alias pmt := prisma-migrate-test
+alias pmp := prisma-migrate-prod
 alias pgc := prisma-generate-client
 
 # forward command to app
@@ -70,8 +72,14 @@ prune *args:
 prisma-migrate-dev *args:
   bun run mono0 exec -m @prisma/backend bun run prisma-migrate-dev {{args}}
 
+prisma-migrate-reset *args:
+  bun run mono0 exec -m @prisma/backend bun run prisma-migrate-reset {{args}}
+
 prisma-migrate-test *args:
   bun run mono0 exec -m @prisma/backend bun run prisma-migrate-test {{args}}
+
+prisma-migrate-prod *args:
+  bun run mono0 exec -m @prisma/backend bun run prisma-migrate-prod {{args}}
 
 prisma-generate-client *args:
   bun run mono0 exec -m @prisma/backend bun run prisma-generate-client {{args}}
