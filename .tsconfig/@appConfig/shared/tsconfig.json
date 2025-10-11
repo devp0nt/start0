@@ -1,0 +1,25 @@
+{
+  "include": [
+    "../../../modules/appConfig/**/shared/**/*",
+    "../../../modules/appConfig/**/*.sh.ts",
+    "../../../modules/appConfig/**/*.sh.tsx"
+  ],
+  "exclude": [
+    "../../../modules/appConfig/**/dist/**/*",
+    "../../../modules/appConfig/**/node_modules/**/*",
+    "../../../modules/appConfig/**/public/**/*"
+  ],
+  "compilerOptions": {
+    "rootDir": "../../../modules/appConfig",
+    "outDir": "./dist",
+    "declaration": true,
+    "declarationMap": true,
+    "composite": true,
+    "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@appConfig/shared/.tsbuildinfo"
+  },
+  "references": [
+    {
+      "path": "../../@apps/base/tsconfig.json"
+    }
+  ]
+}

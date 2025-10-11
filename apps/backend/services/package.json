@@ -24,9 +24,7 @@
     "@hono/trpc-server": "^0.4.0",
     "@hono/zod-openapi": "^1.1.0",
     "@logtape/logtape": "^1.0.4",
-    "@prisma/backend": "workspace:*",
     "@prisma/client": "^6.14.0",
-    "@prisma/shared": "workspace:*",
     "@scalar/hono-api-reference": "^0.9.19",
     "@trpc/server": "^11.5.0",
     "axios": "^1.11.0",
@@ -37,7 +35,9 @@
     "hono": "^4.9.2",
     "superjson": "^2.2.2",
     "trpc-to-openapi": "^3.0.1",
-    "uuid": "^13.0.0"
+    "uuid": "^13.0.0",
+    "@prisma/backend": "workspace:*",
+    "@prisma/shared": "workspace:*"
   },
   "devDependencies": {
     "@better-auth/cli": "^1.3.24",

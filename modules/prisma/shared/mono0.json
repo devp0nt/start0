@@ -1,6 +1,6 @@
 {
   "name": "@prisma/shared",
-  "preset": ["sharedWithTsconfig", "cold"],
+  "preset": ["cold", "shared", "withTsconfig"],
   "tags": ["prisma"],
   "deps": [],
   "packageJson": {

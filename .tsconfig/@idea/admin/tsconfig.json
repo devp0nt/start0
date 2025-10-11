@@ -1,0 +1,60 @@
+{
+  "include": [
+    "../../../modules/idea/**/admin/**/*",
+    "../../../modules/idea/**/*.ad.ts",
+    "../../../modules/idea/**/*.ad.tsx",
+    "../../../modules/idea/**/*.fe.ts",
+    "../../../modules/idea/**/*.fe.tsx"
+  ],
+  "exclude": [
+    "../../../modules/idea/**/dist/**/*",
+    "../../../modules/idea/**/node_modules/**/*",
+    "../../../modules/idea/**/public/**/*"
+  ],
+  "compilerOptions": {
+    "rootDir": "../../../modules/idea",
+    "outDir": "./dist",
+    "declaration": true,
+    "declarationMap": true,
+    "composite": true,
+    "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@idea/admin/.tsbuildinfo"
+  },
+  "references": [
+    {
+      "path": "../../@admin/core/tsconfig.json"
+    },
+    {
+      "path": "../../@apps/base/tsconfig.json"
+    },
+    {
+      "path": "../shared/tsconfig.json"
+    },
+    {
+      "path": "../../@apps/base/tsconfig.json"
+    },
+    {
+      "path": "../../@backend/hono-router/tsconfig.json"
+    },
+    {
+      "path": "../../@appConfig/backend/tsconfig.json"
+    },
+    {
+      "path": "../../@backend/core/tsconfig.json"
+    },
+    {
+      "path": "../../@backend/base/tsconfig.json"
+    },
+    {
+      "path": "../../@backend/shared/tsconfig.json"
+    },
+    {
+      "path": "../../../modules/prisma/backend/tsconfig.json"
+    },
+    {
+      "path": "../../../modules/prisma/shared/tsconfig.json"
+    },
+    {
+      "path": "../../@backend/trpc-router/tsconfig.json"
+    }
+  ]
+}

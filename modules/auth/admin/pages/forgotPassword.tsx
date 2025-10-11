@@ -1,4 +1,4 @@
-import { appName } from '@apps/shared/general'
+import { appName } from '@apps/base/general'
 import { AuthPage } from '@refinedev/antd'
 
 export const ForgotPasswordPage = () => {

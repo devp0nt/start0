@@ -1,0 +1,21 @@
+{
+  "include": ["../../../apps/site/core/**/*"],
+  "exclude": [
+    "../../../apps/site/core/**/dist/**/*",
+    "../../../apps/site/core/**/node_modules/**/*",
+    "../../../apps/site/core/**/public/**/*"
+  ],
+  "compilerOptions": {
+    "rootDir": "../../../apps/site/core",
+    "outDir": "./dist",
+    "declaration": true,
+    "declarationMap": true,
+    "composite": true,
+    "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@site/core/.tsbuildinfo"
+  },
+  "references": [
+    {
+      "path": "../../@apps/base/tsconfig.json"
+    }
+  ]
+}

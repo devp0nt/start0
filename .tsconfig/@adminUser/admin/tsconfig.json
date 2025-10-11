@@ -1,0 +1,60 @@
+{
+  "include": [
+    "../../../modules/adminUser/**/admin/**/*",
+    "../../../modules/adminUser/**/*.ad.ts",
+    "../../../modules/adminUser/**/*.ad.tsx",
+    "../../../modules/adminUser/**/*.fe.ts",
+    "../../../modules/adminUser/**/*.fe.tsx"
+  ],
+  "exclude": [
+    "../../../modules/adminUser/**/dist/**/*",
+    "../../../modules/adminUser/**/node_modules/**/*",
+    "../../../modules/adminUser/**/public/**/*"
+  ],
+  "compilerOptions": {
+    "rootDir": "../../../modules/adminUser",
+    "outDir": "./dist",
+    "declaration": true,
+    "declarationMap": true,
+    "composite": true,
+    "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@adminUser/admin/.tsbuildinfo"
+  },
+  "references": [
+    {
+      "path": "../../@admin/core/tsconfig.json"
+    },
+    {
+      "path": "../shared/tsconfig.json"
+    },
+    {
+      "path": "../../@apps/base/tsconfig.json"
+    },
+    {
+      "path": "../../@apps/base/tsconfig.json"
+    },
+    {
+      "path": "../../@backend/hono-router/tsconfig.json"
+    },
+    {
+      "path": "../../@appConfig/backend/tsconfig.json"
+    },
+    {
+      "path": "../../@backend/core/tsconfig.json"
+    },
+    {
+      "path": "../../@backend/base/tsconfig.json"
+    },
+    {
+      "path": "../../@backend/shared/tsconfig.json"
+    },
+    {
+      "path": "../../../modules/prisma/backend/tsconfig.json"
+    },
+    {
+      "path": "../../../modules/prisma/shared/tsconfig.json"
+    },
+    {
+      "path": "../../@backend/trpc-router/tsconfig.json"
+    }
+  ]
+}

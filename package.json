@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "build": "tsc --build",
-    "build:clean": "rimraf ./node_modules/.cache/tsbuildinfo && rimraf **/dist",
+    "build:clean": "rimraf __PROJECT_ROOT_DIR_NOT_ASSIGNED_TO_PACKAGE_JSON__/node_modules/.cache/tsbuildinfo && rimraf **/dist",
     "watch": "concurrently \"bun run gen0 watch\" \"bun run mono0 watch\" --names 'gen0,mono0'",
     "watch:build": "tsc --build --watch --preserveWatchOutput",
     "watch:all": "concurrently \"bun run gen0 watch\" \"bun run mono0 watch\" \"bun run watch:build\" --names 'gen0,mono0,build'",

@@ -1,0 +1,48 @@
+{
+  "include": ["../../../apps/admin/core/**/*"],
+  "exclude": [
+    "../../../apps/admin/core/**/dist/**/*",
+    "../../../apps/admin/core/**/node_modules/**/*",
+    "../../../apps/admin/core/**/public/**/*"
+  ],
+  "compilerOptions": {
+    "rootDir": "../../../apps/admin/core",
+    "outDir": "./dist",
+    "declaration": true,
+    "declarationMap": true,
+    "composite": true,
+    "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@admin/core/.tsbuildinfo"
+  },
+  "references": [
+    {
+      "path": "../../@apps/base/tsconfig.json"
+    },
+    {
+      "path": "../../@backend/hono-router/tsconfig.json"
+    },
+    {
+      "path": "../../@backend/trpc-router/tsconfig.json"
+    },
+    {
+      "path": "../../@appConfig/backend/tsconfig.json"
+    },
+    {
+      "path": "../../@apps/base/tsconfig.json"
+    },
+    {
+      "path": "../../@backend/core/tsconfig.json"
+    },
+    {
+      "path": "../../@backend/base/tsconfig.json"
+    },
+    {
+      "path": "../../@backend/shared/tsconfig.json"
+    },
+    {
+      "path": "../../../modules/prisma/backend/tsconfig.json"
+    },
+    {
+      "path": "../../../modules/prisma/shared/tsconfig.json"
+    }
+  ]
+}

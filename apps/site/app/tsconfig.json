@@ -1,59 +1,47 @@
 {
-  "extends": "../tsconfig.site.json",
-  "include": [
-    "./**/*",
-    "../../../modules/adminUser/**/shared/**/*",
-    "../../../modules/adminUser/**/*.sh.ts",
-    "../../../modules/adminUser/**/*.sh.tsx",
-    "../../../modules/adminUser/**/site/**/*",
-    "../../../modules/adminUser/**/*.si.ts",
-    "../../../modules/adminUser/**/*.si.tsx",
-    "../../../modules/adminUser/**/*.fe.ts",
-    "../../../modules/adminUser/**/*.fe.tsx",
-    "../../../modules/appConfig/**/site/**/*",
-    "../../../modules/appConfig/**/*.si.ts",
-    "../../../modules/appConfig/**/*.si.tsx",
-    "../../../modules/appConfig/**/*.fe.ts",
-    "../../../modules/appConfig/**/*.fe.tsx",
-    "../../shared/**/*",
-    "../../../modules/auth/shared/**/*",
-    "../../../modules/auth/site/**/*",
-    "../../../modules/idea/**/shared/**/*",
-    "../../../modules/idea/**/*.sh.ts",
-    "../../../modules/idea/**/*.sh.tsx",
-    "../../../modules/idea/**/site/**/*",
-    "../../../modules/idea/**/*.si.ts",
-    "../../../modules/idea/**/*.si.tsx",
-    "../../../modules/idea/**/*.fe.ts",
-    "../../../modules/idea/**/*.fe.tsx",
-    "../core/**/*"
-  ],
-  "exclude": [
-    "./**/dist/**/*",
-    "./**/node_modules/**/*",
-    "./**/public/**/*",
-    "../../../modules/adminUser/**/dist/**/*",
-    "../../../modules/adminUser/**/node_modules/**/*",
-    "../../../modules/adminUser/**/public/**/*",
-    "../../../modules/appConfig/**/dist/**/*",
-    "../../../modules/appConfig/**/node_modules/**/*",
-    "../../../modules/appConfig/**/public/**/*",
-    "../../shared/**/dist/**/*",
-    "../../shared/**/node_modules/**/*",
-    "../../shared/**/public/**/*",
-    "../../../modules/auth/**/dist/**/*",
-    "../../../modules/auth/**/node_modules/**/*",
-    "../../../modules/auth/**/public/**/*",
-    "../../../modules/idea/**/dist/**/*",
-    "../../../modules/idea/**/node_modules/**/*",
-    "../../../modules/idea/**/public/**/*",
-    "../core/**/dist/**/*",
-    "../core/**/node_modules/**/*",
-    "../core/**/public/**/*"
-  ],
+  "include": ["./**/*"],
+  "exclude": ["./**/dist/**/*", "./**/node_modules/**/*", "./**/public/**/*"],
   "compilerOptions": {
-    "rootDir": "../../..",
-    "outDir": "./dist"
+    "rootDir": "./",
+    "outDir": "./dist",
+    "declaration": false,
+    "declarationMap": false,
+    "composite": false,
+    "tsBuildInfoFile": null
   },
-  "references": []
+  "references": [
+    {
+      "path": "../../../.tsconfig/@adminUser/site/tsconfig.json"
+    },
+    {
+      "path": "../../../.tsconfig/@appConfig/site/tsconfig.json"
+    },
+    {
+      "path": "../../../.tsconfig/@apps/base/tsconfig.json"
+    },
+    {
+      "path": "../../../.tsconfig/@auth/site/tsconfig.json"
+    },
+    {
+      "path": "../../../.tsconfig/@idea/site/tsconfig.json"
+    },
+    {
+      "path": "../../../.tsconfig/@site/core/tsconfig.json"
+    },
+    {
+      "path": "../../../.tsconfig/@adminUser/shared/tsconfig.json"
+    },
+    {
+      "path": "../../../.tsconfig/@apps/base/tsconfig.json"
+    },
+    {
+      "path": "../../../.tsconfig/@site/core/tsconfig.json"
+    },
+    {
+      "path": "../../../.tsconfig/@auth/shared/tsconfig.json"
+    },
+    {
+      "path": "../../../.tsconfig/@idea/shared/tsconfig.json"
+    }
+  ]
 }

@@ -1,4 +1,4 @@
-import { appName } from '@apps/shared/general'
+import { appName } from '@apps/base/general'
 import { getAuthCtxByHonoCtx } from '@auth/backend/utils'
 import type { Permissions } from '@auth/shared/permissions'
 import type { BackendCtx } from '@backend/core/ctx'

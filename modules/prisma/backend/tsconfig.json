@@ -1,33 +1,8 @@
 {
-  "extends": "../../../apps/backend/tsconfig.backend.json",
-  "include": [
-    "./src/**/*",
-    "../../../apps/shared/**/*",
-    "../../auth/shared/**/*",
-    "../../../apps/backend/base/**/*",
-    "../../idea/**/shared/**/*",
-    "../../idea/**/*.sh.ts",
-    "../../idea/**/*.sh.tsx"
-  ],
-  "exclude": [
-    "./**/dist/**/*",
-    "./**/node_modules/**/*",
-    "./**/public/**/*",
-    "../../../apps/shared/**/dist/**/*",
-    "../../../apps/shared/**/node_modules/**/*",
-    "../../../apps/shared/**/public/**/*",
-    "../../auth/**/dist/**/*",
-    "../../auth/**/node_modules/**/*",
-    "../../auth/**/public/**/*",
-    "../../../apps/backend/base/**/dist/**/*",
-    "../../../apps/backend/base/**/node_modules/**/*",
-    "../../../apps/backend/base/**/public/**/*",
-    "../../idea/**/dist/**/*",
-    "../../idea/**/node_modules/**/*",
-    "../../idea/**/public/**/*"
-  ],
+  "include": ["./src/**/*"],
+  "exclude": ["./**/dist/**/*", "./**/node_modules/**/*", "./**/public/**/*"],
   "compilerOptions": {
-    "rootDir": "../../..",
+    "rootDir": "./src",
     "outDir": "./dist",
     "declaration": true,
     "declarationMap": true,
@@ -36,7 +11,16 @@
   },
   "references": [
     {
+      "path": "../../../.tsconfig/@apps/base/tsconfig.json"
+    },
+    {
+      "path": "../../../.tsconfig/@backend/base/tsconfig.json"
+    },
+    {
       "path": "../shared/tsconfig.json"
+    },
+    {
+      "path": "../../../.tsconfig/@apps/base/tsconfig.json"
     }
   ]
 }

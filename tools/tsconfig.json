@@ -1,17 +1,17 @@
 {
-  "extends": "./tsconfig.tools.json",
-  "include": ["./src/**/*", "../apps/shared/**/*"],
-  "exclude": [
-    "./**/dist/**/*",
-    "./**/node_modules/**/*",
-    "./**/public/**/*",
-    "../apps/shared/**/dist/**/*",
-    "../apps/shared/**/node_modules/**/*",
-    "../apps/shared/**/public/**/*"
-  ],
+  "include": ["./src/**/*"],
+  "exclude": ["./**/dist/**/*", "./**/node_modules/**/*", "./**/public/**/*"],
   "compilerOptions": {
-    "rootDir": "./..",
-    "outDir": "./dist"
+    "rootDir": "./src",
+    "outDir": "./dist",
+    "declaration": false,
+    "declarationMap": false,
+    "composite": false,
+    "tsBuildInfoFile": null
   },
-  "references": []
+  "references": [
+    {
+      "path": "../.tsconfig/@apps/base/tsconfig.json"
+    }
+  ]
 }

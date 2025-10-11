@@ -13,7 +13,7 @@
       "@appConfig/backend/*": ["./modules/appConfig/*"],
       "@appConfig/shared/*": ["./modules/appConfig/*"],
       "@appConfig/site/*": ["./modules/appConfig/*"],
-      "@apps/shared/*": ["./apps/shared/*"],
+      "@apps/base/*": ["./apps/base/*"],
       "@auth/admin/*": ["./modules/auth/admin/*"],
       "@auth/backend/*": ["./modules/auth/backend/*"],
       "@auth/shared/*": ["./modules/auth/shared/*"],

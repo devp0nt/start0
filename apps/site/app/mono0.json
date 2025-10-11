@@ -1,6 +1,6 @@
 {
   "name": "@site/app",
-  "preset": ["app", "siteWithTsconfig"],
+  "preset": ["app", "site"],
   "deps": ["@site/core", "#siteModule"],
   "tsconfig": {
     "value": {}

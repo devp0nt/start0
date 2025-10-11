@@ -1,0 +1,30 @@
+{
+  "include": ["../../../modules/auth/site/**/*"],
+  "exclude": [
+    "../../../modules/auth/**/dist/**/*",
+    "../../../modules/auth/**/node_modules/**/*",
+    "../../../modules/auth/**/public/**/*"
+  ],
+  "compilerOptions": {
+    "rootDir": "../../../modules/auth",
+    "outDir": "./dist",
+    "declaration": true,
+    "declarationMap": true,
+    "composite": true,
+    "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@auth/site/.tsbuildinfo"
+  },
+  "references": [
+    {
+      "path": "../../@apps/base/tsconfig.json"
+    },
+    {
+      "path": "../shared/tsconfig.json"
+    },
+    {
+      "path": "../../@site/core/tsconfig.json"
+    },
+    {
+      "path": "../../@apps/base/tsconfig.json"
+    }
+  ]
+}

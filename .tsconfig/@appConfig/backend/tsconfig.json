@@ -1,0 +1,43 @@
+{
+  "include": [
+    "../../../modules/appConfig/**/backend/**/*",
+    "../../../modules/appConfig/**/*.be.ts",
+    "../../../modules/appConfig/**/*.be.tsx"
+  ],
+  "exclude": [
+    "../../../modules/appConfig/**/dist/**/*",
+    "../../../modules/appConfig/**/node_modules/**/*",
+    "../../../modules/appConfig/**/public/**/*"
+  ],
+  "compilerOptions": {
+    "rootDir": "../../../modules/appConfig",
+    "outDir": "./dist",
+    "declaration": true,
+    "declarationMap": true,
+    "composite": true,
+    "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@appConfig/backend/.tsbuildinfo"
+  },
+  "references": [
+    {
+      "path": "../../@apps/base/tsconfig.json"
+    },
+    {
+      "path": "../../@backend/core/tsconfig.json"
+    },
+    {
+      "path": "../../@apps/base/tsconfig.json"
+    },
+    {
+      "path": "../../@backend/base/tsconfig.json"
+    },
+    {
+      "path": "../../@backend/shared/tsconfig.json"
+    },
+    {
+      "path": "../../../modules/prisma/backend/tsconfig.json"
+    },
+    {
+      "path": "../../../modules/prisma/shared/tsconfig.json"
+    }
+  ]
+}

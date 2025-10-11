@@ -1,5 +1,5 @@
 {
   "name": "@backend/core",
-  "preset": "backend",
+  "preset": ["backend", "backendCoreModule"],
   "deps": ["@prisma/backend", "@prisma/shared", "@backend/shared", "@backend/base"]
 }

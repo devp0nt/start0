@@ -1,0 +1,25 @@
+{
+  "include": [
+    "../../../modules/idea/**/shared/**/*",
+    "../../../modules/idea/**/*.sh.ts",
+    "../../../modules/idea/**/*.sh.tsx"
+  ],
+  "exclude": [
+    "../../../modules/idea/**/dist/**/*",
+    "../../../modules/idea/**/node_modules/**/*",
+    "../../../modules/idea/**/public/**/*"
+  ],
+  "compilerOptions": {
+    "rootDir": "../../../modules/idea",
+    "outDir": "./dist",
+    "declaration": true,
+    "declarationMap": true,
+    "composite": true,
+    "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@idea/shared/.tsbuildinfo"
+  },
+  "references": [
+    {
+      "path": "../../@apps/base/tsconfig.json"
+    }
+  ]
+}

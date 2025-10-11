@@ -18,8 +18,6 @@
     "@devp0nt/react-query-hono-client": "^1.0.0-next.3",
     "@devp0nt/refine0": "^1.0.0-next.8",
     "@iconify/react": "^6.0.2",
-    "@prisma/backend": "workspace:*",
-    "@prisma/shared": "workspace:*",
     "@refinedev/antd": "^6.0.1",
     "@refinedev/cli": "^2.16.48",
     "@refinedev/core": "^5.0.0",
@@ -37,7 +35,9 @@
     "react-dom": "19.2.0",
     "superjson": "^2.2.2",
     "use-context-selector": "^2.0.0",
-    "zustand": "^5.0.8"
+    "zustand": "^5.0.8",
+    "@prisma/backend": "workspace:*",
+    "@prisma/shared": "workspace:*"
   },
   "devDependencies": {
     "@types/qs": "^6.14.0",

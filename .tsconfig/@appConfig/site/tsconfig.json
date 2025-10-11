@@ -1,0 +1,33 @@
+{
+  "include": [
+    "../../../modules/appConfig/**/site/**/*",
+    "../../../modules/appConfig/**/*.si.ts",
+    "../../../modules/appConfig/**/*.si.tsx",
+    "../../../modules/appConfig/**/*.fe.ts",
+    "../../../modules/appConfig/**/*.fe.tsx"
+  ],
+  "exclude": [
+    "../../../modules/appConfig/**/dist/**/*",
+    "../../../modules/appConfig/**/node_modules/**/*",
+    "../../../modules/appConfig/**/public/**/*"
+  ],
+  "compilerOptions": {
+    "rootDir": "../../../modules/appConfig",
+    "outDir": "./dist",
+    "declaration": true,
+    "declarationMap": true,
+    "composite": true,
+    "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@appConfig/site/.tsbuildinfo"
+  },
+  "references": [
+    {
+      "path": "../../@apps/base/tsconfig.json"
+    },
+    {
+      "path": "../../@site/core/tsconfig.json"
+    },
+    {
+      "path": "../../@apps/base/tsconfig.json"
+    }
+  ]
+}

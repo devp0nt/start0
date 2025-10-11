@@ -1,89 +1,71 @@
 {
-  "extends": "../tsconfig.admin.json",
-  "include": [
-    "./src/**/*",
-    "../core/**/*",
-    "../../../modules/adminUser/**/admin/**/*",
-    "../../../modules/adminUser/**/*.ad.ts",
-    "../../../modules/adminUser/**/*.ad.tsx",
-    "../../../modules/adminUser/**/*.fe.ts",
-    "../../../modules/adminUser/**/*.fe.tsx",
-    "../../../modules/adminUser/**/shared/**/*",
-    "../../../modules/adminUser/**/*.sh.ts",
-    "../../../modules/adminUser/**/*.sh.tsx",
-    "../../../modules/appConfig/**/admin/**/*",
-    "../../../modules/appConfig/**/*.ad.ts",
-    "../../../modules/appConfig/**/*.ad.tsx",
-    "../../../modules/appConfig/**/*.fe.ts",
-    "../../../modules/appConfig/**/*.fe.tsx",
-    "../../../modules/appConfig/**/backend/**/*",
-    "../../../modules/appConfig/**/*.be.ts",
-    "../../../modules/appConfig/**/*.be.tsx",
-    "../../shared/**/*",
-    "../../../modules/auth/admin/**/*",
-    "../../../modules/auth/shared/**/*",
-    "../../backend/base/**/*",
-    "../../backend/core/**/*",
-    "../../backend/router/hono/**/*",
-    "../../backend/shared/**/*",
-    "../../backend/router/trpc/**/*",
-    "../../../modules/idea/**/admin/**/*",
-    "../../../modules/idea/**/*.ad.ts",
-    "../../../modules/idea/**/*.ad.tsx",
-    "../../../modules/idea/**/*.fe.ts",
-    "../../../modules/idea/**/*.fe.tsx",
-    "../../../modules/idea/**/shared/**/*",
-    "../../../modules/idea/**/*.sh.ts",
-    "../../../modules/idea/**/*.sh.tsx"
-  ],
-  "exclude": [
-    "./**/dist/**/*",
-    "./**/node_modules/**/*",
-    "./**/public/**/*",
-    "../core/**/dist/**/*",
-    "../core/**/node_modules/**/*",
-    "../core/**/public/**/*",
-    "../../../modules/adminUser/**/dist/**/*",
-    "../../../modules/adminUser/**/node_modules/**/*",
-    "../../../modules/adminUser/**/public/**/*",
-    "../../../modules/appConfig/**/dist/**/*",
-    "../../../modules/appConfig/**/node_modules/**/*",
-    "../../../modules/appConfig/**/public/**/*",
-    "../../shared/**/dist/**/*",
-    "../../shared/**/node_modules/**/*",
-    "../../shared/**/public/**/*",
-    "../../../modules/auth/**/dist/**/*",
-    "../../../modules/auth/**/node_modules/**/*",
-    "../../../modules/auth/**/public/**/*",
-    "../../backend/base/**/dist/**/*",
-    "../../backend/base/**/node_modules/**/*",
-    "../../backend/base/**/public/**/*",
-    "../../backend/core/**/dist/**/*",
-    "../../backend/core/**/node_modules/**/*",
-    "../../backend/core/**/public/**/*",
-    "../../backend/router/hono/**/dist/**/*",
-    "../../backend/router/hono/**/node_modules/**/*",
-    "../../backend/router/hono/**/public/**/*",
-    "../../backend/shared/**/dist/**/*",
-    "../../backend/shared/**/node_modules/**/*",
-    "../../backend/shared/**/public/**/*",
-    "../../backend/router/trpc/**/dist/**/*",
-    "../../backend/router/trpc/**/node_modules/**/*",
-    "../../backend/router/trpc/**/public/**/*",
-    "../../../modules/idea/**/dist/**/*",
-    "../../../modules/idea/**/node_modules/**/*",
-    "../../../modules/idea/**/public/**/*"
-  ],
+  "include": ["./src/**/*"],
+  "exclude": ["./**/dist/**/*", "./**/node_modules/**/*", "./**/public/**/*"],
   "compilerOptions": {
-    "rootDir": "../../..",
-    "outDir": "./dist"
+    "rootDir": "./src",
+    "outDir": "./dist",
+    "declaration": false,
+    "declarationMap": false,
+    "composite": false,
+    "tsBuildInfoFile": null
   },
   "references": [
+    {
+      "path": "../../../.tsconfig/@admin/core/tsconfig.json"
+    },
+    {
+      "path": "../../../.tsconfig/@adminUser/admin/tsconfig.json"
+    },
+    {
+      "path": "../../../.tsconfig/@appConfig/admin/tsconfig.json"
+    },
+    {
+      "path": "../../../.tsconfig/@apps/base/tsconfig.json"
+    },
+    {
+      "path": "../../../.tsconfig/@auth/admin/tsconfig.json"
+    },
+    {
+      "path": "../../../.tsconfig/@idea/admin/tsconfig.json"
+    },
+    {
+      "path": "../../../.tsconfig/@apps/base/tsconfig.json"
+    },
+    {
+      "path": "../../../.tsconfig/@backend/hono-router/tsconfig.json"
+    },
+    {
+      "path": "../../../.tsconfig/@appConfig/backend/tsconfig.json"
+    },
+    {
+      "path": "../../../.tsconfig/@backend/core/tsconfig.json"
+    },
+    {
+      "path": "../../../.tsconfig/@backend/base/tsconfig.json"
+    },
+    {
+      "path": "../../../.tsconfig/@backend/shared/tsconfig.json"
+    },
     {
       "path": "../../../modules/prisma/backend/tsconfig.json"
     },
     {
       "path": "../../../modules/prisma/shared/tsconfig.json"
+    },
+    {
+      "path": "../../../.tsconfig/@backend/trpc-router/tsconfig.json"
+    },
+    {
+      "path": "../../../.tsconfig/@admin/core/tsconfig.json"
+    },
+    {
+      "path": "../../../.tsconfig/@adminUser/shared/tsconfig.json"
+    },
+    {
+      "path": "../../../.tsconfig/@auth/shared/tsconfig.json"
+    },
+    {
+      "path": "../../../.tsconfig/@idea/shared/tsconfig.json"
     }
   ]
 }

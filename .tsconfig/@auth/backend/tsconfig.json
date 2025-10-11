@@ -1,0 +1,42 @@
+{
+  "include": ["../../../modules/auth/backend/**/*"],
+  "exclude": [
+    "../../../modules/auth/**/dist/**/*",
+    "../../../modules/auth/**/node_modules/**/*",
+    "../../../modules/auth/**/public/**/*"
+  ],
+  "compilerOptions": {
+    "rootDir": "../../../modules/auth/backend",
+    "outDir": "./dist",
+    "declaration": true,
+    "declarationMap": true,
+    "composite": true,
+    "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@auth/backend/.tsbuildinfo"
+  },
+  "references": [
+    {
+      "path": "../../@apps/base/tsconfig.json"
+    },
+    {
+      "path": "../shared/tsconfig.json"
+    },
+    {
+      "path": "../../@backend/core/tsconfig.json"
+    },
+    {
+      "path": "../../@apps/base/tsconfig.json"
+    },
+    {
+      "path": "../../@backend/base/tsconfig.json"
+    },
+    {
+      "path": "../../@backend/shared/tsconfig.json"
+    },
+    {
+      "path": "../../../modules/prisma/backend/tsconfig.json"
+    },
+    {
+      "path": "../../../modules/prisma/shared/tsconfig.json"
+    }
+  ]
+}

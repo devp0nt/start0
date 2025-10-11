@@ -1,0 +1,5 @@
+{
+  "name": "@apps/base",
+  "preset": ["shared", "withHiddenTsconfig"],
+  "deps": []
+}

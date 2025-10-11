@@ -1,0 +1,17 @@
+{
+  "include": ["../../../apps/base/**/*"],
+  "exclude": [
+    "../../../apps/base/**/dist/**/*",
+    "../../../apps/base/**/node_modules/**/*",
+    "../../../apps/base/**/public/**/*"
+  ],
+  "compilerOptions": {
+    "rootDir": "../../../apps/base",
+    "outDir": "./dist",
+    "declaration": true,
+    "declarationMap": true,
+    "composite": true,
+    "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@apps/base/.tsbuildinfo"
+  },
+  "references": []
+}

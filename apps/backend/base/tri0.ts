@@ -1,4 +1,4 @@
-import { appSlug } from '@apps/shared/general'
+import { appSlug } from '@apps/base/general'
 import { env } from '@backend/base/env.runtime'
 import { Error0 } from '@devp0nt/error0'
 import { Logger0 } from '@devp0nt/logger0'

@@ -1,0 +1,45 @@
+{
+  "include": ["../../../apps/backend/router/hono/**/*"],
+  "exclude": [
+    "../../../apps/backend/router/hono/**/dist/**/*",
+    "../../../apps/backend/router/hono/**/node_modules/**/*",
+    "../../../apps/backend/router/hono/**/public/**/*"
+  ],
+  "compilerOptions": {
+    "rootDir": "../../../apps/backend/router/hono",
+    "outDir": "./dist",
+    "declaration": true,
+    "declarationMap": true,
+    "composite": true,
+    "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@backend/hono-router/.tsbuildinfo"
+  },
+  "references": [
+    {
+      "path": "../../@appConfig/backend/tsconfig.json"
+    },
+    {
+      "path": "../../@apps/base/tsconfig.json"
+    },
+    {
+      "path": "../core/tsconfig.json"
+    },
+    {
+      "path": "../../@apps/base/tsconfig.json"
+    },
+    {
+      "path": "../core/tsconfig.json"
+    },
+    {
+      "path": "../base/tsconfig.json"
+    },
+    {
+      "path": "../shared/tsconfig.json"
+    },
+    {
+      "path": "../../../modules/prisma/backend/tsconfig.json"
+    },
+    {
+      "path": "../../../modules/prisma/shared/tsconfig.json"
+    }
+  ]
+}

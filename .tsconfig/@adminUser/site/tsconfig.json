@@ -1,0 +1,36 @@
+{
+  "include": [
+    "../../../modules/adminUser/**/site/**/*",
+    "../../../modules/adminUser/**/*.si.ts",
+    "../../../modules/adminUser/**/*.si.tsx",
+    "../../../modules/adminUser/**/*.fe.ts",
+    "../../../modules/adminUser/**/*.fe.tsx"
+  ],
+  "exclude": [
+    "../../../modules/adminUser/**/dist/**/*",
+    "../../../modules/adminUser/**/node_modules/**/*",
+    "../../../modules/adminUser/**/public/**/*"
+  ],
+  "compilerOptions": {
+    "rootDir": "../../../modules/adminUser",
+    "outDir": "./dist",
+    "declaration": true,
+    "declarationMap": true,
+    "composite": true,
+    "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@adminUser/site/.tsbuildinfo"
+  },
+  "references": [
+    {
+      "path": "../shared/tsconfig.json"
+    },
+    {
+      "path": "../../@apps/base/tsconfig.json"
+    },
+    {
+      "path": "../../@site/core/tsconfig.json"
+    },
+    {
+      "path": "../../@apps/base/tsconfig.json"
+    }
+  ]
+}

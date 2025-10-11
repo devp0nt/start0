@@ -1,0 +1,45 @@
+{
+  "include": ["../../../apps/backend/router/trpc/**/*"],
+  "exclude": [
+    "../../../apps/backend/router/trpc/**/dist/**/*",
+    "../../../apps/backend/router/trpc/**/node_modules/**/*",
+    "../../../apps/backend/router/trpc/**/public/**/*"
+  ],
+  "compilerOptions": {
+    "rootDir": "../../../apps/backend/router/trpc",
+    "outDir": "./dist",
+    "declaration": true,
+    "declarationMap": true,
+    "composite": true,
+    "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@backend/trpc-router/.tsbuildinfo"
+  },
+  "references": [
+    {
+      "path": "../../@appConfig/backend/tsconfig.json"
+    },
+    {
+      "path": "../../@apps/base/tsconfig.json"
+    },
+    {
+      "path": "../core/tsconfig.json"
+    },
+    {
+      "path": "../../@apps/base/tsconfig.json"
+    },
+    {
+      "path": "../core/tsconfig.json"
+    },
+    {
+      "path": "../base/tsconfig.json"
+    },
+    {
+      "path": "../shared/tsconfig.json"
+    },
+    {
+      "path": "../../../modules/prisma/backend/tsconfig.json"
+    },
+    {
+      "path": "../../../modules/prisma/shared/tsconfig.json"
+    }
+  ]
+}

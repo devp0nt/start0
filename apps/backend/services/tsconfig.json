@@ -1,76 +1,68 @@
 {
-  "extends": "../tsconfig.backend.json",
-  "include": [
-    "./src/**/*",
-    "../../../modules/adminUser/**/backend/**/*",
-    "../../../modules/adminUser/**/*.be.ts",
-    "../../../modules/adminUser/**/*.be.tsx",
-    "../../../modules/adminUser/**/shared/**/*",
-    "../../../modules/adminUser/**/*.sh.ts",
-    "../../../modules/adminUser/**/*.sh.tsx",
-    "../../../modules/appConfig/**/backend/**/*",
-    "../../../modules/appConfig/**/*.be.ts",
-    "../../../modules/appConfig/**/*.be.tsx",
-    "../../shared/**/*",
-    "../../../modules/auth/backend/**/*",
-    "../../../modules/auth/shared/**/*",
-    "../base/**/*",
-    "../core/**/*",
-    "../router/hono/**/*",
-    "../shared/**/*",
-    "../router/trpc/**/*",
-    "../../../modules/idea/**/backend/**/*",
-    "../../../modules/idea/**/*.be.ts",
-    "../../../modules/idea/**/*.be.tsx",
-    "../../../modules/idea/**/shared/**/*",
-    "../../../modules/idea/**/*.sh.ts",
-    "../../../modules/idea/**/*.sh.tsx"
-  ],
-  "exclude": [
-    "./**/dist/**/*",
-    "./**/node_modules/**/*",
-    "./**/public/**/*",
-    "../../../modules/adminUser/**/dist/**/*",
-    "../../../modules/adminUser/**/node_modules/**/*",
-    "../../../modules/adminUser/**/public/**/*",
-    "../../../modules/appConfig/**/dist/**/*",
-    "../../../modules/appConfig/**/node_modules/**/*",
-    "../../../modules/appConfig/**/public/**/*",
-    "../../shared/**/dist/**/*",
-    "../../shared/**/node_modules/**/*",
-    "../../shared/**/public/**/*",
-    "../../../modules/auth/**/dist/**/*",
-    "../../../modules/auth/**/node_modules/**/*",
-    "../../../modules/auth/**/public/**/*",
-    "../base/**/dist/**/*",
-    "../base/**/node_modules/**/*",
-    "../base/**/public/**/*",
-    "../core/**/dist/**/*",
-    "../core/**/node_modules/**/*",
-    "../core/**/public/**/*",
-    "../router/hono/**/dist/**/*",
-    "../router/hono/**/node_modules/**/*",
-    "../router/hono/**/public/**/*",
-    "../shared/**/dist/**/*",
-    "../shared/**/node_modules/**/*",
-    "../shared/**/public/**/*",
-    "../router/trpc/**/dist/**/*",
-    "../router/trpc/**/node_modules/**/*",
-    "../router/trpc/**/public/**/*",
-    "../../../modules/idea/**/dist/**/*",
-    "../../../modules/idea/**/node_modules/**/*",
-    "../../../modules/idea/**/public/**/*"
-  ],
+  "include": ["./src/**/*"],
+  "exclude": ["./**/dist/**/*", "./**/node_modules/**/*", "./**/public/**/*"],
   "compilerOptions": {
-    "rootDir": "../../..",
-    "outDir": "./dist"
+    "rootDir": "./src",
+    "outDir": "./dist",
+    "declaration": false,
+    "declarationMap": false,
+    "composite": false,
+    "tsBuildInfoFile": null
   },
   "references": [
+    {
+      "path": "../../../.tsconfig/@adminUser/backend/tsconfig.json"
+    },
+    {
+      "path": "../../../.tsconfig/@appConfig/backend/tsconfig.json"
+    },
+    {
+      "path": "../../../.tsconfig/@apps/base/tsconfig.json"
+    },
+    {
+      "path": "../../../.tsconfig/@auth/backend/tsconfig.json"
+    },
+    {
+      "path": "../../../.tsconfig/@backend/core/tsconfig.json"
+    },
+    {
+      "path": "../../../.tsconfig/@backend/hono-router/tsconfig.json"
+    },
+    {
+      "path": "../../../.tsconfig/@backend/trpc-router/tsconfig.json"
+    },
+    {
+      "path": "../../../.tsconfig/@idea/backend/tsconfig.json"
+    },
+    {
+      "path": "../../../.tsconfig/@adminUser/shared/tsconfig.json"
+    },
+    {
+      "path": "../../../.tsconfig/@apps/base/tsconfig.json"
+    },
+    {
+      "path": "../../../.tsconfig/@backend/core/tsconfig.json"
+    },
+    {
+      "path": "../../../.tsconfig/@backend/base/tsconfig.json"
+    },
+    {
+      "path": "../../../.tsconfig/@backend/shared/tsconfig.json"
+    },
     {
       "path": "../../../modules/prisma/backend/tsconfig.json"
     },
     {
       "path": "../../../modules/prisma/shared/tsconfig.json"
+    },
+    {
+      "path": "../../../.tsconfig/@auth/shared/tsconfig.json"
+    },
+    {
+      "path": "../../../.tsconfig/@appConfig/backend/tsconfig.json"
+    },
+    {
+      "path": "../../../.tsconfig/@idea/shared/tsconfig.json"
     }
   ]
 }

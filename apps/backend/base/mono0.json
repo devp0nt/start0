@@ -1,5 +1,5 @@
 {
   "name": "@backend/base",
-  "preset": "backend",
-  "deps": ["@apps/shared"]
+  "preset": ["backend", "withHiddenTsconfig"],
+  "deps": ["@apps/base"]
 }

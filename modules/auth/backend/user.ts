@@ -1,4 +1,4 @@
-import { omit, parseZod } from '@apps/shared/utils'
+import { omit, parseZod } from '@apps/base/utils'
 import { withFinalPermissions } from '@auth/shared/permissions'
 import {
   zAdminClientAdmin,

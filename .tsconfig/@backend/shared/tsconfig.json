@@ -1,0 +1,21 @@
+{
+  "include": ["../../../apps/backend/shared/**/*"],
+  "exclude": [
+    "../../../apps/backend/shared/**/dist/**/*",
+    "../../../apps/backend/shared/**/node_modules/**/*",
+    "../../../apps/backend/shared/**/public/**/*"
+  ],
+  "compilerOptions": {
+    "rootDir": "../../../apps/backend/shared",
+    "outDir": "./dist",
+    "declaration": true,
+    "declarationMap": true,
+    "composite": true,
+    "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@backend/shared/.tsbuildinfo"
+  },
+  "references": [
+    {
+      "path": "../../@apps/base/tsconfig.json"
+    }
+  ]
+}

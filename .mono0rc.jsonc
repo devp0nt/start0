@@ -181,15 +181,7 @@
       "include": true,
       "srcIndexFile": true,
       "exclude": ["$exclude"],
-      "deps": ["@apps/shared"],
-      "tsconfigs": {
-        "core": {
-          "value": null
-        }
-      },
-      "packageJson": {
-        "value": null
-      }
+      "deps": ["@apps/base"]
     },
     "withTsconfig": {
       "distDir": "./dist",
@@ -204,16 +196,24 @@
             "addUnitIncludeToInclude": "whenNotProvided",
             "addUnitExcludeToExclude": "whenNotProvided",
             "addUnitsAsReferences": { "scope": "depsAndDeepDeps", "tsconfig": "$core" }
+          },
+          "value": {
+            "compilerOptions": {
+              "composite": true,
+              "declaration": true,
+              "declarationMap": true,
+              "tsBuildInfoFile": "~/node_modules/.cache/tsbuildinfo/{{unitName}}/.tsbuildinfo"
+            }
           }
         }
       }
     },
     "withHiddenTsconfig": {
       "preset": ["withTsconfig"],
-      "distDir": "~/.tsconfig/{{unitDir}}/dist",
+      "distDir": "~/.tsconfig/{{unitName}}/dist",
       "tsconfigs": {
         "core": {
-          "path": "~/.tsconfig/{{unitDir}}/tsconfig.json"
+          "path": "~/.tsconfig/{{unitName}}/tsconfig.json"
         }
       }
     },
@@ -231,10 +231,10 @@
           "type": "module",
           "scripts": {
             "types": "tsc --noEmit",
-            "lint": "eslint --cache --cache-location {{projectRootDir}}/node_modules/.cache/eslint/{{name}}/.eslintcache .",
+            "lint": "eslint --cache --cache-location {{projectRootDir}}/node_modules/.cache/eslint/{{unitName}}/.eslintcache .",
             "build": "tsc --build",
             "watch": "tsc --watch",
-            "clean": "rimraf {{projectRootDir}}/node_modules/.cache/tsbuildinfo/{{name}} && rimraf {{distDir}}"
+            "clean": "rimraf {{projectRootDir}}/node_modules/.cache/tsbuildinfo/{{unitName}} && rimraf {{distDir}}"
           }
         }
       }
@@ -246,6 +246,18 @@
         "settings": {
           "addExportsFromDist": false,
           "addExportsFromSrc": false
+        }
+      },
+      "tsconfigs": {
+        "core": {
+          "value": {
+            "compilerOptions": {
+              "composite": false,
+              "declaration": false,
+              "declarationMap": false,
+              "tsBuildInfoFile": null
+            }
+          }
         }
       }
     },
@@ -259,27 +271,24 @@
       },
       "tsconfigs": {
         "core": {
-          "value": {
-            "compilerOptions": {
-              "composite": true,
-              "declaration": true,
-              "declarationMap": true,
-              "tsBuildInfoFile": "~/node_modules/.cache/tsbuildinfo/{{name}}/.tsbuildinfo"
-            }
-          }
+          "value": {}
         }
       }
+    },
+    "module": {
+      "preset": ["withHiddenTsconfig"],
+      "tags": ["module"]
     },
     "shared": {
       "tags": ["shared"]
     },
     "sharedModule": {
-      "preset": ["shared"],
+      "preset": ["module", "shared"],
       "tags": ["sharedModule"],
       "deps": ["#sharedCoreModule"]
     },
     "sharedCoreModule": {
-      "preset": ["shared"],
+      "preset": ["module", "shared"],
       "tags": ["sharedCoreModule"],
       "deps": []
     },
@@ -292,24 +301,16 @@
       "preset": ["shared"],
       "srcDir": "shared"
     },
-    "sharedWithTsconfig": {
-      "preset": ["withTsconfig", "shared"],
-      "tsconfig": {
-        "value": {
-          "extends": "$shared"
-        }
-      }
-    },
     "backend": {
       "tags": ["backend"]
     },
     "backendModule": {
-      "preset": ["backend"],
+      "preset": ["module", "backend"],
       "tags": ["backendModule"],
       "deps": ["@backend/core", "#backendCoreModule"]
     },
     "backendCoreModule": {
-      "preset": ["backend"],
+      "preset": ["module", "backend"],
       "tags": ["backendCoreModule"],
       "deps": ["@backend/core"]
     },
@@ -322,24 +323,16 @@
       "preset": ["backend"],
       "srcDir": "backend"
     },
-    "backendWithTsconfig": {
-      "preset": ["withTsconfig", "backend"],
-      "tsconfig": {
-        "value": {
-          "extends": "$backend"
-        }
-      }
-    },
     "site": {
       "tags": ["site"]
     },
     "siteModule": {
-      "preset": ["site"],
+      "preset": ["module", "site"],
       "tags": ["siteModule"],
       "deps": ["@site/core", "#siteCoreModule"]
     },
     "siteCoreModule": {
-      "preset": ["site"],
+      "preset": ["module", "site"],
       "tags": ["siteCoreModule"],
       "deps": ["@site/core"]
     },
@@ -355,24 +348,16 @@
       "preset": ["site"],
       "srcDir": "site"
     },
-    "siteWithTsconfig": {
-      "preset": ["withTsconfig", "site"],
-      "tsconfig": {
-        "value": {
-          "extends": "$site"
-        }
-      }
-    },
     "admin": {
       "tags": ["admin"]
     },
     "adminModule": {
-      "preset": ["admin"],
+      "preset": ["module", "admin"],
       "tags": ["adminModule"],
       "deps": ["@admin/core", "#adminCoreModule"]
     },
     "adminCoreModule": {
-      "preset": ["admin"],
+      "preset": ["module", "admin"],
       "tags": ["adminCoreModule"],
       "deps": ["@admin/core"]
     },
@@ -388,14 +373,6 @@
       "preset": ["admin"],
       "srcDir": "admin"
     },
-    "adminWithTsconfig": {
-      "preset": ["withTsconfig", "admin"],
-      "tsconfig": {
-        "value": {
-          "extends": "$admin"
-        }
-      }
-    },
     "tools": {
       "tags": ["tools"]
     },
@@ -405,26 +382,18 @@
       "setDirsToInclude": ["tools"]
     },
     "toolsModule": {
-      "preset": ["tools"],
+      "preset": ["module", "tools"],
       "tags": ["toolsModule"],
       "deps": ["@tools/core", "#toolsCoreModule"]
     },
     "toolsCoreModule": {
-      "preset": ["tools"],
+      "preset": ["module", "tools"],
       "tags": ["toolsCoreModule"],
       "deps": ["@tools/core"]
     },
     "toolsNested": {
       "preset": ["tools"],
       "srcDir": "tools"
-    },
-    "toolsWithTsconfig": {
-      "preset": ["withTsconfig", "tools"],
-      "tsconfig": {
-        "value": {
-          "extends": "$tools"
-        }
-      }
     }
   }
 }
