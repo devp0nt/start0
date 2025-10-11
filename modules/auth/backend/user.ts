@@ -13,7 +13,7 @@ import {
   type UserClientMe,
 } from '@auth/shared/user'
 import type { BackendCtx } from '@backend/core/ctx'
-import type { Prisma } from '@prisma/backend/generated/prisma/client'
+import type { Prisma } from '@prisma/backend'
 
 // adminUser
 

@@ -1,7 +1,4 @@
-import {
-  prismaModelsNamesWithCreatedAt,
-  prismaModelsNamesWithUpdatedAt,
-} from '@prisma/shared/src/generated/custom/utils'
+import { prismaModelsNamesWithCreatedAt, prismaModelsNamesWithUpdatedAt } from '@prisma/shared'
 import { Prisma } from '../generated/prisma/client'
 
 export const getFakeTimersExtension = ({ enabled }: { enabled: boolean }) =>

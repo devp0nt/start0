@@ -81,8 +81,8 @@
     "base": {
       "path": "./tsconfig.base.json",
       "settings": {
-        // "addUnitsSrcToPaths": { "match": "!#cold", "indexFile": true },
-        // "addUnitsDistToPaths": { "match": "#cold", "indexFile": true }
+        // we canshould add cold to paths, becouse in vsscode it is not visible package.json deps in outside folders
+        // "addUnitsSrcToPaths": { "match": "!#cold", "indexFile": true }
         "addUnitsSrcToPaths": { "indexFile": true }
       },
       "value": {
@@ -129,9 +129,7 @@
         "addUnitsAsReferences": { "tsconfig": "$core" },
         // We need it for bun, becouse it try to find tsconfig just up to tree
         // Alsow we use root tsconfig in admin vite tsconfig paths resolver
-        // "addUnitsSrcToPaths": { "match": "!#cold", "indexFile": true },
-        // "addUnitsDistToPaths": { "match": "#cold", "indexFile": true }
-        "addUnitsSrcToPaths": { "indexFile": true }
+        "addUnitsSrcToPaths": { "match": "!#cold", "indexFile": true }
       }
     },
     "shared": {
@@ -199,6 +197,7 @@
         "core": {
           "path": "./tsconfig.json",
           "settings": {
+            "addUnitsIncludesAndExcludes": { "scope": "depsAndDeepDeps", "match": "!#hasTsconfig" },
             "setRootDirBySelfIncludes": true,
             "setUnitDistAsOutDir": true,
             "addUnitIncludeToInclude": "whenNotProvided",
@@ -246,14 +245,6 @@
           "addExportsFromDist": false,
           "addExportsFromSrc": false
         }
-      },
-      "tsconfigs": {
-        "core": {
-          "settings": {
-            "addUnitsIncludesAndExcludes": { "scope": "depsAndDeepDeps", "match": "!#cold" }
-          },
-          "value": {}
-        }
       }
     },
     "cold": {
@@ -261,15 +252,11 @@
       "tags": ["cold"],
       "packageJson": {
         "settings": {
-          // "addExportsFromDist": { "dirs": true, "import": [".js"], "types": [".d.ts"], "indexFile": true },
-          // "addExportsFromSrc": false
+          "addExportsFromDist": { "import": [".js"], "types": [".d.ts"], "indexFile": true }
         }
       },
       "tsconfigs": {
         "core": {
-          "settings": {
-            "addUnitsIncludesAndExcludes": { "scope": "depsAndDeepDeps", "match": "!#cold" }
-          },
           "value": {
             "compilerOptions": {
               "composite": true,
