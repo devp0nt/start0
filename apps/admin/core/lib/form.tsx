@@ -1,4 +1,4 @@
-import { refine0 } from '@admin/app/lib/refine'
+import { refine0 } from '@admin/core/lib/refine'
 import { RjsfForm } from '@admin/core/lib/rjsf.form'
 import { Create, Edit, useForm as useRefineForm, type UseFormProps as UseRefineFormProps } from '@refinedev/antd'
 import { Alert, Skeleton } from 'antd'

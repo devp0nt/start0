@@ -1,4 +1,4 @@
-import { ErrorPage } from '@admin/app/components/error'
+import { ErrorPage } from '@admin/core/components/error'
 import { Loader } from '@admin/core/components/loader'
 import { trpc } from '@admin/core/lib/trpc'
 import { authClient } from '@auth/admin/utils'

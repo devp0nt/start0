@@ -1,4 +1,4 @@
-import { refine0 } from '@admin/app/lib/refine'
+import { refine0 } from '@admin/core/lib/refine'
 import { RjsfView } from '@admin/core/lib/rjsf.view'
 import { Show } from '@refinedev/antd'
 import { useShow, type UseShowProps } from '@refinedev/core'
