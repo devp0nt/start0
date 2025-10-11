@@ -35,13 +35,13 @@
       "path": "../../@auth/shared/tsconfig.json"
     },
     {
+      "path": "../../../apps/backend/shared/tsconfig.json"
+    },
+    {
       "path": "../../@auth/backend/tsconfig.json"
     },
     {
       "path": "../../../apps/backend/base/tsconfig.json"
-    },
-    {
-      "path": "../../../apps/backend/shared/tsconfig.json"
     },
     {
       "path": "../../../modules/prisma/backend/tsconfig.json"

@@ -7,7 +7,7 @@
   {
     "name": "@auth/backend",
     "preset": ["backendBaseModule", "backendNested"],
-    "deps": ["@auth/shared", "@user/shared", "@user/backend"]
+    "deps": ["@auth/shared", "@user/shared", "@user/backend", "@backend/shared"]
   },
   {
     "name": "@auth/site",
