@@ -37,9 +37,6 @@
       "path": "../../@backend/shared/tsconfig.json"
     },
     {
-      "path": "../../../modules/prisma/shared/tsconfig.json"
-    },
-    {
       "path": "../../@site/core/tsconfig.json"
     },
     {
@@ -47,9 +44,6 @@
     },
     {
       "path": "../../@auth/shared/tsconfig.json"
-    },
-    {
-      "path": "../../../modules/prisma/shared/tsconfig.json"
     },
     {
       "path": "../../@backend/shared/tsconfig.json"

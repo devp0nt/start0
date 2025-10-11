@@ -19,9 +19,6 @@
       "path": "../../@apps/base/tsconfig.json"
     },
     {
-      "path": "../../../modules/prisma/shared/tsconfig.json"
-    },
-    {
       "path": "../../@apps/base/tsconfig.json"
     }
   ]

@@ -3,6 +3,8 @@
   "include": [],
   "compilerOptions": {
     "paths": {
+      "@prisma/backend/*": ["./node_modules/@prisma/backend/*"],
+      "@prisma/shared/*": ["./node_modules/@prisma/shared/*"],
       "@admin/app": ["./apps/admin/app/src/index.tsx"],
       "@admin/app/*": ["./apps/admin/app/src/*"],
       "@admin/base/*": ["./apps/admin/base/*"],

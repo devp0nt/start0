@@ -4,16 +4,21 @@ import {
   type HonoAdminOptions,
   type HonoReqCtx,
 } from '@backend/core/hono'
+import type { Ctx0 } from '@devp0nt/ctx0'
 import { Error0 } from '@devp0nt/error0'
 import { initTRPC } from '@trpc/server'
 import superjson from 'superjson'
 import type { OpenApiMeta } from 'trpc-to-openapi'
 
-export const createTrpcCtx = <THonoReqCtx extends HonoReqCtx = HonoReqCtx>(honoReqCtx: THonoReqCtx) => {
-  const honoReqCtxValue = honoReqCtx.self.extractValue()
-  return { ...honoReqCtxValue, honoReqCtx }
+export type TrpcCtx<THonoReqCtx extends HonoReqCtx = HonoReqCtx> = Ctx0.InferValue<THonoReqCtx> & {
+  honoReqCtx: THonoReqCtx
 }
-export type TrpcCtx<THonoReqCtx extends HonoReqCtx = HonoReqCtx> = ReturnType<typeof createTrpcCtx<THonoReqCtx>>
+export const createTrpcCtx = <THonoReqCtx extends HonoReqCtx = HonoReqCtx>(
+  honoReqCtx: THonoReqCtx,
+): TrpcCtx<THonoReqCtx> => {
+  const honoReqCtxValue = honoReqCtx.self.extractValue()
+  return { ...honoReqCtxValue, honoReqCtx } as TrpcCtx<THonoReqCtx>
+}
 
 const t = initTRPC
   .context<TrpcCtx>()

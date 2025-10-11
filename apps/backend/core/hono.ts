@@ -1,18 +1,35 @@
 import { appName } from '@apps/base/general'
-import { getAuthCtxByHonoCtx } from '@auth/backend/utils'
+import { getAuthCtxByHonoCtx, type AuthCtx } from '@auth/backend/utils'
 import type { Permissions } from '@auth/shared/permissions'
-import type { BackendCtx } from '@backend/core/ctx'
+import type { Tri0 } from '@backend/base/tri0'
+import type { BackendCtx, BackendCtxValue } from '@backend/core/ctx'
 import { toErrorResponseWithStatus } from '@backend/core/error'
+import type { Ctx0 } from '@devp0nt/ctx0'
 import { Error0 } from '@devp0nt/error0'
 import { OpenAPIHono } from '@hono/zod-openapi'
 import { Scalar } from '@scalar/hono-api-reference'
 import type { Context as HonoContext, MiddlewareHandler } from 'hono'
 import { getConnInfo } from 'hono/cloudflare-workers'
-import type { Ctx0 } from '@devp0nt/ctx0'
 
 // base
 
-const createHonoReqCtx = async ({ backendCtx, honoCtx }: { backendCtx: BackendCtx; honoCtx: HonoContext }) => {
+export type HonoReqCtx = Ctx0.Proxy<
+  {
+    tri0: Tri0
+    honoCtx: HonoContext
+  } & AuthCtx,
+  null,
+  BackendCtxValue
+>
+export type HonoReqCtxValue = Ctx0.InferValue<HonoReqCtx>
+
+const createHonoReqCtx = async ({
+  backendCtx,
+  honoCtx,
+}: {
+  backendCtx: BackendCtx
+  honoCtx: HonoContext
+}): Promise<HonoReqCtx> => {
   const req = honoCtx.req
   const connInfo = getConnInfo(honoCtx)
   const tri0 = backendCtx.tri0.extend({
@@ -31,15 +48,12 @@ const createHonoReqCtx = async ({ backendCtx, honoCtx }: { backendCtx: BackendCt
   return backendCtx.self.extend({
     tri0,
     honoCtx,
-    req: honoCtx.req,
     ...authCtx,
   })
 }
 
-export type HonoReqCtx = Awaited<ReturnType<typeof createHonoReqCtx>>
-export type HonoReqCtxValue = Omit<HonoReqCtx, 'self'>
 export type HonoSettings<THonoReqCtx extends HonoReqCtx = HonoReqCtx> = {
-  Variables: { honoReqCtx: THonoReqCtx } & Omit<THonoReqCtx, 'self'>
+  Variables: { honoReqCtx: THonoReqCtx } & HonoReqCtxValue
 }
 export type HonoCtx<THonoReqCtx extends HonoReqCtx = HonoReqCtx> = HonoContext<HonoSettings<THonoReqCtx>>
 export type HonoBase<THonoReqCtx extends HonoReqCtx = HonoReqCtx> = OpenAPIHono<HonoSettings<THonoReqCtx>>
@@ -75,11 +89,7 @@ export const applyHonoReqContext = ({ hono, backendCtx }: { hono: HonoBase; back
 
 // admin
 
-export type HonoAdminReqCtx = Ctx0.Proxy<
-  Omit<HonoReqCtx, 'admin' | 'self'> & {
-    admin: NonNullable<HonoReqCtx['admin']>
-  }
->
+export type HonoAdminReqCtx = Ctx0.OverrideProxy<HonoReqCtx, { admin: NonNullable<HonoReqCtx['admin']> }>
 export type HonoAdminSettings = HonoSettings<HonoAdminReqCtx>
 export type HonoAdminBase = HonoBase<HonoAdminReqCtx>
 export type HonoAdminOptions = {
@@ -115,11 +125,7 @@ export const honoAdminBase = (options?: HonoAdminOptions): HonoAdminBase => {
 
 // customer
 
-export type HonoCustomerReqCtx = Ctx0.Proxy<
-  Omit<HonoReqCtx, 'customer' | 'self'> & {
-    customer: NonNullable<HonoReqCtx['customer']>
-  }
->
+export type HonoCustomerReqCtx = Ctx0.OverrideProxy<HonoReqCtx, { customer: NonNullable<HonoReqCtx['customer']> }>
 export type HonoCustomerSettings = HonoSettings<HonoCustomerReqCtx>
 export type HonoCustomerBase = HonoBase<HonoCustomerReqCtx>
 export const validateHonoCustomerReqCtx = async (honoReqCtx: HonoReqCtx): Promise<HonoCustomerReqCtx> => {
