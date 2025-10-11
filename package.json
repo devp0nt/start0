@@ -33,8 +33,8 @@
     "@prisma/shared": "workspace:*"
   },
   "devDependencies": {
-    "@devp0nt/gen0": "^1.0.0-next.45",
-    "@devp0nt/mono0": "^1.0.0-next.59",
+    "@devp0nt/gen0": "^1.0.0-next.46",
+    "@devp0nt/mono0": "^1.0.0-next.61",
     "@types/bun": "latest",
     "@types/debug": "^4.1.12",
     "@types/lodash": "^4.17.20",
