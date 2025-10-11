@@ -15,6 +15,9 @@
       "path": "../../../../.tsconfig/@adminUser/backend/tsconfig.json"
     },
     {
+      "path": "../../../../.tsconfig/@appConfig/backend/tsconfig.json"
+    },
+    {
       "path": "../../../../.tsconfig/@apps/base/tsconfig.json"
     },
     {

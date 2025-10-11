@@ -1,5 +1,5 @@
-import { SiderAfter, SiderBefore } from '@admin/app/components/sider'
-import { refine0, RefineSetup } from '@admin/app/lib/refine'
+import { SiderAfter, SiderBefore } from '@admin/core/components/sider'
+import { refine0, RefineSetup } from '@admin/core/lib/refine'
 import { Loader } from '@admin/core/components/loader'
 import { CtxProvider } from '@admin/core/lib/ctx'
 import { TrpcProvider } from '@admin/core/lib/trpc'
@@ -24,8 +24,8 @@ import {
 } from '@refinedev/react-router'
 import { Alert, App as AntdApp } from 'antd'
 import { BrowserRouter, Outlet, Route, Routes } from 'react-router'
-import { Header } from './components/header'
-import { ColorModeContextProvider } from './lib/colorMode'
+import { Header } from '@admin/core/components/header'
+import { ColorModeContextProvider } from '@admin/core/components/colorMode'
 
 // Global styles
 const globalStyles = `

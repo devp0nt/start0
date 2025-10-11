@@ -79,6 +79,9 @@
       "path": "../../@backend/core/tsconfig.json"
     },
     {
+      "path": "../../@appConfig/backend/tsconfig.json"
+    },
+    {
       "path": "../../@idea/backend/tsconfig.json"
     },
     {

@@ -1,6 +1,6 @@
 import React from 'react'
 import { createRoot } from 'react-dom/client'
-import ErrorBoundary from '@admin/app/lib/errorBoundary'
+import ErrorBoundary from '@admin/core/components/errorBoundary'
 
 const container = document.getElementById('root')
 if (!container) {
