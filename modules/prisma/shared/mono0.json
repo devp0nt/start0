@@ -1,12 +1,12 @@
 {
   "name": "@prisma/shared",
-  "preset": ["cold", "sharedBaseModule"],
+  "preset": ["sharedBaseModule", "cold"],
   "tags": ["prisma"],
   "deps": [],
   "packageJson": {
     "value": {
       "scripts": {
-        "clean": "rimraf {{projectRootDir}}/node_modules/.cache/tsbuildinfo/{{name}} && rimraf {{distDir}} && rimraf ./src/generated"
+        "clean": "rimraf {{projectRootDir}}/node_modules/.cache/tsbuildinfo/{{unitName}} && rimraf {{distDir}} && rimraf ./src/generated"
       }
     }
   },

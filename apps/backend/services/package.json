@@ -4,10 +4,10 @@
   "type": "module",
   "scripts": {
     "dev": "NODE_ENV=development bun --watch src/dev.ts",
-    "types": "tsc --noEmit",
+    "types": "tsc --noEmit ./tsconfig.json",
     "start": "NODE_ENV=production bun dist/api.js",
-    "build": "tsc --build",
-    "watch": "tsc --watch",
+    "build": "tsc --build ./tsconfig.json",
+    "watch": "tsc --watch ./tsconfig.json",
     "clean": "rimraf ../../../node_modules/.cache/tsbuildinfo/@backend/services && rimraf ./dist",
     "lint": "eslint --cache --cache-location ../../../node_modules/.cache/eslint/@backend/services/.eslintcache ."
   },

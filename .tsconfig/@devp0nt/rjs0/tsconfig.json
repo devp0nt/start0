@@ -1,22 +1,18 @@
 {
   "extends": "../../../apps/shared/tsconfig.shared.json",
-  "include": [
-    "../../../modules/idea/**/shared/**/*",
-    "../../../modules/idea/**/*.sh.ts",
-    "../../../modules/idea/**/*.sh.tsx"
-  ],
+  "include": ["../../../modules/rjs0/shared/**/*"],
   "exclude": [
-    "../../../modules/idea/**/dist/**/*",
-    "../../../modules/idea/**/node_modules/**/*",
-    "../../../modules/idea/**/public/**/*"
+    "../../../modules/rjs0/**/dist/**/*",
+    "../../../modules/rjs0/**/node_modules/**/*",
+    "../../../modules/rjs0/**/public/**/*"
   ],
   "compilerOptions": {
-    "rootDir": "../../../modules/idea",
+    "rootDir": "../../../modules/rjs0",
     "outDir": "./dist",
     "declaration": true,
     "declarationMap": true,
     "composite": true,
-    "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@idea/shared/.tsbuildinfo"
+    "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@devp0nt/rjs0/.tsbuildinfo"
   },
   "references": [
     {

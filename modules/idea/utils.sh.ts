@@ -1,5 +1,5 @@
 import type * as z from 'zod'
-import { IdeaSchema } from '@prisma/shared/generated/zod/schemas'
+import { IdeaSchema } from '@prisma/shared'
 
 export const zIdeaClientAdmin = IdeaSchema.pick({
   id: true,

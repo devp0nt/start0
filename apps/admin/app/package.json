@@ -9,7 +9,7 @@
     "start": "refine start",
     "refine": "refine",
     "types": "tsc --noEmit",
-    "watch": "tsc --watch",
+    "watch": "tsc --watch ./tsconfig.json",
     "clean": "rimraf ../../../node_modules/.cache/tsbuildinfo/@admin/app && rimraf ./dist",
     "lint": "eslint --cache --cache-location ../../../node_modules/.cache/eslint/@admin/app/.eslintcache ."
   },
@@ -36,8 +36,8 @@
     "superjson": "^2.2.2",
     "use-context-selector": "^2.0.0",
     "zustand": "^5.0.8",
-    "@prisma/backend": "workspace:*",
-    "@prisma/shared": "workspace:*"
+    "@prisma/shared": "workspace:*",
+    "@prisma/backend": "workspace:*"
   },
   "devDependencies": {
     "@types/qs": "^6.14.0",

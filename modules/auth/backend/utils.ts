@@ -13,13 +13,8 @@ import { env } from '@backend/base/env.runtime'
 import { createTagged, type Tri0 } from '@backend/base/tri0'
 import { backendAuthRoutesBasePath } from '@backend/shared/utils'
 import type { OpenAPIHono } from '@hono/zod-openapi'
-import type { PrismaClient } from '@prisma/backend'
+import type { PrismaClient, AdminUserCreateInput, CustomerUserCreateInput, UserCreateInput } from '@prisma/backend'
 import { prisma } from '@prisma/backend'
-import type {
-  AdminUserCreateInput,
-  CustomerUserCreateInput,
-  UserCreateInput,
-} from '@prisma/backend/generated/prisma/models'
 import { betterAuth } from 'better-auth'
 import { prismaAdapter } from 'better-auth/adapters/prisma'
 import { customSession, openAPI } from 'better-auth/plugins'

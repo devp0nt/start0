@@ -1,7 +1,7 @@
 import { zPermissions } from '@auth/shared/permissions'
 import type * as z from 'zod'
 
-import { AdminUserSchema, CustomerUserSchema, UserSchema } from '@prisma/shared/generated/zod/schemas'
+import { AdminUserSchema, CustomerUserSchema, UserSchema } from '@prisma/shared'
 
 // admin
 

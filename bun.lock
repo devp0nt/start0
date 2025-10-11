@@ -4,6 +4,8 @@
     "": {
       "name": "ideanick",
       "dependencies": {
+        "@prisma/backend": "workspace:*",
+        "@prisma/shared": "workspace:*",
         "cross-env": "^10.0.0",
         "date-fns": "^4.1.0",
         "deepmerge": "^4.3.1",

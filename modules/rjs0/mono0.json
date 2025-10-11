@@ -1,0 +1,6 @@
+[
+  {
+    "name": "@devp0nt/rjs0",
+    "preset": ["sharedModule", "sharedNested"]
+  }
+]

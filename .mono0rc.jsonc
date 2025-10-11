@@ -84,8 +84,8 @@
       "path": "./tsconfig.base.json",
       "settings": {
         // we canshould add cold to paths, becouse in vsscode it is not visible package.json deps in outside folders
-        // "addUnitsSrcToPaths": { "match": "!#cold", "indexFile": true }
-        "addUnitsSrcToPaths": { "indexFile": true }
+        "addUnitsSrcToPaths": { "match": "!#cold", "indexFile": true }
+        // "addUnitsSrcToPaths": { "indexFile": true }
       },
       "value": {
         "compilerOptions": {
@@ -133,7 +133,8 @@
         "addUnitsAsReferences": { "tsconfig": "$core" },
         // We need it for bun, becouse it try to find tsconfig just up to tree
         // Alsow we use root tsconfig in admin vite tsconfig paths resolver
-        "addUnitsSrcToPaths": { "indexFile": true }
+        "addUnitsSrcToPaths": { "match": "!#cold", "indexFile": true }
+        // "addUnitsSrcToPaths": { "indexFile": true }
       }
     },
     "shared": {
@@ -222,7 +223,7 @@
       }
     },
     "withPackageJson": {
-      "tags": ["hasTsconfig"],
+      "tags": ["hasPackageJson"],
       "packageJson": {
         "settings": {
           "setUnitNameAsName": true,
@@ -234,10 +235,10 @@
           "private": true,
           "type": "module",
           "scripts": {
-            "types": "tsc --noEmit",
+            "types": "tsc --noEmit {{coreTsconfigFile}}",
             "lint": "eslint --cache --cache-location {{projectRootDir}}/node_modules/.cache/eslint/{{unitName}}/.eslintcache .",
-            "build": "tsc --build",
-            "watch": "tsc --watch",
+            "build": "tsc --build {{coreTsconfigFile}}",
+            "watch": "tsc --watch {{coreTsconfigFile}}",
             "clean": "rimraf {{projectRootDir}}/node_modules/.cache/tsbuildinfo/{{unitName}} && rimraf {{distDir}}"
           }
         }
