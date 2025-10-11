@@ -11,7 +11,7 @@
   },
   "references": [
     {
-      "path": "../apps/base/tsconfig.json"
+      "path": "../.tsconfig/@apps/base/tsconfig.json"
     }
   ]
 }

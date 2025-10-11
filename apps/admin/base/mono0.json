@@ -1,0 +1,5 @@
+{
+  "name": "@admin/base",
+  "preset": ["adminBaseModule"],
+  "deps": ["@apps/base"]
+}

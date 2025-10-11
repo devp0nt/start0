@@ -1,5 +1,5 @@
 {
   "name": "@backend/base",
-  "preset": ["backend", "backendWithTsconfig"],
+  "preset": ["backendBaseModule"],
   "deps": ["@apps/base"]
 }

@@ -5,6 +5,7 @@
     "paths": {
       "@admin/app": ["./apps/admin/app/src/index.tsx"],
       "@admin/app/*": ["./apps/admin/app/src/*"],
+      "@admin/base/*": ["./apps/admin/base/*"],
       "@admin/core/*": ["./apps/admin/core/*"],
       "@adminUser/admin/*": ["./modules/adminUser/*"],
       "@adminUser/backend/*": ["./modules/adminUser/*"],
@@ -46,6 +47,9 @@
       "path": "./apps/admin/app/tsconfig.json"
     },
     {
+      "path": "./.tsconfig/@admin/base/tsconfig.json"
+    },
+    {
       "path": "./.tsconfig/@admin/core/tsconfig.json"
     },
     {
@@ -73,7 +77,7 @@
       "path": "./.tsconfig/@appConfig/site/tsconfig.json"
     },
     {
-      "path": "./apps/base/tsconfig.json"
+      "path": "./.tsconfig/@apps/base/tsconfig.json"
     },
     {
       "path": "./.tsconfig/@auth/admin/tsconfig.json"
@@ -88,7 +92,7 @@
       "path": "./.tsconfig/@auth/site/tsconfig.json"
     },
     {
-      "path": "./apps/backend/base/tsconfig.json"
+      "path": "./.tsconfig/@backend/base/tsconfig.json"
     },
     {
       "path": "./.tsconfig/@backend/core/tsconfig.json"
@@ -100,7 +104,7 @@
       "path": "./apps/backend/services/tsconfig.json"
     },
     {
-      "path": "./apps/backend/shared/tsconfig.json"
+      "path": "./.tsconfig/@backend/shared/tsconfig.json"
     },
     {
       "path": "./apps/backend/router/trpc/tsconfig.json"
@@ -118,10 +122,10 @@
       "path": "./.tsconfig/@idea/site/tsconfig.json"
     },
     {
-      "path": "./modules/prisma/backend/tsconfig.json"
+      "path": "./.tsconfig/@prisma/backend/tsconfig.json"
     },
     {
-      "path": "./modules/prisma/shared/tsconfig.json"
+      "path": "./.tsconfig/@prisma/shared/tsconfig.json"
     },
     {
       "path": "./apps/site/app/tsconfig.json"

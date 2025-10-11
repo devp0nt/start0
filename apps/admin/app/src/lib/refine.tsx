@@ -1,5 +1,5 @@
 import { axiosInstance } from '@admin/core/lib/axios'
-import { env } from '@admin/core/lib/env.runtime'
+import { env } from '@admin/base/env.runtime'
 import { queryClient } from '@admin/core/lib/trpc'
 import { LoadingOutlined } from '@ant-design/icons'
 import { refineAccessControlProvider, refineAuthProvider } from '@auth/admin/refine'

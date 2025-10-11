@@ -1,5 +1,5 @@
 {
   "name": "@apps/base",
-  "preset": ["shared", "sharedWithTsconfig"],
+  "preset": ["sharedBaseModule"],
   "deps": []
 }

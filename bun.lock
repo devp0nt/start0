@@ -103,6 +103,9 @@
     },
     "apps/site/app": {
       "name": "@site/app",
+      "dependencies": {
+        "@prisma/shared": "workspace:*",
+      },
     },
     "modules/prisma/backend": {
       "name": "@prisma/backend",

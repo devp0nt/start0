@@ -1,7 +1,7 @@
 {
   "name": "@admin/app",
-  "preset": ["app", "admin"],
-  "deps": ["@admin/core", "#adminModule"],
+  "preset": ["app", "adminWithTsconfig"],
+  "deps": ["#adminModule", "#adminBaseModule"],
   "tsconfig": {
     "value": {}
   },

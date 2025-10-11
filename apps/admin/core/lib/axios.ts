@@ -1,4 +1,4 @@
-import { env } from '@admin/core/lib/env.runtime'
+import { env } from '@admin/base/env.runtime'
 import { backendAdminRoutesBasePath } from '@backend/shared/utils'
 import type { HttpError } from '@refinedev/core'
 import Axios, { isAxiosError } from 'axios'

@@ -4,6 +4,7 @@
     "paths": {
       "@admin/app": ["./apps/admin/app/src/index.tsx"],
       "@admin/app/*": ["./apps/admin/app/src/*"],
+      "@admin/base/*": ["./apps/admin/base/*"],
       "@admin/core/*": ["./apps/admin/core/*"],
       "@adminUser/admin/*": ["./modules/adminUser/*"],
       "@adminUser/backend/*": ["./modules/adminUser/*"],

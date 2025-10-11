@@ -1,8 +1,8 @@
 [
   {
     "name": "@auth/shared",
-    "preset": ["sharedModule", "sharedNested"],
-    "deps": ["@user/shared"]
+    "preset": ["sharedBaseModule", "sharedNested"],
+    "deps": ["@user/shared", "@prisma/shared"]
   },
   {
     "name": "@auth/backend",
@@ -11,12 +11,12 @@
   },
   {
     "name": "@auth/site",
-    "preset": ["siteModule", "siteNested"],
+    "preset": ["siteBaseModule", "siteNested"],
     "deps": ["@auth/shared"]
   },
   {
     "name": "@auth/admin",
-    "preset": ["adminModule", "adminNested"],
+    "preset": ["adminBaseModule", "adminNested"],
     "deps": ["@auth/shared"]
   }
 ]

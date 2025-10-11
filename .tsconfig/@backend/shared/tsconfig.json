@@ -1,4 +1,5 @@
 {
+  "extends": "../../../apps/shared/tsconfig.shared.json",
   "include": ["../../../apps/backend/shared/**/*"],
   "exclude": [
     "../../../apps/backend/shared/**/dist/**/*",

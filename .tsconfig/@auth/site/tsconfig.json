@@ -16,16 +16,16 @@
   },
   "references": [
     {
-      "path": "../../../apps/base/tsconfig.json"
+      "path": "../../@apps/base/tsconfig.json"
     },
     {
       "path": "../shared/tsconfig.json"
     },
     {
-      "path": "../../@site/core/tsconfig.json"
+      "path": "../../@apps/base/tsconfig.json"
     },
     {
-      "path": "../../../apps/base/tsconfig.json"
+      "path": "../../@prisma/shared/tsconfig.json"
     }
   ]
 }

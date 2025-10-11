@@ -1,0 +1,22 @@
+{
+  "extends": "../../../apps/admin/tsconfig.admin.json",
+  "include": ["../../../apps/admin/base/**/*"],
+  "exclude": [
+    "../../../apps/admin/base/**/dist/**/*",
+    "../../../apps/admin/base/**/node_modules/**/*",
+    "../../../apps/admin/base/**/public/**/*"
+  ],
+  "compilerOptions": {
+    "rootDir": "../../../apps/admin/base",
+    "outDir": "./dist",
+    "declaration": true,
+    "declarationMap": true,
+    "composite": true,
+    "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@admin/base/.tsbuildinfo"
+  },
+  "references": [
+    {
+      "path": "../../@apps/base/tsconfig.json"
+    }
+  ]
+}

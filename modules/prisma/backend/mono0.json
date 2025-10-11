@@ -1,6 +1,6 @@
 {
   "name": "@prisma/backend",
-  "preset": ["cold", "backend", "withTsconfig"],
+  "preset": ["cold", "backendBaseModule"],
   "tags": ["prisma"],
   "deps": ["@prisma/shared", "@backend/base"],
   "packageJson": {

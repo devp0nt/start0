@@ -13,5 +13,7 @@
     "start": "not-refine start",
     "not-refine": "not-refine"
   },
-  "dependencies": {}
+  "dependencies": {
+    "@prisma/shared": "workspace:*"
+  }
 }

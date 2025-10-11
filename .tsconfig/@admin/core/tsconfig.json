@@ -16,7 +16,7 @@
   },
   "references": [
     {
-      "path": "../../../apps/base/tsconfig.json"
+      "path": "../../@apps/base/tsconfig.json"
     },
     {
       "path": "../../../apps/backend/router/hono/tsconfig.json"
@@ -25,10 +25,10 @@
       "path": "../../../apps/backend/router/trpc/tsconfig.json"
     },
     {
-      "path": "../../@appConfig/backend/tsconfig.json"
+      "path": "../../@apps/base/tsconfig.json"
     },
     {
-      "path": "../../../apps/base/tsconfig.json"
+      "path": "../../@backend/core/tsconfig.json"
     },
     {
       "path": "../../@auth/backend/tsconfig.json"
@@ -37,19 +37,16 @@
       "path": "../../@auth/shared/tsconfig.json"
     },
     {
-      "path": "../../../apps/backend/shared/tsconfig.json"
+      "path": "../../@prisma/shared/tsconfig.json"
     },
     {
-      "path": "../../../modules/prisma/backend/tsconfig.json"
+      "path": "../../@backend/shared/tsconfig.json"
     },
     {
-      "path": "../../../apps/backend/base/tsconfig.json"
+      "path": "../../@prisma/backend/tsconfig.json"
     },
     {
-      "path": "../../../modules/prisma/shared/tsconfig.json"
-    },
-    {
-      "path": "../../@backend/core/tsconfig.json"
+      "path": "../../@backend/base/tsconfig.json"
     }
   ]
 }

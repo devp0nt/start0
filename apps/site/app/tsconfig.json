@@ -18,7 +18,7 @@
       "path": "../../../.tsconfig/@appConfig/site/tsconfig.json"
     },
     {
-      "path": "../../base/tsconfig.json"
+      "path": "../../../.tsconfig/@apps/base/tsconfig.json"
     },
     {
       "path": "../../../.tsconfig/@auth/site/tsconfig.json"
@@ -33,13 +33,22 @@
       "path": "../../../.tsconfig/@adminUser/shared/tsconfig.json"
     },
     {
-      "path": "../../base/tsconfig.json"
-    },
-    {
-      "path": "../../../.tsconfig/@site/core/tsconfig.json"
+      "path": "../../../.tsconfig/@apps/base/tsconfig.json"
     },
     {
       "path": "../../../.tsconfig/@auth/shared/tsconfig.json"
+    },
+    {
+      "path": "../../../.tsconfig/@prisma/shared/tsconfig.json"
+    },
+    {
+      "path": "../../../.tsconfig/@backend/shared/tsconfig.json"
+    },
+    {
+      "path": "../../../.tsconfig/@auth/site/tsconfig.json"
+    },
+    {
+      "path": "../../../.tsconfig/@site/core/tsconfig.json"
     },
     {
       "path": "../../../.tsconfig/@idea/shared/tsconfig.json"
