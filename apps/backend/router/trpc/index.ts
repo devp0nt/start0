@@ -5,24 +5,24 @@ import type { inferRouterInputs, inferRouterOutputs } from '@trpc/server'
 
 // @gen0:start $.app = await importExportedFromFiles("~/**/route{s,}{.*,}{.be,}.ts", "AppTrpcRoute", (file0) => mono0.getFilePathRelativeToPackageName(file0.path.abs))
 
-import { getConfigAppTrpcRoute } from "@appConfig/backend/routes.be"
-import { pingAppTrpcRoute } from "@backend/trpc-router/ping/route"
+import { getConfigAppTrpcRoute } from '@appConfig/backend/routes.be'
+import { pingAppTrpcRoute } from '@backend/trpc-router/ping/route'
 // @gen0:end
 
 // @gen0:start $.admin = await importExportedFromFiles("~/**/route{s,}{.*,}{.be,}.ts", "AdminTrpcRoute", (file0) => mono0.getFilePathRelativeToPackageName(file0.path.abs))
 // @gen0:end
 
-export const appTrpcRouter = createTrpcRouter({
+const appTrpcRouter = {
   // @gen0:start $.app.imports.map(im => print(`${im.cutted}: ${im.name},`))
-getConfig: getConfigAppTrpcRoute,
-ping: pingAppTrpcRoute,
+  getConfig: getConfigAppTrpcRoute,
+  ping: pingAppTrpcRoute,
   // @gen0:end
-})
+}
 
-export const adminTrpcRouter = createTrpcRouter({
+const adminTrpcRouter = {
   // @gen0:start $.admin.imports.map(im => print(`${im.cutted}: ${im.name},`))
   // @gen0:end
-})
+}
 
 export const trpcRouter = createTrpcRouter({
   app: appTrpcRouter,

@@ -64,7 +64,9 @@
         "watch": "concurrently \"bun run gen0 watch\" \"bun run mono0 watch\" --names 'gen0,mono0'",
         "watch:build": "tsc --build --watch --preserveWatchOutput",
         "watch:all": "concurrently \"bun run gen0 watch\" \"bun run mono0 watch\" \"bun run watch:build\" --names 'gen0,mono0,build'",
-        "types": "bun run clean && tsc --build",
+        "types:cached": "tsc --build",
+        "types:hard": "bun run clean && tsc --build",
+        "types": "bun run types:hard",
         "lint": "bun run lint:base .",
         "lint:fix": "bun run lint --fix",
         "lint:each": "bun run --filter '**' lint",
@@ -102,6 +104,7 @@
           "paths": {
             // "better-auth/*": ["~/node_modules/better-auth/*"]
             // "@trpc/server/*": ["~/node_modules/@trpc/server/*"],
+            // "@refinedev/core/*": ["~/node_modules/@refinedev/core/*"]
             // "@trpc/tanstack-react-query/*": ["~/node_modules/@trpc/tanstack-react-query/*"],
             // "react-router/*": ["~/node_modules/react-router/*"],
             // "@tanstack/query-core/*": ["~/node_modules/@tanstack/query-core/*"]
@@ -118,6 +121,7 @@
           "paths": {
             // "better-auth/*": ["~/node_modules/better-auth/*"]
             // "@trpc/server/*": ["~/node_modules/@trpc/server/*"],
+            // "@refinedev/core/*": ["~/node_modules/@refinedev/core/*"]
             // "@trpc/tanstack-react-query/*": ["~/node_modules/@trpc/tanstack-react-query/*"],
             // "react-router/*": ["~/node_modules/react-router/*"],
             // "@tanstack/query-core/*": ["~/node_modules/@tanstack/query-core/*"]

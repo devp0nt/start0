@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "build": "tsc --build",
-    "build:clean": "rimraf __PROJECT_ROOT_DIR_NOT_ASSIGNED_TO_PACKAGE_JSON__/node_modules/.cache/tsbuildinfo && rimraf **/dist",
+    "build:clean": "rimraf ./node_modules/.cache/tsbuildinfo && rimraf **/dist",
     "watch": "concurrently \"bun run gen0 watch\" \"bun run mono0 watch\" --names 'gen0,mono0'",
     "watch:build": "tsc --build --watch --preserveWatchOutput",
     "watch:all": "concurrently \"bun run gen0 watch\" \"bun run mono0 watch\" \"bun run watch:build\" --names 'gen0,mono0,build'",
@@ -17,8 +17,10 @@
     "format:base": "prettier --cache --cache-location node_modules/.cache/prettier/.prettiercache --write",
     "format:clean": "rimraf node_modules/.cache/prettier/.prettiercache",
     "prepare": "husky",
-    "types": "bun run clean && tsc --build",
-    "clean": "bun run build:clean && bun run lint:clean && bun run format:clean"
+    "types": "bun run types:hard",
+    "clean": "bun run build:clean && bun run lint:clean && bun run format:clean",
+    "types:cached": "tsc --build",
+    "types:hard": "bun run clean && tsc --build"
   },
   "dependencies": {
     "cross-env": "^10.0.0",

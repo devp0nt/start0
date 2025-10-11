@@ -34,6 +34,9 @@
       "path": "../../@prisma/shared/tsconfig.json"
     },
     {
+      "path": "../shared/tsconfig.json"
+    },
+    {
       "path": "../../@backend/base/tsconfig.json"
     }
   ]

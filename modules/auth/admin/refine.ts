@@ -3,6 +3,7 @@ import { getFinalPermissions, hasPermission } from '@auth/shared/permissions'
 import type { AccessControlProvider, AuthProvider, LoginFormTypes } from '@refinedev/core'
 import { useGetIdentity as useGetIdentityOriginal } from '@refinedev/core'
 import camelCase from 'lodash/camelCase'
+import type { UseQueryResult } from '@tanstack/react-query'
 
 export const refineAuthProvider = {
   login: async ({ remember, email, password, redirectPath }: LoginFormTypes) => {
@@ -94,8 +95,8 @@ export const refineAuthProvider = {
 
 export type RefineIdentity = Awaited<ReturnType<typeof refineAuthProvider.getIdentity>>
 
-export const useRefineGetIdentity = () => {
-  return useGetIdentityOriginal<RefineIdentity>()
+export const useRefineGetIdentity = (): UseQueryResult<RefineIdentity> => {
+  return useGetIdentityOriginal()
 }
 
 export const refineAccessControlProvider = {
