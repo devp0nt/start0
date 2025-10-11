@@ -17,6 +17,6 @@
   {
     "name": "@auth/admin",
     "preset": ["adminBaseModule", "adminNested"],
-    "deps": ["@auth/shared"]
+    "deps": ["@auth/shared", "@admin/base", "@auth/backend"]
   }
 ]

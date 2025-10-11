@@ -1,6 +1,6 @@
 import { customSessionClient } from 'better-auth/client/plugins'
 import { createAuthClient } from 'better-auth/react'
-import type { auth } from '../backend/utils'
+import type { auth } from '@auth/backend/utils'
 import { createClientAdminPlugin } from '../shared/permissions'
 import { env } from '@admin/base/env.runtime'
 

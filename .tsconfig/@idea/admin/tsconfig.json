@@ -89,6 +89,9 @@
     },
     {
       "path": "../../../apps/backend/router/trpc/tsconfig.json"
+    },
+    {
+      "path": "../../@admin/base/tsconfig.json"
     }
   ]
 }
