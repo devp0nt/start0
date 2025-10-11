@@ -10,11 +10,11 @@ import {
 } from '@auth/backend/user'
 import type { MeAuthorized } from '@auth/shared/user'
 import { env } from '@backend/base/env.runtime'
-import { createTagged } from '@backend/base/tri0'
-import type { BackendCtx } from '@backend/core/ctx'
-import type { HonoBase } from '@backend/core/hono'
+import { createTagged, type Tri0 } from '@backend/base/tri0'
 import { backendAuthRoutesBasePath } from '@backend/shared/utils'
-import { prisma } from '@prisma/backend/client'
+import type { OpenAPIHono } from '@hono/zod-openapi'
+import type { PrismaClient } from '@prisma/backend'
+import { prisma } from '@prisma/backend'
 import type {
   AdminUserCreateInput,
   CustomerUserCreateInput,
@@ -76,11 +76,11 @@ export const getAuthCtxByHonoCtx = async (honoCtx: HonoContext) => {
 }
 export type AuthCtx = Awaited<ReturnType<typeof getAuthCtxByHonoCtx>>
 
-export const applyAuthRoutesToHonoApp = ({ hono }: { hono: HonoBase }) => {
+export const applyAuthRoutesToHonoApp = ({ hono }: { hono: OpenAPIHono }) => {
   hono.on(['POST', 'GET'], `${backendAuthRoutesBasePath}/*`, async (c) => await auth.handler(c.req.raw))
 }
 
-export const getMe = async (ctx: Pick<BackendCtx, 'prisma'>, userId: string): Promise<MeAuthorized> => {
+export const getMe = async (ctx: { prisma: PrismaClient }, userId: string): Promise<MeAuthorized> => {
   const me = await getUser(ctx, userId)
   return {
     admin: !me.admin ? null : toAdminClientAdmin(me.admin),
@@ -106,7 +106,7 @@ export type Session = (typeof auth)['$Infer']['Session']['session']
 const tagged = createTagged('auth')
 
 export const createAdmin = async (
-  { tri0, prisma }: Pick<BackendCtx, 'tri0' | 'prisma'>,
+  { tri0, prisma }: { tri0: Tri0; prisma: PrismaClient },
   {
     password: providedPassword,
     userData,
@@ -150,7 +150,7 @@ export const createAdmin = async (
 }
 
 export const createCustomer = async (
-  { prisma, tri0 }: BackendCtx,
+  { prisma, tri0 }: { prisma: PrismaClient; tri0: Tri0 },
   {
     password: providedPassword,
     userData,

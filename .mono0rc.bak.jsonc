@@ -278,11 +278,11 @@
     "sharedModule": {
       "preset": ["shared"],
       "tags": ["sharedModule"],
-      "deps": ["#sharedCoreModule"]
+      "deps": ["#sharedBaseModule"]
     },
-    "sharedCoreModule": {
+    "sharedBaseModule": {
       "preset": ["shared"],
-      "tags": ["sharedCoreModule"],
+      "tags": ["sharedBaseModule"],
       "deps": []
     },
     "sharedMulti": {
@@ -308,11 +308,11 @@
     "backendModule": {
       "preset": ["backend"],
       "tags": ["backendModule"],
-      "deps": ["@backend/core", "#backendCoreModule"]
+      "deps": ["@backend/core", "#backendBaseModule"]
     },
-    "backendCoreModule": {
+    "backendBaseModule": {
       "preset": ["backend"],
-      "tags": ["backendCoreModule"],
+      "tags": ["backendBaseModule"],
       "deps": ["@backend/core"]
     },
     "backendMulti": {
@@ -338,11 +338,11 @@
     "siteModule": {
       "preset": ["site"],
       "tags": ["siteModule"],
-      "deps": ["@site/core", "#siteCoreModule"]
+      "deps": ["@site/core", "#siteBaseModule"]
     },
-    "siteCoreModule": {
+    "siteBaseModule": {
       "preset": ["site"],
-      "tags": ["siteCoreModule"],
+      "tags": ["siteBaseModule"],
       "deps": ["@site/core"]
     },
     "siteMulti": {
@@ -371,11 +371,11 @@
     "adminModule": {
       "preset": ["admin"],
       "tags": ["adminModule"],
-      "deps": ["@admin/core", "#adminCoreModule"]
+      "deps": ["@admin/core", "#adminBaseModule"]
     },
-    "adminCoreModule": {
+    "adminBaseModule": {
       "preset": ["admin"],
-      "tags": ["adminCoreModule"],
+      "tags": ["adminBaseModule"],
       "deps": ["@admin/core"]
     },
     "adminMulti": {
@@ -409,11 +409,11 @@
     "toolsModule": {
       "preset": ["tools"],
       "tags": ["toolsModule"],
-      "deps": ["@tools/core", "#toolsCoreModule"]
+      "deps": ["@tools/core", "#toolsBaseModule"]
     },
-    "toolsCoreModule": {
+    "toolsBaseModule": {
       "preset": ["tools"],
-      "tags": ["toolsCoreModule"],
+      "tags": ["toolsBaseModule"],
       "deps": ["@tools/core"]
     },
     "toolsNested": {

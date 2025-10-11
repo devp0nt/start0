@@ -12,8 +12,7 @@ import {
   type CustomerClientMe,
   type UserClientMe,
 } from '@auth/shared/user'
-import type { BackendCtx } from '@backend/core/ctx'
-import type { Prisma } from '@prisma/backend'
+import type { Prisma, PrismaClient } from '@prisma/backend'
 
 // adminUser
 
@@ -88,7 +87,7 @@ export type UserWithEverything = Prisma.UserGetPayload<{
 }>
 
 export const getUser = async (
-  { prisma }: Pick<BackendCtx, 'prisma'>,
+  { prisma }: { prisma: PrismaClient },
   userId: string,
 ): Promise<{
   user: UserWithEverything

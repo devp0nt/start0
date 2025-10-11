@@ -21,9 +21,6 @@
       "path": "../../base/tsconfig.json"
     },
     {
-      "path": "../../../.tsconfig/@auth/backend/tsconfig.json"
-    },
-    {
       "path": "../../../.tsconfig/@backend/core/tsconfig.json"
     },
     {

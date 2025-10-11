@@ -292,11 +292,11 @@
     "sharedModule": {
       "preset": ["sharedWithHiddenTsconfig"],
       "tags": ["sharedModule"],
-      "deps": ["#sharedCoreModule"]
+      "deps": ["#sharedBaseModule"]
     },
-    "sharedCoreModule": {
+    "sharedBaseModule": {
       "preset": ["sharedWithHiddenTsconfig"],
-      "tags": ["sharedCoreModule"],
+      "tags": ["sharedBaseModule"],
       "deps": []
     },
     "sharedMulti": {
@@ -325,12 +325,12 @@
     "backendModule": {
       "preset": ["backendWithHiddenTsconfig"],
       "tags": ["backendModule"],
-      "deps": ["@backend/core", "#backendCoreModule"]
+      "deps": ["@backend/core", "#backendBaseModule"]
     },
-    "backendCoreModule": {
+    "backendBaseModule": {
       "preset": ["backendWithHiddenTsconfig"],
-      "tags": ["backendCoreModule"],
-      "deps": ["@backend/core"]
+      "tags": ["backendBaseModule"],
+      "deps": []
     },
     "backendMulti": {
       "preset": ["backend"],
@@ -358,12 +358,12 @@
     "siteModule": {
       "preset": ["siteWithHiddenTsconfig"],
       "tags": ["siteModule"],
-      "deps": ["@site/core", "#siteCoreModule"]
+      "deps": ["@site/core", "#siteBaseModule"]
     },
-    "siteCoreModule": {
+    "siteBaseModule": {
       "preset": ["siteWithHiddenTsconfig"],
-      "tags": ["siteCoreModule"],
-      "deps": ["@site/core"]
+      "tags": ["siteBaseModule"],
+      "deps": []
     },
     "siteMulti": {
       "preset": ["site"],
@@ -394,12 +394,12 @@
     "adminModule": {
       "preset": ["adminWithHiddenTsconfig"],
       "tags": ["adminModule"],
-      "deps": ["@admin/core", "#adminCoreModule"]
+      "deps": ["@admin/core", "#adminBaseModule"]
     },
-    "adminCoreModule": {
+    "adminBaseModule": {
       "preset": ["adminWithHiddenTsconfig"],
-      "tags": ["adminCoreModule"],
-      "deps": ["@admin/core"]
+      "tags": ["adminBaseModule"],
+      "deps": []
     },
     "adminMulti": {
       "preset": ["admin"],
@@ -435,12 +435,12 @@
     "toolsModule": {
       "preset": ["toolsWithHiddenTsconfig"],
       "tags": ["toolsModule"],
-      "deps": ["@tools/core", "#toolsCoreModule"]
+      "deps": ["@tools/core", "#toolsBaseModule"]
     },
-    "toolsCoreModule": {
+    "toolsBaseModule": {
       "preset": ["toolsWithHiddenTsconfig"],
-      "tags": ["toolsCoreModule"],
-      "deps": ["@tools/core"]
+      "tags": ["toolsBaseModule"],
+      "deps": []
     },
     "toolsNested": {
       "preset": ["tools"],

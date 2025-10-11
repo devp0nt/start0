@@ -34,6 +34,12 @@
       "path": "../../@appConfig/backend/tsconfig.json"
     },
     {
+      "path": "../backend/tsconfig.json"
+    },
+    {
+      "path": "../shared/tsconfig.json"
+    },
+    {
       "path": "../../@backend/core/tsconfig.json"
     },
     {
