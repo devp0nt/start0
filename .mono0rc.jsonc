@@ -325,7 +325,7 @@
     "backendModule": {
       "preset": ["backendWithHiddenTsconfig"],
       "tags": ["backendModule"],
-      "deps": ["@backend/core", "#backendBaseModule"]
+      "deps": ["#backendBaseModule", "#sharedBaseModule"]
     },
     "backendBaseModule": {
       "preset": ["backendWithHiddenTsconfig"],
@@ -358,7 +358,7 @@
     "siteModule": {
       "preset": ["siteWithHiddenTsconfig"],
       "tags": ["siteModule"],
-      "deps": ["@site/core", "#siteBaseModule"]
+      "deps": ["#siteBaseModule", "#sharedBaseModule"]
     },
     "siteBaseModule": {
       "preset": ["siteWithHiddenTsconfig"],
@@ -394,7 +394,7 @@
     "adminModule": {
       "preset": ["adminWithHiddenTsconfig"],
       "tags": ["adminModule"],
-      "deps": ["@admin/core", "#adminBaseModule"]
+      "deps": ["#adminBaseModule", "#sharedBaseModule"]
     },
     "adminBaseModule": {
       "preset": ["adminWithHiddenTsconfig"],
@@ -435,7 +435,7 @@
     "toolsModule": {
       "preset": ["toolsWithHiddenTsconfig"],
       "tags": ["toolsModule"],
-      "deps": ["@tools/core", "#toolsBaseModule"]
+      "deps": ["#toolsBaseModule", "#sharedBaseModule"]
     },
     "toolsBaseModule": {
       "preset": ["toolsWithHiddenTsconfig"],
