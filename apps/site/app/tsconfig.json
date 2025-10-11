@@ -26,15 +26,7 @@
     "../../../modules/idea/**/*.si.tsx",
     "../../../modules/idea/**/*.fe.ts",
     "../../../modules/idea/**/*.fe.tsx",
-    "../core/**/*",
-    "../../../modules/user/**/shared/**/*",
-    "../../../modules/user/**/*.sh.ts",
-    "../../../modules/user/**/*.sh.tsx",
-    "../../../modules/user/**/site/**/*",
-    "../../../modules/user/**/*.si.ts",
-    "../../../modules/user/**/*.si.tsx",
-    "../../../modules/user/**/*.fe.ts",
-    "../../../modules/user/**/*.fe.tsx"
+    "../core/**/*"
   ],
   "exclude": [
     "./**/dist/**/*",
@@ -57,10 +49,7 @@
     "../../../modules/idea/**/public/**/*",
     "../core/**/dist/**/*",
     "../core/**/node_modules/**/*",
-    "../core/**/public/**/*",
-    "../../../modules/user/**/dist/**/*",
-    "../../../modules/user/**/node_modules/**/*",
-    "../../../modules/user/**/public/**/*"
+    "../core/**/public/**/*"
   ],
   "compilerOptions": {
     "rootDir": "../../..",

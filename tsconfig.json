@@ -36,11 +36,7 @@
       "@site/app/*": ["./apps/site/app/*"],
       "@site/core/*": ["./apps/site/core/*"],
       "@tools/shared": ["./tools/src/index.ts"],
-      "@tools/shared/*": ["./tools/src/*"],
-      "@user/admin/*": ["./modules/user/*"],
-      "@user/backend/*": ["./modules/user/*"],
-      "@user/shared/*": ["./modules/user/*"],
-      "@user/site/*": ["./modules/user/*"]
+      "@tools/shared/*": ["./tools/src/*"]
     }
   },
   "references": [

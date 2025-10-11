@@ -208,15 +208,6 @@
         }
       }
     },
-    "withHiddenTsconfig": {
-      "preset": ["withTsconfig"],
-      "distDir": "~/.tsconfig/{{unitDir}}/dist",
-      "tsconfigs": {
-        "core": {
-          "path": "~/.tsconfig/{{unitDir}}/tsconfig.json"
-        }
-      }
-    },
     "withPackageJson": {
       "packageJson": {
         "settings": {
