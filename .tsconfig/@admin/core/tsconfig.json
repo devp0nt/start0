@@ -16,6 +16,9 @@
   },
   "references": [
     {
+      "path": "../base/tsconfig.json"
+    },
+    {
       "path": "../../@apps/base/tsconfig.json"
     },
     {
@@ -25,13 +28,13 @@
       "path": "../../../apps/backend/router/trpc/tsconfig.json"
     },
     {
+      "path": "../../@apps/base/tsconfig.json"
+    },
+    {
       "path": "../../@adminUser/backend/tsconfig.json"
     },
     {
       "path": "../../@adminUser/shared/tsconfig.json"
-    },
-    {
-      "path": "../../@apps/base/tsconfig.json"
     },
     {
       "path": "../../@auth/shared/tsconfig.json"

@@ -36,6 +36,9 @@
       "path": "../../../.tsconfig/@apps/base/tsconfig.json"
     },
     {
+      "path": "../../../.tsconfig/@admin/base/tsconfig.json"
+    },
+    {
       "path": "../../backend/router/hono/tsconfig.json"
     },
     {
@@ -76,9 +79,6 @@
     },
     {
       "path": "../../backend/router/trpc/tsconfig.json"
-    },
-    {
-      "path": "../../../.tsconfig/@admin/base/tsconfig.json"
     },
     {
       "path": "../../../.tsconfig/@admin/core/tsconfig.json"
