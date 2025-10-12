@@ -14,7 +14,7 @@ import {
   adminUserCreateAdminHonoRoute,
   adminUserEditAdminHonoRoute,
   adminUserDeleteAdminHonoRoute,
-} from "../../../../modules/adminUser/routes.admin.be"
+} from '@adminUser/backend/routes.admin.be'
 import {
   ideaListAdminHonoRoute,
   ideaShowAdminHonoRoute,

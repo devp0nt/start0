@@ -18,8 +18,8 @@ export type HonoReqCtx = Ctx0.Proxy<
     tri0: Tri0
     honoCtx: HonoContext
   } & AuthCtx,
-  null,
-  BackendCtxValue
+  BackendCtxValue,
+  null
 >
 export type HonoReqCtxValue = Ctx0.InferValue<HonoReqCtx>
 

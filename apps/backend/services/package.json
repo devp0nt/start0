@@ -12,7 +12,7 @@
     "lint": "eslint --cache --cache-location ../../../node_modules/.cache/eslint/@backend/services/.eslintcache ."
   },
   "dependencies": {
-    "@devp0nt/ctx0": "^1.0.0-next.19",
+    "@devp0nt/ctx0": "^1.0.0-next.21",
     "@devp0nt/deepmap0": "^1.0.0-next.21",
     "@devp0nt/env0": "^1.0.0-next.15",
     "@devp0nt/error0": "^1.0.0-next.35",
@@ -20,7 +20,7 @@
     "@devp0nt/meta0": "^1.0.0-next.32",
     "@devp0nt/refine0": "^1.0.0-next.9",
     "@devp0nt/route0": "^1.0.0-next.13",
-    "@devp0nt/tri0": "^1.0.0-next.32",
+    "@devp0nt/tri0": "^1.0.0-next.33",
     "@hono/trpc-server": "^0.4.0",
     "@hono/zod-openapi": "^1.1.0",
     "@logtape/logtape": "^1.0.4",

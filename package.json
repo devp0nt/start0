@@ -5,7 +5,7 @@
   "scripts": {
     "build": "bun run build:cold && bun run build:hot",
     "build:clean": "rimraf ./node_modules/.cache/tsbuildinfo && rimraf **/dist",
-    "watch": "concurrently \"bun run watch:gen\" \"bun run watch:build\"",
+    "watch": "concurrently \"bun run watch:gen\" \"bun run watch:build\" --names 'gen,build'",
     "watch:build": "concurrently  \"bun run watch:build:cold\" \"bun run watch:build:hot\" --names 'cold,hot'",
     "watch:all": "concurrently \"bun run gen0 watch\" \"bun run mono0 watch\" \"bun run watch:build\" --names 'gen0,mono0,build'",
     "lint": "bun run lint:base .",
@@ -40,7 +40,7 @@
   },
   "devDependencies": {
     "@devp0nt/gen0": "^1.0.0-next.46",
-    "@devp0nt/mono0": "^1.0.0-next.61",
+    "@devp0nt/mono0": "^1.0.0-next.62",
     "@types/bun": "latest",
     "@types/debug": "^4.1.12",
     "@types/lodash": "^4.17.20",

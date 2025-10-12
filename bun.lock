@@ -15,7 +15,7 @@
       },
       "devDependencies": {
         "@devp0nt/gen0": "^1.0.0-next.46",
-        "@devp0nt/mono0": "^1.0.0-next.61",
+        "@devp0nt/mono0": "^1.0.0-next.62",
         "@types/bun": "latest",
         "@types/debug": "^4.1.12",
         "@types/lodash": "^4.17.20",
@@ -70,7 +70,7 @@
     "apps/backend/services": {
       "name": "@backend/services",
       "dependencies": {
-        "@devp0nt/ctx0": "^1.0.0-next.19",
+        "@devp0nt/ctx0": "^1.0.0-next.21",
         "@devp0nt/deepmap0": "^1.0.0-next.21",
         "@devp0nt/env0": "^1.0.0-next.15",
         "@devp0nt/error0": "^1.0.0-next.35",
@@ -78,7 +78,7 @@
         "@devp0nt/meta0": "^1.0.0-next.32",
         "@devp0nt/refine0": "^1.0.0-next.9",
         "@devp0nt/route0": "^1.0.0-next.13",
-        "@devp0nt/tri0": "^1.0.0-next.32",
+        "@devp0nt/tri0": "^1.0.0-next.33",
         "@hono/trpc-server": "^0.4.0",
         "@hono/zod-openapi": "^1.1.0",
         "@logtape/logtape": "^1.0.4",
@@ -112,7 +112,7 @@
     "modules/prisma/backend": {
       "name": "@prisma/backend",
       "dependencies": {
-        "@devp0nt/tri0": "^1.0.0-next.32",
+        "@devp0nt/tri0": "^1.0.0-next.33",
         "@prisma/client": "^6.14.0",
         "@prisma/shared": "workspace:*",
         "prisma": "^6.14.0",
@@ -270,7 +270,7 @@
 
     "@ctrl/tinycolor": ["@ctrl/tinycolor@3.6.1", "", {}, "sha512-SITSV6aIXsuVNV3f3O0f2n/cgyEDWoSqtZMYiAmcsYHydcKrOz3gUxB/iXd/Qf08+IZX4KpgNbvUdMBmWz+kcA=="],
 
-    "@devp0nt/ctx0": ["@devp0nt/ctx0@1.0.0-next.19", "", {}, "sha512-/cAQRmxMzrpFXwBPBs8YyXyLu1Tebqcx4J3OmP5p9niiSBy+VvBP1svUCE9AYZ07s++bPmdlQs9y+bvdZfnZgA=="],
+    "@devp0nt/ctx0": ["@devp0nt/ctx0@1.0.0-next.21", "", {}, "sha512-Fpzu3AXzjJGK+fkvxE1iV+DPMmbgV2FWml46NzRxJ6x9Jw6CGsDqOv/wz1cFplQtGTwUhh9xg20NLR2kI7yjSQ=="],
 
     "@devp0nt/deepmap0": ["@devp0nt/deepmap0@1.0.0-next.21", "", {}, "sha512-M0ZzmQQcvFS38WduWZonlKqeI/itCFEPAMNyrKEnmo715YdH+3aLwXVAJmF96l9goGScKZ9otlJOsJvXb7O6nA=="],
 
@@ -288,7 +288,7 @@
 
     "@devp0nt/meta0": ["@devp0nt/meta0@1.0.0-next.32", "", { "dependencies": { "@devp0nt/deepmap0": "^1.0.0-next.21" } }, "sha512-XEUOtO0tG/MxiQqZ58h+wAfqCAb7vwOfoc00mmGUzYrofbH/+aYesI1l7qSzIxo7NuQjiWrOoCvpH9KRIi8X7A=="],
 
-    "@devp0nt/mono0": ["@devp0nt/mono0@1.0.0-next.61", "", { "dependencies": { "@devp0nt/deepmap0": "^1.0.0-next.21", "@devp0nt/exec0": "^1.0.0-next.24", "@devp0nt/fs0": "^1.0.10-next.35", "@devp0nt/gen0": "^1.0.0-next.46", "commander": "^14.0.1", "deepmerge": "^4.3.1", "globals": "^16.4.0" }, "bin": { "mono0": "dist/esm/bin.js" } }, "sha512-6uQS1zDOphMKe9AWB90eicolV1VhFSZJri9K30lNunOhX3UBb7g3tiKnIL/Np2tQDMEQxzR4S6sD5ATvgFkadQ=="],
+    "@devp0nt/mono0": ["@devp0nt/mono0@1.0.0-next.62", "", { "dependencies": { "@devp0nt/deepmap0": "^1.0.0-next.21", "@devp0nt/exec0": "^1.0.0-next.24", "@devp0nt/fs0": "^1.0.10-next.35", "@devp0nt/gen0": "^1.0.0-next.46", "commander": "^14.0.1", "deepmerge": "^4.3.1", "globals": "^16.4.0" }, "bin": { "mono0": "dist/esm/bin.js" } }, "sha512-owqU2VDie9ZXz2Sk1qD/w+eH+J5shBbPqE0puAiZI1Z+TazNVuVGh1balVB3qO9eER9qj2OeKggs60gtXfmSvg=="],
 
     "@devp0nt/react-query-hono-client": ["@devp0nt/react-query-hono-client@1.0.0-next.3", "", { "peerDependencies": { "@tanstack/react-query": "^5.80.0", "hono": "^4.9.0" } }, "sha512-zjR6MI1QG78PLPnnJHhBVJo6jrqv0mBnmQvvu2NUAigT8/jFoB/dgvuTGZZi2zF2a7SFKrJoy0g95qyMH9YVdA=="],
 
@@ -296,7 +296,7 @@
 
     "@devp0nt/route0": ["@devp0nt/route0@1.0.0-next.13", "", {}, "sha512-IdS5kqJryjVKXayBzWj6YR8wsHfFyXOaNS6w8FttIMBH105s+QE9DuTPy0XKvL84UZtuQaihAVBdLFvgeyVkVw=="],
 
-    "@devp0nt/tri0": ["@devp0nt/tri0@1.0.0-next.32", "", { "peerDependencies": { "@devp0nt/error0": "^1.0.0-next.15", "@devp0nt/logger0": "^1.0.0-next.20", "@devp0nt/meta0": "^1.0.0-next.15" } }, "sha512-b0XsKmZCt0o/RfTCJJ2agWPtmC2ELrtgQZKSNSlRwU+6KTS49ZzDq6nUe4v7+kNo/S9G1UZ3zGlefDV5+mRGzg=="],
+    "@devp0nt/tri0": ["@devp0nt/tri0@1.0.0-next.33", "", { "peerDependencies": { "@devp0nt/error0": "^1.0.0-next.15", "@devp0nt/logger0": "^1.0.0-next.20", "@devp0nt/meta0": "^1.0.0-next.15" } }, "sha512-dmy5/WGenW1A6oKy9Ktz+Sd9EXCSrr1Ayuf2unRlx5gnAW5mXqAmxF61koh3w9qzkMhq/2Q9WPEiD28w66XB6A=="],
 
     "@emotion/hash": ["@emotion/hash@0.8.0", "", {}, "sha512-kBJtf7PH6aWwZ6fka3zQ0p6SBYzx4fl1LoZXE2RrnYST9Xljm7WfKJrU4g/Xr3Beg72MLrp1AWNUmuYJTL7Cow=="],
 
