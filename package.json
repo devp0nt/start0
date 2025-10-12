@@ -3,10 +3,10 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "tsc --build",
+    "build": "bun run build:cold && bun run build:hot",
     "build:clean": "rimraf ./node_modules/.cache/tsbuildinfo && rimraf **/dist",
-    "watch": "concurrently \"bun run gen0 watch\" \"bun run mono0 watch\" --names 'gen0,mono0'",
-    "watch:build": "tsc --build --watch --preserveWatchOutput",
+    "watch": "concurrently \"bun run watch:gen\" \"bun run watch:build\"",
+    "watch:build": "concurrently  \"bun run watch:build:cold\" \"bun run watch:build:hot\" --names 'cold,hot'",
     "watch:all": "concurrently \"bun run gen0 watch\" \"bun run mono0 watch\" \"bun run watch:build\" --names 'gen0,mono0,build'",
     "lint": "bun run lint:base .",
     "lint:base": "eslint --cache --cache-location node_modules/.cache/eslint/.eslintcache",
@@ -19,8 +19,14 @@
     "prepare": "husky",
     "types": "bun run types:hard",
     "clean": "bun run build:clean && bun run lint:clean && bun run format:clean",
-    "types:cached": "tsc --build",
-    "types:hard": "bun run clean && tsc --build"
+    "types:cached": "bun run build",
+    "types:hard": "bun run clean && bun run build",
+    "build:hot": "tsc --build ./tsconfig.json",
+    "build:cold": "tsc --build ./tsconfig.cold.json",
+    "watch:gen": "concurrently \"bun run gen0 watch\" \"bun run mono0 watch\" --names 'gen0,mono0'",
+    "watch:build:hot": "tsc --build --watch --preserveWatchOutput ./tsconfig.json",
+    "watch:build:cold": "tsc --build --watch --preserveWatchOutput ./tsconfig.cold.json",
+    "types:cached:hot": "bun run build:hot"
   },
   "dependencies": {
     "cross-env": "^10.0.0",

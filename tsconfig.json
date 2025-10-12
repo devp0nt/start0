@@ -3,8 +3,6 @@
   "include": [],
   "compilerOptions": {
     "paths": {
-      "@prisma/backend/*": ["./node_modules/@prisma/backend/*"],
-      "@prisma/shared/*": ["./node_modules/@prisma/shared/*"],
       "@admin/app": ["./apps/admin/app/src/index.tsx"],
       "@admin/app/*": ["./apps/admin/app/src/*"],
       "@admin/base/*": ["./apps/admin/base/*"],
@@ -38,7 +36,9 @@
       "@site/app/*": ["./apps/site/app/*"],
       "@site/core/*": ["./apps/site/core/*"],
       "@tools/shared": ["./tools/src/index.ts"],
-      "@tools/shared/*": ["./tools/src/*"]
+      "@tools/shared/*": ["./tools/src/*"],
+      "@prisma/backend/*": ["./node_modules/@prisma/backend/*"],
+      "@prisma/shared/*": ["./node_modules/@prisma/shared/*"]
     }
   },
   "references": [
@@ -122,12 +122,6 @@
     },
     {
       "path": "./.tsconfig/@idea/site/tsconfig.json"
-    },
-    {
-      "path": "./modules/prisma/backend/tsconfig.json"
-    },
-    {
-      "path": "./modules/prisma/shared/tsconfig.json"
     },
     {
       "path": "./apps/site/app/tsconfig.json"

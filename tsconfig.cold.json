@@ -1,6 +1,7 @@
 {
+  "files": [],
+  "include": [],
   "compilerOptions": {
-    "types": ["node", "bun"],
     "paths": {
       "@admin/app": ["./apps/admin/app/src/index.tsx"],
       "@admin/app/*": ["./apps/admin/app/src/*"],
@@ -32,23 +33,22 @@
       "@idea/backend/*": ["./modules/idea/*"],
       "@idea/shared/*": ["./modules/idea/*"],
       "@idea/site/*": ["./modules/idea/*"],
+      "@prisma/backend": ["./modules/prisma/backend/src/index.ts"],
+      "@prisma/backend/*": ["./modules/prisma/backend/src/*"],
+      "@prisma/shared": ["./modules/prisma/shared/src/index.ts"],
+      "@prisma/shared/*": ["./modules/prisma/shared/src/*"],
       "@site/app/*": ["./apps/site/app/*"],
       "@site/core/*": ["./apps/site/core/*"],
       "@tools/shared": ["./tools/src/index.ts"],
-      "@tools/shared/*": ["./tools/src/*"],
-      "@prisma/backend/*": ["./node_modules/@prisma/backend/*"],
-      "@prisma/shared/*": ["./node_modules/@prisma/shared/*"]
+      "@tools/shared/*": ["./tools/src/*"]
+    }
+  },
+  "references": [
+    {
+      "path": "./modules/prisma/backend/tsconfig.json"
     },
-    "module": "ESNext",
-    "target": "ESNext",
-    "lib": ["ESNext"],
-    "moduleResolution": "Bundler",
-    "resolveJsonModule": true,
-    "allowJs": true,
-    "jsx": "react-jsx",
-    "esModuleInterop": true,
-    "verbatimModuleSyntax": true,
-    "strict": true,
-    "skipLibCheck": true
-  }
+    {
+      "path": "./modules/prisma/shared/tsconfig.json"
+    }
+  ]
 }

@@ -6,7 +6,6 @@
   "packageJson": {
     "value": {
       "scripts": {
-        "types": "tsc --noEmit --project ~/.tsconfig/{{unitName}}/tsconfig.json",
         "clean": "rimraf {{projectRootDir}}/node_modules/.cache/tsbuildinfo/{{unitName}} && rimraf {{distDir}} && rimraf ./src/generated && rimraf ../shared/src/generated"
       }
     }

@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "types": "tsc --noEmit --project ~/.tsconfig/@prisma/backend/tsconfig.json",
+    "types": "tsc --noEmit ./tsconfig.json",
     "build": "tsc --build ./tsconfig.json",
     "watch": "tsc --watch ./tsconfig.json",
     "clean": "rimraf ../../../node_modules/.cache/tsbuildinfo/@prisma/backend && rimraf ./dist && rimraf ./src/generated && rimraf ../shared/src/generated",
@@ -11,16 +11,16 @@
     "prisma-migrate-reset": "bun run --env-file=./.env prisma migrate reset",
     "prisma-migrate-test": "bun run --env-file=./.env.test prisma migrate deploy",
     "prisma-migrate-prod": "bun run prisma migrate deploy",
-    "prisma-generate-client": "bun run prisma generate client && bun run build && cd ../shared && bun run build",
+    "prisma-generate-client": "bun run prisma generate client && bun run build",
     "lint": "eslint --cache --cache-location ../../../node_modules/.cache/eslint/@prisma/backend/.eslintcache ."
   },
   "dependencies": {
     "@devp0nt/tri0": "^1.0.0-next.32",
     "@prisma/client": "^6.14.0",
-    "@prisma/shared": "workspace:*",
     "prisma": "^6.14.0",
     "prisma-json-types-generator": "^3.6.0",
-    "prisma-zod-generator": "^1.21.3"
+    "prisma-zod-generator": "^1.21.3",
+    "@prisma/shared": "workspace:*"
   },
   "exports": {
     ".": {

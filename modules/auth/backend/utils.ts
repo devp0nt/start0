@@ -96,6 +96,7 @@ export const generatePassword = () => {
   })
 }
 
+// TODO: check if it is correct session, meybe we should infer it somehow else
 export type Session = (typeof auth)['$Infer']['Session']['session']
 
 const tagged = createTagged('auth')

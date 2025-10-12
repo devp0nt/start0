@@ -59,13 +59,19 @@
       "private": true,
       "type": "module",
       "scripts": {
-        "build": "tsc --build",
+        "build:hot": "tsc --build ./tsconfig.json",
+        "build:cold": "tsc --build ./tsconfig.cold.json",
+        "build": "bun run build:cold && bun run build:hot",
         "build:clean": "rimraf {{projectRootDir}}/node_modules/.cache/tsbuildinfo && rimraf **/dist",
-        "watch": "concurrently \"bun run gen0 watch\" \"bun run mono0 watch\" --names 'gen0,mono0'",
-        "watch:build": "tsc --build --watch --preserveWatchOutput",
-        "watch:all": "concurrently \"bun run gen0 watch\" \"bun run mono0 watch\" \"bun run watch:build\" --names 'gen0,mono0,build'",
-        "types:cached": "tsc --build",
-        "types:hard": "bun run clean && tsc --build",
+        "watch:gen": "concurrently \"bun run gen0 watch\" \"bun run mono0 watch\" --names 'gen0,mono0'",
+        "watch:build:hot": "tsc --build --watch --preserveWatchOutput ./tsconfig.json",
+        "watch:build:cold": "tsc --build --watch --preserveWatchOutput ./tsconfig.cold.json",
+        "watch:build": "concurrently  \"bun run watch:build:cold\" \"bun run watch:build:hot\" --names 'cold,hot'",
+        // "watch": "concurrently \"bun run gen0 watch\" \"bun run mono0 watch\" \"bun run watch:build\" --names 'gen0,mono0,build'",
+        "watch": "concurrently \"bun run watch:gen\" \"bun run watch:build\"",
+        "types:cached:hot": "bun run build:hot",
+        "types:cached": "bun run build",
+        "types:hard": "bun run clean && bun run build",
         "types": "bun run types:hard",
         "lint": "bun run lint:base .",
         "lint:fix": "bun run lint --fix",
@@ -84,7 +90,8 @@
       "path": "./tsconfig.base.json",
       "settings": {
         // we canshould add cold to paths, becouse in vsscode it is not visible package.json deps in outside folders
-        "addUnitsSrcToPaths": { "match": "!#cold", "indexFile": true }
+        "addUnitsSrcToPaths": { "match": "!#cold", "indexFile": true },
+        "addUnitsAsNodeModulesToPaths": { "match": "#cold" }
       },
       "value": {
         "compilerOptions": {
@@ -104,8 +111,8 @@
             // So file is not in references, we build it manually, and speed up our vscode
             // But I am not shure. Looks like we should remove it from references of core tsconfig?
             // Or nothig changed here?
-            "@prisma/backend/*": ["~/node_modules/@prisma/backend/*"],
-            "@prisma/shared/*": ["~/node_modules/@prisma/shared/*"]
+            // "@prisma/backend/*": ["~/node_modules/@prisma/backend/*"],
+            // "@prisma/shared/*": ["~/node_modules/@prisma/shared/*"]
             // "better-auth/*": ["~/node_modules/better-auth/*"]
             // "@trpc/server/*": ["~/node_modules/@trpc/server/*"],
             // "@refinedev/core/*": ["~/node_modules/@refinedev/core/*"]
@@ -123,8 +130,8 @@
         "include": [],
         "compilerOptions": {
           "paths": {
-            "@prisma/backend/*": ["~/node_modules/@prisma/backend/*"],
-            "@prisma/shared/*": ["~/node_modules/@prisma/shared/*"]
+            // "@prisma/backend/*": ["~/node_modules/@prisma/backend/*"],
+            // "@prisma/shared/*": ["~/node_modules/@prisma/shared/*"]
             // "better-auth/*": ["~/node_modules/better-auth/*"]
             // "@trpc/server/*": ["~/node_modules/@trpc/server/*"],
             // "@refinedev/core/*": ["~/node_modules/@refinedev/core/*"]
@@ -135,10 +142,34 @@
         }
       },
       "settings": {
-        "addUnitsAsReferences": { "tsconfig": "$core" },
-        // We need it for bun, becouse it try to find tsconfig just up to tree
+        "addUnitsAsReferences": { "match": "!#cold", "tsconfig": "$core" },
+        // We need again define paths here, becouse bun try to find tsconfig just up to tree
         // Alsow we use root tsconfig in admin vite tsconfig paths resolver
-        "addUnitsSrcToPaths": { "match": "!#cold", "indexFile": true }
+        "addUnitsSrcToPaths": { "match": "!#cold", "indexFile": true },
+        "addUnitsAsNodeModulesToPaths": { "match": "#cold" }
+      }
+    },
+    "rootCold": {
+      "path": "./tsconfig.cold.json",
+      "value": {
+        "files": [],
+        "include": [],
+        "compilerOptions": {
+          "paths": {
+            // "@prisma/backend/*": ["~/node_modules/@prisma/backend/*"],
+            // "@prisma/shared/*": ["~/node_modules/@prisma/shared/*"]
+            // "better-auth/*": ["~/node_modules/better-auth/*"]
+            // "@trpc/server/*": ["~/node_modules/@trpc/server/*"],
+            // "@refinedev/core/*": ["~/node_modules/@refinedev/core/*"]
+            // "@trpc/tanstack-react-query/*": ["~/node_modules/@trpc/tanstack-react-query/*"],
+            // "react-router/*": ["~/node_modules/react-router/*"],
+            // "@tanstack/query-core/*": ["~/node_modules/@tanstack/query-core/*"]
+          }
+        }
+      },
+      "settings": {
+        "addUnitsAsReferences": { "match": "#cold", "tsconfig": "$core" },
+        "addUnitsSrcToPaths": { "indexFile": true }
       }
     },
     "shared": {

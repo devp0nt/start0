@@ -35,7 +35,9 @@
     "react-dom": "19.2.0",
     "superjson": "^2.2.2",
     "use-context-selector": "^2.0.0",
-    "zustand": "^5.0.8"
+    "zustand": "^5.0.8",
+    "@prisma/shared": "workspace:*",
+    "@prisma/backend": "workspace:*"
   },
   "devDependencies": {
     "@types/qs": "^6.14.0",
