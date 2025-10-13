@@ -25,7 +25,7 @@ import {
 import { Alert, App as AntdApp } from 'antd'
 import { BrowserRouter, Outlet, Route, Routes } from 'react-router'
 import { Header } from '@admin/core/components/header'
-import { ColorModeContextProvider } from '@admin/core/components/colorMode'
+import { ColorModeContextProvider } from '@admin/base/components/colorMode'
 
 // Global styles
 const globalStyles = `
