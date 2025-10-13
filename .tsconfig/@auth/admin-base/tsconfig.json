@@ -1,31 +1,31 @@
 {
   "extends": "../../../apps/admin/tsconfig.admin.json",
-  "include": ["../../../modules/auth/admin/**/*"],
+  "include": ["../../../modules/auth/admin-base/**/*"],
   "exclude": [
     "../../../modules/auth/**/dist/**/*",
     "../../../modules/auth/**/node_modules/**/*",
     "../../../modules/auth/**/public/**/*"
   ],
   "compilerOptions": {
-    "rootDir": "../../../modules/auth/admin",
+    "rootDir": "../../../modules/auth/admin-base",
     "outDir": "./dist",
     "declaration": true,
     "declarationMap": true,
     "composite": true,
-    "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@auth/admin/.tsbuildinfo"
+    "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@auth/admin-base/.tsbuildinfo"
   },
   "references": [
-    {
-      "path": "../admin-base/tsconfig.json"
-    },
     {
       "path": "../../@admin/base/tsconfig.json"
     },
     {
-      "path": "../../@apps/base/tsconfig.json"
+      "path": "../backend/tsconfig.json"
     },
     {
-      "path": "../backend/tsconfig.json"
+      "path": "../shared/tsconfig.json"
+    },
+    {
+      "path": "../../@apps/base/tsconfig.json"
     },
     {
       "path": "../../@apps/shared/tsconfig.json"

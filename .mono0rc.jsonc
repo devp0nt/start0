@@ -350,6 +350,10 @@
       "preset": ["shared"],
       "srcDir": "shared"
     },
+    "sharedBaseNested": {
+      "preset": ["shared"],
+      "srcDir": "shared-base"
+    },
     "backend": {
       "tags": ["backend"]
     },
@@ -382,6 +386,10 @@
     "backendNested": {
       "preset": ["backend"],
       "srcDir": "backend"
+    },
+    "backendBaseNested": {
+      "preset": ["backend"],
+      "srcDir": "backend-base"
     },
     "site": {
       "tags": ["site"]
@@ -419,6 +427,10 @@
       "preset": ["site"],
       "srcDir": "site"
     },
+    "siteBaseNested": {
+      "preset": ["site"],
+      "srcDir": "site-base"
+    },
     "admin": {
       "tags": ["admin"]
     },
@@ -455,6 +467,10 @@
       "preset": ["admin"],
       "srcDir": "admin"
     },
+    "adminBaseNested": {
+      "preset": ["admin"],
+      "srcDir": "admin-base"
+    },
     "tools": {
       "tags": ["tools"]
     },
@@ -487,6 +503,10 @@
     "toolsNested": {
       "preset": ["tools"],
       "srcDir": "tools"
+    },
+    "toolsBaseNested": {
+      "preset": ["tools"],
+      "srcDir": "tools-base"
     }
   }
 }

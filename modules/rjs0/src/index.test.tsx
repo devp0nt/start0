@@ -1,7 +1,7 @@
 // import { describe, expect, it } from 'bun:test'
 // import { Rjs0 } from './index.js'
 // import z from 'zod'
-
+// По сути не трансформер, а сеттер, и он может либо добавить в метк, либо добавить утилиты
 // describe('Rjs0', () => {
 //   it('core functionality', () => {
 //     expect(Rjs0).toBeDefined()

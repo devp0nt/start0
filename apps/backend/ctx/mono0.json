@@ -1,0 +1,5 @@
+{
+  "name": "@backend/ctx",
+  "preset": ["backendBaseModule"],
+  "deps": ["@backend/base", "@prisma/backend"]
+}

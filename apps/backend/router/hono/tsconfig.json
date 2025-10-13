@@ -48,6 +48,9 @@
       "path": "../../../../.tsconfig/@backend/core/tsconfig.json"
     },
     {
+      "path": "../../../../.tsconfig/@backend/ctx/tsconfig.json"
+    },
+    {
       "path": "../../../../.tsconfig/@idea/shared/tsconfig.json"
     }
   ]

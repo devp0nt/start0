@@ -7,7 +7,7 @@
   {
     "name": "@auth/backend",
     "preset": ["backendBaseModule", "backendNested"],
-    "deps": ["@auth/shared", "@user/backend", "@backend/shared", "@prisma/backend", "@apps/shared"]
+    "deps": ["@auth/shared", "@backend/shared", "@prisma/backend", "@apps/shared", "@project/backend-base"]
   },
   {
     "name": "@auth/site",
@@ -15,8 +15,13 @@
     "deps": ["@auth/shared"]
   },
   {
+    "name": "@auth/admin-base",
+    "preset": ["adminBaseModule", "adminBaseNested"],
+    "deps": ["@auth/shared", "@admin/base", "@auth/backend"]
+  },
+  {
     "name": "@auth/admin",
     "preset": ["adminBaseModule", "adminNested"],
-    "deps": ["@auth/shared", "@admin/base", "@auth/backend"]
+    "deps": ["@auth/admin-base", "@project/admin-base"]
   }
 ]

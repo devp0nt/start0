@@ -1,0 +1,31 @@
+{
+  "extends": "../../../apps/backend/tsconfig.backend.json",
+  "include": ["../../../apps/backend/ctx/**/*"],
+  "exclude": [
+    "../../../apps/backend/ctx/**/dist/**/*",
+    "../../../apps/backend/ctx/**/node_modules/**/*",
+    "../../../apps/backend/ctx/**/public/**/*"
+  ],
+  "compilerOptions": {
+    "rootDir": "../../../apps/backend/ctx",
+    "outDir": "./dist",
+    "declaration": true,
+    "declarationMap": true,
+    "composite": true,
+    "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@backend/ctx/.tsbuildinfo"
+  },
+  "references": [
+    {
+      "path": "../base/tsconfig.json"
+    },
+    {
+      "path": "../../@apps/base/tsconfig.json"
+    },
+    {
+      "path": "../../@auth/shared/tsconfig.json"
+    },
+    {
+      "path": "../base/tsconfig.json"
+    }
+  ]
+}

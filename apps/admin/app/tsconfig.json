@@ -18,6 +18,15 @@
       "path": "../../../.tsconfig/@admin/core/tsconfig.json"
     },
     {
+      "path": "../../../.tsconfig/@admin/ctx/tsconfig.json"
+    },
+    {
+      "path": "../../../.tsconfig/@admin/hono/tsconfig.json"
+    },
+    {
+      "path": "../../../.tsconfig/@admin/trpc/tsconfig.json"
+    },
+    {
       "path": "../../../.tsconfig/@adminUser/admin/tsconfig.json"
     },
     {
@@ -25,6 +34,9 @@
     },
     {
       "path": "../../../.tsconfig/@auth/admin/tsconfig.json"
+    },
+    {
+      "path": "../../../.tsconfig/@auth/admin-base/tsconfig.json"
     },
     {
       "path": "../../../.tsconfig/@idea/admin/tsconfig.json"
@@ -36,7 +48,10 @@
       "path": "../../../.tsconfig/@admin/base/tsconfig.json"
     },
     {
-      "path": "../../../.tsconfig/@auth/admin/tsconfig.json"
+      "path": "../../../.tsconfig/@admin/hono/tsconfig.json"
+    },
+    {
+      "path": "../../../.tsconfig/@auth/admin-base/tsconfig.json"
     },
     {
       "path": "../../../.tsconfig/@auth/backend/tsconfig.json"
@@ -66,6 +81,9 @@
       "path": "../../../.tsconfig/@backend/core/tsconfig.json"
     },
     {
+      "path": "../../../.tsconfig/@backend/ctx/tsconfig.json"
+    },
+    {
       "path": "../../../.tsconfig/@appConfig/backend/tsconfig.json"
     },
     {
@@ -75,10 +93,22 @@
       "path": "../../../.tsconfig/@idea/shared/tsconfig.json"
     },
     {
+      "path": "../../../.tsconfig/@admin/trpc/tsconfig.json"
+    },
+    {
       "path": "../../backend/router/trpc/tsconfig.json"
     },
     {
+      "path": "../../../.tsconfig/@admin/backend/tsconfig.json"
+    },
+    {
+      "path": "../../../.tsconfig/@auth/admin/tsconfig.json"
+    },
+    {
       "path": "../../../.tsconfig/@admin/core/tsconfig.json"
+    },
+    {
+      "path": "../../../.tsconfig/@admin/ctx/tsconfig.json"
     }
   ]
 }

@@ -1,0 +1,5 @@
+{
+  "name": "@admin/hono",
+  "preset": ["adminBaseModule"],
+  "deps": ["@backend/hono-router", "@admin/base", "@auth/admin-base"]
+}

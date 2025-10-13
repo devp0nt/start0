@@ -1,31 +1,34 @@
 {
   "extends": "../../../apps/admin/tsconfig.admin.json",
-  "include": ["../../../apps/admin/core/**/*"],
+  "include": ["../../../apps/admin/ctx/**/*"],
   "exclude": [
-    "../../../apps/admin/core/**/dist/**/*",
-    "../../../apps/admin/core/**/node_modules/**/*",
-    "../../../apps/admin/core/**/public/**/*"
+    "../../../apps/admin/ctx/**/dist/**/*",
+    "../../../apps/admin/ctx/**/node_modules/**/*",
+    "../../../apps/admin/ctx/**/public/**/*"
   ],
   "compilerOptions": {
-    "rootDir": "../../../apps/admin/core",
+    "rootDir": "../../../apps/admin/ctx",
     "outDir": "./dist",
     "declaration": true,
     "declarationMap": true,
     "composite": true,
-    "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@admin/core/.tsbuildinfo"
+    "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@admin/ctx/.tsbuildinfo"
   },
   "references": [
     {
       "path": "../base/tsconfig.json"
     },
     {
-      "path": "../hono/tsconfig.json"
-    },
-    {
       "path": "../trpc/tsconfig.json"
     },
     {
-      "path": "../../@auth/admin/tsconfig.json"
+      "path": "../../@auth/admin-base/tsconfig.json"
+    },
+    {
+      "path": "../../@auth/backend/tsconfig.json"
+    },
+    {
+      "path": "../../../apps/backend/router/trpc/tsconfig.json"
     },
     {
       "path": "../../@apps/base/tsconfig.json"
@@ -52,6 +55,15 @@
       "path": "../../@backend/base/tsconfig.json"
     },
     {
+      "path": "../../../apps/backend/router/trpc/tsconfig.json"
+    },
+    {
+      "path": "../backend/tsconfig.json"
+    },
+    {
+      "path": "../../@backend/core/tsconfig.json"
+    },
+    {
       "path": "../../../apps/backend/router/hono/tsconfig.json"
     },
     {
@@ -59,9 +71,6 @@
     },
     {
       "path": "../../@adminUser/shared/tsconfig.json"
-    },
-    {
-      "path": "../../@backend/core/tsconfig.json"
     },
     {
       "path": "../../@backend/ctx/tsconfig.json"
@@ -74,12 +83,6 @@
     },
     {
       "path": "../../@idea/shared/tsconfig.json"
-    },
-    {
-      "path": "../../../apps/backend/router/trpc/tsconfig.json"
-    },
-    {
-      "path": "../backend/tsconfig.json"
     }
   ]
 }

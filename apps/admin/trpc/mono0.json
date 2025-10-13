@@ -1,0 +1,5 @@
+{
+  "name": "@admin/trpc",
+  "preset": ["adminBaseModule"],
+  "deps": ["@backend/trpc-router", "@admin/base", "@auth/admin-base"]
+}

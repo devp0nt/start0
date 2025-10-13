@@ -1,5 +1,5 @@
 {
   "name": "@admin/core",
-  "preset": ["admin", "adminBaseModule"],
-  "deps": ["@backend/hono-router", "@backend/trpc-router", "@admin/base", "@auth/admin"]
+  "preset": ["adminBaseModule"],
+  "deps": ["@admin/hono", "@admin/trpc", "@admin/base", "@auth/admin"]
 }
