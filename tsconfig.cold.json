@@ -16,6 +16,7 @@
       "@appConfig/shared/*": ["./modules/appConfig/*"],
       "@appConfig/site/*": ["./modules/appConfig/*"],
       "@apps/base/*": ["./apps/base/*"],
+      "@apps/shared/*": ["./apps/shared/*"],
       "@auth/admin/*": ["./modules/auth/admin/*"],
       "@auth/backend/*": ["./modules/auth/backend/*"],
       "@auth/shared/*": ["./modules/auth/shared/*"],

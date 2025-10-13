@@ -2,7 +2,7 @@ import { trpcBase } from '@backend/core/trpc'
 import { Error0 } from '@devp0nt/error0'
 import { zIdeaShowInput } from '@idea/admin/routes.app.sh'
 import { zIdeaClientGuest } from './utils.sh'
-import { parseZod } from '@apps/base/utils'
+import { parseZod } from '@apps/shared/utils'
 
 export const ideaListTrpcRoute = trpcBase().query(async ({ ctx }) => {
   const ideas = await ctx.prisma.idea.findMany()

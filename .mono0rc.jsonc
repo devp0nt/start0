@@ -220,7 +220,7 @@
       "include": true,
       "srcIndexFile": true,
       "exclude": ["$exclude"],
-      "deps": ["@apps/base"]
+      "deps": []
     },
     "withTsconfig": {
       "distDir": "./dist",

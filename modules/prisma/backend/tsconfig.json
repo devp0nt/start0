@@ -12,9 +12,6 @@
   },
   "references": [
     {
-      "path": "../../../.tsconfig/@apps/base/tsconfig.json"
-    },
-    {
       "path": "../../../.tsconfig/@auth/shared/tsconfig.json"
     },
     {

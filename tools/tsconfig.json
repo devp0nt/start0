@@ -10,9 +10,5 @@
     "composite": true,
     "tsBuildInfoFile": "../node_modules/.cache/tsbuildinfo/@tools/shared/.tsbuildinfo"
   },
-  "references": [
-    {
-      "path": "../.tsconfig/@apps/base/tsconfig.json"
-    }
-  ]
+  "references": []
 }
