@@ -2,7 +2,7 @@ import react from '@vitejs/plugin-react'
 import nodeFs from 'fs'
 import * as nodePath from 'path'
 import { defineConfig, loadEnv } from 'vite'
-import { createEnvBuild } from '../base/env'
+import { createEnvBuild } from '../base/lib/env'
 import { appName, appSlug } from '../../base/general'
 
 export default defineConfig(({ mode }) => {

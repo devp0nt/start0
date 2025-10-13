@@ -1,4 +1,4 @@
-import { authClient } from '@auth/admin/utils'
+import { authClient } from '@auth/admin-base/utils'
 import { getFinalPermissions, hasPermission } from '@auth/shared/permissions'
 import type { AccessControlProvider, AuthProvider, LoginFormTypes } from '@refinedev/core'
 import { useGetIdentity as useGetIdentityOriginal } from '@refinedev/core'
