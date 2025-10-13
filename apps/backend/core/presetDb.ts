@@ -1,5 +1,5 @@
 import { auth } from '@auth/backend/utils'
-import type { BackendCtx } from '@backend/core/ctx'
+import type { BackendCtx } from '@backend/ctx'
 
 export const presetDb = async (ctx: BackendCtx) => {
   await Promise.all([

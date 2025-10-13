@@ -1,6 +1,6 @@
 import { axiosInstance } from '@admin/core/lib/axios'
-import { env } from '@admin/base/env.runtime'
-import { queryClient } from '@admin/core/lib/trpc'
+import { env } from '@admin/base/lib/env.runtime'
+import { queryClient } from '@admin/trpc'
 import { LoadingOutlined } from '@ant-design/icons'
 import { refineAccessControlProvider, refineAuthProvider } from '@auth/admin/refine'
 import { backendAdminRoutesBasePath } from '@backend/shared/utils'
@@ -10,6 +10,7 @@ import { useNotificationProvider } from '@refinedev/antd'
 import '@refinedev/antd/dist/reset.css'
 import { Refine } from '@refinedev/core'
 import routerProvider from '@refinedev/react-router'
+
 export const refine0 = Refine0.create({
   openapiUrl: `${env.VITE_BACKEND_URL}${backendAdminRoutesBasePath}/doc.json`,
   apiUrl: env.VITE_BACKEND_URL,

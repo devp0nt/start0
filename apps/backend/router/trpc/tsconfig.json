@@ -48,6 +48,9 @@
       "path": "../../../../.tsconfig/@backend/base/tsconfig.json"
     },
     {
+      "path": "../../../../.tsconfig/@backend/ctx/tsconfig.json"
+    },
+    {
       "path": "../hono/tsconfig.json"
     },
     {
@@ -55,9 +58,6 @@
     },
     {
       "path": "../../../../.tsconfig/@adminUser/shared/tsconfig.json"
-    },
-    {
-      "path": "../../../../.tsconfig/@backend/ctx/tsconfig.json"
     },
     {
       "path": "../../../../.tsconfig/@appConfig/backend/tsconfig.json"

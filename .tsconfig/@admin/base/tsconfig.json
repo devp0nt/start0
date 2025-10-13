@@ -17,6 +17,12 @@
   "references": [
     {
       "path": "../../@apps/base/tsconfig.json"
+    },
+    {
+      "path": "../../@backend/shared/tsconfig.json"
+    },
+    {
+      "path": "../../@apps/base/tsconfig.json"
     }
   ]
 }

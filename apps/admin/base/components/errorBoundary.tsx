@@ -1,4 +1,4 @@
-import { ErrorPage } from '@admin/core/components/error'
+import { ErrorPage } from '@admin/base/components/error'
 import type { ReactNode } from 'react'
 import React from 'react'
 

@@ -60,6 +60,9 @@
     },
     {
       "path": "../../@auth/backend/tsconfig.json"
+    },
+    {
+      "path": "../../@backend/ctx/tsconfig.json"
     }
   ]
 }

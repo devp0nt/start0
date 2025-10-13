@@ -2,7 +2,7 @@ import type { RefineThemedLayoutHeaderProps } from '@refinedev/antd'
 import { Layout as AntdLayout, Space, Switch, theme } from 'antd'
 import React, { useContext } from 'react'
 import { Link } from 'react-router'
-import { ColorModeContext } from '@admin/core/components/colorMode'
+import { ColorModeContext } from '@admin/base/components/colorMode'
 import { useRefineGetIdentity } from '@auth/admin/refine'
 
 const { useToken } = theme

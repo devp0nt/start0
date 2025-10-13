@@ -30,6 +30,7 @@
       "@auth/site/*": ["./modules/auth/site/*"],
       "@backend/base/*": ["./apps/backend/base/*"],
       "@backend/core/*": ["./apps/backend/core/*"],
+      "@backend/ctx": ["./apps/backend/ctx/index.ts"],
       "@backend/ctx/*": ["./apps/backend/ctx/*"],
       "@backend/hono-router": ["./apps/backend/router/hono/index.ts"],
       "@backend/hono-router/*": ["./apps/backend/router/hono/*"],

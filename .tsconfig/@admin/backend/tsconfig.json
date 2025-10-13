@@ -43,6 +43,9 @@
       "path": "../../@backend/base/tsconfig.json"
     },
     {
+      "path": "../../@backend/ctx/tsconfig.json"
+    },
+    {
       "path": "../../@adminUser/backend/tsconfig.json"
     },
     {
@@ -50,9 +53,6 @@
     },
     {
       "path": "../../@backend/core/tsconfig.json"
-    },
-    {
-      "path": "../../@backend/ctx/tsconfig.json"
     },
     {
       "path": "../../@appConfig/backend/tsconfig.json"

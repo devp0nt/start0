@@ -1,4 +1,4 @@
-import { env } from '@admin/base/env.runtime'
+import { env } from '@admin/base/lib/env.runtime'
 import { appName } from '@apps/base/general'
 import { AuthPage } from '@refinedev/antd'
 

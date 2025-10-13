@@ -59,7 +59,7 @@ export const adminUserListAdminHonoRoute = honoBase().openapi(
   {
     ...getRoute.list({
       zResData: zList,
-      middleware: [honoAdminViewMiddleware] as const,
+      middleware: [honoAdminViewMiddleware],
     }),
   },
   async ({ req, json, var: { prisma, admin } }) => {

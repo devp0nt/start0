@@ -70,7 +70,7 @@
     "apps/backend/services": {
       "name": "@backend/services",
       "dependencies": {
-        "@devp0nt/ctx0": "^1.0.0-next.22",
+        "@devp0nt/ctx0": "^1.0.0-next.23",
         "@devp0nt/deepmap0": "^1.0.0-next.21",
         "@devp0nt/env0": "^1.0.0-next.15",
         "@devp0nt/error0": "^1.0.0-next.36",
@@ -270,7 +270,7 @@
 
     "@ctrl/tinycolor": ["@ctrl/tinycolor@3.6.1", "", {}, "sha512-SITSV6aIXsuVNV3f3O0f2n/cgyEDWoSqtZMYiAmcsYHydcKrOz3gUxB/iXd/Qf08+IZX4KpgNbvUdMBmWz+kcA=="],
 
-    "@devp0nt/ctx0": ["@devp0nt/ctx0@1.0.0-next.22", "", {}, "sha512-abUnOGiT5vqdl70i9Od9xAyoz4+zQOm0hjhCVri8uwRvsEh5dtLSq7b9ftFJbrAnzGXkN8SSNIRxc+62iNgqTQ=="],
+    "@devp0nt/ctx0": ["@devp0nt/ctx0@1.0.0-next.23", "", {}, "sha512-l7D+pxNZP0EI+s1riUQsq8QeiOm8CvMY0D4YsslsmZaYQ0LD3QpoS76sdAG8ACbV1y/oepESkyiVWTs/zWNgHg=="],
 
     "@devp0nt/deepmap0": ["@devp0nt/deepmap0@1.0.0-next.21", "", {}, "sha512-M0ZzmQQcvFS38WduWZonlKqeI/itCFEPAMNyrKEnmo715YdH+3aLwXVAJmF96l9goGScKZ9otlJOsJvXb7O6nA=="],
 

@@ -22,6 +22,9 @@
       "path": "../base/tsconfig.json"
     },
     {
+      "path": "../ctx/tsconfig.json"
+    },
+    {
       "path": "../shared/tsconfig.json"
     },
     {

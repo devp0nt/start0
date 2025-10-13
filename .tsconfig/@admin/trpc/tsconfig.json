@@ -28,6 +28,9 @@
       "path": "../../@apps/base/tsconfig.json"
     },
     {
+      "path": "../../@backend/shared/tsconfig.json"
+    },
+    {
       "path": "../base/tsconfig.json"
     },
     {
@@ -40,9 +43,6 @@
       "path": "../../@auth/shared/tsconfig.json"
     },
     {
-      "path": "../../@backend/shared/tsconfig.json"
-    },
-    {
       "path": "../../@backend/base/tsconfig.json"
     },
     {
@@ -52,6 +52,9 @@
       "path": "../../@backend/core/tsconfig.json"
     },
     {
+      "path": "../../@backend/ctx/tsconfig.json"
+    },
+    {
       "path": "../../../apps/backend/router/hono/tsconfig.json"
     },
     {
@@ -59,9 +62,6 @@
     },
     {
       "path": "../../@adminUser/shared/tsconfig.json"
-    },
-    {
-      "path": "../../@backend/ctx/tsconfig.json"
     },
     {
       "path": "../../@appConfig/backend/tsconfig.json"

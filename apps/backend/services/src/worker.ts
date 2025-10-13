@@ -1,5 +1,5 @@
 import { baseTri0 } from '@backend/base/tri0'
-import { backendCtx } from '@backend/core/ctx'
+import { backendCtx } from '@backend/ctx'
 import { presetDb } from '@backend/core/presetDb'
 import { applyUncaughtExceptionCatcher } from '@backend/core/uncaught'
 
