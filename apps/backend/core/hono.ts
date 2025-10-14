@@ -182,18 +182,44 @@ export const applyHonoErrorHandling = ({ hono }: { hono: HonoBase }) => {
   })
 }
 
-export const applyHonoOpenapiDocs = ({ hono, basePath, name }: { hono: HonoBase; basePath?: string; name: string }) => {
-  hono.doc31(
-    '/doc.json',
+const getOpenapiDocsSettings = ({ basePath, name }: { basePath?: string; name: string }) => {
+  return [
     {
       openapi: '3.1.0',
       info: { title: `${appName} ${name}`, version: '1' },
       ...(basePath ? { servers: [{ url: basePath }] } : {}),
     },
     { unionPreferredType: 'oneOf' },
-  )
+  ] as const
 }
-
+export const getHonoOpenapiSchema = ({
+  routes,
+  basePath,
+  name,
+}: {
+  routes: HonoBase
+  basePath?: string
+  name: string
+}) => {
+  return routes.getOpenAPI31Document(...getOpenapiDocsSettings({ basePath, name }))
+}
+export const applyHonoOpenapiDocs = ({
+  hono,
+  routes,
+  basePath,
+  name,
+}: {
+  hono: HonoBase
+  routes: HonoBase
+  basePath?: string
+  name: string
+}) => {
+  const schema = getHonoOpenapiSchema({ routes, basePath, name })
+  hono.get(basePath ? `${basePath}.json` : '/doc.json', ({ json }) => {
+    // console.log(123234234)
+    return json(schema)
+  })
+}
 export const applyScalarDocs = ({
   hono,
   path,
@@ -218,7 +244,7 @@ export const applyScalarDocs = ({
     path,
     Scalar({
       sources: sources.map((source) => ({
-        url: 'path' in source ? source.path : source.basePath + '/doc.json',
+        url: 'path' in source ? source.path : source.basePath === '/' ? '/doc.json' : `${source.basePath}.json`,
         title: source.title,
       })),
     }),

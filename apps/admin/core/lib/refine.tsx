@@ -12,7 +12,7 @@ import { Refine } from '@refinedev/core'
 import routerProvider from '@refinedev/react-router'
 
 export const refine0 = Refine0.create({
-  openapiUrl: `${env.VITE_BACKEND_URL}${backendAdminRoutesBasePath}/doc.json`,
+  openapiUrl: `${env.VITE_BACKEND_URL}${backendAdminRoutesBasePath}.json`,
   apiUrl: env.VITE_BACKEND_URL,
   httpClient: axiosInstance,
   Icon: ({ icon }) => <Icon icon={icon} fallback={<LoadingOutlined />} className="anticon ant-menu-item-icon" />,

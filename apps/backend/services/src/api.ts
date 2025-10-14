@@ -48,28 +48,30 @@ export const startApiProcess = async () => {
   // docs
   applyHonoOpenapiDocs({
     name: 'App',
-    hono: honoApp,
+    hono,
+    routes: honoApp,
     basePath: backendHonoAppRoutesBasePath,
   })
   applyHonoOpenapiDocs({
     name: 'Admin',
-    hono: honoAdmin,
+    hono,
+    routes: honoAdmin,
     basePath: backendHonoAdminRoutesBasePath,
   })
   applyScalarDocs({
     hono,
-    path: '/doc/app',
+    path: backendHonoAppRoutesBasePath,
     sources: [
-      { path: authOpenapiSchemaUrl, title: 'Auth' },
       { basePath: backendHonoAppRoutesBasePath, title: 'App' },
+      { path: authOpenapiSchemaUrl, title: 'Auth' },
     ],
   })
   applyScalarDocs({
     hono,
-    path: '/doc/admin',
+    path: backendHonoAdminRoutesBasePath,
     sources: [
-      { path: authOpenapiSchemaUrl, title: 'Auth' },
       { basePath: backendHonoAdminRoutesBasePath, title: 'Admin' },
+      { path: authOpenapiSchemaUrl, title: 'Auth' },
     ],
   })
 
