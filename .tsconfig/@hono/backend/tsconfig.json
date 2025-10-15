@@ -1,13 +1,13 @@
 {
   "extends": "../../tsconfig.backend.json",
-  "include": ["../../../modules/hono/backend/**/*"],
+  "include": ["../../../packages/hono/backend/**/*"],
   "exclude": [
-    "../../../modules/hono/backend/**/dist/**/*",
-    "../../../modules/hono/backend/**/node_modules/**/*",
-    "../../../modules/hono/backend/**/public/**/*"
+    "../../../packages/hono/backend/**/dist/**/*",
+    "../../../packages/hono/backend/**/node_modules/**/*",
+    "../../../packages/hono/backend/**/public/**/*"
   ],
   "compilerOptions": {
-    "rootDir": "../../../modules/hono/backend",
+    "rootDir": "../../../packages/hono/backend",
     "outDir": "./dist",
     "declaration": true,
     "declarationMap": true,

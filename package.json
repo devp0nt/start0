@@ -61,11 +61,11 @@
     "packages": [
       "./apps/admin/app",
       "./apps/backend/services",
-      "./apps/client",
+      "./packages/client",
       "./apps/cross/app",
-      "./modules/prisma/backend",
-      "./modules/prisma/shared",
-      "./apps/shared",
+      "./packages/prisma/backend",
+      "./packages/prisma/shared",
+      "./packages/shared",
       "./apps/site/app",
       "./tools"
     ],

@@ -37,7 +37,7 @@
 // sortExports: boolean | string[] | undefined
 
 {
-  "unitsConfigsGlob": "{modules,apps,tools}/**/mono0.json",
+  "unitsConfigsGlob": "{apps,modules,packages,tools}/**/mono0.json",
   "filesSelectors": {
     "exclude": ["**/dist/**/*", "**/node_modules/**/*", "**/public/**/*"],
     "test": ["**/test/**/*", "**/*.test.*"]

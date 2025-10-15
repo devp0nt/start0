@@ -1,13 +1,13 @@
 {
   "extends": "../../tsconfig.shared.json",
-  "include": ["../../../modules/rjs0/src/**/*"],
+  "include": ["../../../packages/rjs0/src/**/*"],
   "exclude": [
-    "../../../modules/rjs0/**/dist/**/*",
-    "../../../modules/rjs0/**/node_modules/**/*",
-    "../../../modules/rjs0/**/public/**/*"
+    "../../../packages/rjs0/**/dist/**/*",
+    "../../../packages/rjs0/**/node_modules/**/*",
+    "../../../packages/rjs0/**/public/**/*"
   ],
   "compilerOptions": {
-    "rootDir": "../../../modules/rjs0/src",
+    "rootDir": "../../../packages/rjs0/src",
     "outDir": "./dist",
     "declaration": true,
     "declarationMap": true,

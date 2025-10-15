@@ -29,49 +29,49 @@
       "@backend/ctx/*": ["./apps/backend/ctx/*"],
       "@backend/services/*": ["./apps/backend/services/src/*"],
       "@backend/shared/*": ["./apps/backend/shared/*"],
-      "@client/base/*": ["./apps/client/*"],
+      "@client/base/*": ["./packages/client/*"],
       "@cross/app/*": ["./apps/cross/app/*"],
       "@cross/base/*": ["./apps/cross/base/*"],
       "@cross/core/*": ["./apps/cross/core/*"],
       "@cross/ctx": ["./apps/cross/ctx/index.tsx"],
       "@cross/ctx/*": ["./apps/cross/ctx/*"],
-      "@devp0nt/rjs0": ["./modules/rjs0/src/index.ts"],
-      "@devp0nt/rjs0/*": ["./modules/rjs0/src/*"],
-      "@hono/backend": ["./modules/hono/backend/index.ts"],
-      "@hono/backend/*": ["./modules/hono/backend/*"],
-      "@hono/backend-base": ["./modules/hono/backend-base/index.ts"],
-      "@hono/backend-base/*": ["./modules/hono/backend-base/*"],
-      "@hono/client-base": ["./modules/hono/client-base/index.ts"],
-      "@hono/client-base/*": ["./modules/hono/client-base/*"],
-      "@hono/router": ["./modules/hono/router/index.ts"],
-      "@hono/router/*": ["./modules/hono/router/*"],
+      "@devp0nt/rjs0": ["./packages/rjs0/src/index.ts"],
+      "@devp0nt/rjs0/*": ["./packages/rjs0/src/*"],
+      "@hono/backend": ["./packages/hono/backend/index.ts"],
+      "@hono/backend/*": ["./packages/hono/backend/*"],
+      "@hono/backend-base": ["./packages/hono/backend-base/index.ts"],
+      "@hono/backend-base/*": ["./packages/hono/backend-base/*"],
+      "@hono/client-base": ["./packages/hono/client-base/index.ts"],
+      "@hono/client-base/*": ["./packages/hono/client-base/*"],
+      "@hono/router": ["./packages/hono/router/index.ts"],
+      "@hono/router/*": ["./packages/hono/router/*"],
       "@idea/admin/*": ["./modules/idea/*"],
       "@idea/backend/*": ["./modules/idea/*"],
       "@idea/shared/*": ["./modules/idea/*"],
       "@idea/site/*": ["./modules/idea/*"],
-      "@prisma/backend": ["./modules/prisma/backend/src/index.ts"],
-      "@prisma/backend/*": ["./modules/prisma/backend/src/*"],
-      "@prisma/shared": ["./modules/prisma/shared/src/index.ts"],
-      "@prisma/shared/*": ["./modules/prisma/shared/src/*"],
-      "@shared/base/*": ["./apps/shared/*"],
+      "@prisma/backend": ["./packages/prisma/backend/src/index.ts"],
+      "@prisma/backend/*": ["./packages/prisma/backend/src/*"],
+      "@prisma/shared": ["./packages/prisma/shared/src/index.ts"],
+      "@prisma/shared/*": ["./packages/prisma/shared/src/*"],
+      "@shared/base/*": ["./packages/shared/*"],
       "@site/app/*": ["./apps/site/app/*"],
       "@site/core/*": ["./apps/site/core/*"],
       "@tools/shared": ["./tools/src/index.ts"],
       "@tools/shared/*": ["./tools/src/*"],
-      "@trpc/backend": ["./modules/trpc/backend/index.ts"],
-      "@trpc/backend/*": ["./modules/trpc/backend/*"],
-      "@trpc/client-base": ["./modules/trpc/client-base/index.tsx"],
-      "@trpc/client-base/*": ["./modules/trpc/client-base/*"],
-      "@trpc/router": ["./modules/trpc/router/index.ts"],
-      "@trpc/router/*": ["./modules/trpc/router/*"]
+      "@trpc/backend": ["./packages/trpc/backend/index.ts"],
+      "@trpc/backend/*": ["./packages/trpc/backend/*"],
+      "@trpc/client-base": ["./packages/trpc/client-base/index.tsx"],
+      "@trpc/client-base/*": ["./packages/trpc/client-base/*"],
+      "@trpc/router": ["./packages/trpc/router/index.ts"],
+      "@trpc/router/*": ["./packages/trpc/router/*"]
     }
   },
   "references": [
     {
-      "path": "./modules/prisma/backend/tsconfig.json"
+      "path": "./packages/prisma/backend/tsconfig.json"
     },
     {
-      "path": "./modules/prisma/shared/tsconfig.json"
+      "path": "./packages/prisma/shared/tsconfig.json"
     }
   ]
 }

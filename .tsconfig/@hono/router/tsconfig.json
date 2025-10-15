@@ -1,13 +1,13 @@
 {
   "extends": "../../tsconfig.backend.json",
-  "include": ["../../../modules/hono/router/**/*"],
+  "include": ["../../../packages/hono/router/**/*"],
   "exclude": [
-    "../../../modules/hono/router/**/dist/**/*",
-    "../../../modules/hono/router/**/node_modules/**/*",
-    "../../../modules/hono/router/**/public/**/*"
+    "../../../packages/hono/router/**/dist/**/*",
+    "../../../packages/hono/router/**/node_modules/**/*",
+    "../../../packages/hono/router/**/public/**/*"
   ],
   "compilerOptions": {
-    "rootDir": "../../../modules/hono/router",
+    "rootDir": "../../../packages/hono/router",
     "outDir": "./dist",
     "declaration": true,
     "declarationMap": true,

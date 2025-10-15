@@ -1,13 +1,13 @@
 {
   "extends": "../../tsconfig.backend.json",
-  "include": ["../../../modules/trpc/router/**/*"],
+  "include": ["../../../packages/trpc/router/**/*"],
   "exclude": [
-    "../../../modules/trpc/router/**/dist/**/*",
-    "../../../modules/trpc/router/**/node_modules/**/*",
-    "../../../modules/trpc/router/**/public/**/*"
+    "../../../packages/trpc/router/**/dist/**/*",
+    "../../../packages/trpc/router/**/node_modules/**/*",
+    "../../../packages/trpc/router/**/public/**/*"
   ],
   "compilerOptions": {
-    "rootDir": "../../../modules/trpc/router",
+    "rootDir": "../../../packages/trpc/router",
     "outDir": "./dist",
     "declaration": true,
     "declarationMap": true,

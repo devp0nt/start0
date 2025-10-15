@@ -1,13 +1,13 @@
 {
   "extends": "../../tsconfig.backend.json",
-  "include": ["../../../modules/trpc/backend/**/*"],
+  "include": ["../../../packages/trpc/backend/**/*"],
   "exclude": [
-    "../../../modules/trpc/backend/**/dist/**/*",
-    "../../../modules/trpc/backend/**/node_modules/**/*",
-    "../../../modules/trpc/backend/**/public/**/*"
+    "../../../packages/trpc/backend/**/dist/**/*",
+    "../../../packages/trpc/backend/**/node_modules/**/*",
+    "../../../packages/trpc/backend/**/public/**/*"
   ],
   "compilerOptions": {
-    "rootDir": "../../../modules/trpc/backend",
+    "rootDir": "../../../packages/trpc/backend",
     "outDir": "./dist",
     "declaration": true,
     "declarationMap": true,
