@@ -28,10 +28,10 @@
       "path": "../../@shared/base/tsconfig.json"
     },
     {
-      "path": "../../@adminUser/backend/tsconfig.json"
+      "path": "../../@admin-user/backend/tsconfig.json"
     },
     {
-      "path": "../../@adminUser/shared/tsconfig.json"
+      "path": "../../@admin-user/shared/tsconfig.json"
     },
     {
       "path": "../../@auth/shared/tsconfig.json"
@@ -61,7 +61,7 @@
       "path": "../backend/tsconfig.json"
     },
     {
-      "path": "../../@appConfig/backend/tsconfig.json"
+      "path": "../../@app-config/backend/tsconfig.json"
     },
     {
       "path": "../../@idea/backend/tsconfig.json"

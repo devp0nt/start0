@@ -1,18 +1,18 @@
 [
   {
-    "name": "@appConfig/shared",
+    "name": "@app-config/shared",
     "preset": ["sharedModule", "sharedMulti"]
   },
   {
-    "name": "@appConfig/backend",
+    "name": "@app-config/backend",
     "preset": ["backendModule", "backendMulti", "withBackendRoutes"]
   },
   {
-    "name": "@appConfig/site",
+    "name": "@app-config/site",
     "preset": ["siteModule", "siteMulti"]
   },
   {
-    "name": "@appConfig/admin",
+    "name": "@app-config/admin",
     "preset": ["adminModule", "adminMulti"]
   }
 ]

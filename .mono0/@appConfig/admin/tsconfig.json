@@ -1,16 +1,16 @@
 {
   "extends": "../../tsconfig.admin.json",
   "include": [
-    "../../../modules/appConfig/**/admin/**/*",
-    "../../../modules/appConfig/**/*.ad.ts",
-    "../../../modules/appConfig/**/*.ad.tsx",
-    "../../../modules/appConfig/**/*.fe.ts",
-    "../../../modules/appConfig/**/*.fe.tsx"
+    "../../../modules/app-config/**/admin/**/*",
+    "../../../modules/app-config/**/*.ad.ts",
+    "../../../modules/app-config/**/*.ad.tsx",
+    "../../../modules/app-config/**/*.fe.ts",
+    "../../../modules/app-config/**/*.fe.tsx"
   ],
   "exclude": [
-    "../../../modules/appConfig/**/dist/**/*",
-    "../../../modules/appConfig/**/node_modules/**/*",
-    "../../../modules/appConfig/**/public/**/*"
+    "../../../modules/app-config/**/dist/**/*",
+    "../../../modules/app-config/**/node_modules/**/*",
+    "../../../modules/app-config/**/public/**/*"
   ],
   "compilerOptions": {
     "rootDir": "../../../modules/appConfig",
@@ -18,7 +18,7 @@
     "declaration": true,
     "declarationMap": false,
     "composite": true,
-    "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@appConfig/admin/.tsbuildinfo"
+    "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@app-config/admin/.tsbuildinfo"
   },
   "references": [
     {
@@ -73,10 +73,10 @@
       "path": "../../@trpc/router/tsconfig.json"
     },
     {
-      "path": "../../@adminUser/backend/tsconfig.json"
+      "path": "../../@admin-user/backend/tsconfig.json"
     },
     {
-      "path": "../../@adminUser/shared/tsconfig.json"
+      "path": "../../@admin-user/shared/tsconfig.json"
     },
     {
       "path": "../../@backend/core/tsconfig.json"

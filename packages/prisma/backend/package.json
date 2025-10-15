@@ -3,9 +3,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "types": "tsc --noEmit ./tsconfig.json",
-    "build": "tsc --build ./tsconfig.json",
-    "watch": "tsc --watch ./tsconfig.json",
+    "types": "tsgo --noEmit ./tsconfig.json",
+    "build": "tsgo --build ./tsconfig.json",
+    "watch": "tsgo --watch ./tsconfig.json",
     "clean": "rimraf ../../../node_modules/.cache/tsbuildinfo/@prisma/backend && rimraf ./dist && rimraf ./src/generated && rimraf ../shared/src/generated",
     "prisma-migrate-dev": "bun run --env-file=./.env prisma migrate dev && bun run build",
     "prisma-migrate-reset": "bun run --env-file=./.env prisma migrate reset",

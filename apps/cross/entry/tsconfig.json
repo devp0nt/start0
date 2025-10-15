@@ -22,14 +22,14 @@
       "@admin/ctx/*": ["../../admin/ctx/*"],
       "@admin/entry": ["../../admin/entry/src/index.tsx"],
       "@admin/entry/*": ["../../admin/entry/src/*"],
-      "@adminUser/admin/*": ["../../../modules/adminUser/*"],
-      "@adminUser/backend/*": ["../../../modules/adminUser/*"],
-      "@adminUser/shared/*": ["../../../modules/adminUser/*"],
-      "@adminUser/site/*": ["../../../modules/adminUser/*"],
-      "@appConfig/admin/*": ["../../../modules/appConfig/*"],
-      "@appConfig/backend/*": ["../../../modules/appConfig/*"],
-      "@appConfig/shared/*": ["../../../modules/appConfig/*"],
-      "@appConfig/site/*": ["../../../modules/appConfig/*"],
+      "@admin-user/admin/*": ["../../../modules/admin-user/*"],
+      "@admin-user/backend/*": ["../../../modules/admin-user/*"],
+      "@admin-user/shared/*": ["../../../modules/admin-user/*"],
+      "@admin-user/site/*": ["../../../modules/admin-user/*"],
+      "@app-config/admin/*": ["../../../modules/app-config/*"],
+      "@app-config/backend/*": ["../../../modules/app-config/*"],
+      "@app-config/shared/*": ["../../../modules/app-config/*"],
+      "@app-config/site/*": ["../../../modules/app-config/*"],
       "@auth/admin/*": ["../../../modules/auth/admin/*"],
       "@auth/backend/*": ["../../../modules/auth/backend/*"],
       "@auth/frontend-base": ["../../../modules/auth/frontend-base/index.ts"],
@@ -114,10 +114,10 @@
       "path": "../../../.mono0/@trpc/router/tsconfig.json"
     },
     {
-      "path": "../../../.mono0/@adminUser/backend/tsconfig.json"
+      "path": "../../../.mono0/@admin-user/backend/tsconfig.json"
     },
     {
-      "path": "../../../.mono0/@adminUser/shared/tsconfig.json"
+      "path": "../../../.mono0/@admin-user/shared/tsconfig.json"
     },
     {
       "path": "../../../.mono0/@auth/shared/tsconfig.json"
@@ -144,7 +144,7 @@
       "path": "../../../.mono0/@trpc/backend/tsconfig.json"
     },
     {
-      "path": "../../../.mono0/@appConfig/backend/tsconfig.json"
+      "path": "../../../.mono0/@app-config/backend/tsconfig.json"
     },
     {
       "path": "../../../.mono0/@idea/backend/tsconfig.json"

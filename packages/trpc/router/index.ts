@@ -5,7 +5,7 @@ import type { inferRouterInputs, inferRouterOutputs } from '@trpc/server'
 
 // @gen0:start $.app = await importExportedFromFiles("~/**/route{s,}{.*,}{.be,}.ts", "AppTrpcRoute", (file0) => mono0.getFilePathRelativeToPackageName(file0.path.abs))
 
-import { getConfigAppTrpcRoute } from '@appConfig/backend/routes.be'
+import { getConfigAppTrpcRoute } from '@app-config/backend/routes.be'
 import { pingAppTrpcRoute } from '@trpc/router/ping/route'
 // @gen0:end
 

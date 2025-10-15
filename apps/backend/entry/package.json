@@ -4,10 +4,10 @@
   "type": "module",
   "scripts": {
     "dev": "NODE_ENV=development bun --watch src/dev.ts",
-    "types": "tsc --noEmit ./tsconfig.json",
+    "types": "tsgo --noEmit ./tsconfig.json",
     "start": "NODE_ENV=production bun dist/api.js",
-    "build": "tsc --build ./tsconfig.json",
-    "watch": "tsc --watch ./tsconfig.json",
+    "build": "tsgo --build ./tsconfig.json",
+    "watch": "tsgo --watch ./tsconfig.json",
     "clean": "rimraf ../../../node_modules/.cache/tsbuildinfo/@backend/entry && rimraf ./dist"
   },
   "dependencies": {

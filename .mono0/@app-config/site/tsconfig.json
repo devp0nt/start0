@@ -13,7 +13,7 @@
     "../../../modules/app-config/**/public/**/*"
   ],
   "compilerOptions": {
-    "rootDir": "../../../modules/appConfig",
+    "rootDir": "../../../modules/app-config",
     "outDir": "./dist",
     "declaration": true,
     "declarationMap": false,

@@ -12,10 +12,10 @@
   },
   "references": [
     {
-      "path": "../../../.mono0/@adminUser/site/tsconfig.json"
+      "path": "../../../.mono0/@admin-user/site/tsconfig.json"
     },
     {
-      "path": "../../../.mono0/@appConfig/site/tsconfig.json"
+      "path": "../../../.mono0/@app-config/site/tsconfig.json"
     },
     {
       "path": "../../../.mono0/@auth/site/tsconfig.json"
@@ -27,7 +27,7 @@
       "path": "../../../.mono0/@site/core/tsconfig.json"
     },
     {
-      "path": "../../../.mono0/@adminUser/shared/tsconfig.json"
+      "path": "../../../.mono0/@admin-user/shared/tsconfig.json"
     },
     {
       "path": "../../../.mono0/@auth/shared/tsconfig.json"

@@ -1,27 +1,24 @@
 {
   "extends": "../../tsconfig.backend.json",
   "include": [
-    "../../../modules/admin-user/**/backend/**/*",
-    "../../../modules/admin-user/**/*.be.ts",
-    "../../../modules/admin-user/**/*.be.tsx"
+    "../../../modules/app-config/**/backend/**/*",
+    "../../../modules/app-config/**/*.be.ts",
+    "../../../modules/app-config/**/*.be.tsx"
   ],
   "exclude": [
-    "../../../modules/admin-user/**/dist/**/*",
-    "../../../modules/admin-user/**/node_modules/**/*",
-    "../../../modules/admin-user/**/public/**/*"
+    "../../../modules/app-config/**/dist/**/*",
+    "../../../modules/app-config/**/node_modules/**/*",
+    "../../../modules/app-config/**/public/**/*"
   ],
   "compilerOptions": {
-    "rootDir": "../../../modules/adminUser",
+    "rootDir": "../../../modules/app-config",
     "outDir": "./dist",
     "declaration": true,
     "declarationMap": false,
     "composite": true,
-    "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@admin-user/backend/.tsbuildinfo"
+    "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@app-config/backend/.tsbuildinfo"
   },
   "references": [
-    {
-      "path": "../shared/tsconfig.json"
-    },
     {
       "path": "../../@auth/backend/tsconfig.json"
     },

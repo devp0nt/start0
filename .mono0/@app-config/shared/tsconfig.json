@@ -1,11 +1,9 @@
 {
-  "extends": "../../tsconfig.site.json",
+  "extends": "../../tsconfig.shared.json",
   "include": [
-    "../../../modules/app-config/**/site/**/*",
-    "../../../modules/app-config/**/*.si.ts",
-    "../../../modules/app-config/**/*.si.tsx",
-    "../../../modules/app-config/**/*.fe.ts",
-    "../../../modules/app-config/**/*.fe.tsx"
+    "../../../modules/app-config/**/shared/**/*",
+    "../../../modules/app-config/**/*.sh.ts",
+    "../../../modules/app-config/**/*.sh.tsx"
   ],
   "exclude": [
     "../../../modules/app-config/**/dist/**/*",
@@ -13,19 +11,16 @@
     "../../../modules/app-config/**/public/**/*"
   ],
   "compilerOptions": {
-    "rootDir": "../../../modules/appConfig",
+    "rootDir": "../../../modules/app-config",
     "outDir": "./dist",
     "declaration": true,
     "declarationMap": false,
     "composite": true,
-    "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@app-config/site/.tsbuildinfo"
+    "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@app-config/shared/.tsbuildinfo"
   },
   "references": [
     {
       "path": "../../@auth/shared/tsconfig.json"
-    },
-    {
-      "path": "../../@auth/site/tsconfig.json"
     },
     {
       "path": "../../@backend/shared/tsconfig.json"
@@ -34,13 +29,7 @@
       "path": "../../@shared/base/tsconfig.json"
     },
     {
-      "path": "../../@site/core/tsconfig.json"
-    },
-    {
       "path": "../../@shared/base/tsconfig.json"
-    },
-    {
-      "path": "../../@auth/shared/tsconfig.json"
     }
   ]
 }

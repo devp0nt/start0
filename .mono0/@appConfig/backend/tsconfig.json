@@ -1,14 +1,14 @@
 {
   "extends": "../../tsconfig.backend.json",
   "include": [
-    "../../../modules/appConfig/**/backend/**/*",
-    "../../../modules/appConfig/**/*.be.ts",
-    "../../../modules/appConfig/**/*.be.tsx"
+    "../../../modules/app-config/**/backend/**/*",
+    "../../../modules/app-config/**/*.be.ts",
+    "../../../modules/app-config/**/*.be.tsx"
   ],
   "exclude": [
-    "../../../modules/appConfig/**/dist/**/*",
-    "../../../modules/appConfig/**/node_modules/**/*",
-    "../../../modules/appConfig/**/public/**/*"
+    "../../../modules/app-config/**/dist/**/*",
+    "../../../modules/app-config/**/node_modules/**/*",
+    "../../../modules/app-config/**/public/**/*"
   ],
   "compilerOptions": {
     "rootDir": "../../../modules/appConfig",
@@ -16,7 +16,7 @@
     "declaration": true,
     "declarationMap": false,
     "composite": true,
-    "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@appConfig/backend/.tsbuildinfo"
+    "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@app-config/backend/.tsbuildinfo"
   },
   "references": [
     {

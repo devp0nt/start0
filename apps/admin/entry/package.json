@@ -9,7 +9,7 @@
     "start": "refine start",
     "refine": "refine",
     "types": "tsc --noEmit",
-    "watch": "tsc --watch ./tsconfig.json",
+    "watch": "tsgo --watch ./tsconfig.json",
     "clean": "rimraf ../../../node_modules/.cache/tsbuildinfo/@admin/entry && rimraf ./dist"
   },
   "dependencies": {

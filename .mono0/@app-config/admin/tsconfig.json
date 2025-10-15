@@ -1,24 +1,24 @@
 {
   "extends": "../../tsconfig.admin.json",
   "include": [
-    "../../../modules/admin-user/**/admin/**/*",
-    "../../../modules/admin-user/**/*.ad.ts",
-    "../../../modules/admin-user/**/*.ad.tsx",
-    "../../../modules/admin-user/**/*.fe.ts",
-    "../../../modules/admin-user/**/*.fe.tsx"
+    "../../../modules/app-config/**/admin/**/*",
+    "../../../modules/app-config/**/*.ad.ts",
+    "../../../modules/app-config/**/*.ad.tsx",
+    "../../../modules/app-config/**/*.fe.ts",
+    "../../../modules/app-config/**/*.fe.tsx"
   ],
   "exclude": [
-    "../../../modules/admin-user/**/dist/**/*",
-    "../../../modules/admin-user/**/node_modules/**/*",
-    "../../../modules/admin-user/**/public/**/*"
+    "../../../modules/app-config/**/dist/**/*",
+    "../../../modules/app-config/**/node_modules/**/*",
+    "../../../modules/app-config/**/public/**/*"
   ],
   "compilerOptions": {
-    "rootDir": "../../../modules/adminUser",
+    "rootDir": "../../../modules/app-config",
     "outDir": "./dist",
     "declaration": true,
     "declarationMap": false,
     "composite": true,
-    "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@admin-user/admin/.tsbuildinfo"
+    "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@app-config/admin/.tsbuildinfo"
   },
   "references": [
     {
@@ -29,9 +29,6 @@
     },
     {
       "path": "../../@admin/ctx/tsconfig.json"
-    },
-    {
-      "path": "../shared/tsconfig.json"
     },
     {
       "path": "../../@auth/admin/tsconfig.json"
@@ -76,10 +73,10 @@
       "path": "../../@trpc/router/tsconfig.json"
     },
     {
-      "path": "../backend/tsconfig.json"
+      "path": "../../@admin-user/backend/tsconfig.json"
     },
     {
-      "path": "../shared/tsconfig.json"
+      "path": "../../@admin-user/shared/tsconfig.json"
     },
     {
       "path": "../../@backend/core/tsconfig.json"
@@ -97,7 +94,7 @@
       "path": "../../@trpc/backend/tsconfig.json"
     },
     {
-      "path": "../../@app-config/backend/tsconfig.json"
+      "path": "../backend/tsconfig.json"
     },
     {
       "path": "../../@idea/backend/tsconfig.json"

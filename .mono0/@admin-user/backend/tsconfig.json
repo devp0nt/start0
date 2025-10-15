@@ -11,7 +11,7 @@
     "../../../modules/admin-user/**/public/**/*"
   ],
   "compilerOptions": {
-    "rootDir": "../../../modules/adminUser",
+    "rootDir": "../../../modules/admin-user",
     "outDir": "./dist",
     "declaration": true,
     "declarationMap": false,

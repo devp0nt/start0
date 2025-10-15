@@ -12,10 +12,10 @@
   },
   "references": [
     {
-      "path": "../../../.mono0/@adminUser/backend/tsconfig.json"
+      "path": "../../../.mono0/@admin-user/backend/tsconfig.json"
     },
     {
-      "path": "../../../.mono0/@appConfig/backend/tsconfig.json"
+      "path": "../../../.mono0/@app-config/backend/tsconfig.json"
     },
     {
       "path": "../../../.mono0/@auth/backend/tsconfig.json"
@@ -48,7 +48,7 @@
       "path": "../../../.mono0/@trpc/router/tsconfig.json"
     },
     {
-      "path": "../../../.mono0/@adminUser/shared/tsconfig.json"
+      "path": "../../../.mono0/@admin-user/shared/tsconfig.json"
     },
     {
       "path": "../../../.mono0/@auth/shared/tsconfig.json"
@@ -81,10 +81,10 @@
       "path": "../../../.mono0/@trpc/backend/tsconfig.json"
     },
     {
-      "path": "../../../.mono0/@adminUser/backend/tsconfig.json"
+      "path": "../../../.mono0/@admin-user/backend/tsconfig.json"
     },
     {
-      "path": "../../../.mono0/@appConfig/backend/tsconfig.json"
+      "path": "../../../.mono0/@app-config/backend/tsconfig.json"
     },
     {
       "path": "../../../.mono0/@idea/backend/tsconfig.json"

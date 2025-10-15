@@ -1,14 +1,14 @@
 {
   "extends": "../../tsconfig.shared.json",
   "include": [
-    "../../../modules/adminUser/**/shared/**/*",
-    "../../../modules/adminUser/**/*.sh.ts",
-    "../../../modules/adminUser/**/*.sh.tsx"
+    "../../../modules/admin-user/**/shared/**/*",
+    "../../../modules/admin-user/**/*.sh.ts",
+    "../../../modules/admin-user/**/*.sh.tsx"
   ],
   "exclude": [
-    "../../../modules/adminUser/**/dist/**/*",
-    "../../../modules/adminUser/**/node_modules/**/*",
-    "../../../modules/adminUser/**/public/**/*"
+    "../../../modules/admin-user/**/dist/**/*",
+    "../../../modules/admin-user/**/node_modules/**/*",
+    "../../../modules/admin-user/**/public/**/*"
   ],
   "compilerOptions": {
     "rootDir": "../../../modules/adminUser",
@@ -16,7 +16,7 @@
     "declaration": true,
     "declarationMap": false,
     "composite": true,
-    "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@adminUser/shared/.tsbuildinfo"
+    "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@admin-user/shared/.tsbuildinfo"
   },
   "references": [
     {

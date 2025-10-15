@@ -1,21 +1,21 @@
 [
   {
-    "name": "@adminUser/shared",
+    "name": "@admin-user/shared",
     "preset": ["sharedModule", "sharedMulti"]
   },
   {
-    "name": "@adminUser/backend",
+    "name": "@admin-user/backend",
     "preset": ["backendModule", "backendMulti", "withBackendRoutes"],
-    "deps": ["@adminUser/shared"]
+    "deps": ["@admin-user/shared"]
   },
   {
-    "name": "@adminUser/site",
+    "name": "@admin-user/site",
     "preset": ["siteModule", "siteMulti"],
-    "deps": ["@adminUser/shared"]
+    "deps": ["@admin-user/shared"]
   },
   {
-    "name": "@adminUser/admin",
+    "name": "@admin-user/admin",
     "preset": ["adminModule", "adminMulti"],
-    "deps": ["@adminUser/shared"]
+    "deps": ["@admin-user/shared"]
   }
 ]

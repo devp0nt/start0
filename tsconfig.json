@@ -3,20 +3,20 @@
   "include": [],
   "compilerOptions": {
     "paths": {
+      "@admin-user/admin/*": ["./modules/admin-user/*"],
+      "@admin-user/backend/*": ["./modules/admin-user/*"],
+      "@admin-user/shared/*": ["./modules/admin-user/*"],
+      "@admin-user/site/*": ["./modules/admin-user/*"],
       "@admin/base/*": ["./apps/admin/base/*"],
       "@admin/core/*": ["./apps/admin/core/*"],
       "@admin/ctx": ["./apps/admin/ctx/index.tsx"],
       "@admin/ctx/*": ["./apps/admin/ctx/*"],
       "@admin/entry": ["./apps/admin/entry/src/index.tsx"],
       "@admin/entry/*": ["./apps/admin/entry/src/*"],
-      "@adminUser/admin/*": ["./modules/adminUser/*"],
-      "@adminUser/backend/*": ["./modules/adminUser/*"],
-      "@adminUser/shared/*": ["./modules/adminUser/*"],
-      "@adminUser/site/*": ["./modules/adminUser/*"],
-      "@appConfig/admin/*": ["./modules/appConfig/*"],
-      "@appConfig/backend/*": ["./modules/appConfig/*"],
-      "@appConfig/shared/*": ["./modules/appConfig/*"],
-      "@appConfig/site/*": ["./modules/appConfig/*"],
+      "@app-config/admin/*": ["./modules/app-config/*"],
+      "@app-config/backend/*": ["./modules/app-config/*"],
+      "@app-config/shared/*": ["./modules/app-config/*"],
+      "@app-config/site/*": ["./modules/app-config/*"],
       "@auth/admin/*": ["./modules/auth/admin/*"],
       "@auth/backend/*": ["./modules/auth/backend/*"],
       "@auth/frontend-base": ["./modules/auth/frontend-base/index.ts"],
@@ -66,6 +66,18 @@
   },
   "references": [
     {
+      "path": "./.mono0/@admin-user/admin/tsconfig.json"
+    },
+    {
+      "path": "./.mono0/@admin-user/backend/tsconfig.json"
+    },
+    {
+      "path": "./.mono0/@admin-user/shared/tsconfig.json"
+    },
+    {
+      "path": "./.mono0/@admin-user/site/tsconfig.json"
+    },
+    {
       "path": "./.mono0/@admin/base/tsconfig.json"
     },
     {
@@ -78,28 +90,16 @@
       "path": "./apps/admin/entry/tsconfig.json"
     },
     {
-      "path": "./.mono0/@adminUser/admin/tsconfig.json"
+      "path": "./.mono0/@app-config/admin/tsconfig.json"
     },
     {
-      "path": "./.mono0/@adminUser/backend/tsconfig.json"
+      "path": "./.mono0/@app-config/backend/tsconfig.json"
     },
     {
-      "path": "./.mono0/@adminUser/shared/tsconfig.json"
+      "path": "./.mono0/@app-config/shared/tsconfig.json"
     },
     {
-      "path": "./.mono0/@adminUser/site/tsconfig.json"
-    },
-    {
-      "path": "./.mono0/@appConfig/admin/tsconfig.json"
-    },
-    {
-      "path": "./.mono0/@appConfig/backend/tsconfig.json"
-    },
-    {
-      "path": "./.mono0/@appConfig/shared/tsconfig.json"
-    },
-    {
-      "path": "./.mono0/@appConfig/site/tsconfig.json"
+      "path": "./.mono0/@app-config/site/tsconfig.json"
     },
     {
       "path": "./.mono0/@auth/admin/tsconfig.json"
