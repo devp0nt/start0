@@ -1,9 +1,8 @@
-import { env } from '@admin/base/lib/env.runtime'
 import { backendTrpcRoutesBasePath } from '@backend/shared/utils'
-import type { TrpcRouter } from '@trpc/router'
 import { QueryClient } from '@tanstack/react-query'
 import { createTRPCClient, httpBatchLink, loggerLink } from '@trpc/client'
-import { createTRPCOptionsProxy, createTRPCContext } from '@trpc/tanstack-react-query'
+import type { TrpcRouter } from '@trpc/router'
+import { createTRPCContext, createTRPCOptionsProxy } from '@trpc/tanstack-react-query'
 import superjson from 'superjson'
 
 export const queryClient = new QueryClient()
@@ -16,7 +15,11 @@ const links = [
   }),
   httpBatchLink({
     transformer: superjson,
-    url: env.VITE_BACKEND_URL + backendTrpcRoutesBasePath,
+    // TODO: use sharedEnv form updated Env0 package
+    url:
+      ((typeof import.meta !== 'undefined' && import.meta.env?.VITE_BACKEND_URL) ||
+        process.env.BACKEND_URL ||
+        process.env.EXPO_PUBLIC_BACKEND_URL) + backendTrpcRoutesBasePath,
   }),
 ]
 
