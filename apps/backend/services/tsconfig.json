@@ -51,16 +51,13 @@
       "path": "../../../.tsconfig/@adminUser/shared/tsconfig.json"
     },
     {
-      "path": "../../../.tsconfig/@apps/base/tsconfig.json"
-    },
-    {
-      "path": "../../../.tsconfig/@apps/shared/tsconfig.json"
-    },
-    {
       "path": "../../../.tsconfig/@auth/shared/tsconfig.json"
     },
     {
       "path": "../../../.tsconfig/@backend/shared/tsconfig.json"
+    },
+    {
+      "path": "../../../.tsconfig/@shared/base/tsconfig.json"
     },
     {
       "path": "../../../.tsconfig/@auth/backend/tsconfig.json"

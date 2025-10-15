@@ -1,5 +1,0 @@
-{
-  "name": "@apps/base",
-  "preset": ["sharedBaseModule"],
-  "deps": []
-}

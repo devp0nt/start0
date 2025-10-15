@@ -18,8 +18,6 @@
       "@appConfig/backend/*": ["./modules/appConfig/*"],
       "@appConfig/shared/*": ["./modules/appConfig/*"],
       "@appConfig/site/*": ["./modules/appConfig/*"],
-      "@apps/base/*": ["./apps/base/*"],
-      "@apps/shared/*": ["./apps/shared/*"],
       "@auth/admin/*": ["./modules/auth/admin/*"],
       "@auth/backend/*": ["./modules/auth/backend/*"],
       "@auth/client-base/*": ["./modules/auth/client-base/*"],
@@ -51,6 +49,7 @@
       "@idea/backend/*": ["./modules/idea/*"],
       "@idea/shared/*": ["./modules/idea/*"],
       "@idea/site/*": ["./modules/idea/*"],
+      "@shared/base/*": ["./apps/shared/*"],
       "@site/app/*": ["./apps/site/app/*"],
       "@site/core/*": ["./apps/site/core/*"],
       "@tools/shared": ["./tools/src/index.ts"],
@@ -104,12 +103,6 @@
     },
     {
       "path": "./.tsconfig/@appConfig/site/tsconfig.json"
-    },
-    {
-      "path": "./.tsconfig/@apps/base/tsconfig.json"
-    },
-    {
-      "path": "./.tsconfig/@apps/shared/tsconfig.json"
     },
     {
       "path": "./.tsconfig/@auth/admin/tsconfig.json"
@@ -182,6 +175,9 @@
     },
     {
       "path": "./.tsconfig/@idea/site/tsconfig.json"
+    },
+    {
+      "path": "./.tsconfig/@shared/base/tsconfig.json"
     },
     {
       "path": "./apps/site/app/tsconfig.json"

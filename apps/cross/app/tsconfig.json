@@ -31,8 +31,6 @@
       "@appConfig/backend/*": ["../../../modules/appConfig/*"],
       "@appConfig/shared/*": ["../../../modules/appConfig/*"],
       "@appConfig/site/*": ["../../../modules/appConfig/*"],
-      "@apps/base/*": ["../../base/*"],
-      "@apps/shared/*": ["../../shared/*"],
       "@auth/admin/*": ["../../../modules/auth/admin/*"],
       "@auth/backend/*": ["../../../modules/auth/backend/*"],
       "@auth/client-base/*": ["../../../modules/auth/client-base/*"],
@@ -64,6 +62,7 @@
       "@idea/backend/*": ["../../../modules/idea/*"],
       "@idea/shared/*": ["../../../modules/idea/*"],
       "@idea/site/*": ["../../../modules/idea/*"],
+      "@shared/base/*": ["../../shared/*"],
       "@site/app/*": ["../../site/app/*"],
       "@site/core/*": ["../../site/core/*"],
       "@tools/shared": ["../../../tools/src/index.ts"],
@@ -100,10 +99,10 @@
       "path": "../../../.tsconfig/@cross/ctx/tsconfig.json"
     },
     {
-      "path": "../../../.tsconfig/@apps/base/tsconfig.json"
+      "path": "../../../.tsconfig/@backend/shared/tsconfig.json"
     },
     {
-      "path": "../../../.tsconfig/@backend/shared/tsconfig.json"
+      "path": "../../../.tsconfig/@shared/base/tsconfig.json"
     },
     {
       "path": "../../../.tsconfig/@cross/base/tsconfig.json"
@@ -122,9 +121,6 @@
     },
     {
       "path": "../../../.tsconfig/@auth/backend/tsconfig.json"
-    },
-    {
-      "path": "../../../.tsconfig/@apps/shared/tsconfig.json"
     },
     {
       "path": "../../../.tsconfig/@auth/shared/tsconfig.json"

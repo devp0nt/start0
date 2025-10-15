@@ -1,5 +1,5 @@
 {
   "name": "@admin/base",
   "preset": ["adminBaseModule"],
-  "deps": ["@apps/base", "@backend/shared"]
+  "deps": ["@shared/base", "@backend/shared"]
 }

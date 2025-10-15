@@ -34,7 +34,7 @@
       "path": "../../@backend/shared/tsconfig.json"
     },
     {
-      "path": "../../@apps/base/tsconfig.json"
+      "path": "../../@shared/base/tsconfig.json"
     },
     {
       "path": "../../@backend/base/tsconfig.json"

@@ -1,4 +1,4 @@
-import { appName } from '@apps/base/general'
+import { projectName } from '@shared/base/general'
 import { getAuthCtxByHonoCtx, type AuthCtx } from '@auth/backend/utils'
 import type { Permissions } from '@auth/shared/permissions'
 import type { Tri0 } from '@backend/base/tri0'
@@ -186,7 +186,7 @@ const getOpenapiDocsSettings = ({ basePath, name }: { basePath?: string; name: s
   return [
     {
       openapi: '3.1.0',
-      info: { title: `${appName} ${name}`, version: '1' },
+      info: { title: `${projectName} ${name}`, version: '1' },
       ...(basePath ? { servers: [{ url: basePath }] } : {}),
     },
     { unionPreferredType: 'oneOf' },

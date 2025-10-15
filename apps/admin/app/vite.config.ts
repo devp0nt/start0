@@ -3,7 +3,7 @@ import nodeFs from 'fs'
 import * as nodePath from 'path'
 import { defineConfig, loadEnv } from 'vite'
 import { createEnvBuild } from '../base/lib/env'
-import { appName, appSlug } from '../../base/general'
+import { projectName, projectSlug } from '../../shared/general'
 
 export default defineConfig(({ mode }) => {
   const envRaw = loadEnv(mode, process.cwd(), '')
@@ -38,8 +38,8 @@ export default defineConfig(({ mode }) => {
     },
     plugins: [react()],
     define: {
-      'import.meta.env.APP_NAME': JSON.stringify(appName),
-      'import.meta.env.APP_SLUG': JSON.stringify(appSlug),
+      'import.meta.env.PROJECT_NAME': JSON.stringify(projectName),
+      'import.meta.env.PROJECT_SLUG': JSON.stringify(projectSlug),
     },
   }
 })

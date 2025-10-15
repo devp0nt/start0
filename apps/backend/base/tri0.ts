@@ -1,4 +1,4 @@
-import { appSlug } from '@apps/base/general'
+import { projectSlug } from '@shared/base/general'
 import { env } from '@backend/base/env.runtime'
 import { Error0 } from '@devp0nt/error0'
 import { Logger0 } from '@devp0nt/logger0'
@@ -9,7 +9,7 @@ import { Tri0 as OriginalTri0 } from '@devp0nt/tri0'
 Logger0.init({
   filterByTags: env.LOGGER_FILTER,
   reset: true,
-  rootTagPrefix: appSlug,
+  rootTagPrefix: projectSlug,
   errorTagSuffix: 'err',
   consoleFormatter: env.isDevelopmentNodeEnv ? 'prettyYaml' : 'json',
 })

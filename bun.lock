@@ -51,6 +51,7 @@
         "@refinedev/react-router": "^2.0.0",
         "@rjsf/antd": "^5.24.13",
         "@rjsf/validator-ajv8": "^5.24.13",
+        "@shared/base": "workspace:*",
         "@tanstack/react-query": "^5.90.2",
         "@trpc/client": "^11.6.0",
         "@trpc/tanstack-react-query": "^11.6.0",
@@ -86,6 +87,7 @@
         "@prisma/client": "^6.14.0",
         "@prisma/shared": "workspace:*",
         "@scalar/hono-api-reference": "^0.9.19",
+        "@shared/base": "workspace:*",
         "@trpc/server": "^11.5.0",
         "axios": "^1.11.0",
         "better-auth": "^1.3.24",
@@ -122,6 +124,7 @@
         "@react-navigation/bottom-tabs": "^7.4.0",
         "@react-navigation/elements": "^2.6.3",
         "@react-navigation/native": "^7.1.8",
+        "@shared/base": "workspace:*",
         "expo": "~54.0.13",
         "expo-constants": "~18.0.9",
         "expo-font": "~14.0.9",
@@ -148,10 +151,14 @@
         "eslint-config-expo": "~10.0.0",
       },
     },
+    "apps/shared": {
+      "name": "@shared/base",
+    },
     "apps/site/app": {
       "name": "@site/app",
       "dependencies": {
         "@prisma/shared": "workspace:*",
+        "@shared/base": "workspace:*",
       },
     },
     "modules/prisma/backend": {
@@ -160,6 +167,7 @@
         "@devp0nt/tri0": "^1.0.0-next.33",
         "@prisma/client": "^6.14.0",
         "@prisma/shared": "workspace:*",
+        "@shared/base": "workspace:*",
         "prisma": "^6.14.0",
         "prisma-json-types-generator": "^3.6.0",
         "prisma-zod-generator": "^1.21.3",
@@ -968,6 +976,8 @@
     "@scalar/types": ["@scalar/types@0.2.16", "", { "dependencies": { "@scalar/openapi-types": "0.3.7", "nanoid": "5.1.5", "zod": "3.24.1" } }, "sha512-XWff9jWfYaj6q3ww94x66S6Q58u/3kA1sDOUhLAwb9va7r58bzk3NRwLOkEEdJmyEns1MEJAM53mY8KRWX6elA=="],
 
     "@sec-ant/readable-stream": ["@sec-ant/readable-stream@0.4.1", "", {}, "sha512-831qok9r2t8AlxLko40y2ebgSDhenenCatLVeW/uBtnHPyhHOvG0C7TvfgecV+wHzIm5KUICgzmVpWS+IMEAeg=="],
+
+    "@shared/base": ["@shared/base@workspace:apps/shared"],
 
     "@simplewebauthn/browser": ["@simplewebauthn/browser@13.2.0", "", {}, "sha512-N3fuA1AAnTo5gCStYoIoiasPccC+xPLx2YU88Dv0GeAmPQTWHETlZQq5xZ0DgUq1H9loXMWQH5qqUjcI7BHJ1A=="],
 

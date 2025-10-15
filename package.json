@@ -65,6 +65,7 @@
       "./apps/cross/app",
       "./modules/prisma/backend",
       "./modules/prisma/shared",
+      "./apps/shared",
       "./apps/site/app",
       "./tools"
     ],

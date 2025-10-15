@@ -1,5 +1,5 @@
 {
   "name": "@cross/base",
   "preset": ["crossBaseModule"],
-  "deps": ["@apps/base", "@backend/shared"]
+  "deps": ["@shared/base", "@backend/shared"]
 }

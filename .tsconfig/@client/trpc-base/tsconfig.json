@@ -22,7 +22,7 @@
       "path": "../../@trpc/router/tsconfig.json"
     },
     {
-      "path": "../../@apps/base/tsconfig.json"
+      "path": "../../@shared/base/tsconfig.json"
     },
     {
       "path": "../../@admin/backend/tsconfig.json"

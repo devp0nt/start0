@@ -25,7 +25,7 @@
       "path": "../../../apps/backend/router/hono/tsconfig.json"
     },
     {
-      "path": "../../@apps/base/tsconfig.json"
+      "path": "../../@shared/base/tsconfig.json"
     },
     {
       "path": "../../@backend/shared/tsconfig.json"

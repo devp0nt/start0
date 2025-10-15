@@ -1,11 +1,11 @@
 import { env } from '@admin/base/lib/env.runtime'
-import { appName } from '@apps/base/general'
+import { projectName } from '@shared/base/general'
 import { AuthPage } from '@refinedev/antd'
 
 export const LoginPage = () => {
   return (
     <AuthPage
-      title={appName}
+      title={projectName}
       type="login"
       formProps={{
         initialValues: env.isLocalHostEnv

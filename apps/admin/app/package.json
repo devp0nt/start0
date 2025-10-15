@@ -34,6 +34,7 @@
     "use-context-selector": "^2.0.0",
     "zustand": "^5.0.8",
     "@client/base": "workspace:*",
+    "@shared/base": "workspace:*",
     "@prisma/shared": "workspace:*",
     "@prisma/backend": "workspace:*"
   },

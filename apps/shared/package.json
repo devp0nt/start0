@@ -1,0 +1,6 @@
+{
+  "name": "@shared/base",
+  "private": true,
+  "type": "module",
+  "dependencies": {}
+}

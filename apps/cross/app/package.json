@@ -39,6 +39,7 @@
     "react-native-screens": "~4.16.0",
     "react-native-web": "~0.21.0",
     "@client/base": "workspace:*",
+    "@shared/base": "workspace:*",
     "@prisma/shared": "workspace:*",
     "@prisma/backend": "workspace:*"
   },

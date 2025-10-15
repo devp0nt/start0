@@ -1,5 +1,5 @@
 {
   "name": "@hono/backend",
   "preset": ["backendBaseModule"],
-  "deps": ["@apps/base", "@auth/backend", "@auth/shared", "@backend/base", "@backend/ctx"]
+  "deps": ["@shared/base", "@auth/backend", "@auth/shared", "@backend/base", "@backend/ctx"]
 }

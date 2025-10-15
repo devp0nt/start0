@@ -13,6 +13,7 @@
     "not-refine": "not-refine"
   },
   "dependencies": {
-    "@prisma/shared": "workspace:*"
+    "@prisma/shared": "workspace:*",
+    "@shared/base": "workspace:*"
   }
 }
