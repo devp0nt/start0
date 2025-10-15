@@ -4,7 +4,6 @@
   "type": "module",
   "scripts": {
     "types": "tsc --noEmit ./tsconfig.json",
-    "lint": "eslint --cache --cache-location ./../node_modules/.cache/eslint/@tools/shared/.eslintcache .",
     "build": "tsc --build ./tsconfig.json",
     "watch": "tsc --watch ./tsconfig.json",
     "clean": "rimraf ./../node_modules/.cache/tsbuildinfo/@tools/shared && rimraf ./dist"

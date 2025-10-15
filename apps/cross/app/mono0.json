@@ -1,8 +1,12 @@
 {
   "name": "@cross/app",
   "preset": ["app", "crossWithTsconfig"],
-  "deps": ["#crossModule", "#crossBaseModule"],
+  "deps": ["#crossModule", "#crossBaseModule", "@client/base"],
   "tsconfig": {
+    "settings": {
+      "addUnitsSrcToPaths": { "match": "!#cold", "indexFile": true },
+      "addUnitsAsNodeModulesToPaths": { "match": "#cold" }
+    },
     "value": {
       "include": ["**/*.ts", "**/*.tsx", ".expo/types/**/*.ts", "expo-env.d.ts"],
       "compilerOptions": {

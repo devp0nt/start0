@@ -10,16 +10,13 @@
     "refine": "refine",
     "types": "tsc --noEmit",
     "watch": "tsc --watch ./tsconfig.json",
-    "clean": "rimraf ../../../node_modules/.cache/tsbuildinfo/@admin/app && rimraf ./dist",
-    "lint": "eslint --cache --cache-location ../../../node_modules/.cache/eslint/@admin/app/.eslintcache ."
+    "clean": "rimraf ../../../node_modules/.cache/tsbuildinfo/@admin/app && rimraf ./dist"
   },
   "dependencies": {
     "@ant-design/v5-patch-for-react-19": "^1.0.3",
     "@devp0nt/react-query-hono-client": "^1.0.0-next.3",
     "@devp0nt/refine0": "^1.0.0-next.9",
     "@iconify/react": "^6.0.2",
-    "@prisma/backend": "workspace:*",
-    "@prisma/shared": "workspace:*",
     "@refinedev/antd": "^6.0.1",
     "@refinedev/cli": "^2.16.48",
     "@refinedev/core": "^5.0.0",
@@ -33,11 +30,12 @@
     "@trpc/tanstack-react-query": "^11.6.0",
     "@uiw/react-md-editor": "^4.0.8",
     "qs": "^6.14.0",
-    "react": "19.2.0",
-    "react-dom": "19.2.0",
     "superjson": "^2.2.2",
     "use-context-selector": "^2.0.0",
-    "zustand": "^5.0.8"
+    "zustand": "^5.0.8",
+    "@client/base": "workspace:*",
+    "@prisma/shared": "workspace:*",
+    "@prisma/backend": "workspace:*"
   },
   "devDependencies": {
     "@types/qs": "^6.14.0",

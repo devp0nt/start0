@@ -295,10 +295,17 @@
         },
         "value": {
           "private": true,
-          "type": "module",
+          "type": "module"
+        }
+      }
+    },
+    "withPackageJsonTsconfigScript": {
+      "preset": ["withPackageJson"],
+      "packageJson": {
+        "value": {
           "scripts": {
             "types": "tsc --noEmit {{coreTsconfigFile}}",
-            "lint": "eslint --cache --cache-location {{projectRootDir}}/node_modules/.cache/eslint/{{unitName}}/.eslintcache .",
+            "lint": null,
             "build": "tsc --build {{coreTsconfigFile}}",
             "watch": "tsc --watch {{coreTsconfigFile}}",
             "clean": "rimraf {{projectRootDir}}/node_modules/.cache/tsbuildinfo/{{unitName}} && rimraf {{distDir}}"
@@ -307,7 +314,7 @@
       }
     },
     "app": {
-      "preset": ["withPackageJson", "withTsconfig"],
+      "preset": ["withPackageJsonTsconfigScript", "withTsconfig"],
       "tags": ["app"],
       "packageJson": {
         "settings": {
@@ -329,7 +336,7 @@
       }
     },
     "cold": {
-      "preset": ["withPackageJson", "withTsconfig"],
+      "preset": ["withPackageJsonTsconfigScript", "withTsconfig"],
       "tags": ["cold"],
       "packageJson": {
         "settings": {
@@ -432,6 +439,9 @@
     },
     "clientWithHiddenTsconfig": {
       "preset": ["clientWithTsconfig", "withHiddenTsconfig"]
+    },
+    "clientWithPackageJson": {
+      "preset": ["withPackageJson", "client"]
     },
     "clientModule": {
       "preset": ["clientWithHiddenTsconfig"],

@@ -1,0 +1,8 @@
+{
+  "name": "@client/base",
+  "preset": ["clientBaseModule", "clientWithPackageJson"],
+  "deps": [],
+  "packageJson": {
+    "value": {}
+  }
+}

@@ -1,7 +1,7 @@
 import React from 'react'
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native'
 
-export const ErrorPage = ({ error, message, onRetry }: { error?: unknown; message?: string; onRetry?: () => void }) => {
+export const ErrorPage = ({ error, message, onRetry }: { error?: unknown; message?: string; onRetry?: () => any }) => {
   const handleReload = () => {
     if (onRetry) {
       onRetry()

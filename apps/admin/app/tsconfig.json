@@ -36,6 +36,9 @@
       "path": "../../../.tsconfig/@auth/admin/tsconfig.json"
     },
     {
+      "path": "../../../.tsconfig/@client/base/tsconfig.json"
+    },
+    {
       "path": "../../../.tsconfig/@idea/admin/tsconfig.json"
     },
     {

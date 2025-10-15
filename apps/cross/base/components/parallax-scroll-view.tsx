@@ -2,9 +2,9 @@ import type { PropsWithChildren, ReactElement } from 'react'
 import { StyleSheet } from 'react-native'
 import Animated, { interpolate, useAnimatedRef, useAnimatedStyle, useScrollOffset } from 'react-native-reanimated'
 
-import { ThemedView } from '@cross/app/components/themed-view'
-import { useColorScheme } from '@cross/app/hooks/use-color-scheme'
-import { useThemeColor } from '@cross/app/hooks/use-theme-color'
+import { ThemedView } from '@cross/base/components/themed-view'
+import { useColorScheme } from '@cross/base/hooks/use-color-scheme'
+import { useThemeColor } from '@cross/base/hooks/use-theme-color'
 
 const HEADER_HEIGHT = 250
 

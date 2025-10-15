@@ -4,7 +4,7 @@ import { StatusBar } from 'expo-status-bar'
 import 'react-native-reanimated'
 
 import { ErrorPage } from '@cross/base/components/error'
-import { useColorScheme } from '@cross/app/hooks/use-color-scheme'
+import { useColorScheme } from '@cross/base/hooks/use-color-scheme'
 
 // TODO: figure out what is it
 export const unstable_settings = {

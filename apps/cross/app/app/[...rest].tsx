@@ -1,4 +1,4 @@
-import { Link, useLocalSearchParams, usePathname , router } from 'expo-router'
+import { Link, useLocalSearchParams, usePathname, router } from 'expo-router'
 import { useEffect, useState } from 'react'
 import { Text, TextInput, View } from 'react-native'
 
@@ -26,7 +26,13 @@ export default function DynamicRestPage() {
       <Link href={randomPath} replace>
         Link replace to {randomPath}
       </Link>
-      <Text onPress={() => { router.push(randomPath); }}>Push {randomPath}</Text>
+      <Text
+        onPress={() => {
+          router.push(randomPath)
+        }}
+      >
+        Push {randomPath}
+      </Text>
       <Text>{JSON.stringify({ params, pathname })}</Text>
       <TextInput value={value} onChangeText={setValue} style={{ borderWidth: 1, borderColor: 'black' }} />
     </View>

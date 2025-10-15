@@ -216,7 +216,6 @@ export const applyHonoOpenapiDocs = ({
 }) => {
   const schema = getHonoOpenapiSchema({ routes, basePath, name })
   hono.get(basePath ? `${basePath}.json` : '/doc.json', ({ json }) => {
-    // console.log(123234234)
     return json(schema)
   })
 }

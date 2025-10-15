@@ -7,7 +7,7 @@
     "../../../modules/auth/**/public/**/*"
   ],
   "compilerOptions": {
-    "rootDir": "../../../modules/auth",
+    "rootDir": "../../../modules/auth/site",
     "outDir": "./dist",
     "declaration": true,
     "declarationMap": true,

@@ -4,7 +4,7 @@ import { defineConfig } from 'eslint/config'
 import nodePath from 'node:path'
 import { resolveFlatConfig } from '@leancodepl/resolve-eslint-flat-config'
 
-export const expoIgnores = ['scripts/reset-project.js']
+export const expoIgnores = ['./babel.config.js', './metro.config.js']
 
 export const expoFiles = ['**/*.js', '**/*.ts', '**/*.tsx']
 

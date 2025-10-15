@@ -61,6 +61,7 @@
     "packages": [
       "./apps/admin/app",
       "./apps/backend/services",
+      "./apps/client/base",
       "./apps/cross/app",
       "./modules/prisma/backend",
       "./modules/prisma/shared",

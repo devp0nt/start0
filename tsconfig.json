@@ -39,6 +39,7 @@
       "@backend/shared/*": ["./apps/backend/shared/*"],
       "@backend/trpc-router": ["./apps/backend/router/trpc/index.ts"],
       "@backend/trpc-router/*": ["./apps/backend/router/trpc/*"],
+      "@client/base/*": ["./apps/client/base/*"],
       "@cross/app/*": ["./apps/cross/app/*"],
       "@cross/base/*": ["./apps/cross/base/*"],
       "@cross/core/*": ["./apps/cross/core/*"],
@@ -147,6 +148,9 @@
     },
     {
       "path": "./apps/backend/router/trpc/tsconfig.json"
+    },
+    {
+      "path": "./.tsconfig/@client/base/tsconfig.json"
     },
     {
       "path": "./apps/cross/app/tsconfig.json"
