@@ -2,9 +2,9 @@
   "extends": "../../tsconfig.client.json",
   "include": ["../../../modules/auth/frontend-base/**/*"],
   "exclude": [
-    "../../../modules/auth/**/dist/**/*",
-    "../../../modules/auth/**/node_modules/**/*",
-    "../../../modules/auth/**/public/**/*"
+    "../../../modules/auth/frontend-base/**/dist/**/*",
+    "../../../modules/auth/frontend-base/**/node_modules/**/*",
+    "../../../modules/auth/frontend-base/**/public/**/*"
   ],
   "compilerOptions": {
     "rootDir": "../../../modules/auth/frontend-base",
@@ -26,6 +26,9 @@
     },
     {
       "path": "../shared/tsconfig.json"
+    },
+    {
+      "path": "../../../packages/prisma/shared/tsconfig.json"
     },
     {
       "path": "../../@shared/base/tsconfig.json"

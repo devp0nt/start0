@@ -1,6 +1,4 @@
-[
-  {
-    "name": "@devp0nt/rjs0",
-    "preset": ["sharedModule"]
-  }
-]
+{
+  "name": "@devp0nt/rjs0",
+  "preset": ["sharedModule"]
+}

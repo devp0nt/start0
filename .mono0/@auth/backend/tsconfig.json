@@ -2,9 +2,9 @@
   "extends": "../../tsconfig.backend.json",
   "include": ["../../../modules/auth/backend/**/*"],
   "exclude": [
-    "../../../modules/auth/**/dist/**/*",
-    "../../../modules/auth/**/node_modules/**/*",
-    "../../../modules/auth/**/public/**/*"
+    "../../../modules/auth/backend/**/dist/**/*",
+    "../../../modules/auth/backend/**/node_modules/**/*",
+    "../../../modules/auth/backend/**/public/**/*"
   ],
   "compilerOptions": {
     "rootDir": "../../../modules/auth/backend",
@@ -23,6 +23,9 @@
     },
     {
       "path": "../../@shared/base/tsconfig.json"
+    },
+    {
+      "path": "../../../packages/prisma/shared/tsconfig.json"
     },
     {
       "path": "../../@shared/base/tsconfig.json"

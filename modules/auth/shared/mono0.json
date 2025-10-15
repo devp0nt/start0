@@ -1,0 +1,5 @@
+{
+  "name": "@auth/shared",
+  "preset": ["sharedBaseModule"],
+  "deps": ["@prisma/shared"]
+}

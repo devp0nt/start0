@@ -2,9 +2,9 @@
   "extends": "../../tsconfig.shared.json",
   "include": ["../../../modules/auth/shared/**/*"],
   "exclude": [
-    "../../../modules/auth/**/dist/**/*",
-    "../../../modules/auth/**/node_modules/**/*",
-    "../../../modules/auth/**/public/**/*"
+    "../../../modules/auth/shared/**/dist/**/*",
+    "../../../modules/auth/shared/**/node_modules/**/*",
+    "../../../modules/auth/shared/**/public/**/*"
   ],
   "compilerOptions": {
     "rootDir": "../../../modules/auth/shared",
@@ -15,6 +15,9 @@
     "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@auth/shared/.tsbuildinfo"
   },
   "references": [
+    {
+      "path": "../../../packages/prisma/shared/tsconfig.json"
+    },
     {
       "path": "../../@shared/base/tsconfig.json"
     },

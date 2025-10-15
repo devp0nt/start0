@@ -1,0 +1,9 @@
+{
+  "extends": "../tsconfig.base.cold.json",
+  "compilerOptions": {
+    "types": ["node", "bun", "vite/client"],
+    "module": "ES2022",
+    "target": "ES2022",
+    "lib": ["DOM", "DOM.Iterable", "ES2022"]
+  }
+}

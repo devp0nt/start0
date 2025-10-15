@@ -1,0 +1,5 @@
+{
+  "name": "@auth/admin",
+  "preset": ["adminBaseModule"],
+  "deps": ["@auth/frontend-base", "@admin/base"]
+}

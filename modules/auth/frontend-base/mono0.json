@@ -1,0 +1,5 @@
+{
+  "name": "@auth/frontend-base",
+  "preset": ["clientBaseModule"],
+  "deps": ["@auth/shared", "@auth/backend", "@shared/base"]
+}

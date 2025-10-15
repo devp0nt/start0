@@ -42,6 +42,9 @@
       "path": "../../../.mono0/@auth/shared/tsconfig.json"
     },
     {
+      "path": "../../../packages/prisma/shared/tsconfig.json"
+    },
+    {
       "path": "../../../.mono0/@shared/base/tsconfig.json"
     },
     {

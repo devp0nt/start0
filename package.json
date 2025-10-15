@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "build": "bun run build:cold && bun run build:hot",
-    "build:clean": "rimraf ./node_modules/.cache/tsbuildinfo && rimraf --glob **/dist",
+    "build:clean": "rimraf ./node_modules/.cache/tsbuildinfo && bun run --filter '**' build:clean",
     "watch": "concurrently \"bun run watch:gen\" \"bun run watch:build\" --names 'gen,build'",
     "watch:build": "concurrently  \"bun run watch:build:cold\" \"bun run watch:build:hot\" --names 'cold,hot'",
     "watch:all": "concurrently \"bun run gen0 watch\" \"bun run mono0 watch\" \"bun run watch:build\" --names 'gen0,mono0,build'",
@@ -39,8 +39,8 @@
     "@prisma/shared": "workspace:*"
   },
   "devDependencies": {
-    "@devp0nt/gen0": "^1.0.0-next.46",
-    "@devp0nt/mono0": "^1.0.0-next.63",
+    "@devp0nt/gen0": "^1.0.0-next.48",
+    "@devp0nt/mono0": "^1.0.0-next.66",
     "@leancodepl/resolve-eslint-flat-config": "^9.6.3",
     "@types/bun": "latest",
     "@types/debug": "^4.1.12",

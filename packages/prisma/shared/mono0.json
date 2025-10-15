@@ -1,6 +1,6 @@
 {
   "name": "@prisma/shared",
-  "preset": ["sharedBaseModule", "cold"],
+  "preset": ["sharedColdBaseModule"],
   "tags": ["prisma"],
   "deps": [],
   "packageJson": {

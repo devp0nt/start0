@@ -2,9 +2,9 @@
   "extends": "../../tsconfig.admin.json",
   "include": ["../../../modules/auth/admin/**/*"],
   "exclude": [
-    "../../../modules/auth/**/dist/**/*",
-    "../../../modules/auth/**/node_modules/**/*",
-    "../../../modules/auth/**/public/**/*"
+    "../../../modules/auth/admin/**/dist/**/*",
+    "../../../modules/auth/admin/**/node_modules/**/*",
+    "../../../modules/auth/admin/**/public/**/*"
   ],
   "compilerOptions": {
     "rootDir": "../../../modules/auth/admin",
@@ -35,6 +35,9 @@
     },
     {
       "path": "../shared/tsconfig.json"
+    },
+    {
+      "path": "../../../packages/prisma/shared/tsconfig.json"
     },
     {
       "path": "../../@backend/base/tsconfig.json"

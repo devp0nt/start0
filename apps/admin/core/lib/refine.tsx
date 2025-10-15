@@ -4,22 +4,22 @@ import { queryClient } from '@trpc/frontend-base'
 import { LoadingOutlined } from '@ant-design/icons'
 import { refineAccessControlProvider, refineAuthProvider } from '@auth/admin/refine'
 import { backendAdminRoutesBasePath } from '@backend/shared/utils'
-import { Refine0 } from '@devp0nt/refine0/client'
+import { createRefine0 } from '@devp0nt/refine0/client'
 import { Icon } from '@iconify/react'
 import { useNotificationProvider } from '@refinedev/antd'
 import '@refinedev/antd/dist/reset.css'
 import { Refine } from '@refinedev/core'
 import routerProvider from '@refinedev/react-router'
 
-export const refine0 = Refine0.create({
-  openapiUrl: `${env.VITE_BACKEND_URL}${backendAdminRoutesBasePath}.json`,
+export const refine0 = createRefine0({
+  openapiDocUrl: `${env.VITE_BACKEND_URL}${backendAdminRoutesBasePath}.json`,
   apiUrl: env.VITE_BACKEND_URL,
   httpClient: axiosInstance,
   Icon: ({ icon }) => <Icon icon={icon} fallback={<LoadingOutlined />} className="anticon ant-menu-item-icon" />,
 })
 
 export const RefineSetup = ({ children }: { children: React.ReactNode }) => {
-  const refineResources = refine0.useRefineResources()
+  const refineResources = refine0.useResources()
   return (
     <Refine
       dataProvider={{

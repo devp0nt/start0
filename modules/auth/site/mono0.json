@@ -1,0 +1,5 @@
+{
+  "name": "@auth/site",
+  "preset": ["siteBaseModule"],
+  "deps": ["@auth/shared"]
+}

@@ -1,5 +1,5 @@
 {
-  "extends": "../../../.mono0/tsconfig.backend.json",
+  "extends": "../../../.mono0/tsconfig.backend.cold.json",
   "include": ["./src/**/*"],
   "exclude": ["./**/dist/**/*", "./**/node_modules/**/*", "./**/public/**/*"],
   "compilerOptions": {
@@ -18,7 +18,13 @@
       "path": "../../../.mono0/@backend/base/tsconfig.json"
     },
     {
+      "path": "../shared/tsconfig.json"
+    },
+    {
       "path": "../../../.mono0/@shared/base/tsconfig.json"
+    },
+    {
+      "path": "../shared/tsconfig.json"
     },
     {
       "path": "../../../.mono0/@shared/base/tsconfig.json"

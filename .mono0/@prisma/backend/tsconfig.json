@@ -1,0 +1,38 @@
+{
+  "extends": "../../tsconfig.backend.cold.json",
+  "include": ["../../../packages/prisma/backend/src/**/*"],
+  "exclude": [
+    "../../../packages/prisma/backend/**/dist/**/*",
+    "../../../packages/prisma/backend/**/node_modules/**/*",
+    "../../../packages/prisma/backend/**/public/**/*"
+  ],
+  "compilerOptions": {
+    "rootDir": "../../../packages/prisma/backend/src",
+    "outDir": "./dist",
+    "declaration": true,
+    "declarationMap": false,
+    "composite": true,
+    "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@prisma/backend/.tsbuildinfo"
+  },
+  "references": [
+    {
+      "path": "../../@auth/shared/tsconfig.json"
+    },
+    {
+      "path": "../../@backend/base/tsconfig.json"
+    },
+    {
+      "path": "../shared/tsconfig.json"
+    },
+    {
+      "path": "../../@shared/base/tsconfig.json"
+    },
+    {
+      "path": "../shared/tsconfig.json"
+    },
+    {
+      "path": "../../@shared/base/tsconfig.json"
+    }
+  ],
+  "declarationMap": true
+}

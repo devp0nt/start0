@@ -1,0 +1,5 @@
+{
+  "name": "@auth/backend",
+  "preset": ["backendBaseModule"],
+  "deps": ["@auth/shared", "@backend/shared", "@prisma/backend", "@shared/base"]
+}

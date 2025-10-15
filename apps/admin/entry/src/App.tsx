@@ -46,7 +46,7 @@ function App() {
               <TrpcProvider>
                 <CtxProvider>
                   <refine0.Provider
-                    Error={({ message }) => <Alert type="error" message={message} />}
+                    ErrorComponent={({ message }) => <Alert type="error" message={message} />}
                     Loader={<Loader type="site" />}
                   >
                     <Routes>

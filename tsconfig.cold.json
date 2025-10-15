@@ -3,16 +3,17 @@
   "include": [],
   "compilerOptions": {
     "paths": {
+      "@refinedev/core/*": ["./node_modules/@refinedev/core/*"],
+      "@admin-user/admin/*": ["./modules/admin-user/*"],
+      "@admin-user/backend/*": ["./modules/admin-user/*"],
+      "@admin-user/shared/*": ["./modules/admin-user/*"],
+      "@admin-user/site/*": ["./modules/admin-user/*"],
       "@admin/base/*": ["./apps/admin/base/*"],
       "@admin/core/*": ["./apps/admin/core/*"],
       "@admin/ctx": ["./apps/admin/ctx/index.tsx"],
       "@admin/ctx/*": ["./apps/admin/ctx/*"],
       "@admin/entry": ["./apps/admin/entry/src/index.tsx"],
       "@admin/entry/*": ["./apps/admin/entry/src/*"],
-      "@admin-user/admin/*": ["./modules/admin-user/*"],
-      "@admin-user/backend/*": ["./modules/admin-user/*"],
-      "@admin-user/shared/*": ["./modules/admin-user/*"],
-      "@admin-user/site/*": ["./modules/admin-user/*"],
       "@app-config/admin/*": ["./modules/app-config/*"],
       "@app-config/backend/*": ["./modules/app-config/*"],
       "@app-config/shared/*": ["./modules/app-config/*"],
@@ -48,7 +49,7 @@
       "@idea/admin/*": ["./modules/idea/*"],
       "@idea/backend/*": ["./modules/idea/*"],
       "@idea/shared/*": ["./modules/idea/*"],
-      "@idea/site/*": ["./modules/idea/*"],
+      "@idea/site/*": ["./modules/idea/site/*"],
       "@prisma/backend": ["./packages/prisma/backend/src/index.ts"],
       "@prisma/backend/*": ["./packages/prisma/backend/src/*"],
       "@prisma/shared": ["./packages/prisma/shared/src/index.ts"],
@@ -69,9 +70,6 @@
   "references": [
     {
       "path": "./packages/prisma/backend/tsconfig.json"
-    },
-    {
-      "path": "./packages/prisma/shared/tsconfig.json"
     }
   ]
 }

@@ -13,7 +13,8 @@
     "build": "tsgo --build ./tsconfig.json",
     "watch": "tsgo --watch ./tsconfig.json",
     "clean": "rimraf ../../../node_modules/.cache/tsbuildinfo/@cross/entry && rimraf ./dist",
-    "lint:expo": "expo lint"
+    "lint:expo": "expo lint",
+    "build:clean": "rimraf ../../../node_modules/.cache/tsbuildinfo/@cross/entry && rimraf ./dist"
   },
   "dependencies": {
     "@expo/vector-icons": "^15.0.2",

@@ -3,6 +3,7 @@
   "include": [],
   "compilerOptions": {
     "paths": {
+      "@refinedev/core/*": ["./node_modules/@refinedev/core/*"],
       "@admin-user/admin/*": ["./modules/admin-user/*"],
       "@admin-user/backend/*": ["./modules/admin-user/*"],
       "@admin-user/shared/*": ["./modules/admin-user/*"],
@@ -48,7 +49,9 @@
       "@idea/admin/*": ["./modules/idea/*"],
       "@idea/backend/*": ["./modules/idea/*"],
       "@idea/shared/*": ["./modules/idea/*"],
-      "@idea/site/*": ["./modules/idea/*"],
+      "@idea/site/*": ["./modules/idea/site/*"],
+      "@prisma/shared": ["./packages/prisma/shared/src/index.ts"],
+      "@prisma/shared/*": ["./packages/prisma/shared/src/*"],
       "@shared/base/*": ["./packages/shared/*"],
       "@site/core/*": ["./apps/site/core/*"],
       "@site/entry/*": ["./apps/site/entry/*"],
@@ -60,8 +63,7 @@
       "@trpc/frontend-base/*": ["./packages/trpc/frontend-base/*"],
       "@trpc/router": ["./packages/trpc/router/index.ts"],
       "@trpc/router/*": ["./packages/trpc/router/*"],
-      "@prisma/backend/*": ["./node_modules/@prisma/backend/*"],
-      "@prisma/shared/*": ["./node_modules/@prisma/shared/*"]
+      "@prisma/backend/*": ["./node_modules/@prisma/backend/*"]
     }
   },
   "references": [
@@ -172,6 +174,9 @@
     },
     {
       "path": "./.mono0/@idea/site/tsconfig.json"
+    },
+    {
+      "path": "./packages/prisma/shared/tsconfig.json"
     },
     {
       "path": "./.mono0/@shared/base/tsconfig.json"

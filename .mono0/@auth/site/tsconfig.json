@@ -2,9 +2,9 @@
   "extends": "../../tsconfig.site.json",
   "include": ["../../../modules/auth/site/**/*"],
   "exclude": [
-    "../../../modules/auth/**/dist/**/*",
-    "../../../modules/auth/**/node_modules/**/*",
-    "../../../modules/auth/**/public/**/*"
+    "../../../modules/auth/site/**/dist/**/*",
+    "../../../modules/auth/site/**/node_modules/**/*",
+    "../../../modules/auth/site/**/public/**/*"
   ],
   "compilerOptions": {
     "rootDir": "../../../modules/auth/site",
@@ -20,6 +20,9 @@
     },
     {
       "path": "../../@shared/base/tsconfig.json"
+    },
+    {
+      "path": "../../../packages/prisma/shared/tsconfig.json"
     },
     {
       "path": "../../@shared/base/tsconfig.json"

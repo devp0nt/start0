@@ -62,7 +62,7 @@
         "build:hot": "tsgo --build ./tsconfig.json",
         "build:cold": "tsgo --build ./tsconfig.cold.json",
         "build": "bun run build:cold && bun run build:hot",
-        "build:clean": "rimraf {{projectRootDir}}/node_modules/.cache/tsbuildinfo && rimraf --glob **/dist",
+        "build:clean": "rimraf {{projectRootDir}}/node_modules/.cache/tsbuildinfo && bun run --filter '**' build:clean",
         "watch:gen": "concurrently \"bun run gen0 watch\" \"bun run mono0 watch\" --names 'gen0,mono0'",
         "watch:build:hot": "tsgo --build --watch --preserveWatchOutput ./tsconfig.json",
         "watch:build:cold": "tsgo --build --watch --preserveWatchOutput ./tsconfig.cold.json",
@@ -106,10 +106,13 @@
           "verbatimModuleSyntax": true,
           "resolveJsonModule": true,
           "allowJs": true,
+          "typeRoots": ["node_modules/@types", ".bun"],
           "paths": {
             // So file is not in references, we build it manually, and speed up our vscode
             // But I am not shure. Looks like we should remove it from references of core tsconfig?
             // Or nothig changed here?
+            // TODO: remove it when refine0 will be fixed
+            "@refinedev/core/*": ["~/node_modules/@refinedev/core/*"]
             // "@prisma/backend/*": ["~/node_modules/@prisma/backend/*"],
             // "@prisma/shared/*": ["~/node_modules/@prisma/shared/*"]
             // "better-auth/*": ["~/node_modules/better-auth/*"]
@@ -122,6 +125,16 @@
         }
       }
     },
+    "baseCold": {
+      "path": "./tsconfig.base.cold.json",
+      "settings": {
+        // we canshould add cold to paths, becouse in vsscode it is not visible package.json deps in outside folders
+        "addUnitsSrcToPaths": { "indexFile": true }
+      },
+      "value": {
+        "extends": "$base"
+      }
+    },
     "root": {
       "path": "./tsconfig.json",
       "value": {
@@ -129,6 +142,7 @@
         "include": [],
         "compilerOptions": {
           "paths": {
+            "@refinedev/core/*": ["~/node_modules/@refinedev/core/*"]
             // "@prisma/backend/*": ["~/node_modules/@prisma/backend/*"],
             // "@prisma/shared/*": ["~/node_modules/@prisma/shared/*"]
             // "better-auth/*": ["~/node_modules/better-auth/*"]
@@ -155,6 +169,7 @@
         "include": [],
         "compilerOptions": {
           "paths": {
+            "@refinedev/core/*": ["~/node_modules/@refinedev/core/*"]
             // "@prisma/backend/*": ["~/node_modules/@prisma/backend/*"],
             // "@prisma/shared/*": ["~/node_modules/@prisma/shared/*"]
             // "better-auth/*": ["~/node_modules/better-auth/*"]
@@ -177,10 +192,22 @@
         "extends": "$base"
       }
     },
+    "sharedCold": {
+      "path": "./.mono0/tsconfig.shared.cold.json",
+      "value": {
+        "extends": "$baseCold"
+      }
+    },
     "server": {
       "path": "./.mono0/tsconfig.server.json",
       "value": {
         "extends": "$base"
+      }
+    },
+    "serverCold": {
+      "path": "./.mono0/tsconfig.server.cold.json",
+      "value": {
+        "extends": "$baseCold"
       }
     },
     "client": {
@@ -189,16 +216,40 @@
         "extends": "$base"
       }
     },
+    "clientCold": {
+      "path": "./.mono0/tsconfig.client.cold.json",
+      "value": {
+        "extends": "$baseCold"
+      }
+    },
     "backend": {
       "path": "./.mono0/tsconfig.backend.json",
       "value": {
         "extends": "$base"
       }
     },
+    "backendCold": {
+      "path": "./.mono0/tsconfig.backend.cold.json",
+      "value": {
+        "extends": "$baseCold"
+      }
+    },
     "site": {
       "path": "./.mono0/tsconfig.site.json",
       "value": {
         "extends": "$base",
+        "compilerOptions": {
+          "lib": ["DOM", "DOM.Iterable", "ES2022"],
+          "types": ["node", "bun", "vite/client"],
+          "target": "ES2022",
+          "module": "ES2022"
+        }
+      }
+    },
+    "siteCold": {
+      "path": "./.mono0/tsconfig.site.cold.json",
+      "value": {
+        "extends": "$baseCold",
         "compilerOptions": {
           "lib": ["DOM", "DOM.Iterable", "ES2022"],
           "types": ["node", "bun", "vite/client"],
@@ -219,10 +270,34 @@
         }
       }
     },
+    "crossCold": {
+      "path": "./.mono0/tsconfig.cross.cold.json",
+      "value": {
+        "extends": "$baseCold",
+        "compilerOptions": {
+          // "strict": true,
+          // "module": "esnext"
+          "jsx": "react-native",
+          "lib": ["DOM", "ESNext"]
+        }
+      }
+    },
     "admin": {
       "path": "./.mono0/tsconfig.admin.json",
       "value": {
         "extends": "$base",
+        "compilerOptions": {
+          "lib": ["DOM", "DOM.Iterable", "ES2022"],
+          "types": ["node", "bun", "vite/client"],
+          "target": "ES2022",
+          "module": "ES2022"
+        }
+      }
+    },
+    "adminCold": {
+      "path": "./.mono0/tsconfig.admin.cold.json",
+      "value": {
+        "extends": "$baseCold",
         "compilerOptions": {
           "lib": ["DOM", "DOM.Iterable", "ES2022"],
           "types": ["node", "bun", "vite/client"],
@@ -271,6 +346,16 @@
         }
       }
     },
+    "withColdTsconfig": {
+      "preset": ["withTsconfig", "cold"],
+      "tsconfigs": {
+        "core": {
+          "settings": {
+            "addUnitsAsReferences": { "scope": "depsAndDeepDeps", "tsconfig": "$core" }
+          }
+        }
+      }
+    },
     "withHiddenDistDir": {
       "preset": ["withTsconfig"],
       "distDir": "~/.mono0/{{unitName}}/dist"
@@ -283,6 +368,9 @@
           "path": "~/.mono0/{{unitName}}/tsconfig.json"
         }
       }
+    },
+    "withColdHiddenTsconfig": {
+      "preset": ["withColdTsconfig", "withHiddenTsconfig"]
     },
     "withPackageJson": {
       "tags": ["hasPackageJson"],
@@ -305,10 +393,9 @@
         "value": {
           "scripts": {
             "types": "tsgo --noEmit {{coreTsconfigFile}}",
-            "lint": null,
             "build": "tsgo --build {{coreTsconfigFile}}",
             "watch": "tsgo --watch {{coreTsconfigFile}}",
-            "clean": "rimraf {{projectRootDir}}/node_modules/.cache/tsbuildinfo/{{unitName}} && rimraf {{distDir}}"
+            "build:clean": "rimraf {{projectRootDir}}/node_modules/.cache/tsbuildinfo/{{unitName}} && rimraf {{distDir}}"
           }
         }
       }
@@ -372,6 +459,17 @@
     "sharedWithHiddenTsconfig": {
       "preset": ["sharedWithTsconfig", "withHiddenTsconfig"]
     },
+    "sharedColdWithTsconfig": {
+      "preset": ["shared", "withColdTsconfig"],
+      "tsconfig": {
+        "value": {
+          "extends": "$sharedCold"
+        }
+      }
+    },
+    "sharedColdWithHiddenTsconfig": {
+      "preset": ["withHiddenTsconfig", "sharedWithTsconfig"]
+    },
     "sharedModule": {
       "preset": ["sharedWithHiddenTsconfig", "module"],
       "tags": ["sharedModule"],
@@ -379,6 +477,16 @@
     },
     "sharedBaseModule": {
       "preset": ["sharedWithHiddenTsconfig", "module"],
+      "tags": ["sharedBaseModule"],
+      "deps": []
+    },
+    "sharedColdModule": {
+      "preset": ["sharedColdWithHiddenTsconfig", "module"],
+      "tags": ["sharedModule"],
+      "deps": ["#sharedBaseModule"]
+    },
+    "sharedColdBaseModule": {
+      "preset": ["sharedColdWithHiddenTsconfig", "module"],
       "tags": ["sharedBaseModule"],
       "deps": []
     },
@@ -409,6 +517,17 @@
     "serverWithHiddenTsconfig": {
       "preset": ["serverWithTsconfig", "withHiddenTsconfig"]
     },
+    "serverColdWithTsconfig": {
+      "preset": ["server", "withColdTsconfig"],
+      "tsconfig": {
+        "value": {
+          "extends": "$serverCold"
+        }
+      }
+    },
+    "serverColdWithHiddenTsconfig": {
+      "preset": ["withHiddenTsconfig", "serverColdWithTsconfig"]
+    },
     "serverModule": {
       "preset": ["serverWithHiddenTsconfig", "module"],
       "tags": ["serverModule"],
@@ -416,6 +535,16 @@
     },
     "serverBaseModule": {
       "preset": ["serverWithHiddenTsconfig", "module"],
+      "tags": ["serverBaseModule"],
+      "deps": []
+    },
+    "serverColdModule": {
+      "preset": ["module", "serverColdWithHiddenTsconfig"],
+      "tags": ["serverModule"],
+      "deps": ["#serverBaseModule", "#sharedBaseModule"]
+    },
+    "serverColdBaseModule": {
+      "preset": ["module", "serverColdWithHiddenTsconfig"],
       "tags": ["serverBaseModule"],
       "deps": []
     },
@@ -443,6 +572,17 @@
         }
       }
     },
+    "clientColdWithHiddenTsconfig": {
+      "preset": ["withHiddenTsconfig", "clientColdWithTsconfig"]
+    },
+    "clientColdWithTsconfig": {
+      "preset": ["client", "withColdTsconfig"],
+      "tsconfig": {
+        "value": {
+          "extends": "$clientCold"
+        }
+      }
+    },
     "clientWithHiddenTsconfig": {
       "preset": ["clientWithTsconfig", "withHiddenTsconfig"]
     },
@@ -456,6 +596,16 @@
     },
     "clientBaseModule": {
       "preset": ["clientWithHiddenTsconfig", "module"],
+      "tags": ["clientBaseModule"],
+      "deps": []
+    },
+    "clientColdModule": {
+      "preset": ["module", "clientColdWithHiddenTsconfig"],
+      "tags": ["clientModule"],
+      "deps": ["#clientBaseModule", "#sharedBaseModule"]
+    },
+    "clientColdBaseModule": {
+      "preset": ["module", "clientColdWithHiddenTsconfig"],
       "tags": ["clientBaseModule"],
       "deps": []
     },
@@ -486,6 +636,17 @@
     "backendWithHiddenTsconfig": {
       "preset": ["backendWithTsconfig", "withHiddenTsconfig"]
     },
+    "backendColdWithTsconfig": {
+      "preset": ["backend", "withColdTsconfig"],
+      "tsconfig": {
+        "value": {
+          "extends": "$backendCold"
+        }
+      }
+    },
+    "backendColdWithHiddenTsconfig": {
+      "preset": ["withHiddenTsconfig", "backendColdWithTsconfig"]
+    },
     "backendModule": {
       "preset": ["backendWithHiddenTsconfig", "module"],
       "tags": ["backendModule"],
@@ -493,6 +654,16 @@
     },
     "backendBaseModule": {
       "preset": ["backendWithHiddenTsconfig", "module"],
+      "tags": ["backendBaseModule"],
+      "deps": []
+    },
+    "backendColdModule": {
+      "preset": ["module", "backendColdWithHiddenTsconfig"],
+      "tags": ["backendModule"],
+      "deps": ["#backendBaseModule", "#sharedBaseModule"]
+    },
+    "backendColdBaseModule": {
+      "preset": ["module", "backendColdWithHiddenTsconfig"],
       "tags": ["backendBaseModule"],
       "deps": []
     },
@@ -522,6 +693,17 @@
     },
     "siteWithHiddenTsconfig": {
       "preset": ["siteWithTsconfig", "withHiddenTsconfig"]
+    },
+    "siteColdWithTsconfig": {
+      "preset": ["site", "withColdTsconfig"],
+      "tsconfig": {
+        "value": {
+          "extends": "$siteCold"
+        }
+      }
+    },
+    "siteColdWithHiddenTsconfig": {
+      "preset": ["withHiddenTsconfig", "siteColdWithTsconfig"]
     },
     "siteModule": {
       "preset": ["siteWithHiddenTsconfig", "module"],
@@ -563,6 +745,17 @@
     "crossWithHiddenTsconfig": {
       "preset": ["crossWithTsconfig", "withHiddenTsconfig"]
     },
+    "crossColdWithTsconfig": {
+      "preset": ["cross", "withColdTsconfig"],
+      "tsconfig": {
+        "value": {
+          "extends": "$crossCold"
+        }
+      }
+    },
+    "crossColdWithHiddenTsconfig": {
+      "preset": ["withHiddenTsconfig", "crossColdWithTsconfig"]
+    },
     "crossModule": {
       "preset": ["crossWithHiddenTsconfig", "module"],
       "tags": ["crossModule"],
@@ -570,6 +763,16 @@
     },
     "crossBaseModule": {
       "preset": ["crossWithHiddenTsconfig", "module"],
+      "tags": ["crossBaseModule"],
+      "deps": []
+    },
+    "crossColdModule": {
+      "preset": ["module", "crossColdWithHiddenTsconfig"],
+      "tags": ["crossModule"],
+      "deps": ["#crossBaseModule", "#sharedBaseModule"]
+    },
+    "crossColdBaseModule": {
+      "preset": ["module", "crossColdWithHiddenTsconfig"],
       "tags": ["crossBaseModule"],
       "deps": []
     },
@@ -603,6 +806,17 @@
     "adminWithHiddenTsconfig": {
       "preset": ["adminWithTsconfig", "withHiddenTsconfig"]
     },
+    "adminColdWithTsconfig": {
+      "preset": ["admin", "withColdTsconfig"],
+      "tsconfig": {
+        "value": {
+          "extends": "$adminCold"
+        }
+      }
+    },
+    "adminColdWithHiddenTsconfig": {
+      "preset": ["withHiddenTsconfig", "adminColdWithTsconfig"]
+    },
     "adminModule": {
       "preset": ["adminWithHiddenTsconfig", "module"],
       "tags": ["adminModule"],
@@ -610,6 +824,16 @@
     },
     "adminBaseModule": {
       "preset": ["adminWithHiddenTsconfig", "module"],
+      "tags": ["adminBaseModule"],
+      "deps": []
+    },
+    "adminColdModule": {
+      "preset": ["module", "adminColdWithHiddenTsconfig"],
+      "tags": ["adminModule"],
+      "deps": ["#adminBaseModule", "#sharedBaseModule"]
+    },
+    "adminColdBaseModule": {
+      "preset": ["module", "adminColdWithHiddenTsconfig"],
       "tags": ["adminBaseModule"],
       "deps": []
     },
@@ -643,6 +867,17 @@
     "toolsWithHiddenTsconfig": {
       "preset": ["toolsWithTsconfig", "withHiddenTsconfig"]
     },
+    "toolsColdWithTsconfig": {
+      "preset": ["tools", "withColdTsconfig"],
+      "tsconfig": {
+        "value": {
+          "extends": "$toolsCold"
+        }
+      }
+    },
+    "toolsColdWithHiddenTsconfig": {
+      "preset": ["withHiddenTsconfig", "toolsColdWithTsconfig"]
+    },
     "toolsMulti": {
       "preset": ["tools"],
       "setSuffixesToInclude": [[".to"], [".ts", ".tsx"]],
@@ -655,6 +890,16 @@
     },
     "toolsBaseModule": {
       "preset": ["toolsWithHiddenTsconfig", "module"],
+      "tags": ["toolsBaseModule"],
+      "deps": []
+    },
+    "toolsColdModule": {
+      "preset": ["module", "toolsColdWithHiddenTsconfig"],
+      "tags": ["toolsModule"],
+      "deps": ["#toolsBaseModule", "#sharedBaseModule"]
+    },
+    "toolsColdBaseModule": {
+      "preset": ["module", "toolsColdWithHiddenTsconfig"],
       "tags": ["toolsBaseModule"],
       "deps": []
     },

@@ -1,0 +1,7 @@
+{
+  "extends": "../tsconfig.base.cold.json",
+  "compilerOptions": {
+    "lib": ["DOM", "ESNext"],
+    "jsx": "react-native"
+  }
+}

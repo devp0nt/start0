@@ -28,10 +28,16 @@
       "path": "../shared/tsconfig.json"
     },
     {
+      "path": "../../../packages/prisma/shared/tsconfig.json"
+    },
+    {
       "path": "../../@shared/base/tsconfig.json"
     },
     {
       "path": "../../@auth/shared/tsconfig.json"
+    },
+    {
+      "path": "../../../packages/prisma/shared/tsconfig.json"
     },
     {
       "path": "../../@shared/base/tsconfig.json"

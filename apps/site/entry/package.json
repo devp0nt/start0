@@ -10,7 +10,8 @@
     "dev": "not-refine dev",
     "types:rr": "rimraf dist && react-router typegen && tsc",
     "start": "not-refine start",
-    "not-refine": "not-refine"
+    "not-refine": "not-refine",
+    "build:clean": "rimraf ../../../node_modules/.cache/tsbuildinfo/@site/entry && rimraf ./dist"
   },
   "dependencies": {
     "@prisma/shared": "workspace:*",

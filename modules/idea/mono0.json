@@ -9,11 +9,6 @@
     "deps": ["@idea/shared"]
   },
   {
-    "name": "@idea/site",
-    "preset": ["siteModule", "siteMulti"],
-    "deps": ["@idea/shared"]
-  },
-  {
     "name": "@idea/admin",
     "preset": ["adminModule", "adminMulti"],
     "deps": ["@idea/shared"]

@@ -1,19 +1,13 @@
 {
   "extends": "../../tsconfig.site.json",
-  "include": [
-    "../../../modules/idea/**/site/**/*",
-    "../../../modules/idea/**/*.si.ts",
-    "../../../modules/idea/**/*.si.tsx",
-    "../../../modules/idea/**/*.fe.ts",
-    "../../../modules/idea/**/*.fe.tsx"
-  ],
+  "include": ["../../../modules/idea/site/**/*"],
   "exclude": [
-    "../../../modules/idea/**/dist/**/*",
-    "../../../modules/idea/**/node_modules/**/*",
-    "../../../modules/idea/**/public/**/*"
+    "../../../modules/idea/site/**/dist/**/*",
+    "../../../modules/idea/site/**/node_modules/**/*",
+    "../../../modules/idea/site/**/public/**/*"
   ],
   "compilerOptions": {
-    "rootDir": "../../../modules/idea",
+    "rootDir": "../../../modules/idea/site",
     "outDir": "./dist",
     "declaration": true,
     "declarationMap": false,
@@ -34,10 +28,16 @@
       "path": "../shared/tsconfig.json"
     },
     {
+      "path": "../../../packages/prisma/shared/tsconfig.json"
+    },
+    {
       "path": "../../@shared/base/tsconfig.json"
     },
     {
       "path": "../../@site/core/tsconfig.json"
+    },
+    {
+      "path": "../../../packages/prisma/shared/tsconfig.json"
     },
     {
       "path": "../../@shared/base/tsconfig.json"

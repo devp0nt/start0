@@ -10,12 +10,16 @@
     "refine": "refine",
     "types": "tsc --noEmit",
     "watch": "tsgo --watch ./tsconfig.json",
-    "clean": "rimraf ../../../node_modules/.cache/tsbuildinfo/@admin/entry && rimraf ./dist"
+    "clean": "rimraf ../../../node_modules/.cache/tsbuildinfo/@admin/entry && rimraf ./dist",
+    "build:clean": "rimraf ../../../node_modules/.cache/tsbuildinfo/@admin/entry && rimraf ./dist"
   },
   "dependencies": {
     "@ant-design/v5-patch-for-react-19": "^1.0.3",
-    "@devp0nt/refine0": "^1.0.0-next.9",
+    "@devp0nt/refine0": "^1.0.0-next.18",
+    "@frontend/base": "workspace:*",
     "@iconify/react": "^6.0.2",
+    "@prisma/backend": "workspace:*",
+    "@prisma/shared": "workspace:*",
     "@refinedev/antd": "^6.0.1",
     "@refinedev/cli": "^2.16.48",
     "@refinedev/core": "^5.0.0",
@@ -24,12 +28,9 @@
     "@refinedev/react-router": "^2.0.0",
     "@rjsf/antd": "^5.24.13",
     "@rjsf/validator-ajv8": "^5.24.13",
-    "@uiw/react-md-editor": "^4.0.8",
-    "qs": "^6.14.0",
-    "@frontend/base": "workspace:*",
     "@shared/base": "workspace:*",
-    "@prisma/shared": "workspace:*",
-    "@prisma/backend": "workspace:*"
+    "@uiw/react-md-editor": "^4.0.8",
+    "qs": "^6.14.0"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.4.1",
