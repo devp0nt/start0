@@ -1,34 +1,28 @@
 {
-  "extends": "../../tsconfig.cross.json",
-  "include": ["../../../apps/cross/core/**/*"],
+  "extends": "../../tsconfig.client.json",
+  "include": ["../../../modules/trpc/client-base/**/*"],
   "exclude": [
-    "../../../apps/cross/core/**/dist/**/*",
-    "../../../apps/cross/core/**/node_modules/**/*",
-    "../../../apps/cross/core/**/public/**/*"
+    "../../../modules/trpc/client-base/**/dist/**/*",
+    "../../../modules/trpc/client-base/**/node_modules/**/*",
+    "../../../modules/trpc/client-base/**/public/**/*"
   ],
   "compilerOptions": {
-    "rootDir": "../../../apps/cross/core",
+    "rootDir": "../../../modules/trpc/client-base",
     "outDir": "./dist",
     "declaration": true,
     "declarationMap": true,
     "composite": true,
-    "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@cross/core/.tsbuildinfo"
+    "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@trpc/client-base/.tsbuildinfo"
   },
   "references": [
-    {
-      "path": "../base/tsconfig.json"
-    },
-    {
-      "path": "../../@trpc/client-base/tsconfig.json"
-    },
-    {
-      "path": "../../@apps/base/tsconfig.json"
-    },
     {
       "path": "../../@backend/shared/tsconfig.json"
     },
     {
-      "path": "../../@trpc/router/tsconfig.json"
+      "path": "../router/tsconfig.json"
+    },
+    {
+      "path": "../../@apps/base/tsconfig.json"
     },
     {
       "path": "../../@admin/backend/tsconfig.json"
@@ -44,6 +38,9 @@
     },
     {
       "path": "../../@auth/shared/tsconfig.json"
+    },
+    {
+      "path": "../../@backend/shared/tsconfig.json"
     },
     {
       "path": "../../@backend/base/tsconfig.json"
@@ -67,7 +64,7 @@
       "path": "../../@hono/backend-base/tsconfig.json"
     },
     {
-      "path": "../../@trpc/backend/tsconfig.json"
+      "path": "../backend/tsconfig.json"
     },
     {
       "path": "../../@appConfig/backend/tsconfig.json"

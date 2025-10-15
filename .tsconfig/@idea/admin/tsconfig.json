@@ -76,6 +76,9 @@
       "path": "../../@backend/base/tsconfig.json"
     },
     {
+      "path": "../../@trpc/client-base/tsconfig.json"
+    },
+    {
       "path": "../../@trpc/router/tsconfig.json"
     },
     {
