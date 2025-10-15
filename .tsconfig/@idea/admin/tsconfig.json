@@ -1,5 +1,5 @@
 {
-  "extends": "../../../apps/admin/tsconfig.admin.json",
+  "extends": "../../tsconfig.admin.json",
   "include": [
     "../../../modules/idea/**/admin/**/*",
     "../../../modules/idea/**/*.ad.ts",
@@ -46,9 +46,6 @@
       "path": "../../@auth/admin/tsconfig.json"
     },
     {
-      "path": "../../@auth/admin-base/tsconfig.json"
-    },
-    {
       "path": "../../@auth/shared/tsconfig.json"
     },
     {
@@ -70,7 +67,7 @@
       "path": "../../@admin/hono/tsconfig.json"
     },
     {
-      "path": "../../@auth/admin-base/tsconfig.json"
+      "path": "../../@auth/client-base/tsconfig.json"
     },
     {
       "path": "../../@auth/backend/tsconfig.json"

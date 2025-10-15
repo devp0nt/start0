@@ -1,5 +1,5 @@
 {
-  "extends": "../../../apps/admin/tsconfig.admin.json",
+  "extends": "../../tsconfig.admin.json",
   "include": ["../../../apps/admin/base/**/*"],
   "exclude": [
     "../../../apps/admin/base/**/dist/**/*",

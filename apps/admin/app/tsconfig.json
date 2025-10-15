@@ -1,5 +1,5 @@
 {
-  "extends": "../tsconfig.admin.json",
+  "extends": "../../../.tsconfig/tsconfig.admin.json",
   "include": ["./src/**/*"],
   "exclude": ["./**/dist/**/*", "./**/node_modules/**/*", "./**/public/**/*"],
   "compilerOptions": {
@@ -36,9 +36,6 @@
       "path": "../../../.tsconfig/@auth/admin/tsconfig.json"
     },
     {
-      "path": "../../../.tsconfig/@auth/admin-base/tsconfig.json"
-    },
-    {
       "path": "../../../.tsconfig/@idea/admin/tsconfig.json"
     },
     {
@@ -54,7 +51,7 @@
       "path": "../../../.tsconfig/@admin/hono/tsconfig.json"
     },
     {
-      "path": "../../../.tsconfig/@auth/admin-base/tsconfig.json"
+      "path": "../../../.tsconfig/@auth/client-base/tsconfig.json"
     },
     {
       "path": "../../../.tsconfig/@auth/backend/tsconfig.json"

@@ -1,5 +1,5 @@
 {
-  "extends": "../../../apps/admin/tsconfig.admin.json",
+  "extends": "../../tsconfig.admin.json",
   "include": ["../../../apps/admin/ctx/**/*"],
   "exclude": [
     "../../../apps/admin/ctx/**/dist/**/*",
@@ -22,10 +22,10 @@
       "path": "../trpc/tsconfig.json"
     },
     {
-      "path": "../../@auth/admin-base/tsconfig.json"
+      "path": "../../@auth/backend/tsconfig.json"
     },
     {
-      "path": "../../@auth/backend/tsconfig.json"
+      "path": "../../@auth/client-base/tsconfig.json"
     },
     {
       "path": "../../../apps/backend/router/trpc/tsconfig.json"
@@ -40,7 +40,7 @@
       "path": "../base/tsconfig.json"
     },
     {
-      "path": "../../@auth/admin-base/tsconfig.json"
+      "path": "../../@auth/client-base/tsconfig.json"
     },
     {
       "path": "../../@auth/backend/tsconfig.json"

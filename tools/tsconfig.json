@@ -1,5 +1,5 @@
 {
-  "extends": "./tsconfig.tools.json",
+  "extends": "../.tsconfig/tsconfig.tools.json",
   "include": ["./src/**/*"],
   "exclude": ["./**/dist/**/*", "./**/node_modules/**/*", "./**/public/**/*"],
   "compilerOptions": {

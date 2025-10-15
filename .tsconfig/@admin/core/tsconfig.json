@@ -1,5 +1,5 @@
 {
-  "extends": "../../../apps/admin/tsconfig.admin.json",
+  "extends": "../../tsconfig.admin.json",
   "include": ["../../../apps/admin/core/**/*"],
   "exclude": [
     "../../../apps/admin/core/**/dist/**/*",
@@ -37,7 +37,7 @@
       "path": "../base/tsconfig.json"
     },
     {
-      "path": "../../@auth/admin-base/tsconfig.json"
+      "path": "../../@auth/client-base/tsconfig.json"
     },
     {
       "path": "../../@auth/backend/tsconfig.json"

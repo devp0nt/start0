@@ -1,5 +1,5 @@
 {
   "name": "@admin/ctx",
   "preset": ["adminBaseModule"],
-  "deps": ["@backend/trpc-router", "@admin/base", "@auth/admin-base", "@auth/backend", "@admin/base", "@admin/trpc"]
+  "deps": ["@backend/trpc-router", "@admin/base", "@auth/client-base", "@auth/backend", "@admin/base", "@admin/trpc"]
 }

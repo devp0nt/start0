@@ -1,5 +1,5 @@
 {
-  "extends": "../../../apps/backend/tsconfig.backend.json",
+  "extends": "../../../.tsconfig/tsconfig.backend.json",
   "include": ["./src/**/*"],
   "exclude": ["./**/dist/**/*", "./**/node_modules/**/*", "./**/public/**/*"],
   "compilerOptions": {

@@ -172,19 +172,31 @@
       }
     },
     "shared": {
-      "path": "./apps/shared/tsconfig.shared.json",
+      "path": "./.tsconfig/tsconfig.shared.json",
+      "value": {
+        "extends": "$base"
+      }
+    },
+    "server": {
+      "path": "./.tsconfig/tsconfig.server.json",
+      "value": {
+        "extends": "$base"
+      }
+    },
+    "client": {
+      "path": "./.tsconfig/tsconfig.client.json",
       "value": {
         "extends": "$base"
       }
     },
     "backend": {
-      "path": "./apps/backend/tsconfig.backend.json",
+      "path": "./.tsconfig/tsconfig.backend.json",
       "value": {
         "extends": "$base"
       }
     },
     "site": {
-      "path": "./apps/site/tsconfig.site.json",
+      "path": "./.tsconfig/tsconfig.site.json",
       "value": {
         "extends": "$base",
         "compilerOptions": {
@@ -196,14 +208,19 @@
       }
     },
     "cross": {
-      "path": "./apps/cross/tsconfig.cross.json",
+      "path": "./.tsconfig/tsconfig.cross.json",
       "value": {
-        "extends": "expo/tsconfig.base",
-        "compilerOptions": {}
+        "extends": "$base",
+        "compilerOptions": {
+          // "strict": true,
+          // "module": "esnext"
+          "jsx": "react-native",
+          "lib": ["DOM", "ESNext"]
+        }
       }
     },
     "admin": {
-      "path": "./apps/admin/tsconfig.admin.json",
+      "path": "./.tsconfig/tsconfig.admin.json",
       "value": {
         "extends": "$base",
         "compilerOptions": {
@@ -215,7 +232,7 @@
       }
     },
     "tools": {
-      "path": "./tools/tsconfig.tools.json",
+      "path": "./.tsconfig/tsconfig.tools.json",
       "value": {
         "extends": "$base"
       }
@@ -254,8 +271,12 @@
         }
       }
     },
-    "withHiddenTsconfig": {
+    "withHiddenDistDir": {
       "preset": ["withTsconfig"],
+      "distDir": "~/.tsconfig/{{unitName}}/dist"
+    },
+    "withHiddenTsconfig": {
+      "preset": ["withTsconfig", "withHiddenDistDir"],
       "distDir": "~/.tsconfig/{{unitName}}/dist",
       "tsconfigs": {
         "core": {
@@ -360,6 +381,80 @@
     "sharedBaseNested": {
       "preset": ["shared"],
       "srcDir": "shared-base"
+    },
+    "server": {
+      "tags": ["server"]
+    },
+    "serverWithTsconfig": {
+      "preset": ["withTsconfig", "server"],
+      "tsconfig": {
+        "value": {
+          "extends": "$server"
+        }
+      }
+    },
+    "serverWithHiddenTsconfig": {
+      "preset": ["serverWithTsconfig", "withHiddenTsconfig"]
+    },
+    "serverModule": {
+      "preset": ["serverWithHiddenTsconfig"],
+      "tags": ["serverModule"],
+      "deps": ["#serverBaseModule", "#sharedBaseModule"]
+    },
+    "serverBaseModule": {
+      "preset": ["serverWithHiddenTsconfig"],
+      "tags": ["serverBaseModule"],
+      "deps": []
+    },
+    "serverMulti": {
+      "preset": ["server"],
+      "setSuffixesToInclude": [[".be"], [".ts", ".tsx"]],
+      "setDirsToInclude": ["server"]
+    },
+    "serverNested": {
+      "preset": ["server"],
+      "srcDir": "server"
+    },
+    "serverBaseNested": {
+      "preset": ["server"],
+      "srcDir": "server-base"
+    },
+    "client": {
+      "tags": ["client"]
+    },
+    "clientWithTsconfig": {
+      "preset": ["withTsconfig", "client"],
+      "tsconfig": {
+        "value": {
+          "extends": "$client"
+        }
+      }
+    },
+    "clientWithHiddenTsconfig": {
+      "preset": ["clientWithTsconfig", "withHiddenTsconfig"]
+    },
+    "clientModule": {
+      "preset": ["clientWithHiddenTsconfig"],
+      "tags": ["clientModule"],
+      "deps": ["#clientBaseModule", "#sharedBaseModule"]
+    },
+    "clientBaseModule": {
+      "preset": ["clientWithHiddenTsconfig"],
+      "tags": ["clientBaseModule"],
+      "deps": []
+    },
+    "clientMulti": {
+      "preset": ["client"],
+      "setSuffixesToInclude": [[".be"], [".ts", ".tsx"]],
+      "setDirsToInclude": ["client"]
+    },
+    "clientNested": {
+      "preset": ["client"],
+      "srcDir": "client"
+    },
+    "clientBaseNested": {
+      "preset": ["client"],
+      "srcDir": "client-base"
     },
     "backend": {
       "tags": ["backend"]
@@ -516,7 +611,7 @@
     },
     "adminBaseNested": {
       "preset": ["admin"],
-      "srcDir": "admin-base"
+      "srcDir": "client"
     },
     "tools": {
       "tags": ["tools"]

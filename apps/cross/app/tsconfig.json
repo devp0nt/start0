@@ -1,16 +1,88 @@
 {
-  "extends": "../tsconfig.cross.json",
+  "extends": "../../../.tsconfig/tsconfig.cross.json",
   "include": ["**/*.ts", "**/*.tsx", "**/*.js", ".expo/types/**/*.ts", "expo-env.d.ts"],
-  "exclude": ["./**/dist/**/*", "./**/node_modules/**/*", "./**/public/**/*"],
+  "exclude": ["./node_modules", "./babel.config.js", "./metro.config.js", "./jest.config.js", "./android", "./ios"],
   "compilerOptions": {
     "rootDir": "./",
     "outDir": "./dist",
-    "module": "esnext",
+    "module": "preserve",
+    "target": "ESNext",
+    "customConditions": ["react-native"],
+    "moduleDetection": "force",
     "declaration": true,
     "declarationMap": true,
-    "strict": true,
     "composite": true,
     "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@cross/app/.tsbuildinfo"
   },
-  "references": []
+  "references": [
+    {
+      "path": "../../../.tsconfig/@cross/base/tsconfig.json"
+    },
+    {
+      "path": "../../../.tsconfig/@cross/core/tsconfig.json"
+    },
+    {
+      "path": "../../../.tsconfig/@cross/ctx/tsconfig.json"
+    },
+    {
+      "path": "../../../.tsconfig/@cross/trpc/tsconfig.json"
+    },
+    {
+      "path": "../../../.tsconfig/@apps/base/tsconfig.json"
+    },
+    {
+      "path": "../../../.tsconfig/@backend/shared/tsconfig.json"
+    },
+    {
+      "path": "../../../.tsconfig/@cross/base/tsconfig.json"
+    },
+    {
+      "path": "../../../.tsconfig/@cross/trpc/tsconfig.json"
+    },
+    {
+      "path": "../../../.tsconfig/@auth/client-base/tsconfig.json"
+    },
+    {
+      "path": "../../../.tsconfig/@auth/backend/tsconfig.json"
+    },
+    {
+      "path": "../../../.tsconfig/@apps/shared/tsconfig.json"
+    },
+    {
+      "path": "../../../.tsconfig/@auth/shared/tsconfig.json"
+    },
+    {
+      "path": "../../../.tsconfig/@backend/base/tsconfig.json"
+    },
+    {
+      "path": "../../backend/router/trpc/tsconfig.json"
+    },
+    {
+      "path": "../../../.tsconfig/@admin/backend/tsconfig.json"
+    },
+    {
+      "path": "../../../.tsconfig/@backend/core/tsconfig.json"
+    },
+    {
+      "path": "../../../.tsconfig/@backend/ctx/tsconfig.json"
+    },
+    {
+      "path": "../../backend/router/hono/tsconfig.json"
+    },
+    {
+      "path": "../../../.tsconfig/@adminUser/backend/tsconfig.json"
+    },
+    {
+      "path": "../../../.tsconfig/@adminUser/shared/tsconfig.json"
+    },
+    {
+      "path": "../../../.tsconfig/@appConfig/backend/tsconfig.json"
+    },
+    {
+      "path": "../../../.tsconfig/@idea/backend/tsconfig.json"
+    },
+    {
+      "path": "../../../.tsconfig/@idea/shared/tsconfig.json"
+    }
+  ]
 }

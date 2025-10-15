@@ -1,5 +1,5 @@
 {
-  "extends": "../../../apps/shared/tsconfig.shared.json",
+  "extends": "../../tsconfig.shared.json",
   "include": ["../../../modules/rjs0/src/**/*"],
   "exclude": [
     "../../../modules/rjs0/**/dist/**/*",

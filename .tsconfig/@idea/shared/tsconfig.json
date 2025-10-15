@@ -1,5 +1,5 @@
 {
-  "extends": "../../../apps/shared/tsconfig.shared.json",
+  "extends": "../../tsconfig.shared.json",
   "include": [
     "../../../modules/idea/**/shared/**/*",
     "../../../modules/idea/**/*.sh.ts",

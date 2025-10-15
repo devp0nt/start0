@@ -1,5 +1,5 @@
 {
-  "extends": "../../../apps/shared/tsconfig.shared.json",
+  "extends": "../../tsconfig.shared.json",
   "include": [
     "../../../modules/adminUser/**/shared/**/*",
     "../../../modules/adminUser/**/*.sh.ts",

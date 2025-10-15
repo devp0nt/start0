@@ -1,0 +1,5 @@
+{
+  "name": "@cross/core",
+  "preset": ["crossBaseModule"],
+  "deps": ["@cross/hono", "@cross/trpc", "@cross/base", "@auth/cross"]
+}

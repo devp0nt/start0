@@ -1,0 +1,28 @@
+{
+  "extends": "../../tsconfig.cross.json",
+  "include": ["../../../apps/cross/base/**/*"],
+  "exclude": [
+    "../../../apps/cross/base/**/dist/**/*",
+    "../../../apps/cross/base/**/node_modules/**/*",
+    "../../../apps/cross/base/**/public/**/*"
+  ],
+  "compilerOptions": {
+    "rootDir": "../../../apps/cross/base",
+    "outDir": "./dist",
+    "declaration": true,
+    "declarationMap": true,
+    "composite": true,
+    "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@cross/base/.tsbuildinfo"
+  },
+  "references": [
+    {
+      "path": "../../@apps/base/tsconfig.json"
+    },
+    {
+      "path": "../../@backend/shared/tsconfig.json"
+    },
+    {
+      "path": "../../@apps/base/tsconfig.json"
+    }
+  ]
+}

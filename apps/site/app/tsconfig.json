@@ -1,5 +1,5 @@
 {
-  "extends": "../tsconfig.site.json",
+  "extends": "../../../.tsconfig/tsconfig.site.json",
   "include": ["./**/*"],
   "exclude": ["./**/dist/**/*", "./**/node_modules/**/*", "./**/public/**/*"],
   "compilerOptions": {

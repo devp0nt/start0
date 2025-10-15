@@ -25,8 +25,8 @@
       "@apps/base/*": ["./apps/base/*"],
       "@apps/shared/*": ["./apps/shared/*"],
       "@auth/admin/*": ["./modules/auth/admin/*"],
-      "@auth/admin-base/*": ["./modules/auth/admin-base/*"],
       "@auth/backend/*": ["./modules/auth/backend/*"],
+      "@auth/client-base/*": ["./modules/auth/client-base/*"],
       "@auth/shared/*": ["./modules/auth/shared/*"],
       "@auth/site/*": ["./modules/auth/site/*"],
       "@backend/base/*": ["./apps/backend/base/*"],
@@ -40,6 +40,12 @@
       "@backend/trpc-router": ["./apps/backend/router/trpc/index.ts"],
       "@backend/trpc-router/*": ["./apps/backend/router/trpc/*"],
       "@cross/app/*": ["./apps/cross/app/*"],
+      "@cross/base/*": ["./apps/cross/base/*"],
+      "@cross/core/*": ["./apps/cross/core/*"],
+      "@cross/ctx": ["./apps/cross/ctx/index.tsx"],
+      "@cross/ctx/*": ["./apps/cross/ctx/*"],
+      "@cross/trpc": ["./apps/cross/trpc/index.tsx"],
+      "@cross/trpc/*": ["./apps/cross/trpc/*"],
       "@devp0nt/rjs0": ["./modules/rjs0/src/index.ts"],
       "@devp0nt/rjs0/*": ["./modules/rjs0/src/*"],
       "@idea/admin/*": ["./modules/idea/*"],
@@ -110,10 +116,10 @@
       "path": "./.tsconfig/@auth/admin/tsconfig.json"
     },
     {
-      "path": "./.tsconfig/@auth/admin-base/tsconfig.json"
+      "path": "./.tsconfig/@auth/backend/tsconfig.json"
     },
     {
-      "path": "./.tsconfig/@auth/backend/tsconfig.json"
+      "path": "./.tsconfig/@auth/client-base/tsconfig.json"
     },
     {
       "path": "./.tsconfig/@auth/shared/tsconfig.json"
@@ -144,6 +150,18 @@
     },
     {
       "path": "./apps/cross/app/tsconfig.json"
+    },
+    {
+      "path": "./.tsconfig/@cross/base/tsconfig.json"
+    },
+    {
+      "path": "./.tsconfig/@cross/core/tsconfig.json"
+    },
+    {
+      "path": "./.tsconfig/@cross/ctx/tsconfig.json"
+    },
+    {
+      "path": "./.tsconfig/@cross/trpc/tsconfig.json"
     },
     {
       "path": "./.tsconfig/@devp0nt/rjs0/tsconfig.json"

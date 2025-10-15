@@ -1,5 +1,5 @@
 {
-  "extends": "../../../apps/admin/tsconfig.admin.json",
+  "extends": "../../tsconfig.admin.json",
   "include": ["../../../modules/auth/admin/**/*"],
   "exclude": [
     "../../../modules/auth/**/dist/**/*",
@@ -16,10 +16,10 @@
   },
   "references": [
     {
-      "path": "../admin-base/tsconfig.json"
+      "path": "../../@admin/base/tsconfig.json"
     },
     {
-      "path": "../../@admin/base/tsconfig.json"
+      "path": "../client-base/tsconfig.json"
     },
     {
       "path": "../../@apps/base/tsconfig.json"
