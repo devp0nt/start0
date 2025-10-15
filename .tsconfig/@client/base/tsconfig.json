@@ -1,13 +1,13 @@
 {
   "extends": "../../tsconfig.client.json",
-  "include": ["../../../apps/client/base/**/*"],
+  "include": ["../../../apps/client/**/*"],
   "exclude": [
-    "../../../apps/client/base/**/dist/**/*",
-    "../../../apps/client/base/**/node_modules/**/*",
-    "../../../apps/client/base/**/public/**/*"
+    "../../../apps/client/**/dist/**/*",
+    "../../../apps/client/**/node_modules/**/*",
+    "../../../apps/client/**/public/**/*"
   ],
   "compilerOptions": {
-    "rootDir": "../../../apps/client/base",
+    "rootDir": "../../../apps/client",
     "outDir": "./dist",
     "declaration": true,
     "declarationMap": true,

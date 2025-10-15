@@ -28,7 +28,7 @@
       "@backend/ctx/*": ["./apps/backend/ctx/*"],
       "@backend/services/*": ["./apps/backend/services/src/*"],
       "@backend/shared/*": ["./apps/backend/shared/*"],
-      "@client/base/*": ["./apps/client/base/*"],
+      "@client/base/*": ["./apps/client/*"],
       "@cross/app/*": ["./apps/cross/app/*"],
       "@cross/base/*": ["./apps/cross/base/*"],
       "@cross/core/*": ["./apps/cross/core/*"],

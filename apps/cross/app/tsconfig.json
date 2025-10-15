@@ -42,7 +42,7 @@
       "@backend/ctx/*": ["../../backend/ctx/*"],
       "@backend/services/*": ["../../backend/services/src/*"],
       "@backend/shared/*": ["../../backend/shared/*"],
-      "@client/base/*": ["../../client/base/*"],
+      "@client/base/*": ["../../client/*"],
       "@cross/app/*": [".//*"],
       "@cross/base/*": ["../base/*"],
       "@cross/core/*": ["../core/*"],
