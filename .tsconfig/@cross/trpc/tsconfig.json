@@ -28,7 +28,7 @@
       "path": "../../@auth/backend/tsconfig.json"
     },
     {
-      "path": "../../@apps/shared/tsconfig.json"
+      "path": "../../@shared/base/tsconfig.json"
     },
     {
       "path": "../../@auth/shared/tsconfig.json"

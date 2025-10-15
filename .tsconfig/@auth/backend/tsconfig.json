@@ -25,6 +25,9 @@
       "path": "../../@shared/base/tsconfig.json"
     },
     {
+      "path": "../../@shared/base/tsconfig.json"
+    },
+    {
       "path": "../shared/tsconfig.json"
     },
     {

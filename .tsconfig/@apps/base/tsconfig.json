@@ -1,6 +1,6 @@
 {
   "extends": "../../tsconfig.shared.json",
-  "include": ["../../../shared/base/**/*", "../../../apps/shared/general.ts"],
+  "include": ["../../../shared/base/**/*", "../../../shared/base/general.ts"],
   "exclude": [
     "../../../shared/base/**/dist/**/*",
     "../../../shared/base/**/node_modules/**/*",

@@ -1,18 +1,18 @@
 {
   "extends": "../../tsconfig.shared.json",
-  "include": ["../../../apps/shared/**/*"],
+  "include": ["../../../shared/base/**/*"],
   "exclude": [
-    "../../../apps/shared/**/dist/**/*",
-    "../../../apps/shared/**/node_modules/**/*",
-    "../../../apps/shared/**/public/**/*"
+    "../../../shared/base/**/dist/**/*",
+    "../../../shared/base/**/node_modules/**/*",
+    "../../../shared/base/**/public/**/*"
   ],
   "compilerOptions": {
-    "rootDir": "../../../apps/shared",
+    "rootDir": "../../../shared/base",
     "outDir": "./dist",
     "declaration": true,
     "declarationMap": true,
     "composite": true,
-    "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@apps/shared/.tsbuildinfo"
+    "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@shared/base/.tsbuildinfo"
   },
   "references": []
 }
