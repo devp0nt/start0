@@ -6,8 +6,8 @@
     "@cross/base",
     "@auth/cross-base",
     "@auth/backend",
-    "@auth/client-base",
+    "@auth/frontend-base",
     "@cross/base",
-    "@trpc/client-base"
+    "@trpc/frontend-base"
   ]
 }

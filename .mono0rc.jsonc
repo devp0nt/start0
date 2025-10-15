@@ -470,7 +470,7 @@
     },
     "clientBaseNested": {
       "preset": ["client"],
-      "srcDir": "client-base"
+      "srcDir": "frontend-base"
     },
     "backend": {
       "tags": ["backend"]

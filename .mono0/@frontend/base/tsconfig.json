@@ -1,13 +1,13 @@
 {
   "extends": "../../tsconfig.client.json",
-  "include": ["../../../packages/client/**/*"],
+  "include": ["../../../packages/frontend/**/*"],
   "exclude": [
-    "../../../packages/client/**/dist/**/*",
-    "../../../packages/client/**/node_modules/**/*",
-    "../../../packages/client/**/public/**/*"
+    "../../../packages/frontend/**/dist/**/*",
+    "../../../packages/frontend/**/node_modules/**/*",
+    "../../../packages/frontend/**/public/**/*"
   ],
   "compilerOptions": {
-    "rootDir": "../../../packages/client",
+    "rootDir": "../../../packages/frontend",
     "outDir": "./dist",
     "declaration": true,
     "declarationMap": false,

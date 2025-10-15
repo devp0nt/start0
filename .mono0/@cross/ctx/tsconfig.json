@@ -19,7 +19,7 @@
       "path": "../../@auth/backend/tsconfig.json"
     },
     {
-      "path": "../../@auth/client-base/tsconfig.json"
+      "path": "../../@auth/frontend-base/tsconfig.json"
     },
     {
       "path": "../base/tsconfig.json"
@@ -28,7 +28,7 @@
       "path": "../../@shared/base/tsconfig.json"
     },
     {
-      "path": "../../@trpc/client-base/tsconfig.json"
+      "path": "../../@trpc/frontend-base/tsconfig.json"
     },
     {
       "path": "../../@trpc/router/tsconfig.json"

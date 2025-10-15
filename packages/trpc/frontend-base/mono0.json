@@ -1,5 +1,5 @@
 {
-  "name": "@trpc/client-base",
+  "name": "@trpc/frontend-base",
   "preset": ["clientBaseModule"],
   "deps": ["@trpc/router", "@backend/shared", "@shared/base"]
 }

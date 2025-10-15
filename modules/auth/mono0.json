@@ -15,13 +15,13 @@
     "deps": ["@auth/shared"]
   },
   {
-    "name": "@auth/client-base",
+    "name": "@auth/frontend-base",
     "preset": ["clientBaseModule", "clientBaseNested"],
     "deps": ["@auth/shared", "@auth/backend", "@shared/base"]
   },
   {
     "name": "@auth/admin",
     "preset": ["adminBaseModule", "adminNested"],
-    "deps": ["@auth/client-base", "@admin/base"]
+    "deps": ["@auth/frontend-base", "@admin/base"]
   }
 ]

@@ -46,6 +46,7 @@
     "@types/debug": "^4.1.12",
     "@types/lodash": "^4.17.20",
     "@types/node": "^20",
+    "@typescript/native-preview": "^7.0.0-dev.20251015.1",
     "eslint": "^9.36.0",
     "eslint-config-love": "^125.0.0",
     "eslint-config-prettier": "^10.1.8",
@@ -61,8 +62,8 @@
     "packages": [
       "./apps/admin/entry",
       "./apps/backend/entry",
-      "./packages/client",
       "./apps/cross/entry",
+      "./packages/frontend",
       "./packages/prisma/backend",
       "./packages/prisma/shared",
       "./packages/shared",

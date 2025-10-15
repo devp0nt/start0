@@ -19,8 +19,8 @@
       "@appConfig/site/*": ["./modules/appConfig/*"],
       "@auth/admin/*": ["./modules/auth/admin/*"],
       "@auth/backend/*": ["./modules/auth/backend/*"],
-      "@auth/client-base": ["./modules/auth/client-base/index.ts"],
-      "@auth/client-base/*": ["./modules/auth/client-base/*"],
+      "@auth/frontend-base": ["./modules/auth/frontend-base/index.ts"],
+      "@auth/frontend-base/*": ["./modules/auth/frontend-base/*"],
       "@auth/shared/*": ["./modules/auth/shared/*"],
       "@auth/site/*": ["./modules/auth/site/*"],
       "@backend/base/*": ["./apps/backend/base/*"],
@@ -29,7 +29,6 @@
       "@backend/ctx/*": ["./apps/backend/ctx/*"],
       "@backend/entry/*": ["./apps/backend/entry/src/*"],
       "@backend/shared/*": ["./apps/backend/shared/*"],
-      "@client/base/*": ["./packages/client/*"],
       "@cross/base/*": ["./apps/cross/base/*"],
       "@cross/core/*": ["./apps/cross/core/*"],
       "@cross/ctx": ["./apps/cross/ctx/index.tsx"],
@@ -37,12 +36,13 @@
       "@cross/entry/*": ["./apps/cross/entry/*"],
       "@devp0nt/rjs0": ["./packages/rjs0/src/index.ts"],
       "@devp0nt/rjs0/*": ["./packages/rjs0/src/*"],
+      "@frontend/base/*": ["./packages/frontend/*"],
       "@hono/backend": ["./packages/hono/backend/index.ts"],
       "@hono/backend/*": ["./packages/hono/backend/*"],
       "@hono/backend-base": ["./packages/hono/backend-base/index.ts"],
       "@hono/backend-base/*": ["./packages/hono/backend-base/*"],
-      "@hono/client-base": ["./packages/hono/client-base/index.ts"],
-      "@hono/client-base/*": ["./packages/hono/client-base/*"],
+      "@hono/frontend-base": ["./packages/hono/frontend-base/index.ts"],
+      "@hono/frontend-base/*": ["./packages/hono/frontend-base/*"],
       "@hono/router": ["./packages/hono/router/index.ts"],
       "@hono/router/*": ["./packages/hono/router/*"],
       "@idea/admin/*": ["./modules/idea/*"],
@@ -56,8 +56,8 @@
       "@tools/shared/*": ["./tools/src/*"],
       "@trpc/backend": ["./packages/trpc/backend/index.ts"],
       "@trpc/backend/*": ["./packages/trpc/backend/*"],
-      "@trpc/client-base": ["./packages/trpc/client-base/index.tsx"],
-      "@trpc/client-base/*": ["./packages/trpc/client-base/*"],
+      "@trpc/frontend-base": ["./packages/trpc/frontend-base/index.tsx"],
+      "@trpc/frontend-base/*": ["./packages/trpc/frontend-base/*"],
       "@trpc/router": ["./packages/trpc/router/index.ts"],
       "@trpc/router/*": ["./packages/trpc/router/*"],
       "@prisma/backend/*": ["./node_modules/@prisma/backend/*"],
@@ -108,7 +108,7 @@
       "path": "./.mono0/@auth/backend/tsconfig.json"
     },
     {
-      "path": "./.mono0/@auth/client-base/tsconfig.json"
+      "path": "./.mono0/@auth/frontend-base/tsconfig.json"
     },
     {
       "path": "./.mono0/@auth/shared/tsconfig.json"
@@ -132,9 +132,6 @@
       "path": "./.mono0/@backend/shared/tsconfig.json"
     },
     {
-      "path": "./.mono0/@client/base/tsconfig.json"
-    },
-    {
       "path": "./.mono0/@cross/base/tsconfig.json"
     },
     {
@@ -150,13 +147,16 @@
       "path": "./.mono0/@devp0nt/rjs0/tsconfig.json"
     },
     {
+      "path": "./.mono0/@frontend/base/tsconfig.json"
+    },
+    {
       "path": "./.mono0/@hono/backend/tsconfig.json"
     },
     {
       "path": "./.mono0/@hono/backend-base/tsconfig.json"
     },
     {
-      "path": "./.mono0/@hono/client-base/tsconfig.json"
+      "path": "./.mono0/@hono/frontend-base/tsconfig.json"
     },
     {
       "path": "./.mono0/@hono/router/tsconfig.json"
@@ -189,7 +189,7 @@
       "path": "./.mono0/@trpc/backend/tsconfig.json"
     },
     {
-      "path": "./.mono0/@trpc/client-base/tsconfig.json"
+      "path": "./.mono0/@trpc/frontend-base/tsconfig.json"
     },
     {
       "path": "./.mono0/@trpc/router/tsconfig.json"

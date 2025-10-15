@@ -5,7 +5,7 @@ import 'react-native-reanimated'
 
 import { ErrorPage } from '@cross/base/components/error'
 import { useColorScheme } from '@cross/base/hooks/use-color-scheme'
-import { TrpcReactQueryProvider } from '@trpc/client-base'
+import { TrpcReactQueryProvider } from '@trpc/frontend-base'
 
 // TODO: figure out what is it
 export const unstable_settings = {

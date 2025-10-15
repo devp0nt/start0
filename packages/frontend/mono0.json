@@ -1,5 +1,5 @@
 {
-  "name": "@client/base",
+  "name": "@frontend/base",
   "preset": ["clientBaseModule", "clientWithPackageJson"],
   "deps": [],
   "packageJson": {

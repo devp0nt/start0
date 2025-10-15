@@ -30,7 +30,7 @@
       "path": "../../../.mono0/@auth/admin/tsconfig.json"
     },
     {
-      "path": "../../../.mono0/@client/base/tsconfig.json"
+      "path": "../../../.mono0/@frontend/base/tsconfig.json"
     },
     {
       "path": "../../../.mono0/@idea/admin/tsconfig.json"
@@ -48,7 +48,7 @@
       "path": "../../../.mono0/@auth/admin/tsconfig.json"
     },
     {
-      "path": "../../../.mono0/@auth/client-base/tsconfig.json"
+      "path": "../../../.mono0/@auth/frontend-base/tsconfig.json"
     },
     {
       "path": "../../../.mono0/@auth/backend/tsconfig.json"
@@ -60,7 +60,7 @@
       "path": "../../../.mono0/@backend/base/tsconfig.json"
     },
     {
-      "path": "../../../.mono0/@trpc/client-base/tsconfig.json"
+      "path": "../../../.mono0/@trpc/frontend-base/tsconfig.json"
     },
     {
       "path": "../../../.mono0/@trpc/router/tsconfig.json"

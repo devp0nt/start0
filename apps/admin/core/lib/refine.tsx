@@ -1,6 +1,6 @@
 import { axiosInstance } from '@admin/core/lib/axios'
 import { env } from '@admin/base/lib/env.runtime'
-import { queryClient } from '@trpc/client-base'
+import { queryClient } from '@trpc/frontend-base'
 import { LoadingOutlined } from '@ant-design/icons'
 import { refineAccessControlProvider, refineAuthProvider } from '@auth/admin/refine'
 import { backendAdminRoutesBasePath } from '@backend/shared/utils'

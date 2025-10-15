@@ -7,7 +7,7 @@ import { ThemedText } from '@cross/base/components/themed-text'
 import { ThemedView } from '@cross/base/components/themed-view'
 import { Link } from 'expo-router'
 import { useQuery } from '@tanstack/react-query'
-import { trpc } from '@trpc/client-base'
+import { trpc } from '@trpc/frontend-base'
 
 export default function HomeScreen() {
   const qr = useQuery(trpc.app.getConfig.queryOptions())

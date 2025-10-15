@@ -1,7 +1,7 @@
 {
   "name": "@cross/entry",
   "preset": ["app", "crossWithTsconfig"],
-  "deps": ["#crossModule", "#crossBaseModule", "@client/base"],
+  "deps": ["#crossModule", "#crossBaseModule", "@frontend/base"],
   "tsconfig": {
     "settings": {
       "addUnitsSrcToPaths": { "match": "!#cold", "indexFile": true },

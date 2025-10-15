@@ -19,7 +19,7 @@
       "path": "../../@admin/base/tsconfig.json"
     },
     {
-      "path": "../client-base/tsconfig.json"
+      "path": "../frontend-base/tsconfig.json"
     },
     {
       "path": "../../@shared/base/tsconfig.json"
