@@ -1,11 +1,11 @@
 import { Image } from 'expo-image'
 import { Platform, StyleSheet } from 'react-native'
 
-import { Collapsible } from '@cross/app/components/ui/collapsible'
 import { ExternalLink } from '@cross/app/components/external-link'
 import ParallaxScrollView from '@cross/app/components/parallax-scroll-view'
 import { ThemedText } from '@cross/app/components/themed-text'
 import { ThemedView } from '@cross/app/components/themed-view'
+import { Collapsible } from '@cross/app/components/ui/collapsible'
 import { IconSymbol } from '@cross/app/components/ui/icon-symbol'
 import { Fonts } from '@cross/app/constants/theme'
 

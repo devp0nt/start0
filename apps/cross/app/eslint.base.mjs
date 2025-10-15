@@ -8,7 +8,7 @@ export const expoIgnores = ['scripts/reset-project.js']
 
 export const expoFiles = ['**/*.js', '**/*.ts', '**/*.tsx']
 
-export const expoMain = ({ path, main, ignores: providedIgnores = [], files: providedFiles = [] }) => {
+export const expoConfig = ({ path, mainConfig, ignores: providedIgnores = [], files: providedFiles = [] }) => {
   const files = [...expoFiles, ...providedFiles].map((file) => nodePath.join(path, file))
   const ignores = [...expoIgnores, ...providedIgnores].map((ignore) => nodePath.join(path, ignore))
   const paths = { files, ignores }
@@ -20,14 +20,14 @@ export const expoMain = ({ path, main, ignores: providedIgnores = [], files: pro
       },
       {
         ...paths,
-        extends: [main],
+        extends: [mainConfig],
       },
       {
         ...paths,
         rules: {
-          'no-console': 'off', // Allow console statements in mobile apps
-          'no-process-env': 'off', // Allow process.env in Expo apps
-          '@typescript-eslint/no-require-imports': 'off', // Allow require for assets
+          'no-console': 'off',
+          'no-process-env': 'off',
+          '@typescript-eslint/no-require-imports': 'off',
         },
       },
     ]),
