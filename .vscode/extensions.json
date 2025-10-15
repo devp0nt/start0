@@ -14,6 +14,7 @@
     "ms-azuretools.vscode-docker", // Docker support - manage containers, images, and compose files
     "gitpod.gitpod-theme", // Gitpod color theme for consistent cloud development environment
     "circlecodesolution.ccs-flutter-color", // Flutter color picker and palette tools
-    "skellock.just" // Just command runner syntax highlighting and support
+    "skellock.just", // Just command runner syntax highlighting and support
+    "expo.vscode-expo-tools" // Expo tools for VS Code
   ]
 }

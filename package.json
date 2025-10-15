@@ -41,6 +41,7 @@
   "devDependencies": {
     "@devp0nt/gen0": "^1.0.0-next.46",
     "@devp0nt/mono0": "^1.0.0-next.63",
+    "@leancodepl/resolve-eslint-flat-config": "^9.6.3",
     "@types/bun": "latest",
     "@types/debug": "^4.1.12",
     "@types/lodash": "^4.17.20",
@@ -60,6 +61,7 @@
     "packages": [
       "./apps/admin/app",
       "./apps/backend/services",
+      "./apps/cross/app",
       "./modules/prisma/backend",
       "./modules/prisma/shared",
       "./apps/site/app",

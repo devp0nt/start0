@@ -1,5 +1,6 @@
 alias be := backend
 alias si := site
+alias cr := crossapp
 alias ad := admin
 alias to := tools
 alias w := watch
@@ -18,6 +19,9 @@ backend *args:
 
 site *args:
   bun run mono0 exec -i -m @site/app bun run {{args}}
+
+crossapp *args:
+  bun run mono0 exec -i -m @cross/app bun run {{args}}
 
 admin *args:
   bun run mono0 exec -i -m @admin/app bun run {{args}}

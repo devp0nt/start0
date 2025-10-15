@@ -1,0 +1,16 @@
+{
+  "extends": "../tsconfig.cross.json",
+  "include": ["**/*.ts", "**/*.tsx", "**/*.js", ".expo/types/**/*.ts", "expo-env.d.ts"],
+  "exclude": ["./**/dist/**/*", "./**/node_modules/**/*", "./**/public/**/*"],
+  "compilerOptions": {
+    "rootDir": "./",
+    "outDir": "./dist",
+    "module": "esnext",
+    "declaration": true,
+    "declarationMap": true,
+    "strict": true,
+    "composite": true,
+    "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@cross/app/.tsbuildinfo"
+  },
+  "references": []
+}

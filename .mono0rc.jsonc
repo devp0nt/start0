@@ -195,6 +195,13 @@
         }
       }
     },
+    "cross": {
+      "path": "./apps/cross/tsconfig.cross.json",
+      "value": {
+        "extends": "expo/tsconfig.base",
+        "compilerOptions": {}
+      }
+    },
     "admin": {
       "path": "./apps/admin/tsconfig.admin.json",
       "value": {
@@ -430,6 +437,46 @@
     "siteBaseNested": {
       "preset": ["site"],
       "srcDir": "site-base"
+    },
+    "cross": {
+      "tags": ["cross"]
+    },
+    "crossWithTsconfig": {
+      "preset": ["withTsconfig", "cross"],
+      "tsconfig": {
+        "value": {
+          "extends": "$cross"
+        }
+      }
+    },
+    "crossWithHiddenTsconfig": {
+      "preset": ["crossWithTsconfig", "withHiddenTsconfig"]
+    },
+    "crossModule": {
+      "preset": ["crossWithHiddenTsconfig"],
+      "tags": ["crossModule"],
+      "deps": ["#crossBaseModule", "#sharedBaseModule"]
+    },
+    "crossBaseModule": {
+      "preset": ["crossWithHiddenTsconfig"],
+      "tags": ["crossBaseModule"],
+      "deps": []
+    },
+    "crossMulti": {
+      "preset": ["cross"],
+      "setSuffixesToInclude": [
+        [".si", ".fe"],
+        [".ts", ".tsx"]
+      ],
+      "setDirsToInclude": ["cross"]
+    },
+    "crossNested": {
+      "preset": ["cross"],
+      "srcDir": "cross"
+    },
+    "crossBaseNested": {
+      "preset": ["cross"],
+      "srcDir": "cross-base"
     },
     "admin": {
       "tags": ["admin"]

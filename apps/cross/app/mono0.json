@@ -1,0 +1,22 @@
+{
+  "name": "@cross/app",
+  "preset": ["app", "crossWithTsconfig"],
+  "deps": ["#crossModule", "#crossBaseModule"],
+  "tsconfig": {
+    "value": {
+      "include": ["**/*.ts", "**/*.tsx", "**/*.js", ".expo/types/**/*.ts", "expo-env.d.ts"],
+      "compilerOptions": {
+        "strict": true,
+        "module": "esnext"
+      }
+    }
+  },
+  "packageJson": {
+    "value": {
+      "type": null,
+      "scripts": {
+        "lint:expo": "expo lint"
+      }
+    }
+  }
+}
