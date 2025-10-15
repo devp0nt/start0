@@ -14,5 +14,9 @@
     "composite": true,
     "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@hono/backend-base/.tsbuildinfo"
   },
-  "references": []
+  "references": [
+    {
+      "path": "../../@shared/base/tsconfig.json"
+    }
+  ]
 }

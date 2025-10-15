@@ -1,6 +1,0 @@
-{
-  "name": "@admin/backend",
-  "preset": ["backend", "backendWithHiddenTsconfig"],
-  "tags": ["trpcRoutes"],
-  "deps": ["@hono/router", "@backend/shared", "@backend/core"]
-}

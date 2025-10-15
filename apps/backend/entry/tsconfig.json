@@ -54,10 +54,10 @@
       "path": "../../../.mono0/@auth/shared/tsconfig.json"
     },
     {
-      "path": "../../../.mono0/@backend/shared/tsconfig.json"
+      "path": "../../../.mono0/@shared/base/tsconfig.json"
     },
     {
-      "path": "../../../.mono0/@shared/base/tsconfig.json"
+      "path": "../../../.mono0/@backend/shared/tsconfig.json"
     },
     {
       "path": "../../../.mono0/@auth/backend/tsconfig.json"

@@ -20,6 +20,7 @@
       "@appConfig/site/*": ["./modules/appConfig/*"],
       "@auth/admin/*": ["./modules/auth/admin/*"],
       "@auth/backend/*": ["./modules/auth/backend/*"],
+      "@auth/client-base": ["./modules/auth/client-base/index.ts"],
       "@auth/client-base/*": ["./modules/auth/client-base/*"],
       "@auth/shared/*": ["./modules/auth/shared/*"],
       "@auth/site/*": ["./modules/auth/site/*"],

@@ -8,7 +8,9 @@
     "watch": "tsc --watch ./tsconfig.json",
     "clean": "rimraf ../../../node_modules/.cache/tsbuildinfo/@prisma/shared && rimraf ./dist && rimraf ./src/generated"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@shared/base": "workspace:*"
+  },
   "exports": {
     ".": {
       "import": "./dist/index.js",

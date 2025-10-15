@@ -10,5 +10,9 @@
     "composite": true,
     "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@prisma/shared/.tsbuildinfo"
   },
-  "references": []
+  "references": [
+    {
+      "path": "../../../.mono0/@shared/base/tsconfig.json"
+    }
+  ]
 }

@@ -32,7 +32,7 @@ export const startApiProcess = async () => {
   const hono = honoBase()
   hono.use(
     cors({
-      origin: [backendCtx.env.ADMIN_URL, backendCtx.env.SITE_URL],
+      origin: [backendCtx.env.ADMIN_URL, backendCtx.env.WEB_URL, backendCtx.env.SITE_URL],
       allowHeaders: ['Content-Type', 'Authorization'],
       allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
       exposeHeaders: ['Content-Length'],

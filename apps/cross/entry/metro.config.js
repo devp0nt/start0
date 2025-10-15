@@ -8,5 +8,6 @@ const appsDir = nodePath.resolve(__dirname, '../../')
 const modulesDir = nodePath.resolve(__dirname, '../../../modules')
 const packagesDir = nodePath.resolve(__dirname, '../../../packages')
 config.watchFolders = [...config.watchFolders, appsDir, modulesDir, packagesDir]
+config.server.port = +process.env.PORT
 
 module.exports = config

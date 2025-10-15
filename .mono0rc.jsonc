@@ -352,6 +352,10 @@
     "withBackendRoutes": {
       "tags": ["honoRoutes", "trpcRoutes"]
     },
+    "module": {
+      "tags": ["module"],
+      "deps": ["@shared/base"]
+    },
     "shared": {
       "tags": ["shared"]
     },
@@ -367,12 +371,12 @@
       "preset": ["sharedWithTsconfig", "withHiddenTsconfig"]
     },
     "sharedModule": {
-      "preset": ["sharedWithHiddenTsconfig"],
+      "preset": ["sharedWithHiddenTsconfig", "module"],
       "tags": ["sharedModule"],
       "deps": ["#sharedBaseModule"]
     },
     "sharedBaseModule": {
-      "preset": ["sharedWithHiddenTsconfig"],
+      "preset": ["sharedWithHiddenTsconfig", "module"],
       "tags": ["sharedBaseModule"],
       "deps": []
     },
@@ -404,12 +408,12 @@
       "preset": ["serverWithTsconfig", "withHiddenTsconfig"]
     },
     "serverModule": {
-      "preset": ["serverWithHiddenTsconfig"],
+      "preset": ["serverWithHiddenTsconfig", "module"],
       "tags": ["serverModule"],
       "deps": ["#serverBaseModule", "#sharedBaseModule"]
     },
     "serverBaseModule": {
-      "preset": ["serverWithHiddenTsconfig"],
+      "preset": ["serverWithHiddenTsconfig", "module"],
       "tags": ["serverBaseModule"],
       "deps": []
     },
@@ -444,12 +448,12 @@
       "preset": ["withPackageJson", "client"]
     },
     "clientModule": {
-      "preset": ["clientWithHiddenTsconfig"],
+      "preset": ["clientWithHiddenTsconfig", "module"],
       "tags": ["clientModule"],
       "deps": ["#clientBaseModule", "#sharedBaseModule"]
     },
     "clientBaseModule": {
-      "preset": ["clientWithHiddenTsconfig"],
+      "preset": ["clientWithHiddenTsconfig", "module"],
       "tags": ["clientBaseModule"],
       "deps": []
     },
@@ -481,12 +485,12 @@
       "preset": ["backendWithTsconfig", "withHiddenTsconfig"]
     },
     "backendModule": {
-      "preset": ["backendWithHiddenTsconfig"],
+      "preset": ["backendWithHiddenTsconfig", "module"],
       "tags": ["backendModule"],
       "deps": ["#backendBaseModule", "#sharedBaseModule"]
     },
     "backendBaseModule": {
-      "preset": ["backendWithHiddenTsconfig"],
+      "preset": ["backendWithHiddenTsconfig", "module"],
       "tags": ["backendBaseModule"],
       "deps": []
     },
@@ -518,12 +522,12 @@
       "preset": ["siteWithTsconfig", "withHiddenTsconfig"]
     },
     "siteModule": {
-      "preset": ["siteWithHiddenTsconfig"],
+      "preset": ["siteWithHiddenTsconfig", "module"],
       "tags": ["siteModule"],
       "deps": ["#siteBaseModule", "#sharedBaseModule"]
     },
     "siteBaseModule": {
-      "preset": ["siteWithHiddenTsconfig"],
+      "preset": ["siteWithHiddenTsconfig", "module"],
       "tags": ["siteBaseModule"],
       "deps": []
     },
@@ -558,12 +562,12 @@
       "preset": ["crossWithTsconfig", "withHiddenTsconfig"]
     },
     "crossModule": {
-      "preset": ["crossWithHiddenTsconfig"],
+      "preset": ["crossWithHiddenTsconfig", "module"],
       "tags": ["crossModule"],
       "deps": ["#crossBaseModule", "#sharedBaseModule"]
     },
     "crossBaseModule": {
-      "preset": ["crossWithHiddenTsconfig"],
+      "preset": ["crossWithHiddenTsconfig", "module"],
       "tags": ["crossBaseModule"],
       "deps": []
     },
@@ -598,12 +602,12 @@
       "preset": ["adminWithTsconfig", "withHiddenTsconfig"]
     },
     "adminModule": {
-      "preset": ["adminWithHiddenTsconfig"],
+      "preset": ["adminWithHiddenTsconfig", "module"],
       "tags": ["adminModule"],
       "deps": ["#adminBaseModule", "#sharedBaseModule"]
     },
     "adminBaseModule": {
-      "preset": ["adminWithHiddenTsconfig"],
+      "preset": ["adminWithHiddenTsconfig", "module"],
       "tags": ["adminBaseModule"],
       "deps": []
     },
@@ -643,12 +647,12 @@
       "setDirsToInclude": ["tools"]
     },
     "toolsModule": {
-      "preset": ["toolsWithHiddenTsconfig"],
+      "preset": ["toolsWithHiddenTsconfig", "module"],
       "tags": ["toolsModule"],
       "deps": ["#toolsBaseModule", "#sharedBaseModule"]
     },
     "toolsBaseModule": {
-      "preset": ["toolsWithHiddenTsconfig"],
+      "preset": ["toolsWithHiddenTsconfig", "module"],
       "tags": ["toolsBaseModule"],
       "deps": []
     },

@@ -22,16 +22,19 @@
       "path": "../router/tsconfig.json"
     },
     {
+      "path": "../../@shared/base/tsconfig.json"
+    },
+    {
       "path": "../../@auth/backend/tsconfig.json"
     },
     {
       "path": "../../@auth/shared/tsconfig.json"
     },
     {
-      "path": "../../@backend/shared/tsconfig.json"
+      "path": "../../@shared/base/tsconfig.json"
     },
     {
-      "path": "../../@shared/base/tsconfig.json"
+      "path": "../../@backend/shared/tsconfig.json"
     },
     {
       "path": "../../@backend/base/tsconfig.json"

@@ -25,6 +25,9 @@
       "path": "../base/tsconfig.json"
     },
     {
+      "path": "../../@shared/base/tsconfig.json"
+    },
+    {
       "path": "../../@trpc/client-base/tsconfig.json"
     },
     {
@@ -34,10 +37,10 @@
       "path": "../../@auth/shared/tsconfig.json"
     },
     {
-      "path": "../../@backend/shared/tsconfig.json"
+      "path": "../../@shared/base/tsconfig.json"
     },
     {
-      "path": "../../@shared/base/tsconfig.json"
+      "path": "../../@backend/shared/tsconfig.json"
     },
     {
       "path": "../../@backend/base/tsconfig.json"

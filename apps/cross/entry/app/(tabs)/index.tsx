@@ -6,9 +6,11 @@ import ParallaxScrollView from '@cross/base/components/parallax-scroll-view'
 import { ThemedText } from '@cross/base/components/themed-text'
 import { ThemedView } from '@cross/base/components/themed-view'
 import { Link } from 'expo-router'
+import { useQuery } from '@tanstack/react-query'
+import { trpc } from '@trpc/client-base'
 
 export default function HomeScreen() {
-  // const qr = useQuery
+  const qr = useQuery(trpc.app.getConfig.queryOptions())
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
@@ -24,6 +26,7 @@ export default function HomeScreen() {
         <ThemedText>
           Navigate to any route with a dynamic segment: <Link href="/z/x/c">Link</Link>
         </ThemedText>
+        <ThemedText>{JSON.stringify(qr.data)}</ThemedText>
         <ThemedText type="subtitle">Step 1: Try it</ThemedText>
         <ThemedText>
           Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes. Press{' '}

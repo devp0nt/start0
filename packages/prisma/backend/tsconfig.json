@@ -19,6 +19,9 @@
     },
     {
       "path": "../../../.mono0/@shared/base/tsconfig.json"
+    },
+    {
+      "path": "../../../.mono0/@shared/base/tsconfig.json"
     }
   ]
 }

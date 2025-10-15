@@ -22,6 +22,9 @@
       "path": "../../@auth/admin/tsconfig.json"
     },
     {
+      "path": "../../@shared/base/tsconfig.json"
+    },
+    {
       "path": "../../@trpc/client-base/tsconfig.json"
     },
     {

@@ -22,6 +22,9 @@
       "path": "../../@shared/base/tsconfig.json"
     },
     {
+      "path": "../../@shared/base/tsconfig.json"
+    },
+    {
       "path": "../../@auth/shared/tsconfig.json"
     },
     {
