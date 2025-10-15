@@ -1,5 +1,5 @@
 {
-  "extends": "../../../.tsconfig/tsconfig.backend.json",
+  "extends": "../../../.mono0/tsconfig.backend.json",
   "include": ["./src/**/*"],
   "exclude": ["./**/dist/**/*", "./**/node_modules/**/*", "./**/public/**/*"],
   "compilerOptions": {
@@ -12,13 +12,13 @@
   },
   "references": [
     {
-      "path": "../../../.tsconfig/@auth/shared/tsconfig.json"
+      "path": "../../../.mono0/@auth/shared/tsconfig.json"
     },
     {
-      "path": "../../../.tsconfig/@backend/base/tsconfig.json"
+      "path": "../../../.mono0/@backend/base/tsconfig.json"
     },
     {
-      "path": "../../../.tsconfig/@shared/base/tsconfig.json"
+      "path": "../../../.mono0/@shared/base/tsconfig.json"
     }
   ]
 }

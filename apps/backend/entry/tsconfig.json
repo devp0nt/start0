@@ -1,5 +1,5 @@
 {
-  "extends": "../../../.tsconfig/tsconfig.backend.json",
+  "extends": "../../../.mono0/tsconfig.backend.json",
   "include": ["./src/**/*"],
   "exclude": ["./**/dist/**/*", "./**/node_modules/**/*", "./**/public/**/*"],
   "compilerOptions": {
@@ -12,91 +12,91 @@
   },
   "references": [
     {
-      "path": "../../../.tsconfig/@adminUser/backend/tsconfig.json"
+      "path": "../../../.mono0/@adminUser/backend/tsconfig.json"
     },
     {
-      "path": "../../../.tsconfig/@appConfig/backend/tsconfig.json"
+      "path": "../../../.mono0/@appConfig/backend/tsconfig.json"
     },
     {
-      "path": "../../../.tsconfig/@auth/backend/tsconfig.json"
+      "path": "../../../.mono0/@auth/backend/tsconfig.json"
     },
     {
-      "path": "../../../.tsconfig/@backend/base/tsconfig.json"
+      "path": "../../../.mono0/@backend/base/tsconfig.json"
     },
     {
-      "path": "../../../.tsconfig/@backend/core/tsconfig.json"
+      "path": "../../../.mono0/@backend/core/tsconfig.json"
     },
     {
-      "path": "../../../.tsconfig/@backend/ctx/tsconfig.json"
+      "path": "../../../.mono0/@backend/ctx/tsconfig.json"
     },
     {
-      "path": "../../../.tsconfig/@hono/backend/tsconfig.json"
+      "path": "../../../.mono0/@hono/backend/tsconfig.json"
     },
     {
-      "path": "../../../.tsconfig/@hono/backend-base/tsconfig.json"
+      "path": "../../../.mono0/@hono/backend-base/tsconfig.json"
     },
     {
-      "path": "../../../.tsconfig/@hono/router/tsconfig.json"
+      "path": "../../../.mono0/@hono/router/tsconfig.json"
     },
     {
-      "path": "../../../.tsconfig/@idea/backend/tsconfig.json"
+      "path": "../../../.mono0/@idea/backend/tsconfig.json"
     },
     {
-      "path": "../../../.tsconfig/@trpc/backend/tsconfig.json"
+      "path": "../../../.mono0/@trpc/backend/tsconfig.json"
     },
     {
-      "path": "../../../.tsconfig/@trpc/router/tsconfig.json"
+      "path": "../../../.mono0/@trpc/router/tsconfig.json"
     },
     {
-      "path": "../../../.tsconfig/@adminUser/shared/tsconfig.json"
+      "path": "../../../.mono0/@adminUser/shared/tsconfig.json"
     },
     {
-      "path": "../../../.tsconfig/@auth/shared/tsconfig.json"
+      "path": "../../../.mono0/@auth/shared/tsconfig.json"
     },
     {
-      "path": "../../../.tsconfig/@backend/shared/tsconfig.json"
+      "path": "../../../.mono0/@backend/shared/tsconfig.json"
     },
     {
-      "path": "../../../.tsconfig/@shared/base/tsconfig.json"
+      "path": "../../../.mono0/@shared/base/tsconfig.json"
     },
     {
-      "path": "../../../.tsconfig/@auth/backend/tsconfig.json"
+      "path": "../../../.mono0/@auth/backend/tsconfig.json"
     },
     {
-      "path": "../../../.tsconfig/@backend/base/tsconfig.json"
+      "path": "../../../.mono0/@backend/base/tsconfig.json"
     },
     {
-      "path": "../../../.tsconfig/@backend/core/tsconfig.json"
+      "path": "../../../.mono0/@backend/core/tsconfig.json"
     },
     {
-      "path": "../../../.tsconfig/@backend/ctx/tsconfig.json"
+      "path": "../../../.mono0/@backend/ctx/tsconfig.json"
     },
     {
-      "path": "../../../.tsconfig/@hono/backend/tsconfig.json"
+      "path": "../../../.mono0/@hono/backend/tsconfig.json"
     },
     {
-      "path": "../../../.tsconfig/@hono/backend-base/tsconfig.json"
+      "path": "../../../.mono0/@hono/backend-base/tsconfig.json"
     },
     {
-      "path": "../../../.tsconfig/@trpc/backend/tsconfig.json"
+      "path": "../../../.mono0/@trpc/backend/tsconfig.json"
     },
     {
-      "path": "../../../.tsconfig/@adminUser/backend/tsconfig.json"
+      "path": "../../../.mono0/@adminUser/backend/tsconfig.json"
     },
     {
-      "path": "../../../.tsconfig/@appConfig/backend/tsconfig.json"
+      "path": "../../../.mono0/@appConfig/backend/tsconfig.json"
     },
     {
-      "path": "../../../.tsconfig/@idea/backend/tsconfig.json"
+      "path": "../../../.mono0/@idea/backend/tsconfig.json"
     },
     {
-      "path": "../../../.tsconfig/@idea/shared/tsconfig.json"
+      "path": "../../../.mono0/@idea/shared/tsconfig.json"
     },
     {
-      "path": "../../../.tsconfig/@admin/backend/tsconfig.json"
+      "path": "../../../.mono0/@admin/backend/tsconfig.json"
     },
     {
-      "path": "../../../.tsconfig/@hono/router/tsconfig.json"
+      "path": "../../../.mono0/@hono/router/tsconfig.json"
     }
   ]
 }

@@ -1,5 +1,5 @@
 {
-  "extends": "../.tsconfig/tsconfig.tools.json",
+  "extends": "../.mono0/tsconfig.tools.json",
   "include": ["./src/**/*"],
   "exclude": ["./**/dist/**/*", "./**/node_modules/**/*", "./**/public/**/*"],
   "compilerOptions": {

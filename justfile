@@ -15,7 +15,7 @@ alias pgc := prisma-generate-client
 # forward command to app
 
 backend *args:
-  bun run mono0 exec -i -m @backend/services bun run {{args}}
+  bun run mono0 exec -i -m @backend/entry bun run {{args}}
 
 site *args:
   bun run mono0 exec -i -m @site/app bun run {{args}}

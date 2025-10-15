@@ -172,31 +172,31 @@
       }
     },
     "shared": {
-      "path": "./.tsconfig/tsconfig.shared.json",
+      "path": "./.mono0/tsconfig.shared.json",
       "value": {
         "extends": "$base"
       }
     },
     "server": {
-      "path": "./.tsconfig/tsconfig.server.json",
+      "path": "./.mono0/tsconfig.server.json",
       "value": {
         "extends": "$base"
       }
     },
     "client": {
-      "path": "./.tsconfig/tsconfig.client.json",
+      "path": "./.mono0/tsconfig.client.json",
       "value": {
         "extends": "$base"
       }
     },
     "backend": {
-      "path": "./.tsconfig/tsconfig.backend.json",
+      "path": "./.mono0/tsconfig.backend.json",
       "value": {
         "extends": "$base"
       }
     },
     "site": {
-      "path": "./.tsconfig/tsconfig.site.json",
+      "path": "./.mono0/tsconfig.site.json",
       "value": {
         "extends": "$base",
         "compilerOptions": {
@@ -208,7 +208,7 @@
       }
     },
     "cross": {
-      "path": "./.tsconfig/tsconfig.cross.json",
+      "path": "./.mono0/tsconfig.cross.json",
       "value": {
         "extends": "$base",
         "compilerOptions": {
@@ -220,7 +220,7 @@
       }
     },
     "admin": {
-      "path": "./.tsconfig/tsconfig.admin.json",
+      "path": "./.mono0/tsconfig.admin.json",
       "value": {
         "extends": "$base",
         "compilerOptions": {
@@ -232,7 +232,7 @@
       }
     },
     "tools": {
-      "path": "./.tsconfig/tsconfig.tools.json",
+      "path": "./.mono0/tsconfig.tools.json",
       "value": {
         "extends": "$base"
       }
@@ -273,14 +273,14 @@
     },
     "withHiddenDistDir": {
       "preset": ["withTsconfig"],
-      "distDir": "~/.tsconfig/{{unitName}}/dist"
+      "distDir": "~/.mono0/{{unitName}}/dist"
     },
     "withHiddenTsconfig": {
       "preset": ["withTsconfig", "withHiddenDistDir"],
-      "distDir": "~/.tsconfig/{{unitName}}/dist",
+      "distDir": "~/.mono0/{{unitName}}/dist",
       "tsconfigs": {
         "core": {
-          "path": "~/.tsconfig/{{unitName}}/tsconfig.json"
+          "path": "~/.mono0/{{unitName}}/tsconfig.json"
         }
       }
     },
