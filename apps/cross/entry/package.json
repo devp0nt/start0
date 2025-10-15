@@ -1,5 +1,5 @@
 {
-  "name": "@cross/app",
+  "name": "@cross/entry",
   "version": "1.0.0",
   "private": true,
   "main": "expo-router/entry",
@@ -12,7 +12,7 @@
     "types": "tsc --noEmit ./tsconfig.json",
     "build": "tsc --build ./tsconfig.json",
     "watch": "tsc --watch ./tsconfig.json",
-    "clean": "rimraf ../../../node_modules/.cache/tsbuildinfo/@cross/app && rimraf ./dist",
+    "clean": "rimraf ../../../node_modules/.cache/tsbuildinfo/@cross/entry && rimraf ./dist",
     "lint:expo": "expo lint"
   },
   "dependencies": {

@@ -1,5 +1,5 @@
 {
-  "name": "@site/app",
+  "name": "@site/entry",
   "preset": ["app", "siteWithTsconfig"],
   "deps": ["#siteModule", "#siteBaseModule"],
   "tsconfig": {

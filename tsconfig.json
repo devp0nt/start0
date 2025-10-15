@@ -3,13 +3,13 @@
   "include": [],
   "compilerOptions": {
     "paths": {
-      "@admin/app": ["./apps/admin/entry/src/index.tsx"],
-      "@admin/app/*": ["./apps/admin/entry/src/*"],
       "@admin/backend/*": ["./apps/admin/backend/*"],
       "@admin/base/*": ["./apps/admin/base/*"],
       "@admin/core/*": ["./apps/admin/core/*"],
       "@admin/ctx": ["./apps/admin/ctx/index.tsx"],
       "@admin/ctx/*": ["./apps/admin/ctx/*"],
+      "@admin/entry": ["./apps/admin/entry/src/index.tsx"],
+      "@admin/entry/*": ["./apps/admin/entry/src/*"],
       "@adminUser/admin/*": ["./modules/adminUser/*"],
       "@adminUser/backend/*": ["./modules/adminUser/*"],
       "@adminUser/shared/*": ["./modules/adminUser/*"],
@@ -27,14 +27,14 @@
       "@backend/core/*": ["./apps/backend/core/*"],
       "@backend/ctx": ["./apps/backend/ctx/index.ts"],
       "@backend/ctx/*": ["./apps/backend/ctx/*"],
-      "@backend/services/*": ["./apps/backend/entry/src/*"],
+      "@backend/entry/*": ["./apps/backend/entry/src/*"],
       "@backend/shared/*": ["./apps/backend/shared/*"],
       "@client/base/*": ["./packages/client/*"],
-      "@cross/app/*": ["./apps/cross/app/*"],
       "@cross/base/*": ["./apps/cross/base/*"],
       "@cross/core/*": ["./apps/cross/core/*"],
       "@cross/ctx": ["./apps/cross/ctx/index.tsx"],
       "@cross/ctx/*": ["./apps/cross/ctx/*"],
+      "@cross/entry/*": ["./apps/cross/entry/*"],
       "@devp0nt/rjs0": ["./packages/rjs0/src/index.ts"],
       "@devp0nt/rjs0/*": ["./packages/rjs0/src/*"],
       "@hono/backend": ["./packages/hono/backend/index.ts"],
@@ -50,8 +50,8 @@
       "@idea/shared/*": ["./modules/idea/*"],
       "@idea/site/*": ["./modules/idea/*"],
       "@shared/base/*": ["./packages/shared/*"],
-      "@site/app/*": ["./apps/site/app/*"],
       "@site/core/*": ["./apps/site/core/*"],
+      "@site/entry/*": ["./apps/site/entry/*"],
       "@tools/shared": ["./tools/src/index.ts"],
       "@tools/shared/*": ["./tools/src/*"],
       "@trpc/backend": ["./packages/trpc/backend/index.ts"],
@@ -66,9 +66,6 @@
   },
   "references": [
     {
-      "path": "./apps/admin/entry/tsconfig.json"
-    },
-    {
       "path": "./.tsconfig/@admin/backend/tsconfig.json"
     },
     {
@@ -79,6 +76,9 @@
     },
     {
       "path": "./.tsconfig/@admin/ctx/tsconfig.json"
+    },
+    {
+      "path": "./apps/admin/entry/tsconfig.json"
     },
     {
       "path": "./.tsconfig/@adminUser/admin/tsconfig.json"
@@ -138,9 +138,6 @@
       "path": "./.tsconfig/@client/base/tsconfig.json"
     },
     {
-      "path": "./apps/cross/app/tsconfig.json"
-    },
-    {
       "path": "./.tsconfig/@cross/base/tsconfig.json"
     },
     {
@@ -148,6 +145,9 @@
     },
     {
       "path": "./.tsconfig/@cross/ctx/tsconfig.json"
+    },
+    {
+      "path": "./apps/cross/entry/tsconfig.json"
     },
     {
       "path": "./.tsconfig/@devp0nt/rjs0/tsconfig.json"
@@ -180,10 +180,10 @@
       "path": "./.tsconfig/@shared/base/tsconfig.json"
     },
     {
-      "path": "./apps/site/app/tsconfig.json"
+      "path": "./.tsconfig/@site/core/tsconfig.json"
     },
     {
-      "path": "./.tsconfig/@site/core/tsconfig.json"
+      "path": "./apps/site/entry/tsconfig.json"
     },
     {
       "path": "./tools/tsconfig.json"

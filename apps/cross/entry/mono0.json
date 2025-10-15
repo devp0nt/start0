@@ -1,5 +1,5 @@
 {
-  "name": "@cross/app",
+  "name": "@cross/entry",
   "preset": ["app", "crossWithTsconfig"],
   "deps": ["#crossModule", "#crossBaseModule", "@client/base"],
   "tsconfig": {

@@ -1,5 +1,5 @@
 {
-  "name": "@admin/app",
+  "name": "@admin/entry",
   "preset": ["app", "adminWithTsconfig"],
   "deps": ["#adminModule", "#adminBaseModule", "@client/base"],
   "tsconfig": {

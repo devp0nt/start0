@@ -62,11 +62,11 @@
       "./apps/admin/entry",
       "./apps/backend/entry",
       "./packages/client",
-      "./apps/cross/app",
+      "./apps/cross/entry",
       "./packages/prisma/backend",
       "./packages/prisma/shared",
       "./packages/shared",
-      "./apps/site/app",
+      "./apps/site/entry",
       "./tools"
     ],
     "catalog": {}

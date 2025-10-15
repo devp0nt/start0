@@ -31,7 +31,7 @@ tools *args:
   
 # mega dev command
 
-dev app:="cross":
+dev app="cross":
   tmux kill-session -t dev-ideanick || true
   tmux new-session -d -s dev-ideanick
 

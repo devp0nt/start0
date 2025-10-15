@@ -1,12 +1,12 @@
 {
-  "name": "@site/app",
+  "name": "@site/entry",
   "private": true,
   "type": "module",
   "scripts": {
     "types": "tsc --noEmit",
     "build": "tsc && not-refine build",
     "watch": "tsc --watch ./tsconfig.json",
-    "clean": "rimraf ../../../node_modules/.cache/tsbuildinfo/@site/app && rimraf ./dist",
+    "clean": "rimraf ../../../node_modules/.cache/tsbuildinfo/@site/entry && rimraf ./dist",
     "dev": "not-refine dev",
     "types:rr": "rimraf dist && react-router typegen && tsc",
     "start": "not-refine start",

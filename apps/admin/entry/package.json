@@ -1,5 +1,5 @@
 {
-  "name": "@admin/app",
+  "name": "@admin/entry",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -10,7 +10,7 @@
     "refine": "refine",
     "types": "tsc --noEmit",
     "watch": "tsc --watch ./tsconfig.json",
-    "clean": "rimraf ../../../node_modules/.cache/tsbuildinfo/@admin/app && rimraf ./dist"
+    "clean": "rimraf ../../../node_modules/.cache/tsbuildinfo/@admin/entry && rimraf ./dist"
   },
   "dependencies": {
     "@ant-design/v5-patch-for-react-19": "^1.0.3",

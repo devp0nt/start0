@@ -1,5 +1,5 @@
 {
-  "name": "@backend/services",
+  "name": "@backend/entry",
   "preset": ["app", "backendWithTsconfig"],
   "deps": ["@hono/router", "@trpc/router", "#backendModule", "#backendBaseModule"]
 }
