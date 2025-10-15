@@ -8,11 +8,12 @@ import { ThemedView } from '@cross/base/components/themed-view'
 import { Link } from 'expo-router'
 
 export default function HomeScreen() {
+  // const qr = useQuery
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
       headerImage={
-        <Image source={require('@cross/app/assets/images/partial-react-logo.png')} style={styles.reactLogo} />
+        <Image source={require('@cross/entry/assets/images/partial-react-logo.png')} style={styles.reactLogo} />
       }
     >
       <ThemedView style={styles.titleContainer}>

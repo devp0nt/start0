@@ -18,13 +18,13 @@ backend *args:
   bun run mono0 exec -i -m @backend/entry bun run {{args}}
 
 site *args:
-  bun run mono0 exec -i -m @site/app bun run {{args}}
+  bun run mono0 exec -i -m @site/entry bun run {{args}}
 
 cross *args:
-  bun run mono0 exec -i -m @cross/app bun run {{args}}
+  bun run mono0 exec -i -m @cross/entry bun run {{args}}
 
 admin *args:
-  bun run mono0 exec -i -m @admin/app bun run {{args}}
+  bun run mono0 exec -i -m @admin/entry bun run {{args}}
 
 tools *args:
   bun run mono0 exec -i -m @tools/shared bun run {{args}}

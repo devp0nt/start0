@@ -1,9 +1,10 @@
 import { backendTrpcRoutesBasePath } from '@backend/shared/utils'
-import { QueryClient } from '@tanstack/react-query'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { createTRPCClient, httpBatchLink, loggerLink } from '@trpc/client'
 import type { TrpcRouter } from '@trpc/router'
 import { createTRPCContext, createTRPCOptionsProxy } from '@trpc/tanstack-react-query'
 import superjson from 'superjson'
+import { sharedEnv } from '@shared/base/env.runtime'
 
 export const queryClient = new QueryClient()
 
@@ -17,9 +18,8 @@ const links = [
     transformer: superjson,
     // TODO: use sharedEnv form updated Env0 package
     url:
-      ((typeof import.meta !== 'undefined' && import.meta.env?.VITE_BACKEND_URL) ||
-        process.env.BACKEND_URL ||
-        process.env.EXPO_PUBLIC_BACKEND_URL) + backendTrpcRoutesBasePath,
+      (sharedEnv.VITE_BACKEND_URL || process.env.BACKEND_URL || process.env.EXPO_PUBLIC_BACKEND_URL) +
+      backendTrpcRoutesBasePath,
   }),
 ]
 
@@ -41,5 +41,17 @@ export const TrpcProvider: React.FC<{ children: React.ReactNode }> = ({ children
     <TRPCProvider trpcClient={trpcClient} queryClient={queryClient}>
       {children}
     </TRPCProvider>
+  )
+}
+
+export const ReactQueryProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+}
+
+export const TrpcReactQueryProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  return (
+    <ReactQueryProvider>
+      <TrpcProvider>{children}</TrpcProvider>
+    </ReactQueryProvider>
   )
 }

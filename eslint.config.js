@@ -2,7 +2,7 @@ import { resolveFlatConfig } from '@leancodepl/resolve-eslint-flat-config'
 import love from 'eslint-config-love'
 import { defineConfig } from 'eslint/config'
 import prettier from 'eslint-config-prettier'
-import { expoConfig, expoFiles } from './apps/cross/app/eslint.base.mjs'
+import { expoConfig, expoFiles } from './apps/cross/entry/eslint.base.mjs'
 
 // TODO: unignore tsfiles and figure out with defaultProject typescript
 
@@ -24,7 +24,7 @@ export const ignores = [
 const files = ['**/*.js', '**/*.ts', '**/*.tsx']
 
 const external = {
-  expo: { path: 'apps/cross/app', files: expoFiles },
+  expo: { path: 'apps/cross/entry', files: expoFiles },
 }
 const externalFiles = Object.values(external).flatMap(({ files }) => files)
 

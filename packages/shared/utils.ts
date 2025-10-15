@@ -4,6 +4,26 @@
 import lodashOmit from 'lodash/omit.js'
 import lodashPick from 'lodash/pick.js'
 import type * as z from 'zod'
+import get from 'lodash/get.js'
+
+// TODO: move to env0 package
+export const getRawEnv = (path: string[] | string = 'process.env') => {
+  const paths = Array.isArray(path) ? path : [path]
+  const safeGet = (path: string) => {
+    try {
+      return new Function(`return ${path}`)()
+    } catch {
+      return undefined
+    }
+  }
+  for (const path of paths) {
+    const result = safeGet(path)
+    if (result) {
+      return result
+    }
+  }
+  return {}
+}
 
 export const pick = <TObject extends object, TKeys extends keyof TObject>(
   obj: TObject,
