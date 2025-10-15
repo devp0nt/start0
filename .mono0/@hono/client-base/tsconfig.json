@@ -10,7 +10,7 @@
     "rootDir": "../../../packages/hono/client-base",
     "outDir": "./dist",
     "declaration": true,
-    "declarationMap": true,
+    "declarationMap": false,
     "composite": true,
     "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@hono/client-base/.tsbuildinfo"
   },

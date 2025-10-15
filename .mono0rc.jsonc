@@ -71,7 +71,7 @@
         "types:cached:hot": "bun run build:hot",
         "types:cached": "bun run build",
         "types:hard": "bun run clean && bun run build",
-        "types": "bun run types:hard",
+        "types": "bun run types:cached",
         "lint": "bun run lint:base .",
         "lint:fix": "bun run lint --fix",
         "lint:each": "bun run --filter '**' lint",
@@ -264,7 +264,7 @@
             "compilerOptions": {
               "composite": true,
               "declaration": true,
-              "declarationMap": true,
+              "declarationMap": false,
               "tsBuildInfoFile": "~/node_modules/.cache/tsbuildinfo/{{unitName}}/.tsbuildinfo"
             }
           }
@@ -345,7 +345,9 @@
       },
       "tsconfigs": {
         "core": {
-          "value": {}
+          "value": {
+            "declarationMap": true
+          }
         }
       }
     },

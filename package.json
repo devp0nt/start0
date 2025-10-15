@@ -17,7 +17,7 @@
     "format:base": "prettier --cache --cache-location node_modules/.cache/prettier/.prettiercache --write",
     "format:clean": "rimraf node_modules/.cache/prettier/.prettiercache",
     "prepare": "husky",
-    "types": "bun run types:hard",
+    "types": "bun run types:cached",
     "clean": "bun run build:clean && bun run lint:clean && bun run format:clean",
     "types:cached": "bun run build",
     "types:hard": "bun run clean && bun run build",

@@ -2,7 +2,6 @@
   "compilerOptions": {
     "types": ["node", "bun"],
     "paths": {
-      "@admin/backend/*": ["./apps/admin/backend/*"],
       "@admin/base/*": ["./apps/admin/base/*"],
       "@admin/core/*": ["./apps/admin/core/*"],
       "@admin/ctx": ["./apps/admin/ctx/index.tsx"],

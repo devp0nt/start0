@@ -10,7 +10,7 @@
     "rootDir": "../../../modules/auth/admin",
     "outDir": "./dist",
     "declaration": true,
-    "declarationMap": true,
+    "declarationMap": false,
     "composite": true,
     "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@auth/admin/.tsbuildinfo"
   },

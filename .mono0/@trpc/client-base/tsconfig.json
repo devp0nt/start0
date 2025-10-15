@@ -10,7 +10,7 @@
     "rootDir": "../../../packages/trpc/client-base",
     "outDir": "./dist",
     "declaration": true,
-    "declarationMap": true,
+    "declarationMap": false,
     "composite": true,
     "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@trpc/client-base/.tsbuildinfo"
   },
@@ -28,13 +28,10 @@
       "path": "../../@shared/base/tsconfig.json"
     },
     {
-      "path": "../../@admin/backend/tsconfig.json"
+      "path": "../../@adminUser/backend/tsconfig.json"
     },
     {
-      "path": "../../@backend/core/tsconfig.json"
-    },
-    {
-      "path": "../../@auth/backend/tsconfig.json"
+      "path": "../../@adminUser/shared/tsconfig.json"
     },
     {
       "path": "../../@auth/shared/tsconfig.json"
@@ -43,19 +40,16 @@
       "path": "../../@backend/shared/tsconfig.json"
     },
     {
+      "path": "../../@auth/backend/tsconfig.json"
+    },
+    {
       "path": "../../@backend/base/tsconfig.json"
     },
     {
+      "path": "../../@backend/core/tsconfig.json"
+    },
+    {
       "path": "../../@backend/ctx/tsconfig.json"
-    },
-    {
-      "path": "../../@hono/router/tsconfig.json"
-    },
-    {
-      "path": "../../@adminUser/backend/tsconfig.json"
-    },
-    {
-      "path": "../../@adminUser/shared/tsconfig.json"
     },
     {
       "path": "../../@hono/backend/tsconfig.json"

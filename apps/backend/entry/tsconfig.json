@@ -6,7 +6,7 @@
     "rootDir": "./src",
     "outDir": "./dist",
     "declaration": true,
-    "declarationMap": true,
+    "declarationMap": false,
     "composite": true,
     "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@backend/entry/.tsbuildinfo"
   },
@@ -91,12 +91,6 @@
     },
     {
       "path": "../../../.mono0/@idea/shared/tsconfig.json"
-    },
-    {
-      "path": "../../../.mono0/@admin/backend/tsconfig.json"
-    },
-    {
-      "path": "../../../.mono0/@hono/router/tsconfig.json"
     }
   ]
 }

@@ -3,7 +3,6 @@
   "include": [],
   "compilerOptions": {
     "paths": {
-      "@admin/backend/*": ["./apps/admin/backend/*"],
       "@admin/base/*": ["./apps/admin/base/*"],
       "@admin/core/*": ["./apps/admin/core/*"],
       "@admin/ctx": ["./apps/admin/ctx/index.tsx"],
@@ -66,9 +65,6 @@
     }
   },
   "references": [
-    {
-      "path": "./.mono0/@admin/backend/tsconfig.json"
-    },
     {
       "path": "./.mono0/@admin/base/tsconfig.json"
     },

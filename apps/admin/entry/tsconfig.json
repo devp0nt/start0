@@ -6,7 +6,7 @@
     "rootDir": "./src",
     "outDir": "./dist",
     "declaration": true,
-    "declarationMap": true,
+    "declarationMap": false,
     "composite": true,
     "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@admin/entry/.tsbuildinfo"
   },
@@ -66,22 +66,16 @@
       "path": "../../../.mono0/@trpc/router/tsconfig.json"
     },
     {
-      "path": "../../../.mono0/@admin/backend/tsconfig.json"
+      "path": "../../../.mono0/@adminUser/backend/tsconfig.json"
+    },
+    {
+      "path": "../../../.mono0/@adminUser/shared/tsconfig.json"
     },
     {
       "path": "../../../.mono0/@backend/core/tsconfig.json"
     },
     {
       "path": "../../../.mono0/@backend/ctx/tsconfig.json"
-    },
-    {
-      "path": "../../../.mono0/@hono/router/tsconfig.json"
-    },
-    {
-      "path": "../../../.mono0/@adminUser/backend/tsconfig.json"
-    },
-    {
-      "path": "../../../.mono0/@adminUser/shared/tsconfig.json"
     },
     {
       "path": "../../../.mono0/@hono/backend/tsconfig.json"

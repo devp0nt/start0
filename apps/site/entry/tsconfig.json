@@ -6,7 +6,7 @@
     "rootDir": "./",
     "outDir": "./dist",
     "declaration": true,
-    "declarationMap": true,
+    "declarationMap": false,
     "composite": true,
     "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@site/entry/.tsbuildinfo"
   },

@@ -1,8 +1,8 @@
 import { env } from '@backend/base/env.runtime'
 import { baseTri0 } from '@backend/base/tri0'
-import { getFakeTimersExtension } from './extensions/fakeTimers'
-import { getHighLoggingExtension } from './extensions/highLogging'
-import { retryTransactionsExtension } from './extensions/retryTransactions'
+import { getFakeTimersExtension } from './extensions/fake-timers'
+import { getHighLoggingExtension } from './extensions/high-logging'
+import { retryTransactionsExtension } from './extensions/retry-transactions'
 import { Prisma, PrismaClient as PrismaClientOriginal } from './generated/prisma/client'
 
 const { logger } = baseTri0.extend('prisma')

@@ -16,7 +16,7 @@
     "rootDir": "../../../modules/adminUser",
     "outDir": "./dist",
     "declaration": true,
-    "declarationMap": true,
+    "declarationMap": false,
     "composite": true,
     "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@adminUser/admin/.tsbuildinfo"
   },
@@ -76,22 +76,16 @@
       "path": "../../@trpc/router/tsconfig.json"
     },
     {
-      "path": "../../@admin/backend/tsconfig.json"
+      "path": "../backend/tsconfig.json"
+    },
+    {
+      "path": "../shared/tsconfig.json"
     },
     {
       "path": "../../@backend/core/tsconfig.json"
     },
     {
       "path": "../../@backend/ctx/tsconfig.json"
-    },
-    {
-      "path": "../../@hono/router/tsconfig.json"
-    },
-    {
-      "path": "../backend/tsconfig.json"
-    },
-    {
-      "path": "../shared/tsconfig.json"
     },
     {
       "path": "../../@hono/backend/tsconfig.json"

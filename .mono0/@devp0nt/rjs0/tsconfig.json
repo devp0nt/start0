@@ -10,7 +10,7 @@
     "rootDir": "../../../packages/rjs0/src",
     "outDir": "./dist",
     "declaration": true,
-    "declarationMap": true,
+    "declarationMap": false,
     "composite": true,
     "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@devp0nt/rjs0/.tsbuildinfo"
   },

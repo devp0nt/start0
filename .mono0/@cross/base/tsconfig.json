@@ -10,7 +10,7 @@
     "rootDir": "../../../apps/cross/base",
     "outDir": "./dist",
     "declaration": true,
-    "declarationMap": true,
+    "declarationMap": false,
     "composite": true,
     "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@cross/base/.tsbuildinfo"
   },

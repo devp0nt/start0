@@ -1,6 +1,6 @@
 import { baseTri0 } from '@backend/base/tri0'
 import { backendCtx } from '@backend/ctx'
-import { presetDb } from '@backend/core/presetDb'
+import { presetDb } from '@backend/core/preset-db'
 import { applyUncaughtExceptionCatcher } from '@backend/core/uncaught'
 
 const tri0 = baseTri0.extend({
