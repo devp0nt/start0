@@ -1,4 +1,4 @@
-import { honoBase } from '@backend/core/hono'
+import { honoBase } from '@hono/backend'
 import { createRoute } from '@hono/zod-openapi'
 import z from 'zod'
 

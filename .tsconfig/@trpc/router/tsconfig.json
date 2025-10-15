@@ -58,6 +58,12 @@
       "path": "../../@backend/ctx/tsconfig.json"
     },
     {
+      "path": "../../@hono/router/tsconfig.json"
+    },
+    {
+      "path": "../../@adminUser/backend/tsconfig.json"
+    },
+    {
       "path": "../../@adminUser/shared/tsconfig.json"
     },
     {
@@ -68,6 +74,12 @@
     },
     {
       "path": "../backend/tsconfig.json"
+    },
+    {
+      "path": "../../@appConfig/backend/tsconfig.json"
+    },
+    {
+      "path": "../../@idea/backend/tsconfig.json"
     },
     {
       "path": "../../@idea/shared/tsconfig.json"

@@ -1,4 +1,4 @@
-import { honoAdminMiddleware, honoBase } from '@backend/core/hono'
+import { honoAdminMiddleware, honoBase } from '@hono/backend'
 import { getHonoRefineRoutesHelpers } from '@devp0nt/refine0/server'
 import { zIdeaClientAdmin } from '@idea/shared/utils.sh'
 

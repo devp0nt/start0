@@ -1,4 +1,4 @@
-import { honoBase } from '@backend/core/hono'
+import { honoBase } from '@hono/backend'
 
 // @gen0:start $.app = await importExportedFromFiles("~/**/route{s,}{.*,}{.be,}.ts", "AppHonoRoute", (file0) => mono0.getFilePathRelativeToPackageName(file0.path.abs))
 

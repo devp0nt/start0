@@ -1,5 +1,5 @@
 {
   "name": "@cross/ctx",
   "preset": ["crossBaseModule"],
-  "deps": ["@trpc/router", "@cross/base", "@auth/cross-base", "@auth/backend", "@cross/base", "@cross/trpc"]
+  "deps": ["@trpc/router", "@cross/base", "@auth/cross-base", "@auth/backend", "@cross/base", "@trpc/client"]
 }

@@ -8,7 +8,7 @@ import {
   applyHonoReqContext,
   applyScalarDocs,
   honoBase,
-} from '@backend/core/hono'
+} from '@hono/backend'
 import { applyUncaughtExceptionCatcher } from '@backend/core/uncaught'
 import { honoAdmin, honoApp } from '@hono/router'
 import {

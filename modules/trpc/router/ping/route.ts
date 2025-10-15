@@ -1,4 +1,4 @@
-import { trpcBase } from '@backend/core/trpc'
+import { trpcBase } from '@trpc/backend'
 
 export const pingAppTrpcRoute = trpcBase().query(async () => {
   return {

@@ -1,4 +1,4 @@
-import { trpcBase } from '@backend/core/trpc'
+import { trpcBase } from '@trpc/backend'
 
 export const getConfigAppTrpcRoute = trpcBase().query(async ({ ctx }) => {
   return { config: { rubInUsd: 87 } }

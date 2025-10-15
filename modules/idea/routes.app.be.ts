@@ -1,4 +1,4 @@
-import { trpcBase } from '@backend/core/trpc'
+import { trpcBase } from '@trpc/backend'
 import { Error0 } from '@devp0nt/error0'
 import { zIdeaShowInput } from '@idea/admin/routes.app.sh'
 import { zIdeaClientGuest } from './utils.sh'

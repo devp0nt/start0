@@ -1,7 +1,7 @@
 import { includesAdminUserWithEverything, toAdmin } from '@auth/backend/user'
 import { createAdmin } from '@auth/backend/utils'
 import { zAdminClientAdmin } from '@auth/shared/user'
-import { honoAdminMiddleware, honoBase } from '@backend/core/hono'
+import { honoAdminMiddleware, honoBase } from '@hono/backend'
 import { getHonoRefineRoutesHelpers } from '@devp0nt/refine0/server'
 import { withJsAsMeta } from '@devp0nt/refine0/shared'
 

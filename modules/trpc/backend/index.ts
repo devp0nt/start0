@@ -3,7 +3,7 @@ import {
   validateHonoCustomerReqCtx,
   type HonoAdminOptions,
   type HonoReqCtx,
-} from '@backend/core/hono'
+} from '@hono/backend'
 import type { Ctx0 } from '@devp0nt/ctx0'
 import { Error0 } from '@devp0nt/error0'
 import { initTRPC } from '@trpc/server'
