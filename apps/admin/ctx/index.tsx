@@ -1,6 +1,6 @@
 import { ErrorPage } from '@admin/base/components/error'
 import { Loader } from '@admin/base/components/loader'
-import { trpc } from '@admin/trpc'
+import { trpc } from '@trpc/client-base'
 import { authClient } from '@auth/client-base/utils'
 import type { Session } from '@auth/backend/utils'
 import type { AdminClientMe, CustomerClientMe, UserClientMe } from '@auth/shared/user'

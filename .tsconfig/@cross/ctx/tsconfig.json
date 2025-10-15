@@ -19,6 +19,9 @@
       "path": "../../@auth/backend/tsconfig.json"
     },
     {
+      "path": "../../@auth/client-base/tsconfig.json"
+    },
+    {
       "path": "../base/tsconfig.json"
     },
     {
@@ -40,13 +43,13 @@
       "path": "../../@backend/base/tsconfig.json"
     },
     {
+      "path": "../../@auth/backend/tsconfig.json"
+    },
+    {
       "path": "../../@admin/backend/tsconfig.json"
     },
     {
       "path": "../../@backend/core/tsconfig.json"
-    },
-    {
-      "path": "../../@auth/backend/tsconfig.json"
     },
     {
       "path": "../../@backend/ctx/tsconfig.json"

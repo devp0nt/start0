@@ -45,10 +45,10 @@
       "@backend/services/*": ["../../backend/services/src/*"],
       "@backend/shared/*": ["../../backend/shared/*"],
       "@client/base/*": ["../../client/base/*"],
-      "@client/hono": ["../../../modules/hono/client/index.ts"],
-      "@client/hono/*": ["../../../modules/hono/client/*"],
-      "@client/trpc": ["../../../modules/trpc/client/index.tsx"],
-      "@client/trpc/*": ["../../../modules/trpc/client/*"],
+      "@client/hono": ["../../../modules/hono/client-base/index.ts"],
+      "@client/hono/*": ["../../../modules/hono/client-base/*"],
+      "@client/trpc": ["../../../modules/trpc/client-base/index.tsx"],
+      "@client/trpc/*": ["../../../modules/trpc/client-base/*"],
       "@cross/app/*": [".//*"],
       "@cross/base/*": ["../base/*"],
       "@cross/core/*": ["../core/*"],
@@ -119,6 +119,9 @@
     },
     {
       "path": "../../../.tsconfig/@backend/base/tsconfig.json"
+    },
+    {
+      "path": "../../../.tsconfig/@auth/client-base/tsconfig.json"
     },
     {
       "path": "../../../.tsconfig/@trpc/router/tsconfig.json"

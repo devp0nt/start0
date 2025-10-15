@@ -1,13 +1,13 @@
 {
   "extends": "../../tsconfig.client.json",
-  "include": ["../../../modules/hono/client/**/*"],
+  "include": ["../../../modules/hono/client-base/**/*"],
   "exclude": [
-    "../../../modules/hono/client/**/dist/**/*",
-    "../../../modules/hono/client/**/node_modules/**/*",
-    "../../../modules/hono/client/**/public/**/*"
+    "../../../modules/hono/client-base/**/dist/**/*",
+    "../../../modules/hono/client-base/**/node_modules/**/*",
+    "../../../modules/hono/client-base/**/public/**/*"
   ],
   "compilerOptions": {
-    "rootDir": "../../../modules/hono/client",
+    "rootDir": "../../../modules/hono/client-base",
     "outDir": "./dist",
     "declaration": true,
     "declarationMap": true,

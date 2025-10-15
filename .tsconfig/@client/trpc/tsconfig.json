@@ -1,13 +1,13 @@
 {
   "extends": "../../tsconfig.client.json",
-  "include": ["../../../modules/trpc/client/**/*"],
+  "include": ["../../../modules/trpc/client-base/**/*"],
   "exclude": [
-    "../../../modules/trpc/client/**/dist/**/*",
-    "../../../modules/trpc/client/**/node_modules/**/*",
-    "../../../modules/trpc/client/**/public/**/*"
+    "../../../modules/trpc/client-base/**/dist/**/*",
+    "../../../modules/trpc/client-base/**/node_modules/**/*",
+    "../../../modules/trpc/client-base/**/public/**/*"
   ],
   "compilerOptions": {
-    "rootDir": "../../../modules/trpc/client",
+    "rootDir": "../../../modules/trpc/client-base",
     "outDir": "./dist",
     "declaration": true,
     "declarationMap": true,
