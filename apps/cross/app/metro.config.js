@@ -6,6 +6,7 @@ const config = getDefaultConfig(__dirname)
 const nodePath = require('path')
 const appsDir = nodePath.resolve(__dirname, '../../')
 const modulesDir = nodePath.resolve(__dirname, '../../../modules')
-config.watchFolders = [...config.watchFolders, appsDir, modulesDir]
+const packagesDir = nodePath.resolve(__dirname, '../../../packages')
+config.watchFolders = [...config.watchFolders, appsDir, modulesDir, packagesDir]
 
 module.exports = config

@@ -3,8 +3,8 @@
   "include": [],
   "compilerOptions": {
     "paths": {
-      "@admin/app": ["./apps/admin/app/src/index.tsx"],
-      "@admin/app/*": ["./apps/admin/app/src/*"],
+      "@admin/app": ["./apps/admin/entry/src/index.tsx"],
+      "@admin/app/*": ["./apps/admin/entry/src/*"],
       "@admin/backend/*": ["./apps/admin/backend/*"],
       "@admin/base/*": ["./apps/admin/base/*"],
       "@admin/core/*": ["./apps/admin/core/*"],
@@ -27,7 +27,7 @@
       "@backend/core/*": ["./apps/backend/core/*"],
       "@backend/ctx": ["./apps/backend/ctx/index.ts"],
       "@backend/ctx/*": ["./apps/backend/ctx/*"],
-      "@backend/services/*": ["./apps/backend/services/src/*"],
+      "@backend/services/*": ["./apps/backend/entry/src/*"],
       "@backend/shared/*": ["./apps/backend/shared/*"],
       "@client/base/*": ["./packages/client/*"],
       "@cross/app/*": ["./apps/cross/app/*"],

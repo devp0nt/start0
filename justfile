@@ -1,6 +1,6 @@
 alias be := backend
 alias si := site
-alias cr := crossapp
+alias cr := cross
 alias ad := admin
 alias to := tools
 alias w := watch
@@ -20,7 +20,7 @@ backend *args:
 site *args:
   bun run mono0 exec -i -m @site/app bun run {{args}}
 
-crossapp *args:
+cross *args:
   bun run mono0 exec -i -m @cross/app bun run {{args}}
 
 admin *args:
@@ -31,7 +31,7 @@ tools *args:
   
 # mega dev command
 
-dev:
+dev app:="cross":
   tmux kill-session -t dev-ideanick || true
   tmux new-session -d -s dev-ideanick
 
@@ -39,7 +39,7 @@ dev:
   tmux split-window -t 0 -h
 
   tmux send-keys -t 0 "just backend dev" Enter
-  tmux send-keys -t 1 "just admin dev" Enter
+  tmux send-keys -t 1 "just {{app}} dev" Enter
   tmux send-keys -t 2 "just watch" Enter
 
   tmux resize-pane -t 0 -x "$(($(tmux display -p '#{window_width}') * 50 / 100))"
