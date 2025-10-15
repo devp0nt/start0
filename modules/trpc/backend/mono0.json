@@ -1,0 +1,5 @@
+{
+  "name": "@trpc/backend",
+  "preset": ["backendBaseModule"],
+  "deps": ["@hono/backend"]
+}

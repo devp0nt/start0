@@ -31,12 +31,6 @@
       "path": "../../@admin/ctx/tsconfig.json"
     },
     {
-      "path": "../../@admin/hono/tsconfig.json"
-    },
-    {
-      "path": "../../@admin/trpc/tsconfig.json"
-    },
-    {
       "path": "../../@apps/base/tsconfig.json"
     },
     {
@@ -64,7 +58,7 @@
       "path": "../../@admin/base/tsconfig.json"
     },
     {
-      "path": "../../@admin/hono/tsconfig.json"
+      "path": "../../@auth/admin/tsconfig.json"
     },
     {
       "path": "../../@auth/client-base/tsconfig.json"
@@ -80,42 +74,6 @@
     },
     {
       "path": "../../@backend/base/tsconfig.json"
-    },
-    {
-      "path": "../../../apps/backend/router/hono/tsconfig.json"
-    },
-    {
-      "path": "../../@adminUser/backend/tsconfig.json"
-    },
-    {
-      "path": "../../@adminUser/shared/tsconfig.json"
-    },
-    {
-      "path": "../../@backend/core/tsconfig.json"
-    },
-    {
-      "path": "../../@backend/ctx/tsconfig.json"
-    },
-    {
-      "path": "../../@appConfig/backend/tsconfig.json"
-    },
-    {
-      "path": "../backend/tsconfig.json"
-    },
-    {
-      "path": "../shared/tsconfig.json"
-    },
-    {
-      "path": "../../@admin/trpc/tsconfig.json"
-    },
-    {
-      "path": "../../../apps/backend/router/trpc/tsconfig.json"
-    },
-    {
-      "path": "../../@admin/backend/tsconfig.json"
-    },
-    {
-      "path": "../../@auth/admin/tsconfig.json"
     }
   ]
 }

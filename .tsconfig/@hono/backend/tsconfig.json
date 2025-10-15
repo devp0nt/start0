@@ -1,0 +1,49 @@
+{
+  "extends": "../../tsconfig.backend.json",
+  "include": ["../../../modules/hono/backend/**/*"],
+  "exclude": [
+    "../../../modules/hono/backend/**/dist/**/*",
+    "../../../modules/hono/backend/**/node_modules/**/*",
+    "../../../modules/hono/backend/**/public/**/*"
+  ],
+  "compilerOptions": {
+    "rootDir": "../../../modules/hono/backend",
+    "outDir": "./dist",
+    "declaration": true,
+    "declarationMap": true,
+    "composite": true,
+    "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@hono/backend/.tsbuildinfo"
+  },
+  "references": [
+    {
+      "path": "../../@apps/base/tsconfig.json"
+    },
+    {
+      "path": "../../@auth/backend/tsconfig.json"
+    },
+    {
+      "path": "../../@auth/shared/tsconfig.json"
+    },
+    {
+      "path": "../../@backend/base/tsconfig.json"
+    },
+    {
+      "path": "../../@backend/ctx/tsconfig.json"
+    },
+    {
+      "path": "../../@apps/shared/tsconfig.json"
+    },
+    {
+      "path": "../../@auth/shared/tsconfig.json"
+    },
+    {
+      "path": "../../@backend/shared/tsconfig.json"
+    },
+    {
+      "path": "../../@apps/base/tsconfig.json"
+    },
+    {
+      "path": "../../@backend/base/tsconfig.json"
+    }
+  ]
+}

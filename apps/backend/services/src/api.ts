@@ -10,13 +10,13 @@ import {
   honoBase,
 } from '@backend/core/hono'
 import { applyUncaughtExceptionCatcher } from '@backend/core/uncaught'
-import { honoAdmin, honoApp } from '@backend/hono-router'
+import { honoAdmin, honoApp } from '@hono/router'
 import {
   backendHonoAdminRoutesBasePath,
   backendHonoAppRoutesBasePath,
   backendTrpcRoutesBasePath,
 } from '@backend/shared/utils'
-import { applyTrpcRouterToHono, trpcRouter } from '@backend/trpc-router'
+import { applyTrpcRouterToHono, trpcRouter } from '@trpc/router'
 import { serve } from 'bun'
 import { cors } from 'hono/cors'
 

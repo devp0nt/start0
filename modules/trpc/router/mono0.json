@@ -1,0 +1,5 @@
+{
+  "name": "@trpc/router",
+  "preset": ["backendWithHiddenTsconfig"],
+  "deps": ["@trpc/backend", "@hono/backend", "#trpcRoutes"]
+}

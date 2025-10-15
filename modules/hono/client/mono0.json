@@ -1,0 +1,5 @@
+{
+  "name": "@client/hono",
+  "preset": ["clientBaseModule"],
+  "deps": ["@hono/router", "@auth/client-base"]
+}

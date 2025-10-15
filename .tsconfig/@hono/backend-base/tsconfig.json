@@ -1,0 +1,18 @@
+{
+  "extends": "../../tsconfig.backend.json",
+  "include": ["../../../modules/hono/backend-base/**/*"],
+  "exclude": [
+    "../../../modules/hono/backend-base/**/dist/**/*",
+    "../../../modules/hono/backend-base/**/node_modules/**/*",
+    "../../../modules/hono/backend-base/**/public/**/*"
+  ],
+  "compilerOptions": {
+    "rootDir": "../../../modules/hono/backend-base",
+    "outDir": "./dist",
+    "declaration": true,
+    "declarationMap": true,
+    "composite": true,
+    "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@hono/backend-base/.tsbuildinfo"
+  },
+  "references": []
+}

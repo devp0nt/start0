@@ -1,5 +1,5 @@
-import type { HonoBase, HonoCtx } from '@backend/core/hono'
-import { createTrpcCtx, createTrpcRouter } from '@backend/core/trpc'
+import type { HonoBase, HonoCtx } from '@hono/backend'
+import { createTrpcCtx, createTrpcRouter } from '@trpc/backend'
 import { trpcServer } from '@hono/trpc-server'
 import type { inferRouterInputs, inferRouterOutputs } from '@trpc/server'
 

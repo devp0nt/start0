@@ -44,7 +44,16 @@
       "path": "../../@backend/shared/tsconfig.json"
     },
     {
+      "path": "../../@hono/backend/tsconfig.json"
+    },
+    {
+      "path": "../../@hono/backend-base/tsconfig.json"
+    },
+    {
       "path": "../shared/tsconfig.json"
+    },
+    {
+      "path": "../../@trpc/backend/tsconfig.json"
     },
     {
       "path": "../../@apps/shared/tsconfig.json"
@@ -66,6 +75,9 @@
     },
     {
       "path": "../../@backend/ctx/tsconfig.json"
+    },
+    {
+      "path": "../../@hono/backend/tsconfig.json"
     }
   ]
 }

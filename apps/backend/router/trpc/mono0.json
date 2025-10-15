@@ -1,5 +1,0 @@
-{
-  "name": "@backend/trpc-router",
-  "preset": ["backendWithTsconfig"],
-  "deps": ["@backend/core", "#trpcRoutes"]
-}

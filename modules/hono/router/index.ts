@@ -2,8 +2,8 @@ import { honoBase } from '@backend/core/hono'
 
 // @gen0:start $.app = await importExportedFromFiles("~/**/route{s,}{.*,}{.be,}.ts", "AppHonoRoute", (file0) => mono0.getFilePathRelativeToPackageName(file0.path.abs))
 
-import { helloAppHonoRoute } from '@backend/hono-router/hello/route'
-import { pingAppHonoRoute, bigPingAppHonoRoute } from '@backend/hono-router/ping/route'
+import { helloAppHonoRoute } from '@hono/router/hello/route'
+import { pingAppHonoRoute, bigPingAppHonoRoute } from '@hono/router/ping/route'
 // @gen0:end
 
 // @gen0:start $.admin = await importExportedFromFiles("~/**/route{s,}{.*,}{.be,}.ts", "AdminHonoRoute", (file0) => mono0.getFilePathRelativeToPackageName(file0.path.abs))

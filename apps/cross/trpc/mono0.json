@@ -1,5 +1,0 @@
-{
-  "name": "@cross/trpc",
-  "preset": ["crossBaseModule"],
-  "deps": ["@backend/trpc-router", "@cross/base", "@auth/client-base"]
-}

@@ -1,5 +1,5 @@
 // import { env } from '@admin/base/lib/env.runtime'
-// import type { HonoAdmin, HonoApp } from '@backend/hono-router'
+// import type { HonoAdmin, HonoApp } from '@hono/router'
 // import { backendHonoAdminRoutesBasePath, backendHonoAppRoutesBasePath } from '@backend/shared/utils'
 // import { createReactQueryHonoClient } from '@devp0nt/react-query-hono-client'
 

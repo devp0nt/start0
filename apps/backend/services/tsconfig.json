@@ -30,13 +30,16 @@
       "path": "../../../.tsconfig/@backend/ctx/tsconfig.json"
     },
     {
-      "path": "../router/hono/tsconfig.json"
+      "path": "../../../.tsconfig/@hono/backend/tsconfig.json"
     },
     {
-      "path": "../router/trpc/tsconfig.json"
+      "path": "../../../.tsconfig/@hono/backend-base/tsconfig.json"
     },
     {
       "path": "../../../.tsconfig/@idea/backend/tsconfig.json"
+    },
+    {
+      "path": "../../../.tsconfig/@trpc/backend/tsconfig.json"
     },
     {
       "path": "../../../.tsconfig/@adminUser/shared/tsconfig.json"
@@ -66,22 +69,16 @@
       "path": "../../../.tsconfig/@backend/ctx/tsconfig.json"
     },
     {
-      "path": "../../../.tsconfig/@adminUser/backend/tsconfig.json"
+      "path": "../../../.tsconfig/@hono/backend/tsconfig.json"
     },
     {
-      "path": "../../../.tsconfig/@appConfig/backend/tsconfig.json"
+      "path": "../../../.tsconfig/@hono/backend-base/tsconfig.json"
     },
     {
-      "path": "../../../.tsconfig/@idea/backend/tsconfig.json"
+      "path": "../../../.tsconfig/@trpc/backend/tsconfig.json"
     },
     {
       "path": "../../../.tsconfig/@idea/shared/tsconfig.json"
-    },
-    {
-      "path": "../../../.tsconfig/@admin/backend/tsconfig.json"
-    },
-    {
-      "path": "../router/hono/tsconfig.json"
     }
   ]
 }

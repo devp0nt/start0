@@ -23,10 +23,6 @@
       "@admin/core/*": ["../../admin/core/*"],
       "@admin/ctx": ["../../admin/ctx/index.tsx"],
       "@admin/ctx/*": ["../../admin/ctx/*"],
-      "@admin/hono": ["../../admin/hono/index.ts"],
-      "@admin/hono/*": ["../../admin/hono/*"],
-      "@admin/trpc": ["../../admin/trpc/index.tsx"],
-      "@admin/trpc/*": ["../../admin/trpc/*"],
       "@adminUser/admin/*": ["../../../modules/adminUser/*"],
       "@adminUser/backend/*": ["../../../modules/adminUser/*"],
       "@adminUser/shared/*": ["../../../modules/adminUser/*"],
@@ -46,22 +42,26 @@
       "@backend/core/*": ["../../backend/core/*"],
       "@backend/ctx": ["../../backend/ctx/index.ts"],
       "@backend/ctx/*": ["../../backend/ctx/*"],
-      "@backend/hono-router": ["../../backend/router/hono/index.ts"],
-      "@backend/hono-router/*": ["../../backend/router/hono/*"],
       "@backend/services/*": ["../../backend/services/src/*"],
       "@backend/shared/*": ["../../backend/shared/*"],
-      "@backend/trpc-router": ["../../backend/router/trpc/index.ts"],
-      "@backend/trpc-router/*": ["../../backend/router/trpc/*"],
       "@client/base/*": ["../../client/base/*"],
+      "@client/hono": ["../../../modules/hono/client/index.ts"],
+      "@client/hono/*": ["../../../modules/hono/client/*"],
+      "@client/trpc": ["../../../modules/trpc/client/index.tsx"],
+      "@client/trpc/*": ["../../../modules/trpc/client/*"],
       "@cross/app/*": [".//*"],
       "@cross/base/*": ["../base/*"],
       "@cross/core/*": ["../core/*"],
       "@cross/ctx": ["../ctx/index.tsx"],
       "@cross/ctx/*": ["../ctx/*"],
-      "@cross/trpc": ["../trpc/index.tsx"],
-      "@cross/trpc/*": ["../trpc/*"],
       "@devp0nt/rjs0": ["../../../modules/rjs0/src/index.ts"],
       "@devp0nt/rjs0/*": ["../../../modules/rjs0/src/*"],
+      "@hono/backend": ["../../../modules/hono/backend/index.ts"],
+      "@hono/backend/*": ["../../../modules/hono/backend/*"],
+      "@hono/backend-base": ["../../../modules/hono/backend-base/index.ts"],
+      "@hono/backend-base/*": ["../../../modules/hono/backend-base/*"],
+      "@hono/router": ["../../../modules/hono/router/index.ts"],
+      "@hono/router/*": ["../../../modules/hono/router/*"],
       "@idea/admin/*": ["../../../modules/idea/*"],
       "@idea/backend/*": ["../../../modules/idea/*"],
       "@idea/shared/*": ["../../../modules/idea/*"],
@@ -70,6 +70,10 @@
       "@site/core/*": ["../../site/core/*"],
       "@tools/shared": ["../../../tools/src/index.ts"],
       "@tools/shared/*": ["../../../tools/src/*"],
+      "@trpc/backend": ["../../../modules/trpc/backend/index.ts"],
+      "@trpc/backend/*": ["../../../modules/trpc/backend/*"],
+      "@trpc/router": ["../../../modules/trpc/router/index.ts"],
+      "@trpc/router/*": ["../../../modules/trpc/router/*"],
       "@prisma/backend/*": ["../../../node_modules/@prisma/backend/*"],
       "@prisma/shared/*": ["../../../node_modules/@prisma/shared/*"]
     },
@@ -96,9 +100,6 @@
       "path": "../../../.tsconfig/@cross/ctx/tsconfig.json"
     },
     {
-      "path": "../../../.tsconfig/@cross/trpc/tsconfig.json"
-    },
-    {
       "path": "../../../.tsconfig/@apps/base/tsconfig.json"
     },
     {
@@ -106,12 +107,6 @@
     },
     {
       "path": "../../../.tsconfig/@cross/base/tsconfig.json"
-    },
-    {
-      "path": "../../../.tsconfig/@cross/trpc/tsconfig.json"
-    },
-    {
-      "path": "../../../.tsconfig/@auth/client-base/tsconfig.json"
     },
     {
       "path": "../../../.tsconfig/@auth/backend/tsconfig.json"
@@ -124,36 +119,6 @@
     },
     {
       "path": "../../../.tsconfig/@backend/base/tsconfig.json"
-    },
-    {
-      "path": "../../backend/router/trpc/tsconfig.json"
-    },
-    {
-      "path": "../../../.tsconfig/@admin/backend/tsconfig.json"
-    },
-    {
-      "path": "../../../.tsconfig/@backend/core/tsconfig.json"
-    },
-    {
-      "path": "../../../.tsconfig/@backend/ctx/tsconfig.json"
-    },
-    {
-      "path": "../../backend/router/hono/tsconfig.json"
-    },
-    {
-      "path": "../../../.tsconfig/@adminUser/backend/tsconfig.json"
-    },
-    {
-      "path": "../../../.tsconfig/@adminUser/shared/tsconfig.json"
-    },
-    {
-      "path": "../../../.tsconfig/@appConfig/backend/tsconfig.json"
-    },
-    {
-      "path": "../../../.tsconfig/@idea/backend/tsconfig.json"
-    },
-    {
-      "path": "../../../.tsconfig/@idea/shared/tsconfig.json"
     }
   ]
 }

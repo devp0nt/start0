@@ -4,7 +4,7 @@ import { trpc } from '@admin/trpc'
 import { authClient } from '@auth/client-base/utils'
 import type { Session } from '@auth/backend/utils'
 import type { AdminClientMe, CustomerClientMe, UserClientMe } from '@auth/shared/user'
-import type { TrpcRouterOutput } from '@backend/trpc-router'
+import type { TrpcRouterOutput } from '@trpc/router'
 import { useQuery } from '@tanstack/react-query'
 import { createContext, useContext, useContextSelector } from 'use-context-selector'
 

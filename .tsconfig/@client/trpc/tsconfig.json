@@ -1,0 +1,25 @@
+{
+  "extends": "../../tsconfig.client.json",
+  "include": ["../../../modules/trpc/client/**/*"],
+  "exclude": [
+    "../../../modules/trpc/client/**/dist/**/*",
+    "../../../modules/trpc/client/**/node_modules/**/*",
+    "../../../modules/trpc/client/**/public/**/*"
+  ],
+  "compilerOptions": {
+    "rootDir": "../../../modules/trpc/client",
+    "outDir": "./dist",
+    "declaration": true,
+    "declarationMap": true,
+    "composite": true,
+    "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@client/trpc/.tsbuildinfo"
+  },
+  "references": [
+    {
+      "path": "../../@backend/shared/tsconfig.json"
+    },
+    {
+      "path": "../../@apps/base/tsconfig.json"
+    }
+  ]
+}

@@ -1,25 +1,25 @@
 {
   "extends": "../../tsconfig.backend.json",
-  "include": ["../../../apps/admin/backend/**/*"],
+  "include": ["../../../modules/trpc/backend/**/*"],
   "exclude": [
-    "../../../apps/admin/backend/**/dist/**/*",
-    "../../../apps/admin/backend/**/node_modules/**/*",
-    "../../../apps/admin/backend/**/public/**/*"
+    "../../../modules/trpc/backend/**/dist/**/*",
+    "../../../modules/trpc/backend/**/node_modules/**/*",
+    "../../../modules/trpc/backend/**/public/**/*"
   ],
   "compilerOptions": {
-    "rootDir": "../../../apps/admin/backend",
+    "rootDir": "../../../modules/trpc/backend",
     "outDir": "./dist",
     "declaration": true,
     "declarationMap": true,
     "composite": true,
-    "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@admin/backend/.tsbuildinfo"
+    "tsBuildInfoFile": "../../../node_modules/.cache/tsbuildinfo/@trpc/backend/.tsbuildinfo"
   },
   "references": [
     {
-      "path": "../../@backend/core/tsconfig.json"
+      "path": "../../@hono/backend/tsconfig.json"
     },
     {
-      "path": "../../@backend/shared/tsconfig.json"
+      "path": "../../@apps/base/tsconfig.json"
     },
     {
       "path": "../../@auth/backend/tsconfig.json"
@@ -32,9 +32,6 @@
     },
     {
       "path": "../../@backend/shared/tsconfig.json"
-    },
-    {
-      "path": "../../@apps/base/tsconfig.json"
     },
     {
       "path": "../../@backend/base/tsconfig.json"

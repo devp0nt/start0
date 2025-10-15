@@ -1,5 +1,0 @@
-{
-  "name": "@backend/hono-router",
-  "preset": ["backendWithTsconfig"],
-  "deps": ["@backend/core", "#honoRoutes"]
-}
