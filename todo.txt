@@ -10,6 +10,8 @@ auth
 crud
 tamagui
 
+elysia
+
 файлы назвать через дефис
 референсы только на реальные зависимости, корневые референсы только на приложения и холодные модули
 
@@ -23,7 +25,7 @@ zod numer as text in form with coerce
 uinity
 
 section wrapper
-emails
+emails @react-email/components
 
 sentry
 devops: coolify, timeweb, vault
